@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Access Virtualization/Access Virtualization.iml" filepath="$PROJECT_DIR$/Access Virtualization/Access Virtualization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Application/Application.iml" filepath="$PROJECT_DIR$/Application/Application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Domain/Domain.iml" filepath="$PROJECT_DIR$/Domain/Domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Hibernate/Hibernate.iml" filepath="$PROJECT_DIR$/Hibernate/Hibernate.iml" />
       <module fileurl="file://$PROJECT_DIR$/OculusGit.iml" filepath="$PROJECT_DIR$/OculusGit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Persistance/Persistance.iml" filepath="$PROJECT_DIR$/Persistance/Persistance.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Presentation/Presentation.iml" filepath="$PROJECT_DIR$/Presentation/Presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Technical/Technical.iml" filepath="$PROJECT_DIR$/Technical/Technical.iml" />
     </modules>
   </component>
 </project>
