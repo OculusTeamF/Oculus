@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import java.util.Collection;
 
 /**
- * Encapsulated hibernate session that can be simple exchanged thought the ISession implementation.
+ * Encapsulated hibernate session that can be simple exchanged thought the at.oculus.teamf.databaseconnection.session.ISession implementation.
  *
  * TODO: Implement and docs
  * @author Simon Angerer

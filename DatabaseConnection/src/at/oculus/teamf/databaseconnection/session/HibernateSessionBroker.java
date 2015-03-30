@@ -17,7 +17,7 @@ public class HibernateSessionBroker implements ISessionBroker {
     }
 
     /**
-     * Creates a new HibernateSession and retuns it to the caller. Caching is handeld internally!
+     * Creates a new at.oculus.teamf.databaseconnection.session.HibernateSession and retuns it to the caller. Caching is handeld internally!
      * @return a new SessionHibernateSession
      */
     @Override

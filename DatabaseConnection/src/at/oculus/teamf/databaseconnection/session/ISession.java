@@ -3,8 +3,8 @@ package at.oculus.teamf.databaseconnection.session;
 import java.util.Collection;
 
 /**
- * Session interface to abstract sessions dealt by broker that implement the ISessionBroker interface.
- * In addition your class should implement the ISessionClosable interface if it needs to be closed at
+ * Session interface to abstract sessions dealt by broker that implement the at.oculus.teamf.databaseconnection.session.ISessionBroker interface.
+ * In addition your class should implement the at.oculus.teamf.databaseconnection.session.ISessionClosable interface if it needs to be closed at
  * some point.
  * @author Simon Angerer
  * @date 30.3.2015
