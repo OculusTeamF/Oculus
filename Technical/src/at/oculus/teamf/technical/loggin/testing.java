@@ -3,11 +3,9 @@ package at.oculus.teamf.technical.loggin;
 /**
  * Created by Fabian on 31.03.2015.
  */
-import org.apache.logging.log4j.Logger;
+public class testing implements at.oculus.teamf.technical.loggin.Logger{
 
-public class testing {
-
-    final static Logger logger = LoggerBroker.getInstance();
+    //final static Logger logger = LoggerBroker.getInstance();
 
     public static void main(final String... args) {
 
