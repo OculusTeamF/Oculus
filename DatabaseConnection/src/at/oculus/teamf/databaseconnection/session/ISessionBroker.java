@@ -1,7 +1,7 @@
 package at.oculus.teamf.databaseconnection.session;
 
 /**
- * SessionBroker interface to abstract a broker to deal sessions that implement the at.oculus.teamf.databaseconnection.session.ISession interface.
+ * SessionBroker interface to abstract a broker that deal sessions that implement the {@code #ISession}.session.ISession interface.
  * @author Simon Angerer
  * @date 30.3.2015
  */
@@ -15,7 +15,7 @@ public interface ISessionBroker {
 
     /**
      * releases the Session back to the broker. Note after relessing the session it can be closed or dealt
-     * to an other object. So it should not be use again use getSession() to request a new Session
+     * to an other object. So it should not be use again use {@code #getSession()} to request a new Session
      * @param session a session that is no longer needed.
      */
     void releaseSession(ISession session);

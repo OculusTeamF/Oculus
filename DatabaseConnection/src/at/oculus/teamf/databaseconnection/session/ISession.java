@@ -1,5 +1,6 @@
 package at.oculus.teamf.databaseconnection.session;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -11,21 +12,17 @@ import java.util.Collection;
  */
 public interface ISession {
 
-    boolean startTransaktion();
+    boolean beginTransaktion() throws BadSessionException, AlreadyInTransaktionException;
 
-    void flush();
+    boolean commit() throws BadSessionException, NoTransaktionException;
 
-    boolean commit();
+    boolean rollback() throws BadSessionException, NoTransaktionException;
 
-    boolean rollback();
+    boolean delete(Object obj) throws BadSessionException, NoTransaktionException;
 
-    boolean delete(Object obj);
+    Object getByID(Class clazz, Serializable id) throws BadSessionException;
 
-    Object getByID(Class clazz, int id);
+    Collection<Object> getAll(Class clazz) throws BadSessionException;
 
-    Collection<Object> getAll(Class clazz);
-
-    boolean save(Object obj);
-
-    boolean saveAll(Collection<Object> obj);
+    Serializable save(Object obj) throws BadSessionException, NoTransaktionException;
 }
