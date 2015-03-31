@@ -1,7 +1,3 @@
 <component name="CopyrightManager">
-  <settings default="Oculus GNU GPL">
-    <module2copyright>
-      <element module="All" copyright="Oculus GNU GPL" />
-    </module2copyright>
-  </settings>
+  <settings default="" />
 </component>
