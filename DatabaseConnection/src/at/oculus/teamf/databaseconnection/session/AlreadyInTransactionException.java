@@ -7,56 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnectiontests;
-
-import junit.framework.TestCase;
+package at.oculus.teamf.databaseconnection.session;
 
 /**
- * TODO: Create Tests
+ * AlreadyInTransactionException is thrown when the session is already in an transaction state.
+ * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015
  */
-public class HibernateSessionTest extends TestCase {
-
-	public void setUp() throws Exception {
-		super.setUp();
-
-	}
-
-	public void tearDown() throws Exception {
-
-	}
-
-	public void testBeginTransaktion() throws Exception {
-
-	}
-
-	public void testCommit() throws Exception {
-
-	}
-
-	public void testRollback() throws Exception {
-
-	}
-
-	public void testDelete() throws Exception {
-
-	}
-
-	public void testGetByID() throws Exception {
-
-	}
-
-	public void testGetAll() throws Exception {
-
-	}
-
-	public void testSave() throws Exception {
-
-	}
-
-	public void testClose() throws Exception {
-
-	}
+public class AlreadyInTransactionException extends Exception{
 }

@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015 Team F
+ *
+ * This file is part of Oculus.
+ * Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.oculus.teamf.domain.entity;
 
 import javax.persistence.*;
@@ -10,7 +19,7 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus")
-public class PatientEntity implements IEntity{
+public class PatientEntity implements IEntity, IPatientEntity {
 
     // <editor-fold desc="Attributes">
     private int patientId;
@@ -32,163 +41,179 @@ public class PatientEntity implements IEntity{
     // </editor-fold>
 
     // <editor-fold desc="Getter/Setter">
+    @Override
     @Id
     @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
     public int getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(int patientId) {
+    protected void setPatientId(int patientId) {
         this.patientId = patientId;
     }
 
+    @Override
     @Basic
     @Column(name = "socialInsuranceNr", nullable = true, insertable = true, updatable = true, length = 10)
     public String getSocialInsuranceNr() {
         return socialInsuranceNr;
     }
 
-    public void setSocialInsuranceNr(String socialInsuranceNr) {
+    protected void setSocialInsuranceNr(String socialInsuranceNr) {
         this.socialInsuranceNr = socialInsuranceNr;
     }
 
+    @Override
     @Basic
     @Column(name = "firstName", nullable = false, insertable = true, updatable = true, length = 30)
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    protected void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    @Override
     @Basic
     @Column(name = "lastName", nullable = false, insertable = true, updatable = true, length = 30)
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    protected void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    @Override
     @Basic
     @Column(name = "birthDay", nullable = true, insertable = true, updatable = true)
     public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    protected void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
 
+    @Override
     @Basic
     @Column(name = "gender", nullable = false, insertable = true, updatable = true, length = 2)
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    protected void setGender(String gender) {
         this.gender = gender;
     }
 
+    @Override
     @Basic
     @Column(name = "street", nullable = true, insertable = true, updatable = true, length = 255)
     public String getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
+    protected void setStreet(String street) {
         this.street = street;
     }
 
+    @Override
     @Basic
     @Column(name = "postalCode", nullable = true, insertable = true, updatable = true, length = 20)
     public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+    protected void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
+    @Override
     @Basic
     @Column(name = "city", nullable = true, insertable = true, updatable = true, length = 50)
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    protected void setCity(String city) {
         this.city = city;
     }
 
+    @Override
     @Basic
     @Column(name = "countryIsoCode", nullable = true, insertable = true, updatable = true, length = 2)
     public String getCountryIsoCode() {
         return countryIsoCode;
     }
 
-    public void setCountryIsoCode(String countryIsoCode) {
+    protected void setCountryIsoCode(String countryIsoCode) {
         this.countryIsoCode = countryIsoCode;
     }
 
+    @Override
     @Basic
     @Column(name = "phone", nullable = true, insertable = true, updatable = true, length = 50)
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    protected void setPhone(String phone) {
         this.phone = phone;
     }
 
+    @Override
     @Basic
     @Column(name = "email", nullable = true, insertable = true, updatable = true, length = 255)
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    protected void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     @Basic
     @Column(name = "allergy", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getAllergy() {
         return allergy;
     }
 
-    public void setAllergy(String allergy) {
+    protected void setAllergy(String allergy) {
         this.allergy = allergy;
     }
 
+    @Override
     @Basic
     @Column(name = "childhoodAilments", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getChildhoodAilments() {
         return childhoodAilments;
     }
 
-    public void setChildhoodAilments(String childhoodAilments) {
+    protected void setChildhoodAilments(String childhoodAilments) {
         this.childhoodAilments = childhoodAilments;
     }
 
+    @Override
     @Basic
     @Column(name = "medicineIntolerance", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getMedicineIntolerance() {
         return medicineIntolerance;
     }
 
-    public void setMedicineIntolerance(String medicineIntolerance) {
+    protected void setMedicineIntolerance(String medicineIntolerance) {
         this.medicineIntolerance = medicineIntolerance;
     }
 
+    @Override
     @OneToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return doctorId;
     }
 
-    public void setDoctor(DoctorEntity doctorId) {
+    protected void setDoctor(DoctorEntity doctorId) {
         this.doctorId = doctorId;
     }
 
