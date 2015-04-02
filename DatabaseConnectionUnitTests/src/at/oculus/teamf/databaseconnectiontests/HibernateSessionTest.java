@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import junit.framework.TestCase;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -100,16 +101,18 @@ public class HibernateSessionTest extends TestCase {
 		ISession session = hsb.getSession();
 
 		//2.
-		session.beginTransaction();
+		assertTrue(session.beginTransaction());
 
 		//3.
 		PatientEntity patient = new PatientEntity();
 		patient.setPatientId(500);
 		patient.setFirstName("Tom");
 		patient.setLastName("Turbo");
+		patient.setGender("M");
+		Serializable id = session.save(patient);
 
 		//4.
-		session.commit();
+		assertTrue(session.commit());
 
 		//5.
 		hsb.releaseSession(session);
@@ -118,13 +121,13 @@ public class HibernateSessionTest extends TestCase {
 		session = hsb.getSession();
 
 		//7.
-		session.beginTransaction();
+		assertTrue(session.beginTransaction());
 
 		//8.
-		session.delete(patient);
+		assertTrue(session.delete(patient));
 
 		//9.
-		session.commit();
+		assertTrue(session.commit());
 
 		//10.
 		hsb.releaseSession(session);
@@ -134,9 +137,15 @@ public class HibernateSessionTest extends TestCase {
 	 * Test if an transaction can be reseted
 	 * 1. Acquire a {@code HibernateSession} from a {@code HibernateSessionBroker}
 	 * 2. Start transaction
-	 * 3. Delete a entity from the database
-	 * 4. Call rollback
-	 * 5. Release session to {@code HibernateSessionBroker}
+	 * 3. Insert patient into database
+	 * 4. Commit
+	 * 5. Start transaction
+	 * 6. Delete a entity from the database
+	 * 7. Call rollback
+	 * 8. Start transaction
+	 * 9. Delete a entity from the database
+	 * 11. Commit
+	 * 10. Release session to {@code HibernateSessionBroker}
 	 *
 	 * @throws Exception if an error occurs
 	 */
@@ -149,16 +158,51 @@ public class HibernateSessionTest extends TestCase {
 		ISession session = hsb.getSession();
 
 		//2.
-		session.beginTransaction();
+		boolean started = session.beginTransaction();
+		assertTrue(started);
 
 		//3.
-		PatientEntity patientEntity = (PatientEntity)session.getByID(PatientEntity.class, 1);
-		session.delete(patientEntity);
+		PatientEntity patient = new PatientEntity();
+		patient.setPatientId(500);
+		patient.setFirstName("Tom");
+		patient.setLastName("Turbo");
+		patient.setGender("M");
+		Serializable id = session.save(patient);
 
 		//4.
-		session.rollback();
+		assertTrue(session.commit());
 
 		//5.
+		hsb.releaseSession(session);
+
+		//6.
+		session = hsb.getSession();
+
+		//7.
+		assertTrue(session.beginTransaction());
+
+		//8.
+		session.delete(patient);
+
+		//9.
+		assertTrue(session.rollback());
+
+		//10.
+		hsb.releaseSession(session);
+
+		//11.
+		session = hsb.getSession();
+
+		//12.
+		started = session.beginTransaction();
+
+		//13.
+		assertTrue(session.delete(patient));
+
+		//14.
+		assertTrue(session.commit());
+
+		//15.
 		hsb.releaseSession(session);
 	}
 }
