@@ -118,7 +118,6 @@ class HibernateSession implements ISession, ISessionClosable {
         } catch (HibernateException e) {
             //Todo: add Logging
             System.out.println("A error occurred when rolling back the transaction! OriginalMessage: " + e.getMessage());
-
             return false;
         }
 
@@ -188,7 +187,7 @@ class HibernateSession implements ISession, ISessionClosable {
      */
     @Override
     public Serializable save(Object obj) throws BadSessionException, NoTransactionException {
-        if (_session.isConnected() && _session.isOpen()) {
+        if (!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 

@@ -18,7 +18,7 @@ import java.sql.Date;
  * Created by Norskan on 02.04.2015.
  */
 @Entity
-@javax.persistence.Table(name = "patient", schema = "", catalog = "oculus")
+@javax.persistence.Table(name = "patient", schema = "", catalog = "oculus_f")
 public class PatientEntity {
 	private int _patientId;
 
