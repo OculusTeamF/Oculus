@@ -13,15 +13,13 @@ import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
-import at.oculus.teamf.databaseconnectiontests.entity.PatientEntity;
-import at.oculus.teamf.databaseconnectiontests.entity.UserEntity;
 import junit.framework.TestCase;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Te
+ * Hibernate {@code #HibernateSessionBrokerTest} class.
  *
  * @author Simon Angerer
  * @date 01.04.2015
@@ -29,13 +27,13 @@ import java.util.LinkedList;
 public class HibernateSessionBrokerTest extends TestCase {
 
 	/**
-	 * Tests i a {@code #HibernateSession} can be aquried an dused 1. Aquire HibernateSession {@code #HibernateSession}
-	 * from {@code #HibernateSessionBroker} 2. Test if a {@code #HibernateSession} was aquired
+	 * Tests if a {@code #HibernateSession} can be acquried an dused
+	 * 1. Aquire HibernateSession {@code #HibernateSession from {@code #HibernateSessionBroker}
+	 * 2. Test if a {@code #HibernateSession} was acquired
 	 */
 	public void testGetSession() throws Exception {
 		Collection<Class> clazzes = new LinkedList<Class>();
 		clazzes.add(PatientEntity.class);
-		clazzes.add(UserEntity.class);
 
 		ISessionBroker broker = new HibernateSessionBroker(clazzes);
 		ISession session = broker.getSession();
@@ -55,14 +53,14 @@ public class HibernateSessionBrokerTest extends TestCase {
 	public void testReleaseSession() throws Exception {
 		Collection<Class> clazzes = new LinkedList<Class>();
 		clazzes.add(PatientEntity.class);
-		clazzes.add(UserEntity.class);
+
 
 		ISessionBroker broker = new HibernateSessionBroker(clazzes);
 		ISession session = broker.getSession();
 		broker.releaseSession(session);
 
 		try {
-			session.getByID(UserEntity.class, 0);
+			session.getByID(PatientEntity.class, 0);
 		} catch (BadSessionException e) {
 			assertTrue(true);
 		}

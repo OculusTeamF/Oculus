@@ -18,7 +18,7 @@ import java.util.Collection;
  * interface if it needs to be closed at some point.
  * <p/>
  *
- * Todo: Document
+ * Todo: Methode Documentation
  *
  * @author Simon Angerer
  * @date 30.3.2015

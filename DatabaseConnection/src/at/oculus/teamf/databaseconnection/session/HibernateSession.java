@@ -45,7 +45,7 @@ class HibernateSession implements ISession, ISessionClosable {
      */
     @Override
     public boolean beginTransaction() throws BadSessionException, AlreadyInTransactionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -67,7 +67,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public boolean commit() throws BadSessionException, NoTransactionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -90,7 +90,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public boolean rollback() throws BadSessionException, NoTransactionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -113,7 +113,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public boolean delete(Object obj) throws BadSessionException, NoTransactionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -136,7 +136,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public Object getByID(Class clazz, Serializable id) throws BadSessionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -145,7 +145,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public Collection<Object> getAll(Class clazz)throws BadSessionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(!_session.isConnected() || !_session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -154,7 +154,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public Serializable save(Object obj) throws BadSessionException, NoTransactionException {
-        if(_session.isConnected() || _session.isOpen()) {
+        if(_session.isConnected() && _session.isOpen()) {
             throw new BadSessionException();
         }
 
@@ -177,6 +177,7 @@ class HibernateSession implements ISession, ISessionClosable {
 
     @Override
     public void close() {
+
         _session.close();
     }
 }
