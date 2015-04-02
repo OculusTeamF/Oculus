@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/Domain/Domain.iml" filepath="$PROJECT_DIR$/Domain/Domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/Oculus.iml" filepath="$PROJECT_DIR$/Oculus.iml" />
       <module fileurl="file://$PROJECT_DIR$/Persistence/Persistence.iml" filepath="$PROJECT_DIR$/Persistence/Persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PersistenceUnitTests/PersistenceUnitTests.iml" filepath="$PROJECT_DIR$/PersistenceUnitTests/PersistenceUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/Presentation/Presentation.iml" filepath="$PROJECT_DIR$/Presentation/Presentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/Technical/Technical.iml" filepath="$PROJECT_DIR$/Technical/Technical.iml" />
     </modules>
