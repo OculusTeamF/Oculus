@@ -9,31 +9,23 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
-import at.oculus.teamf.technical.properties.PropertiesHelper;
-
 /**
- * Created by Norskan on 02.04.2015.
- * TODO: add docs
+ * Is thrown when a class was not mapped.
+ * <p/>
+ *
+ * @author Simon Angerer
+ * @date 30.03.2015
  */
-class HibernateProperties extends PropertiesHelper{
+public class ClassNotMappedException extends SessionException {
 
-    public HibernateProperties(String confiFile) {
-        super(confiFile);
+    private String _clazz;
+
+    public ClassNotMappedException(String clazz) {
+        _clazz = clazz;
     }
 
-    public String getURL() {
-        return (String)_prop.get("hibernate.connection.url");
-    }
-
-    public String getDriver() {
-        return (String)_prop.get("hibernate.connection.driver_class");
-    }
-
-    public String getUser() {
-        return (String)_prop.get("hibernate.connection.username");
-    }
-
-    public String getPassword() {
-        return (String)_prop.get("hibernate.connection.password");
+    @Override
+    public String getMessage() {
+        return "Class was not mapped: " + _clazz;
     }
 }

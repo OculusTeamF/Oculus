@@ -83,12 +83,10 @@ public class HibernateSessionTest extends TestCase {
 	 * 2. Start transaction
 	 * 3. Save a entity into the database
 	 * 4. Commit transaction
-	 * 5. Release session to {@code HibernateSessionBroker}
-	 * 6. Acquire a {@code HibernateSession} from a {@code HibernateSessionBroker}
-	 * 7. Start transaction
-	 * 8. Delete a entity from the database
-	 * 9. Commit transaction
-	 * 10. Release session to {@code HibernateSessionBroker}
+	 * 5. Start transaction
+	 * 6. Delete a entity from the database
+	 * 7. Commit transaction
+	 * 8. Release session to {@code HibernateSessionBroker}
 	 *
 	 * @throws Exception if an error occurs
 	 */
@@ -115,21 +113,15 @@ public class HibernateSessionTest extends TestCase {
 		assertTrue(session.commit());
 
 		//5.
-		hsb.releaseSession(session);
-
-		//6.
-		session = hsb.getSession();
-
-		//7.
 		assertTrue(session.beginTransaction());
 
-		//8.
+		//6.
 		assertTrue(session.delete(patient));
 
-		//9.
+		//7.
 		assertTrue(session.commit());
 
-		//10.
+		//8.
 		hsb.releaseSession(session);
 	}
 
@@ -149,7 +141,7 @@ public class HibernateSessionTest extends TestCase {
 	 *
 	 * @throws Exception if an error occurs
 	 */
-	public void testGetByIDRollback() throws Exception {
+	public void testRollback() throws Exception {
 		//1.
 		Collection<Class> clazzes = new LinkedList<Class>();
 		clazzes.add(PatientEntity.class);
@@ -173,36 +165,24 @@ public class HibernateSessionTest extends TestCase {
 		assertTrue(session.commit());
 
 		//5.
-		hsb.releaseSession(session);
-
-		//6.
-		session = hsb.getSession();
-
-		//7.
 		assertTrue(session.beginTransaction());
 
-		//8.
+		//6.
 		session.delete(patient);
 
-		//9.
+		//7.
 		assertTrue(session.rollback());
 
-		//10.
-		hsb.releaseSession(session);
+		//8.
+		assertTrue(session.beginTransaction());
 
-		//11.
-		session = hsb.getSession();
-
-		//12.
-		started = session.beginTransaction();
-
-		//13.
+		//9.
 		assertTrue(session.delete(patient));
 
-		//14.
+		//10.
 		assertTrue(session.commit());
 
-		//15.
+		//11.
 		hsb.releaseSession(session);
 	}
 }

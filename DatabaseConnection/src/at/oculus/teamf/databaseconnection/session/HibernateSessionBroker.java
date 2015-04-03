@@ -28,6 +28,8 @@ public class HibernateSessionBroker implements ISessionBroker {
 
     private SessionFactory _sessionFactory;
 
+    private Collection<Class> _clazzes;
+
     /**
      * Creates a new {@code #HibernateSessionBroker}
      *
@@ -43,6 +45,7 @@ public class HibernateSessionBroker implements ISessionBroker {
         configuration.setProperty("hibernate.connection.username", ph.getUser());
         configuration.setProperty("hibernate.connection.password", ph.getPassword());
 
+        _clazzes = clazzes;
         for (Class clazz : clazzes) {
             configuration.addAnnotatedClass(clazz);
         }
@@ -59,7 +62,7 @@ public class HibernateSessionBroker implements ISessionBroker {
      */
     @Override
     public ISession getSession() {
-        return new HibernateSession(_sessionFactory.openSession());
+        return new HibernateSession(_sessionFactory.openSession(), _clazzes);
     }
 
     /**
