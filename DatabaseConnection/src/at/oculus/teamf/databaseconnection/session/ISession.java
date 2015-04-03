@@ -25,6 +25,7 @@ import java.util.Collection;
  */
 public interface ISession {
 
+
 	boolean beginTransaction() throws BadSessionException, AlreadyInTransactionException;
 
 	boolean commit() throws BadSessionException, NoTransactionException;
