@@ -9,17 +9,31 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
-/**
- * A session needs to implement this interface so it can be closed by a broker.
- * <p/>
- *
- * @author Simon Angerer
- * @date 30.03.2015
- */
-interface ISessionClosable {
+import at.oculus.teamf.technical.properties.PropertiesHelper;
 
-	/**
-	 * Closes a session.
-	 */
-	void close();
+/**
+ * Created by Norskan on 02.04.2015.
+ * TODO: add docs
+ */
+class HibernateProperties extends PropertiesHelper{
+
+    public HibernateProperties(String confiFile) {
+        super(confiFile);
+    }
+
+    public String getURL() {
+        return (String)_prop.get("hibernate.connection.url");
+    }
+
+    public String getDriver() {
+        return (String)_prop.get("hibernate.connection.driver_class");
+    }
+
+    public String getUser() {
+        return (String)_prop.get("hibernate.connection.username");
+    }
+
+    public String getPassword() {
+        return (String)_prop.get("hibernate.connection.password");
+    }
 }
