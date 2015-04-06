@@ -7,19 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.domain.entity;
 
 /**
- * A session needs to implement this interface so it can be closed by a broker.
- * <p/>
- *
- * @author Simon Angerer
- * @date 30.03.2015
+ * Created by Norskan on 03.04.2015.
  */
-interface ISessionClosable {
-
-	/**
-	 * Closes a session.
-	 */
-	void close();
+public class OrtopthistAppointment extends EventType {
 }

@@ -7,19 +7,15 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.domain.entity;
 
 /**
- * A session needs to implement this interface so it can be closed by a broker.
- * <p/>
+ * Todo: Doc
  *
  * @author Simon Angerer
- * @date 30.03.2015
+ * @date 30.3.2015
  */
-interface ISessionClosable {
-
-	/**
-	 * Closes a session.
-	 */
-	void close();
+public enum Gender {
+    Male,
+    Female
 }

@@ -10,28 +10,22 @@
 package at.oculus.teamf.databaseconnection.session;
 
 /**
- * SessionBroker interface to abstract a broker that deal sessions that implement the {@code #ISession}
+ * Is thrown when a class was not mapped.
  * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015
  */
-public interface ISessionBroker {
+public class ClassNotMappedException extends SessionException {
 
-	/**
-	 * Creates a new ISession and retuns it to the caller. Session caching is handelt internally!
-	 * A ISession can be released with {@code #releaseSession()}
-	 *
-	 * @return a new {@code #ISession}
-	 */
-	ISession getSession();
+    private String _clazz;
 
-	/**
-	 * Releases the Session back to the broker. Note after relessing the session it can be closed or dealt to an other
-	 * object. So it should not be use again use {@code #getSession()} to request a new Session.
-	 *
-	 * @param session
-	 * 		a {@code #ISession} that is no longer needed.
-	 */
-	void releaseSession(ISession session);
+    public ClassNotMappedException(String clazz) {
+        _clazz = clazz;
+    }
+
+    @Override
+    public String getMessage() {
+        return "Class was not mapped: " + _clazz;
+    }
 }

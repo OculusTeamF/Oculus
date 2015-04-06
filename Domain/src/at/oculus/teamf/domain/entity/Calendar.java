@@ -7,19 +7,38 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.domain.entity;
+
+import java.util.Collection;
 
 /**
- * A session needs to implement this interface so it can be closed by a broker.
- * <p/>
+ * Todo: add docs, implement equals
  *
  * @author Simon Angerer
- * @date 30.03.2015
+ * @date 03.4.2015
  */
-interface ISessionClosable {
+public class Calendar {
 
-	/**
-	 * Closes a session.
-	 */
-	void close();
+    //<editor-fold desc="Attributes">
+    private int _calendarID;
+    private Collection<CalendarEvent> _events;
+    //</editor-fold>
+
+    //<editor-fold desc="Getter/Setter">
+    public int getCalendarID() {
+        return _calendarID;
+    }
+
+    public void setCalendarID(int calendarID) {
+        _calendarID = calendarID;
+    }
+
+    public Collection<CalendarEvent> getEvents() {
+        return _events;
+    }
+
+    public void setEvents(Collection<CalendarEvent> events) {
+        _events =events;
+    }
+    //</editor-fold>
 }

@@ -7,19 +7,29 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.domain.entity;
 
 /**
- * A session needs to implement this interface so it can be closed by a broker.
- * <p/>
+ * Todo: add docs, implement equals
  *
  * @author Simon Angerer
- * @date 30.03.2015
+ * @date 03.4.2015
  */
-interface ISessionClosable {
+public abstract class User {
 
-	/**
-	 * Closes a session.
-	 */
-	void close();
+    //<editor-fold desc="Attributes">
+    protected int _userID;
+    //</editor-fold>
+
+    //<editor-fold desc="Getter/Setter">
+    public int getUserID() {
+        return _userID;
+    }
+
+    public User setUserID(int userID) {
+        this._userID = userID;
+        return this;
+    }
+    //</editor-fold>
+
 }
