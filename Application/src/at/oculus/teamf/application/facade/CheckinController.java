@@ -1,7 +1,8 @@
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.domain.entity.PatientEntity;
+import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.entity.QueueEntity;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -11,18 +12,43 @@ import java.util.LinkedList;
  */
 public class CheckinController {
 
-    public PatientEntity getPatient(int svn){
+    /*
+    first usecase controller method is to get a patient by his social insurance number
+    for that we need the persistence layer to give us a list of all patients and then we search the correct one
+    inside the application layer. afterwards the application layer returns the found patient (if found) or null (if not
+    found).
+     */
+    public PatientEntity getPatientBySocialInsuranceNumber(String socialInsuranceNumber){
         Collection <Class> collection = new LinkedList<Class>();
         collection.add(PatientEntity.class);
         Facade facade = Facade.getInstance(collection);
-        PatientEntity patient = (PatientEntity) facade.getEnity(PatientEntity.class, 1);
+        PatientEntity patient = (PatientEntity) facade.getEntity(PatientEntity.class, 1);
 
-        Collection <PatientEntity> patients;
+        Collection <PatientEntity> patients = getAll(PatientEntity.class);
 
-        // = get all, search patient (svn), patient = found patient; return
+        if ((patient = searchPatientBySocialInsuranceNumber(patients, socialInsuranceNumber)) != null){
+            return patient;
+        } else {
+            return null;
+        }
 
-        return patient;
     }
 
+    /*
+    this method will search in a given collection for the patient with the given social insurance number and return it
+    if found, else it will return null
+     */
+    private PatientEntity searchPatientBySocialInsuranceNumber(Collection<PatientEntity> patients, String socialInsuranceNumber){
+        for (PatientEntity patient : patients){
+            if (patient.getSocialInsuranceNr().equals(socialInsuranceNumber)){
+                return patient;
+            }
+        }
+        return null;
+    }
+
+    public Collection <QueueEntity> getQueues(){
+
+    }
 
 }
