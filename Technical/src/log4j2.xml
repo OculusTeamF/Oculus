@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--***************************************************************************************************************
+
 LOG4J2 CONFIGURATION FILE
 V1.0.0
 created by Fabian Salzgeber
+
 *******************************************************************************************************************
 
-Logging levels rules:
+LOGGING LEVEL RULES:
 
 debug levels
 TRACE   The TRACE Level designates finer-grained informational events than the DEBUG
@@ -35,10 +37,10 @@ OFF     The OFF Level has the highest possible rank and is intended to turn off 
     <Appenders>
         <!-- CONSOLE OUTPUT CONFIG -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[TIME:%d{HH:mm:ss.SSS}] [CLASS:%class{1}][METHOD:%t] %-5level -> %msg%n"/>
-        </Console>
+        <PatternLayout pattern="[TIME:%d{HH:mm:ss.SSS}] [CLASS:%class{1}][METHOD:%t] %-5level -> %msg%n"/>
+   </Console>
 
-        <!-- FILE OUTPUT CONFIG -->
+   <!-- FILE OUTPUT CONFIG -->
         <RollingFile name="RollingFile" fileName="${log-path}/${date:yyyy-MM-dd}/oculus_log-${date:yyyy-MM-dd_HH-mm-ss}.txt" filePattern="${log-path}/${date:yyyy-MM-dd_HH-mm-ss}/oculus_log-%d{yyyy-MM-dd}-%i.txt" >
             <PatternLayout pattern="[TIME:%d{HH:mm:ss.SSS}] [CLASS:%class{1}][METHOD:%t] %-5level -> %msg%n"/>
             <Policies>
@@ -48,6 +50,11 @@ OFF     The OFF Level has the highest possible rank and is intended to turn off 
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
     </Appenders>
+
+    <!-- DATABASE OUTPUT CONFIG
+        toDO: special pattern for database output
+    -->
+
 
     <!-- USED LOGGERS -->
     <Loggers>

@@ -3,18 +3,21 @@ package at.oculus.teamf.persistence.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+
+
 /**
  * Created by Norskan on 30.03.2015.
  */
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus")
-public class QueueEntity {
+public class QueueEntity implements IEntity{
     private int queueId;
     private Timestamp arrivalTime;
     private DoctorEntity doctorId;
     private OrthoptistEntity orthoptistId;
     private PatientEntity patientId;
     private QueueEntity queueIdParent;
+
 
     @Id
     @Column(name = "queueId", nullable = false, insertable = true, updatable = true)
@@ -59,40 +62,50 @@ public class QueueEntity {
     @OneToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctorId() {
+
+
+
         return doctorId;
     }
 
     public void setDoctorId(DoctorEntity doctorId) {
+
         this.doctorId = doctorId;
     }
 
     @OneToOne
     @JoinColumn(name = "orthoptistId", referencedColumnName = "orthoptistId")
     public OrthoptistEntity getOrthoptistId() {
+
         return orthoptistId;
     }
 
     public void setOrthoptistId(OrthoptistEntity orthoptistId) {
+
         this.orthoptistId = orthoptistId;
     }
 
     @OneToOne
     @JoinColumn(name = "patientId", referencedColumnName = "patientId", nullable = false)
     public PatientEntity getPatientId() {
+
         return patientId;
     }
 
     public void setPatientId(PatientEntity patientId) {
+
         this.patientId = patientId;
     }
 
     @OneToOne
     @JoinColumn(name = "queueIdParent", referencedColumnName = "orthoptistId")
     public QueueEntity getQueueIdParent() {
+
         return queueIdParent;
     }
 
     public void setQueueIdParent(QueueEntity queueIdParent) {
+
         this.queueIdParent = queueIdParent;
     }
 }

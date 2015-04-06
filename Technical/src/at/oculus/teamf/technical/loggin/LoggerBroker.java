@@ -7,18 +7,14 @@ public class LoggerBroker {
     private static final Logger loggerInstance = LogManager.getLogger(LoggerBroker.class);
 
     public static Logger getInstance() {
-
         return loggerInstance;
-
     }
 
     private LoggerBroker() {
-
+        //...
     }
 
     public Logger getLogger() {
-
         return null;
-
     }
 }
