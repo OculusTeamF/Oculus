@@ -12,7 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
-import at.oculus.teamf.domain.entity.IEntity;
+import at.oculus.teamf.persistence.broker.IEntity;
 import at.oculus.teamf.persistence.broker.IEntityBroker;
 
 import java.util.Collection;
@@ -94,7 +94,7 @@ public class Facade {
 	public boolean setEntity(IEntity entity) {
 		ISession session = _sessionBroker.getSession();
 		try {
-			session.startTransaktion();
+			session.beginTransaction();
 			session.save(entity);
 			session.commit();
 		} catch (Exception e) {
