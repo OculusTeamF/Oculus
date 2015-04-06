@@ -50,18 +50,5 @@ public class CheckinController {
     public Collection <QueueEntity> getQueues(){
 
     }
-    public PatientEntity getPatient(int svn){
-        Collection <Class> collection = new LinkedList<Class>();
-        collection.add(PatientEntity.class);
-        Facade facade = Facade.getInstance(collection);
-        PatientEntity patient = (PatientEntity) facade.getEnity(PatientEntity.class);
-
-        Collection <PatientEntity> patients;
-
-        // = get all, search patient (svn), patient = found patient; return
-
-        return patient;
-    }
-
 
 }
