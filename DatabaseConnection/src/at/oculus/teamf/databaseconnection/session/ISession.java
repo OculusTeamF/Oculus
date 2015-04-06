@@ -25,17 +25,18 @@ import java.util.Collection;
  */
 public interface ISession {
 
+
 	boolean beginTransaction() throws BadSessionException, AlreadyInTransactionException;
 
 	boolean commit() throws BadSessionException, NoTransactionException;
 
 	boolean rollback() throws BadSessionException, NoTransactionException;
 
-	boolean delete(Object obj) throws BadSessionException, NoTransactionException;
+	boolean delete(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
 
-	Object getByID(Class clazz, Serializable id) throws BadSessionException;
+	Object getByID(Class clazz, Serializable id) throws BadSessionException, ClassNotMappedException;
 
-	Collection<Object> getAll(Class clazz) throws BadSessionException;
+	Collection<Object> getAll(Class clazz) throws BadSessionException, ClassNotMappedException;
 
-	Serializable save(Object obj) throws BadSessionException, NoTransactionException;
+	Serializable save(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
 }

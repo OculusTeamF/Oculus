@@ -26,47 +26,54 @@ import java.util.Collection;
  */
 public class HibernateSessionBroker implements ISessionBroker {
 
-	private SessionFactory _sessionFactory;
+    private SessionFactory _sessionFactory;
 
-	/**
-	 * Creates a new {@code #HibernateSessionBroker}
-	 *
-	 * @param clazzes
-	 * 		annotated classes to configure the hibernate session factory
-	 */
-	public HibernateSessionBroker(Collection<Class> clazzes) {
-		Configuration configuration = new Configuration();
-		configuration.configure();
+    private Collection<Class> _clazzes;
 
-		for (Class clazz : clazzes) {
-			configuration.addAnnotatedClass(clazz);
-		}
+    /**
+     * Creates a new {@code #HibernateSessionBroker}
+     *
+     * @param clazzes annotated classes to configure the hibernate session factory
+     */
+    public HibernateSessionBroker(Collection<Class> clazzes) {
+        Configuration configuration = new Configuration();
 
-		ServiceRegistry serviceRegistry =
-				new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
-		_sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-	}
+        HibernateProperties ph = new HibernateProperties("config.properties");
 
-	/**
-	 * Creates a new {@code #HibernateSession} and retuns it to the caller. Caching is handeld internally!
-	 *
-	 * @return a new SessionHibernateSession
-	 */
-	@Override
-	public ISession getSession() {
-		return new HibernateSession(_sessionFactory.openSession());
-	}
+        configuration.setProperty("hibernate.connection.url", ph.getURL());
+        configuration.setProperty("hibernate.connection.driver_class", ph.getDriver());
+        configuration.setProperty("hibernate.connection.username", ph.getUser());
+        configuration.setProperty("hibernate.connection.password", ph.getPassword());
 
-	/**
-	 * Releases the Session back to the broker. Note after relessing the session it can be closed or dealt to an other
-	 * object. So it should not be use again use getSession() to request a new Session
-	 *
-	 * @param session
-	 * 		a session that is no longer needed.
-	 */
-	@Override
-	public void releaseSession(ISession session) {
+        _clazzes = clazzes;
+        for (Class clazz : clazzes) {
+            configuration.addAnnotatedClass(clazz);
+        }
 
-		((ISessionClosable) session).close();
-	}
+        ServiceRegistry serviceRegistry =
+                new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
+        _sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    /**
+     * Creates a new {@code #HibernateSession} and retuns it to the caller. Caching is handeld internally!
+     *
+     * @return a new SessionHibernateSession
+     */
+    @Override
+    public ISession getSession() {
+        return new HibernateSession(_sessionFactory.openSession(), _clazzes);
+    }
+
+    /**
+     * Releases the Session back to the broker. Note after relessing the session it can be closed or dealt to an other
+     * object. So it should not be use again use getSession() to request a new Session
+     *
+     * @param session a session that is no longer needed.
+     */
+    @Override
+    public void releaseSession(ISession session) {
+
+        ((ISessionClosable) session).close();
+    }
 }

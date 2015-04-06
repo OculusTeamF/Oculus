@@ -1,4 +1,4 @@
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.util.Collection;

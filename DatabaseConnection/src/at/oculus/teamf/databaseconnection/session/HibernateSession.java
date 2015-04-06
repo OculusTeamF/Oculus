@@ -16,22 +16,33 @@ import org.hibernate.Transaction;
 import java.io.Serializable;
 import java.util.Collection;
 import java.lang.Class;
+import java.util.HashSet;
 
 /**
  * Encapsulated hibernate session that can be simple exchanged thought the {@code #ISession} implementation.
  * <p/>
- * TODO:docs
  *
  * @author Simon Angerer
  * @date 30.03.2015
  */
 class HibernateSession implements ISession, ISessionClosable {
 
+    //hibernate session
     private Session _session;
+
+    //transaction that is currently running
     private Transaction _transaction;
 
-    public HibernateSession(Session session) {
+    //classes that can be serialised and deserialised
+    private HashSet<Class> _clazzes;
+
+    public HibernateSession(Session session, Collection<Class> classes) {
         _session = session;
+
+        _clazzes = new HashSet<Class>();
+        for(Class clazz : classes) {
+            _clazzes.add(clazz);
+        }
     }
 
     /**
@@ -40,14 +51,12 @@ class HibernateSession implements ISession, ISessionClosable {
      * to commit the current session to the database.
      *
      * @return {@code true} if the connection was started, else {@code false}
-     * @throws BadSessionException           if there is an Connection error
+     * @throws BadSessionException           if the session is corrupted
      * @throws AlreadyInTransactionException if a transaction is already running
      */
     @Override
     public boolean beginTransaction() throws BadSessionException, AlreadyInTransactionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+        validateSession();
 
         if (_transaction != null) {
             throw new AlreadyInTransactionException();
@@ -65,19 +74,28 @@ class HibernateSession implements ISession, ISessionClosable {
         return true;
     }
 
+
+    /**
+     * Checks if the current session is sill valide
+     * @throws BadSessionException if the session is invalide
+     */
+    private void validateSession() throws BadSessionException {
+        if ((_session == null) || !_session.isConnected() || !_session.isOpen()) {
+            throw new BadSessionException();
+        }
+    }
+
     /**
      * Commits a transaction to the database that was started before by calling {@code #beginTransaction()}.
      * The method will rollback the transaction if an error occurs.
      *
      * @return {@code true} if the commit was successful and {@code false} if an error occurred
-     * @throws BadSessionException           if there is an Connection error
+     * @throws BadSessionException           if the session is corrupted
      * @throws AlreadyInTransactionException if no transaction is runnning
      */
     @Override
     public boolean commit() throws BadSessionException, NoTransactionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+        validateSession();
 
         if (_transaction == null) {
             throw new NoTransactionException();
@@ -93,6 +111,7 @@ class HibernateSession implements ISession, ISessionClosable {
             return false;
         }
 
+        _transaction = null;
         return true;
     }
 
@@ -100,14 +119,12 @@ class HibernateSession implements ISession, ISessionClosable {
      * Will rollback the database to the state before the transaction was started, when calling {@code #beginTransaction()}
      *
      * @return {@code true} if the transaction was rolled back successfully, false if something went wrong
-     * @throws BadSessionException           if there is an Connection error
+     * @throws BadSessionException           if the session is corrupted
      * @throws AlreadyInTransactionException if no transaction is runnning
      */
     @Override
     public boolean rollback() throws BadSessionException, NoTransactionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+        validateSession();
 
         if (_transaction == null) {
             throw new NoTransactionException();
@@ -121,25 +138,27 @@ class HibernateSession implements ISession, ISessionClosable {
             return false;
         }
 
+        _transaction = null;
         return true;
     }
 
     /**
      * Deletes a object from the database during a transaction
      *
+     * @param obj object to delete from the database
      * @return {@code true} if obj was delete sucessfully from the database. {@code }
-     * @throws BadSessionException           if there is an Connection error
+     * @throws BadSessionException           if the session is corrupted
      * @throws AlreadyInTransactionException if no transaction is runnning
      */
     @Override
-    public boolean delete(Object obj) throws BadSessionException, NoTransactionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+    public boolean delete(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException {
+        validateSession();
 
         if (_transaction == null) {
             throw new NoTransactionException();
         }
+
+        validateClass(obj.getClass());
 
         try {
             _session.delete(obj);
@@ -155,41 +174,61 @@ class HibernateSession implements ISession, ISessionClosable {
     }
 
     /**
-     * @return
-     * @throws BadSessionException           if there is an Connection error
+     * Checks if the class was mapped
+     * @param clazz tha need to be validated
+     * @throws ClassNotMappedException gets thrown if the class was not mapped
+     */
+    private void validateClass(Class clazz) throws ClassNotMappedException {
+        if(!_clazzes.contains(clazz)) {
+            throw new ClassNotMappedException(clazz.toString());
+        }
+    }
+
+    /**
+     * Deserializes a object from the database.
+     *
+     * @param clazz the class of the object that is needed from the database
+     * @param id    identifier of the object in the database
+     * @return a object form the clazz, or null if the id was not found
+     * @throws BadSessionException if the session is corrupted
      */
     @Override
-    public Object getByID(Class clazz, Serializable id) throws BadSessionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+    public Object getByID(Class clazz, Serializable id) throws BadSessionException, ClassNotMappedException {
+        validateSession();
+
+        validateClass(clazz);
 
         return _session.get(clazz, id);
     }
 
     /**
-     * @return
-     * @throws BadSessionException           if there is an Connection error
+     * Deserializes a entire table an returns it in form of a collection.
+     *
+     * @param clazz class of the objects that are needed from the database
+     * @return a collection of objects from type clazz
+     * @throws BadSessionException if the session is corrupted
      */
     @Override
-    public Collection<Object> getAll(Class clazz) throws BadSessionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+    public Collection<Object> getAll(Class clazz) throws BadSessionException, ClassNotMappedException {
+        validateSession();
+
+        validateClass(clazz);
 
         return _session.createCriteria(clazz).list();
     }
 
     /**
-     * @return
+     * Saves a object in the database
+     *
+     * @return the unique id of the object in the database
      * @throws BadSessionException           if there is an Connection error
      * @throws AlreadyInTransactionException if no transaction is runnning
      */
     @Override
-    public Serializable save(Object obj) throws BadSessionException, NoTransactionException {
-        if (!_session.isConnected() || !_session.isOpen()) {
-            throw new BadSessionException();
-        }
+    public Serializable save(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException  {
+        validateSession();
+
+        validateClass(obj.getClass());
 
         if (_transaction == null) {
             throw new NoTransactionException();
@@ -209,7 +248,7 @@ class HibernateSession implements ISession, ISessionClosable {
     }
 
     /**
-     *
+     * Closess the current session
      */
     @Override
     public void close() {
