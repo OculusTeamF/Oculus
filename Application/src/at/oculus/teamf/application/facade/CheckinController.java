@@ -1,5 +1,7 @@
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.entity.QueueEntity;
@@ -18,13 +20,13 @@ public class CheckinController {
     inside the application layer. afterwards the application layer returns the found patient (if found) or null (if not
     found).
      */
-    public PatientEntity getPatientBySocialInsuranceNumber(String socialInsuranceNumber){
-        Collection <Class> collection = new LinkedList<Class>();
+    public Patient getPatientBySocialInsuranceNumber(String socialInsuranceNumber){
+        Collection <Class> collection = new LinkedList <Class>();
         collection.add(PatientEntity.class);
         Facade facade = Facade.getInstance(collection);
-        PatientEntity patient = (PatientEntity) facade.getEntity(PatientEntity.class, 1);
+        Patient patient = (Patient) facade.getEntity(PatientEntity.class, 1);
 
-        Collection <PatientEntity> patients = getAll(PatientEntity.class);
+        Collection <Patient> patients = getAllPatients(PatientEntity.class);
 
         if ((patient = searchPatientBySocialInsuranceNumber(patients, socialInsuranceNumber)) != null){
             return patient;
@@ -38,17 +40,27 @@ public class CheckinController {
     this method will search in a given collection for the patient with the given social insurance number and return it
     if found, else it will return null
      */
-    private PatientEntity searchPatientBySocialInsuranceNumber(Collection<PatientEntity> patients, String socialInsuranceNumber){
-        for (PatientEntity patient : patients){
-            if (patient.getSocialInsuranceNr().equals(socialInsuranceNumber)){
+    private Patient searchPatientBySocialInsuranceNumber(Collection <Patient> patients, String socialInsuranceNumber){
+        for (Patient patient : patients){
+            if (patient.getSvn().equals(socialInsuranceNumber)){
                 return patient;
             }
         }
         return null;
     }
 
-    public Collection <QueueEntity> getQueues(){
+    public Collection <PatientQueue> getQueues(){
+        Collection <Class> collection = new LinkedList <Class>();
+        collection.add(QueueEntity.class);
+        Facade facade = Facade.getInstance(collection);
 
+        Collection <PatientQueue> queues = facade.getAllQueues(QueueEntity.class);
+
+        return queues;
+    }
+
+    public void insertToQueue(Patient patient, PatientQueue queue){
+        queue.insert(patient);
     }
 
 }
