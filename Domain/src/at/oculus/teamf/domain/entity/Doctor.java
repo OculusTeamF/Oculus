@@ -15,6 +15,7 @@ package at.oculus.teamf.domain.entity;
  * @author Simon Angerer
  * @date 03.4.2015
  */
+@EntityClass("DoctorEntity.class")
 public class Doctor extends User{
 
     //<editor-fold desc="Attributes">

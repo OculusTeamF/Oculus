@@ -1,7 +1,7 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.persistence.entity.PatientEntity;
-import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.facade.Facade;
 import at.oculus.teamf.persistence.entity.QueueEntity;
 
 import java.util.Collection;

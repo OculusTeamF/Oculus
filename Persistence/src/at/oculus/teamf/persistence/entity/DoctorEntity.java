@@ -1,6 +1,7 @@
 package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by Norskan on 30.03.2015.

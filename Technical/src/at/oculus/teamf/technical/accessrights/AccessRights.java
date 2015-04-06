@@ -1,6 +1,6 @@
 package at.oculus.teamf.technical.accessrights;
 
-import at.oculus.teamf.domain.entity.UserEntity;
+import at.oculus.teamf.domain.entity.User;
 
 /**
  * Created by Norskan on 30.03.2015.
@@ -18,7 +18,7 @@ public class AccessRights {
     }
     //</editor-fold>
 
-    boolean hasRights(UserEntity user) {
+    boolean hasRights(User user) {
         return true;
     }
 }

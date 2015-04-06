@@ -7,17 +7,15 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
+package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.entity.IEntity;
 
 /**
- * Created by Norskan on 30.03.2015.
+ * DomainEntity.java Created by oculus on 06.04.15.
  */
-public interface IEntityBroker {
-    IEntity getEnity(Class clazz, int id);
+public interface DomainEntity {
+	int getId();
 
-    boolean setEntity(IEntity entity);
+	void set(IEntity entity);
 }
-
-// TODO delete?
