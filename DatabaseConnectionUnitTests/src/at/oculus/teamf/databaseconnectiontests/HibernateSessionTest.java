@@ -18,9 +18,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- *
- * TODO: Create Tests
- *
  * @author Simon Angerer
  * @date 30.03.2015
  */
