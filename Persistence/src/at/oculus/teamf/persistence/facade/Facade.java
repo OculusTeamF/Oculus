@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence.facade;
 
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.persistence.broker.EntityBroker;
+import at.oculus.teamf.persistence.broker.ICollectionReload;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,18 +39,24 @@ public class Facade {
 	}
 
 	public Object getById(Class clazz, int id) {
-		return null;
+		return _entityBrokers.get(clazz).getEnity(id);
 	}
 
 	public Collection getAll(Class clazz) {
-		return null;
+		return _entityBrokers.get(clazz).getAll(clazz);
 	}
 
 	public Collection reloadCollection(Object entity, Class clazz) throws CantReloadException {
-		return null;
+		EntityBroker broker = _entityBrokers.get(clazz);
+
+		if(!(broker instanceof ICollectionReload)) {
+			throw new CantReloadException();
+		}
+
+		return ((ICollectionReload) broker).reload();
 	}
 
 	public boolean save(Object entity) {
-		return false;
+		return _entityBrokers.get(entity.getClass()).saveEntity(entity);
 	}
 }

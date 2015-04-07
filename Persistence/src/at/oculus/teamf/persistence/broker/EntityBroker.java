@@ -26,7 +26,7 @@ public abstract class EntityBroker<T> {
     }
 
     //<editor-fold desc="Abstract Methode">
-    public abstract IEntity getEnity(Class<T> clazz, int id);
+    public abstract IEntity getEnity(int id);
 
     public abstract Collection<IEntity> getAll(Class<T> clazz);
 
