@@ -14,6 +14,7 @@ import javax.persistence.*;
 /**
  * Created by Norskan on 07.04.2015.
  */
+// TODO PropertyHelper für catalog="oculus_f"
 @Entity
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
 @IdClass(CalendarworkinghoursEntityPK.class)

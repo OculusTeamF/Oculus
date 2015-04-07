@@ -18,107 +18,107 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "calendarevent", schema = "", catalog = "oculus_f")
 public class CalendareventEntity {
-    private int calendarEventId;
-    private int calendarId;
-    private Integer patientId;
-    private int eventTypeId;
-    private Timestamp eventStart;
-    private Timestamp eventEnd;
-    private String description;
-    private String patientName;
-    private byte isOpen;
-    private CalendarEntity calendarByCalendarId;
-    private PatientEntity patientByPatientId;
-    private EventtypeEntity eventtypeByEventTypeId;
+    private int _id;
+    private int _calendarId;
+    private Integer _patientId;
+    private int _eventTypeId;
+    private Timestamp _eventStart;
+    private Timestamp _eventEnd;
+    private String _description;
+    private String _patientName;
+    private byte _isOpen;
+    private CalendarEntity _calendar;
+    private PatientEntity _patient;
+    private EventtypeEntity _eventtype;
 
     @Id
     @Column(name = "calendarEventId", nullable = false, insertable = true, updatable = true)
-    public int getCalendarEventId() {
-        return calendarEventId;
+    public int getId() {
+        return _id;
     }
 
-    public void setCalendarEventId(int calendarEventId) {
-        this.calendarEventId = calendarEventId;
+    public void setId(int id) {
+        this._id = id;
     }
 
     @Basic
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
     public int getCalendarId() {
-        return calendarId;
+        return _calendarId;
     }
 
     public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
+        this._calendarId = calendarId;
     }
 
     @Basic
     @Column(name = "patientId", nullable = true, insertable = true, updatable = true)
     public Integer getPatientId() {
-        return patientId;
+        return _patientId;
     }
 
     public void setPatientId(Integer patientId) {
-        this.patientId = patientId;
+        this._patientId = patientId;
     }
 
     @Basic
     @Column(name = "eventTypeId", nullable = false, insertable = true, updatable = true)
     public int getEventTypeId() {
-        return eventTypeId;
+        return _eventTypeId;
     }
 
     public void setEventTypeId(int eventTypeId) {
-        this.eventTypeId = eventTypeId;
+        this._eventTypeId = eventTypeId;
     }
 
     @Basic
     @Column(name = "eventStart", nullable = false, insertable = true, updatable = true)
     public Timestamp getEventStart() {
-        return eventStart;
+        return _eventStart;
     }
 
     public void setEventStart(Timestamp eventStart) {
-        this.eventStart = eventStart;
+        this._eventStart = eventStart;
     }
 
     @Basic
     @Column(name = "eventEnd", nullable = false, insertable = true, updatable = true)
     public Timestamp getEventEnd() {
-        return eventEnd;
+        return _eventEnd;
     }
 
     public void setEventEnd(Timestamp eventEnd) {
-        this.eventEnd = eventEnd;
+        this._eventEnd = eventEnd;
     }
 
     @Basic
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this._description = description;
     }
 
     @Basic
     @Column(name = "patientName", nullable = true, insertable = true, updatable = true, length = 100)
     public String getPatientName() {
-        return patientName;
+        return _patientName;
     }
 
     public void setPatientName(String patientName) {
-        this.patientName = patientName;
+        this._patientName = patientName;
     }
 
     @Basic
     @Column(name = "isOpen", nullable = false, insertable = true, updatable = true)
     public byte getIsOpen() {
-        return isOpen;
+        return _isOpen;
     }
 
     public void setIsOpen(byte isOpen) {
-        this.isOpen = isOpen;
+        this._isOpen = isOpen;
     }
 
     @Override
@@ -128,60 +128,60 @@ public class CalendareventEntity {
 
         CalendareventEntity that = (CalendareventEntity) o;
 
-        if (calendarEventId != that.calendarEventId) return false;
-        if (calendarId != that.calendarId) return false;
-        if (eventTypeId != that.eventTypeId) return false;
-        if (isOpen != that.isOpen) return false;
-        if (patientId != null ? !patientId.equals(that.patientId) : that.patientId != null) return false;
-        if (eventStart != null ? !eventStart.equals(that.eventStart) : that.eventStart != null) return false;
-        if (eventEnd != null ? !eventEnd.equals(that.eventEnd) : that.eventEnd != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (patientName != null ? !patientName.equals(that.patientName) : that.patientName != null) return false;
+        if (_id != that._id) return false;
+        if (_calendarId != that._calendarId) return false;
+        if (_eventTypeId != that._eventTypeId) return false;
+        if (_isOpen != that._isOpen) return false;
+        if (_patientId != null ? !_patientId.equals(that._patientId) : that._patientId != null) return false;
+        if (_eventStart != null ? !_eventStart.equals(that._eventStart) : that._eventStart != null) return false;
+        if (_eventEnd != null ? !_eventEnd.equals(that._eventEnd) : that._eventEnd != null) return false;
+        if (_description != null ? !_description.equals(that._description) : that._description != null) return false;
+        if (_patientName != null ? !_patientName.equals(that._patientName) : that._patientName != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = calendarEventId;
-        result = 31 * result + calendarId;
-        result = 31 * result + (patientId != null ? patientId.hashCode() : 0);
-        result = 31 * result + eventTypeId;
-        result = 31 * result + (eventStart != null ? eventStart.hashCode() : 0);
-        result = 31 * result + (eventEnd != null ? eventEnd.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (patientName != null ? patientName.hashCode() : 0);
-        result = 31 * result + (int) isOpen;
+        int result = _id;
+        result = 31 * result + _calendarId;
+        result = 31 * result + (_patientId != null ? _patientId.hashCode() : 0);
+        result = 31 * result + _eventTypeId;
+        result = 31 * result + (_eventStart != null ? _eventStart.hashCode() : 0);
+        result = 31 * result + (_eventEnd != null ? _eventEnd.hashCode() : 0);
+        result = 31 * result + (_description != null ? _description.hashCode() : 0);
+        result = 31 * result + (_patientName != null ? _patientName.hashCode() : 0);
+        result = 31 * result + (int) _isOpen;
         return result;
     }
 
     @ManyToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
-    public CalendarEntity getCalendarByCalendarId() {
-        return calendarByCalendarId;
+    public CalendarEntity getCalendar() {
+        return _calendar;
     }
 
-    public void setCalendarByCalendarId(CalendarEntity calendarByCalendarId) {
-        this.calendarByCalendarId = calendarByCalendarId;
+    public void setCalendar(CalendarEntity calendarByCalendarId) {
+        this._calendar = calendarByCalendarId;
     }
 
     @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "patientId")
-    public PatientEntity getPatientByPatientId() {
-        return patientByPatientId;
+    public PatientEntity getPatient() {
+        return _patient;
     }
 
-    public void setPatientByPatientId(PatientEntity patientByPatientId) {
-        this.patientByPatientId = patientByPatientId;
+    public void setPatient(PatientEntity patientByPatientId) {
+        this._patient = patientByPatientId;
     }
 
     @ManyToOne
     @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false)
-    public EventtypeEntity getEventtypeByEventTypeId() {
-        return eventtypeByEventTypeId;
+    public EventtypeEntity getEventtype() {
+        return _eventtype;
     }
 
-    public void setEventtypeByEventTypeId(EventtypeEntity eventtypeByEventTypeId) {
-        this.eventtypeByEventTypeId = eventtypeByEventTypeId;
+    public void setEventtype(EventtypeEntity eventtypeByEventTypeId) {
+        this._eventtype = eventtypeByEventTypeId;
     }
 }

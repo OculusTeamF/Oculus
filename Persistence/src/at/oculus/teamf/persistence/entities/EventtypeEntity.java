@@ -22,7 +22,6 @@ public class EventtypeEntity {
     private String eventTypeName;
     private Integer estimatedTime;
     private String description;
-    private Collection<CalendareventEntity> calendareventsByEventTypeId;
 
     @Id
     @Column(name = "eventTypeId", nullable = false, insertable = true, updatable = true)
@@ -88,14 +87,5 @@ public class EventtypeEntity {
         result = 31 * result + (estimatedTime != null ? estimatedTime.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "eventtypeByEventTypeId")
-    public Collection<CalendareventEntity> getCalendareventsByEventTypeId() {
-        return calendareventsByEventTypeId;
-    }
-
-    public void setCalendareventsByEventTypeId(Collection<CalendareventEntity> calendareventsByEventTypeId) {
-        this.calendareventsByEventTypeId = calendareventsByEventTypeId;
     }
 }

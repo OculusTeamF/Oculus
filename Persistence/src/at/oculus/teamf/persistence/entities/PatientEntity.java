@@ -251,7 +251,7 @@ public class PatientEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "patientByPatientId")
+    @OneToMany(mappedBy = "_patient")
     public Collection<CalendareventEntity> getCalendareventsByPatientId() {
         return calendareventsByPatientId;
     }
@@ -270,7 +270,7 @@ public class PatientEntity {
         this.doctorByDoctorId = doctorByDoctorId;
     }
 
-    @OneToMany(mappedBy = "patientByPatientId")
+    @OneToMany(mappedBy = "_patient")
     public Collection<QueueEntity> getQueuesByPatientId() {
         return queuesByPatientId;
     }
