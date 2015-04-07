@@ -25,31 +25,31 @@ public class UsergroupEntity {
 
     @Id
     @Column(name = "userGroupId", nullable = false, insertable = true, updatable = true)
-    public int get_userGroupId() {
+    public int getUserGroupId() {
         return _userGroupId;
     }
 
-    public void set_userGroupId(int userGroupId) {
+    public void setUserGroupId(int userGroupId) {
         _userGroupId = userGroupId;
     }
 
     @Basic
     @Column(name = "userGroupName", nullable = false, insertable = true, updatable = true, length = 50)
-    public String get_userGroupName() {
+    public String getUserGroupName() {
         return _userGroupName;
     }
 
-    public void set_userGroupName(String userGroupName) {
+    public void setUserGroupName(String userGroupName) {
         _userGroupName = userGroupName;
     }
 
     @Basic
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String get_description() {
+    public String getDescription() {
         return _description;
     }
 
-    public void set_description(String description) {
+    public void setDescription(String description) {
         _description = description;
     }
 
@@ -77,11 +77,11 @@ public class UsergroupEntity {
     }
 
     @OneToMany(mappedBy = "_usergroupByUserGroupId")
-    public Collection<UserEntity> get_usersByUserGroupId() {
+    public Collection<UserEntity> getUsersByUserGroupId() {
         return _usersByUserGroupId;
     }
 
-    public void set_usersByUserGroupId(Collection<UserEntity> usersByUserGroupId) {
+    public void setUsersByUserGroupId(Collection<UserEntity> usersByUserGroupId) {
         _usersByUserGroupId = usersByUserGroupId;
     }
 }

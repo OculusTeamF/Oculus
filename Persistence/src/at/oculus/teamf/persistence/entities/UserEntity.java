@@ -36,101 +36,101 @@ public class UserEntity {
 
     @Id
     @Column(name = "userId", nullable = false, insertable = true, updatable = true)
-    public int get_userId() {
+    public int getUserId() {
         return _userId;
     }
 
-    public void set_userId(int userId) {
+    public void setUserId(int userId) {
         _userId = userId;
     }
 
     @Basic
     @Column(name = "userGroupId", nullable = true, insertable = true, updatable = true)
-    public Integer get_userGroupId() {
+    public Integer getUserGroupId() {
         return _userGroupId;
     }
 
-    public void set_userGroupId(Integer userGroupId) {
+    public void setUserGroupId(Integer userGroupId) {
         _userGroupId = userGroupId;
     }
 
     @Basic
     @Column(name = "userName", nullable = false, insertable = true, updatable = true, length = 30)
-    public String get_userName() {
+    public String getUserName() {
         return _userName;
     }
 
-    public void set_userName(String userName) {
+    public void setUserName(String userName) {
         _userName = userName;
     }
 
     @Basic
     @Column(name = "password", nullable = false, insertable = true, updatable = true, length = 255)
-    public String get_password() {
+    public String getPassword() {
         return _password;
     }
 
-    public void set_password(String password) {
+    public void setPassword(String password) {
         _password = password;
     }
 
     @Basic
     @Column(name = "title", nullable = true, insertable = true, updatable = true, length = 30)
-    public String get_title() {
+    public String getTitle() {
         return _title;
     }
 
-    public void set_title(String title) {
+    public void setTitle(String title) {
         _title = title;
     }
 
     @Basic
     @Column(name = "firstName", nullable = false, insertable = true, updatable = true, length = 50)
-    public String get_firstName() {
+    public String getFirstName() {
         return _firstName;
     }
 
-    public void set_firstName(String firstName) {
+    public void setFirstName(String firstName) {
         _firstName = firstName;
     }
 
     @Basic
     @Column(name = "lastName", nullable = false, insertable = true, updatable = true, length = 50)
-    public String get_lastName() {
+    public String getLastName() {
         return _lastName;
     }
 
-    public void set_lastName(String lastName) {
+    public void setLastName(String lastName) {
         _lastName = lastName;
     }
 
     @Basic
     @Column(name = "email", nullable = true, insertable = true, updatable = true, length = 255)
-    public String get_email() {
+    public String getEmail() {
         return _email;
     }
 
-    public void set_email(String email) {
+    public void setEmail(String email) {
         _email = email;
     }
 
     @Basic
     @Column(name = "createDate", nullable = false, insertable = true, updatable = true)
-    public Timestamp get_createDate() {
+    public Timestamp getCreateDate() {
         return _createDate;
     }
 
-    public void set_createDate(Timestamp createDate) {
+    public void setCreateDate(Timestamp createDate) {
         _createDate = createDate;
     }
 
     @Basic
     @Column(name = "idleDate", nullable = true, insertable = true, updatable = true)
-    public Timestamp get_idleDate() {
+    public Timestamp getIdleDate() {
         return _idleDate;
     }
 
-    public void set_idleDate(Timestamp idleDate) {
+    public void setIdleDate(Timestamp idleDate) {
         _idleDate = idleDate;
     }
 

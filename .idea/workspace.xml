@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e254defe-7300-411b-8b11-ccef44fce2d5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UsergroupEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UsergroupEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WeekdayEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WeekdayEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WorkinghoursEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WorkinghoursEntity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -53,9 +50,12 @@
       <file leaf-file-name="ReceptionistEntity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6689847">
-              <caret line="61" column="5" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
-              <folding />
+            <state vertical-scroll-proportion="0.26703754">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="method#equals#0;class#ReceptionistEntity#0" expanded="false" />
+                <element signature="method#hashCode#0;class#ReceptionistEntity#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,9 +107,9 @@
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/Facade.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WeekdayEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WorkinghoursEntity.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UsergroupEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" />
       </list>
     </option>
   </component>
@@ -249,9 +249,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -529,6 +529,7 @@
       <workItem from="1428396663047" duration="10671000" />
       <workItem from="1428412254179" duration="1294000" />
       <workItem from="1428413574376" duration="830000" />
+      <workItem from="1428414489046" duration="402000" />
     </task>
     <task id="LOCAL-00001" summary="It compiles! :)">
       <created>1428397587232</created>
@@ -558,7 +559,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12795000" />
+    <option name="totallyTimeSpent" value="13197000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -619,6 +620,17 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="method#equals#0;class#ReceptionistEntity#0" expanded="false" />
+            <element signature="method#hashCode#0;class#ReceptionistEntity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/Facade.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -817,7 +829,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21279556">
           <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -841,9 +852,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UsergroupEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8344923">
+          <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WeekdayEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.550765">
+        <state vertical-scroll-proportion="0.5521558">
           <caret line="49" column="30" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
           <folding />
         </state>
@@ -851,30 +870,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16550764">
-          <caret line="141" column="41" selection-start-line="141" selection-start-column="41" selection-end-line="141" selection-end-column="41" />
-          <folding>
-            <element signature="e#2715#2716#0" expanded="true" />
-            <element signature="e#2745#2746#0" expanded="true" />
-            <element signature="e#6314#6315#0" expanded="true" />
-            <element signature="e#6364#6365#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UsergroupEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21974966">
-          <caret line="58" column="66" selection-start-line="58" selection-start-column="66" selection-end-line="58" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.7093185">
+          <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6689847">
-          <caret line="61" column="5" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
-          <folding />
+        <state vertical-scroll-proportion="0.26703754">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="method#equals#0;class#ReceptionistEntity#0" expanded="false" />
+            <element signature="method#hashCode#0;class#ReceptionistEntity#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
