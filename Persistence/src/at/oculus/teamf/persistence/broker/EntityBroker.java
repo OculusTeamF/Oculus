@@ -12,8 +12,6 @@ package at.oculus.teamf.persistence.broker;
 import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.domain.entity.Weekday;
-import at.oculus.teamf.persistence.facade.IEntity;
 
 import java.util.Collection;
 
@@ -25,7 +23,8 @@ public abstract class EntityBroker<D, P> {
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
 
-    public EntityBroker(Class entityClass) {
+    public EntityBroker(Class domainClass, Class entityClass) {
+        _domainClass = domainClass;
         _entityClass = entityClass;
     }
 

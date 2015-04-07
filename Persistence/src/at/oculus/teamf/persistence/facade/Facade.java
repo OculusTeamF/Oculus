@@ -17,6 +17,7 @@ import at.oculus.teamf.persistence.broker.ICollectionReload;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Facade for requesting entities from hibernate. Singleton pattern.
@@ -45,12 +46,14 @@ public class Facade {
 		}
 
 		_entityBrokers = new HashMap<Class, EntityBroker>();
+		Collection<Class> entityClazzes = new LinkedList<Class>();
 
 		for(EntityBroker broker : brokers) {
 			_entityBrokers.put(broker.getDomainClass(), broker);
+			entityClazzes.add(broker.getEntityClass());
 		}
 
-		_sessionBroker = new HibernateSessionBroker(_entityBrokers.keySet());
+		_sessionBroker = new HibernateSessionBroker(entityClazzes);
 	}
 
 	public Object getById(Class clazz, int id) {

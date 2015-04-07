@@ -1,4 +1,4 @@
-package at.oculus.teamf.persistencetests;/*
+/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,23 +7,22 @@ package at.oculus.teamf.persistencetests;/*
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * at.oculus.teamf.persistencetests.WeekdayTest.java Created by oculus on 07.04.15.
- */
+package at.oculus.teamf.persistencetests;
+
 import at.oculus.teamf.domain.entity.Weekday;
 import at.oculus.teamf.persistence.broker.EntityBroker;
 import at.oculus.teamf.persistence.broker.WeekdayBroker;
 import at.oculus.teamf.persistence.facade.Facade;
-import junit.framework.TestCase;
-import org.junit.Test;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class WeekdayTest extends TestCase{
+import static org.junit.Assert.*;
 
-	@Test
-	public void TestWTF() {
+public class EntityBrokerTest {
+
+	@org.junit.Test
+	public void testGetEntity() throws Exception {
 		Facade facade = Facade.getInstance();
 		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
 		brokers.add(new WeekdayBroker());

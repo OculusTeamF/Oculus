@@ -9,12 +9,9 @@
 
 package at.oculus.teamf.persistence.broker;
 
-import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Weekday;
-import at.oculus.teamf.persistence.broker.EntityBroker;
 import at.oculus.teamf.persistence.entities.WeekdayEntity;
-import at.oculus.teamf.persistence.facade.Facade;
-import at.oculus.teamf.persistence.facade.IEntity;
 
 import java.util.Collection;
 
@@ -24,7 +21,7 @@ import java.util.Collection;
  */
 public class WeekdayBroker extends EntityBroker<Weekday,WeekdayEntity> {
     public WeekdayBroker() {
-        super(WeekdayEntity.class);
+        super(Weekday.class, WeekdayEntity.class);
     }
 
 	@Override
