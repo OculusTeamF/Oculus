@@ -19,119 +19,119 @@ import java.util.Collection;
 @Entity
 @Table(name = "user", schema = "", catalog = "oculus_f")
 public class UserEntity {
-    private int userId;
-    private Integer userGroupId;
-    private String userName;
-    private String password;
-    private String title;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Timestamp createDate;
-    private Timestamp idleDate;
-    private Collection<DoctorEntity> doctorsByUserId;
-    private Collection<OrthoptistEntity> orthoptistsByUserId;
-    private Collection<ReceptionistEntity> receptionistsByUserId;
-    private UsergroupEntity usergroupByUserGroupId;
+    private int _userId;
+    private Integer _userGroupId;
+    private String _userName;
+    private String _password;
+    private String _title;
+    private String _firstName;
+    private String _lastName;
+    private String _email;
+    private Timestamp _createDate;
+    private Timestamp _idleDate;
+    private Collection<DoctorEntity> _doctorsByUserId;
+    private Collection<OrthoptistEntity> _orthoptistsByUserId;
+    private Collection<ReceptionistEntity> _receptionistsByUserId;
+    private UsergroupEntity _usergroupByUserGroupId;
 
     @Id
     @Column(name = "userId", nullable = false, insertable = true, updatable = true)
     public int getUserId() {
-        return userId;
+        return _userId;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        _userId = userId;
     }
 
     @Basic
     @Column(name = "userGroupId", nullable = true, insertable = true, updatable = true)
     public Integer getUserGroupId() {
-        return userGroupId;
+        return _userGroupId;
     }
 
     public void setUserGroupId(Integer userGroupId) {
-        this.userGroupId = userGroupId;
+        _userGroupId = userGroupId;
     }
 
     @Basic
     @Column(name = "userName", nullable = false, insertable = true, updatable = true, length = 30)
     public String getUserName() {
-        return userName;
+        return _userName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        _userName = userName;
     }
 
     @Basic
     @Column(name = "password", nullable = false, insertable = true, updatable = true, length = 255)
     public String getPassword() {
-        return password;
+        return _password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        _password = password;
     }
 
     @Basic
     @Column(name = "title", nullable = true, insertable = true, updatable = true, length = 30)
     public String getTitle() {
-        return title;
+        return _title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        _title = title;
     }
 
     @Basic
     @Column(name = "firstName", nullable = false, insertable = true, updatable = true, length = 50)
     public String getFirstName() {
-        return firstName;
+        return _firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        _firstName = firstName;
     }
 
     @Basic
     @Column(name = "lastName", nullable = false, insertable = true, updatable = true, length = 50)
     public String getLastName() {
-        return lastName;
+        return _lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        _lastName = lastName;
     }
 
     @Basic
     @Column(name = "email", nullable = true, insertable = true, updatable = true, length = 255)
     public String getEmail() {
-        return email;
+        return _email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        _email = email;
     }
 
     @Basic
     @Column(name = "createDate", nullable = false, insertable = true, updatable = true)
     public Timestamp getCreateDate() {
-        return createDate;
+        return _createDate;
     }
 
     public void setCreateDate(Timestamp createDate) {
-        this.createDate = createDate;
+        _createDate = createDate;
     }
 
     @Basic
     @Column(name = "idleDate", nullable = true, insertable = true, updatable = true)
     public Timestamp getIdleDate() {
-        return idleDate;
+        return _idleDate;
     }
 
     public void setIdleDate(Timestamp idleDate) {
-        this.idleDate = idleDate;
+        _idleDate = idleDate;
     }
 
     @Override
@@ -141,69 +141,69 @@ public class UserEntity {
 
         UserEntity that = (UserEntity) o;
 
-        if (userId != that.userId) return false;
-        if (userGroupId != null ? !userGroupId.equals(that.userGroupId) : that.userGroupId != null) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
-        if (idleDate != null ? !idleDate.equals(that.idleDate) : that.idleDate != null) return false;
+        if (_userId != that._userId) return false;
+        if (_userGroupId != null ? !_userGroupId.equals(that._userGroupId) : that._userGroupId != null) return false;
+        if (_userName != null ? !_userName.equals(that._userName) : that._userName != null) return false;
+        if (_password != null ? !_password.equals(that._password) : that._password != null) return false;
+        if (_title != null ? !_title.equals(that._title) : that._title != null) return false;
+        if (_firstName != null ? !_firstName.equals(that._firstName) : that._firstName != null) return false;
+        if (_lastName != null ? !_lastName.equals(that._lastName) : that._lastName != null) return false;
+        if (_email != null ? !_email.equals(that._email) : that._email != null) return false;
+        if (_createDate != null ? !_createDate.equals(that._createDate) : that._createDate != null) return false;
+        if (_idleDate != null ? !_idleDate.equals(that._idleDate) : that._idleDate != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
-        result = 31 * result + (userGroupId != null ? userGroupId.hashCode() : 0);
-        result = 31 * result + (userName != null ? userName.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
-        result = 31 * result + (idleDate != null ? idleDate.hashCode() : 0);
+        int result = _userId;
+        result = 31 * result + (_userGroupId != null ? _userGroupId.hashCode() : 0);
+        result = 31 * result + (_userName != null ? _userName.hashCode() : 0);
+        result = 31 * result + (_password != null ? _password.hashCode() : 0);
+        result = 31 * result + (_title != null ? _title.hashCode() : 0);
+        result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
+        result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
+        result = 31 * result + (_email != null ? _email.hashCode() : 0);
+        result = 31 * result + (_createDate != null ? _createDate.hashCode() : 0);
+        result = 31 * result + (_idleDate != null ? _idleDate.hashCode() : 0);
         return result;
     }
 
     @OneToMany(mappedBy = "userByUserId")
-    public Collection<DoctorEntity> getDoctorsByUserId() {
-        return doctorsByUserId;
+    public Collection<DoctorEntity> get_doctorsByUserId() {
+        return _doctorsByUserId;
     }
 
-    public void setDoctorsByUserId(Collection<DoctorEntity> doctorsByUserId) {
-        this.doctorsByUserId = doctorsByUserId;
-    }
-
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<OrthoptistEntity> getOrthoptistsByUserId() {
-        return orthoptistsByUserId;
-    }
-
-    public void setOrthoptistsByUserId(Collection<OrthoptistEntity> orthoptistsByUserId) {
-        this.orthoptistsByUserId = orthoptistsByUserId;
+    public void set_doctorsByUserId(Collection<DoctorEntity> doctorsByUserId) {
+        _doctorsByUserId = doctorsByUserId;
     }
 
     @OneToMany(mappedBy = "userByUserId")
-    public Collection<ReceptionistEntity> getReceptionistsByUserId() {
-        return receptionistsByUserId;
+    public Collection<OrthoptistEntity> get_orthoptistsByUserId() {
+        return _orthoptistsByUserId;
     }
 
-    public void setReceptionistsByUserId(Collection<ReceptionistEntity> receptionistsByUserId) {
-        this.receptionistsByUserId = receptionistsByUserId;
+    public void set_orthoptistsByUserId(Collection<OrthoptistEntity> orthoptistsByUserId) {
+        _orthoptistsByUserId = orthoptistsByUserId;
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<ReceptionistEntity> get_receptionistsByUserId() {
+        return _receptionistsByUserId;
+    }
+
+    public void set_receptionistsByUserId(Collection<ReceptionistEntity> receptionistsByUserId) {
+        _receptionistsByUserId = receptionistsByUserId;
     }
 
     @ManyToOne
     @JoinColumn(name = "userGroupId", referencedColumnName = "userGroupId")
-    public UsergroupEntity getUsergroupByUserGroupId() {
-        return usergroupByUserGroupId;
+    public UsergroupEntity get_usergroupByUserGroupId() {
+        return _usergroupByUserGroupId;
     }
 
-    public void setUsergroupByUserGroupId(UsergroupEntity usergroupByUserGroupId) {
-        this.usergroupByUserGroupId = usergroupByUserGroupId;
+    public void set_usergroupByUserGroupId(UsergroupEntity usergroupByUserGroupId) {
+        this._usergroupByUserGroupId = usergroupByUserGroupId;
     }
 }

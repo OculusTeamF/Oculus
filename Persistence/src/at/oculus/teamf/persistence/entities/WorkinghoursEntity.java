@@ -19,73 +19,73 @@ import java.util.Collection;
 @Entity
 @Table(name = "workinghours", schema = "", catalog = "oculus_f")
 public class WorkinghoursEntity {
-    private int workingHoursId;
-    private String weekDayKey;
-    private Time morningFrom;
-    private Time morningTo;
-    private Time afternoonFrom;
-    private Time afternoonTo;
-    private Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId;
-    private WeekdayEntity weekdayByWeekDayKey;
+    private int _workingHoursId;
+    private String _weekDayKey;
+    private Time _morningFrom;
+    private Time _morningTo;
+    private Time _afternoonFrom;
+    private Time _afternoonTo;
+    private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
+    private WeekdayEntity _weekdayByWeekDayKey;
 
     @Id
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
     public int getWorkingHoursId() {
-        return workingHoursId;
+        return _workingHoursId;
     }
 
     public void setWorkingHoursId(int workingHoursId) {
-        this.workingHoursId = workingHoursId;
+        _workingHoursId = workingHoursId;
     }
 
     @Basic
     @Column(name = "weekDayKey", nullable = false, insertable = true, updatable = true, length = 3)
     public String getWeekDayKey() {
-        return weekDayKey;
+        return _weekDayKey;
     }
 
     public void setWeekDayKey(String weekDayKey) {
-        this.weekDayKey = weekDayKey;
+        _weekDayKey = weekDayKey;
     }
 
     @Basic
     @Column(name = "morningFrom", nullable = true, insertable = true, updatable = true)
     public Time getMorningFrom() {
-        return morningFrom;
+        return _morningFrom;
     }
 
     public void setMorningFrom(Time morningFrom) {
-        this.morningFrom = morningFrom;
+        _morningFrom = morningFrom;
     }
 
     @Basic
     @Column(name = "morningTo", nullable = true, insertable = true, updatable = true)
     public Time getMorningTo() {
-        return morningTo;
+        return _morningTo;
     }
 
     public void setMorningTo(Time morningTo) {
-        this.morningTo = morningTo;
+        _morningTo = morningTo;
     }
 
     @Basic
     @Column(name = "afternoonFrom", nullable = true, insertable = true, updatable = true)
     public Time getAfternoonFrom() {
-        return afternoonFrom;
+        return _afternoonFrom;
     }
 
     public void setAfternoonFrom(Time afternoonFrom) {
-        this.afternoonFrom = afternoonFrom;
+        _afternoonFrom = afternoonFrom;
     }
 
     @Basic
     @Column(name = "afternoonTo", nullable = true, insertable = true, updatable = true)
     public Time getAfternoonTo() {
-        return afternoonTo;
+        return _afternoonTo;
     }
 
     public void setAfternoonTo(Time afternoonTo) {
-        this.afternoonTo = afternoonTo;
+        _afternoonTo = afternoonTo;
     }
 
     @Override
@@ -95,44 +95,44 @@ public class WorkinghoursEntity {
 
         WorkinghoursEntity that = (WorkinghoursEntity) o;
 
-        if (workingHoursId != that.workingHoursId) return false;
-        if (weekDayKey != null ? !weekDayKey.equals(that.weekDayKey) : that.weekDayKey != null) return false;
-        if (morningFrom != null ? !morningFrom.equals(that.morningFrom) : that.morningFrom != null) return false;
-        if (morningTo != null ? !morningTo.equals(that.morningTo) : that.morningTo != null) return false;
-        if (afternoonFrom != null ? !afternoonFrom.equals(that.afternoonFrom) : that.afternoonFrom != null)
+        if (_workingHoursId != that._workingHoursId) return false;
+        if (_weekDayKey != null ? !_weekDayKey.equals(that._weekDayKey) : that._weekDayKey != null) return false;
+        if (_morningFrom != null ? !_morningFrom.equals(that._morningFrom) : that._morningFrom != null) return false;
+        if (_morningTo != null ? !_morningTo.equals(that._morningTo) : that._morningTo != null) return false;
+        if (_afternoonFrom != null ? !_afternoonFrom.equals(that._afternoonFrom) : that._afternoonFrom != null)
             return false;
-        if (afternoonTo != null ? !afternoonTo.equals(that.afternoonTo) : that.afternoonTo != null) return false;
+        if (_afternoonTo != null ? !_afternoonTo.equals(that._afternoonTo) : that._afternoonTo != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = workingHoursId;
-        result = 31 * result + (weekDayKey != null ? weekDayKey.hashCode() : 0);
-        result = 31 * result + (morningFrom != null ? morningFrom.hashCode() : 0);
-        result = 31 * result + (morningTo != null ? morningTo.hashCode() : 0);
-        result = 31 * result + (afternoonFrom != null ? afternoonFrom.hashCode() : 0);
-        result = 31 * result + (afternoonTo != null ? afternoonTo.hashCode() : 0);
+        int result = _workingHoursId;
+        result = 31 * result + (_weekDayKey != null ? _weekDayKey.hashCode() : 0);
+        result = 31 * result + (_morningFrom != null ? _morningFrom.hashCode() : 0);
+        result = 31 * result + (_morningTo != null ? _morningTo.hashCode() : 0);
+        result = 31 * result + (_afternoonFrom != null ? _afternoonFrom.hashCode() : 0);
+        result = 31 * result + (_afternoonTo != null ? _afternoonTo.hashCode() : 0);
         return result;
     }
 
     @OneToMany(mappedBy = "workinghoursByWorkingHoursId")
     public Collection<CalendarworkinghoursEntity> getCalendarworkinghoursesByWorkingHoursId() {
-        return calendarworkinghoursesByWorkingHoursId;
+        return _calendarworkinghoursesByWorkingHoursId;
     }
 
     public void setCalendarworkinghoursesByWorkingHoursId(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId) {
-        this.calendarworkinghoursesByWorkingHoursId = calendarworkinghoursesByWorkingHoursId;
+        this._calendarworkinghoursesByWorkingHoursId = calendarworkinghoursesByWorkingHoursId;
     }
 
     @ManyToOne
     @JoinColumn(name = "weekDayKey", referencedColumnName = "weekDayKey", nullable = false)
     public WeekdayEntity getWeekdayByWeekDayKey() {
-        return weekdayByWeekDayKey;
+        return _weekdayByWeekDayKey;
     }
 
     public void setWeekdayByWeekDayKey(WeekdayEntity weekdayByWeekDayKey) {
-        this.weekdayByWeekDayKey = weekdayByWeekDayKey;
+        this._weekdayByWeekDayKey = weekdayByWeekDayKey;
     }
 }

@@ -28,7 +28,7 @@ public class ReceptionistEntity {
     }
 
     public void setReceptionistId(int receptionistId) {
-        this.receptionistId = receptionistId;
+        receptionistId = receptionistId;
     }
 
     @Basic
@@ -38,7 +38,7 @@ public class ReceptionistEntity {
     }
 
     public void setUserId(Integer userId) {
-        this.userId = userId;
+        userId = userId;
     }
 
     @Override
@@ -68,6 +68,6 @@ public class ReceptionistEntity {
     }
 
     public void setUserByUserId(UserEntity userByUserId) {
-        this.userByUserId = userByUserId;
+        userByUserId = userByUserId;
     }
 }
