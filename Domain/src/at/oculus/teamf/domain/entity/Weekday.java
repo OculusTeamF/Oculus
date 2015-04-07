@@ -14,16 +14,8 @@ package at.oculus.teamf.domain.entity;
  * Created by oculus on 07.04.15.
  */
 public class Weekday {
-    private String _key;
+	private int _id;
     private String _name;
-
-	public String getKey() {
-		return _key;
-	}
-
-	public void setKey(String key) {
-		_key = key;
-	}
 
 	public String getName() {
 		return _name;
@@ -32,4 +24,8 @@ public class Weekday {
 	public void setName(String name) {
 		_name = name;
 	}
+
+	public int getId() { return _id; }
+
+    public void setId(int id) { _id = id; }
 }

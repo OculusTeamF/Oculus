@@ -25,31 +25,18 @@ public class WeekdayBroker extends EntityBroker<Weekday,WeekdayEntity> {
     }
 
 	@Override
-	public Collection<Weekday> getAll(ISession session) {
-		return null;
-	}
-
-	@Override
-	public boolean saveEntity(ISession session, Weekday domainObj) {
-		return false;
-	}
-
-	@Override
-	public boolean saveAll(ISession session, Collection<Weekday> collection) {
-		return false;
-	}
-
-	@Override
 	protected Weekday persitentToDomain(WeekdayEntity entity) {
 		Weekday wd = new Weekday();
-		wd.setKey(entity.getWeekDayKey());
+        wd.setId(entity.getId());
 		wd.setName(entity.getName());
-
 		return wd;
 	}
 
 	@Override
 	protected WeekdayEntity domainToPersitent(Weekday entity) {
-		return null;
+		WeekdayEntity wde = new WeekdayEntity();
+		wde.setId(entity.getId());
+		wde.setName(entity.getName());
+		return wde;
 	}
 }

@@ -247,6 +247,36 @@ class HibernateSession implements ISession, ISessionClosable {
         return false;
     }
 
+	/**
+	 * Saves or updates a object in the database
+	 *
+	 * @return the unique id of the object in the database
+	 * @throws BadSessionException           if there is an Connection error
+	 * @throws AlreadyInTransactionException if no transaction is runnning
+	 */
+	@Override
+	public Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException  {
+		validateSession();
+
+		validateClass(obj.getClass());
+
+		if (_transaction == null) {
+			throw new NoTransactionException();
+		}
+
+		try {
+			_session.saveOrUpdate(obj);
+		} catch (HibernateException e) {
+			//Todo: add Logging
+			System.out.println("A error occurred when trying to save " + obj +"! OriginalMessage: " + e.getMessage());
+
+			rollback();
+			return false;
+		}
+
+		return false;
+	}
+
     /**
      * Closess the current session
      */

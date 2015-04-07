@@ -17,14 +17,24 @@ import javax.persistence.*;
 // TODO PropertyHelper für catalog="oculus_f"
 @Entity
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
-@IdClass(CalendarworkinghoursEntityPK.class)
 public class CalendarworkinghoursEntity {
+	private int _id;
     private int _workingHoursId;
     private int _calendarId;
     private WorkinghoursEntity _workinghours;
     private CalendarEntity _calendar;
 
-    @Id
+	@Id
+	@Column(name = "calendarWorkingHoursId", nullable = false, insertable = true, updatable = false)
+	public int getId() {
+		return _id;
+	}
+
+	public void setId(int calendarWorkingHoursId) {
+		_id = calendarWorkingHoursId;
+	}
+
+    @Basic
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
     public int getWorkingHoursId() {
         return _workingHoursId;
@@ -34,7 +44,7 @@ public class CalendarworkinghoursEntity {
         this._workingHoursId = workingHoursId;
     }
 
-    @Id
+    @Basic
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
     public int getCalendarId() {
         return _calendarId;
@@ -51,6 +61,7 @@ public class CalendarworkinghoursEntity {
 
         CalendarworkinghoursEntity that = (CalendarworkinghoursEntity) o;
 
+	    if (_id != that._id) return false;
         if (_workingHoursId != that._workingHoursId) return false;
         if (_calendarId != that._calendarId) return false;
 
@@ -61,6 +72,7 @@ public class CalendarworkinghoursEntity {
     public int hashCode() {
         int result = _workingHoursId;
         result = 31 * result + _calendarId;
+	    result = 31 * result + _id;
         return result;
     }
 

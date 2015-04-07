@@ -753,9 +753,10 @@
       <index name="calendarEvent_i4" unique="false" columns="patientName"/>
     </table>
     <table name="calendarworkinghours" schema="" catalog="oculus_f" type="TABLE">
-      <column name="workingHoursId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <column name="calendarId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <primary-key name="PRIMARY" columns="workingHoursId,calendarId"/>
+      <column name="calendarWorkingHoursId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="workingHoursId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="calendarId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="calendarWorkingHoursId"/>
       <foreign-key name="calendarworkinghours_ibfk_1" columns="workingHoursId" ref-table="workinghours" ref-schema="" ref-catalog="oculus_f" ref-columns="workingHoursId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="calendarworkinghours_ibfk_2" columns="calendarId" ref-table="calendar" ref-schema="" ref-catalog="oculus_f" ref-columns="calendarId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="calendarWorkingHours_i1" unique="false" columns="workingHoursId"/>
@@ -819,10 +820,11 @@
       <index name="examinationProtocol_i3" unique="false" columns="diagnosisId"/>
     </table>
     <table name="examinationprotocolservicecode" schema="" catalog="oculus_f" type="TABLE">
-      <column name="examinationProtocolId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <column name="serviceCodeId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <column name="insuranceCarrierKey" sqlType="VARCHAR" precision="4" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
-      <primary-key name="PRIMARY" columns="examinationProtocolId,serviceCodeId,insuranceCarrierKey"/>
+      <column name="examinationProtocolServiceCodeId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="examinationProtocolId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="serviceCodeId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="insuranceCarrierKey" sqlType="VARCHAR" precision="4" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="examinationProtocolServiceCodeId"/>
       <foreign-key name="examinationprotocolservicecode_ibfk_1" columns="examinationProtocolId" ref-table="examinationprotocol" ref-schema="" ref-catalog="oculus_f" ref-columns="examinationProtocolId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="examinationprotocolservicecode_ibfk_2" columns="serviceCodeId" ref-table="servicecode" ref-schema="" ref-catalog="oculus_f" ref-columns="serviceCodeId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="examinationprotocolservicecode_ibfk_3" columns="insuranceCarrierKey" ref-table="insurancecarrier" ref-schema="" ref-catalog="oculus_f" ref-columns="insuranceCarrierKey" update-rule="3" delete-rule="3" deferrability="2"/>
@@ -917,9 +919,10 @@
       <index name="prescription_i1" unique="false" columns="patientId"/>
     </table>
     <table name="prescriptionentry" schema="" catalog="oculus_f" type="TABLE">
-      <column name="prescriptionId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <column name="medicineId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <primary-key name="PRIMARY" columns="prescriptionId,medicineId"/>
+      <column name="prescriptionEntryId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="prescriptionId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="medicineId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="prescriptionEntryId"/>
       <foreign-key name="prescriptionentry_ibfk_1" columns="prescriptionId" ref-table="prescription" ref-schema="" ref-catalog="oculus_f" ref-columns="prescriptionId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="prescriptionentry_ibfk_2" columns="medicineId" ref-table="medicine" ref-schema="" ref-catalog="oculus_f" ref-columns="medicineId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="prescriptionEntry_i1" unique="false" columns="prescriptionId"/>
@@ -1022,10 +1025,9 @@
       <index name="visualAid_i1" unique="false" columns="diagnosisId"/>
     </table>
     <table name="weekday" schema="" catalog="oculus_f" type="TABLE">
-      <column name="weekdayId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="weekDayKey" sqlType="CHAR" precision="3" scale="0" nullable="true" jdbcType="1"/>
+      <column name="weekDayId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="name" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="weekdayId"/>
+      <primary-key name="PRIMARY" columns="weekDayId"/>
       <exported-key name="workinghours_ibfk_1" table="workinghours" schema="" catalog="oculus_f" columns="weekDayId"/>
     </table>
     <table name="workdisability" schema="" catalog="oculus_f" type="TABLE">
@@ -1047,7 +1049,7 @@
       <column name="afternoonFrom" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
       <column name="afternoonTo" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
       <primary-key name="PRIMARY" columns="workingHoursId"/>
-      <foreign-key name="workinghours_ibfk_1" columns="weekDayId" ref-table="weekday" ref-schema="" ref-catalog="oculus_f" ref-columns="weekdayId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="workinghours_ibfk_1" columns="weekDayId" ref-table="weekday" ref-schema="" ref-catalog="oculus_f" ref-columns="weekDayId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="calendarworkinghours_ibfk_1" table="calendarworkinghours" schema="" catalog="oculus_f" columns="workingHoursId"/>
       <index name="weekDayId" unique="true" columns="morningFrom,morningTo,afternoonFrom,afternoonTo"/>
       <index name="workingHours_i1" unique="false" columns="weekDayId"/>

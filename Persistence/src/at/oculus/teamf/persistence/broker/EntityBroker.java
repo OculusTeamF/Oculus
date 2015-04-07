@@ -68,7 +68,7 @@ public abstract class EntityBroker<D, P> {
         try {
             session.beginTransaction();
 
-            session.save(entity);
+            session.saveOrUpdate(entity);
 
             session.commit();
 

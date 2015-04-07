@@ -18,7 +18,6 @@ import javax.persistence.*;
 @Table(name = "weekday", schema = "", catalog = "oculus_f")
 public class WeekdayEntity {
 	private int _id;
-    private String _weekDayKey;
     private String _name;
 
 	@Id
@@ -30,16 +29,6 @@ public class WeekdayEntity {
 	public void setId(int id) {
 		_id = id;
 	}
-
-    @Basic
-    @Column(name = "weekDayKey", nullable = false, insertable = true, updatable = true, length = 3)
-    public String getWeekDayKey() {
-        return _weekDayKey;
-    }
-
-    public void setWeekDayKey(String weekDayKey) {
-        this._weekDayKey = weekDayKey;
-    }
 
     @Basic
     @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 10)
@@ -58,7 +47,6 @@ public class WeekdayEntity {
 
         WeekdayEntity that = (WeekdayEntity) o;
 
-        if (_weekDayKey != null ? !_weekDayKey.equals(that._weekDayKey) : that._weekDayKey != null) return false;
         if (_name != null ? !_name.equals(that._name) : that._name != null) return false;
 
         return true;
@@ -66,8 +54,7 @@ public class WeekdayEntity {
 
     @Override
     public int hashCode() {
-        int result = _weekDayKey != null ? _weekDayKey.hashCode() : 0;
-        result = 31 * result + (_name != null ? _name.hashCode() : 0);
+        int result = _name != null ? _name.hashCode() : 0;
         return result;
     }
 }

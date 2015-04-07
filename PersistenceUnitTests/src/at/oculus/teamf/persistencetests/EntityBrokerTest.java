@@ -29,7 +29,25 @@ public class EntityBrokerTest {
 		facade.init(brokers);
 
 		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
-		System.out.println(wd.getName());
+		//System.out.println(wd.getName());
 		assertTrue(wd!=null);
+	}
+
+	@org.junit.Test
+	public void testSetEntity() throws Exception {
+		Facade facade = Facade.getInstance();
+		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
+		brokers.add(new WeekdayBroker());
+		facade.init(brokers);
+
+		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
+		//System.out.println(wd.getName());
+		wd.setName("Mondayay");
+		assertTrue(facade.save(wd));
+		Weekday wdNew = (Weekday) facade.getById(Weekday.class, 1);
+		//System.out.println(wd.getName());
+		assertTrue(wd.getName().equals("Mondayay"));
+		wd.setName("Monday");
+		assertTrue(facade.save(wd));
 	}
 }
