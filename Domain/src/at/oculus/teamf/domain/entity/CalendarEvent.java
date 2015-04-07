@@ -9,15 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
-import at.oculus.teamf.persistence.entity.CalendareventEntity;
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.entity.PatientEntity;
-import at.oculus.teamf.persistence.facade.Facade;
-
 import java.util.Date;
-import java.util.LinkedList;
 
 /**
  * Todo: add docs, implement equals
@@ -25,8 +17,7 @@ import java.util.LinkedList;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-@EntityClass("CalendareventEntity.class")
-public class CalendarEvent implements DomainEntity {
+public class CalendarEvent {
 
     //<editor-fold desc="Attributes">
     private int _eventID;
@@ -75,36 +66,5 @@ public class CalendarEvent implements DomainEntity {
     public void setPatient(Patient patient) {
         _patient = patient;
     }
-
-	@Override
-	public int getId() {
-		return _eventID;
-	}
-
-	@Override
-	public void set(IEntity entity) {
-		CalendareventEntity that = (CalendareventEntity) entity;
-		this.setEventID(that.getCalendarEventId());
-		this.setDescription(that.getDescription());
-		this.setEventStart(that.getEventStart());
-		this.setEventEnd(that.getEventEnd());
-		// load patient
-		LinkedList<Class> clazzes = new LinkedList<Class>();
-		clazzes.add(PatientEntity.class);
-		Facade facade = Facade.getInstance(clazzes);
-		try {
-			this.setPatient((Patient) facade.getObjectById(Patient.class,that.getPatientId().getPatientId()));
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (BadSessionException e) {
-			e.printStackTrace();
-		} catch (ClassNotMappedException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		}
-	}
 	//</editor-fold>
 }

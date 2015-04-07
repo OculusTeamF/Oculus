@@ -10,7 +10,6 @@
 package at.oculus.teamf.persistence.facade;
 
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
-import at.oculus.teamf.domain.entity.DomainEntity;
 import at.oculus.teamf.persistence.broker.EntityBroker;
 
 import java.util.Collection;
@@ -38,7 +37,7 @@ public class Facade {
 		return _self;
 	}
 
-	public DomainEntity getById(Class clazz, int id) {
+	public Object getById(Class clazz, int id) {
 		return null;
 	}
 
@@ -46,11 +45,11 @@ public class Facade {
 		return null;
 	}
 
-	public Collection reloadCollection(DomainEntity entity, Class clazz) throws CantReloadException {
+	public Collection reloadCollection(Object entity, Class clazz) throws CantReloadException {
 		return null;
 	}
 
-	public boolean save(DomainEntity entity) {
+	public boolean save(Object entity) {
 		return false;
 	}
 }

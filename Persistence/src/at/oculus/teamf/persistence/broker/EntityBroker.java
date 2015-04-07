@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistence.broker;
 
-import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.facade.IEntity;
 
 import java.util.Collection;
 

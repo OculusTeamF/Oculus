@@ -9,9 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.entity.CalendarEntity;
-import at.oculus.teamf.persistence.entity.IEntity;
-
 import java.util.Collection;
 
 /**
@@ -20,7 +17,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Calendar implements DomainEntity {
+public class Calendar {
 
     //<editor-fold desc="Attributes">
     private int _calendarID;
@@ -44,15 +41,5 @@ public class Calendar implements DomainEntity {
         _events =events;
     }
 
-	@Override
-	public int getId() {
-		return _calendarID;
-	}
-
-	@Override
-	public void set(IEntity entity) {
-		CalendarEntity that = (CalendarEntity) entity;
-		this.setCalendarID(that.getCalendarId());
-	}
 	//</editor-fold>
 }

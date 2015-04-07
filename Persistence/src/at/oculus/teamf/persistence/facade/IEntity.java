@@ -7,15 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
-
-import at.oculus.teamf.persistence.entity.IEntity;
+package at.oculus.teamf.persistence.facade;
 
 /**
- * DomainEntity.java Created by oculus on 06.04.15.
+ * Created by Norskan on 07.04.2015.
  */
-public interface DomainEntity {
-	int getId();
-
-	void set(IEntity entity);
+public interface IEntity {
 }

@@ -1,21 +1,26 @@
-package at.oculus.teamf.persistence.entity;
+/*
+ * Copyright (c) 2015 Team F
+ *
+ * This file is part of Oculus.
+ * Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import at.oculus.teamf.domain.entity.Patient;
+package at.oculus.teamf.persistence.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 /**
- * Represents a Patiententity that can be mapped into the database via Hibernate
- * @author Simon Angerer
- * @date 30.3.2015
+ * Created by Norskan on 07.04.2015.
  */
 @Entity
-@Table(name = "patient", schema = "", catalog = "oculus")
+@Table(name = "patient", schema = "", catalog = "oculus_f")
 public class PatientEntity {
-
-    // <editor-fold desc="Attributes">
     private int patientId;
+    private Integer doctorId;
     private String socialInsuranceNr;
     private String firstName;
     private String lastName;
@@ -30,11 +35,10 @@ public class PatientEntity {
     private String allergy;
     private String childhoodAilments;
     private String medicineIntolerance;
-    private DoctorEntity doctorId;
+    private Collection<CalendareventEntity> calendareventsByPatientId;
+    private DoctorEntity doctorByDoctorId;
+    private Collection<QueueEntity> queuesByPatientId;
 
-	// </editor-fold>
-
-    // <editor-fold desc="Getter/Setter">
     @Id
     @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
     public int getPatientId() {
@@ -43,6 +47,16 @@ public class PatientEntity {
 
     public void setPatientId(int patientId) {
         this.patientId = patientId;
+    }
+
+    @Basic
+    @Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
     }
 
     @Basic
@@ -185,18 +199,6 @@ public class PatientEntity {
         this.medicineIntolerance = medicineIntolerance;
     }
 
-    @OneToOne
-    @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
-    public DoctorEntity getDoctor() {
-        return doctorId;
-    }
-
-    public void setDoctor(DoctorEntity doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    // </editor-fold>
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -205,6 +207,7 @@ public class PatientEntity {
         PatientEntity that = (PatientEntity) o;
 
         if (patientId != that.patientId) return false;
+        if (doctorId != null ? !doctorId.equals(that.doctorId) : that.doctorId != null) return false;
         if (socialInsuranceNr != null ? !socialInsuranceNr.equals(that.socialInsuranceNr) : that.socialInsuranceNr != null)
             return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
@@ -230,6 +233,7 @@ public class PatientEntity {
     @Override
     public int hashCode() {
         int result = patientId;
+        result = 31 * result + (doctorId != null ? doctorId.hashCode() : 0);
         result = 31 * result + (socialInsuranceNr != null ? socialInsuranceNr.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
@@ -247,4 +251,31 @@ public class PatientEntity {
         return result;
     }
 
+    @OneToMany(mappedBy = "patientByPatientId")
+    public Collection<CalendareventEntity> getCalendareventsByPatientId() {
+        return calendareventsByPatientId;
+    }
+
+    public void setCalendareventsByPatientId(Collection<CalendareventEntity> calendareventsByPatientId) {
+        this.calendareventsByPatientId = calendareventsByPatientId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
+    public DoctorEntity getDoctorByDoctorId() {
+        return doctorByDoctorId;
+    }
+
+    public void setDoctorByDoctorId(DoctorEntity doctorByDoctorId) {
+        this.doctorByDoctorId = doctorByDoctorId;
+    }
+
+    @OneToMany(mappedBy = "patientByPatientId")
+    public Collection<QueueEntity> getQueuesByPatientId() {
+        return queuesByPatientId;
+    }
+
+    public void setQueuesByPatientId(Collection<QueueEntity> queuesByPatientId) {
+        this.queuesByPatientId = queuesByPatientId;
+    }
 }
