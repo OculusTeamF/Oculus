@@ -11,7 +11,6 @@ package at.oculus.teamf.persistence.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 /**
  * Created by Norskan on 07.04.2015.
@@ -29,10 +28,7 @@ public class UserEntity {
     private String _email;
     private Timestamp _createDate;
     private Timestamp _idleDate;
-    private Collection<DoctorEntity> _doctorsByUserId;
-    private Collection<OrthoptistEntity> _orthoptistsByUserId;
-    private Collection<ReceptionistEntity> _receptionistsByUserId;
-    private UsergroupEntity _usergroupByUserGroupId;
+    private UsergroupEntity _usergroup;
 
     @Id
     @Column(name = "userId", nullable = false, insertable = true, updatable = true)
@@ -170,40 +166,14 @@ public class UserEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<DoctorEntity> get_doctorsByUserId() {
-        return _doctorsByUserId;
-    }
-
-    public void set_doctorsByUserId(Collection<DoctorEntity> doctorsByUserId) {
-        _doctorsByUserId = doctorsByUserId;
-    }
-
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<OrthoptistEntity> get_orthoptistsByUserId() {
-        return _orthoptistsByUserId;
-    }
-
-    public void set_orthoptistsByUserId(Collection<OrthoptistEntity> orthoptistsByUserId) {
-        _orthoptistsByUserId = orthoptistsByUserId;
-    }
-
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<ReceptionistEntity> get_receptionistsByUserId() {
-        return _receptionistsByUserId;
-    }
-
-    public void set_receptionistsByUserId(Collection<ReceptionistEntity> receptionistsByUserId) {
-        _receptionistsByUserId = receptionistsByUserId;
-    }
 
     @ManyToOne
     @JoinColumn(name = "userGroupId", referencedColumnName = "userGroupId")
-    public UsergroupEntity get_usergroupByUserGroupId() {
-        return _usergroupByUserGroupId;
+    public UsergroupEntity getUsergroup() {
+        return _usergroup;
     }
 
-    public void set_usergroupByUserGroupId(UsergroupEntity usergroupByUserGroupId) {
-        this._usergroupByUserGroupId = usergroupByUserGroupId;
+    public void setUsergroup(UsergroupEntity usergroup) {
+       _usergroup = usergroup;
     }
 }

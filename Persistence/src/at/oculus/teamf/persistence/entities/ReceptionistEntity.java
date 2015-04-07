@@ -17,14 +17,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "receptionist", schema = "", catalog = "oculus_f")
 public class ReceptionistEntity {
-    private int receptionistId;
-    private Integer userId;
-    private UserEntity userByUserId;
+    private int _receptionistId;
+    private Integer _userId;
+    private UserEntity _user;
 
     @Id
     @Column(name = "receptionistId", nullable = false, insertable = true, updatable = true)
     public int getReceptionistId() {
-        return receptionistId;
+        return _receptionistId;
     }
 
     public void setReceptionistId(int receptionistId) {
@@ -34,7 +34,7 @@ public class ReceptionistEntity {
     @Basic
     @Column(name = "userId", nullable = true, insertable = true, updatable = true)
     public Integer getUserId() {
-        return userId;
+        return _userId;
     }
 
     public void setUserId(Integer userId) {
@@ -48,26 +48,26 @@ public class ReceptionistEntity {
 
         ReceptionistEntity that = (ReceptionistEntity) o;
 
-        if (receptionistId != that.receptionistId) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (_receptionistId != that._receptionistId) return false;
+        if (_userId != null ? !_userId.equals(that._userId) : that._userId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = receptionistId;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        int result = _receptionistId;
+        result = 31 * result + (_userId != null ? _userId.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    public UserEntity getUserByUserId() {
-        return userByUserId;
+    public UserEntity getUser() {
+        return _user;
     }
 
-    public void setUserByUserId(UserEntity userByUserId) {
+    public void setUser(UserEntity userByUserId) {
         userByUserId = userByUserId;
     }
 }

@@ -19,76 +19,76 @@ import java.util.Collection;
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")
 public class QueueEntity {
-    private int queueId;
-    private Integer doctorId;
-    private Integer orthoptistId;
-    private int patientId;
-    private Integer queueIdParent;
-    private Timestamp arrivalTime;
-    private DoctorEntity doctorByDoctorId;
-    private PatientEntity patientByPatientId;
-    private OrthoptistEntity orthoptistByOrthoptistId;
-    private QueueEntity queueByQueueIdParent;
-    private Collection<QueueEntity> queuesByQueueId;
+    private int _id;
+    private Integer _doctorId;
+    private Integer _orthoptistId;
+    private int _patientId;
+    private Integer _queueIdParent;
+    private Timestamp _arrivalTime;
+    private DoctorEntity _doctor;
+    private PatientEntity _patient;
+    private OrthoptistEntity _orthoptist;
+    private QueueEntity _queue;
+    private Collection<QueueEntity> _queues;
 
     @Id
     @Column(name = "queueId", nullable = false, insertable = true, updatable = true)
-    public int getQueueId() {
-        return queueId;
+    public int getId() {
+        return _id;
     }
 
-    public void setQueueId(int queueId) {
-        this.queueId = queueId;
+    public void setId(int queueId) {
+        this._id = queueId;
     }
 
     @Basic
     @Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
     public Integer getDoctorId() {
-        return doctorId;
+        return _doctorId;
     }
 
     public void setDoctorId(Integer doctorId) {
-        this.doctorId = doctorId;
+        this._doctorId = doctorId;
     }
 
     @Basic
     @Column(name = "orthoptistId", nullable = true, insertable = true, updatable = true)
     public Integer getOrthoptistId() {
-        return orthoptistId;
+        return _orthoptistId;
     }
 
     public void setOrthoptistId(Integer orthoptistId) {
-        this.orthoptistId = orthoptistId;
+        this._orthoptistId = orthoptistId;
     }
 
     @Basic
     @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
     public int getPatientId() {
-        return patientId;
+        return _patientId;
     }
 
     public void setPatientId(int patientId) {
-        this.patientId = patientId;
+        this._patientId = patientId;
     }
 
     @Basic
     @Column(name = "queueIdParent", nullable = true, insertable = true, updatable = true)
     public Integer getQueueIdParent() {
-        return queueIdParent;
+        return _queueIdParent;
     }
 
     public void setQueueIdParent(Integer queueIdParent) {
-        this.queueIdParent = queueIdParent;
+        this._queueIdParent = queueIdParent;
     }
 
     @Basic
     @Column(name = "arrivalTime", nullable = false, insertable = true, updatable = true)
     public Timestamp getArrivalTime() {
-        return arrivalTime;
+        return _arrivalTime;
     }
 
     public void setArrivalTime(Timestamp arrivalTime) {
-        this.arrivalTime = arrivalTime;
+        this._arrivalTime = arrivalTime;
     }
 
     @Override
@@ -98,74 +98,74 @@ public class QueueEntity {
 
         QueueEntity that = (QueueEntity) o;
 
-        if (queueId != that.queueId) return false;
-        if (patientId != that.patientId) return false;
-        if (doctorId != null ? !doctorId.equals(that.doctorId) : that.doctorId != null) return false;
-        if (orthoptistId != null ? !orthoptistId.equals(that.orthoptistId) : that.orthoptistId != null) return false;
-        if (queueIdParent != null ? !queueIdParent.equals(that.queueIdParent) : that.queueIdParent != null)
+        if (_id != that._id) return false;
+        if (_patientId != that._patientId) return false;
+        if (_doctorId != null ? !_doctorId.equals(that._doctorId) : that._doctorId != null) return false;
+        if (_orthoptistId != null ? !_orthoptistId.equals(that._orthoptistId) : that._orthoptistId != null) return false;
+        if (_queueIdParent != null ? !_queueIdParent.equals(that._queueIdParent) : that._queueIdParent != null)
             return false;
-        if (arrivalTime != null ? !arrivalTime.equals(that.arrivalTime) : that.arrivalTime != null) return false;
+        if (_arrivalTime != null ? !_arrivalTime.equals(that._arrivalTime) : that._arrivalTime != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = queueId;
-        result = 31 * result + (doctorId != null ? doctorId.hashCode() : 0);
-        result = 31 * result + (orthoptistId != null ? orthoptistId.hashCode() : 0);
-        result = 31 * result + patientId;
-        result = 31 * result + (queueIdParent != null ? queueIdParent.hashCode() : 0);
-        result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
+        int result = _id;
+        result = 31 * result + (_doctorId != null ? _doctorId.hashCode() : 0);
+        result = 31 * result + (_orthoptistId != null ? _orthoptistId.hashCode() : 0);
+        result = 31 * result + _patientId;
+        result = 31 * result + (_queueIdParent != null ? _queueIdParent.hashCode() : 0);
+        result = 31 * result + (_arrivalTime != null ? _arrivalTime.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
-    public DoctorEntity getDoctorByDoctorId() {
-        return doctorByDoctorId;
+    public DoctorEntity getDoctor() {
+        return _doctor;
     }
 
-    public void setDoctorByDoctorId(DoctorEntity doctorByDoctorId) {
-        this.doctorByDoctorId = doctorByDoctorId;
+    public void setDoctor(DoctorEntity doctor) {
+        this._doctor = doctor;
     }
 
     @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "patientId", nullable = false)
-    public PatientEntity getPatientByPatientId() {
-        return patientByPatientId;
+    public PatientEntity getPatient() {
+        return _patient;
     }
 
-    public void setPatientByPatientId(PatientEntity patientByPatientId) {
-        this.patientByPatientId = patientByPatientId;
+    public void setPatient(PatientEntity patientByPatientId) {
+        this._patient = patientByPatientId;
     }
 
     @ManyToOne
     @JoinColumn(name = "orthoptistId", referencedColumnName = "orthoptistId")
-    public OrthoptistEntity getOrthoptistByOrthoptistId() {
-        return orthoptistByOrthoptistId;
+    public OrthoptistEntity getOrthoptist() {
+        return _orthoptist;
     }
 
-    public void setOrthoptistByOrthoptistId(OrthoptistEntity orthoptistByOrthoptistId) {
-        this.orthoptistByOrthoptistId = orthoptistByOrthoptistId;
+    public void setOrthoptist(OrthoptistEntity orthoptist) {
+        this._orthoptist = orthoptist;
     }
 
     @ManyToOne
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")
-    public QueueEntity getQueueByQueueIdParent() {
-        return queueByQueueIdParent;
+    public QueueEntity getQueue() {
+        return _queue;
     }
 
-    public void setQueueByQueueIdParent(QueueEntity queueByQueueIdParent) {
-        this.queueByQueueIdParent = queueByQueueIdParent;
+    public void setQueue(QueueEntity queue) {
+        this._queue = queue;
     }
 
-    @OneToMany(mappedBy = "queueByQueueIdParent")
-    public Collection<QueueEntity> getQueuesByQueueId() {
-        return queuesByQueueId;
+    @OneToMany(mappedBy = "_queue")
+    public Collection<QueueEntity> getQueues() {
+        return _queues;
     }
 
-    public void setQueuesByQueueId(Collection<QueueEntity> queuesByQueueId) {
-        this.queuesByQueueId = queuesByQueueId;
+    public void setQueues(Collection<QueueEntity> queues) {
+        this._queues = queues;
     }
 }

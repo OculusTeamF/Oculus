@@ -21,7 +21,7 @@ public class UsergroupEntity {
     private int _userGroupId;
     private String _userGroupName;
     private String _description;
-    private Collection<UserEntity> _usersByUserGroupId;
+    private Collection<UserEntity> _users;
 
     @Id
     @Column(name = "userGroupId", nullable = false, insertable = true, updatable = true)
@@ -30,7 +30,7 @@ public class UsergroupEntity {
     }
 
     public void setUserGroupId(int userGroupId) {
-        _userGroupId = userGroupId;
+        this._userGroupId = userGroupId;
     }
 
     @Basic
@@ -40,7 +40,7 @@ public class UsergroupEntity {
     }
 
     public void setUserGroupName(String userGroupName) {
-        _userGroupName = userGroupName;
+        this._userGroupName = userGroupName;
     }
 
     @Basic
@@ -50,7 +50,7 @@ public class UsergroupEntity {
     }
 
     public void setDescription(String description) {
-        _description = description;
+        this._description = description;
     }
 
     @Override
@@ -77,11 +77,11 @@ public class UsergroupEntity {
     }
 
     @OneToMany(mappedBy = "_usergroupByUserGroupId")
-    public Collection<UserEntity> getUsersByUserGroupId() {
-        return _usersByUserGroupId;
+    public Collection<UserEntity> get_users() {
+        return _users;
     }
 
-    public void setUsersByUserGroupId(Collection<UserEntity> usersByUserGroupId) {
-        _usersByUserGroupId = usersByUserGroupId;
+    public void set_users(Collection<UserEntity> usersByUserGroupId) {
+        _users = usersByUserGroupId;
     }
 }

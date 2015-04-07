@@ -18,41 +18,41 @@ import java.util.Collection;
 @Entity
 @Table(name = "orthoptist", schema = "", catalog = "oculus_f")
 public class OrthoptistEntity {
-    private int orthoptistId;
-    private Integer userId;
-    private int calendarId;
-    private UserEntity userByUserId;
-    private CalendarEntity calendarByCalendarId;
-    private Collection<QueueEntity> queuesByOrthoptistId;
+    private int _id;
+    private Integer _userId;
+    private int _calendarId;
+    private UserEntity _user;
+    private CalendarEntity _calendar;
+    private Collection<QueueEntity> _queues;
 
     @Id
     @Column(name = "orthoptistId", nullable = false, insertable = true, updatable = true)
-    public int getOrthoptistId() {
-        return orthoptistId;
+    public int get_id() {
+        return _id;
     }
 
-    public void setOrthoptistId(int orthoptistId) {
-        this.orthoptistId = orthoptistId;
+    public void set_id(int orthoptistId) {
+        this._id = orthoptistId;
     }
 
     @Basic
     @Column(name = "userId", nullable = true, insertable = true, updatable = true)
-    public Integer getUserId() {
-        return userId;
+    public Integer get_userId() {
+        return _userId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void set_userId(Integer userId) {
+        this._userId = userId;
     }
 
     @Basic
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
-    public int getCalendarId() {
-        return calendarId;
+    public int get_calendarId() {
+        return _calendarId;
     }
 
-    public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
+    public void set_calendarId(int calendarId) {
+        this._calendarId = calendarId;
     }
 
     @Override
@@ -62,47 +62,47 @@ public class OrthoptistEntity {
 
         OrthoptistEntity that = (OrthoptistEntity) o;
 
-        if (orthoptistId != that.orthoptistId) return false;
-        if (calendarId != that.calendarId) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (_id != that._id) return false;
+        if (_calendarId != that._calendarId) return false;
+        if (_userId != null ? !_userId.equals(that._userId) : that._userId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = orthoptistId;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + calendarId;
+        int result = _id;
+        result = 31 * result + (_userId != null ? _userId.hashCode() : 0);
+        result = 31 * result + _calendarId;
         return result;
     }
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    public UserEntity getUserByUserId() {
-        return userByUserId;
+    public UserEntity getUser() {
+        return _user;
     }
 
-    public void setUserByUserId(UserEntity userByUserId) {
-        this.userByUserId = userByUserId;
+    public void setUser(UserEntity userByUserId) {
+        this._user = userByUserId;
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
-    public CalendarEntity getCalendarByCalendarId() {
-        return calendarByCalendarId;
+    public CalendarEntity getCalendar() {
+        return _calendar;
     }
 
-    public void setCalendarByCalendarId(CalendarEntity calendarByCalendarId) {
-        this.calendarByCalendarId = calendarByCalendarId;
+    public void setCalendar(CalendarEntity calendar) {
+        this._calendar = calendar;
     }
 
-    @OneToMany(mappedBy = "orthoptistByOrthoptistId")
-    public Collection<QueueEntity> getQueuesByOrthoptistId() {
-        return queuesByOrthoptistId;
+    @OneToMany(mappedBy = "queueId")
+    public Collection<QueueEntity> getQueues() {
+        return _queues;
     }
 
-    public void setQueuesByOrthoptistId(Collection<QueueEntity> queuesByOrthoptistId) {
-        this.queuesByOrthoptistId = queuesByOrthoptistId;
+    public void setQueues(Collection<QueueEntity> queues) {
+        this._queues = queues;
     }
 }
