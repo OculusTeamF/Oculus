@@ -30,7 +30,7 @@ public class WeekdayBroker extends EntityBroker<Weekday,WeekdayEntity> {
 	}
 
 	@Override
-	public boolean saveEntity(ISession session, Weekday entity) {
+	public boolean saveEntity(ISession session, Weekday domainObj) {
 		return false;
 	}
 

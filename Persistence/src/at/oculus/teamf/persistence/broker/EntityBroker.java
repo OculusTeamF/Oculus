@@ -9,14 +9,14 @@
 
 package at.oculus.teamf.persistence.broker;
 
-import at.oculus.teamf.databaseconnection.session.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
-import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Created by Norskan on 30.03.2015.
+ * //Todo: add loging, comments docs etz
  */
 public abstract class EntityBroker<D, P> {
 
@@ -44,11 +44,79 @@ public abstract class EntityBroker<D, P> {
 	    return result;
     }
 
-    public abstract Collection<D> getAll(ISession session);
+    public Collection<D> getAll(ISession session) {
+        Collection<P> entities = null;
+        try {
+            entities = (Collection<P>) session.getAll(_entityClass);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
+        } catch (ClassNotMappedException e) {
+            e.printStackTrace();
+        }
 
-    public abstract boolean saveEntity(ISession session, D entity);
+        Collection<D> domainObjects = new ArrayList<D>();
+        for(P entity : entities) {
+            domainObjects.add(persitentToDomain(entity));
+        }
 
-    public abstract boolean saveAll(ISession session, Collection<D> collection);
+        return domainObjects;
+    }
+
+    public boolean saveEntity(ISession session, D domainObj) {
+        P entity = domainToPersitent(domainObj);
+
+        try {
+            session.beginTransaction();
+
+            session.save(entity);
+
+            session.commit();
+
+        } catch (BadSessionException e) {
+            e.printStackTrace();
+            return false;
+        } catch (AlreadyInTransactionException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NoTransactionException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotMappedException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean saveAll(ISession session, Collection<D> domainObjs) {
+        Collection<P> entities = new ArrayList<P>();
+        for(D obj : domainObjs) {
+            entities.add(domainToPersitent(obj));
+        }
+
+        try {
+            session.beginTransaction();
+            for(P entity : entities){
+                session.save(entity);
+            }
+
+        } catch (BadSessionException e) {
+            e.printStackTrace();
+            return false;
+        } catch (AlreadyInTransactionException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NoTransactionException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotMappedException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 
 	protected abstract D persitentToDomain(P entity);
 

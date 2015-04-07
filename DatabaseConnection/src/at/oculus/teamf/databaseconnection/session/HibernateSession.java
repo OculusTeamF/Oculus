@@ -238,7 +238,7 @@ class HibernateSession implements ISession, ISessionClosable {
             _session.save(obj);
         } catch (HibernateException e) {
             //Todo: add Logging
-            System.out.println("A error occurred when rolling back the transaction! OriginalMessage: " + e.getMessage());
+            System.out.println("A error occurred when trying to save " + obj +"! OriginalMessage: " + e.getMessage());
 
             rollback();
             return false;
