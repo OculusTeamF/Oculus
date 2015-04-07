@@ -20,17 +20,17 @@ import java.util.Collection;
 public class Calendar {
 
     //<editor-fold desc="Attributes">
-    private int _calendarID;
+    private int _id;
     private Collection<CalendarEvent> _events;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
     public int getCalendarID() {
-        return _calendarID;
+        return _id;
     }
 
     public void setCalendarID(int calendarID) {
-        _calendarID = calendarID;
+        _id = calendarID;
     }
 
     public Collection<CalendarEvent> getEvents() {

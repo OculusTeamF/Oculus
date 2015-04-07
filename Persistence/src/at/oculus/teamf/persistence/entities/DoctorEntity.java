@@ -123,7 +123,7 @@ public class DoctorEntity {
         this._doctorSubstitute = doctor;
     }
 
-    @OneToMany(mappedBy = "doctorByDoctorId")
+    @OneToMany(mappedBy = "doctor")
     public Collection<PatientEntity> getPatients() {
         return _patients;
     }
@@ -132,7 +132,7 @@ public class DoctorEntity {
         this._patients = patients;
     }
 
-    @OneToMany(mappedBy = "queueByQueueId")
+    @OneToMany(mappedBy = "queue")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

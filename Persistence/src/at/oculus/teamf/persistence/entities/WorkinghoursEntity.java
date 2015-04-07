@@ -25,8 +25,8 @@ public class WorkinghoursEntity {
     private Time _morningTo;
     private Time _afternoonFrom;
     private Time _afternoonTo;
-    private Collection<CalendarworkinghoursEntity> _calendarworkinghours;
-    private WeekdayEntity _weekday;
+    private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
+    private WeekdayEntity _weekdayByWeekDayKey;
 
     @Id
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
@@ -117,22 +117,22 @@ public class WorkinghoursEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "workinghoursByWorkingHoursId")
-    public Collection<CalendarworkinghoursEntity> getCalendarworkinghours() {
-        return _calendarworkinghours;
+    @OneToMany(mappedBy = "_workinghours")
+    public Collection<CalendarworkinghoursEntity> getCalendarworkinghoursesByWorkingHoursId() {
+        return _calendarworkinghoursesByWorkingHoursId;
     }
 
-    public void setCalendarworkinghours(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId) {
-        _calendarworkinghours = calendarworkinghoursesByWorkingHoursId;
+    public void setCalendarworkinghoursesByWorkingHoursId(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId) {
+        this._calendarworkinghoursesByWorkingHoursId = calendarworkinghoursesByWorkingHoursId;
     }
 
     @ManyToOne
     @JoinColumn(name = "weekDayKey", referencedColumnName = "weekDayKey", nullable = false)
-    public WeekdayEntity getWeekday() {
-        return _weekday;
+    public WeekdayEntity getWeekdayByWeekDayKey() {
+        return _weekdayByWeekDayKey;
     }
 
-    public void setWeekday(WeekdayEntity weekday) {
-        _weekday = weekday;
+    public void setWeekdayByWeekDayKey(WeekdayEntity weekdayByWeekDayKey) {
+        this._weekdayByWeekDayKey = weekdayByWeekDayKey;
     }
 }

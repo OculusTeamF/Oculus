@@ -18,31 +18,31 @@ import java.util.Collection;
 @Entity
 @Table(name = "calendar", schema = "", catalog = "oculus_f")
 public class CalendarEntity {
-    private int calendarId;
-    private String title;
-    private Collection<CalendareventEntity> calendareventsByCalendarId;
-    private Collection<CalendarworkinghoursEntity> calendarworkinghoursesByCalendarId;
-    private Collection<DoctorEntity> doctorsByCalendarId;
-    private Collection<OrthoptistEntity> orthoptistsByCalendarId;
+    private int _id;
+    private String _title;
+    private Collection<CalendareventEntity> _calendarevents;
+    private Collection<CalendarworkinghoursEntity> _calendarworkinghours;
+    private DoctorEntity _doctor;
+    private OrthoptistEntity _orthoptist;
 
     @Id
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
-    public int getCalendarId() {
-        return calendarId;
+    public int getId() {
+        return _id;
     }
 
-    public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
+    public void setId(int calendarId) {
+        this._id = calendarId;
     }
 
     @Basic
     @Column(name = "title", nullable = true, insertable = true, updatable = true, length = 255)
     public String getTitle() {
-        return title;
+        return _title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this._title = title;
     }
 
     @Override
@@ -52,52 +52,52 @@ public class CalendarEntity {
 
         CalendarEntity that = (CalendarEntity) o;
 
-        if (calendarId != that.calendarId) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (_id != that._id) return false;
+        if (_title != null ? !_title.equals(that._title) : that._title != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = calendarId;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        int result = _id;
+        result = 31 * result + (_title != null ? _title.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "calendarByCalendarId")
-    public Collection<CalendareventEntity> getCalendareventsByCalendarId() {
-        return calendareventsByCalendarId;
+    @OneToMany(mappedBy = "calendar")
+    public Collection<CalendareventEntity> getCalendarEvents() {
+        return _calendarevents;
     }
 
-    public void setCalendareventsByCalendarId(Collection<CalendareventEntity> calendareventsByCalendarId) {
-        this.calendareventsByCalendarId = calendareventsByCalendarId;
+    public void setCalendarEvents(Collection<CalendareventEntity> calendarEvents) {
+        _calendarevents = calendarEvents;
     }
 
-    @OneToMany(mappedBy = "calendarByCalendarId")
-    public Collection<CalendarworkinghoursEntity> getCalendarworkinghoursesByCalendarId() {
-        return calendarworkinghoursesByCalendarId;
+    @OneToMany(mappedBy = "calendar")
+    public Collection<CalendarworkinghoursEntity> getCalendarWorkingHours() {
+        return _calendarworkinghours;
     }
 
-    public void setCalendarworkinghoursesByCalendarId(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByCalendarId) {
-        this.calendarworkinghoursesByCalendarId = calendarworkinghoursesByCalendarId;
+    public void setCalendarWorkingHours(Collection<CalendarworkinghoursEntity> calendarworkinghourses) {
+        _calendarworkinghours = calendarworkinghourses;
     }
 
-    @OneToMany(mappedBy = "calendarByCalendarId")
-    public Collection<DoctorEntity> getDoctorsByCalendarId() {
-        return doctorsByCalendarId;
+    @OneToOne
+    public DoctorEntity getDoctor() {
+        return _doctor;
     }
 
-    public void setDoctorsByCalendarId(Collection<DoctorEntity> doctorsByCalendarId) {
-        this.doctorsByCalendarId = doctorsByCalendarId;
+    public void setDoctor(DoctorEntity doctorByCalendarId) {
+        _doctor = _doctor;
     }
 
-    @OneToMany(mappedBy = "calendarByCalendarId")
-    public Collection<OrthoptistEntity> getOrthoptistsByCalendarId() {
-        return orthoptistsByCalendarId;
+    @OneToOne
+    public OrthoptistEntity getOrthoptist() {
+        return _orthoptist;
     }
 
-    public void setOrthoptistsByCalendarId(Collection<OrthoptistEntity> orthoptistsByCalendarId) {
-        this.orthoptistsByCalendarId = orthoptistsByCalendarId;
+    public void setOrthoptist(OrthoptistEntity orthoptist) {
+        _orthoptist = orthoptist;
     }
 }

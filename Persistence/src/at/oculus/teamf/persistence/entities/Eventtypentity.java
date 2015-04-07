@@ -10,58 +10,56 @@
 package at.oculus.teamf.persistence.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
  * Created by Norskan on 07.04.2015.
  */
 @Entity
 @Table(name = "eventtype", schema = "", catalog = "oculus_f")
-public class EventtypeEntity {
-    private int eventTypeId;
-    private String eventTypeName;
-    private Integer estimatedTime;
-    private String description;
-    private Collection<CalendareventEntity> calendareventsByEventTypeId;
+public class Eventtypentity {
+    private int _id;
+    private String _eventTypeName;
+    private Integer _estimatedTime;
+    private String _description;
 
     @Id
     @Column(name = "eventTypeId", nullable = false, insertable = true, updatable = true)
-    public int getEventTypeId() {
-        return eventTypeId;
+    public int getId() {
+        return _id;
     }
 
-    public void setEventTypeId(int eventTypeId) {
-        this.eventTypeId = eventTypeId;
+    public void setId(int eventTypeId) {
+        _id = eventTypeId;
     }
 
     @Basic
     @Column(name = "eventTypeName", nullable = false, insertable = true, updatable = true, length = 50)
     public String getEventTypeName() {
-        return eventTypeName;
+        return _eventTypeName;
     }
 
     public void setEventTypeName(String eventTypeName) {
-        this.eventTypeName = eventTypeName;
+        _eventTypeName = eventTypeName;
     }
 
     @Basic
     @Column(name = "estimatedTime", nullable = true, insertable = true, updatable = true)
     public Integer getEstimatedTime() {
-        return estimatedTime;
+        return _estimatedTime;
     }
 
     public void setEstimatedTime(Integer estimatedTime) {
-        this.estimatedTime = estimatedTime;
+        _estimatedTime = estimatedTime;
     }
 
     @Basic
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        _description = description;
     }
 
     @Override
@@ -69,33 +67,24 @@ public class EventtypeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EventtypeEntity that = (EventtypeEntity) o;
+        Eventtypentity that = (Eventtypentity) o;
 
-        if (eventTypeId != that.eventTypeId) return false;
-        if (eventTypeName != null ? !eventTypeName.equals(that.eventTypeName) : that.eventTypeName != null)
+        if (_id != that._id) return false;
+        if (_eventTypeName != null ? !_eventTypeName.equals(that._eventTypeName) : that._eventTypeName != null)
             return false;
-        if (estimatedTime != null ? !estimatedTime.equals(that.estimatedTime) : that.estimatedTime != null)
+        if (_estimatedTime != null ? !_estimatedTime.equals(that._estimatedTime) : that._estimatedTime != null)
             return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (_description != null ? !_description.equals(that._description) : that._description != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = eventTypeId;
-        result = 31 * result + (eventTypeName != null ? eventTypeName.hashCode() : 0);
-        result = 31 * result + (estimatedTime != null ? estimatedTime.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = _id;
+        result = 31 * result + (_eventTypeName != null ? _eventTypeName.hashCode() : 0);
+        result = 31 * result + (_estimatedTime != null ? _estimatedTime.hashCode() : 0);
+        result = 31 * result + (_description != null ? _description.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "eventtypeByEventTypeId")
-    public Collection<CalendareventEntity> getCalendareventsByEventTypeId() {
-        return calendareventsByEventTypeId;
-    }
-
-    public void setCalendareventsByEventTypeId(Collection<CalendareventEntity> calendareventsByEventTypeId) {
-        this.calendareventsByEventTypeId = calendareventsByEventTypeId;
     }
 }

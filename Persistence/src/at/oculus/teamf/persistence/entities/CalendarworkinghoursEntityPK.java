@@ -22,21 +22,21 @@ public class CalendarworkinghoursEntityPK implements Serializable {
 
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
     @Id
-    public int getWorkingHoursId() {
+    public int get_workingHoursId() {
         return workingHoursId;
     }
 
-    public void setWorkingHoursId(int workingHoursId) {
+    public void set_workingHoursId(int workingHoursId) {
         this.workingHoursId = workingHoursId;
     }
 
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
     @Id
-    public int getCalendarId() {
+    public int get_calendarId() {
         return calendarId;
     }
 
-    public void setCalendarId(int calendarId) {
+    public void set_calendarId(int calendarId) {
         this.calendarId = calendarId;
     }
 

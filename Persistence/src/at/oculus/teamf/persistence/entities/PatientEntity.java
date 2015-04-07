@@ -19,104 +19,104 @@ import java.util.Collection;
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus_f")
 public class PatientEntity {
-    private int patientId;
-    private Integer doctorId;
-    private String socialInsuranceNr;
-    private String firstName;
-    private String lastName;
-    private Date birthDay;
-    private String gender;
-    private String street;
+    private int _id;
+    private Integer _doctorId;
+    private String _socialInsuranceNr;
+    private String _firstName;
+    private String _lastName;
+    private Date _birthDay;
+    private String _gender;
+    private String _street;
     private String postalCode;
-    private String city;
-    private String countryIsoCode;
-    private String phone;
-    private String email;
-    private String allergy;
-    private String childhoodAilments;
-    private String medicineIntolerance;
-    private Collection<CalendareventEntity> calendareventsByPatientId;
-    private DoctorEntity doctorByDoctorId;
-    private Collection<QueueEntity> queuesByPatientId;
+    private String _city;
+    private String _countryIsoCode;
+    private String _phone;
+    private String _email;
+    private String _allergy;
+    private String _childhoodAilments;
+    private String _medicineIntolerance;
+    private Collection<CalendareventEntity> _calendareventsByPatientId;
+    private DoctorEntity _doctor;
+    private QueueEntity _queue;
 
     @Id
     @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
-    public int getPatientId() {
-        return patientId;
+    public int get_id() {
+        return _id;
     }
 
-    public void setPatientId(int patientId) {
-        this.patientId = patientId;
+    public void set_id(int patientId) {
+        this._id = patientId;
     }
 
     @Basic
     @Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
-    public Integer getDoctorId() {
-        return doctorId;
+    public Integer get_doctorId() {
+        return _doctorId;
     }
 
-    public void setDoctorId(Integer doctorId) {
-        this.doctorId = doctorId;
+    public void set_doctorId(Integer doctorId) {
+        this._doctorId = doctorId;
     }
 
     @Basic
     @Column(name = "socialInsuranceNr", nullable = true, insertable = true, updatable = true, length = 10)
-    public String getSocialInsuranceNr() {
-        return socialInsuranceNr;
+    public String get_socialInsuranceNr() {
+        return _socialInsuranceNr;
     }
 
-    public void setSocialInsuranceNr(String socialInsuranceNr) {
-        this.socialInsuranceNr = socialInsuranceNr;
+    public void set_socialInsuranceNr(String socialInsuranceNr) {
+        this._socialInsuranceNr = socialInsuranceNr;
     }
 
     @Basic
     @Column(name = "firstName", nullable = false, insertable = true, updatable = true, length = 30)
-    public String getFirstName() {
-        return firstName;
+    public String get_firstName() {
+        return _firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void set_firstName(String firstName) {
+        this._firstName = firstName;
     }
 
     @Basic
     @Column(name = "lastName", nullable = false, insertable = true, updatable = true, length = 30)
-    public String getLastName() {
-        return lastName;
+    public String get_lastName() {
+        return _lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void set_lastName(String lastName) {
+        this._lastName = lastName;
     }
 
     @Basic
     @Column(name = "birthDay", nullable = true, insertable = true, updatable = true)
-    public Date getBirthDay() {
-        return birthDay;
+    public Date get_birthDay() {
+        return _birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void set_birthDay(Date birthDay) {
+        this._birthDay = birthDay;
     }
 
     @Basic
     @Column(name = "gender", nullable = false, insertable = true, updatable = true, length = 2)
-    public String getGender() {
-        return gender;
+    public String get_gender() {
+        return _gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void set_gender(String gender) {
+        this._gender = gender;
     }
 
     @Basic
     @Column(name = "street", nullable = true, insertable = true, updatable = true, length = 255)
-    public String getStreet() {
-        return street;
+    public String get_street() {
+        return _street;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void set_street(String street) {
+        this._street = street;
     }
 
     @Basic
@@ -131,72 +131,72 @@ public class PatientEntity {
 
     @Basic
     @Column(name = "city", nullable = true, insertable = true, updatable = true, length = 50)
-    public String getCity() {
-        return city;
+    public String get_city() {
+        return _city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void set_city(String city) {
+        this._city = city;
     }
 
     @Basic
     @Column(name = "countryIsoCode", nullable = true, insertable = true, updatable = true, length = 2)
-    public String getCountryIsoCode() {
-        return countryIsoCode;
+    public String get_countryIsoCode() {
+        return _countryIsoCode;
     }
 
-    public void setCountryIsoCode(String countryIsoCode) {
-        this.countryIsoCode = countryIsoCode;
+    public void set_countryIsoCode(String countryIsoCode) {
+        this._countryIsoCode = countryIsoCode;
     }
 
     @Basic
     @Column(name = "phone", nullable = true, insertable = true, updatable = true, length = 50)
-    public String getPhone() {
-        return phone;
+    public String get_phone() {
+        return _phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void set_phone(String phone) {
+        this._phone = phone;
     }
 
     @Basic
     @Column(name = "email", nullable = true, insertable = true, updatable = true, length = 255)
-    public String getEmail() {
-        return email;
+    public String get_email() {
+        return _email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void set_email(String email) {
+        this._email = email;
     }
 
     @Basic
     @Column(name = "allergy", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String getAllergy() {
-        return allergy;
+    public String get_allergy() {
+        return _allergy;
     }
 
-    public void setAllergy(String allergy) {
-        this.allergy = allergy;
+    public void set_allergy(String allergy) {
+        this._allergy = allergy;
     }
 
     @Basic
     @Column(name = "childhoodAilments", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String getChildhoodAilments() {
-        return childhoodAilments;
+    public String get_childhoodAilments() {
+        return _childhoodAilments;
     }
 
-    public void setChildhoodAilments(String childhoodAilments) {
-        this.childhoodAilments = childhoodAilments;
+    public void set_childhoodAilments(String childhoodAilments) {
+        this._childhoodAilments = childhoodAilments;
     }
 
     @Basic
     @Column(name = "medicineIntolerance", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String getMedicineIntolerance() {
-        return medicineIntolerance;
+    public String get_medicineIntolerance() {
+        return _medicineIntolerance;
     }
 
-    public void setMedicineIntolerance(String medicineIntolerance) {
-        this.medicineIntolerance = medicineIntolerance;
+    public void set_medicineIntolerance(String medicineIntolerance) {
+        this._medicineIntolerance = medicineIntolerance;
     }
 
     @Override
@@ -206,25 +206,25 @@ public class PatientEntity {
 
         PatientEntity that = (PatientEntity) o;
 
-        if (patientId != that.patientId) return false;
-        if (doctorId != null ? !doctorId.equals(that.doctorId) : that.doctorId != null) return false;
-        if (socialInsuranceNr != null ? !socialInsuranceNr.equals(that.socialInsuranceNr) : that.socialInsuranceNr != null)
+        if (_id != that._id) return false;
+        if (_doctorId != null ? !_doctorId.equals(that._doctorId) : that._doctorId != null) return false;
+        if (_socialInsuranceNr != null ? !_socialInsuranceNr.equals(that._socialInsuranceNr) : that._socialInsuranceNr != null)
             return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (birthDay != null ? !birthDay.equals(that.birthDay) : that.birthDay != null) return false;
-        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
-        if (street != null ? !street.equals(that.street) : that.street != null) return false;
+        if (_firstName != null ? !_firstName.equals(that._firstName) : that._firstName != null) return false;
+        if (_lastName != null ? !_lastName.equals(that._lastName) : that._lastName != null) return false;
+        if (_birthDay != null ? !_birthDay.equals(that._birthDay) : that._birthDay != null) return false;
+        if (_gender != null ? !_gender.equals(that._gender) : that._gender != null) return false;
+        if (_street != null ? !_street.equals(that._street) : that._street != null) return false;
         if (postalCode != null ? !postalCode.equals(that.postalCode) : that.postalCode != null) return false;
-        if (city != null ? !city.equals(that.city) : that.city != null) return false;
-        if (countryIsoCode != null ? !countryIsoCode.equals(that.countryIsoCode) : that.countryIsoCode != null)
+        if (_city != null ? !_city.equals(that._city) : that._city != null) return false;
+        if (_countryIsoCode != null ? !_countryIsoCode.equals(that._countryIsoCode) : that._countryIsoCode != null)
             return false;
-        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (allergy != null ? !allergy.equals(that.allergy) : that.allergy != null) return false;
-        if (childhoodAilments != null ? !childhoodAilments.equals(that.childhoodAilments) : that.childhoodAilments != null)
+        if (_phone != null ? !_phone.equals(that._phone) : that._phone != null) return false;
+        if (_email != null ? !_email.equals(that._email) : that._email != null) return false;
+        if (_allergy != null ? !_allergy.equals(that._allergy) : that._allergy != null) return false;
+        if (_childhoodAilments != null ? !_childhoodAilments.equals(that._childhoodAilments) : that._childhoodAilments != null)
             return false;
-        if (medicineIntolerance != null ? !medicineIntolerance.equals(that.medicineIntolerance) : that.medicineIntolerance != null)
+        if (_medicineIntolerance != null ? !_medicineIntolerance.equals(that._medicineIntolerance) : that._medicineIntolerance != null)
             return false;
 
         return true;
@@ -232,50 +232,50 @@ public class PatientEntity {
 
     @Override
     public int hashCode() {
-        int result = patientId;
-        result = 31 * result + (doctorId != null ? doctorId.hashCode() : 0);
-        result = 31 * result + (socialInsuranceNr != null ? socialInsuranceNr.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (birthDay != null ? birthDay.hashCode() : 0);
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        result = 31 * result + (street != null ? street.hashCode() : 0);
+        int result = _id;
+        result = 31 * result + (_doctorId != null ? _doctorId.hashCode() : 0);
+        result = 31 * result + (_socialInsuranceNr != null ? _socialInsuranceNr.hashCode() : 0);
+        result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
+        result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
+        result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
+        result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
+        result = 31 * result + (_street != null ? _street.hashCode() : 0);
         result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (countryIsoCode != null ? countryIsoCode.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (allergy != null ? allergy.hashCode() : 0);
-        result = 31 * result + (childhoodAilments != null ? childhoodAilments.hashCode() : 0);
-        result = 31 * result + (medicineIntolerance != null ? medicineIntolerance.hashCode() : 0);
+        result = 31 * result + (_city != null ? _city.hashCode() : 0);
+        result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
+        result = 31 * result + (_phone != null ? _phone.hashCode() : 0);
+        result = 31 * result + (_email != null ? _email.hashCode() : 0);
+        result = 31 * result + (_allergy != null ? _allergy.hashCode() : 0);
+        result = 31 * result + (_childhoodAilments != null ? _childhoodAilments.hashCode() : 0);
+        result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "_patient")
-    public Collection<CalendareventEntity> getCalendareventsByPatientId() {
-        return calendareventsByPatientId;
+    @OneToMany(mappedBy = "patient")
+    public Collection<CalendareventEntity> get_calendareventsByPatientId() {
+        return _calendareventsByPatientId;
     }
 
-    public void setCalendareventsByPatientId(Collection<CalendareventEntity> calendareventsByPatientId) {
-        this.calendareventsByPatientId = calendareventsByPatientId;
+    public void set_calendareventsByPatientId(Collection<CalendareventEntity> calendareventsByPatientId) {
+        this._calendareventsByPatientId = calendareventsByPatientId;
     }
 
     @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
-    public DoctorEntity getDoctorByDoctorId() {
-        return doctorByDoctorId;
+    public DoctorEntity getDoctor() {
+        return _doctor;
     }
 
-    public void setDoctorByDoctorId(DoctorEntity doctorByDoctorId) {
-        this.doctorByDoctorId = doctorByDoctorId;
+    public void setDoctor(DoctorEntity doctorByDoctorId) {
+        this._doctor = doctorByDoctorId;
     }
 
-    @OneToMany(mappedBy = "_patient")
-    public Collection<QueueEntity> getQueuesByPatientId() {
-        return queuesByPatientId;
+    @OneToOne(mappedBy = "queue")
+    public QueueEntity getQueue() {
+        return _queue;
     }
 
-    public void setQueuesByPatientId(Collection<QueueEntity> queuesByPatientId) {
-        this.queuesByPatientId = queuesByPatientId;
+    public void setQueue(QueueEntity queue) {
+        _queue = queue;
     }
 }
