@@ -16,9 +16,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../Ressource">
-      <sourceFolder url="file://$MODULE_DIR$/../Ressource" isTestSource="false" />
-    </content>
+    <content url="file://$MODULE_DIR$/../Ressource" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Hibernate 4.2.2-4.2.2" level="project" />

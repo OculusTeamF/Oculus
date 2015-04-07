@@ -1,20 +1,18 @@
 package at.oculus.teamf.technical.loggin;
 
-/**
- * Created by Norskan on 30.03.2015.
- */
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class LoggerBroker {
+    private static final Logger loggerInstance = LogManager.getLogger(LoggerBroker.class);
 
-    //<editor-fold desc="Singelton">
-    private static LoggerBroker ourInstance = new LoggerBroker();
-
-    public static LoggerBroker getInstance() {
-        return ourInstance;
+    public static Logger getInstance() {
+        return loggerInstance;
     }
 
     private LoggerBroker() {
+        //...
     }
-    //</editor-fold>
 
     public Logger getLogger() {
         return null;
