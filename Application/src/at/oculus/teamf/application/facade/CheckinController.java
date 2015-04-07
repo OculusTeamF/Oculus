@@ -3,7 +3,7 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.entity.PatientEntity;
-import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.facade.Facade;
 import at.oculus.teamf.persistence.entity.QueueEntity;
 
 import java.util.Collection;
@@ -24,15 +24,20 @@ public class CheckinController {
         Collection <Class> collection = new LinkedList <Class>();
         collection.add(PatientEntity.class);
         Facade facade = Facade.getInstance(collection);
+        PatientEntity patient = (PatientEntity) facade.getEnity(PatientEntity.class, 1);
         Patient patient = (Patient) facade.getEntity(PatientEntity.class, 1);
 
         Collection <Patient> patients = getAllPatients(PatientEntity.class);
+
+        /*Collection <PatientEntity> patients = getAll(PatientEntity.class);
 
         if ((patient = searchPatientBySocialInsuranceNumber(patients, socialInsuranceNumber)) != null){
             return patient;
         } else {
             return null;
-        }
+        }*/
+
+        return null;
 
     }
 

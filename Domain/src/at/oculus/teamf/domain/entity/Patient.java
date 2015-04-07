@@ -27,10 +27,19 @@ public class Patient {
     private int _svn;
     private Doctor _doctor;
     private Collection<CalendarEvent> _calendarEvents;
+
+    //private IEntityBroker eb;
+
     //</editor-fold>
+
+    public Patient(){
+        //IEntity p = eb.getEnity(PatientEntity.class, 0);
+
+    }
 
     //<editor-fold desc="Getter/Setter">
     public int getPatientID() {
+
         return _patientID;
     }
 

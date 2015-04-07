@@ -19,7 +19,7 @@ import java.util.Collection;
  */
 public class PatientQueue {
 
-    //<editor-fold desc="Attribtues">
+    //<editor-fold desc="Attributes">
     private int _queueID;
     private Collection<Patient> _patients;
     //</editor-fold>

@@ -1,5 +1,7 @@
 package at.oculus.teamf.persistence.entity;
 
+import at.oculus.teamf.domain.entity.Patient;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -10,7 +12,7 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus")
-public class PatientEntity implements IEntity{
+public class PatientEntity {
 
     // <editor-fold desc="Attributes">
     private int patientId;
@@ -29,7 +31,8 @@ public class PatientEntity implements IEntity{
     private String childhoodAilments;
     private String medicineIntolerance;
     private DoctorEntity doctorId;
-    // </editor-fold>
+
+	// </editor-fold>
 
     // <editor-fold desc="Getter/Setter">
     @Id
