@@ -19,6 +19,7 @@ import java.util.HashMap;
 /**
  * Facade for requesting entities from hibernate. Singleton pattern.
  *
+ * //TODO: add Exception, docs
  * @author san
  * @version 0.1
  */
@@ -27,8 +28,12 @@ public class Facade {
 	private HashMap<Class, EntityBroker> _entityBrokers;
 	private ISessionBroker _sessionBroker;
 
-	private Facade(Collection<EntityBroker> broker) {
+	private Facade(Collection<EntityBroker> brokers) {
+		_entityBrokers = new HashMap<Class, EntityBroker>();
 
+		for(EntityBroker broker : brokers) {
+			_entityBrokers.put(broker.getDomainClass(), broker);
+		}
 	}
 
 	public static Facade getInstance(Collection<EntityBroker> brokers) { //}, Collection<EntityBroker> broker) {
