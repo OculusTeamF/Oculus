@@ -18,39 +18,39 @@ import java.util.Collection;
 @Entity
 @Table(name = "usergroup", schema = "", catalog = "oculus_f")
 public class UsergroupEntity {
-    private int userGroupId;
-    private String userGroupName;
-    private String description;
-    private Collection<UserEntity> usersByUserGroupId;
+    private int _userGroupId;
+    private String _userGroupName;
+    private String _description;
+    private Collection<UserEntity> _usersByUserGroupId;
 
     @Id
     @Column(name = "userGroupId", nullable = false, insertable = true, updatable = true)
-    public int getUserGroupId() {
-        return userGroupId;
+    public int get_userGroupId() {
+        return _userGroupId;
     }
 
-    public void setUserGroupId(int userGroupId) {
-        this.userGroupId = userGroupId;
+    public void set_userGroupId(int userGroupId) {
+        _userGroupId = userGroupId;
     }
 
     @Basic
     @Column(name = "userGroupName", nullable = false, insertable = true, updatable = true, length = 50)
-    public String getUserGroupName() {
-        return userGroupName;
+    public String get_userGroupName() {
+        return _userGroupName;
     }
 
-    public void setUserGroupName(String userGroupName) {
-        this.userGroupName = userGroupName;
+    public void set_userGroupName(String userGroupName) {
+        _userGroupName = userGroupName;
     }
 
     @Basic
     @Column(name = "description", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String getDescription() {
-        return description;
+    public String get_description() {
+        return _description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void set_description(String description) {
+        _description = description;
     }
 
     @Override
@@ -60,28 +60,28 @@ public class UsergroupEntity {
 
         UsergroupEntity that = (UsergroupEntity) o;
 
-        if (userGroupId != that.userGroupId) return false;
-        if (userGroupName != null ? !userGroupName.equals(that.userGroupName) : that.userGroupName != null)
+        if (_userGroupId != that._userGroupId) return false;
+        if (_userGroupName != null ? !_userGroupName.equals(that._userGroupName) : that._userGroupName != null)
             return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (_description != null ? !_description.equals(that._description) : that._description != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userGroupId;
-        result = 31 * result + (userGroupName != null ? userGroupName.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = _userGroupId;
+        result = 31 * result + (_userGroupName != null ? _userGroupName.hashCode() : 0);
+        result = 31 * result + (_description != null ? _description.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "usergroupByUserGroupId")
-    public Collection<UserEntity> getUsersByUserGroupId() {
-        return usersByUserGroupId;
+    @OneToMany(mappedBy = "_usergroupByUserGroupId")
+    public Collection<UserEntity> get_usersByUserGroupId() {
+        return _usersByUserGroupId;
     }
 
-    public void setUsersByUserGroupId(Collection<UserEntity> usersByUserGroupId) {
-        this.usersByUserGroupId = usersByUserGroupId;
+    public void set_usersByUserGroupId(Collection<UserEntity> usersByUserGroupId) {
+        _usersByUserGroupId = usersByUserGroupId;
     }
 }

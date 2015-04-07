@@ -17,27 +17,27 @@ import javax.persistence.*;
 @Entity
 @Table(name = "weekday", schema = "", catalog = "oculus_f")
 public class WeekdayEntity {
-    private String weekDayKey;
-    private String name;
+    private String _weekDayKey;
+    private String _name;
 
     @Id
     @Column(name = "weekDayKey", nullable = false, insertable = true, updatable = true, length = 3)
     public String getWeekDayKey() {
-        return weekDayKey;
+        return _weekDayKey;
     }
 
     public void setWeekDayKey(String weekDayKey) {
-        this.weekDayKey = weekDayKey;
+        this._weekDayKey = weekDayKey;
     }
 
     @Basic
     @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 10)
     public String getName() {
-        return name;
+        return _name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this._name = name;
     }
 
     @Override
@@ -47,16 +47,16 @@ public class WeekdayEntity {
 
         WeekdayEntity that = (WeekdayEntity) o;
 
-        if (weekDayKey != null ? !weekDayKey.equals(that.weekDayKey) : that.weekDayKey != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (_weekDayKey != null ? !_weekDayKey.equals(that._weekDayKey) : that._weekDayKey != null) return false;
+        if (_name != null ? !_name.equals(that._name) : that._name != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = weekDayKey != null ? weekDayKey.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = _weekDayKey != null ? _weekDayKey.hashCode() : 0;
+        result = 31 * result + (_name != null ? _name.hashCode() : 0);
         return result;
     }
 }
