@@ -9,13 +9,25 @@
 
 package at.oculus.teamf.persistence.broker;
 
-import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.domain.entity.Weekday;
+import at.oculus.teamf.persistence.facade.Facade;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
-/**
- * Created by Norskan on 07.04.2015.
- */
-public interface ICollectionReload {
-    void reload(ISession session, Object entity, Class clazz);
+import static org.junit.Assert.*;
+
+public class EntityBrokerTest {
+
+	@org.junit.Test
+	public void testGetEntity() throws Exception {
+		Facade facade = Facade.getInstance();
+		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
+		brokers.add(new WeekdayBroker());
+		facade.init(brokers);
+
+		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
+		System.out.println(wd.getName());
+		assertTrue(wd!=null);
+	}
 }

@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.persistence.facade;
 
+import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
+import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.persistence.broker.EntityBroker;
 import at.oculus.teamf.persistence.broker.ICollectionReload;
@@ -28,40 +30,59 @@ public class Facade {
 	private HashMap<Class, EntityBroker> _entityBrokers;
 	private ISessionBroker _sessionBroker;
 
-	private Facade(Collection<EntityBroker> brokers) {
+	private Facade() { }
+
+	public static Facade getInstance() { //}, Collection<EntityBroker> broker) {
+		if (_self == null) {
+			_self = new Facade();
+		}
+		return _self;
+	}
+
+	public void init(Collection<EntityBroker> brokers) {
+		if(_entityBrokers != null) {
+			//TODO: throw exception
+		}
+
 		_entityBrokers = new HashMap<Class, EntityBroker>();
 
 		for(EntityBroker broker : brokers) {
 			_entityBrokers.put(broker.getDomainClass(), broker);
 		}
-	}
 
-	public static Facade getInstance(Collection<EntityBroker> brokers) { //}, Collection<EntityBroker> broker) {
-		if (_self == null) {
-			_self = new Facade(brokers);
-		}
-		return _self;
+		_sessionBroker = new HibernateSessionBroker(_entityBrokers.keySet());
 	}
 
 	public Object getById(Class clazz, int id) {
-		return _entityBrokers.get(clazz).getEnity(id);
+		ISession session = _sessionBroker.getSession();
+		Object obj = _entityBrokers.get(clazz).getEntity(session, id);
+		_sessionBroker.releaseSession(session);
+		return obj;
 	}
 
-	public Collection getAll(Class clazz) {
-		return _entityBrokers.get(clazz).getAll(clazz);
+	public Collection<Object> getAll(Class clazz) {
+		ISession session = _sessionBroker.getSession();
+		Collection<Object> objs = _entityBrokers.get(clazz).getAll(session);
+		_sessionBroker.releaseSession(session);
+		return objs;
 	}
 
-	public Collection reloadCollection(Object entity, Class clazz) throws CantReloadException {
+	public void reloadCollection(Object entity, Class clazz) throws CantReloadException {
 		EntityBroker broker = _entityBrokers.get(clazz);
 
 		if(!(broker instanceof ICollectionReload)) {
 			throw new CantReloadException();
 		}
 
-		return ((ICollectionReload) broker).reload();
+		ISession session = _sessionBroker.getSession();
+		((ICollectionReload) broker).reload(session, entity, clazz);
+		_sessionBroker.releaseSession(session);
 	}
 
 	public boolean save(Object entity) {
-		return _entityBrokers.get(entity.getClass()).saveEntity(entity);
+		ISession session = _sessionBroker.getSession();
+		Boolean result = _entityBrokers.get(entity.getClass()).saveEntity(session, entity);
+		_sessionBroker.releaseSession(session);
+		return result;
 	}
 }

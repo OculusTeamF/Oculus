@@ -17,10 +17,21 @@ import javax.persistence.*;
 @Entity
 @Table(name = "weekday", schema = "", catalog = "oculus_f")
 public class WeekdayEntity {
+	private int _id;
     private String _weekDayKey;
     private String _name;
 
-    @Id
+	@Id
+	@Column(name = "weekDayId", nullable = false, insertable = false, updatable = false)
+	public int getId() {
+		return _id;
+	}
+
+	public void setId(int id) {
+		_id = id;
+	}
+
+    @Basic
     @Column(name = "weekDayKey", nullable = false, insertable = true, updatable = true, length = 3)
     public String getWeekDayKey() {
         return _weekDayKey;

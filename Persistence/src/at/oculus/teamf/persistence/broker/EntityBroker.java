@@ -9,6 +9,10 @@
 
 package at.oculus.teamf.persistence.broker;
 
+import at.oculus.teamf.databaseconnection.session.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.domain.entity.Weekday;
 import at.oculus.teamf.persistence.facade.IEntity;
 
 import java.util.Collection;
@@ -16,31 +20,49 @@ import java.util.Collection;
 /**
  * Created by Norskan on 30.03.2015.
  */
-public abstract class EntityBroker<T> {
+public abstract class EntityBroker<D, P> {
 
-    private Class _domainClass;
-    private Class<T> _entityClass;
+    protected Class<D> _domainClass;
+    protected Class<P> _entityClass;
 
     public EntityBroker(Class entityClass) {
         _entityClass = entityClass;
     }
 
     //<editor-fold desc="Abstract Methode">
-    public abstract IEntity getEnity(int id);
+    public D getEntity(ISession session, int id) {
+	    P entity = null;
+	    try {
+		    entity = (P)session.getByID(_entityClass, id);
+	    } catch (BadSessionException e) {
+		    e.printStackTrace();
+	    } catch (ClassNotMappedException e) {
+		    e.printStackTrace();
+	    }
 
-    public abstract Collection<IEntity> getAll(Class<T> clazz);
+	    D result = persitentToDomain(entity);
 
-    public abstract boolean saveEntity(T entity);
+	    return result;
+    }
 
-    public abstract boolean saveAll(Collection<T> collection);
+    public abstract Collection<D> getAll(ISession session);
+
+    public abstract boolean saveEntity(ISession session, D entity);
+
+    public abstract boolean saveAll(ISession session, Collection<D> collection);
+
+	protected abstract D persitentToDomain(P entity);
+
+	protected abstract P domainToPersitent(D entity);
+
     //</editor-fold>
 
     //<editor-fold desc="Getter">
-    public Class getDomainClass() {
+    public Class<D> getDomainClass() {
         return _domainClass;
     }
 
-    public Class getEntityClass() {
+    public Class<P> getEntityClass() {
         return _entityClass;
     }
     //</editor-fold>

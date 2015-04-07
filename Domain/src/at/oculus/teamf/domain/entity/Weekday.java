@@ -7,15 +7,29 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.databaseconnection.session.ISession;
-
-import java.util.Collection;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Weekday.java
+ * Created by oculus on 07.04.15.
  */
-public interface ICollectionReload {
-    void reload(ISession session, Object entity, Class clazz);
+public class Weekday {
+    private String _key;
+    private String _name;
+
+	public String getKey() {
+		return _key;
+	}
+
+	public void setKey(String key) {
+		_key = key;
+	}
+
+	public String getName() {
+		return _name;
+	}
+
+	public void setName(String name) {
+		_name = name;
+	}
 }
