@@ -9,9 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.entity.PatientEntity;
-
 import java.util.Collection;
 
 /**
@@ -36,7 +33,7 @@ public class Patient {
     //</editor-fold>
 
     public Patient(){
-        IEntity p = eb.getEnity(PatientEntity.class, 0);
+        //IEntity p = eb.getEnity(PatientEntity.class, 0);
 
     }
 

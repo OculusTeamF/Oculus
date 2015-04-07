@@ -22,15 +22,18 @@ public class CheckinController {
         Collection <Class> collection = new LinkedList<Class>();
         collection.add(PatientEntity.class);
         Facade facade = Facade.getInstance(collection);
-        PatientEntity patient = (PatientEntity) facade.getEntity(PatientEntity.class, 1);
+        PatientEntity patient = (PatientEntity) facade.getEnity(PatientEntity.class, 1);
 
-        Collection <PatientEntity> patients = getAll(PatientEntity.class);
+
+        /*Collection <PatientEntity> patients = getAll(PatientEntity.class);
 
         if ((patient = searchPatientBySocialInsuranceNumber(patients, socialInsuranceNumber)) != null){
             return patient;
         } else {
             return null;
-        }
+        }*/
+
+        return null;
 
     }
 
@@ -48,7 +51,7 @@ public class CheckinController {
     }
 
     public Collection <QueueEntity> getQueues(){
-
+        return null;
     }
 
 }
