@@ -19,29 +19,29 @@ import javax.persistence.*;
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
 @IdClass(CalendarworkinghoursEntityPK.class)
 public class CalendarworkinghoursEntity {
-    private int workingHoursId;
-    private int calendarId;
-    private WorkinghoursEntity workinghoursByWorkingHoursId;
-    private CalendarEntity calendarByCalendarId;
+    private int _workingHoursId;
+    private int _calendarId;
+    private WorkinghoursEntity _workinghours;
+    private CalendarEntity _calendar;
 
     @Id
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
     public int getWorkingHoursId() {
-        return workingHoursId;
+        return _workingHoursId;
     }
 
     public void setWorkingHoursId(int workingHoursId) {
-        this.workingHoursId = workingHoursId;
+        this._workingHoursId = workingHoursId;
     }
 
     @Id
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
     public int getCalendarId() {
-        return calendarId;
+        return _calendarId;
     }
 
     public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
+        this._calendarId = calendarId;
     }
 
     @Override
@@ -51,36 +51,36 @@ public class CalendarworkinghoursEntity {
 
         CalendarworkinghoursEntity that = (CalendarworkinghoursEntity) o;
 
-        if (workingHoursId != that.workingHoursId) return false;
-        if (calendarId != that.calendarId) return false;
+        if (_workingHoursId != that._workingHoursId) return false;
+        if (_calendarId != that._calendarId) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = workingHoursId;
-        result = 31 * result + calendarId;
+        int result = _workingHoursId;
+        result = 31 * result + _calendarId;
         return result;
     }
 
     @ManyToOne
     @JoinColumn(name = "workingHoursId", referencedColumnName = "workingHoursId", nullable = false)
-    public WorkinghoursEntity getWorkinghoursByWorkingHoursId() {
-        return workinghoursByWorkingHoursId;
+    public WorkinghoursEntity getWorkinghours() {
+        return _workinghours;
     }
 
-    public void setWorkinghoursByWorkingHoursId(WorkinghoursEntity workinghoursByWorkingHoursId) {
-        this.workinghoursByWorkingHoursId = workinghoursByWorkingHoursId;
+    public void setWorkinghours(WorkinghoursEntity workinghours) {
+        _workinghours = workinghours;
     }
 
     @ManyToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
-    public CalendarEntity getCalendarByCalendarId() {
-        return calendarByCalendarId;
+    public CalendarEntity getCalendar() {
+        return _calendar;
     }
 
-    public void setCalendarByCalendarId(CalendarEntity calendarByCalendarId) {
-        this.calendarByCalendarId = calendarByCalendarId;
+    public void setCalendar(CalendarEntity calendar) {
+        _calendar = calendar;
     }
 }

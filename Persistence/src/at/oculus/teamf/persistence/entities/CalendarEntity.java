@@ -65,39 +65,39 @@ public class CalendarEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "_calendar")
-    public Collection<CalendareventEntity> getCalendarevents() {
+    @OneToMany(mappedBy = "calendar")
+    public Collection<CalendareventEntity> getCalendarEvents() {
         return _calendarevents;
     }
 
-    public void setCalendarevents(Collection<CalendareventEntity> calendareventsByCalendarId) {
-        this._calendarevents = calendareventsByCalendarId;
+    public void setCalendarEvents(Collection<CalendareventEntity> calendarEvents) {
+        _calendarevents = calendarEvents;
     }
 
-    @OneToMany(mappedBy = "calendarByCalendarId")
-    public Collection<CalendarworkinghoursEntity> getCalendarworkinghours() {
+    @OneToMany(mappedBy = "calendar")
+    public Collection<CalendarworkinghoursEntity> getCalendarWorkingHours() {
         return _calendarworkinghours;
     }
 
-    public void setCalendarworkinghours(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByCalendarId) {
-        this._calendarworkinghours = calendarworkinghoursesByCalendarId;
+    public void setCalendarWorkingHours(Collection<CalendarworkinghoursEntity> calendarworkinghourses) {
+        _calendarworkinghours = calendarworkinghourses;
     }
 
-    @OneToMany(mappedBy = "_calendar")
-    public DoctorEntity get_doctor() {
+    @OneToOne
+    public DoctorEntity getDoctor() {
         return _doctor;
     }
 
-    public void set_doctor(DoctorEntity doctorByCalendarId) {
-        this._doctor = _doctor;
+    public void setDoctor(DoctorEntity doctorByCalendarId) {
+        _doctor = _doctor;
     }
 
-    @OneToMany(mappedBy = "_calendar")
-    public OrthoptistEntity get_orthoptist() {
+    @OneToOne
+    public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
     }
 
-    public void set_orthoptist(OrthoptistEntity orthoptist) {
-        this._orthoptist = orthoptist;
+    public void setOrthoptist(OrthoptistEntity orthoptist) {
+        _orthoptist = orthoptist;
     }
 }

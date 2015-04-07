@@ -11,7 +11,6 @@ package at.oculus.teamf.persistence.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 /**
  * Created by Norskan on 07.04.2015.
@@ -28,8 +27,7 @@ public class QueueEntity {
     private DoctorEntity _doctor;
     private PatientEntity _patient;
     private OrthoptistEntity _orthoptist;
-    private QueueEntity _queue;
-    private Collection<QueueEntity> _queues;
+    private QueueEntity _queueParent;
 
     @Id
     @Column(name = "queueId", nullable = false, insertable = true, updatable = true)
@@ -153,19 +151,11 @@ public class QueueEntity {
     @ManyToOne
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")
     public QueueEntity getQueue() {
-        return _queue;
+        return _queueParent;
     }
 
     public void setQueue(QueueEntity queue) {
-        this._queue = queue;
+        this._queueParent = queue;
     }
 
-    @OneToMany(mappedBy = "_queue")
-    public Collection<QueueEntity> getQueues() {
-        return _queues;
-    }
-
-    public void setQueues(Collection<QueueEntity> queues) {
-        this._queues = queues;
-    }
 }

@@ -97,7 +97,7 @@ public class OrthoptistEntity {
         this._calendar = calendar;
     }
 
-    @OneToMany(mappedBy = "queueId")
+    @OneToMany(mappedBy = "queue")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

@@ -117,7 +117,7 @@ public class WorkinghoursEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "workinghoursByWorkingHoursId")
+    @OneToMany(mappedBy = "_workinghours")
     public Collection<CalendarworkinghoursEntity> getCalendarworkinghoursesByWorkingHoursId() {
         return _calendarworkinghoursesByWorkingHoursId;
     }

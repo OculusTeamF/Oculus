@@ -29,7 +29,7 @@ public class CalendareventEntity {
     private byte _isOpen;
     private CalendarEntity _calendar;
     private PatientEntity _patient;
-    private EventtypeEntity _eventtype;
+    private Eventtypentity _eventtype;
 
     @Id
     @Column(name = "calendarEventId", nullable = false, insertable = true, updatable = true)
@@ -161,8 +161,8 @@ public class CalendareventEntity {
         return _calendar;
     }
 
-    public void setCalendar(CalendarEntity calendarByCalendarId) {
-        this._calendar = calendarByCalendarId;
+    public void setCalendar(CalendarEntity calendar) {
+        _calendar = calendar;
     }
 
     @ManyToOne
@@ -171,17 +171,17 @@ public class CalendareventEntity {
         return _patient;
     }
 
-    public void setPatient(PatientEntity patientByPatientId) {
-        this._patient = patientByPatientId;
+    public void setPatient(PatientEntity patient) {
+        _patient = patient;
     }
 
     @ManyToOne
     @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false)
-    public EventtypeEntity getEventtype() {
+    public Eventtypentity getEventtype() {
         return _eventtype;
     }
 
-    public void setEventtype(EventtypeEntity eventtypeByEventTypeId) {
-        this._eventtype = eventtypeByEventTypeId;
+    public void setEventtype(Eventtypentity eventType) {
+        _eventtype = eventType;
     }
 }
