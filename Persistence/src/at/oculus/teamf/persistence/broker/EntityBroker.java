@@ -10,28 +10,39 @@
 package at.oculus.teamf.persistence.broker;
 
 import at.oculus.teamf.persistence.entity.IEntity;
+
 import java.util.Collection;
 
 /**
- * IEntityCollectionBroker.java
- * Created by oculus on 06.04.15.
+ * Created by Norskan on 30.03.2015.
  */
-public interface IEntityCollectionBroker {
-    /**
-     * Load a Collection into a Entity
-     *
-     * @param entity Object where the data has to be loaded into
-     * @param clazz  Objecttype of collection which has to be loaded
-     */
-    void getCollection(IEntity entity, Class clazz);
+public abstract class EntityBroker<T> {
 
-    /**
-     * Save a Collection into a Entity
-     *
-     * @param entity     Object where the data has to be saved into
-     * @param collection ollection which has to be loaded
-     */
-    void setCollection(IEntity entity, Collection<IEntity> collection);
+    private Class _domainClass;
+    private Class<T> _entityClass;
+
+    public EntityBroker(Class entityClass) {
+        _entityClass = entityClass;
+    }
+
+    //<editor-fold desc="Abstract Methode">
+    public abstract IEntity getEnity(Class<T> clazz, int id);
+
+    public abstract Collection<IEntity> getAll(Class<T> clazz);
+
+    public abstract boolean saveEntity(T entity);
+
+    public abstract boolean saveAll(Collection<T> collection);
+    //</editor-fold>
+
+    //<editor-fold desc="Getter">
+    public Class getDomainClass() {
+        return _domainClass;
+    }
+
+    public Class getEntityClass() {
+        return _entityClass;
+    }
+    //</editor-fold>
+
 }
-
-// TODO delete?

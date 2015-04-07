@@ -20,7 +20,6 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-@EntityClass("CalendarEntity.class")
 public class Calendar implements DomainEntity {
 
     //<editor-fold desc="Attributes">
