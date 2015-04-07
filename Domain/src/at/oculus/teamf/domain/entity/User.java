@@ -7,17 +7,29 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.persistence.entity.IEntity;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 30.03.2015.
+ * Todo: add docs, implement equals
+ *
+ * @author Simon Angerer
+ * @date 03.4.2015
  */
-public interface IEntityBroker {
-    IEntity getEnity(Class clazz, int id);
+public abstract class User {
 
-    boolean setEntity(IEntity entity);
+    //<editor-fold desc="Attributes">
+    protected int _userID;
+    //</editor-fold>
+
+    //<editor-fold desc="Getter/Setter">
+    public int getUserID() {
+        return _userID;
+    }
+
+    public User setUserID(int userID) {
+        this._userID = userID;
+        return this;
+    }
+    //</editor-fold>
+
 }
-
-// TODO delete?

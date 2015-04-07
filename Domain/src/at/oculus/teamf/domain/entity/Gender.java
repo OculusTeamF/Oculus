@@ -7,17 +7,15 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.persistence.entity.IEntity;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 30.03.2015.
+ * Todo: Doc
+ *
+ * @author Simon Angerer
+ * @date 30.3.2015
  */
-public interface IEntityBroker {
-    IEntity getEnity(Class clazz, int id);
-
-    boolean setEntity(IEntity entity);
+public enum Gender {
+    Male,
+    Female
 }
-
-// TODO delete?
