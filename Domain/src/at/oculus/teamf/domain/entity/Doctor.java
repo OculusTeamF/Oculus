@@ -9,18 +9,20 @@
 
 package at.oculus.teamf.domain.entity;
 
+import java.util.Collection;
+
 /**
  * Todo: add docs, implement equals
  *
  * @author Simon Angerer
  * @date 03.4.2015
  */
-@EntityClass("DoctorEntity.class")
 public class Doctor extends User{
 
     //<editor-fold desc="Attributes">
     private Calendar _calendar;
     private PatientQueue _queue;
+    private Collection<Patient> _patients;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -39,5 +41,13 @@ public class Doctor extends User{
     public void setQueue(PatientQueue _queue) {
         this._queue = _queue;
     }
+
+    public void addPatient(Patient patient) {
+        if(patient != null) {
+            _patients.add(patient);
+        }
+    }
+
+    public Collection<Patient> getPatients() { return _patients; }
     //</editor-fold>
 }

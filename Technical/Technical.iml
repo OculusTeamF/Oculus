@@ -27,8 +27,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="slf4j-api-1.7.12" level="application" />
-    <orderEntry type="library" exported="" name="slf4j-simple-1.7.12" level="application" />
-    <orderEntry type="library" exported="" name="log4j-over-slf4j-1.7.12" level="application" />
+    <orderEntry type="library" exported="" name="lib" level="project" />
   </component>
 </module>

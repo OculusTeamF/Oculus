@@ -9,111 +9,83 @@
 
 package at.oculus.teamf.persistence.facade;
 
-import at.oculus.teamf.databaseconnection.session.*;
-import at.oculus.teamf.domain.entity.DomainEntity;
-import at.oculus.teamf.persistence.broker.Broker;
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.broker.IEntityBroker;
+import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.ISessionBroker;
+import at.oculus.teamf.persistence.broker.EntityBroker;
+import at.oculus.teamf.persistence.broker.ICollectionReload;
 
-import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Facade for requesting entities from hibernate. Singleton pattern.
  *
+ * //TODO: add Exception, docs
  * @author san
  * @version 0.1
  */
 public class Facade {
 	private static Facade _self;
-	private Collection<IEntityBroker> _entityBroker;
+	private HashMap<Class, EntityBroker> _entityBrokers;
 	private ISessionBroker _sessionBroker;
 
-	/**
-	 * Constructor setting the hibernate classes.
-	 *
-	 * @param clazzes
-	 * 		hibernate classes
-	 */
-	private Facade(Collection<Class> clazzes) {
-		_sessionBroker = new HibernateSessionBroker(clazzes);
-	}
+	private Facade() { }
 
-	/**
-	 * Constructor setting the hibernate classes and the entity broker. not in use now
-	 *
-	 * @param clazzes
-	 * 		hibernate classes
-	 * @param broker
-	 * 		entity broker
-	 */
-	private Facade(Collection<Class> clazzes, Collection<IEntityBroker> broker) {
-		this(clazzes);
-		_entityBroker = broker;
-	}
-
-	/**
-	 * Return facade singleton.
-	 *
-	 * @param clazzes
-	 * 		hibernate classes
-	 *
-	 * @return facade singleton
-	 */
-	public static Facade getInstance(Collection<Class> clazzes) { //}, Collection<IEntityBroker> broker) {
+	public static Facade getInstance() { //}, Collection<EntityBroker> broker) {
 		if (_self == null) {
-			_self = new Facade(clazzes);
+			_self = new Facade();
 		}
 		return _self;
 	}
 
-	/**
-	 * returns object with requested id
-	 *
-	 * @param clazz
-	 * 		requested object class
-	 * @param id
-	 * 		primary key in database of the entity
-	 *
-	 * @return object of class
-	 *
-	 * @throws ClassNotFoundException
-	 * @throws BadSessionException
-	 * @throws ClassNotMappedException
-	 */
-	public DomainEntity getObjectById(Class clazz, int id)
-			throws ClassNotFoundException, BadSessionException, ClassNotMappedException, IllegalAccessException,
-			       InstantiationException {
-		// read annotation with entity class name
-		at.oculus.teamf.domain.entity.EntityClass entityClass = (at.oculus.teamf.domain.entity.EntityClass) clazz
-				.getAnnotation(at.oculus.teamf.domain.entity.EntityClass.class);
-		// request and return entity from broker
-		Broker broker = new Broker();
-		DomainEntity entity = (DomainEntity) clazz.newInstance();
-		entity.set(broker.getEntity(Class.forName(entityClass.value()), id));
-		return entity;
+	public void init(Collection<EntityBroker> brokers) {
+		if(_entityBrokers != null) {
+			//TODO: throw exception
+		}
+
+		_entityBrokers = new HashMap<Class, EntityBroker>();
+		Collection<Class> entityClazzes = new LinkedList<Class>();
+
+		for(EntityBroker broker : brokers) {
+			_entityBrokers.put(broker.getDomainClass(), broker);
+			entityClazzes.add(broker.getEntityClass());
+		}
+
+		_sessionBroker = new HibernateSessionBroker(entityClazzes);
 	}
 
-	public Collection getObjectCollection(DomainEntity entity, Class collectionClazz)
-			throws ClassNotFoundException, BadSessionException, ClassNotMappedException {
-		// read annotation with entity class name
-		at.oculus.teamf.domain.entity.EntityClass entityClass =
-				(at.oculus.teamf.domain.entity.EntityClass) entity.getClass().getAnnotation(
-						at.oculus.teamf.domain.entity.EntityClass.class);
-		// request and return entity from broker
-		Broker broker = new Broker();
-		return broker.getCollection(Class.forName(entityClass.value()), entity.getId(), collectionClazz);
+	public Object getById(Class clazz, int id) {
+		ISession session = _sessionBroker.getSession();
+		Object obj = _entityBrokers.get(clazz).getEntity(session, id);
+		_sessionBroker.releaseSession(session);
+		return obj;
 	}
 
-	public void save(DomainEntity entity)
-			throws ClassNotFoundException, IllegalAccessException, ClassNotMappedException, InstantiationException,
-			       AlreadyInTransactionException, BadSessionException, NoTransactionException {
-		// read annotation with entity class name
-		at.oculus.teamf.domain.entity.EntityClass entityClass =
-				(at.oculus.teamf.domain.entity.EntityClass) entity.getClass().getAnnotation(
-						at.oculus.teamf.domain.entity.EntityClass.class);
-		// request and return entity from broker
-		Broker broker = new Broker();
-		broker.setEntity(Class.forName(entityClass.value()), entity);
+	public Collection<Object> getAll(Class clazz) {
+		ISession session = _sessionBroker.getSession();
+		Collection<Object> objs = _entityBrokers.get(clazz).getAll(session);
+		_sessionBroker.releaseSession(session);
+		return objs;
+	}
+
+	public void reloadCollection(Object entity, Class clazz) throws CantReloadException {
+		EntityBroker broker = _entityBrokers.get(clazz);
+
+		if(!(broker instanceof ICollectionReload)) {
+			throw new CantReloadException();
+		}
+
+		ISession session = _sessionBroker.getSession();
+		((ICollectionReload) broker).reload(session, entity, clazz);
+		_sessionBroker.releaseSession(session);
+	}
+
+	public boolean save(Object entity) {
+		ISession session = _sessionBroker.getSession();
+		Boolean result = _entityBrokers.get(entity.getClass()).saveEntity(session, entity);
+		_sessionBroker.releaseSession(session);
+		return result;
 	}
 }

@@ -39,4 +39,6 @@ public interface ISession {
 	Collection<Object> getAll(Class clazz) throws BadSessionException, ClassNotMappedException;
 
 	Serializable save(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
+
+	Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
 }

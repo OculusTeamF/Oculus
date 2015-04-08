@@ -17,7 +17,7 @@ import java.util.Properties;
  * Created by Norskan on 02.04.2015.
  * //TODO: add docs
  */
-public class PropertiesHelper {
+public abstract class PropertiesHelper {
 
     protected Properties _prop;
 

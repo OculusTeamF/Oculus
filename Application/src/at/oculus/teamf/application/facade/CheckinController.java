@@ -4,7 +4,7 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.facade.Facade;
-import at.oculus.teamf.persistence.entity.QueueEntity;
+
 
 import java.util.Collection;
 import java.util.LinkedList;

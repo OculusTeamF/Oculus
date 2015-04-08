@@ -28,7 +28,7 @@ public class Patient {
     private Doctor _doctor;
     private Collection<CalendarEvent> _calendarEvents;
 
-    //private IEntityBroker eb;
+    //private EntityBroker eb;
 
     //</editor-fold>
 
