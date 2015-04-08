@@ -35,7 +35,7 @@ public class PatientEntity {
     private String _allergy;
     private String _childhoodAilments;
     private String _medicineIntolerance;
-    private Collection<CalendareventEntity> _calendarevents;
+    private Collection<CalendarEventEntity> _calendarevents;
     private DoctorEntity _doctor;
     private QueueEntity _queue;
 
@@ -252,19 +252,19 @@ public class PatientEntity {
     }
 
     @OneToMany(mappedBy = "patient")
-    public Collection<CalendareventEntity> getCalendarevents() {
+    public Collection<CalendarEventEntity> getCalendarevents() {
         return _calendarevents;
     }
 
-    public void setCalendarevents(Collection<CalendareventEntity> calendarevents) {
+    public void setCalendarevents(Collection<CalendarEventEntity> calendarevents) {
         _calendarevents = calendarevents;
     }
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
-    }*/
+    }
 
     public void setDoctor(DoctorEntity doctor) {
         this._doctor = doctor;

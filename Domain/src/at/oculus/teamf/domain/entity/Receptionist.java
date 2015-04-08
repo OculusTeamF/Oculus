@@ -18,16 +18,25 @@ public class Receptionist extends User {
 
     //<editor-fold desc="Attributes">
     private Collection<Calendar> _calendars;
+
+    private Collection<PatientQueue> _queues;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
-
     public Collection<Calendar> getCalendars() {
         return _calendars;
     }
 
     public void setCalendars(Collection<Calendar> calendars) {
         _calendars = calendars;
+    }
+
+    public Collection<PatientQueue> getQueues() {
+        return _queues;
+    }
+
+    public void setQueues(Collection<PatientQueue> queues) {
+        _queues = queues;
     }
     //</editor-fold>
 }

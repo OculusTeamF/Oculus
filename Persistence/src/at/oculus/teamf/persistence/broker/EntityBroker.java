@@ -120,7 +120,7 @@ public abstract class EntityBroker<D, P> {
 
 	protected abstract D persitentToDomain(P entity);
 
-	protected abstract P domainToPersitent(D entity);
+	protected abstract P domainToPersitent(D obj);
 
     //</editor-fold>
 

@@ -49,7 +49,7 @@ public class DoctorEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }
@@ -59,7 +59,7 @@ public class DoctorEntity {
     }
 
     @Basic
-    @Column(name = "doctorIdSubstitute", nullable = true, insertable = true, updatable = true)
+    @Column(name = "doctorIdSubstitute", nullable = true, insertable = false, updatable = false)
     public Integer getDoctorIdSubstitute() {
         return _doctorIdSubstitute;
     }
@@ -93,7 +93,7 @@ public class DoctorEntity {
         return result;
     }
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
@@ -101,7 +101,7 @@ public class DoctorEntity {
 
     public void setUser(UserEntity user) {
         this._user = user;
-    }
+    }*/
 
     @ManyToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
@@ -112,7 +112,7 @@ public class DoctorEntity {
     public void setCalendar(CalendarEntity calendar) {
         this._calendar = calendar;
     }
-/*
+
     @ManyToOne
     @JoinColumn(name = "doctorIdSubstitute", referencedColumnName = "doctorId")
     public DoctorEntity getDoctorSubstitute() {
@@ -127,13 +127,13 @@ public class DoctorEntity {
     @OneToMany(mappedBy = "doctor")
     public Collection<PatientEntity> getPatients() {
         return _patients;
-    }*/
+    }
 
     public void setPatients(Collection<PatientEntity> patients) {
         this._patients = patients;
     }
 
-    @OneToMany(mappedBy = "queue")
+    @OneToMany(mappedBy = "doctor")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

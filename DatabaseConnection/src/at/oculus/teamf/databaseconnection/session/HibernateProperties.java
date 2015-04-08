@@ -12,28 +12,58 @@ package at.oculus.teamf.databaseconnection.session;
 import at.oculus.teamf.technical.properties.PropertiesHelper;
 
 /**
- * Created by Norskan on 02.04.2015.
- * TODO: add docs
+ * HibernatePropertie helper to access properties from the config.properties file
+ * <p/>
+ *
+ * @author Simon Angerer
+ * @date 30.03.2015
+ * @version 1.0
  */
-class HibernateProperties extends PropertiesHelper{
+class HibernateProperties extends PropertiesHelper {
 
-    public HibernateProperties(String confiFile) {
-        super(confiFile);
-    }
+	/**
+	 * Creates a new HibernateProperties object.
+	 *
+	 * @param configFile
+	 * 		name of the ConfigFile
+	 */
+	public HibernateProperties(String configFile) {
+		super(configFile);
+	}
 
-    public String getURL() {
-        return (String)_prop.get("hibernate.connection.url");
-    }
+	/**
+	 * Returns the URL property of the configFile
+	 *
+	 * @return the url string
+	 */
+	public String getURL() {
+		return (String) _prop.get("hibernate.connection.url");
+	}
 
-    public String getDriver() {
-        return (String)_prop.get("hibernate.connection.driver_class");
-    }
+	/**
+	 * Returns the driver property of the configFile
+	 *
+	 * @return the driver string
+	 */
+	public String getDriver() {
+		return (String) _prop.get("hibernate.connection.driver_class");
+	}
 
-    public String getUser() {
-        return (String)_prop.get("hibernate.connection.username");
-    }
+	/**
+	 * Returns the user property of the configFile
+	 *
+	 * @return the user string
+	 */
+	public String getUser() {
+		return (String) _prop.get("hibernate.connection.username");
+	}
 
-    public String getPassword() {
-        return (String)_prop.get("hibernate.connection.password");
-    }
+	/**
+	 * Returns the password property of the configFile
+	 *
+	 * @return the password string
+	 */
+	public String getPassword() {
+		return (String) _prop.get("hibernate.connection.password");
+	}
 }

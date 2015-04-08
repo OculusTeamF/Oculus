@@ -15,7 +15,6 @@ import org.hibernate.Transaction;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.lang.Class;
 import java.util.HashSet;
 
 /**
@@ -24,6 +23,7 @@ import java.util.HashSet;
  *
  * @author Simon Angerer
  * @date 30.03.2015
+ * @version 1.0
  */
 class HibernateSession implements ISession, ISessionClosable {
 
@@ -66,7 +66,6 @@ class HibernateSession implements ISession, ISessionClosable {
             _transaction = _session.getTransaction();
             _transaction.begin();
         } catch (HibernateException e) {
-            //Todo: add Logging
             System.out.println("Can not start transaction! OriginalMessage: " + e.getMessage());
             return false;
         }

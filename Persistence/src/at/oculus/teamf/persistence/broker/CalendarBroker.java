@@ -13,12 +13,15 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
+import at.oculus.teamf.persistence.entities.CalendarEventEntity;
+import at.oculus.teamf.persistence.facade.CantReloadException;
 import at.oculus.teamf.persistence.facade.Facade;
 
 import java.util.Collection;
 
 /**
  * Created by Norskan on 08.04.2015.
+ * //Todo: add docs
  */
 public class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements ICollectionReload {
 
@@ -34,18 +37,20 @@ public class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> imple
 	}
 
 	@Override
-	protected CalendarEntity domainToPersitent(Calendar entity) {
+	protected CalendarEntity domainToPersitent(Calendar obj) {
 		//Todo: reverse
 		return null;
 	}
 
 	@Override
-	public void reload(ISession session, Object entity, Class clazz) {
+	public void reload(ISession session, Object entity, Class clazz) throws CantReloadException{
 		Facade facade = Facade.getInstance();
 
-		//Todo:instance of
-
-		((Calendar)entity).setEvents((Collection<CalendarEvent>)(Collection<?>)facade.getAll(CalendarEvent.class));
-
+		if(clazz == CalendarEventEntity.class) {
+			((Calendar) entity)
+					.setEvents((Collection<CalendarEvent>) (Collection<?>) facade.getAll(CalendarEvent.class));
+		} else {
+			throw new CantReloadException();
+		}
 	}
 }

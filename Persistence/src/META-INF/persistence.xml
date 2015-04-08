@@ -14,7 +14,7 @@
       <class>at.oculus.teamf.persistence.entities.UserEntity</class>
         <class>at.oculus.teamf.persistence.entities.UsergroupEntity</class>
       <class>at.oculus.teamf.persistence.entities.CalendarEntity</class>
-      <class>at.oculus.teamf.persistence.entities.CalendareventEntity</class>
+      <class>at.oculus.teamf.persistence.entities.CalendarEventEntity</class>
       <class>at.oculus.teamf.persistence.entities.CalendarworkinghoursEntity</class>
       <class>at.oculus.teamf.persistence.entities.DoctorEntity</class>
       <class>at.oculus.teamf.persistence.entities.Eventtypentity</class>

@@ -10,12 +10,11 @@
 package at.oculus.teamf.persistence.broker;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-
-import java.util.Collection;
+import at.oculus.teamf.persistence.facade.CantReloadException;
 
 /**
  * Created by Norskan on 07.04.2015.
  */
 public interface ICollectionReload {
-    void reload(ISession session, Object entity, Class clazz);
+    void reload(ISession session, Object entity, Class clazz) throws CantReloadException;
 }

@@ -22,7 +22,7 @@ import java.util.LinkedList;
  * Facade for requesting entities from hibernate. Singleton pattern.
  *
  * //TODO: add Exception, docs
- * @author san
+ * @author Simon Angerer
  * @version 0.1
  */
 public class Facade {
@@ -33,7 +33,7 @@ public class Facade {
 	private Facade() {
 		Collection<EntityBroker> entityBrokers = new LinkedList<EntityBroker>();
 		entityBrokers.add(new CalendarBroker());
-		entityBrokers.add(new CalendarEventBroker());
+		entityBrokers.add(new CalendarEventBoker());
 		entityBrokers.add(new DoctorBroker());
 		entityBrokers.add(new PatientBroker());
 		entityBrokers.add(new QueueBroker());
@@ -43,7 +43,7 @@ public class Facade {
 		init(entityBrokers);
 	}
 
-	public static Facade getInstance() { //}, Collection<EntityBroker> broker) {
+	public static Facade getInstance() {
 		if (_self == null) {
 			_self = new Facade();
 		}
@@ -51,11 +51,7 @@ public class Facade {
 	}
 
 	//determine where to call
-	private void init(Collection<EntityBroker> brokers) {
-		if(_entityBrokers != null) {
-			//TODO: throw exception
-		}
-
+	private void init(Collection<EntityBroker> brokers){
 		_entityBrokers = new HashMap<Class, EntityBroker>();
 		Collection<Class> entityClazzes = new LinkedList<Class>();
 
