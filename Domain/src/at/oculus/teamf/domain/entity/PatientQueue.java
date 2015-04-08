@@ -10,6 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Todo: add docs, implement equals
@@ -20,29 +21,30 @@ import java.util.Collection;
 public class PatientQueue {
 
     //<editor-fold desc="Attributes">
-    private int _queueID;
-    private Collection<Patient> _patients;
+    private int _userID;
+	private LinkedList<Patient> _patients;
+	private LinkedList<Integer> _queueIds;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
-    public int get_queueID() {
-        return _queueID;
+    public int getUserID() {
+        return _userID;
     }
 
-    public void set_queueID(int _queueID) {
-        _queueID = _queueID;
+    public void setUserID(int userID) {
+	    _userID = userID;
     }
 
-    public Collection<Patient> get_patients() {
+    public Collection<Patient> getPatients() {
         return _patients;
     }
 
-    public void set_patients(Collection<Patient> _patients) {
+    public void setPatients(Collection<Patient> _patients) {
         _patients = _patients;
     }
     //</editor-fold>
 
-    public void insert(Patient patient) { }
+    public void insert(Patient patient, Patient parent) { }
 
     public Patient getNext() { return null; }
 }
