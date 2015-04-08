@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Created by oculus on 08.04.15.
+ * Created by jpo2433 on 08.04.15.
  */
 public class StartupController {
 
