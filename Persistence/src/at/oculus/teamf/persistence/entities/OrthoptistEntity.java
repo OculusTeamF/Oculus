@@ -27,31 +27,31 @@ public class OrthoptistEntity {
 
     @Id
     @Column(name = "orthoptistId", nullable = false, insertable = true, updatable = true)
-    public int get_id() {
+    public int getId() {
         return _id;
     }
 
-    public void set_id(int orthoptistId) {
+    public void setId(int orthoptistId) {
         this._id = orthoptistId;
     }
 
     @Basic
     @Column(name = "userId", nullable = true, insertable = true, updatable = true)
-    public Integer get_userId() {
+    public Integer getUserId() {
         return _userId;
     }
 
-    public void set_userId(Integer userId) {
+    public void setUserId(Integer userId) {
         this._userId = userId;
     }
 
     @Basic
     @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
-    public int get_calendarId() {
+    public int getCalendarId() {
         return _calendarId;
     }
 
-    public void set_calendarId(int calendarId) {
+    public void setCalendarId(int calendarId) {
         this._calendarId = calendarId;
     }
 
