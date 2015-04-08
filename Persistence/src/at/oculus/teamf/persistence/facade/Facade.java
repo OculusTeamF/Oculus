@@ -14,6 +14,8 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.persistence.broker.EntityBroker;
 import at.oculus.teamf.persistence.broker.ICollectionReload;
+import at.oculus.teamf.persistence.broker.PatientBroker;
+import at.oculus.teamf.persistence.broker.WeekdayBroker;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,7 +33,11 @@ public class Facade {
 	private HashMap<Class, EntityBroker> _entityBrokers;
 	private ISessionBroker _sessionBroker;
 
-	private Facade() { }
+	private Facade() {
+		Collection<EntityBroker> entityBrokers = new LinkedList<EntityBroker>();
+		entityBrokers.add(new PatientBroker());
+		entityBrokers.add(new WeekdayBroker());
+	}
 
 	public static Facade getInstance() { //}, Collection<EntityBroker> broker) {
 		if (_self == null) {
@@ -40,7 +46,8 @@ public class Facade {
 		return _self;
 	}
 
-	public void init(Collection<EntityBroker> brokers) {
+	//determine where to call
+	private void init(Collection<EntityBroker> brokers) {
 		if(_entityBrokers != null) {
 			//TODO: throw exception
 		}

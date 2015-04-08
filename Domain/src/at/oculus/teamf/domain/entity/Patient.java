@@ -24,7 +24,7 @@ public class Patient {
     private String _firstName;
     private String _lastName;
     private Gender _gender;
-    private int _svn;
+    private String _svn;
     private Doctor _doctor;
     private Collection<CalendarEvent> _calendarEvents;
 
@@ -72,11 +72,11 @@ public class Patient {
         _gender = _gender;
     }
 
-    public int getSvn() {
+    public String getSvn() {
         return _svn;
     }
 
-    public void setSvn(int svn) {
+    public void setSvn(String svn) {
         _svn = svn;
     }
 
