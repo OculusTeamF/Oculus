@@ -7,27 +7,30 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
+package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.Test;
+import at.oculus.teamf.domain.entity.Receptionist;
+import at.oculus.teamf.persistence.EntityBroker;
+import at.oculus.teamf.persistence.entities.ReceptionistEntity;
 
 /**
  * Created by Norskan on 08.04.2015.
  */
-public abstract class BrokerTest {
+public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity> {
+	public ReceptionistBroker() {
+		super(Receptionist.class, ReceptionistEntity.class);
+	}
 
-	@Test
-	public abstract void getByIdTest() throws FacadeException;
+	@Override
+	protected Receptionist persitentToDomain(ReceptionistEntity entity) {
+		Receptionist receptionist = new Receptionist();
+		receptionist.setUserID(entity.getUserId());
+		return receptionist;
+	}
 
-	@Test
-	public abstract void getAllTest();
-
-	@Test
-	public abstract void save();
-
-	@Test
-	public abstract void reload() throws FacadeException;
-
-
+	@Override
+	protected ReceptionistEntity domainToPersitent(Receptionist entity) {
+		//Todo: reverse
+		return null;
+	}
 }

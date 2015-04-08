@@ -7,26 +7,32 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
+package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.persistence.entities.DoctorEntity;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.persistence.EntityBroker;
+import at.oculus.teamf.persistence.entities.PatientEntity;
 
 /**
- * DoctorBroker.java Created by oculus on 08.04.15.
+ * Created by Norskan on 08.04.2015.
  */
-public class DoctorBroker extends EntityBroker {
-	public DoctorBroker() {
-		super(Doctor.class, DoctorEntity.class);
+public class PatientBroker extends EntityBroker<Patient, PatientEntity> {
+
+	public PatientBroker() {
+		super(Patient.class, PatientEntity.class);
 	}
 
 	@Override
-	protected Object persitentToDomain(Object entity) {
-		return null;
+	protected Patient persitentToDomain(PatientEntity entity) {
+		Patient patient = new Patient();
+		patient.setFirstName(entity.getFirstName());
+		patient.setLastName(entity.getLastName());
+
+		return patient;
 	}
 
 	@Override
-	protected Object domainToPersitent(Object entity) {
+	protected PatientEntity domainToPersitent(Patient entity) {
 		return null;
 	}
 }

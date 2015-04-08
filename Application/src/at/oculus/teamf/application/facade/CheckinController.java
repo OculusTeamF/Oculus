@@ -3,10 +3,7 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.User;
-import at.oculus.teamf.persistence.facade.Facade;
-
-import java.util.Collection;
-import java.util.LinkedList;
+import at.oculus.teamf.persistence.Facade;
 
 /**
  * Created by Norskan on 02.04.2015.

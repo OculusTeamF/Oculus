@@ -11,8 +11,8 @@ package at.oculus.teamf.persistencetests.brokerTest;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.persistence.facade.CantReloadException;
-import at.oculus.teamf.persistence.facade.Facade;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -25,9 +25,9 @@ public class CalendarBrokerTest extends BrokerTest{
 
 	@Test
 	@Override
-	public void getByIdTest() {
+	public void getByIdTest() throws FacadeException {
 		Facade facade = Facade.getInstance();
-		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
+		Calendar cal = facade.getById(Calendar.class, 1);
 		assertTrue(cal != null);
 	}
 
@@ -45,16 +45,22 @@ public class CalendarBrokerTest extends BrokerTest{
 
 	@Test
 	@Override
-	public void reload() {
+	public void reload() throws FacadeException {
 		Facade facade = Facade.getInstance();
 		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
 		assertTrue(cal != null);
 
 		try {
 			facade.reloadCollection(cal, CalendarEvent.class);
-		} catch (CantReloadException e) {
+		} catch (InvalideReloadParameterExeption invalideReloadParameterExeption) {
+			invalideReloadParameterExeption.printStackTrace();
 			assertTrue(false);
+		} catch (ReloadInterfaceNotImplementedException e) {
 			e.printStackTrace();
+			assertTrue(false);
+		} catch (NotAbleToLoadClassException e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 
 		assertTrue(cal.getEvents() != null);

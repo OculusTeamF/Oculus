@@ -10,7 +10,7 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.persistence.facade.Facade;
+import at.oculus.teamf.persistence.Facade;
 
 import java.util.Collection;
 import java.util.LinkedList;

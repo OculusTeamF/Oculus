@@ -7,31 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.persistence.entities.PatientEntity;
+package at.oculus.teamf.persistence.exceptions;
 
 /**
  * Created by Norskan on 08.04.2015.
  */
-public class PatientBroker extends EntityBroker<Patient, PatientEntity> {
-
-	public PatientBroker() {
-		super(Patient.class, PatientEntity.class);
-	}
-
-	@Override
-	protected Patient persitentToDomain(PatientEntity entity) {
-		Patient patient = new Patient();
-		patient.setFirstName(entity.getFirstName());
-		patient.setLastName(entity.getLastName());
-
-		return patient;
-	}
-
-	@Override
-	protected PatientEntity domainToPersitent(Patient entity) {
-		return null;
-	}
+public class NotAbleToLoadClassException extends FacadeException {
 }

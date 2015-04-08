@@ -7,23 +7,23 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
+package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entities.CalendarEventEntity;
-import at.oculus.teamf.persistence.facade.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 /**
  * Created by Norskan on 08.04.2015.
  */
-public class CalendarEventBoker extends EntityBroker<CalendarEvent, CalendarEventEntity> {
+class CalendarEventBoker extends EntityBroker<CalendarEvent, CalendarEventEntity> {
 	public CalendarEventBoker() {
 		super(CalendarEvent.class, CalendarEventEntity.class);
 	}
 
 	@Override
-	protected CalendarEvent persitentToDomain(CalendarEventEntity entity) {
+	protected CalendarEvent persitentToDomain(CalendarEventEntity entity) throws FacadeException {
 		CalendarEvent event = new CalendarEvent();
 		event.setDescription(entity.getDescription());
 		event.setEventEnd(entity.getEventEnd());

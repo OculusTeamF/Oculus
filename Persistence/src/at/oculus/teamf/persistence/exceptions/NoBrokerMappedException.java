@@ -7,14 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.persistence.facade.CantReloadException;
+package at.oculus.teamf.persistence.exceptions;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Created by Norskan on 08.04.2015.
  */
-public interface ICollectionReload {
-    void reload(ISession session, Object entity, Class clazz) throws CantReloadException;
+public class NoBrokerMappedException extends FacadeException{
 }

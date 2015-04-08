@@ -7,29 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.persistence.entities.QueueEntity;
+package at.oculus.teamf.persistence.entities;
 
 /**
- * QueueBroker.java Created by dgr on 08.04.15.
+ * Created by Norskan on 07.04.2015.
  */
-public class QueueBroker extends EntityBroker<PatientQueue,QueueEntity> {
-
-	public QueueBroker() {
-
-		super(PatientQueue.class, QueueEntity.class);
-	}
-
-	@Override
-	protected PatientQueue persitentToDomain(QueueEntity entity) {
-
-		return null;
-	}
-
-	@Override
-	protected QueueEntity domainToPersitent(PatientQueue entity) {
-		return null;
-	}
+public interface IEntity {
 }

@@ -7,27 +7,30 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
+package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.Test;
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.persistence.EntityBroker;
+import at.oculus.teamf.persistence.entities.QueueEntity;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * QueueBroker.java Created by dgr on 08.04.15.
  */
-public abstract class BrokerTest {
+public class QueueBroker extends EntityBroker<PatientQueue,QueueEntity> {
 
-	@Test
-	public abstract void getByIdTest() throws FacadeException;
+	public QueueBroker() {
 
-	@Test
-	public abstract void getAllTest();
+		super(PatientQueue.class, QueueEntity.class);
+	}
 
-	@Test
-	public abstract void save();
+	@Override
+	protected PatientQueue persitentToDomain(QueueEntity entity) {
 
-	@Test
-	public abstract void reload() throws FacadeException;
+		return null;
+	}
 
-
+	@Override
+	protected QueueEntity domainToPersitent(PatientQueue entity) {
+		return null;
+	}
 }

@@ -7,29 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
-
-import at.oculus.teamf.domain.entity.Receptionist;
-import at.oculus.teamf.persistence.entities.ReceptionistEntity;
+package at.oculus.teamf.persistence.exceptions;
 
 /**
  * Created by Norskan on 08.04.2015.
  */
-public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity>{
-	public ReceptionistBroker() {
-		super(Receptionist.class, ReceptionistEntity.class);
-	}
-
-	@Override
-	protected Receptionist persitentToDomain(ReceptionistEntity entity) {
-		Receptionist receptionist = new Receptionist();
-		receptionist.setUserID(entity.getUserId());
-		return receptionist;
-	}
-
-	@Override
-	protected ReceptionistEntity domainToPersitent(Receptionist entity) {
-		//Todo: reverse
-		return null;
-	}
+public class ReloadException extends FacadeException{
 }
