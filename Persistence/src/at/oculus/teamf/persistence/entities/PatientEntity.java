@@ -35,7 +35,7 @@ public class PatientEntity {
     private String _allergy;
     private String _childhoodAilments;
     private String _medicineIntolerance;
-    private Collection<CalendareventEntity> _calendareventsByPatientId;
+    private Collection<CalendareventEntity> _calendarevents;
     private DoctorEntity _doctor;
     private QueueEntity _queue;
 
@@ -50,7 +50,7 @@ public class PatientEntity {
     }
 
     @Basic
-    @Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "doctorId", nullable = true, insertable = false, updatable = false)
     public Integer getDoctorId() {
         return _doctorId;
     }
@@ -60,7 +60,7 @@ public class PatientEntity {
     }
 
     @Basic
-    @Column(name = "socialInsuranceNr", nullable = true, insertable = true, updatable = true, length = 10)
+    @Column(name = "socialInsuranceNr", nullable = true,  insertable = false, updatable = false, length = 10)
     public String getSocialInsuranceNr() {
         return _socialInsuranceNr;
     }
@@ -252,12 +252,12 @@ public class PatientEntity {
     }
 
     @OneToMany(mappedBy = "patient")
-    public Collection<CalendareventEntity> get_calendareventsByPatientId() {
-        return _calendareventsByPatientId;
+    public Collection<CalendareventEntity> getCalendarevents() {
+        return _calendarevents;
     }
 
-    public void set_calendareventsByPatientId(Collection<CalendareventEntity> calendareventsByPatientId) {
-        this._calendareventsByPatientId = calendareventsByPatientId;
+    public void setCalendarevents(Collection<CalendareventEntity> calendarevents) {
+        _calendarevents = calendarevents;
     }
 
     /*@ManyToOne
@@ -270,7 +270,7 @@ public class PatientEntity {
         this._doctor = doctor;
     }
 
-    @OneToOne(mappedBy = "queue")
+    @OneToOne(mappedBy = "patient")
     public QueueEntity getQueue() {
         return _queue;
     }

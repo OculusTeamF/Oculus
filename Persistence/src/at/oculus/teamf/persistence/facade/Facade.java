@@ -39,6 +39,8 @@ public class Facade {
 		entityBrokers.add(new QueueBroker());
 		entityBrokers.add(new ReceptionistBroker());
 		entityBrokers.add(new WeekdayBroker());
+
+		init(entityBrokers);
 	}
 
 	public static Facade getInstance() { //}, Collection<EntityBroker> broker) {

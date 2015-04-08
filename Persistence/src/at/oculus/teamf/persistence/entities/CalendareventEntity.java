@@ -42,7 +42,7 @@ public class CalendareventEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }
@@ -52,7 +52,7 @@ public class CalendareventEntity {
     }
 
     @Basic
-    @Column(name = "patientId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "patientId", nullable = true, insertable = false, updatable = false)
     public Integer getPatientId() {
         return _patientId;
     }
