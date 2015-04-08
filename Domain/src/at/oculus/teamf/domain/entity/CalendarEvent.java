@@ -66,5 +66,5 @@ public class CalendarEvent {
     public void setPatient(Patient patient) {
         _patient = patient;
     }
-    //</editor-fold>
+	//</editor-fold>
 }

@@ -7,33 +7,31 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.persistence.broker;
+
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.persistence.entities.PatientEntity;
 
 /**
- * Created by Norskan on 03.04.2015.
+ * Created by Norskan on 08.04.2015.
  */
-public class Ortoptist extends User {
+public class PatientBroker extends EntityBroker<Patient, PatientEntity> {
 
-    //<editor-fold desc="Attributes">
-    private Calendar _calendar;
-    private PatientQueue _queue;
-    //</editor-fold>
+	public PatientBroker() {
+		super(Patient.class, PatientEntity.class);
+	}
 
-    //<editor-fold desc="Getter/Setter">
-    public Calendar getCalendar() {
-        return _calendar;
-    }
+	@Override
+	protected Patient persitentToDomain(PatientEntity entity) {
+		Patient patient = new Patient();
+		patient.setFirstName(entity.getFirstName());
+		patient.setLastName(entity.getLastName());
 
-    public void setCalendar(Calendar calendar) {
-        _calendar = calendar;
-    }
+		return patient;
+	}
 
-    public PatientQueue getQueue() {
-        return _queue;
-    }
-
-    public void setQueue(PatientQueue queue) {
-        _queue = queue;
-    }
-    //</editor-fold>
+	@Override
+	protected PatientEntity domainToPersitent(Patient entity) {
+		return null;
+	}
 }

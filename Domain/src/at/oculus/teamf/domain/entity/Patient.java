@@ -9,9 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.entity.PatientEntity;
-
 import java.util.Collection;
 
 /**
@@ -27,16 +24,16 @@ public class Patient {
     private String _firstName;
     private String _lastName;
     private Gender _gender;
-    private int _svn;
+    private String _svn;
     private Doctor _doctor;
     private Collection<CalendarEvent> _calendarEvents;
 
-    //private IEntityBroker eb;
+    //private EntityBroker eb;
 
     //</editor-fold>
 
     public Patient(){
-        IEntity p = eb.getEnity(PatientEntity.class, 0);
+        //IEntity p = eb.getEnity(PatientEntity.class, 0);
 
     }
 
@@ -75,11 +72,11 @@ public class Patient {
         _gender = _gender;
     }
 
-    public int getSvn() {
+    public String getSvn() {
         return _svn;
     }
 
-    public void setSvn(int svn) {
+    public void setSvn(String svn) {
         _svn = svn;
     }
 

@@ -9,13 +9,12 @@
 
 package at.oculus.teamf.persistence.broker;
 
-import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.persistence.facade.CantReloadException;
 
 /**
- * Created by Norskan on 30.03.2015.
+ * Created by Norskan on 07.04.2015.
  */
-public interface IEntityBroker {
-    IEntity getEnity(Class clazz, int id);
-
-    boolean setEntity(IEntity entity);
+public interface ICollectionReload {
+    void reload(ISession session, Object entity, Class clazz) throws CantReloadException;
 }
