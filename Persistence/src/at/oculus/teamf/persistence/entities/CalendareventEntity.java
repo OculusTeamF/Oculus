@@ -175,7 +175,7 @@ public class CalendareventEntity {
         _patient = patient;
     }
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false)
     public Eventtypentity getEventtype() {
         return _eventtype;
@@ -183,5 +183,5 @@ public class CalendareventEntity {
 
     public void setEventtype(Eventtypentity eventType) {
         _eventtype = eventType;
-    }
+    }*/
 }

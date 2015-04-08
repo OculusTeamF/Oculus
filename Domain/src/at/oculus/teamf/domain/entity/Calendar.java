@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.facade.CantReloadException;
+import at.oculus.teamf.persistence.facade.Facade;
+
 import java.util.Collection;
 
 /**
@@ -34,6 +37,15 @@ public class Calendar {
     }
 
     public Collection<CalendarEvent> getEvents() {
+        Facade facade = Facade.getInstance();
+
+        try {
+             facade.reloadCollection(this, CalendarEvent.class);
+        } catch (CantReloadException e) {
+            //Todo: add loging
+            e.printStackTrace();
+        }
+
         return _events;
     }
 

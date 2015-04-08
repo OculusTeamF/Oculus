@@ -12,10 +12,7 @@ package at.oculus.teamf.persistence.facade;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
-import at.oculus.teamf.persistence.broker.EntityBroker;
-import at.oculus.teamf.persistence.broker.ICollectionReload;
-import at.oculus.teamf.persistence.broker.PatientBroker;
-import at.oculus.teamf.persistence.broker.WeekdayBroker;
+import at.oculus.teamf.persistence.broker.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,7 +32,12 @@ public class Facade {
 
 	private Facade() {
 		Collection<EntityBroker> entityBrokers = new LinkedList<EntityBroker>();
+		entityBrokers.add(new CalendarBroker());
+		entityBrokers.add(new CalendarEventBroker());
+		entityBrokers.add(new DoctorBroker());
 		entityBrokers.add(new PatientBroker());
+		entityBrokers.add(new QueueBroker());
+		entityBrokers.add(new ReceptionistBroker());
 		entityBrokers.add(new WeekdayBroker());
 	}
 

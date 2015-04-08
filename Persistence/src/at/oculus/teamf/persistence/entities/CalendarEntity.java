@@ -74,6 +74,7 @@ public class CalendarEntity {
         _calendarevents = calendarEvents;
     }
 
+    /*
     @OneToMany(mappedBy = "calendar")
     public Collection<CalendarworkinghoursEntity> getCalendarWorkingHours() {
         return _calendarworkinghours;
@@ -99,5 +100,5 @@ public class CalendarEntity {
 
     public void setOrthoptist(OrthoptistEntity orthoptist) {
         _orthoptist = orthoptist;
-    }
+    }*/
 }

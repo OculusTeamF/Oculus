@@ -112,7 +112,7 @@ public class DoctorEntity {
     public void setCalendar(CalendarEntity calendar) {
         this._calendar = calendar;
     }
-
+/*
     @ManyToOne
     @JoinColumn(name = "doctorIdSubstitute", referencedColumnName = "doctorId")
     public DoctorEntity getDoctorSubstitute() {
@@ -123,10 +123,11 @@ public class DoctorEntity {
         this._doctorSubstitute = doctor;
     }
 
+
     @OneToMany(mappedBy = "doctor")
     public Collection<PatientEntity> getPatients() {
         return _patients;
-    }
+    }*/
 
     public void setPatients(Collection<PatientEntity> patients) {
         this._patients = patients;

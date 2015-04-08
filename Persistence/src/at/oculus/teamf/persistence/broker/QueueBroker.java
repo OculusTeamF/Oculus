@@ -29,8 +29,9 @@ import java.util.LinkedList;
  */
 public class QueueBroker extends EntityBroker<PatientQueue,QueueEntity> {
 
-	public QueueBroker(Class domainClass, Class entityClass) {
-		super(domainClass, entityClass);
+	public QueueBroker() {
+
+		super(PatientQueue.class, QueueEntity.class);
 	}
 
 	public PatientQueue getEntity(ISession session, int id) {

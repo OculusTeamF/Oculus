@@ -260,14 +260,14 @@ public class PatientEntity {
         this._calendareventsByPatientId = calendareventsByPatientId;
     }
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
-    }
+    }*/
 
-    public void setDoctor(DoctorEntity doctorByDoctorId) {
-        this._doctor = doctorByDoctorId;
+    public void setDoctor(DoctorEntity doctor) {
+        this._doctor = doctor;
     }
 
     @OneToOne(mappedBy = "queue")

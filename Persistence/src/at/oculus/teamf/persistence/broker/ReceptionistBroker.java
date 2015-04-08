@@ -9,24 +9,27 @@
 
 package at.oculus.teamf.persistence.broker;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.persistence.entities.DoctorEntity;
+import at.oculus.teamf.domain.entity.Receptionist;
+import at.oculus.teamf.persistence.entities.ReceptionistEntity;
 
 /**
- * DoctorBroker.java Created by oculus on 08.04.15.
+ * Created by Norskan on 08.04.2015.
  */
-public class DoctorBroker extends EntityBroker {
-	public DoctorBroker() {
-		super(Doctor.class, DoctorEntity.class);
+public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity>{
+	public ReceptionistBroker() {
+		super(Receptionist.class, ReceptionistEntity.class);
 	}
 
 	@Override
-	protected Object persitentToDomain(Object entity) {
-		return null;
+	protected Receptionist persitentToDomain(ReceptionistEntity entity) {
+		Receptionist receptionist = new Receptionist();
+		receptionist.setUserID(entity.getUserId());
+		return receptionist;
 	}
 
 	@Override
-	protected Object domainToPersitent(Object entity) {
+	protected ReceptionistEntity domainToPersitent(Receptionist entity) {
+		//Todo: reverse
 		return null;
 	}
 }

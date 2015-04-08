@@ -26,7 +26,6 @@ public class EntityBrokerTest {
 		Facade facade = Facade.getInstance();
 		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
 		brokers.add(new WeekdayBroker());
-		facade.init(brokers);
 
 		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
 		//System.out.println(wd.getName());
@@ -37,8 +36,6 @@ public class EntityBrokerTest {
 	public void testSetEntity() throws Exception {
 		Facade facade = Facade.getInstance();
 		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
-		brokers.add(new WeekdayBroker());
-		facade.init(brokers);
 
 		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
 		//System.out.println(wd.getName());
