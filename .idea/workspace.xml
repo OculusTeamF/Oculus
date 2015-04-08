@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e254defe-7300-411b-8b11-ccef44fce2d5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -115,8 +114,8 @@
       <file leaf-file-name="CheckinController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3522868" vertical-offset="0" max-vertical-offset="809">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6304079" vertical-offset="0" max-vertical-offset="809">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding>
                 <element signature="e#810#818#0" expanded="true" />
               </folding>
@@ -935,7 +934,7 @@
       <workItem from="1428438843667" duration="2238000" />
       <workItem from="1428442232551" duration="2372000" />
       <workItem from="1428493872397" duration="1733000" />
-      <workItem from="1428497578665" duration="528000" />
+      <workItem from="1428497578665" duration="544000" />
     </task>
     <task id="LOCAL-00001" summary="It compiles! :)">
       <created>1428397587232</created>
@@ -973,11 +972,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428497708084</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Entitiy fixes&#10;">
+      <created>1428498117216</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1428498117216</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28640000" />
+    <option name="totallyTimeSpent" value="28656000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="956" extended-state="6" />
@@ -1027,6 +1032,8 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
@@ -1433,8 +1440,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3522868" vertical-offset="0" max-vertical-offset="809">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6304079" vertical-offset="0" max-vertical-offset="809">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
             <element signature="e#810#818#0" expanded="true" />
           </folding>
