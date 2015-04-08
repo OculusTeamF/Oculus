@@ -150,11 +150,11 @@ public class QueueEntity {
 
     @ManyToOne
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")
-    public QueueEntity getQueue() {
+    public QueueEntity getQueueParent() {
         return _queueParent;
     }
 
-    public void setQueue(QueueEntity queue) {
+    public void setQueueParent(QueueEntity queue) {
         this._queueParent = queue;
     }
 

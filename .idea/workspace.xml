@@ -2,6 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e254defe-7300-411b-8b11-ccef44fce2d5" name="Default" comment="">
+<<<<<<< HEAD
+=======
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/DoctorBroker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/QueueBroker.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Ortoptist.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/OrthoptistEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/OrthoptistEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" />
+>>>>>>> master_dagrisa
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -79,6 +89,7 @@
       <file leaf-file-name="PatientBroker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/PatientBroker.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="525">
               <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
               <folding>
@@ -87,26 +98,109 @@
                 <element signature="e#1310#1311#0" expanded="true" />
                 <element signature="e#1328#1329#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PatientEntity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="3060">
-              <caret line="72" column="40" selection-start-line="72" selection-start-column="40" selection-end-line="72" selection-end-column="40" />
+=======
+            <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="1920">
+              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="QueueBroker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/QueueBroker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1050" max-vertical-offset="3165">
+              <caret line="83" column="80" selection-start-line="83" selection-start-column="80" selection-end-line="83" selection-end-column="80" />
+              <folding>
+                <element signature="e#0#5828#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1497#1498#0" expanded="true" />
+                <element signature="e#1535#1536#0" expanded="true" />
+                <element signature="e#2739#2760#0" expanded="true" />
+                <element signature="e#2812#2829#0" expanded="true" />
+                <element signature="e#2890#2904#0" expanded="true" />
+                <element signature="e#3007#3029#0" expanded="true" />
+                <element signature="e#4245#4259#0" expanded="true" />
+                <element signature="e#5807#5808#0" expanded="true" />
+                <element signature="e#5825#5826#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DoctorBroker.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/DoctorBroker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4029304" vertical-offset="0" max-vertical-offset="819">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding>
+                <element signature="e#885#886#0" expanded="true" />
+                <element signature="e#923#924#0" expanded="true" />
+                <element signature="e#988#989#0" expanded="true" />
+                <element signature="e#1006#1007#0" expanded="true" />
+                <element signature="e#1071#1072#0" expanded="true" />
+                <element signature="e#1089#1090#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueueEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="1785">
+              <caret line="27" column="34" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrthoptistEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/OrthoptistEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
+              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+              <folding />
+>>>>>>> master_dagrisa
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="PatientEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="3060">
+              <caret line="72" column="40" selection-start-line="72" selection-start-column="40" selection-end-line="72" selection-end-column="40" />
+=======
+      <file leaf-file-name="UserEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1995">
+              <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
+>>>>>>> master_dagrisa
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
       <file leaf-file-name="Facade.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/Facade.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1290">
               <caret line="38" column="47" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
               <folding />
+=======
+      <file leaf-file-name="PatientQueue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+              <caret line="46" column="54" selection-start-line="46" selection-start-column="54" selection-end-line="46" selection-end-column="54" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+>>>>>>> master_dagrisa
             </state>
           </provider>
         </entry>
@@ -114,13 +208,28 @@
       <file leaf-file-name="CheckinController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44499382" vertical-offset="0" max-vertical-offset="809">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6304079" vertical-offset="0" max-vertical-offset="809">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding>
+                <element signature="e#810#818#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+=======
+      <file leaf-file-name="WeekdayBroker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/WeekdayBroker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+              <caret line="21" column="71" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="71" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+>>>>>>> master_dagrisa
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -158,10 +267,7 @@
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Calendar.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/WorkinghoursEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UsergroupEntity.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/OrthoptistEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/DoctorEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/EventtypeEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/EventTypeEntity.java" />
@@ -182,11 +288,21 @@
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/EntityBroker.java" />
         <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/EntityBrokerTest.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/CalendarworkinghoursEntity.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/PatientBroker.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/Facade.java" />
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java" />
+=======
+        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/OrthoptistEntity.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/PatientBroker.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/DoctorBroker.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/QueueBroker.java" />
+>>>>>>> master_dagrisa
       </list>
     </option>
   </component>
@@ -198,7 +314,11 @@
     <option name="x" value="64" />
     <option name="y" value="-4" />
     <option name="width" value="1857" />
+<<<<<<< HEAD
     <option name="height" value="956" />
+=======
+    <option name="height" value="979" />
+>>>>>>> master_dagrisa
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -225,7 +345,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -501,6 +620,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -523,6 +643,7 @@
     <property name="recentsLimit" value="5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
@@ -931,9 +1052,13 @@
       <workItem from="1428423211774" duration="5776000" />
       <workItem from="1428438843667" duration="2238000" />
       <workItem from="1428442232551" duration="2372000" />
+<<<<<<< HEAD
       <workItem from="1428493872397" duration="1733000" />
       <workItem from="1428497578665" duration="544000" />
-      <workItem from="1428502302001" duration="38000" />
+=======
+      <workItem from="1428444754070" duration="88000" />
+      <workItem from="1428494845575" duration="7009000" />
+>>>>>>> master_dagrisa
     </task>
     <task id="LOCAL-00001" summary="It compiles! :)">
       <created>1428397587232</created>
@@ -981,15 +1106,26 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28694000" />
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="28656000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="956" extended-state="6" />
-    <editor active="false" />
+=======
+    <option name="totallyTimeSpent" value="33476000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="64" y="-4" width="1857" height="979" extended-state="6" />
+>>>>>>> master_dagrisa
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282887" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> master_dagrisa
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1001,7 +1137,11 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21089298" sideWeight="0.3395973" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21290678" sideWeight="0.66040266" order="0" side_tool="false" content_ui="combo" />
+<<<<<<< HEAD
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21290678" sideWeight="0.66040266" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21345836" sideWeight="0.66040266" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> master_dagrisa
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1012,7 +1152,10 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+=======
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282887" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+>>>>>>> master_dagrisa
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2991851" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1054,14 +1197,7 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/WeekdayBroker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
@@ -1070,13 +1206,20 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> master_dagrisa
     <entry file="file://$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/EntityBrokerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#1208#1222#0" expanded="true" />
             <element signature="e#1568#1582#0" expanded="true" />
+=======
+            <element signature="e#0#2007#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+>>>>>>> master_dagrisa
           </folding>
         </state>
       </provider>
@@ -1085,10 +1228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#2297#2298#0" expanded="true" />
-            <element signature="e#2335#2336#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1176,14 +1315,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Ortoptist.java">
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16550764" vertical-offset="0" max-vertical-offset="0">
           <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java">
+=======
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
+>>>>>>> master_dagrisa
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2837274" vertical-offset="0" max-vertical-offset="0">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
@@ -1201,13 +1344,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16550764" vertical-offset="0" max-vertical-offset="0">
           <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2364395" vertical-offset="0" max-vertical-offset="0">
-          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1246,13 +1382,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.9791377" vertical-offset="0" max-vertical-offset="0">
-          <caret line="176" column="29" selection-start-line="176" selection-start-column="29" selection-end-line="176" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6689847" vertical-offset="0" max-vertical-offset="0">
@@ -1260,6 +1389,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Calendar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3783032" vertical-offset="0" max-vertical-offset="0">
@@ -1278,6 +1408,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.26008344" vertical-offset="0" max-vertical-offset="0">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+=======
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.527121" vertical-offset="0" max-vertical-offset="0">
+          <caret line="261" column="0" selection-start-line="261" selection-start-column="0" selection-end-line="261" selection-end-column="0" />
+>>>>>>> master_dagrisa
         </state>
       </provider>
     </entry>
@@ -1306,7 +1442,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42938933" vertical-offset="0" max-vertical-offset="0">
           <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1321,10 +1456,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.49307775" vertical-offset="0" max-vertical-offset="0">
           <caret line="68" column="54" selection-start-line="68" selection-start-column="54" selection-end-line="68" selection-end-column="54" />
-          <folding>
-            <element signature="e#2297#2298#0" expanded="true" />
-            <element signature="e#2335#2336#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1339,6 +1470,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="56" column="58" selection-start-line="56" selection-start-column="58" selection-end-line="56" selection-end-column="58" />
+          <folding>
+            <element signature="e#1093#1094#0" expanded="true" />
+            <element signature="e#1108#1109#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1353,10 +1488,12 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/CalendarworkinghoursEntity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31432545" vertical-offset="0" max-vertical-offset="0">
           <caret line="67" column="20" selection-start-line="67" selection-start-column="20" selection-end-line="67" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1375,6 +1512,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17246175" vertical-offset="0" max-vertical-offset="0">
           <caret line="256" column="13" selection-start-line="256" selection-start-column="13" selection-end-line="256" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1382,9 +1520,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7093185" vertical-offset="0" max-vertical-offset="0">
           <caret line="38" column="34" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+=======
+    <entry file="dbDummy://db-console:/49d7fbe2/1bb3786c-7471-447d-9a02-fcb2ec1cdfc4/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="105">
+          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+>>>>>>> master_dagrisa
+          <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/EntityBroker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
@@ -1394,6 +1540,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/WeekdayBroker.java">
+=======
+    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/ISession.java">
+>>>>>>> master_dagrisa
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
@@ -1403,9 +1552,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.6926286" vertical-offset="0" max-vertical-offset="0">
           <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding />
+=======
+        <state vertical-scroll-proportion="0.0" vertical-offset="3330" max-vertical-offset="4155">
+          <caret line="256" column="13" selection-start-line="256" selection-start-column="13" selection-end-line="256" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#9269#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#9233#9234#0" expanded="false" />
+            <element signature="e#9265#9266#0" expanded="false" />
+          </folding>
+>>>>>>> master_dagrisa
         </state>
       </provider>
     </entry>
@@ -1414,10 +1574,15 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#967#968#0" expanded="true" />
             <element signature="e#1015#1016#0" expanded="true" />
             <element signature="e#1310#1311#0" expanded="true" />
             <element signature="e#1328#1329#0" expanded="true" />
+=======
+            <element signature="e#0#2007#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+>>>>>>> master_dagrisa
           </folding>
         </state>
       </provider>
@@ -1432,17 +1597,124 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/Facade.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1290">
           <caret line="38" column="47" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
+=======
+        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1155">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+>>>>>>> master_dagrisa
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44499382" vertical-offset="0" max-vertical-offset="809">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6304079" vertical-offset="0" max-vertical-offset="809">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding>
+            <element signature="e#810#818#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/WeekdayBroker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+          <caret line="21" column="71" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="71" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Calendar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28846154" vertical-offset="0" max-vertical-offset="832">
+          <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18028846" vertical-offset="0" max-vertical-offset="832">
+          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/UserEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1995">
+          <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/EntityBroker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="1920">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/OrthoptistEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <caret line="46" column="54" selection-start-line="46" selection-start-column="54" selection-end-line="46" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="1785">
+          <caret line="27" column="34" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/QueueBroker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1050" max-vertical-offset="3165">
+          <caret line="83" column="80" selection-start-line="83" selection-start-column="80" selection-end-line="83" selection-end-column="80" />
+          <folding>
+            <element signature="e#0#5828#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1497#1498#0" expanded="true" />
+            <element signature="e#1535#1536#0" expanded="true" />
+            <element signature="e#2739#2760#0" expanded="true" />
+            <element signature="e#2812#2829#0" expanded="true" />
+            <element signature="e#2890#2904#0" expanded="true" />
+            <element signature="e#3007#3029#0" expanded="true" />
+            <element signature="e#4245#4259#0" expanded="true" />
+            <element signature="e#5807#5808#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/DoctorBroker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4029304" vertical-offset="0" max-vertical-offset="819">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <element signature="e#885#886#0" expanded="true" />
+            <element signature="e#923#924#0" expanded="true" />
+            <element signature="e#988#989#0" expanded="true" />
+            <element signature="e#1006#1007#0" expanded="true" />
+            <element signature="e#1071#1072#0" expanded="true" />
+            <element signature="e#1089#1090#0" expanded="true" />
+>>>>>>> master_dagrisa
+          </folding>
         </state>
       </provider>
     </entry>
