@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <class>at.oculus.teamf.databaseconnectiontests.PatientEntity</class>
+        <class>at.oculus.teamf.databaseconnectiontests.DoctorEntity</class>
+        <class>at.oculus.teamf.databaseconnectiontests.UserEntity</class>
+        <properties>
+            <property name="toplink.jdbc.url" value="jdbc:mysql://83.212.126.222:3306/oculus_f"/>
+            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="toplink.jdbc.user"/>
+            <property name="toplink.jdbc.password"/>
+        </properties>
+    </persistence-unit>
+</persistence>
