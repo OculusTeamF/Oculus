@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "calendarevent", schema = "", catalog = "oculus_f")
-public class CalendarEventEntityCopy {
+public class CalendarEventEntity {
     private int _id;
     private int _calendarId;
     private Integer _patientId;
@@ -126,7 +126,7 @@ public class CalendarEventEntityCopy {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CalendarEventEntityCopy that = (CalendarEventEntityCopy) o;
+        CalendarEventEntity that = (CalendarEventEntity) o;
 
         if (_id != that._id) return false;
         if (_calendarId != that._calendarId) return false;
