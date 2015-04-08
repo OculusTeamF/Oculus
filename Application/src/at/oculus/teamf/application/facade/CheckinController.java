@@ -14,9 +14,9 @@ public class CheckinController {
     /*
     first usecase controller method is to get a patient by his social insurance number
     for that we need the persistence layer to give us a list of all patients and then we search the correct one
-    inside the application layer. afterwards the application layer returns the found patient (if found) or null (if not
+    inside the sample layer. afterwards the sample layer returns the found patient (if found) or null (if not
     found).
-     */
+
     public PatientEntity getPatientBySocialInsuranceNumber(String socialInsuranceNumber){
         Collection <Class> collection = new LinkedList<Class>();
         collection.add(PatientEntity.class);
@@ -30,7 +30,7 @@ public class CheckinController {
             return patient;
         } else {
             return null;
-        }*/
+        }
 
         return null;
 
@@ -39,7 +39,7 @@ public class CheckinController {
     /*
     this method will search in a given collection for the patient with the given social insurance number and return it
     if found, else it will return null
-     */
+
     private PatientEntity searchPatientBySocialInsuranceNumber(Collection<PatientEntity> patients, String socialInsuranceNumber){
         for (PatientEntity patient : patients){
             if (patient.getSocialInsuranceNr().equals(socialInsuranceNumber)){
@@ -52,5 +52,5 @@ public class CheckinController {
     public Collection <QueueEntity> getQueues(){
         return null;
     }
-
+*/
 }

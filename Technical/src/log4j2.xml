@@ -11,17 +11,17 @@ LOGGING LEVEL RULES:
 
 debug levels
 TRACE   The TRACE Level designates finer-grained informational events than the DEBUG
-DEBUG   The DEBUG Level designates fine-grained informational events that are most useful to debug an application.
+DEBUG   The DEBUG Level designates fine-grained informational events that are most useful to debug an sample.
 
 information levels
-INFO    The INFO level is associated with significant events in the normal life cycle of the application.
+INFO    The INFO level is associated with significant events in the normal life cycle of the sample.
 
 error levels
 WARN    The WARN level designates potentially harmful situations.
         Example: Missing or inconsistent input parameters supplied by the user.
-ERROR   The ERROR level designates error events that might still allow the application to continue running.
+ERROR   The ERROR level designates error events that might still allow the sample to continue running.
         Example:  Events which usually follows a Java exception
-FATAL   The FATAL level designates very severe error events that will presumably lead the application to abort.
+FATAL   The FATAL level designates very severe error events that will presumably lead the sample to abort.
 
 others
 ALL     The ALL Level has the lowest possible rank and is intended to turn on all logging.
