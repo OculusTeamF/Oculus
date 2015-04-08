@@ -7,11 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.loggin;
+package at.oculus.teamf.technical.tests;
+
+import at.oculus.teamf.technical.loggin.ILogger;
+import org.apache.logging.log4j.Level;
 
 /**
- *
- *
  *
  * @author Fabian Salzgeber
  * @date 31.3.2015
@@ -19,6 +20,20 @@ package at.oculus.teamf.technical.loggin;
  *
  */
 
-public interface ILogger {
-    final static org.apache.logging.log4j.Logger log = Logger4J.getInstance();
+public class logger_testing implements ILogger {
+
+    public static void main(final String... args) {
+
+        // common logging levels and pattern showcase
+        log.trace("trace message test");
+        log.debug("debug message test");
+        log.info("info message test");
+        log.warn("warn message test");
+        log.error("error message test");
+        log.fatal("fatal message test");
+
+        // advanced log
+        log.log(Level.WARN,"switch levels during runtime");
+
+    }
 }

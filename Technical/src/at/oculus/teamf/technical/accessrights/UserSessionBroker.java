@@ -10,7 +10,12 @@
 package at.oculus.teamf.technical.accessrights;
 
 /**
- * Created by Fabian on 06.04.2015.
+ *
+ * @author Fabian Salzgeber
+ * @date 6.4.2015
+ * @version 1.0
+ *
  */
+
 public class UserSessionBroker {
 }
