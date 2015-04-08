@@ -1,10 +1,7 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.facade.Facade;
-
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -21,51 +18,21 @@ public class CheckinController {
     found).
      */
     public Patient getPatientBySocialInsuranceNumber(String socialInsuranceNumber){
-        Collection <Class> collection = new LinkedList <Class>();
-        collection.add(PatientEntity.class);
-        Facade facade = Facade.getInstance(collection);
-        PatientEntity patient = (PatientEntity) facade.getEnity(PatientEntity.class, 1);
-        Patient patient = (Patient) facade.getEntity(PatientEntity.class, 1);
 
-        Collection <Patient> patients = getAllPatients(PatientEntity.class);
+        Facade facade = Facade.getInstance();
 
-        /*Collection <PatientEntity> patients = getAll(PatientEntity.class);
+        Collection<Object> patients = new LinkedList<Object>();
+        patients = facade.getAll(Patient.class);
 
-        if ((patient = searchPatientBySocialInsuranceNumber(patients, socialInsuranceNumber)) != null){
-            return patient;
-        } else {
-            return null;
-        }*/
-
-        return null;
-
-    }
-
-    /*
-    this method will search in a given collection for the patient with the given social insurance number and return it
-    if found, else it will return null
-     */
-    private Patient searchPatientBySocialInsuranceNumber(Collection <Patient> patients, String socialInsuranceNumber){
-        for (Patient patient : patients){
-            if (patient.getSvn().equals(socialInsuranceNumber)){
-                return patient;
+        for(Object patient: patients){
+            if (((Patient) patient).getSvn().equals(socialInsuranceNumber))
+                return (Patient) patient;
+            else {
+                return null;
             }
         }
         return null;
-    }
 
-    public Collection <PatientQueue> getQueues(){
-        Collection <Class> collection = new LinkedList <Class>();
-        collection.add(QueueEntity.class);
-        Facade facade = Facade.getInstance(collection);
-
-        Collection <PatientQueue> queues = facade.getAllQueues(QueueEntity.class);
-
-        return queues;
-    }
-
-    public void insertToQueue(Patient patient, PatientQueue queue){
-        queue.insert(patient);
     }
 
 }
