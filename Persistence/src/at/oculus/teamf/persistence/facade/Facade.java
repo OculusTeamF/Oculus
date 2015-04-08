@@ -78,7 +78,7 @@ public class Facade {
 	}
 
 	public void reloadCollection(Object entity, Class clazz) throws CantReloadException {
-		EntityBroker broker = _entityBrokers.get(clazz);
+		EntityBroker broker = _entityBrokers.get(entity.getClass());
 
 		if(!(broker instanceof ICollectionReload)) {
 			throw new CantReloadException();

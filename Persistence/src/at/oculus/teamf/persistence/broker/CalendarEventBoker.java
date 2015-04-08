@@ -10,7 +10,9 @@
 package at.oculus.teamf.persistence.broker;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entities.CalendarEventEntity;
+import at.oculus.teamf.persistence.facade.Facade;
 
 /**
  * Created by Norskan on 08.04.2015.
@@ -22,8 +24,18 @@ public class CalendarEventBoker extends EntityBroker<CalendarEvent, CalendarEven
 
 	@Override
 	protected CalendarEvent persitentToDomain(CalendarEventEntity entity) {
-		//Todo:
-		return null;
+		CalendarEvent event = new CalendarEvent();
+		event.setDescription(entity.getDescription());
+		event.setEventEnd(entity.getEventEnd());
+		event.setEventID(entity.getId());
+		event.setEventStart(entity.getEventStart());
+
+		Integer patientID = entity.getPatientId();
+		if(patientID != null) {
+			event.setPatient((Patient)Facade.getInstance().getById(Patient.class, entity.getPatientId()));
+		}
+
+		return event;
 	}
 
 	@Override

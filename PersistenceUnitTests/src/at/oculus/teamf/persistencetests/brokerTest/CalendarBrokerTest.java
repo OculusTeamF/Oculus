@@ -7,49 +7,56 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
+package at.oculus.teamf.persistencetests.brokerTest;
 
-import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.facade.CantReloadException;
 import at.oculus.teamf.persistence.facade.Facade;
+import org.junit.Test;
 
-import java.util.Collection;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Norskan on 08.04.2015.
- * //Todo: add docs
  */
-public class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements ICollectionReload {
+public class CalendarBrokerTest extends BrokerTest{
 
-	public CalendarBroker() {
-		super(Calendar.class, CalendarEntity.class);
-	}
 
+	@Test
 	@Override
-	protected Calendar persitentToDomain(CalendarEntity entity) {
-		Calendar calendar = new Calendar();
-		calendar.setCalendarID(entity.getId());
-		return calendar;
-	}
-
-	@Override
-	protected CalendarEntity domainToPersitent(Calendar obj) {
-		//Todo: reverse
-		return null;
-	}
-
-	@Override
-	public void reload(ISession session, Object entity, Class clazz) throws CantReloadException{
+	public void getByIdTest() {
 		Facade facade = Facade.getInstance();
+		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
+		assertTrue(cal != null);
+	}
 
-		if(clazz == CalendarEvent.class) {
-			((Calendar) entity)
-					.setEvents((Collection<CalendarEvent>) (Collection<?>) facade.getAll(CalendarEvent.class));
-		} else {
-			throw new CantReloadException();
+	@Test
+	@Override
+	public void getAllTest() {
+		//not needed
+	}
+
+	@Test
+	@Override
+	public void save() {
+		//not needed
+	}
+
+	@Test
+	@Override
+	public void reload() {
+		Facade facade = Facade.getInstance();
+		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
+		assertTrue(cal != null);
+
+		try {
+			facade.reloadCollection(cal, CalendarEvent.class);
+		} catch (CantReloadException e) {
+			assertTrue(false);
+			e.printStackTrace();
 		}
+
+		assertTrue(cal.getEvents() != null);
 	}
 }
