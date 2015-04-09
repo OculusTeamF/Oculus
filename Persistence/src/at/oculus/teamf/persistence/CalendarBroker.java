@@ -59,9 +59,8 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws FacadeException {
-		ReloadComponent<CalendarEvent, CalendarEventEntity> reloadComponent = new ReloadComponent<CalendarEvent, CalendarEventEntity>();
+		ReloadComponent<CalendarEvent, CalendarEventEntity> reloadComponent = new ReloadComponent<CalendarEvent, CalendarEventEntity>(CalendarEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, CalendarEntity.class, CalendarEvent.class,
-		                                        ((Calendar) obj).getCalendarID(), new CalendarEventsLoader());
+		return reloadComponent.reloadCollection(session, ((Calendar) obj).getCalendarID(), new CalendarEventsLoader());
 	}
 }

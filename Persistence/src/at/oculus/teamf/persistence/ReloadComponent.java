@@ -31,13 +31,14 @@ public class ReloadComponent<D, R> {
 
 	private Class<D> _entityClazz;
 	private Class<R> _clazzToLoad;
+
+	public ReloadComponent(Class entityClazz, Class clazzToLoad) {
+		_entityClazz = entityClazz;
+		_clazzToLoad = clazzToLoad;
+	}
 	/**
 	 * @param session
 	 * 		session to use
-	 * @param entityClazz
-	 * 		entity that needs a collection reload
-	 * @param clazzToLoad
-	 * 		domain class that needs to be loaded
 	 * @param id
 	 * 		of the object to reload
 	 * @param loader
@@ -48,14 +49,13 @@ public class ReloadComponent<D, R> {
 	 * @throws FacadeException
 	 * 		gets thrown if an error occures
 	 */
-	public Collection<D> reloadCollection(ISession session, Class entityClazz, Class clazzToLoad, int id,
-	                                      CollectionLoader loader) throws FacadeException {
+	public Collection<D> reloadCollection(ISession session, int id, CollectionLoader loader) throws FacadeException {
 		Facade facade = Facade.getInstance();
 
 		//load database CalendarEventEntity that has the collection that needs to be reloaded
 		Object databaseEntity = null;
 		try {
-			databaseEntity = session.getByID(entityClazz, id);
+			databaseEntity = session.getByID(_entityClazz, id);
 		} catch (BadSessionException e) {
 			e.printStackTrace();
 		} catch (ClassNotMappedException e) {
@@ -69,10 +69,10 @@ public class ReloadComponent<D, R> {
 		Collection<R> entities = loader.load(databaseEntity);
 
 
-		//convert to domain object broker
+		//get domain object broker
 		EntityBroker toLoadClassDomainBroker = null;
 		try {
-			toLoadClassDomainBroker = facade.getBroker(clazzToLoad);
+			toLoadClassDomainBroker = facade.getBroker(_clazzToLoad);
 		} catch (NoBrokerMappedException e) {
 			//Todo: add Loging
 			e.printStackTrace();
