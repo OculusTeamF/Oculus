@@ -4,6 +4,7 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 /**
  * Created by Norskan on 02.04.2015.
@@ -15,11 +16,21 @@ public class CheckinController {
     public PatientQueue insertPatientIntoQueue(Patient patient, User user){
         Facade facade = Facade.getInstance();
 
-        PatientQueue queue = (PatientQueue) facade.getById(PatientQueue.class, user.getUserID());
+        PatientQueue queue = null;
+        try {
+            queue = facade.getById(PatientQueue.class, user.getUserID());
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            //if null ?? was machma denn do??
+        }
 
-        //if null ??
-        queue.insert(patient);
-        facade.save(queue);
+        //queue.insert(patient);//was mach ma denn do?
+
+        try {
+            facade.save(queue);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
 
         return queue;
     }

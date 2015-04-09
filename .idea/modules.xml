@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Application/Application.iml" filepath="$PROJECT_DIR$/Application/Application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ApplicationUnitTests/ApplicationUnitTests.iml" filepath="$PROJECT_DIR$/ApplicationUnitTests/ApplicationUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseConnection/DatabaseConnection.iml" filepath="$PROJECT_DIR$/DatabaseConnection/DatabaseConnection.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseConnectionUnitTests/DatabaseConnectionUnitTests.iml" filepath="$PROJECT_DIR$/DatabaseConnectionUnitTests/DatabaseConnectionUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/Domain/Domain.iml" filepath="$PROJECT_DIR$/Domain/Domain.iml" />

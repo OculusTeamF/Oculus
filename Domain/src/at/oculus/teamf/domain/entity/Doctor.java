@@ -17,37 +17,47 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Doctor extends User{
+public class Doctor extends User {
+	//<editor-fold desc="Attributes">
+	private int _id;
+	private Calendar _calendar;
+	private PatientQueue _queue;
+	private Collection<Patient> _patients;
+	//</editor-fold>
 
-    //<editor-fold desc="Attributes">
-    private Calendar _calendar;
-    private PatientQueue _queue;
-    private Collection<Patient> _patients;
-    //</editor-fold>
+	//<editor-fold desc="Getter/Setter">
+	public int getId() {
+		return _id;
+	}
 
-    //<editor-fold desc="Getter/Setter">
-    public Calendar getCalendar() {
-        return _calendar;
-    }
+	public void setId(int id) {
+		_id = id;
+	}
 
-    public void setCalendar(Calendar _calendar) {
-        this._calendar = _calendar;
-    }
+	public Calendar getCalendar() {
+		return _calendar;
+	}
 
-    public PatientQueue getQueue() {
-        return _queue;
-    }
+	public void setCalendar(Calendar _calendar) {
+		this._calendar = _calendar;
+	}
 
-    public void setQueue(PatientQueue _queue) {
-        this._queue = _queue;
-    }
+	public PatientQueue getQueue() {
+		return _queue;
+	}
 
-    public void addPatient(Patient patient) {
-        if(patient != null) {
-            _patients.add(patient);
-        }
-    }
+	public void setQueue(PatientQueue _queue) {
+		this._queue = _queue;
+	}
 
-    public Collection<Patient> getPatients() { return _patients; }
-    //</editor-fold>
+	public void addPatient(Patient patient) {
+		if (patient != null) {
+			_patients.add(patient);
+		}
+	}
+
+	public Collection<Patient> getPatients() {
+		return _patients;
+	}
+	//</editor-fold>
 }
