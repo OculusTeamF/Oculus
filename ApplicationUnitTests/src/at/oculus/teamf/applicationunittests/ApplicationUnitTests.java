@@ -17,7 +17,7 @@ import java.util.Collection;
 /**
  * Created by oculus on 09.04.15.
  */
-public class ApplicationUnitTests extends UnitT{
+public class ApplicationUnitTests {
 
     public static void main (String [] args){
         SearchPatientController controller =  new SearchPatientController();
@@ -26,9 +26,5 @@ public class ApplicationUnitTests extends UnitT{
         for (Patient patient : patients){
             System.out.println(patient.getLastName() + " " + patient.getFirstName());
         }
-    }
-
-    public void Test1() {
-
     }
 }
