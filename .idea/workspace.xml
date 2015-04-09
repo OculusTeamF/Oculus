@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cad304d5-bb5c-43c6-8e95-46ef1a6e38a0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Technical/Technical.iml" afterPath="$PROJECT_DIR$/Technical/Technical.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Technical/src/at/oculus/teamf/technical/tests/shiro_testing.java" afterPath="$PROJECT_DIR$/Technical/src/at/oculus/teamf/technical/tests/shiro_testing.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -710,7 +708,7 @@
       <workItem from="1428320433773" duration="29133000" />
       <workItem from="1428439136420" duration="1379000" />
       <workItem from="1428518333456" duration="12940000" />
-      <workItem from="1428598237482" duration="503000" />
+      <workItem from="1428598237482" duration="517000" />
     </task>
     <task id="LOCAL-00001" summary="logger test">
       <created>1427830175460</created>
@@ -790,11 +788,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428598440204</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="library dependency fix #2">
+      <created>1428598763481</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1428598763481</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58278000" />
+    <option name="totallyTimeSpent" value="58292000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -885,7 +889,8 @@
     <MESSAGE value="(for my eyes only) update local project with dev version" />
     <MESSAGE value="logger released (see log4j2.xml or Logger4J for logging doc &amp; rules)" />
     <MESSAGE value="library dependency fix #1" />
-    <option name="LAST_COMMIT_MESSAGE" value="library dependency fix #1" />
+    <MESSAGE value="library dependency fix #2" />
+    <option name="LAST_COMMIT_MESSAGE" value="library dependency fix #2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
