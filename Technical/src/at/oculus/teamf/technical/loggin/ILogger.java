@@ -11,8 +11,6 @@ package at.oculus.teamf.technical.loggin;
 
 /**
  *
- *
- *
  * @author Fabian Salzgeber
  * @date 31.3.2015
  * @version 1.0

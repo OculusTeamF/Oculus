@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.technical.tests;
 
+import at.oculus.teamf.technical.accessrights.UserSessionFactory;
 import at.oculus.teamf.technical.accessrights.UserSubject;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.apache.shiro.SecurityUtils;
@@ -28,16 +29,24 @@ import org.apache.shiro.util.Factory;
 public class shiro_testing implements ILogger {
 
     public static void main(String[] args) {
-        // should be somewhere else later (init only)
-        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-        SecurityManager securityManager = factory.getInstance();
-        SecurityUtils.setSecurityManager(securityManager);
-        log.info("Security management intialized");
-
-
         //********************************************************************************************
         // TESTS
         //********************************************************************************************
+
+        UserSessionFactory test = new UserSessionFactory();
+        UserSubject user = test.createUserSession("user1");
+
+        user.loginUser("simonangerer", "default");
+
+        //test1();
+    }
+
+    public static void test1(){
+
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
+        SecurityManager securityManager = factory.getInstance();
+        SecurityUtils.setSecurityManager(securityManager);
+
 
         // session handling
         UserSubject user1 = new UserSubject("someSessionKey1", "someSessionValue1");

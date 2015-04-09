@@ -32,7 +32,7 @@ public class UserSubject implements ILogger {
         Session session = currentUser.getSession();
         session.setAttribute(sessionKey, Password);
 
-        log.info("User session management intialized");
+        log.info("New user session management intialized");
     }
 
     public void loginUser(String username, String password){
@@ -64,7 +64,7 @@ public class UserSubject implements ILogger {
         if (currentUser.isAuthenticated()) {
             log.info("Login [" + currentUser.getPrincipal() + "] successfull");
         } else {
-            log.info("Login failed");
+            log.warn("Login failed");
         }
     }
 
