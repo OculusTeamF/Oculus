@@ -7,15 +7,30 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.persistence;
+
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.persistence.EntityBroker;
+import at.oculus.teamf.persistence.entities.QueueEntity;
 
 /**
- * Indicates that there is no transaction in session.
- * <p/>
- *
- * @author Simon Angerer
- * @date 30.03.2015
- * @version 1.0
+ * QueueBroker.java Created by dgr on 08.04.15.
  */
-public class NoTransactionException extends Exception {
+public class QueueBroker extends EntityBroker<PatientQueue,QueueEntity> {
+
+	public QueueBroker() {
+
+		super(PatientQueue.class, QueueEntity.class);
+	}
+
+	@Override
+	protected PatientQueue persitentToDomain(QueueEntity entity) {
+
+		return null;
+	}
+
+	@Override
+	protected QueueEntity domainToPersitent(PatientQueue entity) {
+		return null;
+	}
 }

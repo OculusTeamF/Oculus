@@ -23,6 +23,7 @@ import java.util.Collection;
  *
  * @author Simon Angerer
  * @date 30.3.2015
+ * @version 1.0
  */
 public class HibernateSessionBroker implements ISessionBroker {
 

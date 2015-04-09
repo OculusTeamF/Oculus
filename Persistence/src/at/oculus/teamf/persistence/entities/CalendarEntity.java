@@ -20,7 +20,7 @@ import java.util.Collection;
 public class CalendarEntity {
     private int _id;
     private String _title;
-    private Collection<CalendareventEntity> _calendarevents;
+    private Collection<CalendarEventEntity> _calendarevents;
     private Collection<CalendarworkinghoursEntity> _calendarworkinghours;
     private DoctorEntity _doctor;
     private OrthoptistEntity _orthoptist;
@@ -66,14 +66,15 @@ public class CalendarEntity {
     }
 
     @OneToMany(mappedBy = "calendar")
-    public Collection<CalendareventEntity> getCalendarEvents() {
+    public Collection<CalendarEventEntity> getCalendarEvents() {
         return _calendarevents;
     }
 
-    public void setCalendarEvents(Collection<CalendareventEntity> calendarEvents) {
+    public void setCalendarEvents(Collection<CalendarEventEntity> calendarEvents) {
         _calendarevents = calendarEvents;
     }
 
+    /*
     @OneToMany(mappedBy = "calendar")
     public Collection<CalendarworkinghoursEntity> getCalendarWorkingHours() {
         return _calendarworkinghours;
@@ -99,5 +100,5 @@ public class CalendarEntity {
 
     public void setOrthoptist(OrthoptistEntity orthoptist) {
         _orthoptist = orthoptist;
-    }
+    }*/
 }

@@ -7,15 +7,17 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.persistence;
+
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exceptions.InvalideReloadParameterExeption;
+import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
 
 /**
- * Indicates that there is no transaction in session.
- * <p/>
- *
- * @author Simon Angerer
- * @date 30.03.2015
- * @version 1.0
+ * Created by Norskan on 07.04.2015.
  */
-public class NoTransactionException extends Exception {
+public interface ICollectionReload {
+    void reload(ISession session, Object entity, Class clazz) throws FacadeException;
 }

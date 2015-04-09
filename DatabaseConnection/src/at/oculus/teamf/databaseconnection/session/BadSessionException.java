@@ -15,5 +15,6 @@ package at.oculus.teamf.databaseconnection.session;
  *
  * @author Simon Angerer
  * @date 30.03.2015
+ * @version 1.0
  */
 public class BadSessionException extends SessionException { }

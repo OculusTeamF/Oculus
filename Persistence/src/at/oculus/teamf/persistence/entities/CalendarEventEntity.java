@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "calendarevent", schema = "", catalog = "oculus_f")
-public class CalendareventEntity {
+public class CalendarEventEntity {
     private int _id;
     private int _calendarId;
     private Integer _patientId;
@@ -42,7 +42,7 @@ public class CalendareventEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }
@@ -52,7 +52,7 @@ public class CalendareventEntity {
     }
 
     @Basic
-    @Column(name = "patientId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "patientId", nullable = true, insertable = false, updatable = false)
     public Integer getPatientId() {
         return _patientId;
     }
@@ -126,7 +126,7 @@ public class CalendareventEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CalendareventEntity that = (CalendareventEntity) o;
+        CalendarEventEntity that = (CalendarEventEntity) o;
 
         if (_id != that._id) return false;
         if (_calendarId != that._calendarId) return false;
@@ -175,7 +175,7 @@ public class CalendareventEntity {
         _patient = patient;
     }
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false)
     public Eventtypentity getEventtype() {
         return _eventtype;
@@ -183,5 +183,5 @@ public class CalendareventEntity {
 
     public void setEventtype(Eventtypentity eventType) {
         _eventtype = eventType;
-    }
+    }*/
 }

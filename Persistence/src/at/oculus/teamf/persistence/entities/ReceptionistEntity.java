@@ -61,7 +61,7 @@ public class ReceptionistEntity {
         return result;
     }
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
@@ -69,5 +69,5 @@ public class ReceptionistEntity {
 
     public void setUser(UserEntity userByUserId) {
         userByUserId = userByUserId;
-    }
+    }*/
 }
