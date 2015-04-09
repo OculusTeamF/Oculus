@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
 
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<!--
-  ~ Copyright (c) 2015 Team F
-  ~
-  ~ This file is part of Oculus.
-  ~ Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-  ~ Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ListView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SampleController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
     <children>
-        <GridPane fx:id="displayPane" layoutX="14.0" layoutY="41.0" prefHeight="1027.0" prefWidth="1503.0" />
+        <GridPane id="pane" fx:id="displayPane" layoutX="14.0" layoutY="41.0" prefHeight="1027.0" prefWidth="1503.0" />
         <MenuBar fx:id="menubar" layoutX="192.0" layoutY="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="1445.0" AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
             <menus>
@@ -122,6 +120,5 @@
                 </TitledPane>
             </children>
         </VBox>
-
     </children>
 </AnchorPane>
