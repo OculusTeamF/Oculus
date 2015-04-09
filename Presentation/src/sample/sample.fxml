@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+
 <!--
   ~ Copyright (c) 2015 Team F
   ~
@@ -12,11 +15,12 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SampleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SampleController">
     <children>
-      <AnchorPane id="pane" fx:id="startpane" layoutX="5.0" layoutY="38.0" prefHeight="991.0" prefWidth="1512.0">
-      </AnchorPane>
-        <MenuBar fx:id="menubar" layoutX="192.0" layoutY="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="1445.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
+        <GridPane fx:id="displayPane" layoutX="14.0" layoutY="41.0" prefHeight="1027.0" prefWidth="1503.0" />
+        <MenuBar fx:id="menubar" layoutX="192.0" layoutY="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="1445.0" AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
@@ -49,7 +53,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Calendar">
                     <items>
-                        <MenuItem fx:id="calendar" onAction="#openCal" mnemonicParsing="false" text="open calendar" />
+                        <MenuItem fx:id="calendar" mnemonicParsing="false" onAction="#openCal" text="open calendar" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="ICD10-Codes">
@@ -69,51 +73,55 @@
                 </Menu>
             </menus>
         </MenuBar>
-      <VBox layoutX="1526.0" layoutY="33.0" prefHeight="1040.0" prefWidth="386.0">
-         <children>
-            <Label alignment="CENTER" prefHeight="63.0" prefWidth="386.0" text="Waiting Queue" textAlignment="CENTER">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Dr. Tavolato">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="wList1" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
-            <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. ABC">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="wList2" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
-            <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. EFG">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="wList3" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
-            <TitledPane animated="false" layoutX="10.0" layoutY="484.0" text="Orthoptist">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="wListO" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
-         </children>
-      </VBox>
+        <VBox layoutX="1526.0" layoutY="33.0" prefHeight="1040.0" prefWidth="386.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="63.0" prefWidth="386.0" text="Waiting Queue" textAlignment="CENTER">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Dr. Tavolato">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ListView fx:id="wList1" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0"
+                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </TitledPane>
+                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. ABC">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ListView fx:id="wList2" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0"
+                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </TitledPane>
+                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. EFG">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ListView fx:id="wList3" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0"
+                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </TitledPane>
+                <TitledPane animated="false" layoutX="10.0" layoutY="484.0" text="Orthoptist">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ListView fx:id="wListO" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0"
+                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </TitledPane>
+            </children>
+        </VBox>
 
     </children>
 </AnchorPane>
