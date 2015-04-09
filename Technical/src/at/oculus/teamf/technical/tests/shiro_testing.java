@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.technical.tests;
 
-import at.oculus.teamf.technical.accessrights.UserSessionFactory;
 import at.oculus.teamf.technical.accessrights.UserSubject;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.apache.shiro.SecurityUtils;
@@ -33,12 +32,12 @@ public class shiro_testing implements ILogger {
         // TESTS
         //********************************************************************************************
 
-        UserSessionFactory test = new UserSessionFactory();
-        UserSubject user = test.createUserSession("user1");
+        //UserSessionFactory test = new UserSessionFactory();
+        //UserSubject user = test.createUserSession("user1");
 
-        user.loginUser("simonangerer", "default");
+        //user.loginUser("simonangerer", "default");
 
-        //test1();
+        test1();
     }
 
     public static void test1(){
