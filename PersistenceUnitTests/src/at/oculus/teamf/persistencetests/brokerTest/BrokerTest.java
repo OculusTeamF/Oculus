@@ -7,15 +7,27 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.persistencetests.brokerTest;
+
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+import org.junit.Test;
 
 /**
- * Indicates that there is no transaction in session.
- * <p/>
- *
- * @author Simon Angerer
- * @date 30.03.2015
- * @version 1.0
+ * Created by Norskan on 08.04.2015.
  */
-public class NoTransactionException extends Exception {
+public abstract class BrokerTest {
+
+	@Test
+	public abstract void getByIdTest() throws FacadeException;
+
+	@Test
+	public abstract void getAllTest();
+
+	@Test
+	public abstract void save();
+
+	@Test
+	public abstract void reload() throws FacadeException;
+
+
 }

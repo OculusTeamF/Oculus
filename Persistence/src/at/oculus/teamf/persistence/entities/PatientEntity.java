@@ -35,87 +35,87 @@ public class PatientEntity {
     private String _allergy;
     private String _childhoodAilments;
     private String _medicineIntolerance;
-    private Collection<CalendareventEntity> _calendareventsByPatientId;
+    private Collection<CalendarEventEntity> _calendarevents;
     private DoctorEntity _doctor;
     private QueueEntity _queue;
 
     @Id
     @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
-    public int get_id() {
+    public int getId() {
         return _id;
     }
 
-    public void set_id(int patientId) {
+    public void setId(int patientId) {
         this._id = patientId;
     }
 
     @Basic
-    @Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
-    public Integer get_doctorId() {
+    @Column(name = "doctorId", nullable = true, insertable = false, updatable = false)
+    public Integer getDoctorId() {
         return _doctorId;
     }
 
-    public void set_doctorId(Integer doctorId) {
+    public void setDoctorId(Integer doctorId) {
         this._doctorId = doctorId;
     }
 
     @Basic
-    @Column(name = "socialInsuranceNr", nullable = true, insertable = true, updatable = true, length = 10)
-    public String get_socialInsuranceNr() {
+    @Column(name = "socialInsuranceNr", nullable = true,  insertable = false, updatable = false, length = 10)
+    public String getSocialInsuranceNr() {
         return _socialInsuranceNr;
     }
 
-    public void set_socialInsuranceNr(String socialInsuranceNr) {
+    public void setSocialInsuranceNr(String socialInsuranceNr) {
         this._socialInsuranceNr = socialInsuranceNr;
     }
 
     @Basic
     @Column(name = "firstName", nullable = false, insertable = true, updatable = true, length = 30)
-    public String get_firstName() {
+    public String getFirstName() {
         return _firstName;
     }
 
-    public void set_firstName(String firstName) {
+    public void setFirstName(String firstName) {
         this._firstName = firstName;
     }
 
     @Basic
     @Column(name = "lastName", nullable = false, insertable = true, updatable = true, length = 30)
-    public String get_lastName() {
+    public String getLastName() {
         return _lastName;
     }
 
-    public void set_lastName(String lastName) {
+    public void setLastName(String lastName) {
         this._lastName = lastName;
     }
 
     @Basic
     @Column(name = "birthDay", nullable = true, insertable = true, updatable = true)
-    public Date get_birthDay() {
+    public Date getBirthDay() {
         return _birthDay;
     }
 
-    public void set_birthDay(Date birthDay) {
+    public void setBirthDay(Date birthDay) {
         this._birthDay = birthDay;
     }
 
     @Basic
     @Column(name = "gender", nullable = false, insertable = true, updatable = true, length = 2)
-    public String get_gender() {
+    public String getGender() {
         return _gender;
     }
 
-    public void set_gender(String gender) {
+    public void setGender(String gender) {
         this._gender = gender;
     }
 
     @Basic
     @Column(name = "street", nullable = true, insertable = true, updatable = true, length = 255)
-    public String get_street() {
+    public String getStreet() {
         return _street;
     }
 
-    public void set_street(String street) {
+    public void setStreet(String street) {
         this._street = street;
     }
 
@@ -131,71 +131,71 @@ public class PatientEntity {
 
     @Basic
     @Column(name = "city", nullable = true, insertable = true, updatable = true, length = 50)
-    public String get_city() {
+    public String getCity() {
         return _city;
     }
 
-    public void set_city(String city) {
+    public void setCity(String city) {
         this._city = city;
     }
 
     @Basic
     @Column(name = "countryIsoCode", nullable = true, insertable = true, updatable = true, length = 2)
-    public String get_countryIsoCode() {
+    public String getCountryIsoCode() {
         return _countryIsoCode;
     }
 
-    public void set_countryIsoCode(String countryIsoCode) {
+    public void setCountryIsoCode(String countryIsoCode) {
         this._countryIsoCode = countryIsoCode;
     }
 
     @Basic
     @Column(name = "phone", nullable = true, insertable = true, updatable = true, length = 50)
-    public String get_phone() {
+    public String getPhone() {
         return _phone;
     }
 
-    public void set_phone(String phone) {
+    public void setPhone(String phone) {
         this._phone = phone;
     }
 
     @Basic
     @Column(name = "email", nullable = true, insertable = true, updatable = true, length = 255)
-    public String get_email() {
+    public String getEmail() {
         return _email;
     }
 
-    public void set_email(String email) {
+    public void setEmail(String email) {
         this._email = email;
     }
 
     @Basic
     @Column(name = "allergy", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String get_allergy() {
+    public String getAllergy() {
         return _allergy;
     }
 
-    public void set_allergy(String allergy) {
+    public void setAllergy(String allergy) {
         this._allergy = allergy;
     }
 
     @Basic
     @Column(name = "childhoodAilments", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String get_childhoodAilments() {
+    public String getChildhoodAilments() {
         return _childhoodAilments;
     }
 
-    public void set_childhoodAilments(String childhoodAilments) {
+    public void setChildhoodAilments(String childhoodAilments) {
         this._childhoodAilments = childhoodAilments;
     }
 
     @Basic
     @Column(name = "medicineIntolerance", nullable = true, insertable = true, updatable = true, length = 65535)
-    public String get_medicineIntolerance() {
+    public String getMedicineIntolerance() {
         return _medicineIntolerance;
     }
 
-    public void set_medicineIntolerance(String medicineIntolerance) {
+    public void setMedicineIntolerance(String medicineIntolerance) {
         this._medicineIntolerance = medicineIntolerance;
     }
 
@@ -252,12 +252,12 @@ public class PatientEntity {
     }
 
     @OneToMany(mappedBy = "patient")
-    public Collection<CalendareventEntity> get_calendareventsByPatientId() {
-        return _calendareventsByPatientId;
+    public Collection<CalendarEventEntity> getCalendarevents() {
+        return _calendarevents;
     }
 
-    public void set_calendareventsByPatientId(Collection<CalendareventEntity> calendareventsByPatientId) {
-        this._calendareventsByPatientId = calendareventsByPatientId;
+    public void setCalendarevents(Collection<CalendarEventEntity> calendarevents) {
+        _calendarevents = calendarevents;
     }
 
     @ManyToOne
@@ -266,11 +266,11 @@ public class PatientEntity {
         return _doctor;
     }
 
-    public void setDoctor(DoctorEntity doctorByDoctorId) {
-        this._doctor = doctorByDoctorId;
+    public void setDoctor(DoctorEntity doctor) {
+        this._doctor = doctor;
     }
 
-    @OneToOne(mappedBy = "queue")
+    @OneToOne(mappedBy = "patient")
     public QueueEntity getQueue() {
         return _queue;
     }

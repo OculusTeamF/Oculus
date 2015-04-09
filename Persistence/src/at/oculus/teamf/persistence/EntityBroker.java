@@ -7,9 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
+package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +19,7 @@ import java.util.Collection;
  * Created by Norskan on 30.03.2015.
  * //Todo: add loging, comments docs etz
  */
-public abstract class EntityBroker<D, P> {
+abstract class EntityBroker<D, P> {
 
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
@@ -29,7 +30,7 @@ public abstract class EntityBroker<D, P> {
     }
 
     //<editor-fold desc="Abstract Methode">
-    public D getEntity(ISession session, int id) {
+    public D getEntity(ISession session, int id) throws FacadeException {
 	    P entity = null;
 	    try {
 		    entity = (P)session.getByID(_entityClass, id);
@@ -44,7 +45,7 @@ public abstract class EntityBroker<D, P> {
 	    return result;
     }
 
-    public Collection<D> getAll(ISession session) {
+    public Collection<D> getAll(ISession session) throws FacadeException {
         Collection<P> entities = null;
         try {
             entities = (Collection<P>) session.getAll(_entityClass);
@@ -118,9 +119,9 @@ public abstract class EntityBroker<D, P> {
         return true;
     }
 
-	protected abstract D persitentToDomain(P entity);
+	protected abstract D persitentToDomain(P entity) throws FacadeException;
 
-	protected abstract P domainToPersitent(D entity);
+	protected abstract P domainToPersitent(D obj);
 
     //</editor-fold>
 

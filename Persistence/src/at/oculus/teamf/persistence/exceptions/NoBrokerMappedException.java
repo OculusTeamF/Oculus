@@ -7,10 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.facade;
+package at.oculus.teamf.persistence.exceptions;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Created by Norskan on 08.04.2015.
  */
-public interface IEntity {
+public class NoBrokerMappedException extends FacadeException{
 }

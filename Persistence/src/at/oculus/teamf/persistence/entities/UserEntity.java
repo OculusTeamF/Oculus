@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "user", schema = "", catalog = "oculus_f")
 public class UserEntity {
-    private int _userId;
+    private int _id;
     private Integer _userGroupId;
     private String _userName;
     private String _password;
@@ -32,12 +32,12 @@ public class UserEntity {
 
     @Id
     @Column(name = "userId", nullable = false, insertable = true, updatable = true)
-    public int getUserId() {
-        return _userId;
+    public int getId() {
+        return _id;
     }
 
-    public void setUserId(int userId) {
-        _userId = userId;
+    public void setId(int id) {
+        _id = id;
     }
 
     @Basic
@@ -137,7 +137,7 @@ public class UserEntity {
 
         UserEntity that = (UserEntity) o;
 
-        if (_userId != that._userId) return false;
+        if (_id != that._id) return false;
         if (_userGroupId != null ? !_userGroupId.equals(that._userGroupId) : that._userGroupId != null) return false;
         if (_userName != null ? !_userName.equals(that._userName) : that._userName != null) return false;
         if (_password != null ? !_password.equals(that._password) : that._password != null) return false;
@@ -153,7 +153,7 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        int result = _userId;
+        int result = _id;
         result = 31 * result + (_userGroupId != null ? _userGroupId.hashCode() : 0);
         result = 31 * result + (_userName != null ? _userName.hashCode() : 0);
         result = 31 * result + (_password != null ? _password.hashCode() : 0);

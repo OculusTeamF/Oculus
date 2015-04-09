@@ -7,15 +7,33 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Indicates that there is no transaction in session.
- * <p/>
- *
- * @author Simon Angerer
- * @date 30.03.2015
- * @version 1.0
+ * Created by Norskan on 03.04.2015.
  */
-public class NoTransactionException extends Exception {
+public class Orthoptist extends User {
+
+    //<editor-fold desc="Attributes">
+    private Calendar _calendar;
+    private PatientQueue _queue;
+    //</editor-fold>
+
+    //<editor-fold desc="Getter/Setter">
+    public Calendar getCalendar() {
+        return _calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        _calendar = calendar;
+    }
+
+    public PatientQueue getQueue() {
+        return _queue;
+    }
+
+    public void setQueue(PatientQueue queue) {
+        _queue = queue;
+    }
+    //</editor-fold>
 }
