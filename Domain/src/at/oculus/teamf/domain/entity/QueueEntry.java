@@ -26,7 +26,17 @@ public class QueueEntry {
 	//private Orthoptist _orthoptist;
 	//private QueueEntry _queueParent;
 
-	private QueueEntry() {
+	public QueueEntry() {
+	}
+	public QueueEntry(int id, Integer doctorId, Integer orthoptistId, int patientId, Integer queueIdParent,
+	                  Timestamp arrivalTime, Patient patient) {
+		_id = id;
+		_doctorId = doctorId;
+		_orthoptistId = orthoptistId;
+		_patientId = patientId;
+		_queueIdParent = queueIdParent;
+		_arrivalTime = arrivalTime;
+		_patient = patient;
 	}
 
 	public int getId() {

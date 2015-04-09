@@ -9,7 +9,11 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -22,9 +26,77 @@ public class PatientQueue {
 
     //<editor-fold desc="Attributes">
     private int _userID;
-	private LinkedList<Patient> _patients;
-	private LinkedList<Integer> _queueIds;
+	private LinkedList<QueueEntry> _entries;
     //</editor-fold>
+
+	public PatientQueue(Doctor doctor){
+		// get all queue entities of a doctor
+		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
+		QueueEntry actEntry = null;
+		try {
+			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+				QueueEntry qe = (QueueEntry) obj;
+				if(qe.getDoctorId()!=null){
+					if(qe.getDoctorId()==doctor.getId()){
+						queueEntries.put(qe.getQueueIdParent(),qe);
+						// set first entity
+						if(qe.getQueueIdParent()==0){
+							actEntry = qe;
+						}
+					}
+				}
+			}
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+
+		// set linked list
+		while(actEntry!=null){
+			_entries.add(actEntry);
+			actEntry = queueEntries.get(actEntry.getId());
+		}
+	}
+
+	public PatientQueue(Orthoptist orthoptist){
+		// get all queue entities of a orthoptist
+		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
+		QueueEntry actEntry = null;
+		HashMap<Integer, QueueEntry> queueEntriesEx = new HashMap<Integer, QueueEntry>();
+		QueueEntry actEntryEx = null;
+		try {
+			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+				QueueEntry qe = (QueueEntry) obj;
+				if(qe.getOrthoptistId()!=null){
+					if(qe.getOrthoptistId()==orthoptist.getId()){
+						queueEntries.put(qe.getQueueIdParent(),qe);
+						// set first entity
+						if(qe.getQueueIdParent()==0){
+							actEntry = qe;
+						}
+					}
+				}
+				if(qe.getOrthoptistId()==null && qe.getDoctorId()==null){
+					queueEntriesEx.put(qe.getQueueIdParent(),qe);
+						// set first entity
+						if(qe.getQueueIdParent()==0) {
+							actEntryEx = qe;
+						}
+				}
+			}
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+
+		// set linked list
+		while(actEntry!=null){
+			_entries.add(actEntry);
+			actEntry = queueEntries.get(actEntry.getId());
+		}
+		while(actEntryEx!=null){
+			_entries.add(actEntryEx);
+			actEntry = queueEntriesEx.get(actEntryEx.getId());
+		}
+	}
 
     //<editor-fold desc="Getter/Setter">
     public int getUserID() {
@@ -35,16 +107,18 @@ public class PatientQueue {
 	    _userID = userID;
     }
 
-    public Collection<Patient> getPatients() {
-        return _patients;
+    public Collection<QueueEntry> getEntries() {
+        return _entries;
     }
 
-    public void setPatients(Collection<Patient> _patients) {
-        _patients = _patients;
+    public void setPatients(LinkedList<QueueEntry> entries) {
+	    _entries = entries;
     }
     //</editor-fold>
 
     public void insert(Patient patient, Patient parent) { }
 
-    public Patient getNext() { return null; }
+    public QueueEntry getNext() {
+	    return null;
+    }
 }
