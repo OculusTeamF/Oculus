@@ -11,6 +11,7 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -18,25 +19,80 @@ import java.util.LinkedList;
 /**
  * Created by jpo2433 on 08.04.15.
  */
-public class SearchPatientController {
+public class SearchPatientController{
 
-    /* search Patient with SVN, lastname, birthdate */
-
-    public Patient getPatientBySocialInsuranceNumber(String socialInsuranceNumber){
+    public Collection <Patient> searchPatients (String svn, String lastName, String firstName){
 
         Facade facade = Facade.getInstance();
 
-        Collection<Object> patients = new LinkedList<Object>();
-        patients = facade.getAll(Patient.class);
+        Collection <Patient> patients = new LinkedList<Patient>();
 
-        for(Object patient: patients){
-            if (((Patient) patient).getSvn().equals(socialInsuranceNumber))
-                return (Patient) patient;
-            else {
-                return null;
+        if (svn != null){
+            patients = getPatientBySocialInsuranceNumber(facade, svn);
+            if (patients.size() <= 1) {
+                return patients;
+            }
+        } else if (lastName != null) {
+            patients = getPatientByLastName(facade, lastName);
+            if (patients.size() <= 1){
+                return patients;
+            } else {
+                patients = getPatientByFirstName(facade, firstName, patients);
             }
         }
-        return null;
-
+        return patients;
     }
+
+    private Collection <Patient> getPatientBySocialInsuranceNumber(Facade facade, String socialInsuranceNumber){
+
+        Collection<Patient> patients = new LinkedList<Patient>();
+        try {
+            patients = facade.getAll(Patient.class);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            //TODO
+        }
+
+        Collection <Patient> selectedPatients = new LinkedList<Patient>();
+
+        for(Patient patient: patients){
+            if (socialInsuranceNumber.equals(patient.getSvn())){
+                selectedPatients.add(patient);
+            }
+        }
+        return selectedPatients;
+    }
+
+    private Collection <Patient> getPatientByLastName(Facade facade, String lastName){
+
+        Collection<Patient> patients = new LinkedList<Patient>();
+        try {
+            patients = facade.getAll(Patient.class);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            //TODO
+        }
+
+        Collection<Patient> selectedPatients = new LinkedList<Patient>();
+
+        for(Patient patient: patients){
+            if (patient.getLastName().equals(lastName)){
+                selectedPatients.add(patient);
+            }
+        }
+        return selectedPatients;
+    }
+
+    private Collection<Patient> getPatientByFirstName(Facade facade, String firstName, Collection<Patient> patients) {
+
+        Collection<Patient> selectedPatients = new LinkedList<Patient>();
+
+        for(Patient patient: patients){
+            if (patient.getFirstName().equals(firstName)){
+                selectedPatients.add(patient);
+            }
+        }
+        return selectedPatients;
+    }
+
 }
