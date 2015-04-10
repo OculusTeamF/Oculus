@@ -7,16 +7,19 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.loggin;
+package at.oculus.teamf.domain.entity;
+
+import java.util.Collection;
 
 /**
- *
- * @author Fabian Salzgeber
- * @date 31.3.2015
- * @version 1.0
- *
+ * Created by FabianLaptop on 08.04.2015.
  */
+public interface ICalendar {
+    int getCalendarID();
 
-public interface ILogger {
-    final static org.apache.logging.log4j.Logger log = Logger4J.getInstance();
+    void addCalendarID(int calendarID);
+
+    Collection<CalendarEvent> getEvents();
+
+    void addEvents(Collection<CalendarEvent> events);
 }

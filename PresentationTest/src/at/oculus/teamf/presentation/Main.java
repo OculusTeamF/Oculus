@@ -20,10 +20,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
         primaryStage.setTitle("OCULUS - Gemeinschaftspraxis Dr. Tavolato");
-        Scene scene = new Scene(root, 300, 275);
-        scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
+        Scene scene = new Scene(root, 1038, 668);
+
+
+
+        scene.getStylesheets().addAll(this.getClass().getResource("/stylesheet.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

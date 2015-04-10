@@ -7,10 +7,40 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.accessrights;
+package at.oculus.teamf.domain.entity;
+
+import java.util.Collection;
 
 /**
- * Created by Fabian on 06.04.2015.
+ * Created by FabianLaptop on 07.04.2015.
  */
-public class UserSessionBroker {
+public interface IPatient {
+    //<editor-fold desc="Getter/Setter">
+    int getPatientID();
+
+    void setPatientID(int patientID);
+
+    String getFirstName();
+
+    void setFirstName(String firstName);
+
+    String getLastName();
+
+    Patient setLastName(String lastName);
+
+    Gender getGender();
+
+    void setGender(Gender gender);
+
+    int getSvn();
+
+    void setSvn(int svn);
+
+    Doctor getDoctor();
+
+    void setDoctor(Doctor doctor);
+
+    Collection<CalendarEvent> getCalendarEvents();
+
+    void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
 }
