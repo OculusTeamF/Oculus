@@ -9,24 +9,28 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import org.junit.Test;
-
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by Norskan on 10.04.2015.
  */
-public abstract class BrokerTest {
+public class CalendarEventBokerTest extends BrokerTest {
 
-	@Test
-	public abstract void testGetById();
+    @Override
+    public void testGetById() {
 
-	@Test
-	public abstract void testGetAll();
+    }
 
-	@Test
-	public abstract void testSave();
+    @Override
+    public void testGetAll() {
 
-	@Test
-	public abstract void testReload();
+    }
 
+    @Override
+    public void testSave() {
 
+    }
+
+    @Override
+    public void testReload() {
+
+    }
 }

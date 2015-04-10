@@ -25,29 +25,41 @@ public class CalendarBrokerTest extends BrokerTest{
 
 	@Test
 	@Override
-	public void testGetById() throws FacadeException {
+	public void testGetById() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = facade.getById(Calendar.class, 1);
+		Calendar cal = null;
+		try {
+			cal = facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
 		assertTrue(cal != null);
 	}
 
 	@Test
 	@Override
-	public void testGetAllTest() {
+	public void testGetAll() {
 		//not needed
 	}
 
 	@Test
 	@Override
-	public void testSaveTest() {
+	public void testSave() {
 		//not needed currently
 	}
 
 	@Test
 	@Override
-	public void testReloadTest() throws FacadeException {
+	public void testReload() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
+		Calendar cal = null;
+		try {
+			cal = (Calendar)facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
 		assertTrue(cal != null);
 
 		try {
@@ -61,9 +73,12 @@ public class CalendarBrokerTest extends BrokerTest{
 		} catch (NotAbleToLoadClassException e) {
 			e.printStackTrace();
 			assertTrue(false);
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 
 		assertTrue(cal.getEvents() != null);
-		assertTrue(cal.getEvents().size() == 4);
+		assertTrue(cal.getEvents().size() == 6);
 	}
 }
