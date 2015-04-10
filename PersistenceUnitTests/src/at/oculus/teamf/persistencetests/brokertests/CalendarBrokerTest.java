@@ -64,8 +64,8 @@ public class CalendarBrokerTest extends BrokerTest{
 
 		try {
 			facade.reloadCollection(cal, CalendarEvent.class);
-		} catch (InvalideReloadParameterExeption invalideReloadParameterExeption) {
-			invalideReloadParameterExeption.printStackTrace();
+		} catch (InvalidReloadParameterException invalidReloadParameterException) {
+			invalidReloadParameterException.printStackTrace();
 			assertTrue(false);
 		} catch (ReloadInterfaceNotImplementedException e) {
 			e.printStackTrace();

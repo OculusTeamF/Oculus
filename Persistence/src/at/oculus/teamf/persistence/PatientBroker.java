@@ -17,7 +17,7 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entities.CalendarEventEntity;
 import at.oculus.teamf.persistence.entities.PatientEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalideReloadParameterExeption;
+import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 
 import java.util.Collection;
 
@@ -59,7 +59,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		if (clazz == CalendarEvent.class) {
 			((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
 		} else {
-			throw new InvalideReloadParameterExeption();
+			throw new InvalidReloadParameterException();
 		}
 	}
 

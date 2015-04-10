@@ -14,7 +14,7 @@ import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.CalendarEventEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalideReloadParameterExeption;
+import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 
 import java.util.Collection;
 
@@ -57,7 +57,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		if (clazz == CalendarEvent.class) {
 			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
 		} else {
-			throw new InvalideReloadParameterExeption();
+			throw new InvalidReloadParameterException();
 		}
 	}
 

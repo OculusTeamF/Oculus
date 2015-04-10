@@ -12,5 +12,5 @@ package at.oculus.teamf.persistence.exceptions;
 /**
  * Created by Norskan on 08.04.2015.
  */
-public class InvalideReloadParameterExeption extends ReloadException {
+public class InvalidReloadParameterException extends ReloadException {
 }

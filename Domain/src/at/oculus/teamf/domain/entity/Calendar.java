@@ -45,8 +45,8 @@ public class Calendar {
         } catch (ReloadInterfaceNotImplementedException e) {
             e.printStackTrace();
             //Todo: Add Loging
-        } catch (InvalideReloadParameterExeption invalideReloadParameterExeption) {
-            invalideReloadParameterExeption.printStackTrace();
+        } catch (InvalidReloadParameterException invalidReloadParameterException) {
+            invalidReloadParameterException.printStackTrace();
         } catch (NotAbleToLoadClassException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {

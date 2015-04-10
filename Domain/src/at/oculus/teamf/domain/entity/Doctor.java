@@ -9,8 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.facade.Facade;
-
 import java.util.Collection;
 
 /**
@@ -19,19 +17,26 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Doctor extends User{
-
+public class Doctor extends User {
     //<editor-fold desc="Attributes">
+    private int _id;
     private Calendar _calendar;
     private PatientQueue _queue;
     private Collection<Patient> _patients;
+    private Doctor _doctorSubstitude;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    public int getId() {
+        return _id;
+    }
+    public void setId(int id) {
+        _id = id;
+    }
+
     public Calendar getCalendar() {
         return _calendar;
     }
-
     public void setCalendar(Calendar _calendar) {
         this._calendar = _calendar;
     }
@@ -39,20 +44,23 @@ public class Doctor extends User{
     public PatientQueue getQueue() {
         return _queue;
     }
-
     public void setQueue(PatientQueue _queue) {
         this._queue = _queue;
     }
 
+    public Doctor getDoctorSubstitude() {
+        return _doctorSubstitude;
+    }
+    public void setDoctorSubstitude(Doctor doctorSubstitude) {
+        _doctorSubstitude = doctorSubstitude;
+    }
+
     public void addPatient(Patient patient) {
-        if(patient != null) {
+        if (patient != null) {
             _patients.add(patient);
         }
     }
-
     public Collection<Patient> getPatients() {
-
-
         return _patients;
     }
     //</editor-fold>
