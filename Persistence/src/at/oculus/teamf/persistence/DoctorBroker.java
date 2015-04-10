@@ -12,7 +12,6 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.DoctorEntity;
 import at.oculus.teamf.persistence.entities.UserEntity;
@@ -22,22 +21,26 @@ import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
 /**
  * DoctorBroker.java Created by oculus on 08.04.15.
  */
-public class DoctorBroker extends EntityBroker {
+public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
 	public DoctorBroker() {
 		super(Doctor.class, DoctorEntity.class);
 	}
 
 	@Override
-	protected Object persitentToDomain(Object obj) {
-		DoctorEntity entity = (DoctorEntity) obj;
+	protected Doctor persitentToDomain(DoctorEntity entity) {
 		Doctor doctor = new Doctor();
 		doctor.setId(entity.getId());
 		try {
 			doctor.setCalendar(
-					(Calendar) Facade.getInstance().getBroker(Calendar.class).domainToPersitent(entity.getCalendar()));
-			doctor.setDoctorSubstitude((Doctor) Facade.getInstance().getBroker(Doctor.class)
-			                                          .domainToPersitent(entity.getDoctorSubstitute()));
+					(Calendar) Facade.getInstance().getBroker(Calendar.class).persitentToDomain(entity.getCalendar()));
+
+			if(doctor.getDoctorSubstitude() != null) {
+				doctor.setDoctorSubstitude((Doctor) Facade.getInstance().getBroker(Doctor.class)
+						.persitentToDomain(entity.getDoctorSubstitute()));
+			}
 		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
 		doctor.setQueue(new PatientQueue(doctor));
@@ -57,7 +60,7 @@ public class DoctorBroker extends EntityBroker {
 	}
 
 	@Override
-	protected Object domainToPersitent(Object obj) {
+	protected DoctorEntity domainToPersitent(Doctor obj) {
 		Doctor entity = (Doctor) obj;
 		DoctorEntity doctorEntity = new DoctorEntity();
 		doctorEntity.setId(entity.getId());

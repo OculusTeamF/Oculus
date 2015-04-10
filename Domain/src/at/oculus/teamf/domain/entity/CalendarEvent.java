@@ -9,8 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.facade.Facade;
-
 import java.util.Date;
 
 /**
@@ -40,8 +38,6 @@ public class CalendarEvent {
     }
 
     public String getDescription() {
-
-
         return _description;
     }
 

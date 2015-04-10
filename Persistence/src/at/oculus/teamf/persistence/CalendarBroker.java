@@ -33,16 +33,16 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		calendar.setCalendarID(entity.getId());
 
 
-		if (entity.getDoctor() != null) {
+		/*if (entity.getDoctor() != null) {
 			calendar.setUser(
-					(Doctor) Facade.getInstance().getBroker(Doctor.class).domainToPersitent(entity.getDoctor()));
+					(Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
 		} else if (entity.getOrthoptist() != null) {
 			calendar.setUser((Orthoptist) Facade.getInstance().getBroker(Orthoptist.class)
-			                                    .domainToPersitent(entity.getOrthoptist()));
+			                                    .persitentToDomain(entity.getOrthoptist()));
 		} else {
 			//Todo: add Logging
 			System.out.println("No User mapped to calendar!");
-		}
+		}*/
 		return calendar;
 	}
 

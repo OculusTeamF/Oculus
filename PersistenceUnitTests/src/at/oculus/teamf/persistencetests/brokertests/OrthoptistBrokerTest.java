@@ -12,12 +12,9 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
-import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
-import at.oculus.teamf.persistence.exceptions.ReloadInterfaceNotImplementedException;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class OrthoptistBrokerTest extends BrokerTest {
     @Test
@@ -46,9 +43,4 @@ public class OrthoptistBrokerTest extends BrokerTest {
         //TODO implement
     }
 
-    @Test
-    @Override
-    public void testReload() {
-        // not needed
-    }
 }

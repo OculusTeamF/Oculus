@@ -25,7 +25,9 @@ public class Calendar {
     //<editor-fold desc="Attributes">
     private int _id;
     private Collection<CalendarEvent> _events;
-    private User _user;
+
+    //excluded because of circular dependencies
+    //private User _user;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -62,6 +64,7 @@ public class Calendar {
         _events =events;
     }
 
+    /*
     public User getUser() {
         return _user;
     }
@@ -69,7 +72,7 @@ public class Calendar {
     public void setUser(User user) {
         _user = user;
     }
-
+    */
 
     //</editor-fold>
 }

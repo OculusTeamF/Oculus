@@ -10,7 +10,6 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Receptionist;
-import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.ReceptionistEntity;
 import at.oculus.teamf.persistence.entities.UserEntity;
 
@@ -29,15 +28,17 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 		// TODO Kalender und Queues laden
 		// user data
 		UserEntity userEntity = entity.getUser();
-		receptionist.setUserGroupId(userEntity.getUserGroupId());
-		receptionist.setUserName(userEntity.getUserName());
-		receptionist.setPassword(userEntity.getPassword());
-		receptionist.setTitle(userEntity.getTitle());
-		receptionist.setFirstName(userEntity.getFirstName());
-		receptionist.setLastName(userEntity.getLastName());
-		receptionist.setEmail(userEntity.getEmail());
-		receptionist.setCreateDate(userEntity.getCreateDate());
-		receptionist.setIdleDate(userEntity.getIdleDate());
+		if (userEntity != null){
+			receptionist.setUserGroupId(userEntity.getUserGroupId());
+			receptionist.setUserName(userEntity.getUserName());
+			receptionist.setPassword(userEntity.getPassword());
+			receptionist.setTitle(userEntity.getTitle());
+			receptionist.setFirstName(userEntity.getFirstName());
+			receptionist.setLastName(userEntity.getLastName());
+			receptionist.setEmail(userEntity.getEmail());
+			receptionist.setCreateDate(userEntity.getCreateDate());
+			receptionist.setIdleDate(userEntity.getIdleDate());
+		}
 		//orthoptist.setUserGroup(userEntity.getUserGroup());
 		return receptionist;
 	}

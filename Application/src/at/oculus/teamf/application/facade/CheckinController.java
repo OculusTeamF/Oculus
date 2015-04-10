@@ -18,7 +18,7 @@ public class CheckinController {
 
         PatientQueue queue = null;
         try {
-            queue = facade.getById(PatientQueue.class, user.getUserID());
+            queue = facade.getById(PatientQueue.class, user.getUserId());
         } catch (FacadeException e) {
             e.printStackTrace();
             //if null ?? was machma denn do??

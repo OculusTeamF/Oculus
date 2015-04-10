@@ -32,7 +32,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		Orthoptist orthoptist = new Orthoptist();
 		orthoptist.setId(entity.getId());
 		try {
-			orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).domainToPersitent(entity.getCalendar()));
+			orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).persitentToDomain(entity.getCalendar()));
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}

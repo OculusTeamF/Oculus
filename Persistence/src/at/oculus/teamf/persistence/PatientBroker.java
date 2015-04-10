@@ -37,7 +37,10 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		patient.setFirstName(entity.getFirstName());
 		patient.setLastName(entity.getLastName());
 		patient.setSvn(entity.getSocialInsuranceNr());
-		patient.setDoctor((Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
+
+		if(entity.getDoctor() != null) {
+			patient.setDoctor((Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
+		}
 
 		if(entity.getGender().equals('M')) {
 			patient.setGender(Gender.Male);

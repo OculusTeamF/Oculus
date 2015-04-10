@@ -9,13 +9,12 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Receptionist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ReceptionistBrokerTest extends BrokerTest {
     @Test
@@ -42,11 +41,5 @@ public class ReceptionistBrokerTest extends BrokerTest {
     @Override
     public void testSave() {
         //TODO implement
-    }
-
-    @Test
-    @Override
-    public void testReload() {
-        // not needed
     }
 }

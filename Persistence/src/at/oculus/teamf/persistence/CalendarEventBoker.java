@@ -32,7 +32,7 @@ class CalendarEventBoker extends EntityBroker<CalendarEvent, CalendarEventEntity
 
 		Integer patientID = entity.getPatientId();
 		if(patientID != null) {
-			event.setPatient((Patient)Facade.getInstance().getById(Patient.class, entity.getPatientId()));
+			event.addPatient((Patient)Facade.getInstance().getById(Patient.class, entity.getPatientId()));
 		}
 
 		return event;

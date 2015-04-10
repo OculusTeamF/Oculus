@@ -49,7 +49,6 @@ public class DoctorBrokerTest extends BrokerTest {
     }
 
     @Test
-    @Override
     public void testReload() {
         Facade facade = Facade.getInstance();
         Doctor doctor = null;
