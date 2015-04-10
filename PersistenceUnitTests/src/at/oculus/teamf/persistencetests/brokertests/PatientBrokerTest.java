@@ -68,7 +68,7 @@ public class PatientBrokerTest extends BrokerTest {
         }
 
         assertTrue(patient.getCalendarEvents() != null);
-        System.out.println(patient.getCalendarEvents().size() == 1);
+        assertTrue(patient.getCalendarEvents().size() == 1);
 
 
     }
