@@ -24,9 +24,4 @@ public abstract class BrokerTest {
 
 	@Test
 	public abstract void testSave();
-
-	@Test
-	public abstract void testReload();
-
-
 }

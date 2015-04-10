@@ -57,7 +57,6 @@ public class PatientBrokerTest extends BrokerTest {
         //not needed currently
     }
 
-    @Override
     public void testReload() {
         Patient patient = null;
         try {
@@ -69,7 +68,5 @@ public class PatientBrokerTest extends BrokerTest {
 
         assertTrue(patient.getCalendarEvents() != null);
         assertTrue(patient.getCalendarEvents().size() == 1);
-
-
     }
 }
