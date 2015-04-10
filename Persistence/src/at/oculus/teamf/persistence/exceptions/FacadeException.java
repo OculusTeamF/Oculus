@@ -7,27 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
-
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.Test;
+package at.oculus.teamf.persistence.exceptions;
 
 /**
  * Created by Norskan on 08.04.2015.
  */
-public abstract class BrokerTest {
-
-	@Test
-	public abstract void getByIdTest() throws FacadeException;
-
-	@Test
-	public abstract void getAllTest();
-
-	@Test
-	public abstract void save();
-
-	@Test
-	public abstract void reload() throws FacadeException;
-
-
+public class FacadeException extends Exception {
 }

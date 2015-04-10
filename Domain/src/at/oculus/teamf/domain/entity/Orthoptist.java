@@ -13,13 +13,21 @@ package at.oculus.teamf.domain.entity;
  * Created by Norskan on 03.04.2015.
  */
 public class Orthoptist extends User {
-
-    //<editor-fold desc="Attributes">
+	//<editor-fold desc="Attributes">
+	private int _id;
     private Calendar _calendar;
     private PatientQueue _queue;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    public int getId() {
+	    return _id;
+    }
+
+	public void setId(int id) {
+		_id = id;
+	}
+
     public Calendar getCalendar() {
         return _calendar;
     }

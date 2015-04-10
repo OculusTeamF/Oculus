@@ -11,8 +11,10 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.Receptionist;
 import at.oculus.teamf.domain.entity.User;
-import at.oculus.teamf.persistence.facade.Facade;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -26,31 +28,47 @@ public class StartupController {
      and at the moment we only cast this object-list into a patientQueue-list and return it.
      Later on, we are going to choose and return only the queues, which the specified user is allowed to see. */
 
+    public User getUser (){
+        Facade facade = Facade.getInstance();
+
+        User user = null;
+        try {
+            user = facade.getById(Receptionist.class, 1);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            //TODO
+        }
+
+        return user;
+    }
+
     public Collection<PatientQueue> getAllQueues(User user){
         Facade facade = Facade.getInstance();
 
-        Collection<Object> queues;
-        queues = facade.getAll(PatientQueue.class);
-        Collection<PatientQueue> castedQueues = new LinkedList<PatientQueue>();
-
-        for(Object queue : queues){
-            castedQueues.add((PatientQueue)queue);
+        Collection<PatientQueue> queues = null;
+        try {
+            queues = facade.getAll(PatientQueue.class);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            //TODO
         }
 
-        return castedQueues;
+        return queues;
     }
 
     public Collection<Calendar> getAllCalenders(User user){
         Facade facade = Facade.getInstance();
 
-        Collection<Object> calendars;
-        calendars = facade.getAll(Calendar.class);
-        Collection<Calendar> castedCalendars = new LinkedList<Calendar>();
-
-        for(Object calendar : calendars){
-            castedCalendars.add((Calendar)calendar);
+        Collection<Calendar> calendars = null;
+        try {
+            calendars = facade.getAll(Calendar.class);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            //TODO
         }
 
-        return castedCalendars;
+        return calendars;
     }
+
+
 }

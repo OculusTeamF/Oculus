@@ -1,4 +1,4 @@
-/*
+package at.oculus.teamf.presentation;/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,27 +7,9 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
-
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.Test;
-
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by Karo on 09.04.2015.
  */
-public abstract class BrokerTest {
-
-	@Test
-	public abstract void getByIdTest() throws FacadeException;
-
-	@Test
-	public abstract void getAllTest();
-
-	@Test
-	public abstract void save();
-
-	@Test
-	public abstract void reload() throws FacadeException;
-
+public class agendaController {
 
 }

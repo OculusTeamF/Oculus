@@ -10,14 +10,9 @@
 package at.oculus.teamf.persistencetests;
 
 import at.oculus.teamf.domain.entity.Weekday;
-import at.oculus.teamf.persistence.broker.EntityBroker;
-import at.oculus.teamf.persistence.broker.WeekdayBroker;
-import at.oculus.teamf.persistence.facade.Facade;
+import at.oculus.teamf.persistence.Facade;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 //Todo document test
 public class EntityBrokerTest {
@@ -25,8 +20,6 @@ public class EntityBrokerTest {
 	@org.junit.Test
 	public void testGetEntity() throws Exception {
 		Facade facade = Facade.getInstance();
-		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
-		brokers.add(new WeekdayBroker());
 
 		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
 		//System.out.println(wd.getName());
@@ -36,7 +29,6 @@ public class EntityBrokerTest {
 	@org.junit.Test
 	public void testSetEntity() throws Exception {
 		Facade facade = Facade.getInstance();
-		Collection<EntityBroker> brokers = new LinkedList<EntityBroker>();
 
 		Weekday wd = (Weekday) facade.getById(Weekday.class, 1);
 		//System.out.println(wd.getName());

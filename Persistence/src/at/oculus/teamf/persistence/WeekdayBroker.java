@@ -7,13 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.broker;
+package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Weekday;
+import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.WeekdayEntity;
-
-import java.util.Collection;
 
 /**
  * WeekdayBroker.java

@@ -7,27 +7,24 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
+package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.Test;
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.Patient;
+
+import java.util.Collection;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by oculus on 09.04.15.
  */
-public abstract class BrokerTest {
+public class ApplicationUnitTests {
 
-	@Test
-	public abstract void getByIdTest() throws FacadeException;
-
-	@Test
-	public abstract void getAllTest();
-
-	@Test
-	public abstract void save();
-
-	@Test
-	public abstract void reload() throws FacadeException;
-
-
+    public static void main (String [] args){
+        SearchPatientController controller =  new SearchPatientController();
+        Collection<Patient> patients = controller.searchPatients("7343676182", null, null);
+        System.out.println(patients.size());
+        for (Patient patient : patients){
+            System.out.println(patient.getLastName() + " " + patient.getFirstName());
+        }
+    }
 }
