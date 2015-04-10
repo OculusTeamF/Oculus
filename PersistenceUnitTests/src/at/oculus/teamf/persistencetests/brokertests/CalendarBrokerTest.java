@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
+package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
@@ -25,29 +25,41 @@ public class CalendarBrokerTest extends BrokerTest{
 
 	@Test
 	@Override
-	public void getByIdTest() throws FacadeException {
+	public void testGetById() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = facade.getById(Calendar.class, 1);
+		Calendar cal = null;
+		try {
+			cal = facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
 		assertTrue(cal != null);
 	}
 
 	@Test
 	@Override
-	public void getAllTest() {
+	public void testGetAll() {
 		//not needed
 	}
 
 	@Test
 	@Override
-	public void save() {
-		//not needed
+	public void testSave() {
+		//not needed currently
 	}
 
 	@Test
 	@Override
-	public void reload() throws FacadeException {
+	public void testReload() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
+		Calendar cal = null;
+		try {
+			cal = (Calendar)facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
 		assertTrue(cal != null);
 
 		try {
@@ -61,12 +73,12 @@ public class CalendarBrokerTest extends BrokerTest{
 		} catch (NotAbleToLoadClassException e) {
 			e.printStackTrace();
 			assertTrue(false);
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 
 		assertTrue(cal.getEvents() != null);
-
-		for(CalendarEvent c : cal.getEvents()) {
-			System.out.println(c.getDescription());
-		}
+		assertTrue(cal.getEvents().size() == 6);
 	}
 }

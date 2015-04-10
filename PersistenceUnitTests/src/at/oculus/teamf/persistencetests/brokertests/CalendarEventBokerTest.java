@@ -1,4 +1,4 @@
-package at.oculus.teamf.persistencetests;/*
+/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,13 +7,30 @@ package at.oculus.teamf.persistencetests;/*
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import junit.framework.TestCase;
+package at.oculus.teamf.persistencetests.brokertests;
 
 /**
- * at.oculus.teamf.persistencetests.FacadeTest.java Created by oculus on 06.04.15.
+ * Created by Norskan on 10.04.2015.
  */
-public class FacadeTest extends TestCase{
-	public void testCalendar(){
-		//add many tests
-	}
+public class CalendarEventBokerTest extends BrokerTest {
+
+    @Override
+    public void testGetById() {
+
+    }
+
+    @Override
+    public void testGetAll() {
+
+    }
+
+    @Override
+    public void testSave() {
+
+    }
+
+    @Override
+    public void testReload() {
+
+    }
 }

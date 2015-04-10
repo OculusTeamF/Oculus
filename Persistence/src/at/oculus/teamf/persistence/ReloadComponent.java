@@ -19,19 +19,16 @@ import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Reload Component for domain class brokers
- *
- * @param <D>
- * 		Domain class of which the collection needs to be reloaded
- * @param <R>
- * 		The reload database entity
- */
-public class ReloadComponent<D, R> {
+public class ReloadComponent{
 
-	private Class<D> _entityClazz;
-	private Class<R> _clazzToLoad;
+	private Class _entityClazz;
+	private Class _clazzToLoad;
 
+	/**
+	 *
+	 * @param entityClazz entity class from which the reload needs to be extracted
+	 * @param clazzToLoad domain class that needs to be reloaded
+	 */
 	public ReloadComponent(Class entityClazz, Class clazzToLoad) {
 		_entityClazz = entityClazz;
 		_clazzToLoad = clazzToLoad;
@@ -49,7 +46,7 @@ public class ReloadComponent<D, R> {
 	 * @throws FacadeException
 	 * 		gets thrown if an error occures
 	 */
-	public Collection<D> reloadCollection(ISession session, int id, CollectionLoader loader) throws FacadeException {
+	public Collection reloadCollection(ISession session, int id, CollectionLoader loader) throws FacadeException {
 		Facade facade = Facade.getInstance();
 
 		//load database CalendarEventEntity that has the collection that needs to be reloaded
@@ -66,7 +63,7 @@ public class ReloadComponent<D, R> {
 		}
 
 		//load CalendarEventEntity collection from database CalendarEventEntity
-		Collection<R> entities = loader.load(databaseEntity);
+		Collection entities = loader.load(databaseEntity);
 
 
 		//get domain object broker
@@ -81,9 +78,9 @@ public class ReloadComponent<D, R> {
 		}
 
 		//convert database entity collection to domain entity collection
-		Collection<D> objects = new ArrayList<D>();
-		for (R r : entities) {
-			objects.add((D) toLoadClassDomainBroker.persitentToDomain(r));
+		Collection objects = new ArrayList();
+		for (Object obj : entities) {
+			objects.add(toLoadClassDomainBroker.persitentToDomain(obj));
 		}
 
 		return objects;

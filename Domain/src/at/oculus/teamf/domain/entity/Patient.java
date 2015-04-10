@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+
 import java.util.Collection;
 
 /**
@@ -89,6 +92,12 @@ public class Patient {
     }
 
     public Collection<CalendarEvent> getCalendarEvents() {
+        try {
+            Facade.getInstance().reloadCollection(this, CalendarEvent.class);
+        } catch (FacadeException e) {
+            //Todo: add loging
+            e.printStackTrace();
+        }
         return _calendarEvents;
     }
 
