@@ -29,6 +29,10 @@ public class QueueEntity {
     private OrthoptistEntity _orthoptist;
     private QueueEntity _queueParent;
 
+    public QueueEntity() {
+
+    }
+
 	public QueueEntity(int id, Integer doctorId, Integer orthoptistId, int patientId, Integer queueIdParent,
 	                   Timestamp arrivalTime) {
 		_id = id;
@@ -38,6 +42,7 @@ public class QueueEntity {
 		_queueIdParent = queueIdParent;
 		_arrivalTime = arrivalTime;
 	}
+
 
     @Id
     @Column(name = "queueId", nullable = false, insertable = true, updatable = true)

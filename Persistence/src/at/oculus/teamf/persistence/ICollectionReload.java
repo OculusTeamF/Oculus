@@ -11,13 +11,10 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalideReloadParameterExeption;
-import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
 
 /**
  * Created by Norskan on 07.04.2015.
  */
 public interface ICollectionReload {
-    void reload(ISession session, Object entity, Class clazz) throws FacadeException;
+    void reload(ISession session, Object obj, Class clazz) throws FacadeException;
 }

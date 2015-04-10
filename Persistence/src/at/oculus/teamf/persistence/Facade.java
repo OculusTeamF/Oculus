@@ -40,7 +40,6 @@ public class Facade {
 		entityBrokers.add(new QueueBroker());
 		entityBrokers.add(new ReceptionistBroker());
 		entityBrokers.add(new OrthoptistBroker());
-		entityBrokers.add(new WeekdayBroker());
 
 		init(entityBrokers);
 	}
