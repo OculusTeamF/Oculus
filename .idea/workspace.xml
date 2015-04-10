@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cad304d5-bb5c-43c6-8e95-46ef1a6e38a0" name="Default" comment="">
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\Presentation.iml" afterPath="$PROJECT_DIR$/PresentationTest/PresentationTest.iml" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\Main.java" afterPath="$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/Main.java" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\MainController.java" afterPath="$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/MainController.java" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\agenda.fxml" afterPath="$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/agenda.fxml" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\agendaController.java" afterPath="$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/agendaController.java" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\main.fxml" afterPath="$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/main.fxml" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\oculus.JPG" afterPath="$PROJECT_DIR$/PresentationTest/src/oculus.JPG" />
+      <change type="MOVED" beforePath="C:\Project\oculus\Oculus\Presentation\src\stylesheet.css" afterPath="$PROJECT_DIR$/PresentationTest/src/stylesheet.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Presentation/Presentation.iml" afterPath="$PROJECT_DIR$/Presentation/Presentation.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/QueueEntry.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/QueueEntry.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -75,7 +80,7 @@
         </entry>
       </file>
       <file leaf-file-name="main.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/main.fxml">
+        <entry file="file://$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/main.fxml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="5.4333334" vertical-offset="163" max-vertical-offset="2856">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -796,7 +801,7 @@
       <workItem from="1428439136420" duration="1379000" />
       <workItem from="1428518333456" duration="7791000" />
       <workItem from="1428666874800" duration="21000" />
-      <workItem from="1428666939909" duration="7033000" />
+      <workItem from="1428666939909" duration="7192000" />
     </task>
     <task id="LOCAL-00001" summary="logger test">
       <created>1427830175460</created>
@@ -870,11 +875,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428671680132</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="presentation layer excluded">
+      <created>1428676989434</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1428676989434</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59680000" />
+    <option name="totallyTimeSpent" value="59839000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1036" extended-state="6" />
@@ -964,7 +975,8 @@
     <MESSAGE value="(for my eyes only) intellij update #1" />
     <MESSAGE value="(for my eyes only) update local project with dev version" />
     <MESSAGE value="libraries dependencies fix#3" />
-    <option name="LAST_COMMIT_MESSAGE" value="libraries dependencies fix#3" />
+    <MESSAGE value="presentation layer excluded" />
+    <option name="LAST_COMMIT_MESSAGE" value="presentation layer excluded" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1277,7 +1289,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/main.fxml">
+    <entry file="file://$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/main.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="5.4333334" vertical-offset="163" max-vertical-offset="2856">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
