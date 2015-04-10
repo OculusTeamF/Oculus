@@ -17,12 +17,20 @@ import java.util.Collection;
 public class Receptionist extends User {
 
     //<editor-fold desc="Attributes">
+    private Integer _id;
     private Collection<Calendar> _calendars;
-
     private Collection<PatientQueue> _queues;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer _id) {
+        this._id = _id;
+    }
+
     public Collection<Calendar> getCalendars() {
         return _calendars;
     }

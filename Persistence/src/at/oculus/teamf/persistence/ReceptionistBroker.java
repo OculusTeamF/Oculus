@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.domain.entity.Receptionist;
 import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.ReceptionistEntity;
+import at.oculus.teamf.persistence.entities.UserEntity;
 
 /**
  * Created by Norskan on 08.04.2015.
@@ -24,13 +25,42 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 	@Override
 	protected Receptionist persitentToDomain(ReceptionistEntity entity) {
 		Receptionist receptionist = new Receptionist();
-		receptionist.setUserID(entity.getUserId());
+		receptionist.setId(entity.getId());
+		// TODO Kalender und Queues laden
+		// user data
+		UserEntity userEntity = entity.getUser();
+		receptionist.setUserGroupId(userEntity.getUserGroupId());
+		receptionist.setUserName(userEntity.getUserName());
+		receptionist.setPassword(userEntity.getPassword());
+		receptionist.setTitle(userEntity.getTitle());
+		receptionist.setFirstName(userEntity.getFirstName());
+		receptionist.setLastName(userEntity.getLastName());
+		receptionist.setEmail(userEntity.getEmail());
+		receptionist.setCreateDate(userEntity.getCreateDate());
+		receptionist.setIdleDate(userEntity.getIdleDate());
+		//orthoptist.setUserGroup(userEntity.getUserGroup());
 		return receptionist;
 	}
 
 	@Override
 	protected ReceptionistEntity domainToPersitent(Receptionist entity) {
-		//Todo: reverse
+		ReceptionistEntity receptionistEntity = new ReceptionistEntity();
+		receptionistEntity.setId(entity.getId());
+		// TODO Kalender und Queues laden
+		// user data
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(entity.getUserId());
+		userEntity.setUserGroupId(entity.getUserGroupId());
+		userEntity.setUserName(entity.getUserName());
+		userEntity.setPassword(entity.getPassword());
+		userEntity.setTitle(entity.getTitle());
+		userEntity.setFirstName(entity.getFirstName());
+		userEntity.setLastName(entity.getLastName());
+		userEntity.setEmail(entity.getEmail());
+		userEntity.setCreateDate(entity.getCreateDate());
+		userEntity.setIdleDate(entity.getIdleDate());
+		//userEntity.setUserGroup(entity.getUserGroup());
+		receptionistEntity.setUser(userEntity);
 		return null;
 	}
 }
