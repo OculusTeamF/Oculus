@@ -2,24 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="095d09d7-306e-46ec-96aa-88ac0e77842f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Calendar.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Calendar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/CalendarBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/CalendarBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/CalendarEvent.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/CalendarEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/CalendarEventBoker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/CalendarEventBoker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java" afterPath="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CheckinController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/DoctorBrokerTest.java" afterPath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/DoctorBrokerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/DoctorEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/DoctorEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/OrthoptistBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/OrthoptistBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/OrthoptistBrokerTest.java" afterPath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/OrthoptistBrokerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/ReceptionistBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/ReceptionistBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/ReceptionistBrokerTest.java" afterPath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/ReceptionistBrokerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/ReceptionistEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -904,7 +886,7 @@
       <workItem from="1428666874800" duration="21000" />
       <workItem from="1428666939909" duration="10565000" />
       <workItem from="1428688638783" duration="1095000" />
-      <workItem from="1428689787084" duration="3159000" />
+      <workItem from="1428689787084" duration="3229000" />
     </task>
     <task id="LOCAL-00001" summary="logger test">
       <created>1427830175460</created>
@@ -996,11 +978,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428680074128</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Mayor Fixes&#10;&#10;DoctorBrokterTest: testReload not running&#10;OrthoptistBrokerTest: testGetByID not running">
+      <created>1428692997375</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1428692997375</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69851000" />
+    <option name="totallyTimeSpent" value="69921000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1592" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1059,7 +1047,8 @@
     <MESSAGE value="presentation layer excluded" />
     <MESSAGE value="presentation layer renamed" />
     <MESSAGE value="libraries dependency fix#3747239 !" />
-    <option name="LAST_COMMIT_MESSAGE" value="libraries dependency fix#3747239 !" />
+    <MESSAGE value="Mayor Fixes&#10;&#10;DoctorBrokterTest: testReload not running&#10;OrthoptistBrokerTest: testGetByID not running" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mayor Fixes&#10;&#10;DoctorBrokterTest: testReload not running&#10;OrthoptistBrokerTest: testGetByID not running" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
