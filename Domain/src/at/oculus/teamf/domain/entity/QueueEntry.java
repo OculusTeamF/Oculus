@@ -12,28 +12,24 @@ package at.oculus.teamf.domain.entity;
 import java.sql.Timestamp;
 
 /**
- * QueueEntry.java Created by oculus on 09.04.15.
+ * QueueEntry.java Created by Fabian on 10.04.15.
  */
 public class QueueEntry {
 	private int _id;
-	private Integer _doctorId;
-	private Integer _orthoptistId;
-	private int _patientId;
+	private Doctor _doctor;
+	private Orthoptist _orthoptist;
 	private Integer _queueIdParent;
 	private Timestamp _arrivalTime;
-	//private Doctor _doctor;
 	private Patient _patient;
-	//private Orthoptist _orthoptist;
-	//private QueueEntry _queueParent;
 
 	public QueueEntry() {
 	}
-	public QueueEntry(int id, Integer doctorId, Integer orthoptistId, int patientId, Integer queueIdParent,
-	                  Timestamp arrivalTime, Patient patient) {
+
+	public QueueEntry(int id, Patient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
+	                  Timestamp arrivalTime) {
 		_id = id;
-		_doctorId = doctorId;
-		_orthoptistId = orthoptistId;
-		_patientId = patientId;
+		_doctor = doctor;
+		_orthoptist = orthoptist;
 		_queueIdParent = queueIdParent;
 		_arrivalTime = arrivalTime;
 		_patient = patient;
@@ -46,25 +42,25 @@ public class QueueEntry {
 		_id = id;
 	}
 
-	public Integer getDoctorId() {
-		return _doctorId;
+	public Doctor getDoctor() {
+		return _doctor;
 	}
-	public void setDoctorId(Integer doctorId) {
-		_doctorId = doctorId;
-	}
-
-	public Integer getOrthoptistId() {
-		return _orthoptistId;
-	}
-	public void setOrthoptistId(Integer orthoptistId) {
-		_orthoptistId = orthoptistId;
+	public void setDoctor(Doctor doctor) {
+		_doctor = doctor;
 	}
 
-	public int getPatientId() {
-		return _patientId;
+	public Orthoptist getOrthoptist() {
+		return _orthoptist;
 	}
-	public void setPatientId(int patientId) {
-		_patientId = patientId;
+	public void setOrthoptist(Orthoptist orthoptist) {
+		_orthoptist = orthoptist;
+	}
+
+	public Patient getPatient() {
+		return _patient;
+	}
+	public void setPatient(Patient patient) {
+		_patient = patient;
 	}
 
 	public Integer getQueueIdParent() {
@@ -80,32 +76,4 @@ public class QueueEntry {
 	public void setArrivalTime(Timestamp arrivalTime) {
 		_arrivalTime = arrivalTime;
 	}
-
-	public Patient getPatient() {
-		return _patient;
-	}
-	public void setPatient(Patient patient) {
-		_patient = patient;
-	}
-
-	/*public Doctor getDoctor() {
-		return _doctor;
-	}
-	public void setDoctor(Doctor doctor) {
-		_doctor = doctor;
-	}
-
-	public Orthoptist getOrthoptist() {
-		return _orthoptist;
-	}
-	public void setOrthoptist(Orthoptist orthoptist) {
-		_orthoptist = orthoptist;
-	}
-
-	public QueueEntry getQueueParent() {
-		return _queueParent;
-	}
-	public void setQueueParent(QueueEntry queueParent) {
-		_queueParent = queueParent;
-	}*/
 }
