@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
+package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
@@ -25,7 +25,7 @@ public class CalendarBrokerTest extends BrokerTest{
 
 	@Test
 	@Override
-	public void getByIdTest() throws FacadeException {
+	public void testGetById() throws FacadeException {
 		Facade facade = Facade.getInstance();
 		Calendar cal = facade.getById(Calendar.class, 1);
 		assertTrue(cal != null);
@@ -33,19 +33,19 @@ public class CalendarBrokerTest extends BrokerTest{
 
 	@Test
 	@Override
-	public void getAllTest() {
+	public void testGetAllTest() {
 		//not needed
 	}
 
 	@Test
 	@Override
-	public void save() {
-		//not needed
+	public void testSaveTest() {
+		//not needed currently
 	}
 
 	@Test
 	@Override
-	public void reload() throws FacadeException {
+	public void testReloadTest() throws FacadeException {
 		Facade facade = Facade.getInstance();
 		Calendar cal = (Calendar)facade.getById(Calendar.class, 1);
 		assertTrue(cal != null);
@@ -64,9 +64,6 @@ public class CalendarBrokerTest extends BrokerTest{
 		}
 
 		assertTrue(cal.getEvents() != null);
-
-		for(CalendarEvent c : cal.getEvents()) {
-			System.out.println(c.getDescription());
-		}
+		assertTrue(cal.getEvents().size() == 4);
 	}
 }

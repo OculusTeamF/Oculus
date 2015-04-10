@@ -7,14 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests;
+package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Weekday;
 
 import static org.junit.Assert.assertTrue;
 
 //Todo document test
-public class EntityBrokerTest {
+public class WeekdayBrokerTest {
 
 	@org.junit.Test
 	public void testGetEntity() throws Exception {
