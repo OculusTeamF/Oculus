@@ -99,7 +99,6 @@ public class PatientQueue {
 		}
 	}
 
-    //<editor-fold desc="Getter/Setter">
     public int getUserID() {
         return _userID;
     }
@@ -119,15 +118,19 @@ public class PatientQueue {
     public void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) {
         QueueEntry newEntry = null;
 
+        // set entry data
         newEntry.setPatient(patient);
         newEntry.setDoctor(doctor);
         newEntry.setOrthoptist(orthoptist);
         newEntry.setArrivalTime(arrivaltime);
 
+        // set queue id management
         newEntry.setId(0);
         newEntry.setQueueIdParent(0);
-
         _entries.addFirst(newEntry);
+
+        String test = "hallo";
+
     }
 
     public void removeLastPatient(){
