@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Patient {
+public class Patient implements IPatient{
 
     //<editor-fold desc="Attributes">
     private int _patientID;
@@ -38,6 +38,7 @@ public class Patient {
     }
 
     //<editor-fold desc="Getter/Setter">
+
     public int getPatientID() {
 
         return _patientID;

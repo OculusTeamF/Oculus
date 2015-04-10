@@ -12,5 +12,5 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public class OrtopthistAppointment extends EventType {
+public class OrthoptistAppointment extends EventType {
 }
