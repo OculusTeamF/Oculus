@@ -9,6 +9,10 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.entities.UsergroupEntity;
+
+import java.sql.Timestamp;
+
 /**
  * Todo: add docs, implement equals
  *
@@ -18,18 +22,96 @@ package at.oculus.teamf.domain.entity;
 public abstract class User {
 
     //<editor-fold desc="Attributes">
-    protected int _userID;
+    protected int _id;
+	private Integer _userGroupId;
+	private String _userName;
+	private String _password;
+	private String _title;
+	private String _firstName;
+	private String _lastName;
+	private String _email;
+	private Timestamp _createDate;
+	private Timestamp _idleDate;
+	private UsergroupEntity _usergroup;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
-    public int getUserID() {
-        return _userID;
+    public int getUserId() {
+        return _id;
+    }
+    public void setUserId(int id) {
+        _id = id;
     }
 
-    public User setUserID(int userID) {
-        this._userID = userID;
-        return this;
-    }
-    //</editor-fold>
+	public Integer getUserGroupId() {
+		return _userGroupId;
+	}
+	public void setUserGroupId(Integer userGroupId) {
+		_userGroupId = userGroupId;
+	}
+
+	public String getUserName() {
+		return _userName;
+	}
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	public String getPassword() {
+		return _password;
+	}
+	public void setPassword(String password) {
+		_password = password;
+	}
+
+	public String getTitle() {
+		return _title;
+	}
+	public void setTitle(String title) {
+		_title = title;
+	}
+
+	public String getFirstName() {
+		return _firstName;
+	}
+	public void setFirstName(String firstName) {
+		_firstName = firstName;
+	}
+
+	public String getLastName() {
+		return _lastName;
+	}
+	public void setLastName(String lastName) {
+		_lastName = lastName;
+	}
+
+	public String getEmail() {
+		return _email;
+	}
+	public void setEmail(String email) {
+		_email = email;
+	}
+
+	public Timestamp getCreateDate() {
+		return _createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		_createDate = createDate;
+	}
+
+	public Timestamp getIdleDate() {
+		return _idleDate;
+	}
+	public void setIdleDate(Timestamp idleDate) {
+		_idleDate = idleDate;
+	}
+
+	public UsergroupEntity getUserGroup() {
+		return _usergroup;
+	}
+	public void setUserGroup(UsergroupEntity usergroup) {
+		_usergroup = usergroup;
+	}
+	//</editor-fold>
 
 }

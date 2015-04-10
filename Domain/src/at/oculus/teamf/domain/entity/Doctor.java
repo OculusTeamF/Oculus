@@ -23,13 +23,13 @@ public class Doctor extends User {
 	private Calendar _calendar;
 	private PatientQueue _queue;
 	private Collection<Patient> _patients;
+	private Doctor _doctorSubstitude;
 	//</editor-fold>
 
 	//<editor-fold desc="Getter/Setter">
 	public int getId() {
 		return _id;
 	}
-
 	public void setId(int id) {
 		_id = id;
 	}
@@ -37,7 +37,6 @@ public class Doctor extends User {
 	public Calendar getCalendar() {
 		return _calendar;
 	}
-
 	public void setCalendar(Calendar _calendar) {
 		this._calendar = _calendar;
 	}
@@ -45,9 +44,15 @@ public class Doctor extends User {
 	public PatientQueue getQueue() {
 		return _queue;
 	}
-
 	public void setQueue(PatientQueue _queue) {
 		this._queue = _queue;
+	}
+
+	public Doctor getDoctorSubstitude() {
+		return _doctorSubstitude;
+	}
+	public void setDoctorSubstitude(Doctor doctorSubstitude) {
+		_doctorSubstitude = doctorSubstitude;
 	}
 
 	public void addPatient(Patient patient) {
@@ -55,7 +60,6 @@ public class Doctor extends User {
 			_patients.add(patient);
 		}
 	}
-
 	public Collection<Patient> getPatients() {
 		return _patients;
 	}

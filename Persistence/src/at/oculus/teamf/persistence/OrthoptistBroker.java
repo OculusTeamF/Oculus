@@ -9,7 +9,10 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.OrthoptistEntity;
 import at.oculus.teamf.persistence.entities.UserEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -26,11 +29,54 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 
 	@Override
 	protected Orthoptist persitentToDomain(OrthoptistEntity entity) throws FacadeException {
-		return null;
+		Orthoptist orthoptist = new Orthoptist();
+		orthoptist.setId(entity.getId());
+		try {
+			orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).domainToPersitent(entity.getCalendar()));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+		orthoptist.setQueue(new PatientQueue(orthoptist));
+		// user data
+		UserEntity userEntity = entity.getUser();
+		orthoptist.setUserGroupId(userEntity.getUserGroupId());
+		orthoptist.setUserName(userEntity.getUserName());
+		orthoptist.setPassword(userEntity.getPassword());
+		orthoptist.setTitle(userEntity.getTitle());
+		orthoptist.setFirstName(userEntity.getFirstName());
+		orthoptist.setLastName(userEntity.getLastName());
+		orthoptist.setEmail(userEntity.getEmail());
+		orthoptist.setCreateDate(userEntity.getCreateDate());
+		orthoptist.setIdleDate(userEntity.getIdleDate());
+		//orthoptist.setUserGroup(userEntity.getUserGroup());
+		return orthoptist;
 	}
 
 	@Override
-	protected OrthoptistEntity domainToPersitent(Orthoptist obj) {
-		return null;
+	protected OrthoptistEntity domainToPersitent(Orthoptist entity) {
+		OrthoptistEntity orthoptistEntity = new OrthoptistEntity();
+		orthoptistEntity.setId(entity.getId());
+		try {
+			orthoptistEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
+			                                                    .persitentToDomain(entity.getCalendar()));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+		orthoptistEntity.setCalendarId(entity.getCalendar().getCalendarID());
+		// user data
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(entity.getUserId());
+		userEntity.setUserGroupId(entity.getUserGroupId());
+		userEntity.setUserName(entity.getUserName());
+		userEntity.setPassword(entity.getPassword());
+		userEntity.setTitle(entity.getTitle());
+		userEntity.setFirstName(entity.getFirstName());
+		userEntity.setLastName(entity.getLastName());
+		userEntity.setEmail(entity.getEmail());
+		userEntity.setCreateDate(entity.getCreateDate());
+		userEntity.setIdleDate(entity.getIdleDate());
+		//userEntity.setUserGroup(entity.getUserGroup());
+		orthoptistEntity.setUser(userEntity);
+		return orthoptistEntity;
 	}
 }

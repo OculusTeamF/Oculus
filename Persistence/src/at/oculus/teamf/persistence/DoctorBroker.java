@@ -9,9 +9,15 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.EntityBroker;
+import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.DoctorEntity;
+import at.oculus.teamf.persistence.entities.UserEntity;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
 
 /**
  * DoctorBroker.java Created by oculus on 08.04.15.
@@ -22,12 +28,63 @@ public class DoctorBroker extends EntityBroker {
 	}
 
 	@Override
-	protected Object persitentToDomain(Object entity) {
-		return null;
+	protected Object persitentToDomain(Object obj) {
+		DoctorEntity entity = (DoctorEntity) obj;
+		Doctor doctor = new Doctor();
+		doctor.setId(entity.getId());
+		try {
+			doctor.setCalendar(
+					(Calendar) Facade.getInstance().getBroker(Calendar.class).domainToPersitent(entity.getCalendar()));
+			doctor.setDoctorSubstitude((Doctor) Facade.getInstance().getBroker(Doctor.class)
+			                                          .domainToPersitent(entity.getDoctorSubstitute()));
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		}
+		doctor.setQueue(new PatientQueue(doctor));
+		// user data
+		UserEntity userEntity = entity.getUser();
+		doctor.setUserGroupId(userEntity.getUserGroupId());
+		doctor.setUserName(userEntity.getUserName());
+		doctor.setPassword(userEntity.getPassword());
+		doctor.setTitle(userEntity.getTitle());
+		doctor.setFirstName(userEntity.getFirstName());
+		doctor.setLastName(userEntity.getLastName());
+		doctor.setEmail(userEntity.getEmail());
+		doctor.setCreateDate(userEntity.getCreateDate());
+		doctor.setIdleDate(userEntity.getIdleDate());
+		//doctor.setUserGroup(userEntity.getUserGroup());
+		return doctor;
 	}
 
 	@Override
-	protected Object domainToPersitent(Object entity) {
-		return null;
+	protected Object domainToPersitent(Object obj) {
+		Doctor entity = (Doctor) obj;
+		DoctorEntity doctorEntity = new DoctorEntity();
+		doctorEntity.setId(entity.getId());
+		try {
+			doctorEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
+			                                                .persitentToDomain(entity.getCalendar()));
+			doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+			                                                      .persitentToDomain(entity.getDoctorSubstitude()));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+		doctorEntity.setCalendarId(entity.getCalendar().getCalendarID());
+		doctorEntity.setDoctorIdSubstitute(entity.getDoctorSubstitude().getId());
+		// user data
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(entity.getUserId());
+		userEntity.setUserGroupId(entity.getUserGroupId());
+		userEntity.setUserName(entity.getUserName());
+		userEntity.setPassword(entity.getPassword());
+		userEntity.setTitle(entity.getTitle());
+		userEntity.setFirstName(entity.getFirstName());
+		userEntity.setLastName(entity.getLastName());
+		userEntity.setEmail(entity.getEmail());
+		userEntity.setCreateDate(entity.getCreateDate());
+		userEntity.setIdleDate(entity.getIdleDate());
+		//userEntity.setUserGroup(entity.getUserGroup());
+		doctorEntity.setUser(userEntity);
+		return doctorEntity;
 	}
 }

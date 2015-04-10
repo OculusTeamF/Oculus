@@ -93,7 +93,7 @@ public class DoctorEntity {
         return result;
     }
 
-    /*@ManyToOne
+    @OneToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
@@ -101,7 +101,7 @@ public class DoctorEntity {
 
     public void setUser(UserEntity user) {
         this._user = user;
-    }*/
+    }
 
     @ManyToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)

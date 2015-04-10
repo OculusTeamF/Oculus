@@ -12,9 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.QueueEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -41,7 +39,18 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
 	@Override
 	protected QueueEntity domainToPersitent(QueueEntry queueEntry) {
-		return new QueueEntity(queueEntry.getId(), queueEntry.getDoctorId(), queueEntry.getOrthoptistId(),
-		                       queueEntry.getPatientId(), queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
+		Doctor doctor = queueEntry.getDoctor();
+		Orthoptist orthoptist = queueEntry.getOrthoptist();
+
+		Integer doctorId = null;
+		if(doctor!=null){
+			doctorId = doctor.getId();
+		}
+		Integer orthoptistId = null;
+		if(orthoptist!=null){
+			orthoptistId = orthoptist.getId();
+		}
+		return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId,
+		                       queueEntry.getPatient().getPatientID(), queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
 	}
 }

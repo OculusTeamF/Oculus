@@ -17,6 +17,7 @@ public class Orthoptist extends User {
 	private int _id;
     private Calendar _calendar;
     private PatientQueue _queue;
+
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
