@@ -14,6 +14,7 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by Norskan on 30.03.2015.
@@ -24,9 +25,15 @@ abstract class EntityBroker<D, P> {
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
 
+    private Collection<Class> _classes;
+
     public EntityBroker(Class domainClass, Class entityClass) {
+        _classes = new LinkedList<Class>();
+
         _domainClass = domainClass;
         _entityClass = entityClass;
+
+        _classes.add(_entityClass);
     }
 
     //<editor-fold desc="Abstract Methode">
@@ -119,6 +126,10 @@ abstract class EntityBroker<D, P> {
         return true;
     }
 
+    protected void addClassMappint(Class clazz) {
+        _classes.add(clazz);
+    }
+
 	protected abstract D persitentToDomain(P entity) throws FacadeException;
 
 	protected abstract P domainToPersitent(D obj);
@@ -130,8 +141,8 @@ abstract class EntityBroker<D, P> {
         return _domainClass;
     }
 
-    public Class<P> getEntityClass() {
-        return _entityClass;
+    public Collection<Class> getEntityClasses() {
+        return _classes;
     }
     //</editor-fold>
 

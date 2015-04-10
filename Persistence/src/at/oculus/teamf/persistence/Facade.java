@@ -39,6 +39,7 @@ public class Facade {
 		entityBrokers.add(new PatientBroker());
 		entityBrokers.add(new QueueBroker());
 		entityBrokers.add(new ReceptionistBroker());
+		entityBrokers.add(new OrthoptistBroker());
 		entityBrokers.add(new WeekdayBroker());
 
 		init(entityBrokers);
@@ -58,7 +59,7 @@ public class Facade {
 
 		for(EntityBroker broker : brokers) {
 			_entityBrokers.put(broker.getDomainClass(), broker);
-			entityClazzes.add(broker.getEntityClass());
+			entityClazzes.addAll(broker.getEntityClasses());
 		}
 
 		_sessionBroker = new HibernateSessionBroker(entityClazzes);

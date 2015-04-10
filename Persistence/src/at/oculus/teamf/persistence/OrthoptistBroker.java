@@ -9,12 +9,28 @@
 
 package at.oculus.teamf.persistence;
 
-import java.util.Collection;
+import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.persistence.entities.OrthoptistEntity;
+import at.oculus.teamf.persistence.entities.UserEntity;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 /**
- * Created by Norskan on 09.04.2015.
+ * Created by Norskan on 10.04.2015.
  */
-//Todo: testen
-interface CollectionLoader<R> {
-	Collection<R> load(Object databaseEntity);
+public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>{
+
+	public OrthoptistBroker() {
+		super(Orthoptist.class, OrthoptistEntity.class);
+		addClassMappint(UserEntity.class);
+	}
+
+	@Override
+	protected Orthoptist persitentToDomain(OrthoptistEntity entity) throws FacadeException {
+		return null;
+	}
+
+	@Override
+	protected OrthoptistEntity domainToPersitent(Orthoptist obj) {
+		return null;
+	}
 }

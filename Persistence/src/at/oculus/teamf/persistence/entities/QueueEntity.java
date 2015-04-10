@@ -50,7 +50,7 @@ public class QueueEntity {
     }
 
     @Basic
-    @Column(name = "orthoptistId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "orthoptistId", nullable = true, insertable = false, updatable = false)
     public Integer getOrthoptistId() {
         return _orthoptistId;
     }
@@ -125,7 +125,7 @@ public class QueueEntity {
     }
 
     public void setDoctor(DoctorEntity doctor) {
-        this._doctor = doctor;
+        _doctor = doctor;
     }
 
     @OneToOne
@@ -135,10 +135,10 @@ public class QueueEntity {
     }
 
     public void setPatient(PatientEntity patientByPatientId) {
-        this._patient = patientByPatientId;
+        _patient = patientByPatientId;
     }
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "orthoptistId", referencedColumnName = "orthoptistId")
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
@@ -146,7 +146,7 @@ public class QueueEntity {
 
     public void setOrthoptist(OrthoptistEntity orthoptist) {
         this._orthoptist = orthoptist;
-    }*/
+    }
 
     @ManyToOne
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")

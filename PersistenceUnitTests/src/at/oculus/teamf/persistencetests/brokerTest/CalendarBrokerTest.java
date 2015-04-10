@@ -64,5 +64,9 @@ public class CalendarBrokerTest extends BrokerTest{
 		}
 
 		assertTrue(cal.getEvents() != null);
+
+		for(CalendarEvent c : cal.getEvents()) {
+			System.out.println(c.getDescription());
+		}
 	}
 }

@@ -31,12 +31,11 @@ public class OrthoptistEntity {
         return _id;
     }
 
-    public void setId(int orthoptistId) {
-        this._id = orthoptistId;
+    public void setId(int id) {_id = id;
     }
 
     @Basic
-    @Column(name = "userId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "userId", nullable = true, insertable = false, updatable = false)
     public Integer getUserId() {
         return _userId;
     }
@@ -46,7 +45,7 @@ public class OrthoptistEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }
@@ -97,7 +96,7 @@ public class OrthoptistEntity {
         this._calendar = calendar;
     }
 
-    @OneToMany(mappedBy = "queue")
+    @OneToMany(mappedBy = "orthoptist")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

@@ -167,7 +167,7 @@ public class UserEntity {
     }
 
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "userGroupId", referencedColumnName = "userGroupId")
     public UsergroupEntity getUsergroup() {
         return _usergroup;
@@ -175,5 +175,5 @@ public class UserEntity {
 
     public void setUsergroup(UsergroupEntity usergroup) {
        _usergroup = usergroup;
-    }
+    }*/
 }

@@ -25,6 +25,7 @@ public class Calendar {
     //<editor-fold desc="Attributes">
     private int _id;
     private Collection<CalendarEvent> _events;
+    private User _user;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -61,5 +62,14 @@ public class Calendar {
         _events =events;
     }
 
-	//</editor-fold>
+    public User getUser() {
+        return _user;
+    }
+
+    public void setUser(User user) {
+        _user = user;
+    }
+
+
+    //</editor-fold>
 }

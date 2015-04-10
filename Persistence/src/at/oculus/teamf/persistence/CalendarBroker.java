@@ -12,6 +12,8 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.CalendarEventEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -32,6 +34,17 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	protected Calendar persitentToDomain(CalendarEntity entity) throws FacadeException {
 		Calendar calendar = new Calendar();
 		calendar.setCalendarID(entity.getId());
+
+		if (entity.getDoctor() != null) {
+			calendar.setUser(
+					(Doctor) Facade.getInstance().getBroker(Doctor.class).domainToPersitent(entity.getDoctor()));
+		} else if (entity.getOrthoptist() != null) {
+			calendar.setUser((Orthoptist) Facade.getInstance().getBroker(Orthoptist.class)
+			                                    .domainToPersitent(entity.getOrthoptist()));
+		} else {
+			//Todo: add Logging
+			System.out.println("No User mapped to calendar!");
+		}
 		return calendar;
 	}
 
@@ -43,14 +56,14 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 
 	@Override
 	public void reload(ISession session, Object obj, Class clazz) throws FacadeException {
-		if (clazz == at.oculus.teamf.domain.entity.CalendarEvent.class) {
+		if (clazz == CalendarEvent.class) {
 			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
 		} else {
 			throw new InvalideReloadParameterExeption();
 		}
 	}
 
-	private class CalendarEventsLoader extends CollectionLoader<CalendarEventEntity> {
+	private class CalendarEventsLoader implements CollectionLoader<CalendarEventEntity> {
 
 		@Override
 		public Collection<CalendarEventEntity> load(Object databaseEntity) {
@@ -59,7 +72,8 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws FacadeException {
-		ReloadComponent<CalendarEvent, CalendarEventEntity> reloadComponent = new ReloadComponent<CalendarEvent, CalendarEventEntity>(CalendarEntity.class, CalendarEvent.class);
+		ReloadComponent<CalendarEvent, CalendarEventEntity> reloadComponent =
+				new ReloadComponent<CalendarEvent, CalendarEventEntity>(CalendarEntity.class, CalendarEvent.class);
 
 		return reloadComponent.reloadCollection(session, ((Calendar) obj).getCalendarID(), new CalendarEventsLoader());
 	}

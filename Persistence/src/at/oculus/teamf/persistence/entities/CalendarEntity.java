@@ -83,22 +83,24 @@ public class CalendarEntity {
     public void setCalendarWorkingHours(Collection<CalendarworkinghoursEntity> calendarworkinghourses) {
         _calendarworkinghours = calendarworkinghourses;
     }
-
+    */
     @OneToOne
+    @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public DoctorEntity getDoctor() {
         return _doctor;
     }
 
-    public void setDoctor(DoctorEntity doctorByCalendarId) {
-        _doctor = _doctor;
+    public void setDoctor(DoctorEntity doctor) {
+        _doctor = doctor;
     }
 
     @OneToOne
+    @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
     }
 
     public void setOrthoptist(OrthoptistEntity orthoptist) {
         _orthoptist = orthoptist;
-    }*/
+    }
 }
