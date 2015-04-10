@@ -7,25 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.persistence.entities;
 
 /**
- * Weekday.java
- * Created by oculus on 07.04.15.
+ * WeekDayKey.java Created by oculus on 10.04.15.
  */
-public class Weekday {
-	private int _id;
-    private String _name;
-
-	public String getName() {
-		return _name;
-	}
-
-	public void setName(String name) {
-		_name = name;
-	}
-
-	public int getId() { return _id; }
-
-    public void setId(int id) { _id = id; }
+public enum WeekDayKey {
+	MON, TUE, WED, THU, FRI, SAT, SUN
 }

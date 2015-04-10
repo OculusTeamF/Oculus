@@ -24,23 +24,26 @@ import java.util.LinkedList;
  */
 public class PatientQueue {
 
-    //<editor-fold desc="Attributes">
-    private int _userID;
+	//<editor-fold desc="Attributes">
+	private int _userID;
 	private LinkedList<QueueEntry> _entries;
-    //</editor-fold>
+	private Doctor _doctor;
+	private Orthoptist _orthoptist;
+	//</editor-fold>
 
-	public PatientQueue(Doctor doctor){
+	public PatientQueue(Doctor doctor) {
+		_doctor = doctor;
 		// get all queue entities of a doctor
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
 		try {
-			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+			for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
 				QueueEntry qe = (QueueEntry) obj;
-				if(qe.getDoctorId()!=null){
-					if(qe.getDoctorId()==doctor.getId()){
-						queueEntries.put(qe.getQueueIdParent(),qe);
+				if (qe.getDoctorId() != null) {
+					if (qe.getDoctorId() == doctor.getId()) {
+						queueEntries.put(qe.getQueueIdParent(), qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0){
+						if (qe.getQueueIdParent() == 0) {
 							actEntry = qe;
 						}
 					}
@@ -51,36 +54,37 @@ public class PatientQueue {
 		}
 
 		// set linked list
-		while(actEntry!=null){
+		while (actEntry != null) {
 			_entries.add(actEntry);
 			actEntry = queueEntries.get(actEntry.getId());
 		}
 	}
 
-	public PatientQueue(Orthoptist orthoptist){
+	public PatientQueue(Orthoptist orthoptist) {
+		_orthoptist = orthoptist;
 		// get all queue entities of a orthoptist
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
 		HashMap<Integer, QueueEntry> queueEntriesEx = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntryEx = null;
 		try {
-			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+			for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
 				QueueEntry qe = (QueueEntry) obj;
-				if(qe.getOrthoptistId()!=null){
-					if(qe.getOrthoptistId()==orthoptist.getId()){
-						queueEntries.put(qe.getQueueIdParent(),qe);
+				if (qe.getOrthoptistId() != null) {
+					if (qe.getOrthoptistId() == orthoptist.getId()) {
+						queueEntries.put(qe.getQueueIdParent(), qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0){
+						if (qe.getQueueIdParent() == 0) {
 							actEntry = qe;
 						}
 					}
 				}
-				if(qe.getOrthoptistId()==null && qe.getDoctorId()==null){
-					queueEntriesEx.put(qe.getQueueIdParent(),qe);
-						// set first entity
-						if(qe.getQueueIdParent()==0) {
-							actEntryEx = qe;
-						}
+				if (qe.getOrthoptistId() == null && qe.getDoctorId() == null) {
+					queueEntriesEx.put(qe.getQueueIdParent(), qe);
+					// set first entity
+					if (qe.getQueueIdParent() == 0) {
+						actEntryEx = qe;
+					}
 				}
 			}
 		} catch (FacadeException e) {
@@ -88,37 +92,38 @@ public class PatientQueue {
 		}
 
 		// set linked list
-		while(actEntry!=null){
+		while (actEntry != null) {
 			_entries.add(actEntry);
 			actEntry = queueEntries.get(actEntry.getId());
 		}
-		while(actEntryEx!=null){
+		while (actEntryEx != null) {
 			_entries.add(actEntryEx);
-			actEntry = queueEntriesEx.get(actEntryEx.getId());
+			actEntryEx = queueEntriesEx.get(actEntryEx.getId());
 		}
 	}
 
-    //<editor-fold desc="Getter/Setter">
-    public int getUserID() {
-        return _userID;
-    }
+	//<editor-fold desc="Getter/Setter">
+	public int getUserID() {
+		return _userID;
+	}
 
-    public void setUserID(int userID) {
-	    _userID = userID;
-    }
+	public void setUserID(int userID) {
+		_userID = userID;
+	}
 
-    public Collection<QueueEntry> getEntries() {
-        return _entries;
-    }
+	public Collection<QueueEntry> getEntries() {
+		return _entries;
+	}
 
-    public void setPatients(LinkedList<QueueEntry> entries) {
-	    _entries = entries;
-    }
-    //</editor-fold>
+	public void setPatients(LinkedList<QueueEntry> entries) {
+		_entries = entries;
+	}
+	//</editor-fold>
 
-    public void insert(Patient patient, Patient parent) { }
+	public void insert(Patient patient, Patient parent) {
+	}
 
-    public QueueEntry getNext() {
-	    return null;
-    }
+	public QueueEntry getNext() {
+		return null;
+	}
 }

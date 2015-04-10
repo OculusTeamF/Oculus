@@ -40,8 +40,8 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 	}
 
 	@Override
-	protected QueueEntity domainToPersitent(QueueEntry obj) {
-		//TODO reverse
-		return new QueueEntity();
+	protected QueueEntity domainToPersitent(QueueEntry queueEntry) {
+		return new QueueEntity(queueEntry.getId(), queueEntry.getDoctorId(), queueEntry.getOrthoptistId(),
+		                       queueEntry.getPatientId(), queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
 	}
 }

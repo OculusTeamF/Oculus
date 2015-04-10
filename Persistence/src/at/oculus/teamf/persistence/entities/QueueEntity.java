@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")
 public class QueueEntity {
-    private int _id;
+	private int _id;
     private Integer _doctorId;
     private Integer _orthoptistId;
     private int _patientId;
@@ -28,6 +28,16 @@ public class QueueEntity {
     private PatientEntity _patient;
     private OrthoptistEntity _orthoptist;
     private QueueEntity _queueParent;
+
+	public QueueEntity(int id, Integer doctorId, Integer orthoptistId, int patientId, Integer queueIdParent,
+	                   Timestamp arrivalTime) {
+		_id = id;
+		_doctorId = doctorId;
+		_orthoptistId = orthoptistId;
+		_patientId = patientId;
+		_queueIdParent = queueIdParent;
+		_arrivalTime = arrivalTime;
+	}
 
     @Id
     @Column(name = "queueId", nullable = false, insertable = true, updatable = true)

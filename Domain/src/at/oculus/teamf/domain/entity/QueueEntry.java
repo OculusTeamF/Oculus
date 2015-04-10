@@ -21,10 +21,10 @@ public class QueueEntry {
 	private int _patientId;
 	private Integer _queueIdParent;
 	private Timestamp _arrivalTime;
-	//private Doctor _doctor;
 	private Patient _patient;
 	//private Orthoptist _orthoptist;
 	//private QueueEntry _queueParent;
+	//private Doctor _doctor;
 
 	public QueueEntry() {
 	}

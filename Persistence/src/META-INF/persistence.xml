@@ -22,7 +22,6 @@
       <class>at.oculus.teamf.persistence.entities.PatientEntity</class>
       <class>at.oculus.teamf.persistence.entities.QueueEntity</class>
       <class>at.oculus.teamf.persistence.entities.ReceptionistEntity</class>
-      <class>at.oculus.teamf.persistence.entities.WeekdayEntity</class>
       <class>at.oculus.teamf.persistence.entities.WorkinghoursEntity</class>
       <properties>
         <property name="hibernate.connection.url" value="jdbc:mysql://83.212.126.222:3306/oculus_f"/>

@@ -20,13 +20,12 @@ import java.util.Collection;
 @Table(name = "workinghours", schema = "", catalog = "oculus_f")
 public class WorkinghoursEntity {
     private int _workingHoursId;
-    private String _weekDayKey;
+    private WeekDayKey _weekDayKey;
     private Time _morningFrom;
     private Time _morningTo;
     private Time _afternoonFrom;
     private Time _afternoonTo;
     private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
-    private WeekdayEntity _weekdayByWeekDayKey;
 
     @Id
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
@@ -40,11 +39,11 @@ public class WorkinghoursEntity {
 
     @Basic
     @Column(name = "weekDayKey", nullable = false, insertable = true, updatable = true, length = 3)
-    public String getWeekDayKey() {
+    public WeekDayKey getWeekDayKey() {
         return _weekDayKey;
     }
 
-    public void setWeekDayKey(String weekDayKey) {
+    public void setWeekDayKey(WeekDayKey weekDayKey) {
         _weekDayKey = weekDayKey;
     }
 
@@ -124,15 +123,5 @@ public class WorkinghoursEntity {
 
     public void setCalendarworkinghoursesByWorkingHoursId(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId) {
         this._calendarworkinghoursesByWorkingHoursId = calendarworkinghoursesByWorkingHoursId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "weekDayKey", referencedColumnName = "weekDayKey", nullable = false)
-    public WeekdayEntity getWeekdayByWeekDayKey() {
-        return _weekdayByWeekDayKey;
-    }
-
-    public void setWeekdayByWeekDayKey(WeekdayEntity weekdayByWeekDayKey) {
-        this._weekdayByWeekDayKey = weekdayByWeekDayKey;
     }
 }
