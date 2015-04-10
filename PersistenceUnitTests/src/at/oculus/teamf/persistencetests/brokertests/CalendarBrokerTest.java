@@ -50,7 +50,6 @@ public class CalendarBrokerTest extends BrokerTest{
 	}
 
 	@Test
-	@Override
 	public void testReload() {
 		Facade facade = Facade.getInstance();
 		Calendar cal = null;

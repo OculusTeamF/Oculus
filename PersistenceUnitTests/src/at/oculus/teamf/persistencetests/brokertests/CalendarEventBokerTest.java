@@ -9,6 +9,14 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+
+import java.util.Collection;
+
+import static junit.framework.TestCase.assertTrue;
+
 /**
  * Created by Norskan on 10.04.2015.
  */
@@ -16,21 +24,33 @@ public class CalendarEventBokerTest extends BrokerTest {
 
     @Override
     public void testGetById() {
+        CalendarEvent calendarEvent = null;
 
+        try {
+            calendarEvent = Facade.getInstance().getById(CalendarEvent.class, 1);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(calendarEvent != null);
     }
 
     @Override
     public void testGetAll() {
+        Collection<CalendarEvent> calendarEvents = null;
 
+        try {
+            calendarEvents = Facade.getInstance().getAll(CalendarEvent.class);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(calendarEvents != null);
+        assertTrue(calendarEvents.size() == 49);
     }
 
     @Override
     public void testSave() {
-
-    }
-
-    @Override
-    public void testReload() {
-
+        //not needed
     }
 }

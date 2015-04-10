@@ -7,21 +7,28 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokertests;
+package at.oculus.teamf.persistence;
 
-import org.junit.Test;
+import at.oculus.teamf.domain.entity.EventType;
+import at.oculus.teamf.persistence.entities.Eventtypentity;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by Norskan on 10.04.2015.
  */
-public abstract class BrokerTest {
+public class CalendarEventTypeBroker extends EntityBroker<EventType, Eventtypentity> {
 
-	@Test
-	public abstract void testGetById();
+    public CalendarEventTypeBroker() {
+        super(EventType.class, Eventtypentity.class);
+    }
 
-	@Test
-	public abstract void testGetAll();
+    @Override
+    protected EventType persitentToDomain(Eventtypentity entity) throws FacadeException {
+        return null;
+    }
 
-	@Test
-	public abstract void testSave();
+    @Override
+    protected Eventtypentity domainToPersitent(EventType obj) {
+        return null;
+    }
 }
