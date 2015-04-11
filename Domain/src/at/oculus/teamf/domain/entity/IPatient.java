@@ -16,9 +16,9 @@ import java.util.Collection;
  */
 public interface IPatient {
     //<editor-fold desc="Getter/Setter">
-    int getPatientID();
+    int getId();
 
-    void setPatientID(int patientID);
+    void setId(int patientID);
 
     String getFirstName();
 

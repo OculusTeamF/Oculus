@@ -13,4 +13,6 @@ package at.oculus.teamf.persistence.entities;
  * Created by Norskan on 07.04.2015.
  */
 public interface IEntity {
+	public int getId();
+	public void setId(int id);
 }

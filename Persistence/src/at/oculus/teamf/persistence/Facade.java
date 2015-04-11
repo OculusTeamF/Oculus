@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.exceptions.*;
 
 import java.util.Collection;
@@ -40,6 +41,7 @@ public class Facade {
 		entityBrokers.add(new QueueBroker());
 		entityBrokers.add(new ReceptionistBroker());
 		entityBrokers.add(new OrthoptistBroker());
+		entityBrokers.add(new CalendarEventTypeBroker());
 
 		init(entityBrokers);
 	}
@@ -57,7 +59,10 @@ public class Facade {
 		Collection<Class> entityClazzes = new LinkedList<Class>();
 
 		for(EntityBroker broker : brokers) {
-			_entityBrokers.put(broker.getDomainClass(), broker);
+			for(Object obj : broker.getDomainClasses()) {
+				Class clazz = (Class) obj;
+				_entityBrokers.put(clazz, broker);
+			}
 			entityClazzes.addAll(broker.getEntityClasses());
 		}
 
@@ -161,14 +166,31 @@ public class Facade {
 
 		@Override
 		public Boolean execute(ISession session, EntityBroker broker) {
-			 return broker.saveEntity(session, _toSave);
+			 return broker.saveEntity(session, (IDomain) _toSave);
 		}
 	}
 
 	public boolean save(Object obj) throws FacadeException {
-		return (Boolean)worker(obj.getClass(), new Save(obj));
+		return (boolean)worker(obj.getClass(), new Save(obj));
 	}
 
+	private class Delete extends Execute<Boolean> {
+
+		private Object _toDelete;
+
+		public Delete(Object toDelete) {
+			_toDelete = toDelete;
+		}
+
+		@Override
+		public Boolean execute(ISession session, EntityBroker broker) {
+			return broker.deleteEntity(session, (IDomain) _toDelete);
+		}
+	}
+
+	public boolean delete(Object obj) throws FacadeException {
+		return (Boolean)worker(obj.getClass(), new Delete(obj));
+	}
 
 	protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
 		EntityBroker broker = _entityBrokers.get(clazz);

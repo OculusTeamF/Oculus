@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "receptionist", schema = "", catalog = "oculus_f")
-public class ReceptionistEntity {
+public class ReceptionistEntity implements IEntity {
     private int _id;
     private Integer _userId;
     private UserEntity _user;

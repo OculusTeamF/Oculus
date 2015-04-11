@@ -9,19 +9,21 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.persistence.entities.CalendarEntity;
-import at.oculus.teamf.persistence.entities.DoctorEntity;
-import at.oculus.teamf.persistence.entities.UserEntity;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.persistence.entities.*;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
+
+import java.util.Collection;
 
 /**
  * DoctorBroker.java Created by oculus on 08.04.15.
  */
-public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
+public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload {
 	public DoctorBroker() {
 		super(Doctor.class, DoctorEntity.class);
 		addClassMapping(UserEntity.class);
@@ -44,7 +46,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		doctor.setQueue(new PatientQueue(doctor));
+		doctor.setQueue(null);
 		// user data
 		UserEntity userEntity = entity.getUser();
 		doctor.setUserGroupId(userEntity.getUserGroupId());
@@ -67,13 +69,14 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
 		doctorEntity.setId(entity.getId());
 		try {
 			doctorEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
-			                                                .persitentToDomain(entity.getCalendar()));
+			                                                .persitentToDomain((IEntity) entity.getCalendar()));
 			doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
-			                                                      .persitentToDomain(entity.getDoctorSubstitude()));
+			                                                      .persitentToDomain(
+					                                                      (IEntity) entity.getDoctorSubstitude()));
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		doctorEntity.setCalendarId(entity.getCalendar().getCalendarID());
+		doctorEntity.setCalendarId(entity.getCalendar().getId());
 		doctorEntity.setDoctorIdSubstitute(entity.getDoctorSubstitude().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();
@@ -90,5 +93,29 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
 		//userEntity.setUserGroup(entity.getUserGroup());
 		doctorEntity.setUser(userEntity);
 		return doctorEntity;
+	}
+
+	@Override
+	public void reload(ISession session, Object obj, Class clazz) throws FacadeException {
+		if (clazz == Patient.class) {
+			((Doctor) obj).setPatients(reloadPatients(session, obj));
+		} else {
+			throw new InvalidReloadParameterException();
+		}
+	}
+
+	private class PatientsLoader implements CollectionLoader<PatientEntity> {
+
+		@Override
+		public Collection<PatientEntity> load(Object databaseEntity) {
+			return ((DoctorEntity) databaseEntity).getPatients();
+		}
+	}
+
+	private Collection<Patient> reloadPatients(ISession session, Object obj) throws FacadeException {
+		ReloadComponent reloadComponent =
+				new ReloadComponent(DoctorEntity.class, Patient.class);
+
+		return reloadComponent.reloadCollection(session, ((Doctor) obj).getId(), new PatientsLoader());
 	}
 }

@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.*;
+
 import java.util.Collection;
 
 /**
@@ -17,7 +20,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Doctor extends User {
+public class Doctor extends User implements IDomain {
     //<editor-fold desc="Attributes">
     private int _id;
     private Calendar _calendar;
@@ -26,7 +29,18 @@ public class Doctor extends User {
     private Doctor _doctorSubstitude;
     //</editor-fold>
 
-    //<editor-fold desc="Getter/Setter">
+	public Doctor(){};
+
+	public Doctor(int id, Calendar calendar, PatientQueue queue, Collection<Patient> patients,
+	              Doctor doctorSubstitude) {
+		_id = id;
+		_calendar = calendar;
+		_queue = queue;
+		_patients = patients;
+		_doctorSubstitude = doctorSubstitude;
+	}
+
+	//<editor-fold desc="Getter/Setter">
     public int getId() {
         return _id;
     }
@@ -42,7 +56,8 @@ public class Doctor extends User {
     }
 
     public PatientQueue getQueue() {
-        return _queue;
+	    _queue = new PatientQueue(this);
+	    return _queue;
     }
     public void setQueue(PatientQueue _queue) {
         this._queue = _queue;
@@ -60,8 +75,34 @@ public class Doctor extends User {
             _patients.add(patient);
         }
     }
+
+	public void setPatients(Collection<Patient> patients) {
+		_patients = patients;
+	}
     public Collection<Patient> getPatients() {
-        return _patients;
+	    Facade facade = Facade.getInstance();
+
+	    try {
+		    facade.reloadCollection(this, Patient.class);
+	    } catch (ReloadInterfaceNotImplementedException e) {
+		    e.printStackTrace();
+		    //Todo: Add Logging
+	    } catch (InvalidReloadParameterException invalidReloadParameterException) {
+		    invalidReloadParameterException.printStackTrace();
+	    } catch (NotAbleToLoadClassException e) {
+		    e.printStackTrace();
+	    } catch (NoBrokerMappedException e) {
+		    e.printStackTrace();
+	    } catch (FacadeException e) {
+		    e.printStackTrace();
+	    }
+
+	    return _patients;
     }
     //</editor-fold>
+
+	@Override
+	public String toString(){
+		return getTitle() + " " + getFirstName() + " " + getLastName();
+	}
 }

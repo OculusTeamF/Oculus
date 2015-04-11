@@ -18,8 +18,8 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "workinghours", schema = "", catalog = "oculus_f")
-public class WorkinghoursEntity {
-    private int _workingHoursId;
+public class WorkinghoursEntity implements IEntity {
+    private int _id;
     private WeekDayKey _weekDayKey;
     private Time _morningFrom;
     private Time _morningTo;
@@ -29,12 +29,12 @@ public class WorkinghoursEntity {
 
     @Id
     @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
-    public int getWorkingHoursId() {
-        return _workingHoursId;
+    public int getId() {
+        return _id;
     }
 
-    public void setWorkingHoursId(int workingHoursId) {
-        _workingHoursId = workingHoursId;
+    public void setId(int id) {
+        _id = id;
     }
 
     @Basic
@@ -94,7 +94,7 @@ public class WorkinghoursEntity {
 
         WorkinghoursEntity that = (WorkinghoursEntity) o;
 
-        if (_workingHoursId != that._workingHoursId) return false;
+        if (_id != that._id) return false;
         if (_weekDayKey != null ? !_weekDayKey.equals(that._weekDayKey) : that._weekDayKey != null) return false;
         if (_morningFrom != null ? !_morningFrom.equals(that._morningFrom) : that._morningFrom != null) return false;
         if (_morningTo != null ? !_morningTo.equals(that._morningTo) : that._morningTo != null) return false;
@@ -107,7 +107,7 @@ public class WorkinghoursEntity {
 
     @Override
     public int hashCode() {
-        int result = _workingHoursId;
+        int result = _id;
         result = 31 * result + (_weekDayKey != null ? _weekDayKey.hashCode() : 0);
         result = 31 * result + (_morningFrom != null ? _morningFrom.hashCode() : 0);
         result = 31 * result + (_morningTo != null ? _morningTo.hashCode() : 0);

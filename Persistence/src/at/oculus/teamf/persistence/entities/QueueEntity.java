@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")
-public class QueueEntity {
+public class QueueEntity implements IEntity {
 	private int _id;
     private Integer _doctorId;
     private Integer _orthoptistId;

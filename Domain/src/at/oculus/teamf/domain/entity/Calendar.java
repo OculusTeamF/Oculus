@@ -20,7 +20,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Calendar {
+public class Calendar implements IDomain {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -31,11 +31,11 @@ public class Calendar {
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
-    public int getCalendarID() {
+    public int getId() {
         return _id;
     }
 
-    public void setCalendarID(int calendarID) {
+    public void setId(int calendarID) {
         _id = calendarID;
     }
 
