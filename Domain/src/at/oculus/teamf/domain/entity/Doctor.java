@@ -88,4 +88,9 @@ public class Doctor extends User {
 	    return _patients;
     }
     //</editor-fold>
+
+	@Override
+	public String toString(){
+		return getTitle() + " " + getFirstName() + " " + getLastName();
+	}
 }

@@ -126,7 +126,12 @@ abstract class EntityBroker<D, P> {
         return true;
     }
 
-    protected void addClassMappint(Class clazz) {
+	public boolean deleteEntity(ISession session, D domainObj){
+		// TODO implement
+		return true;
+	}
+
+    protected void addClassMapping(Class clazz) {
         _classes.add(clazz);
     }
 

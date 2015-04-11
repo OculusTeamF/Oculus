@@ -169,6 +169,23 @@ public class Facade {
 		return (Boolean)worker(obj.getClass(), new Save(obj));
 	}
 
+	private class Delete extends Execute<Boolean> {
+
+		private Object _toDelete;
+
+		public Delete(Object toDelete) {
+			_toDelete = toDelete;
+		}
+
+		@Override
+		public Boolean execute(ISession session, EntityBroker broker) {
+			return broker.deleteEntity(session, _toDelete);
+		}
+	}
+
+	public boolean delete(Object obj) throws FacadeException {
+		return (Boolean)worker(obj.getClass(), new Delete(obj));
+	}
 
 	protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
 		EntityBroker broker = _entityBrokers.get(clazz);

@@ -106,4 +106,9 @@ public class Patient implements IPatient{
         _calendarEvents = calendarEvents;
     }
     //</editor-fold>
+
+	@Override
+	public String toString(){
+		return getFirstName() + " " + getLastName();
+	}
 }

@@ -31,6 +31,7 @@ public class PatientQueue {
     //</editor-fold>
 
 	public PatientQueue(Doctor doctor){
+		_entries = new LinkedList<QueueEntry>();
 		// get all queue entities of a doctor
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
@@ -41,7 +42,7 @@ public class PatientQueue {
 					if(qe.getDoctor()== doctor){
 						queueEntries.put(qe.getQueueIdParent(),qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0){
+						if(qe.getQueueIdParent()==null){
 							actEntry = qe;
 						}
 					}
@@ -59,6 +60,7 @@ public class PatientQueue {
 	}
 
 	public PatientQueue(Orthoptist orthoptist){
+		_entries = new LinkedList<QueueEntry>();
 		// get all queue entities of a orthoptist
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
@@ -67,19 +69,24 @@ public class PatientQueue {
 		try {
 			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
 				QueueEntry qe = (QueueEntry) obj;
+				System.out.println(qe);
 				if(qe.getOrthoptist() != null){
 					if(qe.getOrthoptist()== orthoptist){
+						System.out.println("add queueId " + qe.getId() + " with parentId " + qe.getQueueIdParent());
 						queueEntries.put(qe.getQueueIdParent(),qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0){
+						if(qe.getQueueIdParent()==null){
+							System.out.println("first queueId " + qe.getId());
 							actEntry = qe;
 						}
 					}
 				}
 				if(qe.getOrthoptist()==null && qe.getDoctor()==null){
+					System.out.println("add queueId " + qe.getId() + " with parentId " + qe.getQueueIdParent());
 					queueEntriesEx.put(qe.getQueueIdParent(),qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0) {
+						if(qe.getQueueIdParent()==null) {
+							System.out.println("first queueId " + qe.getId());
 							actEntryEx = qe;
 						}
 				}

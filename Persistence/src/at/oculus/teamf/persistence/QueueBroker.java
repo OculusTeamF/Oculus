@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.entities.QueueEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -30,7 +31,17 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 				(Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId()),
 				(Orthoptist) Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId()),
 				entity.getQueueIdParent(), new Timestamp(10));*/
-		return new QueueEntry();
+		Patient patient = (Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId());
+		Doctor doctor = null;
+		if (entity.getDoctorId() != null) {
+			doctor = (Doctor) Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
+		}
+		Orthoptist orthoptist = null;
+		if (entity.getDoctorId() != null) {
+			orthoptist = (Orthoptist) Facade.getInstance().getById(Orthoptist.class, entity.getDoctorId());
+		}
+		return new QueueEntry(entity.getId(), patient, doctor, orthoptist, entity.getQueueIdParent(),
+		                      entity.getArrivalTime());
 	}
 
 	@Override
@@ -39,14 +50,14 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 		Orthoptist orthoptist = queueEntry.getOrthoptist();
 
 		Integer doctorId = null;
-		if(doctor!=null){
+		if (doctor != null) {
 			doctorId = doctor.getId();
 		}
 		Integer orthoptistId = null;
-		if(orthoptist!=null){
+		if (orthoptist != null) {
 			orthoptistId = orthoptist.getId();
 		}
-		return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId,
-		                       queueEntry.getPatient().getPatientID(), queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
+		return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId, queueEntry.getPatient().getPatientID(),
+		                       queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
 	}
 }
