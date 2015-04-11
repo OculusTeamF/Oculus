@@ -24,6 +24,7 @@ import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
 public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
 	public DoctorBroker() {
 		super(Doctor.class, DoctorEntity.class);
+		addClassMapping(UserEntity.class);
 	}
 
 	@Override

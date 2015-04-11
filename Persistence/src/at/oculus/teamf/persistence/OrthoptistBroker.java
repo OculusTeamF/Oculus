@@ -24,7 +24,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 
 	public OrthoptistBroker() {
 		super(Orthoptist.class, OrthoptistEntity.class);
-		addClassMappint(UserEntity.class);
+		addClassMapping(UserEntity.class);
 	}
 
 	@Override

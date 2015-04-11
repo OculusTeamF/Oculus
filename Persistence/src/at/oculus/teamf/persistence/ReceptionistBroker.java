@@ -19,6 +19,7 @@ import at.oculus.teamf.persistence.entities.UserEntity;
 public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity> {
 	public ReceptionistBroker() {
 		super(Receptionist.class, ReceptionistEntity.class);
+		addClassMapping(UserEntity.class);
 	}
 
 	@Override

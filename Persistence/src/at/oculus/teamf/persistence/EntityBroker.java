@@ -14,6 +14,7 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -27,6 +28,8 @@ abstract class EntityBroker<D, P> {
 
     private Collection<Class> _classes;
 
+    protected HashMap _cache;
+
     public EntityBroker(Class domainClass, Class entityClass) {
         _classes = new LinkedList<Class>();
 
@@ -34,11 +37,18 @@ abstract class EntityBroker<D, P> {
         _entityClass = entityClass;
 
         _classes.add(_entityClass);
+
+        _cache = new HashMap<Integer, Object>();
     }
 
     //<editor-fold desc="Abstract Methode">
     public D getEntity(ISession session, int id) throws FacadeException {
 	    P entity = null;
+
+        if(isChached(id)) {
+           return getCachedObject(id);
+        }
+
 	    try {
 		    entity = (P)session.getByID(_entityClass, id);
 	    } catch (BadSessionException e) {
@@ -54,6 +64,9 @@ abstract class EntityBroker<D, P> {
 
     public Collection<D> getAll(ISession session) throws FacadeException {
         Collection<P> entities = null;
+
+        //get entiy check chache?
+
         try {
             entities = (Collection<P>) session.getAll(_entityClass);
         } catch (BadSessionException e) {
@@ -72,6 +85,8 @@ abstract class EntityBroker<D, P> {
 
     public boolean saveEntity(ISession session, D domainObj) {
         P entity = domainToPersitent(domainObj);
+
+        //remove from chache
 
         try {
             session.beginTransaction();
@@ -126,13 +141,29 @@ abstract class EntityBroker<D, P> {
         return true;
     }
 
-    protected void addClassMappint(Class clazz) {
+    protected void addClassMapping(Class clazz) {
         _classes.add(clazz);
     }
 
 	protected abstract D persitentToDomain(P entity) throws FacadeException;
 
 	protected abstract P domainToPersitent(D obj);
+
+    protected void insertIntoCache(int id, D obj) {
+        _cache.put(id, obj);
+    }
+
+    protected void removeFromCache(int id) {
+
+    }
+
+    protected <D> D getCachedObject(int id) {
+        return (D)_cache.get(id);
+    }
+
+    protected boolean isChached(int id) {
+        return _cache.containsKey(id);
+    }
 
     //</editor-fold>
 
