@@ -9,19 +9,25 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.DoctorEntity;
+import at.oculus.teamf.persistence.entities.PatientEntity;
 import at.oculus.teamf.persistence.entities.UserEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
+
+import java.util.Collection;
 
 /**
  * DoctorBroker.java Created by oculus on 08.04.15.
  */
-public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
+public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload {
 	public DoctorBroker() {
 		super(Doctor.class, DoctorEntity.class);
 	}
@@ -89,5 +95,29 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> {
 		//userEntity.setUserGroup(entity.getUserGroup());
 		doctorEntity.setUser(userEntity);
 		return doctorEntity;
+	}
+
+	@Override
+	public void reload(ISession session, Object obj, Class clazz) throws FacadeException {
+		if (clazz == Patient.class) {
+			((Doctor) obj).setPatients(reloadPatients(session, obj));
+		} else {
+			throw new InvalidReloadParameterException();
+		}
+	}
+
+	private class PatientsLoader implements CollectionLoader<PatientEntity> {
+
+		@Override
+		public Collection<PatientEntity> load(Object databaseEntity) {
+			return ((DoctorEntity) databaseEntity).getPatients();
+		}
+	}
+
+	private Collection<Patient> reloadPatients(ISession session, Object obj) throws FacadeException {
+		ReloadComponent reloadComponent =
+				new ReloadComponent(DoctorEntity.class, Patient.class);
+
+		return reloadComponent.reloadCollection(session, ((Doctor) obj).getId(), new PatientsLoader());
 	}
 }

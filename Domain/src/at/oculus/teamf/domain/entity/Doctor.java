@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.*;
+
 import java.util.Collection;
 
 /**
@@ -60,8 +63,29 @@ public class Doctor extends User {
             _patients.add(patient);
         }
     }
+
+	public void setPatients(Collection<Patient> patients) {
+		_patients = patients;
+	}
     public Collection<Patient> getPatients() {
-        return _patients;
+	    Facade facade = Facade.getInstance();
+
+	    try {
+		    facade.reloadCollection(this, Patient.class);
+	    } catch (ReloadInterfaceNotImplementedException e) {
+		    e.printStackTrace();
+		    //Todo: Add Logging
+	    } catch (InvalidReloadParameterException invalidReloadParameterException) {
+		    invalidReloadParameterException.printStackTrace();
+	    } catch (NotAbleToLoadClassException e) {
+		    e.printStackTrace();
+	    } catch (NoBrokerMappedException e) {
+		    e.printStackTrace();
+	    } catch (FacadeException e) {
+		    e.printStackTrace();
+	    }
+
+	    return _patients;
     }
     //</editor-fold>
 }
