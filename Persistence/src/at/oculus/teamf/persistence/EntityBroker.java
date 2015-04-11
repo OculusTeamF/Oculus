@@ -127,7 +127,29 @@ abstract class EntityBroker<D, P> {
     }
 
 	public boolean deleteEntity(ISession session, D domainObj){
-		// TODO implement
+		P entity = domainToPersitent(domainObj);
+
+		try {
+			session.beginTransaction();
+
+			session.delete(entity);
+
+			session.commit();
+
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (AlreadyInTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (NoTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotMappedException e) {
+			e.printStackTrace();
+			return false;
+		}
+
 		return true;
 	}
 
