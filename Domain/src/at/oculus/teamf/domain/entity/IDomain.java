@@ -7,24 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokertests;
-
-import org.junit.Test;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * IDomain.java Created by oculus on 11.04.15.
  */
-public abstract class BrokerTest {
-
-	@Test
-	public abstract void testGetById();
-
-	@Test
-	public abstract void testGetAll();
-
-	@Test
-	public abstract void testSave();
-
-	@Test
-	public abstract void testDelete();
+public interface IDomain {
+	public int getId();
+	public void setId(int id);
 }

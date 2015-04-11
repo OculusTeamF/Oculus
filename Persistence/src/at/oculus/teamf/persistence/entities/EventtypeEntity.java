@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "eventtype", schema = "", catalog = "oculus_f")
-public class EventtypeEntity {
+public class EventtypeEntity implements IEntity {
 	private int _id;
 	private String _eventTypeName;
 	private Integer _estimatedTime;

@@ -27,7 +27,7 @@ class CalendarEventBoker extends EntityBroker<CalendarEvent, CalendarEventEntity
 		CalendarEvent event = new CalendarEvent();
 		event.setDescription(entity.getDescription());
 		event.setEventEnd(entity.getEventEnd());
-		event.setEventID(entity.getId());
+		event.setId(entity.getId());
 		event.setEventStart(entity.getEventStart());
 
 		Integer patientID = entity.getPatientId();

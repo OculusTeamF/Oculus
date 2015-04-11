@@ -49,6 +49,11 @@ public class CalendarBrokerTest extends BrokerTest{
 		//not needed currently
 	}
 
+	@Override
+	public void testDelete() {
+		//not needed
+	}
+
 	@Test
 	public void testReload() {
 		Facade facade = Facade.getInstance();

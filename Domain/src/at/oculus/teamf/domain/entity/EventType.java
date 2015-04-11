@@ -12,7 +12,7 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public abstract class EventType {
+public abstract class EventType implements IDomain {
 	//<editor-fold desc="Attributes">
 	private int _id;
 	private String _eventTypeName;

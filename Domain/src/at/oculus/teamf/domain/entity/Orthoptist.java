@@ -12,7 +12,7 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public class Orthoptist extends User {
+public class Orthoptist extends User implements IDomain {
 	//<editor-fold desc="Attributes">
 	private int _id;
     private Calendar _calendar;

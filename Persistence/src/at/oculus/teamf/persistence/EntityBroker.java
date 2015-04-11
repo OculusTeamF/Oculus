@@ -10,6 +10,8 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.persistence.entities.IEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.LinkedList;
  * Created by Norskan on 30.03.2015.
  * //Todo: add loging, comments docs etz
  */
-abstract class EntityBroker<D, P> {
+abstract class EntityBroker<D extends IDomain, P extends IEntity> {
 
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
@@ -56,9 +58,9 @@ abstract class EntityBroker<D, P> {
     }
 
     public Collection<D> getAll(ISession session) throws FacadeException {
-        Collection<P> entities = null;
+        Collection<Object> entities = null;
         try {
-            entities = (Collection<P>) session.getAll(_entityClass);
+            entities = (Collection<Object>) session.getAll(_entityClass);
         } catch (BadSessionException e) {
             e.printStackTrace();
         } catch (ClassNotMappedException e) {
@@ -66,7 +68,8 @@ abstract class EntityBroker<D, P> {
         }
 
         Collection<D> domainObjects = new ArrayList<D>();
-        for(P entity : entities) {
+        for(Object obj : entities) {
+	        P entity = (P) obj;
             domainObjects.add(persitentToDomain(entity));
         }
 
@@ -82,6 +85,8 @@ abstract class EntityBroker<D, P> {
 	        session.saveOrUpdate(entity);
 
             session.commit();
+
+	        domainObj.setId(entity.getId());
 
         } catch (BadSessionException e) {
             e.printStackTrace();
@@ -111,6 +116,8 @@ abstract class EntityBroker<D, P> {
             for(P entity : entities){
                 session.saveOrUpdate(entity);
             }
+	        session.commit();
+	        // TODO write back ids to domain
 
         } catch (BadSessionException e) {
             e.printStackTrace();

@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.exceptions.*;
 
 import java.util.Collection;
@@ -165,7 +166,7 @@ public class Facade {
 
 		@Override
 		public Boolean execute(ISession session, EntityBroker broker) {
-			 return broker.saveEntity(session, _toSave);
+			 return broker.saveEntity(session, (IDomain) _toSave);
 		}
 	}
 
@@ -183,7 +184,7 @@ public class Facade {
 
 		@Override
 		public Boolean execute(ISession session, EntityBroker broker) {
-			return broker.deleteEntity(session, _toDelete);
+			return broker.deleteEntity(session, (IDomain) _toDelete);
 		}
 	}
 

@@ -17,7 +17,7 @@ import javax.persistence.*;
 // TODO PropertyHelper für catalog="oculus_f"
 @Entity
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
-public class CalendarworkinghoursEntity {
+public class CalendarworkinghoursEntity implements IEntity {
 	private int _id;
     private int _workingHoursId;
     private int _calendarId;

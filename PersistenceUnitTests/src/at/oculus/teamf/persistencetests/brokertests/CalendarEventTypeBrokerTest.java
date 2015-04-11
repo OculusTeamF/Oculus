@@ -13,6 +13,7 @@ import at.oculus.teamf.domain.entity.EventType;
 import at.oculus.teamf.domain.entity.RegularAppointment;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -21,6 +22,14 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 public class CalendarEventTypeBrokerTest extends BrokerTest{
+	private Integer _saveId;
+	private EventType _eventType;
+
+	@Before
+	public void setUp() throws Exception {
+		_eventType = new RegularAppointment(0,"Daniels Spezialtermin",45,"blabla wow");
+	}
+
 	@Override
 	public void testGetById() {
 		EventType eventType = null;
@@ -50,17 +59,21 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 
 	@Override
 	public void testSave() {
-		EventType eventType = new RegularAppointment(0,"Daniels Spezialtermin",45,"blabla wow");
+
 		try {
-			assertTrue(Facade.getInstance().save(eventType));
+			assertTrue(Facade.getInstance().save(_eventType));
+			_saveId = _eventType.getId();
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Test
-	public void testSaveDelete() {
-
-
+	@Override
+	public void testDelete() {
+		try {
+			assertTrue(Facade.getInstance().delete(_eventType));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
 	}
 }

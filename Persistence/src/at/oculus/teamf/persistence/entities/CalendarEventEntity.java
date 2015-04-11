@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "calendarevent", schema = "", catalog = "oculus_f")
-public class CalendarEventEntity {
+public class CalendarEventEntity implements IEntity {
     private int _id;
     private int _calendarId;
     private Integer _patientId;

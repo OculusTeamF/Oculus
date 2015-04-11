@@ -20,7 +20,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Doctor extends User {
+public class Doctor extends User implements IDomain {
     //<editor-fold desc="Attributes">
     private int _id;
     private Calendar _calendar;
@@ -29,7 +29,18 @@ public class Doctor extends User {
     private Doctor _doctorSubstitude;
     //</editor-fold>
 
-    //<editor-fold desc="Getter/Setter">
+	public Doctor(){};
+
+	public Doctor(int id, Calendar calendar, PatientQueue queue, Collection<Patient> patients,
+	              Doctor doctorSubstitude) {
+		_id = id;
+		_calendar = calendar;
+		_queue = queue;
+		_patients = patients;
+		_doctorSubstitude = doctorSubstitude;
+	}
+
+	//<editor-fold desc="Getter/Setter">
     public int getId() {
         return _id;
     }

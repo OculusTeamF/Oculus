@@ -52,6 +52,11 @@ public class QueueBrokerTest extends BrokerTest {
 	@Test
 	@Override
 	public void testSave() {
-		//TODO implement
+		//not needed
+	}
+
+	@Override
+	public void testDelete() {
+		//not needed
 	}
 }

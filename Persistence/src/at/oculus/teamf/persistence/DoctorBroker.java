@@ -13,11 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.persistence.entities.CalendarEntity;
-import at.oculus.teamf.persistence.entities.DoctorEntity;
-import at.oculus.teamf.persistence.entities.PatientEntity;
-import at.oculus.teamf.persistence.entities.UserEntity;
+import at.oculus.teamf.persistence.entities.*;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
@@ -72,13 +68,14 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		doctorEntity.setId(entity.getId());
 		try {
 			doctorEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
-			                                                .persitentToDomain(entity.getCalendar()));
+			                                                .persitentToDomain((IEntity) entity.getCalendar()));
 			doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
-			                                                      .persitentToDomain(entity.getDoctorSubstitude()));
+			                                                      .persitentToDomain(
+					                                                      (IEntity) entity.getDoctorSubstitude()));
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		doctorEntity.setCalendarId(entity.getCalendar().getCalendarID());
+		doctorEntity.setCalendarId(entity.getCalendar().getId());
 		doctorEntity.setDoctorIdSubstitute(entity.getDoctorSubstitude().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();

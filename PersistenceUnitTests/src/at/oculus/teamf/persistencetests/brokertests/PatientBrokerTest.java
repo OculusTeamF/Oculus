@@ -57,7 +57,12 @@ public class PatientBrokerTest extends BrokerTest {
         //not needed currently
     }
 
-    public void testReload() {
+	@Override
+	public void testDelete() {
+		//not needed
+	}
+
+	public void testReload() {
         Patient patient = null;
         try {
             patient = Facade.getInstance().getById(Patient.class, 1);

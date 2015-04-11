@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 /**
  * QueueEntry.java Created by Fabian on 10.04.15.
  */
-public class QueueEntry {
+public class QueueEntry implements IDomain {
 	private int _id;
 	private Doctor _doctor;
 	private Orthoptist _orthoptist;

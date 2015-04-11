@@ -20,10 +20,10 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Patient implements IPatient{
+public class Patient implements IPatient, IDomain {
 
     //<editor-fold desc="Attributes">
-    private int _patientID;
+    private int _id;
     private String _firstName;
     private String _lastName;
     private Gender _gender;
@@ -42,13 +42,13 @@ public class Patient implements IPatient{
 
     //<editor-fold desc="Getter/Setter">
 
-    public int getPatientID() {
+    public int getId() {
 
-        return _patientID;
+        return _id;
     }
 
-    public void setPatientID(int patientID) {
-        _patientID = patientID;
+    public void setId(int id) {
+        _id = id;
     }
 
     public String getFirstName() {

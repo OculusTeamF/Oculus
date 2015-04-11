@@ -55,4 +55,9 @@ public class OrthoptistBrokerTest extends BrokerTest {
         //TODO implement
     }
 
+	@Override
+	public void testDelete() {
+		//not needed
+	}
+
 }

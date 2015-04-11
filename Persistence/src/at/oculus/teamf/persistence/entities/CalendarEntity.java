@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "calendar", schema = "", catalog = "oculus_f")
-public class CalendarEntity {
+public class CalendarEntity implements IEntity {
     private int _id;
     private String _title;
     private Collection<CalendarEventEntity> _calendarevents;
@@ -31,7 +31,7 @@ public class CalendarEntity {
         return _id;
     }
 
-    public void setId(int calendarId) {
+	public void setId(int calendarId) {
         this._id = calendarId;
     }
 

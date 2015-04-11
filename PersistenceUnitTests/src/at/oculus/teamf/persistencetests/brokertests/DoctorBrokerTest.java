@@ -16,6 +16,7 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
 import at.oculus.teamf.persistence.exceptions.ReloadInterfaceNotImplementedException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -24,8 +25,14 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 public class DoctorBrokerTest extends BrokerTest {
+	private Doctor _doctor;
 
-    @Test
+	@Before
+	public void setUp() throws Exception {
+		// TODO implement
+	}
+
+	@Test
     @Override
     public void testGetById() {
         Facade facade = Facade.getInstance();
@@ -57,10 +64,15 @@ public class DoctorBrokerTest extends BrokerTest {
     @Test
     @Override
     public void testSave() {
-        //TODO implement
+	    //not needed
     }
 
-    @Test
+	@Override
+	public void testDelete() {
+		//not needed
+	}
+
+	@Test
     public void testReload() {
         Facade facade = Facade.getInstance();
         Doctor doctor = null;
