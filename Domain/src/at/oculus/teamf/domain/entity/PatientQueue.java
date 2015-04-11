@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -23,7 +24,7 @@ import java.util.LinkedList;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class PatientQueue {
+public class PatientQueue implements ILogger{
 
     //<editor-fold desc="Attributes">
     private int _userID;
@@ -99,9 +100,7 @@ public class PatientQueue {
 		}
 	}
 
-    public int getUserID() {
-        return _userID;
-    }
+    public int getUserID() { return _userID; }
 
     public void setUserID(int userID) {
 	    _userID = userID;
@@ -124,20 +123,64 @@ public class PatientQueue {
         newEntry.setOrthoptist(orthoptist);
         newEntry.setArrivalTime(arrivaltime);
 
-        // set queue id management
-        newEntry.setId(0);
-        newEntry.setQueueIdParent(0);
-        _entries.addFirst(newEntry);
+        // set queue id (set last position id)
+        Integer newQueueID = null;
+        try {
+            newQueueID = Facade.getInstance().getAll(QueueEntry.class).size();
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
+        if (newQueueID == 0) {
+            newQueueID = null;      // use null for first entry in database
+        }
+        newEntry.setId(newQueueID);
 
-        String test = "hallo";
+        // set queue parent id
+        Integer newParentID = _entries.getLast().getId();
+        newEntry.setQueueIdParent(newParentID);
+
+        // add & save new entry
+        _entries.addLast(newEntry);
+        try {
+            Facade.getInstance().save(newEntry);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
+
+        // logging
+        if (newEntry.getDoctor() != null) {
+            log.info("add Patient '" + patient.getLastName() + "' to '"
+                    + newEntry.getDoctor().getUserGroup().getUserGroupName() + ": "
+                    + newEntry.getDoctor().getLastName() + "' in queue position '"
+                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() + "'");
+        } else if (newEntry.getOrthoptist() != null) {
+            log.info("add Patient '" + patient.getLastName() + "' to '"
+                    + newEntry.getOrthoptist().getUserGroup().getUserGroupName() + ": "
+                    + newEntry.getOrthoptist().getLastName() + "' in queue position '"
+                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() + "'");
+        } else {
+            log.info("add Patient '" + patient.getLastName() + "' to 'no user' in queue position '"
+                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() + "'");
+        }
 
     }
 
-    public void removeLastPatient(){
+    public void removePatient(Patient patient) {
+        LinkedList<QueueEntry> queueEntries = null;
 
-    }
+        try {
+            // get whole queue table
+            for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
+                QueueEntry qe = (QueueEntry) obj;
+                queueEntries.add(qe);
+            }
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            }
+        }
 
     public QueueEntry getNext() {
-	    return null;
+        // get next waiting patient from line
+        return _entries.getFirst();
     }
 }
