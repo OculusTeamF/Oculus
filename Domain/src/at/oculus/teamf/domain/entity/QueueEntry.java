@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 /**
  * QueueEntry.java Created by Fabian on 10.04.15.
  */
-public class QueueEntry {
+public class QueueEntry implements IDomain {
 	private int _id;
 	private Doctor _doctor;
 	private Orthoptist _orthoptist;
@@ -38,6 +38,7 @@ public class QueueEntry {
 	public int getId() {
 		return _id;
 	}
+
 	public void setId(int id) {
 		_id = id;
 	}
@@ -45,6 +46,7 @@ public class QueueEntry {
 	public Doctor getDoctor() {
 		return _doctor;
 	}
+
 	public void setDoctor(Doctor doctor) {
 		_doctor = doctor;
 	}
@@ -52,6 +54,7 @@ public class QueueEntry {
 	public Orthoptist getOrthoptist() {
 		return _orthoptist;
 	}
+
 	public void setOrthoptist(Orthoptist orthoptist) {
 		_orthoptist = orthoptist;
 	}
@@ -59,6 +62,7 @@ public class QueueEntry {
 	public Patient getPatient() {
 		return _patient;
 	}
+
 	public void setPatient(Patient patient) {
 		_patient = patient;
 	}
@@ -66,6 +70,7 @@ public class QueueEntry {
 	public Integer getQueueIdParent() {
 		return _queueIdParent;
 	}
+
 	public void setQueueIdParent(Integer queueIdParent) {
 		_queueIdParent = queueIdParent;
 	}
@@ -73,7 +78,14 @@ public class QueueEntry {
 	public Timestamp getArrivalTime() {
 		return _arrivalTime;
 	}
+
 	public void setArrivalTime(Timestamp arrivalTime) {
 		_arrivalTime = arrivalTime;
+	}
+
+	@Override
+	public String toString() {
+		return "QueueID " + getId() + " with Patient: " + getPatient() + ", Doctor: " + getDoctor() + ", Orthoptist: " +
+		       getOrthoptist();
 	}
 }

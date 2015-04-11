@@ -10,6 +10,8 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.persistence.entities.IEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 import java.util.ArrayList;
@@ -20,20 +22,23 @@ import java.util.LinkedList;
  * Created by Norskan on 30.03.2015.
  * //Todo: add loging, comments docs etz
  */
-abstract class EntityBroker<D, P> {
+abstract class EntityBroker<D extends IDomain, P extends IEntity> {
 
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
 
-    private Collection<Class> _classes;
+    private Collection<Class> _entityClasses;
+	private Collection<Class> _domainClasses;
 
     public EntityBroker(Class domainClass, Class entityClass) {
-        _classes = new LinkedList<Class>();
+        _entityClasses = new LinkedList<Class>();
+	    _domainClasses = new LinkedList<Class>();
 
         _domainClass = domainClass;
         _entityClass = entityClass;
 
-        _classes.add(_entityClass);
+        _entityClasses.add(_entityClass);
+	    _domainClasses.add(_domainClass);
     }
 
     //<editor-fold desc="Abstract Methode">
@@ -53,9 +58,9 @@ abstract class EntityBroker<D, P> {
     }
 
     public Collection<D> getAll(ISession session) throws FacadeException {
-        Collection<P> entities = null;
+        Collection<Object> entities = null;
         try {
-            entities = (Collection<P>) session.getAll(_entityClass);
+            entities = (Collection<Object>) session.getAll(_entityClass);
         } catch (BadSessionException e) {
             e.printStackTrace();
         } catch (ClassNotMappedException e) {
@@ -63,7 +68,8 @@ abstract class EntityBroker<D, P> {
         }
 
         Collection<D> domainObjects = new ArrayList<D>();
-        for(P entity : entities) {
+        for(Object obj : entities) {
+	        P entity = (P) obj;
             domainObjects.add(persitentToDomain(entity));
         }
 
@@ -76,9 +82,11 @@ abstract class EntityBroker<D, P> {
         try {
             session.beginTransaction();
 
-            session.saveOrUpdate(entity);
+	        session.saveOrUpdate(entity);
 
             session.commit();
+
+	        domainObj.setId(entity.getId());
 
         } catch (BadSessionException e) {
             e.printStackTrace();
@@ -106,8 +114,10 @@ abstract class EntityBroker<D, P> {
         try {
             session.beginTransaction();
             for(P entity : entities){
-                session.save(entity);
+                session.saveOrUpdate(entity);
             }
+	        session.commit();
+	        // TODO write back ids to domain
 
         } catch (BadSessionException e) {
             e.printStackTrace();
@@ -126,9 +136,42 @@ abstract class EntityBroker<D, P> {
         return true;
     }
 
-    protected void addClassMappint(Class clazz) {
-        _classes.add(clazz);
+	public boolean deleteEntity(ISession session, D domainObj){
+		P entity = domainToPersitent(domainObj);
+
+		try {
+			session.beginTransaction();
+
+			session.delete(entity);
+
+			session.commit();
+
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (AlreadyInTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (NoTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotMappedException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+    protected void addClassMapping(Class clazz) {
+        _entityClasses.add(clazz);
     }
+
+	protected void addDomainClasses(Collection<Class> clazzes){
+		for(Class clazz : clazzes){
+			_domainClasses.add(clazz);
+		}
+	}
 
 	protected abstract D persitentToDomain(P entity) throws FacadeException;
 
@@ -142,8 +185,12 @@ abstract class EntityBroker<D, P> {
     }
 
     public Collection<Class> getEntityClasses() {
-        return _classes;
+        return _entityClasses;
     }
+
+	public Collection<Class> getDomainClasses() {
+		return _domainClasses;
+	}
     //</editor-fold>
 
 }

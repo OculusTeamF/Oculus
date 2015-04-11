@@ -33,6 +33,7 @@ public class PatientQueue implements ILogger{
     //</editor-fold>
 
 	public PatientQueue(Doctor doctor){
+		_entries = new LinkedList<QueueEntry>();
 		// get all queue entities of a doctor
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
@@ -43,7 +44,7 @@ public class PatientQueue implements ILogger{
 					if(qe.getDoctor()== doctor){
 						queueEntries.put(qe.getQueueIdParent(),qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0){
+						if(qe.getQueueIdParent()==null){
 							actEntry = qe;
 						}
 					}
@@ -63,6 +64,7 @@ public class PatientQueue implements ILogger{
 	}
 
 	public PatientQueue(Orthoptist orthoptist){
+		_entries = new LinkedList<QueueEntry>();
 		// get all queue entities of a orthoptist
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
@@ -75,7 +77,7 @@ public class PatientQueue implements ILogger{
 					if(qe.getOrthoptist()== orthoptist){
 						queueEntries.put(qe.getQueueIdParent(),qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0){
+						if(qe.getQueueIdParent()==null){
 							actEntry = qe;
 						}
 					}
@@ -83,7 +85,7 @@ public class PatientQueue implements ILogger{
 				if(qe.getOrthoptist()==null && qe.getDoctor()==null){
 					queueEntriesEx.put(qe.getQueueIdParent(),qe);
 						// set first entity
-						if(qe.getQueueIdParent()==0) {
+						if(qe.getQueueIdParent()==null) {
 							actEntryEx = qe;
 						}
 				}

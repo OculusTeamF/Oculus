@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus_f")
-public class PatientEntity {
+public class PatientEntity implements IEntity {
     private int _id;
     private Integer _doctorId;
     private String _socialInsuranceNr;

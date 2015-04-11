@@ -33,7 +33,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	@Override
 	protected Patient persitentToDomain(PatientEntity entity) throws FacadeException {
 		Patient patient = new Patient();
-		patient.setPatientID(entity.getId());
+		patient.setId(entity.getId());
 		patient.setFirstName(entity.getFirstName());
 		patient.setLastName(entity.getLastName());
 		patient.setSvn(entity.getSocialInsuranceNr());
@@ -78,6 +78,6 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		ReloadComponent reloadComponent =
 				new ReloadComponent(PatientEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, ((Patient) obj).getPatientID(), new CalendarEventsLoader());
+		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
 	}
 }

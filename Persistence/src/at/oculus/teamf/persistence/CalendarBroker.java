@@ -30,7 +30,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	@Override
 	protected Calendar persitentToDomain(CalendarEntity entity) throws FacadeException {
 		Calendar calendar = new Calendar();
-		calendar.setCalendarID(entity.getId());
+		calendar.setId(entity.getId());
 
 
 		/*if (entity.getDoctor() != null) {
@@ -73,6 +73,6 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		ReloadComponent reloadComponent =
 				new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, ((Calendar) obj).getCalendarID(), new CalendarEventsLoader());
+		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
 	}
 }

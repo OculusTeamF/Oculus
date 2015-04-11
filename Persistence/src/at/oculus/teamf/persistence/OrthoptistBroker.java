@@ -11,8 +11,8 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
+import at.oculus.teamf.persistence.entities.IEntity;
 import at.oculus.teamf.persistence.entities.OrthoptistEntity;
 import at.oculus.teamf.persistence.entities.UserEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -24,7 +24,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 
 	public OrthoptistBroker() {
 		super(Orthoptist.class, OrthoptistEntity.class);
-		addClassMappint(UserEntity.class);
+		addClassMapping(UserEntity.class);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		orthoptist.setQueue(new PatientQueue(orthoptist));
+		orthoptist.setQueue(null); // reload when needed!
 		// user data
 		UserEntity userEntity = entity.getUser();
 		orthoptist.setUserGroupId(userEntity.getUserGroupId());
@@ -58,11 +58,11 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		orthoptistEntity.setId(entity.getId());
 		try {
 			orthoptistEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
-			                                                    .persitentToDomain(entity.getCalendar()));
+			                                                    .persitentToDomain((IEntity) entity.getCalendar()));
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		orthoptistEntity.setCalendarId(entity.getCalendar().getCalendarID());
+		orthoptistEntity.setCalendarId(entity.getCalendar().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(entity.getUserId());

@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
 import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.persistence.entities.IEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
@@ -80,7 +81,7 @@ public class ReloadComponent{
 		//convert database entity collection to domain entity collection
 		Collection objects = new ArrayList();
 		for (Object obj : entities) {
-			objects.add(toLoadClassDomainBroker.persitentToDomain(obj));
+			objects.add(toLoadClassDomainBroker.persitentToDomain((IEntity) obj));
 		}
 
 		return objects;

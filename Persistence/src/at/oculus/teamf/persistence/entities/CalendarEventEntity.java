@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "calendarevent", schema = "", catalog = "oculus_f")
-public class CalendarEventEntity {
+public class CalendarEventEntity implements IEntity {
     private int _id;
     private int _calendarId;
     private Integer _patientId;
@@ -29,7 +29,7 @@ public class CalendarEventEntity {
     private byte _isOpen;
     private CalendarEntity _calendar;
     private PatientEntity _patient;
-    private Eventtypentity _eventtype;
+    private EventtypeEntity _eventtype;
 
     @Id
     @Column(name = "calendarEventId", nullable = false, insertable = true, updatable = true)

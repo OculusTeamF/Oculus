@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "user", schema = "", catalog = "oculus_f")
-public class UserEntity {
+public class UserEntity implements IEntity {
     private int _id;
     private Integer _userGroupId;
     private String _userName;

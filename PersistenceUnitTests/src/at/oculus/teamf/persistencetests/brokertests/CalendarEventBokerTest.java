@@ -53,4 +53,9 @@ public class CalendarEventBokerTest extends BrokerTest {
     public void testSave() {
         //not needed
     }
+
+	@Override
+	public void testDelete() {
+		//not needed
+	}
 }

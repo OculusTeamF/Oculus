@@ -10,13 +10,9 @@
 package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 03.04.2015.
+ * IDomain.java Created by oculus on 11.04.15.
  */
-public class FirstAppointment extends EventType{
-	public FirstAppointment() {
-	}
-
-	public FirstAppointment(int id, String eventTypeName, int estimatedTime, String description) {
-		super(id, eventTypeName, estimatedTime, description);
-	}
+public interface IDomain {
+	public int getId();
+	public void setId(int id);
 }
