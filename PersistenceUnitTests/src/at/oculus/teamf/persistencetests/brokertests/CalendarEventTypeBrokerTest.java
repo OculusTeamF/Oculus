@@ -21,7 +21,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 public class CalendarEventTypeBrokerTest extends BrokerTest{
-	private Integer _saveId;
 	@Override
 	public void testGetById() {
 		EventType eventType = null;
@@ -53,12 +52,10 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 	public void testSave() {
 		EventType eventType = new RegularAppointment(0,"Daniels Spezialtermin",45,"blabla wow");
 		try {
-			_saveId = Facade.getInstance().save((EventType) eventType);
+			assertTrue(Facade.getInstance().save(eventType));
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		System.out.println(_saveId);
-		assertTrue(_saveId!=null);
 	}
 
 	@Test

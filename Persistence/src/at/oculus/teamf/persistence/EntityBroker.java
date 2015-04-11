@@ -25,15 +25,18 @@ abstract class EntityBroker<D, P> {
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
 
-    private Collection<Class> _classes;
+    private Collection<Class> _entityClasses;
+	private Collection<Class> _domainClasses;
 
     public EntityBroker(Class domainClass, Class entityClass) {
-        _classes = new LinkedList<Class>();
+        _entityClasses = new LinkedList<Class>();
+	    _domainClasses = new LinkedList<Class>();
 
         _domainClass = domainClass;
         _entityClass = entityClass;
 
-        _classes.add(_entityClass);
+        _entityClasses.add(_entityClass);
+	    _domainClasses.add(_domainClass);
     }
 
     //<editor-fold desc="Abstract Methode">
@@ -70,32 +73,31 @@ abstract class EntityBroker<D, P> {
         return domainObjects;
     }
 
-    public Integer saveEntity(ISession session, D domainObj) {
+    public boolean saveEntity(ISession session, D domainObj) {
         P entity = domainToPersitent(domainObj);
-	    Integer id = null;
 
         try {
             session.beginTransaction();
 
-            id = (Integer) session.saveOrUpdate(entity);
+	        session.saveOrUpdate(entity);
 
             session.commit();
 
         } catch (BadSessionException e) {
             e.printStackTrace();
-            return null;
+            return false;
         } catch (AlreadyInTransactionException e) {
             e.printStackTrace();
-            return null;
+            return false;
         } catch (NoTransactionException e) {
             e.printStackTrace();
-            return null;
+            return false;
         } catch (ClassNotMappedException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
 
-        return id;
+        return true;
     }
 
     public boolean saveAll(ISession session, Collection<D> domainObjs) {
@@ -107,7 +109,7 @@ abstract class EntityBroker<D, P> {
         try {
             session.beginTransaction();
             for(P entity : entities){
-                session.save(entity);
+                session.saveOrUpdate(entity);
             }
 
         } catch (BadSessionException e) {
@@ -155,8 +157,14 @@ abstract class EntityBroker<D, P> {
 	}
 
     protected void addClassMapping(Class clazz) {
-        _classes.add(clazz);
+        _entityClasses.add(clazz);
     }
+
+	protected void addDomainClasses(Collection<Class> clazzes){
+		for(Class clazz : clazzes){
+			_domainClasses.add(clazz);
+		}
+	}
 
 	protected abstract D persitentToDomain(P entity) throws FacadeException;
 
@@ -170,8 +178,12 @@ abstract class EntityBroker<D, P> {
     }
 
     public Collection<Class> getEntityClasses() {
-        return _classes;
+        return _entityClasses;
     }
+
+	public Collection<Class> getDomainClasses() {
+		return _domainClasses;
+	}
     //</editor-fold>
 
 }

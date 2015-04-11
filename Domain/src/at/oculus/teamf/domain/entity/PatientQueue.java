@@ -69,24 +69,19 @@ public class PatientQueue {
 		try {
 			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
 				QueueEntry qe = (QueueEntry) obj;
-				System.out.println(qe);
 				if(qe.getOrthoptist() != null){
 					if(qe.getOrthoptist()== orthoptist){
-						System.out.println("add queueId " + qe.getId() + " with parentId " + qe.getQueueIdParent());
 						queueEntries.put(qe.getQueueIdParent(),qe);
 						// set first entity
 						if(qe.getQueueIdParent()==null){
-							System.out.println("first queueId " + qe.getId());
 							actEntry = qe;
 						}
 					}
 				}
 				if(qe.getOrthoptist()==null && qe.getDoctor()==null){
-					System.out.println("add queueId " + qe.getId() + " with parentId " + qe.getQueueIdParent());
 					queueEntriesEx.put(qe.getQueueIdParent(),qe);
 						// set first entity
 						if(qe.getQueueIdParent()==null) {
-							System.out.println("first queueId " + qe.getId());
 							actEntryEx = qe;
 						}
 				}

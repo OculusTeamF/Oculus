@@ -16,6 +16,8 @@ import at.oculus.teamf.domain.entity.RegularAppointment;
 import at.oculus.teamf.persistence.entities.EventtypeEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
+import java.util.LinkedList;
+
 /**
  * Created by Norskan on 10.04.2015.
  */
@@ -23,6 +25,13 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
 
 	public CalendarEventTypeBroker() {
 		super(EventType.class, EventtypeEntity.class);
+
+		// add domain subclasses to broker
+		LinkedList<Class> clazzes = new LinkedList<Class>();
+		clazzes.add(FirstAppointment.class);
+		clazzes.add(OrthoptistAppointment.class);
+		clazzes.add(RegularAppointment.class);
+		addDomainClasses(clazzes);
 	}
 
 	@Override
@@ -50,6 +59,6 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
 
 	@Override
 	protected EventtypeEntity domainToPersitent(EventType obj) {
-		return null;
+		return new EventtypeEntity(obj.getId(),obj.getEventTypeName(),obj.getEstimatedTime(),obj.getDescription());
 	}
 }
