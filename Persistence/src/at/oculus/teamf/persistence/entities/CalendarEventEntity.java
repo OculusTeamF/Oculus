@@ -29,7 +29,7 @@ public class CalendarEventEntity {
     private byte _isOpen;
     private CalendarEntity _calendar;
     private PatientEntity _patient;
-    private Eventtypentity _eventtype;
+    private EventtypeEntity _eventtype;
 
     @Id
     @Column(name = "calendarEventId", nullable = false, insertable = true, updatable = true)

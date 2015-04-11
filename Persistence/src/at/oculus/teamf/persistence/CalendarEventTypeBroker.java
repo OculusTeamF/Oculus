@@ -10,25 +10,46 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.EventType;
-import at.oculus.teamf.persistence.entities.Eventtypentity;
+import at.oculus.teamf.domain.entity.FirstAppointment;
+import at.oculus.teamf.domain.entity.OrthoptistAppointment;
+import at.oculus.teamf.domain.entity.RegularAppointment;
+import at.oculus.teamf.persistence.entities.EventtypeEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
 /**
  * Created by Norskan on 10.04.2015.
  */
-public class CalendarEventTypeBroker extends EntityBroker<EventType, Eventtypentity> {
+public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEntity> {
 
-    public CalendarEventTypeBroker() {
-        super(EventType.class, Eventtypentity.class);
-    }
+	public CalendarEventTypeBroker() {
+		super(EventType.class, EventtypeEntity.class);
+	}
 
-    @Override
-    protected EventType persitentToDomain(Eventtypentity entity) throws FacadeException {
-        return null;
-    }
+	@Override
+	protected EventType persitentToDomain(EventtypeEntity entity) throws FacadeException {
+		EventType eventType = null;
 
-    @Override
-    protected Eventtypentity domainToPersitent(EventType obj) {
-        return null;
-    }
+		switch (entity.getEventTypeName()) {
+			case ("Ersttermin"):
+				eventType = new FirstAppointment(entity.getId(), entity.getEventTypeName(), entity.getEstimatedTime(),
+				                                 entity.getDescription());
+				break;
+			case ("Orthoptistentermin"):
+				eventType =
+						new OrthoptistAppointment(entity.getId(), entity.getEventTypeName(), entity.getEstimatedTime(),
+						                          entity.getDescription());
+				break;
+			default:
+				eventType = new RegularAppointment(entity.getId(), entity.getEventTypeName(), entity.getEstimatedTime(),
+				                                   entity.getDescription());
+				break;
+		}
+
+		return eventType;
+	}
+
+	@Override
+	protected EventtypeEntity domainToPersitent(EventType obj) {
+		return null;
+	}
 }

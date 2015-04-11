@@ -12,37 +12,55 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public abstract class EventType  {
+public abstract class EventType {
+	//<editor-fold desc="Attributes">
+	private int _id;
+	private String _eventTypeName;
+	private int _estimatedTime;
+	private String _description;
+	//</editor-fold>
 
-    //<editor-fold desc="Attributes">
-    private int _eventTypeID;
-    private int _estimatedTime;
-    private String _description;
-    //</editor-fold>
+	public EventType() {
+	}
 
-    //<editor-fold desc="Getter/Setter">
-    public int getEventTypeID() {
-        return _eventTypeID;
-    }
+	public EventType(int id, String eventTypeName, int estimatedTime, String description) {
+		_id = id;
+		_eventTypeName = eventTypeName;
+		_estimatedTime = estimatedTime;
+		_description = description;
+	}
 
-    public void setEventTypeID(int eventTypeID) {
-        _eventTypeID = eventTypeID;
-    }
+	//<editor-fold desc="Getter/Setter">
+	public int getId() {
+		return _id;
+	}
 
-    public int getEstimatedTime() {
-        return _estimatedTime;
-    }
+	public void setId(int id) {
+		_id = id;
+	}
 
-    public void setEstimatedTime(int estimatedTime) {
-        _estimatedTime = estimatedTime;
-    }
+	public String getEventTypeName() {
+		return _eventTypeName;
+	}
 
-    public String getDescription() {
-        return _description;
-    }
+	public void setEventTypeName(String eventTypeName) {
+		_eventTypeName = eventTypeName;
+	}
 
-    public void setDescription(String description) {
-        _description = description;
-    }
-    //</editor-fold>
+	public int getEstimatedTime() {
+		return _estimatedTime;
+	}
+
+	public void setEstimatedTime(int estimatedTime) {
+		_estimatedTime = estimatedTime;
+	}
+
+	public String getDescription() {
+		return _description;
+	}
+
+	public void setDescription(String description) {
+		_description = description;
+	}
+	//</editor-fold>
 }

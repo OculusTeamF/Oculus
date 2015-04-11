@@ -70,31 +70,32 @@ abstract class EntityBroker<D, P> {
         return domainObjects;
     }
 
-    public boolean saveEntity(ISession session, D domainObj) {
+    public Integer saveEntity(ISession session, D domainObj) {
         P entity = domainToPersitent(domainObj);
+	    Integer id = null;
 
         try {
             session.beginTransaction();
 
-            session.saveOrUpdate(entity);
+            id = (Integer) session.saveOrUpdate(entity);
 
             session.commit();
 
         } catch (BadSessionException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } catch (AlreadyInTransactionException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } catch (NoTransactionException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } catch (ClassNotMappedException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
 
-        return true;
+        return id;
     }
 
     public boolean saveAll(ISession session, Collection<D> domainObjs) {

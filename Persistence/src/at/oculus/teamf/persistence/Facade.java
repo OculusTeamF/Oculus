@@ -40,6 +40,7 @@ public class Facade {
 		entityBrokers.add(new QueueBroker());
 		entityBrokers.add(new ReceptionistBroker());
 		entityBrokers.add(new OrthoptistBroker());
+		entityBrokers.add(new CalendarEventTypeBroker());
 
 		init(entityBrokers);
 	}
@@ -151,7 +152,7 @@ public class Facade {
 	}
 
 
-	private class Save extends Execute<Boolean> {
+	private class Save extends Execute<Integer> {
 
 		private Object _toSave;
 
@@ -160,13 +161,13 @@ public class Facade {
 		}
 
 		@Override
-		public Boolean execute(ISession session, EntityBroker broker) {
+		public Integer execute(ISession session, EntityBroker broker) {
 			 return broker.saveEntity(session, _toSave);
 		}
 	}
 
-	public boolean save(Object obj) throws FacadeException {
-		return (Boolean)worker(obj.getClass(), new Save(obj));
+	public Integer save(Object obj) throws FacadeException {
+		return (Integer)worker(obj.getClass(), new Save(obj));
 	}
 
 	private class Delete extends Execute<Boolean> {
