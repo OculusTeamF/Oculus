@@ -38,7 +38,8 @@ public class Orthoptist extends User {
     }
 
     public PatientQueue getQueue() {
-        return _queue;
+	    _queue = new PatientQueue(this);
+	    return _queue;
     }
 
     public void setQueue(PatientQueue queue) {

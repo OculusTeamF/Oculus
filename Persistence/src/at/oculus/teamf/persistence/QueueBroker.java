@@ -27,18 +27,14 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
 	@Override
 	protected QueueEntry persitentToDomain(QueueEntity entity) throws FacadeException {
-		/*return new QueueEntry(entity.getId(),
-				(Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId()),
-				(Orthoptist) Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId()),
-				entity.getQueueIdParent(), new Timestamp(10));*/
 		Patient patient = (Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId());
 		Doctor doctor = null;
 		if (entity.getDoctorId() != null) {
 			doctor = (Doctor) Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
 		}
 		Orthoptist orthoptist = null;
-		if (entity.getDoctorId() != null) {
-			orthoptist = (Orthoptist) Facade.getInstance().getById(Orthoptist.class, entity.getDoctorId());
+		if (entity.getOrthoptistId() != null) {
+			orthoptist = (Orthoptist) Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
 		}
 		return new QueueEntry(entity.getId(), patient, doctor, orthoptist, entity.getQueueIdParent(),
 		                      entity.getArrivalTime());

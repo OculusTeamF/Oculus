@@ -49,7 +49,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		doctor.setQueue(new PatientQueue(doctor));
+		doctor.setQueue(null);
 		// user data
 		UserEntity userEntity = entity.getUser();
 		doctor.setUserGroupId(userEntity.getUserGroupId());

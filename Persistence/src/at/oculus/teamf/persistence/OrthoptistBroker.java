@@ -36,7 +36,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		orthoptist.setQueue(new PatientQueue(orthoptist));
+		orthoptist.setQueue(null); // reload when needed!
 		// user data
 		UserEntity userEntity = entity.getUser();
 		orthoptist.setUserGroupId(userEntity.getUserGroupId());

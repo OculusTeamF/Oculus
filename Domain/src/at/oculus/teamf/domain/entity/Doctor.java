@@ -45,7 +45,8 @@ public class Doctor extends User {
     }
 
     public PatientQueue getQueue() {
-        return _queue;
+	    _queue = new PatientQueue(this);
+	    return _queue;
     }
     public void setQueue(PatientQueue _queue) {
         this._queue = _queue;
