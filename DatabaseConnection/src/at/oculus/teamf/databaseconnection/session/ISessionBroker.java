@@ -11,7 +11,6 @@ package at.oculus.teamf.databaseconnection.session;
 
 /**
  * SessionBroker interface to abstract a broker that deal sessions that implement the {@code #ISession}
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

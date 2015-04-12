@@ -13,7 +13,6 @@ import at.oculus.teamf.technical.properties.PropertiesHelper;
 
 /**
  * HibernatePropertie helper to access properties from the config.properties file
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

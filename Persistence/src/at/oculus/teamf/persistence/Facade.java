@@ -77,7 +77,6 @@ public class Facade {
 	}
 
 	/**
-	 *
 	 * @param clazz class to load
 	 * @param execute individual implementation
 	 * @param <T> type of the return value

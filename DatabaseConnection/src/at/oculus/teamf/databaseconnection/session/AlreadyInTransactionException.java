@@ -11,7 +11,6 @@ package at.oculus.teamf.databaseconnection.session;
 
 /**
  * AlreadyInTransactionException is thrown when the session is already in an transaction state.
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

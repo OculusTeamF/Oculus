@@ -19,7 +19,6 @@ import java.util.Collection;
 /**
  * Broker that deals HibernateSessions to the top layer. Aquire a {@code #HibernateSession} through {@code
  * #getSession()} it again through {@code #releaseSession()}
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.3.2015

@@ -11,7 +11,6 @@ package at.oculus.teamf.databaseconnection.session;
 
 /**
  * A session needs to implement this interface so it can be closed by a broker.
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015
