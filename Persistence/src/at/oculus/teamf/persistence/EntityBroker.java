@@ -105,18 +105,17 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> {
     }
 
     public boolean saveAll(ISession session, Collection<D> domainObjs) {
-        Collection<P> entities = new ArrayList<P>();
-        for(D obj : domainObjs) {
-            entities.add(domainToPersitent(obj));
-        }
+        P entity = null;
 
         try {
             session.beginTransaction();
-            for(P entity : entities){
-                session.saveOrUpdate(entity);
-            }
+	        for(D obj : domainObjs) {
+		        entity = domainToPersitent(obj);
+		        session.saveOrUpdate(entity);
+		        //TODO old IDs on rollback?
+		        obj.setId(entity.getId());
+	        }
 	        session.commit();
-	        // TODO write back ids to domain
 
         } catch (BadSessionException e) {
             e.printStackTrace();
@@ -162,6 +161,33 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> {
 		return true;
 	}
 
+	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs){
+		P entity = null;
+
+		try {
+			session.beginTransaction();
+			for(Object obj : domainObjs) {
+				entity = domainToPersitent((D) obj);
+				session.delete(entity);
+			}
+			session.commit();
+
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (AlreadyInTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (NoTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotMappedException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
     protected void addClassMapping(Class clazz) {
         _entityClasses.add(clazz);
     }
@@ -190,6 +216,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> {
 	public Collection<Class> getDomainClasses() {
 		return _domainClasses;
 	}
-    //</editor-fold>
+	//</editor-fold>
 
 }
