@@ -134,7 +134,7 @@ public class QueueEntity implements IEntity {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
@@ -144,7 +144,7 @@ public class QueueEntity implements IEntity {
         _doctor = doctor;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patientId", referencedColumnName = "patientId", nullable = false)
     public PatientEntity getPatient() {
         return _patient;
@@ -154,7 +154,7 @@ public class QueueEntity implements IEntity {
         _patient = patientByPatientId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orthoptistId", referencedColumnName = "orthoptistId")
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
@@ -164,7 +164,7 @@ public class QueueEntity implements IEntity {
         this._orthoptist = orthoptist;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")
     public QueueEntity getQueueParent() {
         return _queueParent;

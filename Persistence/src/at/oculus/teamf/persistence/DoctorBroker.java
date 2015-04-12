@@ -75,8 +75,6 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		doctorEntity.setCalendarId(entity.getCalendar().getId());
-		doctorEntity.setDoctorIdSubstitute(entity.getDoctorSubstitude().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(entity.getUserId());

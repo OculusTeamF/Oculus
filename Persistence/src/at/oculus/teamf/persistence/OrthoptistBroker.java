@@ -56,12 +56,12 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 	protected OrthoptistEntity domainToPersitent(Orthoptist entity) {
 		OrthoptistEntity orthoptistEntity = new OrthoptistEntity();
 		orthoptistEntity.setId(entity.getId());
-		try {
+		/*try {
 			orthoptistEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
 			                                                    .persitentToDomain((IEntity) entity.getCalendar()));
 		} catch (FacadeException e) {
 			e.printStackTrace();
-		}
+		}*/
 		orthoptistEntity.setCalendarId(entity.getCalendar().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();

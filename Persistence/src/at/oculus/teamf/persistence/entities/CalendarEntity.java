@@ -66,7 +66,7 @@ public class CalendarEntity implements IEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "calendar")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "calendar")
     public Collection<CalendarEventEntity> getCalendarEvents() {
         return _calendarevents;
     }
@@ -85,7 +85,7 @@ public class CalendarEntity implements IEntity {
         _calendarworkinghours = calendarworkinghourses;
     }
     */
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public DoctorEntity getDoctor() {
         return _doctor;
@@ -95,7 +95,7 @@ public class CalendarEntity implements IEntity {
         _doctor = doctor;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;

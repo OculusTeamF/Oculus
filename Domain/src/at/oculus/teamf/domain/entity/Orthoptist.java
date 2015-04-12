@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+
 /**
  * Created by Norskan on 03.04.2015.
  */
@@ -30,7 +32,7 @@ public class Orthoptist extends User implements IDomain {
 	}
 
     public Calendar getCalendar() {
-        return _calendar;
+	    return _calendar;
     }
 
     public void setCalendar(Calendar calendar) {

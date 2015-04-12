@@ -252,7 +252,7 @@ public class PatientEntity implements IEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     public Collection<CalendarEventEntity> getCalendarevents() {
         return _calendarevents;
     }
@@ -261,7 +261,7 @@ public class PatientEntity implements IEntity {
         _calendarevents = calendarevents;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
@@ -271,7 +271,7 @@ public class PatientEntity implements IEntity {
         this._doctor = doctor;
     }
 
-    @OneToOne(mappedBy = "patient")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "patient")
     public QueueEntity getQueue() {
         return _queue;
     }
