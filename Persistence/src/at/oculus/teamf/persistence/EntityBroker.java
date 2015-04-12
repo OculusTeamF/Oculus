@@ -39,11 +39,13 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> {
 
         _entityClasses.add(_entityClass);
 	    _domainClasses.add(_domainClass);
+
     }
 
     //<editor-fold desc="Abstract Methode">
     public D getEntity(ISession session, int id) throws FacadeException {
 	    P entity = null;
+
 	    try {
 		    entity = (P)session.getByID(_entityClass, id);
 	    } catch (BadSessionException e) {
