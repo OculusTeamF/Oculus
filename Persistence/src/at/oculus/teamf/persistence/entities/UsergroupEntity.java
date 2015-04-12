@@ -24,7 +24,8 @@ public class UsergroupEntity implements IEntity {
     private Collection<UserEntity> _users;
 
     @Id
-    @Column(name = "userGroupId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "userGroupId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

@@ -29,7 +29,8 @@ public class DoctorEntity implements IEntity {
     private Collection<QueueEntity> _queues;
 
     @Id
-    @Column(name = "doctorId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "doctorId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

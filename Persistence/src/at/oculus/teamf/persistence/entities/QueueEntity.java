@@ -45,7 +45,8 @@ public class QueueEntity implements IEntity {
 
 
     @Id
-    @Column(name = "queueId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "queueId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

@@ -40,7 +40,8 @@ public class PatientEntity implements IEntity {
     private QueueEntity _queue;
 
     @Id
-    @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "patientId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
