@@ -85,9 +85,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> {
 	        session.saveOrUpdate(entity);
 
             session.commit();
-
+			//TODO make it work!
 	        domainObj.setId(entity.getId());
-
         } catch (BadSessionException e) {
             e.printStackTrace();
             return false;

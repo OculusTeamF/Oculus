@@ -21,7 +21,15 @@ import static org.junit.Assert.assertTrue;
  * Created by Norskan on 08.04.2015.
  */
 public class CalendarBrokerTest extends BrokerTest{
+	@Override
+	public void setUp() {
 
+	}
+
+	@Override
+	public void tearDown() {
+
+	}
 
 	@Test
 	@Override
@@ -40,17 +48,6 @@ public class CalendarBrokerTest extends BrokerTest{
 	@Test
 	@Override
 	public void testGetAll() {
-		//not needed
-	}
-
-	@Test
-	@Override
-	public void testSave() {
-		//not needed currently
-	}
-
-	@Override
-	public void testDelete() {
 		//not needed
 	}
 
