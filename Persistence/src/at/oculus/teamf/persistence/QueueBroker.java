@@ -53,7 +53,9 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 		if (orthoptist != null) {
 			orthoptistId = orthoptist.getId();
 		}
+
 		return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId, queueEntry.getPatient().getId(),
 		                       queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
+
 	}
 }

@@ -17,7 +17,6 @@ import org.junit.Test;
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 public class QueueBrokerTest extends BrokerTest {
 	@Override

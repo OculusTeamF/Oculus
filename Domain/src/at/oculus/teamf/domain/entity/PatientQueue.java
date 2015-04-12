@@ -14,10 +14,7 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Todo: add docs, implement equals
@@ -32,19 +29,25 @@ public class PatientQueue implements ILogger{
 	private LinkedList<QueueEntry> _entries;
     //</editor-fold>
 
+    public PatientQueue(){
+        // empty
+    }
+
 	public PatientQueue(Doctor doctor){
 		_entries = new LinkedList<QueueEntry>();
+
 		// get all queue entities of a doctor
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
+
 		try {
 			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
 				QueueEntry qe = (QueueEntry) obj;
 				if(qe.getDoctor() != null){
-					if(qe.getDoctor()== doctor){
+					if(qe.getDoctor().getId() == doctor.getId()){
 						queueEntries.put(qe.getQueueIdParent(),qe);
-						// set first entity
-						if(qe.getQueueIdParent()==null){
+                        // set first entity
+						if(qe.getQueueIdParent()== null){
 							actEntry = qe;
 						}
 					}
@@ -55,57 +58,77 @@ public class PatientQueue implements ILogger{
 		}
 
 		// set linked list
-		while(actEntry!=null){
+		while(actEntry != null){
 			_entries.add(actEntry);
 			actEntry = queueEntries.get(actEntry.getId());
 		}
 
-        log.info("Retrieved queue from doctor '" + doctor.getLastName() + " / Queuesize: " + _entries.size());
+        log.info("[CREATE PatientQueue for DOCTOR '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Queuesize: " + _entries.size());
 	}
 
-	public PatientQueue(Orthoptist orthoptist){
-		_entries = new LinkedList<QueueEntry>();
-		// get all queue entities of a orthoptist
-		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
-		QueueEntry actEntry = null;
-		HashMap<Integer, QueueEntry> queueEntriesEx = new HashMap<Integer, QueueEntry>();
-		QueueEntry actEntryEx = null;
-		try {
-			for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
-				QueueEntry qe = (QueueEntry) obj;
-				if(qe.getOrthoptist() != null){
-					if(qe.getOrthoptist()== orthoptist){
-						queueEntries.put(qe.getQueueIdParent(),qe);
-						// set first entity
-						if(qe.getQueueIdParent()==null){
-							actEntry = qe;
-						}
-					}
-				}
-				if(qe.getOrthoptist()==null && qe.getDoctor()==null){
-					queueEntriesEx.put(qe.getQueueIdParent(),qe);
-						// set first entity
-						if(qe.getQueueIdParent()==null) {
-							actEntryEx = qe;
-						}
-				}
-			}
-		} catch (FacadeException e) {
-            log.error("Facade Exception", e);
-		}
+    public PatientQueue(Orthoptist orthoptist){
+        _entries = new LinkedList<QueueEntry>();
 
-		// set linked list
-		while(actEntry!=null){
-			_entries.add(actEntry);
-			actEntry = queueEntries.get(actEntry.getId());
-		}
-		while(actEntryEx!=null){
-			_entries.add(actEntryEx);
-			actEntry = queueEntriesEx.get(actEntryEx.getId());
-		}
+        // get all queue entities of a orthoptist
+        HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
+        QueueEntry actEntry = null;
+
+        try {
+            for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+                QueueEntry qe = (QueueEntry) obj;
+                if(qe.getOrthoptist() != null){
+                    if(qe.getOrthoptist().getId() == orthoptist.getId()){
+                        queueEntries.put(qe.getQueueIdParent(),qe);
+                        // set first entity
+                        if(qe.getQueueIdParent()==null){
+                            actEntry = qe;
+                        }
+                    }
+                }
+            }
+        } catch (FacadeException e) {
+            log.error("Facade Exception", e);
+        }
+
+        // set linked list
+        while(actEntry != null){
+            _entries.add(actEntry);
+            actEntry = queueEntries.get(actEntry.getId());
+        }
 
         log.info("Retrieved queue from orthoptist '" + orthoptist.getLastName() + " / Queuesize: " + _entries.size());
-	}
+    }
+
+    public PatientQueue(Object unassigned){
+        _entries = new LinkedList<QueueEntry>();
+
+        // get all queue entities of unassigned patients
+        HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
+        QueueEntry actEntry = null;
+
+        try {
+            for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+                QueueEntry qe = (QueueEntry) obj;
+                if(qe.getOrthoptist() == null && qe.getDoctor() == null){
+                        queueEntries.put(qe.getQueueIdParent(),qe);
+                        // set first entity
+                        if(qe.getQueueIdParent()== null){
+                            actEntry = qe;
+                        }
+                }
+            }
+        } catch (FacadeException e) {
+            log.error("Facade Exception", e);
+        }
+
+        // set linked list
+        while(actEntry != null){
+            _entries.add(actEntry);
+            actEntry = queueEntries.get(actEntry.getId());
+        }
+
+        log.info("Retrieved queue from unassigned patients -> Queuesize: " + _entries.size());
+    }
 
     public int getUserID() { return _userID; }
 
@@ -121,35 +144,42 @@ public class PatientQueue implements ILogger{
 	    _entries = entries;
     }
 
-    public void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) {
-        QueueEntry newEntry = null;
+    public void updateQueueEntry() throws FacadeException {
+        Timestamp tstamp = new Timestamp(new Date().getTime());
+        Doctor doc = Facade.getInstance().getById(Doctor.class, 1);
+        Patient pat = Facade.getInstance().getById(Patient.class, 7);
+        Orthoptist ortho = null;
 
-        // set entry data
-        newEntry.setPatient(patient);
-        newEntry.setDoctor(doctor);
-        newEntry.setOrthoptist(orthoptist);
-        newEntry.setArrivalTime(arrivaltime);
+        QueueEntry newEntry = new QueueEntry(1, pat, doc, ortho, 3, tstamp);
 
-        // set queue id
-        Integer newQueueID = null;
+        // add & save new entry
         try {
-            newQueueID = Facade.getInstance().getAll(QueueEntry.class).size();
+            Facade.getInstance().save(newEntry);
         } catch (FacadeException e) {
             log.error("Facade Exception", e);
         }
-        // newEntry.setId(newQueueID);
-        // using '0' for auto add as new entry and last position in queue line
-        newEntry.setId(0);
+    }
 
-        // set queue parent id
-        Integer newParentID = _entries.size();
+    public void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) {
+        // get queue from user
+        PatientQueue tempQueue = null;
+        if(doctor != null) { tempQueue = new PatientQueue(doctor); }
+        if(orthoptist != null) { tempQueue = new PatientQueue(orthoptist); }
+        if(orthoptist == null && doctor == null) { tempQueue = new PatientQueue(); }
+
+        // set new queueEntry data
+        QueueEntry newEntry = new QueueEntry(0, patient, doctor, orthoptist, 3, arrivaltime);
+        // set queue id
+        int newQueueID = 8;   // not used (delete later)
+        newEntry.setId(0);    // set 0 to add as new entry on last position in queue
+
+        Integer newParentID = tempQueue.getEntries().size();
         if (newParentID == 0) {
             newParentID = null;     // set null for first entry parentID
         }
         newEntry.setQueueIdParent(newParentID);
 
-        // add & save new entry
-        _entries.addLast(newEntry);
+        // save new entry (send to persistence)
         try {
             Facade.getInstance().save(newEntry);
         } catch (FacadeException e) {
@@ -157,25 +187,25 @@ public class PatientQueue implements ILogger{
         }
 
         // logging
-        if (newEntry.getDoctor() != null) {
-            log.info("add Patient '" + patient.getLastName() + "' to '"
-                    + newEntry.getDoctor().getUserGroup().getUserGroupName() + ": "
-                    + newEntry.getDoctor().getLastName() + "' in queue position '"
-                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID + "'");
-        } else if (newEntry.getOrthoptist() != null) {
-            log.info("add Patient '" + patient.getLastName() + "' to '"
-                    + newEntry.getOrthoptist().getUserGroup().getUserGroupName() + ": "
-                    + newEntry.getOrthoptist().getLastName() + "' in queue position '"
-                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID + "'");
-        } else {
-            log.info("add Patient '" + patient.getLastName() + "' to 'no user' in queue position '"
-                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID + "'");
+        if (doctor != null) {
+            log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to '"
+                    + doctor.getLastName() + "' in queue position "
+                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID );
+        }
+        if (orthoptist != null) {
+            log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to '"
+                    + orthoptist.getLastName() + "' in queue position "
+                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID );
+        }
+        if (orthoptist == null && doctor == null){
+            log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to 'no user' in queue position "
+                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID);
         }
 
     }
 
     public void removePatient(Patient patient) {
-        LinkedList<QueueEntry> queue = null;
+        LinkedList<QueueEntry> queue = new LinkedList();
         LinkedList<QueueEntry> rebuildQueueEntries = new LinkedList();
         LinkedList<QueueEntry> tempDoctorQueueEntries = new LinkedList();
         LinkedList<QueueEntry> tempOrthoptistQueueEntries = new LinkedList();
@@ -261,9 +291,9 @@ public class PatientQueue implements ILogger{
             }
         }
 
-        // send rebuild queue to persistence layer
-        //Facade.getInstance().deleteAll(QueueEntry.class);
-        //TODO: deleteAll queue entries OR update entries and remove last entry
+        // delete whole queue and send rebuild queue to persistence layer
+        deleteAllQueueEntries();
+
         for (QueueEntry queueRebuild : rebuildQueueEntries){
             try {
                 Facade.getInstance().save(queueRebuild);
@@ -273,13 +303,36 @@ public class PatientQueue implements ILogger{
         }
 
 
+        log.info("[REMOVEPatient] Removed patient '" + patient.getFirstName() + " " + patient.getLastName() + "' from queue of " + patient.getDoctor().getLastName());
+    }
 
-        log.info("Removed patient '" + patient.getFirstName() + " " + patient.getLastName() + "' from queue of " + patient.getDoctor().getLastName());
+    private void deleteAllQueueEntries(){
+        LinkedList<QueueEntry> queueAll = new LinkedList();
+
+        // getAll queueEntrys from queue table
+        try {
+            for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
+                QueueEntry qe = (QueueEntry) obj;
+                queueAll.add(qe);
+            }
+        } catch (FacadeException e) {
+            log.error("Facade Exception", e);
+        }
+
+        // deleteAll
+        for (QueueEntry queueDelete : queueAll) {
+            try {
+                Facade.getInstance().delete(queueDelete);
+            } catch (FacadeException e) {
+                log.error("Facade Exception", e);
+            }
+        }
     }
 
     public QueueEntry getNext() {
         // get next waiting patient from line
-        log.info("Get next patient from queue: '" + _entries.getFirst().getPatient().getLastName());
+        log.info("[GETNEXT] Retrieve next patient from queue: '"  + _entries.getFirst().getPatient().getFirstName() + " "
+                + _entries.getFirst().getPatient().getLastName() + "' id: " + _entries.getFirst().getPatient().getId());
         return _entries.getFirst();
     }
 }

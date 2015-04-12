@@ -13,6 +13,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
+import org.junit.Test;
 
 /**
  *
@@ -25,21 +26,12 @@ import org.apache.shiro.util.Factory;
 // SHIRO API TEST
 public class UserSubjectTest implements ILogger {
 
-    public static void main(String[] args) {
-        //********************************************************************************************
-        // TESTS
-        //********************************************************************************************
-
+    @Test
+    public void UserSessionsRunTest(){
         //UserSessionFactory test = new UserSessionFactory();
         //UserSubject user = test.createUserSession("user1");
 
         //user.loginUser("simonangerer", "default");
-
-        test1();
-    }
-
-    public static void test1(){
-
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
@@ -64,6 +56,5 @@ public class UserSubjectTest implements ILogger {
 
         //empty session
         user1.isLoggedIn();
-        System.exit(0);
     }
 }
