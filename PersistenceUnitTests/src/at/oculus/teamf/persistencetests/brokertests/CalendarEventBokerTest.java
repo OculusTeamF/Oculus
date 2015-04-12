@@ -22,7 +22,17 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class CalendarEventBokerTest extends BrokerTest {
 
-    @Override
+	@Override
+	public void setUp() {
+		
+	}
+
+	@Override
+	public void tearDown() {
+
+	}
+
+	@Override
     public void testGetById() {
         CalendarEvent calendarEvent = null;
 
@@ -48,14 +58,4 @@ public class CalendarEventBokerTest extends BrokerTest {
         assertTrue(calendarEvents != null);
         assertTrue(calendarEvents.size() == 49);
     }
-
-    @Override
-    public void testSave() {
-        //not needed
-    }
-
-	@Override
-	public void testDelete() {
-		//not needed
-	}
 }

@@ -31,7 +31,8 @@ public class UserEntity implements IEntity {
     private UsergroupEntity _usergroup;
 
     @Id
-    @Column(name = "userId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "userId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

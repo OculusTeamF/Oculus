@@ -25,7 +25,8 @@ public class CalendarworkinghoursEntity implements IEntity {
     private CalendarEntity _calendar;
 
 	@Id
-	@Column(name = "calendarWorkingHoursId", nullable = false, insertable = true, updatable = false)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "calendarWorkingHoursId", nullable = false, insertable = false, updatable = false)
 	public int getId() {
 		return _id;
 	}

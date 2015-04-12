@@ -7,25 +7,42 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokertests;
+import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+public class PatientQueueTest {
 
-/**
- * Created by Norskan on 08.04.2015.
- */
-public abstract class BrokerTest {
-	@Before
-	public abstract void setUp();
+    @org.junit.Test
+    public void testGetUserID() throws Exception {
 
-	@After
-	public abstract void tearDown();
+    }
 
-	@Test
-	public abstract void testGetById();
+    @org.junit.Test
+    public void testSetUserID() throws Exception {
 
-	@Test
-	public abstract void testGetAll();
+    }
+
+    @org.junit.Test
+    public void testGetEntries() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void testSetQueueEntry() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void testAddPatient() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void testRemovePatient() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void testGetNext() throws Exception {
+
+    }
 }

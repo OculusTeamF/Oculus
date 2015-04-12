@@ -32,7 +32,8 @@ public class CalendarEventEntity implements IEntity {
     private EventtypeEntity _eventtype;
 
     @Id
-    @Column(name = "calendarEventId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "calendarEventId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

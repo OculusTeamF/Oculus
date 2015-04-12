@@ -33,14 +33,13 @@ public class EventtypeEntity implements IEntity {
 	}
 
 	@Id
-	@Column(name = "eventTypeId", nullable = false, insertable = true, updatable = true)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "eventTypeId", nullable = false, insertable = false, updatable = false)
 	public int getId() {
 		return _id;
 	}
 
-	public void setId(int eventTypeId) {
-		_id = eventTypeId;
-	}
+	public void setId(int eventTypeId) { _id = eventTypeId; }
 
 	@Basic
 	@Column(name = "eventTypeName", nullable = false, insertable = true, updatable = true, length = 50)

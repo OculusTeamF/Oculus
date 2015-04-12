@@ -22,7 +22,8 @@ public class ReceptionistEntity implements IEntity {
     private UserEntity _user;
 
     @Id
-    @Column(name = "receptionistId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "receptionistId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

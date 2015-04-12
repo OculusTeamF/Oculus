@@ -28,7 +28,8 @@ public class WorkinghoursEntity implements IEntity {
     private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
 
     @Id
-    @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "workingHoursId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }

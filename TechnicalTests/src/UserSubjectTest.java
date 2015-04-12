@@ -7,8 +7,6 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.tests;
-
 import at.oculus.teamf.technical.accessrights.UserSubject;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.apache.shiro.SecurityUtils;
@@ -25,7 +23,7 @@ import org.apache.shiro.util.Factory;
  */
 
 // SHIRO API TEST
-public class shiro_testing implements ILogger {
+public class UserSubjectTest implements ILogger {
 
     public static void main(String[] args) {
         //********************************************************************************************

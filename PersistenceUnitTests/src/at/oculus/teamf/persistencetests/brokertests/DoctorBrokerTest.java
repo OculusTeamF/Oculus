@@ -28,8 +28,13 @@ public class DoctorBrokerTest extends BrokerTest {
 	private Doctor _doctor;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		// TODO implement
+	}
+
+	@Override
+	public void tearDown() {
+
 	}
 
 	@Test
@@ -60,17 +65,6 @@ public class DoctorBrokerTest extends BrokerTest {
 	    assertTrue(doctors != null);
 	    assertTrue(doctors.size() > 1);
     }
-
-    @Test
-    @Override
-    public void testSave() {
-	    //not needed
-    }
-
-	@Override
-	public void testDelete() {
-		//not needed
-	}
 
 	@Test
     public void testReload() {

@@ -131,10 +131,10 @@ public class Facade {
 
 	private class ReloadCollection extends Execute {
 
-		private Object _obj;
+		private IDomain _obj;
 		private Class _reloadClass;
 
-		public ReloadCollection(Object obj, Class reloadClass) {
+		public ReloadCollection(IDomain obj, Class reloadClass) {
 			_obj = obj;
 			_reloadClass = reloadClass;
 		}
@@ -151,34 +151,52 @@ public class Facade {
 		}
 	}
 
-	public void reloadCollection(Object obj, Class clazz) throws FacadeException {
+	public void reloadCollection(IDomain obj, Class clazz) throws FacadeException {
 		worker(obj.getClass(), new ReloadCollection(obj, clazz));
 	}
 
 
 	private class Save extends Execute<Boolean> {
 
-		private Object _toSave;
+		private IDomain _toSave;
 
-		public Save(Object toSave) {
+		public Save(IDomain toSave) {
 			_toSave = toSave;
 		}
 
 		@Override
 		public Boolean execute(ISession session, EntityBroker broker) {
-			 return broker.saveEntity(session, (IDomain) _toSave);
+			 return broker.saveEntity(session, _toSave);
 		}
 	}
 
-	public boolean save(Object obj) throws FacadeException {
+	public boolean save(IDomain obj) throws FacadeException {
 		return (boolean)worker(obj.getClass(), new Save(obj));
+	}
+
+	private class SaveAll extends Execute<Boolean> {
+
+		private Collection<IDomain> _toSave;
+
+		public SaveAll(Collection<IDomain> toSave) {
+			_toSave = toSave;
+		}
+
+		@Override
+		public Boolean execute(ISession session, EntityBroker broker) {
+			return broker.saveAll(session, _toSave);
+		}
+	}
+
+	public boolean saveAll(Collection<IDomain> obj) throws FacadeException {
+		return (boolean)worker(obj.getClass(), new SaveAll(obj));
 	}
 
 	private class Delete extends Execute<Boolean> {
 
-		private Object _toDelete;
+		private IDomain _toDelete;
 
-		public Delete(Object toDelete) {
+		public Delete(IDomain toDelete) {
 			_toDelete = toDelete;
 		}
 
@@ -188,8 +206,26 @@ public class Facade {
 		}
 	}
 
-	public boolean delete(Object obj) throws FacadeException {
+	public boolean delete(IDomain obj) throws FacadeException {
 		return (Boolean)worker(obj.getClass(), new Delete(obj));
+	}
+
+	private class DeleteAll extends Execute<Boolean> {
+
+		private Collection<IDomain> _toDelete;
+
+		public DeleteAll(Collection<IDomain> toDelete) {
+			_toDelete = toDelete;
+		}
+
+		@Override
+		public Boolean execute(ISession session, EntityBroker broker) {
+			return broker.deleteAll(session, _toDelete);
+		}
+	}
+
+	public boolean deleteAll(Collection<IDomain> obj) throws FacadeException {
+		return (Boolean)worker(obj.getClass(), new DeleteAll(obj));
 	}
 
 	protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
