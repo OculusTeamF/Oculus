@@ -193,7 +193,7 @@ public class PatientQueue implements ILogger{
 
         // remove patient from queuelist
         for (QueueEntry qe : queue) {
-            if (qe.getPatient().getPatientID() == patient.getPatientID()) {
+            if (qe.getPatient().getId() == patient.getId()) {
                 queue.remove(qe);
             }
         }
