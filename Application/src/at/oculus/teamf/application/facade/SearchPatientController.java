@@ -109,7 +109,7 @@ public class SearchPatientController implements ILogger{
         Collection <Patient> selectedPatients = new LinkedList<Patient>();
 
         for(Patient patient: patients){
-            if (svn.equals(patient.getSvn())){
+            if (svn.equals(patient.getSocialInsuranceNr())){
                 selectedPatients.add(patient);
             }
         }
