@@ -2,21 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="095d09d7-306e-46ec-96aa-88ac0e77842f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" afterPath="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/Persistence.iml" afterPath="$PROJECT_DIR$/Persistence/Persistence.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java" afterPath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OculusGit.iws" />
@@ -76,8 +61,8 @@
       <file leaf-file-name="QueueBrokerTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38501742" vertical-offset="124" max-vertical-offset="1410">
-              <caret line="43" column="75" selection-start-line="43" selection-start-column="75" selection-end-line="43" selection-end-column="75" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1410">
+              <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -98,8 +83,8 @@
       <file leaf-file-name="EntityBroker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1279" max-vertical-offset="4035">
-              <caret line="118" column="26" selection-start-line="118" selection-start-column="26" selection-end-line="118" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1264" max-vertical-offset="4035">
+              <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,7 +103,7 @@
       <file leaf-file-name="QueueEntry.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/QueueEntry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
+            <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="990">
               <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
               <folding />
             </state>
@@ -128,13 +113,10 @@
       <file leaf-file-name="QueueBroker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="759" max-vertical-offset="1455">
-              <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="1320">
+              <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
               <folding>
-                <element signature="e#0#4143#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#1273#1274#0" expanded="true" />
-                <element signature="e#1322#1323#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -143,8 +125,8 @@
       <file leaf-file-name="PatientBroker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1560">
-              <caret line="82" column="42" selection-start-line="82" selection-start-column="42" selection-end-line="82" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="1560">
+              <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -153,75 +135,10 @@
       <file leaf-file-name="Patient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="173" max-vertical-offset="3180">
-              <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2115">
+              <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
               <folding>
-                <element signature="e#0#4611#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#1898#1899#0" expanded="true" />
-                <element signature="e#1922#1923#0" expanded="true" />
-                <element signature="e#1958#1959#0" expanded="true" />
-                <element signature="e#1991#1992#0" expanded="true" />
-                <element signature="e#2041#2042#0" expanded="true" />
-                <element signature="e#2079#2080#0" expanded="true" />
-                <element signature="e#2114#2115#0" expanded="true" />
-                <element signature="e#2146#2147#0" expanded="true" />
-                <element signature="e#2287#2288#0" expanded="true" />
-                <element signature="e#2317#2318#0" expanded="true" />
-                <element signature="e#2361#2362#0" expanded="true" />
-                <element signature="e#2394#2395#0" expanded="true" />
-                <element signature="e#2427#2428#0" expanded="true" />
-                <element signature="e#2457#2458#0" expanded="true" />
-                <element signature="e#2501#2502#0" expanded="true" />
-                <element signature="e#2533#2534#0" expanded="true" />
-                <element signature="e#2914#2915#0" expanded="true" />
-                <element signature="e#2962#2963#0" expanded="true" />
-                <element signature="e#3003#3004#0" expanded="true" />
-                <element signature="e#3035#3036#0" expanded="true" />
-                <element signature="e#3098#3099#0" expanded="true" />
-                <element signature="e#3143#3144#0" expanded="true" />
-                <element signature="e#3173#3174#0" expanded="true" />
-                <element signature="e#3196#3197#0" expanded="true" />
-                <element signature="e#3239#3240#0" expanded="true" />
-                <element signature="e#3266#3267#0" expanded="true" />
-                <element signature="e#3296#3297#0" expanded="true" />
-                <element signature="e#3317#3318#0" expanded="true" />
-                <element signature="e#3358#3359#0" expanded="true" />
-                <element signature="e#3381#3382#0" expanded="true" />
-                <element signature="e#3415#3416#0" expanded="true" />
-                <element signature="e#3440#3441#0" expanded="true" />
-                <element signature="e#3489#3490#0" expanded="true" />
-                <element signature="e#3520#3521#0" expanded="true" />
-                <element signature="e#3548#3549#0" expanded="true" />
-                <element signature="e#3567#3568#0" expanded="true" />
-                <element signature="e#3604#3605#0" expanded="true" />
-                <element signature="e#3623#3624#0" expanded="true" />
-                <element signature="e#3661#3662#0" expanded="true" />
-                <element signature="e#3690#3691#0" expanded="true" />
-                <element signature="e#3747#3748#0" expanded="true" />
-                <element signature="e#3786#3787#0" expanded="true" />
-                <element signature="e#3815#3816#0" expanded="true" />
-                <element signature="e#3835#3836#0" expanded="true" />
-                <element signature="e#3874#3875#0" expanded="true" />
-                <element signature="e#3895#3896#0" expanded="true" />
-                <element signature="e#3924#3925#0" expanded="true" />
-                <element signature="e#3944#3945#0" expanded="true" />
-                <element signature="e#3983#3984#0" expanded="true" />
-                <element signature="e#4004#4005#0" expanded="true" />
-                <element signature="e#4035#4036#0" expanded="true" />
-                <element signature="e#4057#4058#0" expanded="true" />
-                <element signature="e#4100#4101#0" expanded="true" />
-                <element signature="e#4125#4126#0" expanded="true" />
-                <element signature="e#4166#4167#0" expanded="true" />
-                <element signature="e#4198#4199#0" expanded="true" />
-                <element signature="e#4261#4262#0" expanded="true" />
-                <element signature="e#4306#4307#0" expanded="true" />
-                <element signature="e#4349#4350#0" expanded="true" />
-                <element signature="e#4383#4384#0" expanded="true" />
-                <element signature="e#4450#4451#0" expanded="true" />
-                <element signature="e#4499#4500#0" expanded="true" />
-                <element signature="e#4557#4558#0" expanded="true" />
-                <element signature="e#4607#4608#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -230,8 +147,8 @@
       <file leaf-file-name="IPatient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
-              <caret line="36" column="42" selection-start-line="36" selection-start-column="42" selection-end-line="36" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="675">
+              <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -244,13 +161,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master_dagrisa" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/Technical/src/at/oculus/teamf/technical/loggin/ILogger.java" />
+        <option value="$PROJECT_DIR$/Technical/src/log4j2.xml" />
+        <option value="$PROJECT_DIR$/Technical/src/at/oculus/teamf/technical/tests/logger_testing.java" />
         <option value="$PROJECT_DIR$/Technical/src/at/oculus/teamf/technical/loggin/LoggerLog4J.java" />
         <option value="$PROJECT_DIR$/Technical/Technical.iml" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistencetests/DoctorBrokerTest.java" />
@@ -259,6 +179,8 @@
         <option value="$PROJECT_DIR$/.idea/.gitignore" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBrokerTest.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" />
+        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/CalendarEventTypeBroker.java" />
         <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/BrokerTest.java" />
         <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/CalendarEventBokerTest.java" />
@@ -279,29 +201,24 @@
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/CalendarEvent.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/EventType.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/FirstAppointment.java" />
+        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" />
+        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/QueueEntry.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Receptionist.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/ReloadComponent.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/DoctorEntity.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/OrthoptistBroker.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Doctor.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" />
         <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/OrthoptistBrokerTest.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/CalendarEntity.java" />
         <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/DoctorBrokerTest.java" />
-        <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/CalendarEventTypeBrokerTest.java" />
-        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
-        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/Facade.java" />
-        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/QueueEntry.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java" />
-        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" />
-        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
+        <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/CalendarEventTypeBrokerTest.java" />
         <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java" />
+        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/Facade.java" />
       </list>
     </option>
   </component>
@@ -371,6 +288,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -423,68 +341,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Presentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Presentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Presentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Main.java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -691,7 +547,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
@@ -714,7 +569,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="dynamic.classpath" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode" />
+    <property name="options.lastSelected" value="reference.projectsettings.compiler.excludes" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="FullScreen" value="false" />
@@ -1196,8 +1051,7 @@
       <workItem from="1428910973465" duration="99000" />
       <workItem from="1428911123002" duration="44000" />
       <workItem from="1428911770939" duration="1536000" />
-      <workItem from="1428913411179" duration="2015000" />
-      <workItem from="1428915740130" duration="8509000" />
+      <workItem from="1428928046493" duration="29000" />
     </task>
     <task id="LOCAL-00001" summary="logger test">
       <created>1427830175460</created>
@@ -1301,26 +1155,19 @@
       <option name="project" value="LOCAL" />
       <updated>1428756074801</updated>
     </task>
-    <task id="LOCAL-00018" summary="libraries dependency fix#3747239 !">
-      <created>1428913442727</created>
-      <option name="number" value="00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1428913442738</updated>
-    </task>
-    <option name="localTasksCounter" value="19" />
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107102000" />
+    <option name="totallyTimeSpent" value="96613000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="979" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282887" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1329,22 +1176,23 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30034924" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24875896" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24875896" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2394095" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2498621" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498621" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282887" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30034924" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1372,9 +1220,9 @@
     <MESSAGE value="libraries dependencies fix#3" />
     <MESSAGE value="presentation layer excluded" />
     <MESSAGE value="presentation layer renamed" />
-    <MESSAGE value="deleteEntity()" />
     <MESSAGE value="libraries dependency fix#3747239 !" />
-    <option name="LAST_COMMIT_MESSAGE" value="libraries dependency fix#3747239 !" />
+    <MESSAGE value="deleteEntity()" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleteEntity()" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1387,6 +1235,24 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2115">
+          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="675">
+          <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/OrthoptistAppointment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15679443" vertical-offset="0" max-vertical-offset="574">
@@ -1553,7 +1419,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
           <caret line="38" column="61" selection-start-line="38" selection-start-column="61" selection-end-line="38" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1588,7 +1453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="1605">
           <caret line="96" column="37" selection-start-line="96" selection-start-column="37" selection-end-line="96" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1629,29 +1493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="900">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#2156#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/main.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1935">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5749129" vertical-offset="0" max-vertical-offset="574">
-          <caret line="33" column="28" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1659,10 +1500,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1650">
           <caret line="76" column="34" selection-start-line="76" selection-start-column="34" selection-end-line="76" selection-end-column="34" />
-          <folding>
-            <element signature="e#4549#4550#0" expanded="true" />
-            <element signature="e#4610#4611#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1705,89 +1543,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="3045">
           <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
-          <caret line="36" column="42" selection-start-line="36" selection-start-column="42" selection-end-line="36" selection-end-column="42" />
+          <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="173" max-vertical-offset="3180">
-          <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="53" max-vertical-offset="1800">
+          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
           <folding>
-            <element signature="e#0#4611#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#1898#1899#0" expanded="true" />
-            <element signature="e#1922#1923#0" expanded="true" />
-            <element signature="e#1958#1959#0" expanded="true" />
-            <element signature="e#1991#1992#0" expanded="true" />
-            <element signature="e#2041#2042#0" expanded="true" />
-            <element signature="e#2079#2080#0" expanded="true" />
-            <element signature="e#2114#2115#0" expanded="true" />
-            <element signature="e#2146#2147#0" expanded="true" />
-            <element signature="e#2287#2288#0" expanded="true" />
-            <element signature="e#2317#2318#0" expanded="true" />
-            <element signature="e#2361#2362#0" expanded="true" />
-            <element signature="e#2394#2395#0" expanded="true" />
-            <element signature="e#2427#2428#0" expanded="true" />
-            <element signature="e#2457#2458#0" expanded="true" />
-            <element signature="e#2501#2502#0" expanded="true" />
-            <element signature="e#2533#2534#0" expanded="true" />
-            <element signature="e#2914#2915#0" expanded="true" />
-            <element signature="e#2962#2963#0" expanded="true" />
-            <element signature="e#3003#3004#0" expanded="true" />
-            <element signature="e#3035#3036#0" expanded="true" />
-            <element signature="e#3098#3099#0" expanded="true" />
-            <element signature="e#3143#3144#0" expanded="true" />
-            <element signature="e#3173#3174#0" expanded="true" />
-            <element signature="e#3196#3197#0" expanded="true" />
-            <element signature="e#3239#3240#0" expanded="true" />
-            <element signature="e#3266#3267#0" expanded="true" />
-            <element signature="e#3296#3297#0" expanded="true" />
-            <element signature="e#3317#3318#0" expanded="true" />
-            <element signature="e#3358#3359#0" expanded="true" />
-            <element signature="e#3381#3382#0" expanded="true" />
-            <element signature="e#3415#3416#0" expanded="true" />
-            <element signature="e#3440#3441#0" expanded="true" />
-            <element signature="e#3489#3490#0" expanded="true" />
-            <element signature="e#3520#3521#0" expanded="true" />
-            <element signature="e#3548#3549#0" expanded="true" />
-            <element signature="e#3567#3568#0" expanded="true" />
-            <element signature="e#3604#3605#0" expanded="true" />
-            <element signature="e#3623#3624#0" expanded="true" />
-            <element signature="e#3661#3662#0" expanded="true" />
-            <element signature="e#3690#3691#0" expanded="true" />
-            <element signature="e#3747#3748#0" expanded="true" />
-            <element signature="e#3786#3787#0" expanded="true" />
-            <element signature="e#3815#3816#0" expanded="true" />
-            <element signature="e#3835#3836#0" expanded="true" />
-            <element signature="e#3874#3875#0" expanded="true" />
-            <element signature="e#3895#3896#0" expanded="true" />
-            <element signature="e#3924#3925#0" expanded="true" />
-            <element signature="e#3944#3945#0" expanded="true" />
-            <element signature="e#3983#3984#0" expanded="true" />
-            <element signature="e#4004#4005#0" expanded="true" />
-            <element signature="e#4035#4036#0" expanded="true" />
-            <element signature="e#4057#4058#0" expanded="true" />
-            <element signature="e#4100#4101#0" expanded="true" />
-            <element signature="e#4125#4126#0" expanded="true" />
-            <element signature="e#4166#4167#0" expanded="true" />
-            <element signature="e#4198#4199#0" expanded="true" />
-            <element signature="e#4261#4262#0" expanded="true" />
-            <element signature="e#4306#4307#0" expanded="true" />
-            <element signature="e#4349#4350#0" expanded="true" />
-            <element signature="e#4383#4384#0" expanded="true" />
-            <element signature="e#4450#4451#0" expanded="true" />
-            <element signature="e#4499#4500#0" expanded="true" />
-            <element signature="e#4557#4558#0" expanded="true" />
-            <element signature="e#4607#4608#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1802,21 +1574,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="759" max-vertical-offset="1455">
-          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="264" max-vertical-offset="960">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
           <folding>
-            <element signature="e#0#4143#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#1273#1274#0" expanded="true" />
-            <element signature="e#1322#1323#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1560">
-          <caret line="82" column="42" selection-start-line="82" selection-start-column="42" selection-end-line="82" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="154" max-vertical-offset="1050">
+          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1833,8 +1602,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1279" max-vertical-offset="4035">
-          <caret line="118" column="26" selection-start-line="118" selection-start-column="26" selection-end-line="118" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1264" max-vertical-offset="4035">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1843,7 +1612,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="1440">
           <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1857,8 +1625,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38501742" vertical-offset="124" max-vertical-offset="1410">
-          <caret line="43" column="75" selection-start-line="43" selection-start-column="75" selection-end-line="43" selection-end-column="75" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1410">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
           <folding />
         </state>
       </provider>
