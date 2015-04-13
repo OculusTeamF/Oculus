@@ -25,6 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -44,6 +45,7 @@ public class searchPatientController {
     @FXML public DatePicker searchPatientBday;
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
+    @FXML public Button searchPatientButton;
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
