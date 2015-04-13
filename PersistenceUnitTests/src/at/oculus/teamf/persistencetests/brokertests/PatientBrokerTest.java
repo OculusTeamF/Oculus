@@ -9,10 +9,13 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
@@ -21,28 +24,53 @@ import static junit.framework.Assert.assertTrue;
  * Created by Norskan on 10.04.2015.
  */
 public class PatientBrokerTest extends BrokerTest {
+	private Patient _patient;
+
 	@Override
 	public void setUp() {
-
+		_patient = new Patient();
+		_patient.setFirstName("Donald");
+		_patient.setLastName("Ahoi");
+		_patient.setSocialInsuranceNr("1234567890");
+		_patient.setGender(Gender.Male);
+		_patient.setCountryIsoCode("AT");
+		_patient.setStreet("Blastraße 18e");
+		_patient.setCity("Entenhausen");
+		_patient.setChildhoodAilments("Kinder krank heiten");
+		_patient.setAllergy("Allergien");
+		_patient.setEmail("donald.ahoi@test.com");
+		_patient.setMedicineIntolerance("Medizin Unverträglichkeiten");
+		_patient.setPhone("+43 664 987356 34");
+		_patient.setPostalCode("4633");
+		try {
+			assertTrue(Facade.getInstance().save(_patient));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+		assertTrue(_patient.getId()>0);
 	}
 
 	@Override
 	public void tearDown() {
-
+		try {
+			assertTrue(Facade.getInstance().delete(_patient));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
     public void testGetById() {
         Patient patient = null;
         try {
-            patient = Facade.getInstance().getById(Patient.class, 1);
+            patient = Facade.getInstance().getById(Patient.class, _patient.getId());
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
         }
 
         assertTrue(patient != null);
-        assertTrue(patient.getFirstName().equals("Donald"));
+        assertTrue(patient.getFirstName().equals(_patient.getFirstName()));
     }
 
     @Override
@@ -56,7 +84,7 @@ public class PatientBrokerTest extends BrokerTest {
         }
 
         assertTrue(patients != null);
-        assertTrue(patients.size() == 72);
+        assertTrue(patients.size() > 1);
 
     }
 

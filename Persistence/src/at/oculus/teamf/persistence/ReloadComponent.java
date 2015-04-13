@@ -86,7 +86,7 @@ public class ReloadComponent {
 		//convert database entity collection to domain entity collection
 		Collection objects = new ArrayList();
 		for (Object obj : entities) {
-			objects.add(toLoadClassDomainBroker.persitentToDomain((IEntity) obj));
+			objects.add(toLoadClassDomainBroker.persistentToDomain((IEntity) obj));
 		}
 
 		return objects;

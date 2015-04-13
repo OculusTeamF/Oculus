@@ -31,7 +31,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	}
 
 	@Override
-	protected Patient persitentToDomain(PatientEntity entity) throws FacadeException {
+	protected Patient persistentToDomain(PatientEntity entity) throws FacadeException {
 		Patient patient = new Patient();
 		patient.setId(entity.getId());
 		patient.setFirstName(entity.getFirstName());
@@ -39,7 +39,8 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		patient.setSocialInsuranceNr(entity.getSocialInsuranceNr());
 
 		if(entity.getDoctor() != null) {
-			patient.setDoctor((Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
+			patient.setDoctor((Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(
+					entity.getDoctor()));
 		}
 
 		if(entity.getGender().equals('M')) {
@@ -63,8 +64,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	}
 
 	@Override
-	protected PatientEntity domainToPersitent(Patient obj) {
-		//Todo: reverse
+	protected PatientEntity domainToPersistent(Patient obj) {
         PatientEntity patientEntity = new PatientEntity();
         patientEntity.setId(obj.getId());
         patientEntity.setFirstName(obj.getFirstName());
