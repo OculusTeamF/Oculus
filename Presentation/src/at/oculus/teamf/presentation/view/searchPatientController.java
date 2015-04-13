@@ -25,6 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
@@ -38,13 +39,15 @@ import jfxtras.labs.scene.control.window.Window;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Created by Karo on 11.04.2015.
  */
 
-public class searchPatientController {
+public class searchPatientController implements Initializable{
 
     @FXML  public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
@@ -54,8 +57,12 @@ public class searchPatientController {
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
-    /*private TestClass test;
-    private MyPatient _test_patient;*/
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        searchPatientLastname.requestFocus();
+    }
 
     public void openPatientRecord(Event event)
      {
@@ -78,6 +85,7 @@ public class searchPatientController {
 
     public void searchPatient(ActionEvent actionEvent) {
 
+        //TODO: Focus on Lastneme at the beginning
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
@@ -86,21 +94,27 @@ public class searchPatientController {
             lastName = null;
         }
         if (firstName.length() == 0) {
-            firstName=null;
+            firstName = null;
         }
-        if (svn.length()==0) {
-            svn=null;
+        if (svn.length() == 0) {
+            svn = null;
         }
 
         ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));
 
-        if(patientlist != null)
+        if(patientlist.size() > 0)
         {
             searchPatientList.setItems(patientlist);
         }else{
             MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
             mb.showAndWait();
+            searchPatientLastname.clear();
+            searchPatientFirstname.clear();
+            searchPatientSVN.clear();
+
         }
 
     }
+
+
 }

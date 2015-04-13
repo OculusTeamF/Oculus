@@ -40,14 +40,13 @@ public class MainController implements Initializable {
     @FXML private TabPane displayPane;
     @FXML private ListView wList1, wList2, wList3, wListO;
 
-    private Queue _patientQueue;
     private Collection<PatientQueue> _allQueues;
     private Tab _newPatientTab;
     private Tab _calendarTab;
     private Tab _searchPatientTab;
     private User _user;
     private StartupController _startupController = new StartupController();
-    private List<Patient> _user1Queue = null;
+
 
     /**
      * Initialize the waiting queue
@@ -61,7 +60,6 @@ public class MainController implements Initializable {
         String lname;
         String fname;
 
-        _user = _startupController.getUser();
         _allQueues =  _startupController.getAllQueues();
 
         for(PatientQueue pq : _allQueues)
