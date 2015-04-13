@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e254defe-7300-411b-8b11-ccef44fce2d5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/DoctorBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/IPatient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" afterPath="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/PatientBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/Persistence.iml" afterPath="$PROJECT_DIR$/Persistence/Persistence.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java" afterPath="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/brokertests/QueueBrokerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" afterPath="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/QueueEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="OculusGit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,7 +75,18 @@
     <favorites_list name="OculusGit" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.018028846" vertical-offset="0" max-vertical-offset="832">
+              <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -110,7 +108,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/InvalideReloadParameterExeption.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/ReloadInterfaceNotImplementedException.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/FacadeException.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/ReloadException.java" />
@@ -161,6 +158,7 @@
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientController.java" />
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/StartupController.java" />
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/ReceivePatientController.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -212,8 +210,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -348,8 +344,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OculusGit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Oculus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -820,6 +832,7 @@
       <workItem from="1428923813938" duration="1924000" />
       <workItem from="1428925946344" duration="2560000" />
       <workItem from="1428934329002" duration="42000" />
+      <workItem from="1428934568211" duration="128000" />
     </task>
     <task id="LOCAL-00001" summary="It compiles! :)">
       <created>1428397587232</created>
@@ -891,7 +904,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53830000" />
+    <option name="totallyTimeSpent" value="53958000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -904,7 +917,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="979" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -916,7 +929,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.05771812" sideWeight="0.50513476" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991013" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30034924" sideWeight="0.49743262" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30034924" sideWeight="0.49743262" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21089298" sideWeight="0.3395973" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1194,13 +1207,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/main.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
@@ -1330,6 +1336,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.67164177" vertical-offset="0" max-vertical-offset="603">
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.018028846" vertical-offset="0" max-vertical-offset="832">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
