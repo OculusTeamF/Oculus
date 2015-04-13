@@ -58,20 +58,36 @@ public class SearchPatientController implements ILogger{
 
         Facade facade = Facade.getInstance();
 
-        Collection <Patient> patients = new LinkedList<Patient>();
+        Collection<Patient> patients = new LinkedList<Patient>();
+
+        try {
+            patients = facade.getAll(Patient.class);
+        } catch (FacadeException e) {
+            log.warn("Facade Exception caught!");
+            e.printStackTrace();
+            //TODO
+        }
+
+        Collection<Patient> selectedPatients = new LinkedList<Patient>();
 
         if (svn != null){
-            patients = getPatientBySocialInsuranceNumber(facade, svn);
-            if (patients.size() <= 1) {
-                return patients;
+            selectedPatients = getPatientBySocialInsuranceNumber(patients, svn);
+            if (selectedPatients.size() <= 1) {
+                return selectedPatients;
             }
-        } else if (lastName != null) {
-            patients = getPatientByLastName(facade, lastName);
-            if (patients.size() <= 1){
-                return patients;
-            } else {
-                patients = getPatientByFirstName(facade, firstName, patients);
+        }
+        if (lastName != null) {
+            selectedPatients = getPatientByLastName(patients, lastName);
+            if (selectedPatients.size() <= 1){
+                return selectedPatients;
+            } else if (firstName != null){
+                selectedPatients = getPatientByFirstName(selectedPatients, firstName);
+                return selectedPatients;
             }
+        }
+        if (firstName != null){
+            selectedPatients = getPatientByFirstName(patients, firstName);
+            return selectedPatients;
         }
         return patients;
     }
@@ -84,20 +100,11 @@ public class SearchPatientController implements ILogger{
      * insurance number. If a match occurs the patient is added to a collection of patients and finally returned.
      *
      *<b>Parameter</b>
-     * @param facade description
+     * @param patients description
      * @param svn description
      */
 
-    private Collection <Patient> getPatientBySocialInsuranceNumber(Facade facade, String svn){
-
-        Collection<Patient> patients = new LinkedList<Patient>();
-        try {
-            patients = facade.getAll(Patient.class);
-        } catch (FacadeException e) {
-            log.warn("Facade Exception caught!");
-            e.printStackTrace();
-            //TODO
-        }
+    private Collection <Patient> getPatientBySocialInsuranceNumber(Collection <Patient> patients, String svn){
 
         Collection <Patient> selectedPatients = new LinkedList<Patient>();
 
@@ -118,20 +125,11 @@ public class SearchPatientController implements ILogger{
      * last name matches the search string the patient will be added to a new list which will be returned at the end.
      *
      *<b>Parameter</b>
-     * @param facade description
+     * @param patients description
      * @param lastName description
      */
 
-    private Collection <Patient> getPatientByLastName(Facade facade, String lastName){
-
-        Collection<Patient> patients = new LinkedList<Patient>();
-        try {
-            patients = facade.getAll(Patient.class);
-        } catch (FacadeException e) {
-            log.warn("Facade exception caught!");
-            e.printStackTrace();
-            //TODO
-        }
+    private Collection <Patient> getPatientByLastName(Collection<Patient> patients, String lastName){
 
         Collection<Patient> selectedPatients = new LinkedList<Patient>();
 
@@ -153,12 +151,11 @@ public class SearchPatientController implements ILogger{
      *  will be returned.
      *
      *<b>Parameter</b>
-     * @param facade description
-     * @param firstName description
      * @param patients description
+     * @param firstName description
      */
 
-    private Collection<Patient> getPatientByFirstName(Facade facade, String firstName, Collection<Patient> patients) {
+    private Collection<Patient> getPatientByFirstName(Collection<Patient> patients, String firstName) {
 
         Collection<Patient> selectedPatients = new LinkedList<Patient>();
 
@@ -169,5 +166,4 @@ public class SearchPatientController implements ILogger{
         }
         return selectedPatients;
     }
-
 }
