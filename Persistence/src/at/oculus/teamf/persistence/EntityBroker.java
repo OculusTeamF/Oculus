@@ -209,6 +209,33 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         return true;
     }
 
+	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs){
+		P entity = null;
+
+		try {
+			session.beginTransaction();
+			for(Object obj : domainObjs) {
+				entity = domainToPersitent((D) obj);
+				session.delete(entity);
+			}
+			session.commit();
+
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (AlreadyInTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (NoTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotMappedException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
     /**
      * Adds additional entity class mappings to the broker.
      * @param clazz that needs to map
