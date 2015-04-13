@@ -20,6 +20,16 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 public class QueueBrokerTest extends BrokerTest {
+	@Override
+	public void setUp() {
+		
+	}
+
+	@Override
+	public void tearDown() {
+
+	}
+
 	@Test
 	@Override
 	public void testGetById() {
@@ -47,16 +57,5 @@ public class QueueBrokerTest extends BrokerTest {
 
 		assertTrue(queueEntries != null);
 		assertTrue(queueEntries.size() > 1);
-	}
-
-	@Test
-	@Override
-	public void testSave() {
-		//not needed
-	}
-
-	@Override
-	public void testDelete() {
-		//not needed
 	}
 }

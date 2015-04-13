@@ -21,9 +21,17 @@ import static junit.framework.Assert.assertTrue;
  * Created by Norskan on 10.04.2015.
  */
 public class PatientBrokerTest extends BrokerTest {
+	@Override
+	public void setUp() {
 
+	}
 
-    @Override
+	@Override
+	public void tearDown() {
+
+	}
+
+	@Override
     public void testGetById() {
         Patient patient = null;
         try {
@@ -51,16 +59,6 @@ public class PatientBrokerTest extends BrokerTest {
         assertTrue(patients.size() == 72);
 
     }
-
-    @Override
-    public void testSave() {
-        //not needed currently
-    }
-
-	@Override
-	public void testDelete() {
-		//not needed
-	}
 
 	public void testReload() {
         Patient patient = null;

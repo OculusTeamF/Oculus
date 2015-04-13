@@ -20,7 +20,17 @@ import java.util.Collection;
 import static org.junit.Assert.assertTrue;
 
 public class OrthoptistBrokerTest extends BrokerTest {
-    @Test
+	@Override
+	public void setUp() {
+
+	}
+
+	@Override
+	public void tearDown() {
+
+	}
+
+	@Test
     @Override
     public void testGetById() {
         Facade facade = Facade.getInstance();
@@ -48,16 +58,4 @@ public class OrthoptistBrokerTest extends BrokerTest {
 	    Assert.assertTrue(orthoptists != null);
 	    Assert.assertTrue(orthoptists.size() > 1);
     }
-
-    @Test
-    @Override
-    public void testSave() {
-        //TODO implement
-    }
-
-	@Override
-	public void testDelete() {
-		//not needed
-	}
-
 }

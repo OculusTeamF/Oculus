@@ -48,8 +48,8 @@ public class Doctor extends User implements IDomain {
         _id = id;
     }
 
-    public Calendar getCalendar() {
-        return _calendar;
+	public Calendar getCalendar() {
+		return _calendar;
     }
     public void setCalendar(Calendar _calendar) {
         this._calendar = _calendar;
@@ -64,7 +64,7 @@ public class Doctor extends User implements IDomain {
     }
 
     public Doctor getDoctorSubstitude() {
-        return _doctorSubstitude;
+	    return _doctorSubstitude;
     }
     public void setDoctorSubstitude(Doctor doctorSubstitude) {
         _doctorSubstitude = doctorSubstitude;

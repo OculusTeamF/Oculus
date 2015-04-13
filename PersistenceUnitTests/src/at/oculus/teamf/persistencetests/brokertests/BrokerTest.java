@@ -9,22 +9,23 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Created by Norskan on 08.04.2015.
  */
 public abstract class BrokerTest {
+	@Before
+	public abstract void setUp();
+
+	@After
+	public abstract void tearDown();
 
 	@Test
 	public abstract void testGetById();
 
 	@Test
 	public abstract void testGetAll();
-
-	@Test
-	public abstract void testSave();
-
-	@Test
-	public abstract void testDelete();
 }

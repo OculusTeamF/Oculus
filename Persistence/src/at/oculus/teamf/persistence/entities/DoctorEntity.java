@@ -29,7 +29,8 @@ public class DoctorEntity implements IEntity {
     private Collection<QueueEntity> _queues;
 
     @Id
-    @Column(name = "doctorId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "doctorId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
@@ -93,7 +94,7 @@ public class DoctorEntity implements IEntity {
         return result;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
@@ -103,7 +104,7 @@ public class DoctorEntity implements IEntity {
         this._user = user;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public CalendarEntity getCalendar() {
         return _calendar;
@@ -113,7 +114,7 @@ public class DoctorEntity implements IEntity {
         this._calendar = calendar;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorIdSubstitute", referencedColumnName = "doctorId")
     public DoctorEntity getDoctorSubstitute() {
         return _doctorSubstitute;
@@ -124,7 +125,7 @@ public class DoctorEntity implements IEntity {
     }
 
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     public Collection<PatientEntity> getPatients() {
         return _patients;
     }
@@ -133,7 +134,7 @@ public class DoctorEntity implements IEntity {
         this._patients = patients;
     }
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

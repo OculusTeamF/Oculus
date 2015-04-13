@@ -28,8 +28,13 @@ public class DoctorBrokerTest extends BrokerTest {
 	private Doctor _doctor;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		// TODO implement
+	}
+
+	@Override
+	public void tearDown() {
+
 	}
 
 	@Test
@@ -38,7 +43,9 @@ public class DoctorBrokerTest extends BrokerTest {
         Facade facade = Facade.getInstance();
         Doctor doctor = null;
         try {
+	        long startTime = System.nanoTime();
             doctor = facade.getById(Doctor.class, 1);
+	        System.out.println("Doctor with ID=1 loaded in " + ((System.nanoTime() - startTime)/1000000) + "ms");
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
@@ -61,17 +68,6 @@ public class DoctorBrokerTest extends BrokerTest {
 	    assertTrue(doctors.size() > 1);
     }
 
-    @Test
-    @Override
-    public void testSave() {
-	    //not needed
-    }
-
-	@Override
-	public void testDelete() {
-		//not needed
-	}
-
 	@Test
     public void testReload() {
         Facade facade = Facade.getInstance();
@@ -83,6 +79,8 @@ public class DoctorBrokerTest extends BrokerTest {
             e.printStackTrace();
         }
         assertTrue(doctor != null);
+		assertTrue(doctor.getCalendar()!=null);
+		assertTrue(doctor.getDoctorSubstitude()==null);
 
         try {
             facade.reloadCollection(doctor, Patient.class);
