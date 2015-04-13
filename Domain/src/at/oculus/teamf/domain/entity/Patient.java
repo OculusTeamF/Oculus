@@ -12,6 +12,7 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
+import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -27,9 +28,19 @@ public class Patient implements IPatient, IDomain {
     private String _firstName;
     private String _lastName;
     private Gender _gender;
-    private String _svn;
+    private String _socialInsuranceNr;
     private Doctor _doctor;
     private Collection<CalendarEvent> _calendarEvents;
+    private Date _birthDay;
+    private String _street;
+    private String _postalCode;
+    private String _city;
+    private String _countryIsoCode;
+    private String _phone;
+    private String _email;
+    private String _allergy;
+    private String _childhoodAilments;
+    private String _medicineIntolerance;
 
     //private EntityBroker eb;
 
@@ -76,14 +87,6 @@ public class Patient implements IPatient, IDomain {
         _gender = _gender;
     }
 
-    public String getSvn() {
-        return _svn;
-    }
-
-    public void setSvn(String svn) {
-        _svn = svn;
-    }
-
     public Doctor getDoctor() {
         return _doctor;
     }
@@ -105,7 +108,96 @@ public class Patient implements IPatient, IDomain {
     public void setCalendarEvents(Collection<CalendarEvent> calendarEvents) {
         _calendarEvents = calendarEvents;
     }
-    //</editor-fold>
+
+	public String getSocialInsuranceNr() {
+		return _socialInsuranceNr;
+	}
+
+	public void setSocialInsuranceNr(String socialInsuranceNr) {
+		_socialInsuranceNr = socialInsuranceNr;
+	}
+
+	public Date getBirthDay() {
+		return _birthDay;
+	}
+
+	public void setBirthDay(Date birthDay) {
+		_birthDay = birthDay;
+	}
+
+	public String getStreet() {
+		return _street;
+	}
+
+	public void setStreet(String street) {
+		_street = street;
+	}
+
+	public String getPostalCode() {
+		return _postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		_postalCode = postalCode;
+	}
+
+	public String getCity() {
+		return _city;
+	}
+
+	public void setCity(String city) {
+		_city = city;
+	}
+
+	public String getCountryIsoCode() {
+		return _countryIsoCode;
+	}
+
+	public void setCountryIsoCode(String countryIsoCode) {
+		_countryIsoCode = countryIsoCode;
+	}
+
+	public String getPhone() {
+		return _phone;
+	}
+
+	public void setPhone(String phone) {
+		_phone = phone;
+	}
+
+	public String getEmail() {
+		return _email;
+	}
+
+	public void setEmail(String email) {
+		_email = email;
+	}
+
+	public String getAllergy() {
+		return _allergy;
+	}
+
+	public void setAllergy(String allergy) {
+		_allergy = allergy;
+	}
+
+	public String getChildhoodAilments() {
+		return _childhoodAilments;
+	}
+
+	public void setChildhoodAilments(String childhoodAilments) {
+		_childhoodAilments = childhoodAilments;
+	}
+
+	public String getMedicineIntolerance() {
+		return _medicineIntolerance;
+	}
+
+	public void setMedicineIntolerance(String medicineIntolerance) {
+		_medicineIntolerance = medicineIntolerance;
+	}
+
+	//</editor-fold>
 
 	@Override
 	public String toString(){

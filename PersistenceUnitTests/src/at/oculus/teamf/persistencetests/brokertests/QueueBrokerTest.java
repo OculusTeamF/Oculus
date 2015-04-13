@@ -31,20 +31,32 @@ public class QueueBrokerTest extends BrokerTest {
 
 	@Override
 	public void setUp() {
-		Patient patient = null;
+		Patient patientOne = null;
+		Patient patientTwo = null;
+		Patient patientThree = null;
 		Doctor doctor = null;
 		Orthoptist orthoptist = null;
 		try {
-			patient = Facade.getInstance().getById(Patient.class, 1);
+			patientOne = Facade.getInstance().getById(Patient.class, 1);
+			patientTwo = Facade.getInstance().getById(Patient.class, 2);
+			patientThree = Facade.getInstance().getById(Patient.class, 3);
 			doctor = Facade.getInstance().getById(Doctor.class, 1);
 			orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
+        assertTrue(patientOne!=null);
+		assertTrue(patientTwo!=null);
+		assertTrue(patientThree!=null);
+        assertTrue(doctor!=null);
+        assertTrue(orthoptist!=null);
 
-		_newDoctorEntry = new QueueEntry(0,patient,doctor,null,0,new Timestamp(new Date().getTime()));
-		_newOrthoptistEntry = new QueueEntry(0,patient,null,orthoptist,0,new Timestamp(new Date().getTime()));
-		_newEntry = new QueueEntry(0,patient,null,null,0,new Timestamp(new Date().getTime()));
+
+		_newDoctorEntry = new QueueEntry(0,patientOne,doctor,null,0,new Timestamp(new Date().getTime()));
+		_newOrthoptistEntry = new QueueEntry(0,patientTwo,null,orthoptist,0,new Timestamp(new Date().getTime()));
+		_newEntry = new QueueEntry(0,patientThree,null,null,0,new Timestamp(new Date().getTime()));
+
+        System.out.println(_newDoctorEntry.getPatient());
 
 		try {
 			assertTrue(Facade.getInstance().save(_newDoctorEntry));
