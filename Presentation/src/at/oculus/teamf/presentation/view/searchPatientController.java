@@ -17,28 +17,63 @@ package at.oculus.teamf.presentation.view;/*package sample;
  ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.Patient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+
 /**
  * Created by Karo on 11.04.2015.
  */
 
 public class searchPatientController {
 
- /*@FXML public ListView searchPatient;
- public Patient patient;
+    @FXML  public TextField searchPatientLastname;
+    @FXML public TextField searchPatientFirstname;
+    @FXML public DatePicker searchPatientBday;
+    @FXML public TextField searchPatientSVN;
+    @FXML public ListView searchPatientList;
 
- public void openPatientRecord(Event event)
- {
-      searchPatient.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>()
-      {
-       @Override
-       public void handle(javafx.scene.input.MouseEvent event)
-       {
-              if(event.getClickCount() == 2)
-              {
-                  currentItemSelected = searchPatient.getSelectionModel().getSelectedItem();
-              }
-       }
-      });
+    private SearchPatientController _searchPatientController = new SearchPatientController();
+    private Patient _patient;
 
- }*/
+    public void openPatientRecord(Event event)
+     {
+         /* searchPatient.setOnMouseClicked(new EventHandler<MouseEvent>()
+          {
+           @Override
+           public void handle(javafx.scene.input.MouseEvent event)
+           {
+               ObservableList<Patient> patientlist;
+               _patient = new Patient();
+
+                  if(event.getClickCount() == 2)
+                  {
+                      patientlist = (ObservableList<Patient>) searchPatient.getSelectionModel().getSelectedItem();
+                  }
+           }
+          });*/
+
+     }
+
+    public void searchPatient(ActionEvent actionEvent) {
+
+        String lastName = searchPatientLastname.getText();
+        String firstName = searchPatientFirstname.getText();
+        String svn = searchPatientSVN.getText();
+        ObservableList<Patient> = FXCollections
+
+        _searchPatientController.searchPatients(svn,lastName,firstName);
+
+        searchPatientList.setItems();
+    }
 }
