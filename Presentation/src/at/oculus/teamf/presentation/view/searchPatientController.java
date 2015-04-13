@@ -19,6 +19,7 @@ package at.oculus.teamf.presentation.view;/*package sample;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.Patient;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,7 +62,12 @@ public class searchPatientController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        searchPatientLastname.requestFocus();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                searchPatientLastname.requestFocus();
+            }
+        });
     }
 
     public void openPatientRecord(Event event)
@@ -85,7 +91,7 @@ public class searchPatientController implements Initializable{
 
     public void searchPatient(ActionEvent actionEvent) {
 
-        //TODO: Focus on Lastneme at the beginning
+        //TODO: Focus on Lastname at the beginning
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
@@ -107,11 +113,13 @@ public class searchPatientController implements Initializable{
             searchPatientList.setItems(patientlist);
         }else{
             MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
+            mb.centerOnScreen();
+
             mb.showAndWait();
             searchPatientLastname.clear();
             searchPatientFirstname.clear();
             searchPatientSVN.clear();
-
+            searchPatientLastname.requestFocus();
         }
 
     }
