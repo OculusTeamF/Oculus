@@ -13,6 +13,7 @@ package at.oculus.teamf.presentation.view;
  */
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.Receptionist;
 import at.oculus.teamf.domain.entity.User;
@@ -32,6 +33,7 @@ import jfxtras.labs.scene.control.window.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
@@ -42,12 +44,13 @@ public class MainController implements Initializable {
     @FXML private ListView wList1, wList2, wList3, wListO;
 
     private Queue _patientQueue;
-    private Collection<PatientQueue> _allQueues;
+    private ObservableList<PatientQueue> _allQueues;
     private Tab _newPatientTab;
     private Tab _calendarTab;
     private Tab _searchPatientTab;
     private User user;
     private StartupController _startupController = new StartupController();
+    private List<Patient> _user1Queue = null;
 
 
     /**
@@ -60,8 +63,10 @@ public class MainController implements Initializable {
 
         user = _startupController.getUser();
 
-       _allQueues = _startupController.getAllQueues(user);
-        wList1.setItems((ObservableList) _allQueues);
+        _allQueues = FXCollections.observableList((List<PatientQueue>) _startupController.getAllQueues());
+        /*_user1Queue.add(_allQueues.get(0));*/
+
+        wList1.setItems(_allQueues);
 
        /*
         ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");

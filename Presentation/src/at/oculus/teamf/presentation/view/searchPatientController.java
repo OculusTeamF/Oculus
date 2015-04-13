@@ -31,6 +31,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.util.List;
+
 /**
  * Created by Karo on 11.04.2015.
  */
@@ -70,10 +72,8 @@ public class searchPatientController {
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
-        ObservableList<Patient> = FXCollections
+        ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));
 
-        _searchPatientController.searchPatients(svn,lastName,firstName);
-
-        searchPatientList.setItems();
+        searchPatientList.setItems(patientlist);
     }
 }
