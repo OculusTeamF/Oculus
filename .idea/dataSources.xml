@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2240632933">
+  <component name="DataSourceManagerImpl" format="xml" hash="2317486426">
     <data-source source="LOCAL" name="MySQL - oculus_f@83.212.126.222" uuid="1bb3786c-7471-447d-9a02-fcb2ec1cdfc4">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>

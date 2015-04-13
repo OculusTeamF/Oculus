@@ -23,17 +23,13 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 public class CalendarEventTypeBrokerTest extends BrokerTest{
-	private Integer _saveId;
 	private EventType _eventType;
 
 	@Override
 	public void setUp() {
 		_eventType = new RegularAppointment(0,"Daniels Spezialtermin",45,"blabla wow");
 		try {
-			System.out.println("before save id = " + _eventType.getId());
 			assertTrue(Facade.getInstance().save(_eventType));
-			_saveId = _eventType.getId();
-			System.out.println("after save id = " + _eventType.getId());
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
@@ -42,7 +38,6 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 	@Override
 	public void tearDown() {
 		try {
-			System.out.println("before delete id = " + _eventType.getId());
 			assertTrue(Facade.getInstance().delete(_eventType));
 		} catch (FacadeException e) {
 			e.printStackTrace();
