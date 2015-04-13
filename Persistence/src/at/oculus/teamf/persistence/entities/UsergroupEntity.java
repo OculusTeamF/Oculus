@@ -17,20 +17,21 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "usergroup", schema = "", catalog = "oculus_f")
-public class UsergroupEntity {
-    private int _userGroupId;
+public class UsergroupEntity implements IEntity {
+    private int _id;
     private String _userGroupName;
     private String _description;
     private Collection<UserEntity> _users;
 
     @Id
-    @Column(name = "userGroupId", nullable = false, insertable = true, updatable = true)
-    public int getUserGroupId() {
-        return _userGroupId;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "userGroupId", nullable = false, insertable = false, updatable = false)
+    public int getId() {
+        return _id;
     }
 
-    public void setUserGroupId(int userGroupId) {
-        this._userGroupId = userGroupId;
+    public void setId(int id) {
+        this._id = id;
     }
 
     @Basic
@@ -60,7 +61,7 @@ public class UsergroupEntity {
 
         UsergroupEntity that = (UsergroupEntity) o;
 
-        if (_userGroupId != that._userGroupId) return false;
+        if (_id != that._id) return false;
         if (_userGroupName != null ? !_userGroupName.equals(that._userGroupName) : that._userGroupName != null)
             return false;
         if (_description != null ? !_description.equals(that._description) : that._description != null) return false;
@@ -70,7 +71,7 @@ public class UsergroupEntity {
 
     @Override
     public int hashCode() {
-        int result = _userGroupId;
+        int result = _id;
         result = 31 * result + (_userGroupName != null ? _userGroupName.hashCode() : 0);
         result = 31 * result + (_description != null ? _description.hashCode() : 0);
         return result;

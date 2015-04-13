@@ -9,19 +9,12 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
-import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.QueueEntry;
-import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.QueueEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 
 /**
  * QueueBroker.java Created by dgr on 08.04.15.
@@ -34,14 +27,33 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
 	@Override
 	protected QueueEntry persitentToDomain(QueueEntity entity) throws FacadeException {
-		return new QueueEntry(entity.getId(), entity.getDoctorId(), entity.getOrthoptistId(), entity.getPatientId(),
-		                      entity.getQueueIdParent(), entity.getArrivalTime(),
-		                      (Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId()));
+		Patient patient = (Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId());
+		Doctor doctor = null;
+		if (entity.getDoctorId() != null) {
+			doctor = (Doctor) Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
+		}
+		Orthoptist orthoptist = null;
+		if (entity.getOrthoptistId() != null) {
+			orthoptist = (Orthoptist) Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
+		}
+		return new QueueEntry(entity.getId(), patient, doctor, orthoptist, entity.getQueueIdParent(),
+		                      entity.getArrivalTime());
 	}
 
 	@Override
-	protected QueueEntity domainToPersitent(QueueEntry obj) {
-		//TODO reverse
-		return new QueueEntity();
+	protected QueueEntity domainToPersitent(QueueEntry queueEntry) {
+		Doctor doctor = queueEntry.getDoctor();
+		Orthoptist orthoptist = queueEntry.getOrthoptist();
+
+		Integer doctorId = null;
+		if (doctor != null) {
+			doctorId = doctor.getId();
+		}
+		Integer orthoptistId = null;
+		if (orthoptist != null) {
+			orthoptistId = orthoptist.getId();
+		}
+		return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId, queueEntry.getPatient().getId(),
+		                       queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
 	}
 }

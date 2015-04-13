@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "doctor", schema = "", catalog = "oculus_f")
-public class DoctorEntity {
+public class DoctorEntity implements IEntity {
     private int _id;
     private Integer _userId;
     private int _calendarId;
@@ -29,7 +29,8 @@ public class DoctorEntity {
     private Collection<QueueEntity> _queues;
 
     @Id
-    @Column(name = "doctorId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "doctorId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
@@ -39,7 +40,7 @@ public class DoctorEntity {
     }
 
     @Basic
-    @Column(name = "userId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "userId", nullable = true, insertable = false, updatable = false)
     public Integer getUserId() {
         return _userId;
     }
@@ -93,7 +94,7 @@ public class DoctorEntity {
         return result;
     }
 
-    /*@ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
@@ -101,9 +102,9 @@ public class DoctorEntity {
 
     public void setUser(UserEntity user) {
         this._user = user;
-    }*/
+    }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public CalendarEntity getCalendar() {
         return _calendar;
@@ -113,7 +114,7 @@ public class DoctorEntity {
         this._calendar = calendar;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorIdSubstitute", referencedColumnName = "doctorId")
     public DoctorEntity getDoctorSubstitute() {
         return _doctorSubstitute;
@@ -124,7 +125,7 @@ public class DoctorEntity {
     }
 
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     public Collection<PatientEntity> getPatients() {
         return _patients;
     }
@@ -133,7 +134,7 @@ public class DoctorEntity {
         this._patients = patients;
     }
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

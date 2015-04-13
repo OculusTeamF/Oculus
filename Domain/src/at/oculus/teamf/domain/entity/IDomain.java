@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.facade;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * IDomain.java Created by oculus on 11.04.15.
  */
-public class CantReloadException extends Exception {
+public interface IDomain {
+	public int getId();
+	public void setId(int id);
 }

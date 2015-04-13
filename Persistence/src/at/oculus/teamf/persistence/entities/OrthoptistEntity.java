@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "orthoptist", schema = "", catalog = "oculus_f")
-public class OrthoptistEntity {
+public class OrthoptistEntity implements IEntity {
     private int _id;
     private Integer _userId;
     private int _calendarId;
@@ -26,17 +26,17 @@ public class OrthoptistEntity {
     private Collection<QueueEntity> _queues;
 
     @Id
-    @Column(name = "orthoptistId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "orthoptistId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
 
-    public void setId(int orthoptistId) {
-        this._id = orthoptistId;
+    public void setId(int id) {_id = id;
     }
 
     @Basic
-    @Column(name = "userId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "userId", nullable = true, insertable = false, updatable = false)
     public Integer getUserId() {
         return _userId;
     }
@@ -46,7 +46,7 @@ public class OrthoptistEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }
@@ -97,7 +97,7 @@ public class OrthoptistEntity {
         this._calendar = calendar;
     }
 
-    @OneToMany(mappedBy = "queue")
+    @OneToMany(mappedBy = "orthoptist")
     public Collection<QueueEntity> getQueues() {
         return _queues;
     }

@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "user", schema = "", catalog = "oculus_f")
-public class UserEntity {
+public class UserEntity implements IEntity {
     private int _id;
     private Integer _userGroupId;
     private String _userName;
@@ -31,7 +31,8 @@ public class UserEntity {
     private UsergroupEntity _usergroup;
 
     @Id
-    @Column(name = "userId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "userId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
@@ -167,7 +168,7 @@ public class UserEntity {
     }
 
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "userGroupId", referencedColumnName = "userGroupId")
     public UsergroupEntity getUsergroup() {
         return _usergroup;
@@ -175,5 +176,5 @@ public class UserEntity {
 
     public void setUsergroup(UsergroupEntity usergroup) {
        _usergroup = usergroup;
-    }
+    }*/
 }

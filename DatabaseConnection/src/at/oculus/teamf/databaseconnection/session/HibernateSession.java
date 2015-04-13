@@ -19,7 +19,6 @@ import java.util.HashSet;
 
 /**
  * Encapsulated hibernate session that can be simple exchanged thought the {@code #ISession} implementation.
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+
 import java.util.Collection;
 
 /**
@@ -17,10 +20,10 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Patient {
+public class Patient implements IPatient, IDomain {
 
     //<editor-fold desc="Attributes">
-    private int _patientID;
+    private int _id;
     private String _firstName;
     private String _lastName;
     private Gender _gender;
@@ -38,13 +41,14 @@ public class Patient {
     }
 
     //<editor-fold desc="Getter/Setter">
-    public int getPatientID() {
 
-        return _patientID;
+    public int getId() {
+
+        return _id;
     }
 
-    public void setPatientID(int patientID) {
-        _patientID = patientID;
+    public void setId(int id) {
+        _id = id;
     }
 
     public String getFirstName() {
@@ -89,6 +93,12 @@ public class Patient {
     }
 
     public Collection<CalendarEvent> getCalendarEvents() {
+        try {
+            Facade.getInstance().reloadCollection(this, CalendarEvent.class);
+        } catch (FacadeException e) {
+            //Todo: add loging
+            e.printStackTrace();
+        }
         return _calendarEvents;
     }
 
@@ -96,4 +106,9 @@ public class Patient {
         _calendarEvents = calendarEvents;
     }
     //</editor-fold>
+
+	@Override
+	public String toString(){
+		return getFirstName() + " " + getLastName();
+	}
 }

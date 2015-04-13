@@ -16,23 +16,24 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "receptionist", schema = "", catalog = "oculus_f")
-public class ReceptionistEntity {
-    private int _receptionistId;
+public class ReceptionistEntity implements IEntity {
+    private int _id;
     private Integer _userId;
     private UserEntity _user;
 
     @Id
-    @Column(name = "receptionistId", nullable = false, insertable = true, updatable = true)
-    public int getReceptionistId() {
-        return _receptionistId;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "receptionistId", nullable = false, insertable = false, updatable = false)
+    public int getId() {
+        return _id;
     }
 
-    public void setReceptionistId(int receptionistId) {
-        receptionistId = receptionistId;
+    public void setId(int id) {
+        _id = id;
     }
 
     @Basic
-    @Column(name = "userId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "userId", nullable = true, insertable = false, updatable = false)
     public Integer getUserId() {
         return _userId;
     }
@@ -48,7 +49,7 @@ public class ReceptionistEntity {
 
         ReceptionistEntity that = (ReceptionistEntity) o;
 
-        if (_receptionistId != that._receptionistId) return false;
+        if (_id != that._id) return false;
         if (_userId != null ? !_userId.equals(that._userId) : that._userId != null) return false;
 
         return true;
@@ -56,12 +57,12 @@ public class ReceptionistEntity {
 
     @Override
     public int hashCode() {
-        int result = _receptionistId;
+        int result = _id;
         result = 31 * result + (_userId != null ? _userId.hashCode() : 0);
         return result;
     }
 
-    /*@ManyToOne
+    @OneToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
@@ -69,5 +70,5 @@ public class ReceptionistEntity {
 
     public void setUser(UserEntity userByUserId) {
         userByUserId = userByUserId;
-    }*/
+    }
 }

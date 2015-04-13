@@ -7,10 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.persistence.entities;
 
 /**
- * Created by Norskan on 03.04.2015.
+ * WeekDayKey.java Created by oculus on 10.04.15.
  */
-public class OrtopthistAppointment extends EventType {
+public enum WeekDayKey {
+	MON, TUE, WED, THU, FRI, SAT, SUN
 }

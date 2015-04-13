@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "calendar", schema = "", catalog = "oculus_f")
-public class CalendarEntity {
+public class CalendarEntity implements IEntity {
     private int _id;
     private String _title;
     private Collection<CalendarEventEntity> _calendarevents;
@@ -26,12 +26,13 @@ public class CalendarEntity {
     private OrthoptistEntity _orthoptist;
 
     @Id
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
 
-    public void setId(int calendarId) {
+	public void setId(int calendarId) {
         this._id = calendarId;
     }
 
@@ -65,7 +66,7 @@ public class CalendarEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "calendar")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "calendar")
     public Collection<CalendarEventEntity> getCalendarEvents() {
         return _calendarevents;
     }
@@ -83,22 +84,24 @@ public class CalendarEntity {
     public void setCalendarWorkingHours(Collection<CalendarworkinghoursEntity> calendarworkinghourses) {
         _calendarworkinghours = calendarworkinghourses;
     }
-
-    @OneToOne
+    */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public DoctorEntity getDoctor() {
         return _doctor;
     }
 
-    public void setDoctor(DoctorEntity doctorByCalendarId) {
-        _doctor = _doctor;
+    public void setDoctor(DoctorEntity doctor) {
+        _doctor = doctor;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
     }
 
     public void setOrthoptist(OrthoptistEntity orthoptist) {
         _orthoptist = orthoptist;
-    }*/
+    }
 }

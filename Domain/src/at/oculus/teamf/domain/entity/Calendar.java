@@ -20,19 +20,22 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Calendar {
+public class Calendar implements IDomain {
 
     //<editor-fold desc="Attributes">
     private int _id;
     private Collection<CalendarEvent> _events;
+
+    //excluded because of circular dependencies
+    //private User _user;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
-    public int getCalendarID() {
+    public int getId() {
         return _id;
     }
 
-    public void setCalendarID(int calendarID) {
+    public void setId(int calendarID) {
         _id = calendarID;
     }
 
@@ -44,8 +47,8 @@ public class Calendar {
         } catch (ReloadInterfaceNotImplementedException e) {
             e.printStackTrace();
             //Todo: Add Loging
-        } catch (InvalideReloadParameterExeption invalideReloadParameterExeption) {
-            invalideReloadParameterExeption.printStackTrace();
+        } catch (InvalidReloadParameterException invalidReloadParameterException) {
+            invalidReloadParameterException.printStackTrace();
         } catch (NotAbleToLoadClassException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
@@ -61,5 +64,15 @@ public class Calendar {
         _events =events;
     }
 
-	//</editor-fold>
+    /*
+    public User getUser() {
+        return _user;
+    }
+
+    public void setUser(User user) {
+        _user = user;
+    }
+    */
+
+    //</editor-fold>
 }

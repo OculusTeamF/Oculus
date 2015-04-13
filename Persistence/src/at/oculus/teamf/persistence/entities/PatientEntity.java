@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus_f")
-public class PatientEntity {
+public class PatientEntity implements IEntity {
     private int _id;
     private Integer _doctorId;
     private String _socialInsuranceNr;
@@ -40,7 +40,8 @@ public class PatientEntity {
     private QueueEntity _queue;
 
     @Id
-    @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "patientId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
@@ -251,7 +252,7 @@ public class PatientEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     public Collection<CalendarEventEntity> getCalendarevents() {
         return _calendarevents;
     }
@@ -260,7 +261,7 @@ public class PatientEntity {
         _calendarevents = calendarevents;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
@@ -270,7 +271,7 @@ public class PatientEntity {
         this._doctor = doctor;
     }
 
-    @OneToOne(mappedBy = "patient")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "patient")
     public QueueEntity getQueue() {
         return _queue;
     }

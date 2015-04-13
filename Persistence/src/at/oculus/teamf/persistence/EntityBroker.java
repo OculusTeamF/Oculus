@@ -10,59 +10,105 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.persistence.entities.IEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
- * Created by Norskan on 30.03.2015.
- * //Todo: add loging, comments docs etz
+ * Abstract EntityBroker from witch each Broker needs to extend, to be used in the facade. {@code EntityBroker} implements
+ * {@code getByID}, {@code getAll}, {@code save}, {@code saveAll}. Each broker that extends from {@code EntityBroker} only needs
+ * to implement {@code persitentToDomain} and {@code domainToPersitent}.
+ *
+ * Extended Broker can implement {@code ICollectionReload} to add a reload functionality to the broker.
+ *
+ * @param <D> Domain class
+ * @param <P> Entity class
+ * @author Simon Angerer
+ * @version 1.0
+ * @date 12.04.2015
  */
-abstract class EntityBroker<D, P> {
+abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILogger {
 
     protected Class<D> _domainClass;
     protected Class<P> _entityClass;
 
+    private Collection<Class> _entityClasses;
+    private Collection<Class> _domainClasses;
+
     public EntityBroker(Class domainClass, Class entityClass) {
+        _entityClasses = new LinkedList<Class>();
+        _domainClasses = new LinkedList<Class>();
+
         _domainClass = domainClass;
         _entityClass = entityClass;
+
+        _entityClasses.add(_entityClass);
+        _domainClasses.add(_domainClass);
+
     }
 
-    //<editor-fold desc="Abstract Methode">
+    /**
+     * Gets an object from the database that is of type {@code D} and has {@code id} as primary key in the database.
+     *
+     * @param session that should be use
+     * @param id      of the table entry
+     * @return an instance of {@code D}
+     * @throws FacadeException if an error occurs
+     */
     public D getEntity(ISession session, int id) throws FacadeException {
-	    P entity = null;
-	    try {
-		    entity = (P)session.getByID(_entityClass, id);
-	    } catch (BadSessionException e) {
-		    e.printStackTrace();
-	    } catch (ClassNotMappedException e) {
-		    e.printStackTrace();
-	    }
+        P entity = null;
 
-	    D result = persitentToDomain(entity);
+        try {
+            entity = (P) session.getByID(_entityClass, id);
+        } catch (BadSessionException e) {
+            log.catching(e);
+        } catch (ClassNotMappedException e) {
+            log.catching(e);
+        }
 
-	    return result;
+        D result = persitentToDomain(entity);
+
+        return result;
     }
 
+    /**
+     * Gets an colletion of D object from the database.
+     *
+     * @param session that should be use
+     * @return a collection of objects that are instance of D
+     * @throws FacadeException if an error occures
+     */
     public Collection<D> getAll(ISession session) throws FacadeException {
-        Collection<P> entities = null;
+        Collection<Object> entities = null;
         try {
-            entities = (Collection<P>) session.getAll(_entityClass);
+            entities = (Collection<Object>) session.getAll(_entityClass);
         } catch (BadSessionException e) {
-            e.printStackTrace();
+            log.catching(e);
         } catch (ClassNotMappedException e) {
-            e.printStackTrace();
+            log.catching(e);
         }
 
         Collection<D> domainObjects = new ArrayList<D>();
-        for(P entity : entities) {
+        for (Object obj : entities) {
+            P entity = (P) obj;
             domainObjects.add(persitentToDomain(entity));
         }
 
         return domainObjects;
     }
 
+    /**
+     * Saves an object in the database
+     *
+     * @param session that should be use
+     * @param domainObj that needs to be saved
+     * @return {@code true} if the object was saved, {@code false} if the object could not be saved
+     */
     public boolean saveEntity(ISession session, D domainObj) {
         P entity = domainToPersitent(domainObj);
 
@@ -73,55 +119,156 @@ abstract class EntityBroker<D, P> {
 
             session.commit();
 
+            domainObj.setId(entity.getId());
+
         } catch (BadSessionException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         } catch (AlreadyInTransactionException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         } catch (NoTransactionException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         } catch (ClassNotMappedException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         }
 
         return true;
     }
 
+    /**
+     * Saves a collection of object to the database.
+     *
+     * @param session that should be use
+     * @param domainObjs that need to be saved
+     * @return {@code true} if the objects was saved, {@code false} if the objects could not be saved
+     */
     public boolean saveAll(ISession session, Collection<D> domainObjs) {
         Collection<P> entities = new ArrayList<P>();
-        for(D obj : domainObjs) {
+        for (D obj : domainObjs) {
             entities.add(domainToPersitent(obj));
         }
 
         try {
             session.beginTransaction();
-            for(P entity : entities){
-                session.save(entity);
+            for (P entity : entities) {
+                session.saveOrUpdate(entity);
             }
+            session.commit();
 
         } catch (BadSessionException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         } catch (AlreadyInTransactionException e) {
-            e.printStackTrace();
+            log.catching(e);
+            ;
             return false;
         } catch (NoTransactionException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         } catch (ClassNotMappedException e) {
-            e.printStackTrace();
+            log.catching(e);
             return false;
         }
 
         return true;
     }
 
-	protected abstract D persitentToDomain(P entity) throws FacadeException;
+    /**
+     * Deletes an object from the database.
+     * @param session that should be use
+     * @param domainObj that needs to be deleted from the database
+     * @return {@code true} if the object was deleted from the database, {@code false} if the object was not deletet
+     */
+    public boolean deleteEntity(ISession session, D domainObj) {
+        P entity = domainToPersitent(domainObj);
 
-	protected abstract P domainToPersitent(D obj);
+        try {
+            session.beginTransaction();
+
+            session.delete(entity);
+
+            session.commit();
+
+        } catch (BadSessionException e) {
+            log.catching(e);
+            return false;
+        } catch (AlreadyInTransactionException e) {
+            log.catching(e);
+            return false;
+        } catch (NoTransactionException e) {
+            log.catching(e);
+            return false;
+        } catch (ClassNotMappedException e) {
+            log.catching(e);
+            return false;
+        }
+
+        return true;
+    }
+
+	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs){
+		P entity = null;
+
+		try {
+			session.beginTransaction();
+			for(Object obj : domainObjs) {
+				entity = domainToPersitent((D) obj);
+				session.delete(entity);
+			}
+			session.commit();
+
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (AlreadyInTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (NoTransactionException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotMappedException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+    /**
+     * Adds additional entity class mappings to the broker.
+     * @param clazz that needs to map
+     */
+    protected void addClassMapping(Class clazz) {
+        _entityClasses.add(clazz);
+    }
+
+    /**
+     * Adds additional domain class mappings to the broker only. Can be used to map muliple domain classes to one broker.
+     * @param clazz that needs to map
+     */
+    protected void addDomainClass(Class clazz) {
+        _domainClasses.add(clazz);
+    }
+
+    //<editor-fold desc="Abstract Methode">
+
+    /**
+     * Converts a persitency entity to a domain object
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws FacadeException
+     */
+    protected abstract D persitentToDomain(P entity) throws FacadeException;
+
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     * @throws FacadeException
+     */
+    protected abstract P domainToPersitent(D obj);
 
     //</editor-fold>
 
@@ -130,8 +277,12 @@ abstract class EntityBroker<D, P> {
         return _domainClass;
     }
 
-    public Class<P> getEntityClass() {
-        return _entityClass;
+    public Collection<Class> getEntityClasses() {
+        return _entityClasses;
+    }
+
+    public Collection<Class> getDomainClasses() {
+        return _domainClasses;
     }
     //</editor-fold>
 

@@ -9,19 +9,13 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entities.CalendarEntity;
 import at.oculus.teamf.persistence.entities.CalendarEventEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalideReloadParameterExeption;
-import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
+import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -34,9 +28,21 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	@Override
-	protected Calendar persitentToDomain(CalendarEntity entity) {
+	protected Calendar persitentToDomain(CalendarEntity entity) throws FacadeException {
 		Calendar calendar = new Calendar();
-		calendar.setCalendarID(entity.getId());
+		calendar.setId(entity.getId());
+
+
+		/*if (entity.getDoctor() != null) {
+			calendar.setUser(
+					(Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
+		} else if (entity.getOrthoptist() != null) {
+			calendar.setUser((Orthoptist) Facade.getInstance().getBroker(Orthoptist.class)
+			                                    .persitentToDomain(entity.getOrthoptist()));
+		} else {
+			//Todo: add Logging
+			System.out.println("No User mapped to calendar!");
+		}*/
 		return calendar;
 	}
 
@@ -49,61 +55,24 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	@Override
 	public void reload(ISession session, Object obj, Class clazz) throws FacadeException {
 		if (clazz == CalendarEvent.class) {
-			((Calendar)obj).setEvents(reloadCalendarEvents(session, obj));
+			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
 		} else {
-			throw new InvalideReloadParameterExeption();
+			throw new InvalidReloadParameterException();
 		}
 	}
 
-	//Todo: extract into generic reload component
+	private class CalendarEventsLoader implements CollectionLoader<CalendarEventEntity> {
+
+		@Override
+		public Collection<CalendarEventEntity> load(Object databaseEntity) {
+			return ((CalendarEntity) databaseEntity).getCalendarEvents();
+		}
+	}
+
 	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws FacadeException {
-		Facade facade = Facade.getInstance();
+		ReloadComponent reloadComponent =
+				new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
 
-		//get broker
-		EntityBroker broker = null;
-		try {
-			broker = facade.getBroker(obj.getClass());
-		} catch (NoBrokerMappedException e) {
-			//Todo: add Loging
-			e.printStackTrace();
-
-			throw new NotAbleToLoadClassException();
-		}
-
-		//load calendar
-
-		CalendarEntity calendarEntity = null;
-		try {
-			calendarEntity = (CalendarEntity) session.getByID(CalendarEntity.class, ((Calendar)obj).getCalendarID());
-		} catch (BadSessionException e) {
-			e.printStackTrace();
-		} catch (ClassNotMappedException e) {
-			e.printStackTrace();
-		}
-		if (calendarEntity == null) {
-			throw new NotAbleToLoadClassException();
-		}
-
-		//load entity collection
-		Collection<CalendarEventEntity> calendarEntities =
-				(Collection<CalendarEventEntity>) (Collection<?>) calendarEntity.getCalendarEvents();
-
-
-		//convert to domain object
-		try {
-			broker = facade.getBroker(CalendarEvent.class);
-		} catch (NoBrokerMappedException e) {
-			//Todo: add Loging
-			e.printStackTrace();
-
-			throw new NotAbleToLoadClassException();
-		}
-
-		Collection<CalendarEvent> calendarEvents = new ArrayList<CalendarEvent>();
-		for(CalendarEventEntity cee : calendarEntities) {
-			calendarEvents.add((CalendarEvent)broker.persitentToDomain(cee));
-		}
-
-		return calendarEvents;
+		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
 	}
 }

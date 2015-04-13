@@ -14,15 +14,23 @@ import java.util.Collection;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public class Receptionist extends User {
+public class Receptionist extends User implements IDomain {
 
     //<editor-fold desc="Attributes">
+    private int _id;
     private Collection<Calendar> _calendars;
-
     private Collection<PatientQueue> _queues;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int _id) {
+        this._id = _id;
+    }
+
     public Collection<Calendar> getCalendars() {
         return _calendars;
     }

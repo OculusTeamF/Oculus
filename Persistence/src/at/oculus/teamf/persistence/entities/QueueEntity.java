@@ -17,8 +17,8 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")
-public class QueueEntity {
-    private int _id;
+public class QueueEntity implements IEntity {
+	private int _id;
     private Integer _doctorId;
     private Integer _orthoptistId;
     private int _patientId;
@@ -29,8 +29,24 @@ public class QueueEntity {
     private OrthoptistEntity _orthoptist;
     private QueueEntity _queueParent;
 
+    public QueueEntity() {
+
+    }
+
+	public QueueEntity(int id, Integer doctorId, Integer orthoptistId, int patientId, Integer queueIdParent,
+	                   Timestamp arrivalTime) {
+		_id = id;
+		_doctorId = doctorId;
+		_orthoptistId = orthoptistId;
+		_patientId = patientId;
+		_queueIdParent = queueIdParent;
+		_arrivalTime = arrivalTime;
+	}
+
+
     @Id
-    @Column(name = "queueId", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "queueId", nullable = false, insertable = false, updatable = false)
     public int getId() {
         return _id;
     }
@@ -50,7 +66,7 @@ public class QueueEntity {
     }
 
     @Basic
-    @Column(name = "orthoptistId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "orthoptistId", nullable = true, insertable = false, updatable = false)
     public Integer getOrthoptistId() {
         return _orthoptistId;
     }
@@ -118,27 +134,27 @@ public class QueueEntity {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
     }
 
     public void setDoctor(DoctorEntity doctor) {
-        this._doctor = doctor;
+        _doctor = doctor;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patientId", referencedColumnName = "patientId", nullable = false)
     public PatientEntity getPatient() {
         return _patient;
     }
 
     public void setPatient(PatientEntity patientByPatientId) {
-        this._patient = patientByPatientId;
+        _patient = patientByPatientId;
     }
 
-    /*@ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orthoptistId", referencedColumnName = "orthoptistId")
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
@@ -146,9 +162,9 @@ public class QueueEntity {
 
     public void setOrthoptist(OrthoptistEntity orthoptist) {
         this._orthoptist = orthoptist;
-    }*/
+    }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")
     public QueueEntity getQueueParent() {
         return _queueParent;

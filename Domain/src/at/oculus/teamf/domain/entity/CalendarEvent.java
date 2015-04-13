@@ -17,10 +17,10 @@ import java.util.Date;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class CalendarEvent {
+public class CalendarEvent implements IDomain {
 
     //<editor-fold desc="Attributes">
-    private int _eventID;
+    private int _id;
     private String _description;
     private Date _eventStart;
     private Date _eventEnd;
@@ -29,12 +29,12 @@ public class CalendarEvent {
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
-    public int getEventID() {
-        return _eventID;
+    public int getId() {
+        return _id;
     }
 
-    public void setEventID(int eventID) {
-        _eventID = eventID;
+    public void setId(int id) {
+        _id = id;
     }
 
     public String getDescription() {
@@ -63,7 +63,7 @@ public class CalendarEvent {
 
     public Patient getPatient(){return _patient; }
 
-    public void setPatient(Patient patient) {
+    public void addPatient(Patient patient) {
         _patient = patient;
     }
 	//</editor-fold>

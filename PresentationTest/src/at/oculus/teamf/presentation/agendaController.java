@@ -1,4 +1,4 @@
-/*
+package at.oculus.teamf.presentation;/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,10 +7,9 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.accessrights;
-
 /**
- * Created by Fabian on 06.04.2015.
+ * Created by Karo on 09.04.2015.
  */
-public class UserSessionBroker {
+public class agendaController {
+
 }

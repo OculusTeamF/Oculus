@@ -11,7 +11,6 @@ package at.oculus.teamf.databaseconnection.session;
 
 /**
  * SessionException indicates that something went wrong when calling a method from the session.
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exceptions.*;
+
 import java.util.Collection;
 
 /**
@@ -17,47 +20,89 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Doctor extends User {
-	//<editor-fold desc="Attributes">
-	private int _id;
-	private Calendar _calendar;
-	private PatientQueue _queue;
-	private Collection<Patient> _patients;
-	//</editor-fold>
+public class Doctor extends User implements IDomain {
+    //<editor-fold desc="Attributes">
+    private int _id;
+    private Calendar _calendar;
+    private PatientQueue _queue;
+    private Collection<Patient> _patients;
+    private Doctor _doctorSubstitude;
+    //</editor-fold>
+
+	public Doctor(){};
+
+	public Doctor(int id, Calendar calendar, PatientQueue queue, Collection<Patient> patients,
+	              Doctor doctorSubstitude) {
+		_id = id;
+		_calendar = calendar;
+		_queue = queue;
+		_patients = patients;
+		_doctorSubstitude = doctorSubstitude;
+	}
 
 	//<editor-fold desc="Getter/Setter">
-	public int getId() {
-		return _id;
-	}
-
-	public void setId(int id) {
-		_id = id;
-	}
+    public int getId() {
+        return _id;
+    }
+    public void setId(int id) {
+        _id = id;
+    }
 
 	public Calendar getCalendar() {
 		return _calendar;
-	}
+    }
+    public void setCalendar(Calendar _calendar) {
+        this._calendar = _calendar;
+    }
 
-	public void setCalendar(Calendar _calendar) {
-		this._calendar = _calendar;
-	}
+    public PatientQueue getQueue() {
+	    _queue = new PatientQueue(this);
+	    return _queue;
+    }
+    public void setQueue(PatientQueue _queue) {
+        this._queue = _queue;
+    }
 
-	public PatientQueue getQueue() {
-		return _queue;
-	}
+    public Doctor getDoctorSubstitude() {
+	    return _doctorSubstitude;
+    }
+    public void setDoctorSubstitude(Doctor doctorSubstitude) {
+        _doctorSubstitude = doctorSubstitude;
+    }
 
-	public void setQueue(PatientQueue _queue) {
-		this._queue = _queue;
-	}
+    public void addPatient(Patient patient) {
+        if (patient != null) {
+            _patients.add(patient);
+        }
+    }
 
-	public void addPatient(Patient patient) {
-		if (patient != null) {
-			_patients.add(patient);
-		}
+	public void setPatients(Collection<Patient> patients) {
+		_patients = patients;
 	}
+    public Collection<Patient> getPatients() {
+	    Facade facade = Facade.getInstance();
 
-	public Collection<Patient> getPatients() {
-		return _patients;
+	    try {
+		    facade.reloadCollection(this, Patient.class);
+	    } catch (ReloadInterfaceNotImplementedException e) {
+		    e.printStackTrace();
+		    //Todo: Add Logging
+	    } catch (InvalidReloadParameterException invalidReloadParameterException) {
+		    invalidReloadParameterException.printStackTrace();
+	    } catch (NotAbleToLoadClassException e) {
+		    e.printStackTrace();
+	    } catch (NoBrokerMappedException e) {
+		    e.printStackTrace();
+	    } catch (FacadeException e) {
+		    e.printStackTrace();
+	    }
+
+	    return _patients;
+    }
+    //</editor-fold>
+
+	@Override
+	public String toString(){
+		return getTitle() + " " + getFirstName() + " " + getLastName();
 	}
-	//</editor-fold>
 }

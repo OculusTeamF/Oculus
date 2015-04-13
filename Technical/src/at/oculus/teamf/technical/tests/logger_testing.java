@@ -7,27 +7,33 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokerTest;
+package at.oculus.teamf.technical.tests;
 
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.Test;
+import at.oculus.teamf.technical.loggin.ILogger;
+import org.apache.logging.log4j.Level;
 
 /**
- * Created by Norskan on 08.04.2015.
+ *
+ * @author Fabian Salzgeber
+ * @date 31.3.2015
+ * @version 1.0
+ *
  */
-public abstract class BrokerTest {
 
-	@Test
-	public abstract void getByIdTest() throws FacadeException;
+public class logger_testing implements ILogger {
 
-	@Test
-	public abstract void getAllTest();
+    public static void main(final String... args) {
 
-	@Test
-	public abstract void save();
+        // common logging levels and pattern showcase
+        log.trace("trace message test");
+        log.debug("debug message test");
+        log.info("info message test");
+        log.warn("warn message test");
+        log.error("error message test");
+        log.fatal("fatal message test");
 
-	@Test
-	public abstract void reload() throws FacadeException;
+        // advanced log
+        log.log(Level.WARN,"switch levels during runtime");
 
-
+    }
 }
