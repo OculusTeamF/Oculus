@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sample;
+package at.oculus.teamf.presentation.view;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Tab;
