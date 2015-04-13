@@ -9,9 +9,11 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <GridPane id="searchPatientPane" fx:id="searchPatientPane" layoutX="5.0" layoutY="38.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1268.0" GridPane.columnIndex="0" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.searchPatientController">
     <children>
         <GridPane id="patientInformation" alignment="CENTER" hgap="10.0" prefHeight="156.0" prefWidth="1283.0" vgap="5.0" GridPane.rowIndex="1">
@@ -30,12 +32,13 @@
             <children>
                 <Label prefHeight="21.0" prefWidth="179.0" text="Lastname" GridPane.columnIndex="1" />
                 <Label prefHeight="21.0" prefWidth="184.0" text="Firstname" GridPane.columnIndex="2" />
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="searchPatientLastname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="searchPatientFirstname" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <Label prefHeight="21.0" prefWidth="222.0" text="Birthday     (dd.mm.yyyy)" GridPane.columnIndex="3" />
-                <DatePicker prefHeight="31.0" prefWidth="210.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <DatePicker fx:id="searchPatientBday" prefHeight="31.0" prefWidth="210.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                 <Label prefHeight="21.0" prefWidth="298.0" text="Social security number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField prefWidth="277.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="searchPatientSVN" prefWidth="277.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="searchPatientButton" mnemonicParsing="false" onAction="#searchPatient" prefHeight="31.0" prefWidth="214.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             </children>
             <GridPane.margin>
                 <Insets />
@@ -63,7 +66,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
                  <children>
-                    <ListView fx:id="searchPatient" prefHeight="398.0" prefWidth="1035.0" GridPane.columnIndex="1">
+                    <ListView fx:id="searchPatientList" prefHeight="398.0" prefWidth="1035.0" GridPane.columnIndex="1">
                <padding>
                   <Insets top="10.0" />
                </padding></ListView>

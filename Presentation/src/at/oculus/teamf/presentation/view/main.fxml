@@ -9,10 +9,13 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane id="pane" prefHeight="1103.0" prefWidth="2013.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
+
+<BorderPane id="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
    <top>
         <MenuBar fx:id="menubar" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="1445.0" BorderPane.alignment="CENTER">
             <menus>
@@ -69,14 +72,14 @@
         </MenuBar>
    </top>
    <right>
-        <VBox id="waitingListBox" prefHeight="1071.0" prefWidth="419.0" BorderPane.alignment="CENTER">
+        <VBox id="waitingListBox" fillWidth="false" BorderPane.alignment="CENTER">
             <children>
                 <Label alignment="CENTER" prefHeight="63.0" prefWidth="386.0" text="Waiting Queue" textAlignment="CENTER">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Dr. Tavolato">
+                <TitledPane animated="false" layoutX="10.0" layoutY="60.0" prefHeight="212.0" prefWidth="384.0" text="Dr. Tavolato">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -85,7 +88,7 @@
                         </AnchorPane>
                     </content>
                 </TitledPane>
-                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. ABC">
+                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" prefHeight="212.0" prefWidth="386.0" text="Dr. ABC">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -94,7 +97,7 @@
                         </AnchorPane>
                     </content>
                 </TitledPane>
-                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. EFG">
+                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" prefHeight="212.0" prefWidth="386.0" text="Dr. EFG">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -103,7 +106,7 @@
                         </AnchorPane>
                     </content>
                 </TitledPane>
-                <TitledPane animated="false" layoutX="10.0" layoutY="484.0" text="Orthoptist">
+                <TitledPane animated="false" layoutX="10.0" layoutY="484.0" prefHeight="212.0" prefWidth="386.0" text="Orthoptist">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
