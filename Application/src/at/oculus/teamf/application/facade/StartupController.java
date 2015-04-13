@@ -7,12 +7,20 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**<h1>$StartupController.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $08.04.15
+ *
+ * Description:
+ * This file contains the main class StartupController for the startup of the program. It contains methods to get
+ * objects the program needs when started to begin the Usecases.
+ * At the moment this file contains a method to get a user, a method to get all Queues and a method to get all
+ * Calendars.
+ **/
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.domain.entity.Receptionist;
-import at.oculus.teamf.domain.entity.User;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
@@ -20,13 +28,21 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Created by jpo2433 on 08.04.15.
- */
+ * <h2>$StartupController</h2>
+ *
+ * <b>Description:</b>
+ * This class
+ **/
 public class StartupController {
 
-    /* This method returns all available queues. We get a list of all queues from the persistence layer -
-     and at the moment we only cast this object-list into a patientQueue-list and return it.
-     Later on, we are going to choose and return only the queues, which the specified user is allowed to see. */
+    /**
+     *<h3>$getUser</h3>
+     *
+     * <b>Description:</b>
+     * This method returns a user (at the moment a receptionist) to try and test the first Usecase (where only a
+     * receptionist ist needed.
+     *
+     **/
 
     public User getUser (){
         Facade facade = Facade.getInstance();
@@ -42,21 +58,47 @@ public class StartupController {
         return user;
     }
 
-    public Collection<PatientQueue> getAllQueues(User user){
+    /**
+     *<h3>$getAllQueues</h3>
+     *
+     * <b>Description:</b>
+     * This method returns all available queues. We get a list of all queues from the persistence layer and return it.
+     * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
+     *
+     **/
+
+    public Collection<PatientQueue> getAllQueues() {
+
+        Collection <Doctor> doctors = null;
         Facade facade = Facade.getInstance();
 
-        Collection<PatientQueue> queues = null;
         try {
-            queues = facade.getAll(PatientQueue.class);
+            doctors = facade.getAll(Doctor.class);
         } catch (FacadeException e) {
-            e.printStackTrace();
             //TODO
+        }
+        Collection<PatientQueue> queues = new LinkedList<PatientQueue>();
+
+        for (Doctor doctor : doctors){
+            queues.add(doctor.getQueue());
         }
 
         return queues;
     }
 
-    public Collection<Calendar> getAllCalenders(User user){
+    /**
+     *<h3>$getAllCalendars</h3>
+     *
+     * <b>Description:</b>
+     * This method returns all available calendars. We get a list of all calendars from the persistence layer
+     * and return it.
+     * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
+     *
+     *<b>Parameter</b>
+     * @param user description
+     **/
+
+    public Collection<Calendar> getAllCalendars(User user){
         Facade facade = Facade.getInstance();
 
         Collection<Calendar> calendars = null;
