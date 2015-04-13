@@ -14,9 +14,21 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 
+/**<h1>$CreatePatientController.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $02.04.15
+ *
+ * Description: TODO
+ * A short description of the File content
+ **/
+
 /**
- * Created by jpo2433 on 13.04.15.
- */
+ * <h2>$CreatePatientController</h2>
+ *
+ * <b>Description:</b>
+ * A short description of the class TODO
+ **/
 public class CreatePatientController {
 
     /*this method returns a new instance of a Patient, so that a new Patient could be created*/

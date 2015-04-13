@@ -7,11 +7,22 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**<h1>$RequirementsNotMetException.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $13.04.15
+ *
+ * Description: TODO
+ * A short description of the File content
+ **/
 package at.oculus.teamf.application.facade.exceptions;
 
 /**
- * Created by jpo2433 on 13.04.15.
- */
+ * <h2>$RequirementsNotMetException</h2>
+ *
+ * <b>Description:</b>
+ * A short description of the class TODO
+ **/
 public class RequirementsNotMetException extends Exception {
 
 }
