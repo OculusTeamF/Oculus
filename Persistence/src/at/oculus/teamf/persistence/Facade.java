@@ -35,7 +35,7 @@ public class Facade {
 
 		Collection<EntityBroker> entityBrokers = new LinkedList<EntityBroker>();
 		entityBrokers.add(new CalendarBroker());
-		entityBrokers.add(new CalendarEventBoker());
+		entityBrokers.add(new CalendarEventBroker());
 		entityBrokers.add(new DoctorBroker());
 		entityBrokers.add(new PatientBroker());
 		entityBrokers.add(new QueueBroker());
