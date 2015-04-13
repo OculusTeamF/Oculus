@@ -13,6 +13,7 @@ import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 /**<h1>$CreatePatientController.java</h1>
  * @author $jpo2433
@@ -29,7 +30,7 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
  * <b>Description:</b>
  * A short description of the class TODO
  **/
-public class CreatePatientController {
+public class CreatePatientController implements ILogger{
 
     /*this method returns a new instance of a Patient, so that a new Patient could be created*/
     public Patient createPatient(){
@@ -49,6 +50,7 @@ public class CreatePatientController {
                 //TODO
             }
         }else{
+            log.warn("Requirements unfulfilled");
             throw new RequirementsNotMetException();
         }
 
@@ -56,7 +58,7 @@ public class CreatePatientController {
 
     /*in this method the data gets checked, if all fields are complete everything is alright. Some requirements are missing TODO ;) */
     private boolean checkRequirements(Patient patient) {
-        if(patient.getSvn() == null || patient.getLastName() == null || patient.getFirstName() == null || patient.getGender() == null){
+        if(patient.getSocialInsuranceNr() == null || patient.getLastName() == null || patient.getFirstName() == null || patient.getGender() == null){
             return false;
         }else{
             return true;

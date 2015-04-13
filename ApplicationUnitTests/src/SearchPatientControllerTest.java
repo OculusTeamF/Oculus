@@ -7,40 +7,23 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.Patient;
 
 import java.util.Collection;
 
-/**
- * Created by FabianLaptop on 07.04.2015.
- */
-public interface IPatient {
-    //<editor-fold desc="Getter/Setter">
-    int getId();
+import static org.junit.Assert.*;
 
-    void setId(int patientID);
+public class SearchPatientControllerTest {
 
-    String getFirstName();
-
-    void setFirstName(String firstName);
-
-    String getLastName();
-
-    Patient setLastName(String lastName);
-
-    Gender getGender();
-
-    void setGender(Gender gender);
-
-    String getSocialInsuranceNr();
-
-    void setSocialInsuranceNr(String svn);
-
-    Doctor getDoctor();
-
-    void setDoctor(Doctor doctor);
-
-    Collection<CalendarEvent> getCalendarEvents();
-
-    void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
+    @org.junit.Test
+    public void testSearchPatients() throws Exception {
+        SearchPatientController controller =  new SearchPatientController();
+        Collection<Patient> patients = controller.searchPatients(null, "Hanson", null);
+        /*System.out.println(patients.size());
+        for (Patient patient : patients){
+            System.out.println(patient.getLastName() + " " + patient.getFirstName());
+        }*/
+        assertTrue(patients.size() == 2);
+    }
 }

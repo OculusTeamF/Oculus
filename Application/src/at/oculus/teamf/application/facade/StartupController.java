@@ -18,11 +18,13 @@
  * At the moment this file contains a method to get a user, a method to get all Queues and a method to get all
  * Calendars.
  **/
+
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -31,9 +33,10 @@ import java.util.LinkedList;
  * <h2>$StartupController</h2>
  *
  * <b>Description:</b>
- * This class
+ * This class is being used for loading the data the programs needs when it is started. It contains the method to get
+ * the user and methods to get all the necessary things for startup like queues and calendars.
  **/
-public class StartupController {
+public class StartupController implements ILogger{
 
     /**
      *<h3>$getUser</h3>
@@ -51,6 +54,7 @@ public class StartupController {
         try {
             user = facade.getById(Receptionist.class, 1);
         } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
             e.printStackTrace();
             //TODO
         }
@@ -75,6 +79,7 @@ public class StartupController {
         try {
             doctors = facade.getAll(Doctor.class);
         } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
             //TODO
         }
         Collection<PatientQueue> queues = new LinkedList<PatientQueue>();
@@ -105,6 +110,7 @@ public class StartupController {
         try {
             calendars = facade.getAll(Calendar.class);
         } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
             e.printStackTrace();
             //TODO
         }

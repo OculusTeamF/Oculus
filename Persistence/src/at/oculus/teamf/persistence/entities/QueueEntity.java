@@ -43,6 +43,16 @@ public class QueueEntity implements IEntity {
 		_arrivalTime = arrivalTime;
 	}
 
+    public QueueEntity(int id, DoctorEntity doctorId, OrthoptistEntity orthoptistId, PatientEntity patient, int patientId, QueueEntity queueIdParent,
+                       Timestamp arrivalTime) {
+        _id = id;
+        _doctor = doctorId;
+        _orthoptist = orthoptistId;
+        _patient = patient;
+        _queueParent = queueIdParent;
+        _arrivalTime = arrivalTime;
+        _patientId = patientId;
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
