@@ -31,6 +31,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import jfxtras.labs.scene.control.window.Window;
+import se.mbaeumer.fxmessagebox.MessageBox;
+import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.util.List;
 
@@ -41,8 +47,7 @@ import java.util.List;
 public class searchPatientController {
 
     @FXML  public TextField searchPatientLastname;
-    @FXML public TextField searchPatientFirstname;
-    @FXML public DatePicker searchPatientBday;
+    @FXML public TextField searchPatientFirstname;;
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
     @FXML public Button searchPatientButton;
@@ -76,6 +81,14 @@ public class searchPatientController {
         String svn = searchPatientSVN.getText();
         ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));
 
-        searchPatientList.setItems(patientlist);
+        if(patientlist != null)
+        {
+            searchPatientList.setItems(patientlist);
+        }else{
+            MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
+            mb.showAndWait();
+
+        }
+
     }
 }
