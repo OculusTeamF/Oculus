@@ -84,6 +84,7 @@ public class SearchPatientController implements ILogger{
                 selectedPatients = getPatientByFirstName(selectedPatients, firstName);
                 return selectedPatients;
             }
+            return selectedPatients;
         }
         if (firstName != null){
             selectedPatients = getPatientByFirstName(patients, firstName);
