@@ -12,8 +12,8 @@
  * @author $sha9939
  * @since $13.04.15
  *
- * Description: TODO
- * A short description of the File content
+ * Description:
+ * In this file is a class which extends the CheckinControllerException
  **/
 package at.oculus.teamf.application.facade.exceptions;
 
@@ -21,8 +21,8 @@ package at.oculus.teamf.application.facade.exceptions;
  * <h2>$QueueNotFoundException</h2>
  *
  * <b>Description:</b>
- * A short description of the class TODO
+ * This Exception is thrown, if the given queue is null.
  **/
-public class QueueNotFoundException extends Exception {
+public class QueueNotFoundException extends CheckinControllerException {
 
 }
