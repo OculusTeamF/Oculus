@@ -9,28 +9,39 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.EntityBroker;
 import at.oculus.teamf.persistence.entities.QueueEntity;
+import at.oculus.teamf.persistence.exceptions.FacadeException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * QueueBroker.java Created by dgr on 08.04.15.
  */
-public class QueueBroker extends EntityBroker<PatientQueue,QueueEntity> {
+public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
 	public QueueBroker() {
-
-		super(PatientQueue.class, QueueEntity.class);
+		super(QueueEntry.class, QueueEntity.class);
 	}
 
 	@Override
-	protected PatientQueue persitentToDomain(QueueEntity entity) {
-
-		return null;
+	protected QueueEntry persitentToDomain(QueueEntity entity) throws FacadeException {
+		return new QueueEntry(entity.getId(), entity.getDoctorId(), entity.getOrthoptistId(), entity.getPatientId(),
+		                      entity.getQueueIdParent(), entity.getArrivalTime(),
+		                      (Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId()));
 	}
 
 	@Override
-	protected QueueEntity domainToPersitent(PatientQueue entity) {
-		return null;
+	protected QueueEntity domainToPersitent(QueueEntry obj) {
+		//TODO reverse
+		return new QueueEntity();
 	}
 }
