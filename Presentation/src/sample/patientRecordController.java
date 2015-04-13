@@ -1,4 +1,4 @@
-/*
+package sample;/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -6,30 +6,30 @@
  * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package sample;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import jfxtras.labs.scene.control.window.CloseIcon;
-import jfxtras.labs.scene.control.window.Window;
-
 /**
- * Created by Karo on 11.04.2015.
+ * Created by Karo on 09.04.2015.
  */
-public class CloseIconImpl extends CloseIcon
-{
-    public CloseIconImpl(final Window w, final TabPane pane, final Tab tab) {
-        super(w);
+/*
+import at.oculus.teamf.application.facade;
+*/
 
-        this.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                w.close();
-                pane.getTabs().remove(tab);
-            }
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 
-        });
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class patientRecordController implements Initializable {
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    public void saveForm(ActionEvent actionEvent) {
+    }
+
+    public void onClose(ActionEvent actionEvent) {
     }
 }
