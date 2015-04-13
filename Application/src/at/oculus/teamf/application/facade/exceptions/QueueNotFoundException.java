@@ -7,24 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
-
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
-
-import java.util.Collection;
+package at.oculus.teamf.application.facade.exceptions;
 
 /**
- * Created by oculus on 09.04.15.
+ * Created by jpo2433 on 13.04.15.
  */
-public class ApplicationUnitTests {
+public class QueueNotFoundException extends Exception {
 
-    public static void main (String [] args){
-        SearchPatientController controller =  new SearchPatientController();
-        Collection<Patient> patients = controller.searchPatients(null, "Berry", null);
-        System.out.println(patients.size());
-        for (Patient patient : patients){
-            System.out.println(patient.getLastName() + " " + patient.getFirstName());
-        }
-    }
 }
