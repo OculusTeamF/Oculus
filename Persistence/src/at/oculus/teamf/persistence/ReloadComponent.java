@@ -20,7 +20,12 @@ import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ReloadComponent{
+/**
+ * @author Simon Angerer
+ * @version 1.0
+ * @date 12.04.2015
+ */
+public class ReloadComponent {
 
 	private Class _entityClazz;
 	private Class _clazzToLoad;

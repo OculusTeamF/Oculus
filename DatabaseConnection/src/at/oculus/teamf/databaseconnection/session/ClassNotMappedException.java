@@ -11,7 +11,6 @@ package at.oculus.teamf.databaseconnection.session;
 
 /**
  * Is thrown when a class was not mapped.
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

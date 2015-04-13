@@ -17,8 +17,8 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
 /**
  * Created by Norskan on 08.04.2015.
  */
-class CalendarEventBoker extends EntityBroker<CalendarEvent, CalendarEventEntity> {
-	public CalendarEventBoker() {
+class CalendarEventBroker extends EntityBroker<CalendarEvent, CalendarEventEntity> {
+	public CalendarEventBroker() {
 		super(CalendarEvent.class, CalendarEventEntity.class);
 	}
 

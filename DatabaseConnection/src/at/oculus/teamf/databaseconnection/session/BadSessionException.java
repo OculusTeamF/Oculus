@@ -11,7 +11,6 @@ package at.oculus.teamf.databaseconnection.session;
 
 /**
  * BadSessionException indicates that the current session is corrupted.
- * <p/>
  *
  * @author Simon Angerer
  * @date 30.03.2015

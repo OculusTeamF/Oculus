@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entities.*;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -26,6 +27,7 @@ import java.util.Collection;
 public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload {
 	public DoctorBroker() {
 		super(Doctor.class, DoctorEntity.class);
+		addClassMapping(UserEntity.class);
 	}
 
 	@Override
@@ -68,15 +70,14 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		doctorEntity.setId(entity.getId());
 		try {
 			doctorEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
-			                                                .persitentToDomain((IEntity) entity.getCalendar()));
-			doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
-			                                                      .persitentToDomain(
-					                                                      (IEntity) entity.getDoctorSubstitude()));
+			                                                .domainToPersitent((IDomain) entity.getCalendar()));
+            // TODO recursiv hure dreck scheisse
+            /*doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+			                                                      .domainToPersitent(
+                                                                          (IDomain) entity.getDoctorSubstitude()));*/
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		doctorEntity.setCalendarId(entity.getCalendar().getId());
-		doctorEntity.setDoctorIdSubstitute(entity.getDoctorSubstitude().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(entity.getUserId());

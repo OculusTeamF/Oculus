@@ -9,24 +9,72 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 import static junit.framework.Assert.assertTrue;
 
 public class QueueBrokerTest extends BrokerTest {
+	private QueueEntry _newDoctorEntry;
+	private QueueEntry _newOrthoptistEntry;
+	private QueueEntry _newEntry;
+
 	@Override
 	public void setUp() {
-		
+		Patient patientOne = null;
+		Patient patientTwo = null;
+		Patient patientThree = null;
+		Doctor doctor = null;
+		Orthoptist orthoptist = null;
+		try {
+			patientOne = Facade.getInstance().getById(Patient.class, 1);
+			patientTwo = Facade.getInstance().getById(Patient.class, 2);
+			patientThree = Facade.getInstance().getById(Patient.class, 3);
+			doctor = Facade.getInstance().getById(Doctor.class, 1);
+			orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+        assertTrue(patientOne!=null);
+		assertTrue(patientTwo!=null);
+		assertTrue(patientThree!=null);
+        assertTrue(doctor!=null);
+        assertTrue(orthoptist!=null);
+
+
+		_newDoctorEntry = new QueueEntry(0,patientOne,doctor,null,0,new Timestamp(new Date().getTime()));
+		_newOrthoptistEntry = new QueueEntry(0,patientTwo,null,orthoptist,0,new Timestamp(new Date().getTime()));
+		_newEntry = new QueueEntry(0,patientThree,null,null,0,new Timestamp(new Date().getTime()));
+
+        System.out.println(_newDoctorEntry.getPatient());
+
+		try {
+			assertTrue(Facade.getInstance().save(_newDoctorEntry));
+			assertTrue(Facade.getInstance().save(_newOrthoptistEntry));
+			assertTrue(Facade.getInstance().save(_newEntry));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void tearDown() {
-
+		try {
+			assertTrue(Facade.getInstance().delete(_newDoctorEntry));
+			assertTrue(Facade.getInstance().delete(_newOrthoptistEntry));
+			assertTrue(Facade.getInstance().delete(_newEntry));
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test

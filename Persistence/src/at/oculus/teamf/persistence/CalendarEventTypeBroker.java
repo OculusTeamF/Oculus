@@ -27,11 +27,9 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
 		super(EventType.class, EventtypeEntity.class);
 
 		// add domain subclasses to broker
-		LinkedList<Class> clazzes = new LinkedList<Class>();
-		clazzes.add(FirstAppointment.class);
-		clazzes.add(OrthoptistAppointment.class);
-		clazzes.add(RegularAppointment.class);
-		addDomainClasses(clazzes);
+		addDomainClass(FirstAppointment.class);
+		addDomainClass(OrthoptistAppointment.class);
+		addDomainClass(RegularAppointment.class);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * Created by Norskan on 10.04.2015.
  */
-public class CalendarEventBokerTest extends BrokerTest {
+public class CalendarEventBrokerTest extends BrokerTest {
 
 	@Override
 	public void setUp() {

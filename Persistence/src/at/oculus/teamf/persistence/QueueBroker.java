@@ -9,12 +9,13 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.persistence.entities.DoctorEntity;
+import at.oculus.teamf.persistence.entities.OrthoptistEntity;
+import at.oculus.teamf.persistence.entities.PatientEntity;
 import at.oculus.teamf.persistence.entities.QueueEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
 
 /**
  * QueueBroker.java Created by dgr on 08.04.15.
@@ -46,16 +47,46 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 		Orthoptist orthoptist = queueEntry.getOrthoptist();
 
 		Integer doctorId = null;
+        DoctorEntity doctorEntity = null;
 		if (doctor != null) {
 			doctorId = doctor.getId();
-		}
+            try {
+                doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersitent(doctor);
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+            }
+        }
 		Integer orthoptistId = null;
+        OrthoptistEntity orthoptistEntity = null;
 		if (orthoptist != null) {
 			orthoptistId = orthoptist.getId();
+            try {
+                orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersitent(orthoptist);
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+            }
 		}
 
-		return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId, queueEntry.getPatient().getId(),
-		                       queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());
+        PatientEntity patientEntity = null;
+        try {
+            patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class).domainToPersitent(queueEntry.getPatient());
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
 
-	}
+        // TODO QueueParent laden
+        /*QueueEntity queueEntity = null;
+        if (queueEntry.getQueueIdParent() != null) {
+            try {
+                queueEntity = (QueueEntity) Facade.getInstance().getBroker(QueueEntry.class).domainToPersitent((QueueEntry) Facade.getInstance().getById(QueueEntry.class, queueEntry.getQueueIdParent()));
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+            } catch (FacadeException e) {
+                e.printStackTrace();
+            }
+        }*/
+		/*return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId, queueEntry.getPatient().getId(),
+		                       queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());*/
+        return new QueueEntity(queueEntry.getId(), doctorEntity, orthoptistEntity, patientEntity, queueEntry.getPatient().getId(), null, queueEntry.getArrivalTime());
+    }
 }

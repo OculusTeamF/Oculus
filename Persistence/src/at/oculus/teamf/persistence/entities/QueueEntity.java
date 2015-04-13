@@ -48,6 +48,16 @@ public class QueueEntity implements IEntity, ILogger {
                 + " | patientID: " + _patientId + " | queueIDParent: " + _queueIdParent + " | arrivalTime: " + _arrivalTime.toString());
 	}
 
+    public QueueEntity(int id, DoctorEntity doctorId, OrthoptistEntity orthoptistId, PatientEntity patient, int patientId, QueueEntity queueIdParent,
+                       Timestamp arrivalTime) {
+        _id = id;
+        _doctor = doctorId;
+        _orthoptist = orthoptistId;
+        _patient = patient;
+        _queueParent = queueIdParent;
+        _arrivalTime = arrivalTime;
+        _patientId = patientId;
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -139,7 +149,7 @@ public class QueueEntity implements IEntity, ILogger {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctorId", referencedColumnName = "doctorId")
     public DoctorEntity getDoctor() {
         return _doctor;
@@ -149,7 +159,7 @@ public class QueueEntity implements IEntity, ILogger {
         _doctor = doctor;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patientId", referencedColumnName = "patientId", nullable = false)
     public PatientEntity getPatient() {
         return _patient;
@@ -159,7 +169,7 @@ public class QueueEntity implements IEntity, ILogger {
         _patient = patientByPatientId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orthoptistId", referencedColumnName = "orthoptistId")
     public OrthoptistEntity getOrthoptist() {
         return _orthoptist;
@@ -169,7 +179,7 @@ public class QueueEntity implements IEntity, ILogger {
         this._orthoptist = orthoptist;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queueIdParent", referencedColumnName = "queueId")
     public QueueEntity getQueueParent() {
         return _queueParent;

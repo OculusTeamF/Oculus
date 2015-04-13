@@ -756,6 +756,7 @@
       <column name="calendarWorkingHoursId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="workingHoursId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="calendarId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="weekDayKey" sqlType="ENUM" precision="4" scale="0" nullable="false" jdbcType="1"/>
       <primary-key name="PRIMARY" columns="calendarWorkingHoursId"/>
       <foreign-key name="calendarworkinghours_ibfk_1" columns="workingHoursId" ref-table="workinghours" ref-schema="" ref-catalog="oculus_f" ref-columns="workingHoursId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="calendarworkinghours_ibfk_2" columns="calendarId" ref-table="calendar" ref-schema="" ref-catalog="oculus_f" ref-columns="calendarId" update-rule="3" delete-rule="3" deferrability="2"/>
@@ -1024,12 +1025,6 @@
       <foreign-key name="visualaid_ibfk_1" columns="diagnosisId" ref-table="diagnosis" ref-schema="" ref-catalog="oculus_f" ref-columns="diagnosisId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="visualAid_i1" unique="false" columns="diagnosisId"/>
     </table>
-    <table name="weekday" schema="" catalog="oculus_f" type="TABLE">
-      <column name="weekDayId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="weekDayId"/>
-      <exported-key name="workinghours_ibfk_1" table="workinghours" schema="" catalog="oculus_f" columns="weekDayId"/>
-    </table>
     <table name="workdisability" schema="" catalog="oculus_f" type="TABLE">
       <column name="workDisabilityId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="diagnosisId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
@@ -1043,16 +1038,13 @@
     </table>
     <table name="workinghours" schema="" catalog="oculus_f" type="TABLE">
       <column name="workingHoursId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="weekDayId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="morningFrom" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
       <column name="morningTo" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
       <column name="afternoonFrom" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
       <column name="afternoonTo" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
       <primary-key name="PRIMARY" columns="workingHoursId"/>
-      <foreign-key name="workinghours_ibfk_1" columns="weekDayId" ref-table="weekday" ref-schema="" ref-catalog="oculus_f" ref-columns="weekDayId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="calendarworkinghours_ibfk_1" table="calendarworkinghours" schema="" catalog="oculus_f" columns="workingHoursId"/>
-      <index name="weekDayId" unique="true" columns="morningFrom,morningTo,afternoonFrom,afternoonTo"/>
-      <index name="workingHours_i1" unique="false" columns="weekDayId"/>
+      <index name="morningFrom" unique="true" columns="morningFrom,morningTo,afternoonFrom,afternoonTo"/>
     </table>
   </data-source>
 </component>

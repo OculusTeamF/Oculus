@@ -32,9 +32,9 @@ public interface IPatient {
 
     void setGender(Gender gender);
 
-    String getSvn();
+    String getSocialInsuranceNr();
 
-    void setSvn(String svn);
+    void setSocialInsuranceNr(String svn);
 
     Doctor getDoctor();
 
