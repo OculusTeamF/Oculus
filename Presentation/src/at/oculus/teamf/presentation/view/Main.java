@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 /**
  * Created by Karo on 09.04.2015.
  */
-public class lMain extends Application
+public class Main extends Application
 {
 
     @Override

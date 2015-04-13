@@ -54,6 +54,8 @@ public class searchPatientController {
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
+    /*private TestClass test;
+    private MyPatient _test_patient;*/
 
     public void openPatientRecord(Event event)
      {
@@ -79,6 +81,17 @@ public class searchPatientController {
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
+
+        if (lastName.length() == 0) {
+            lastName = null;
+        }
+        if (firstName.length() == 0) {
+            firstName=null;
+        }
+        if (svn.length()==0) {
+            svn=null;
+        }
+
         ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));
 
         if(patientlist != null)
@@ -87,7 +100,6 @@ public class searchPatientController {
         }else{
             MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
             mb.showAndWait();
-
         }
 
     }
