@@ -27,7 +27,7 @@ public class PatientEntity implements IEntity {
     private Date _birthDay;
     private String _gender;
     private String _street;
-    private String postalCode;
+    private String _postalCode;
     private String _city;
     private String _countryIsoCode;
     private String _phone;
@@ -123,11 +123,11 @@ public class PatientEntity implements IEntity {
     @Basic
     @Column(name = "postalCode", nullable = true, insertable = true, updatable = true, length = 20)
     public String getPostalCode() {
-        return postalCode;
+        return _postalCode;
     }
 
     public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+        this._postalCode = postalCode;
     }
 
     @Basic
@@ -216,7 +216,7 @@ public class PatientEntity implements IEntity {
         if (_birthDay != null ? !_birthDay.equals(that._birthDay) : that._birthDay != null) return false;
         if (_gender != null ? !_gender.equals(that._gender) : that._gender != null) return false;
         if (_street != null ? !_street.equals(that._street) : that._street != null) return false;
-        if (postalCode != null ? !postalCode.equals(that.postalCode) : that.postalCode != null) return false;
+        if (_postalCode != null ? !_postalCode.equals(that._postalCode) : that._postalCode != null) return false;
         if (_city != null ? !_city.equals(that._city) : that._city != null) return false;
         if (_countryIsoCode != null ? !_countryIsoCode.equals(that._countryIsoCode) : that._countryIsoCode != null)
             return false;
@@ -241,7 +241,7 @@ public class PatientEntity implements IEntity {
         result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
         result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
         result = 31 * result + (_street != null ? _street.hashCode() : 0);
-        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
+        result = 31 * result + (_postalCode != null ? _postalCode.hashCode() : 0);
         result = 31 * result + (_city != null ? _city.hashCode() : 0);
         result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
         result = 31 * result + (_phone != null ? _phone.hashCode() : 0);

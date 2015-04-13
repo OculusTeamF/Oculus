@@ -20,11 +20,6 @@ import java.util.Collection;
 public class ApplicationUnitTests {
 
     public static void main (String [] args){
-        SearchPatientController controller =  new SearchPatientController();
-        Collection<Patient> patients = controller.searchPatients(null, "Berry", null);
-        System.out.println(patients.size());
-        for (Patient patient : patients){
-            System.out.println(patient.getLastName() + " " + patient.getFirstName());
-        }
+
     }
 }

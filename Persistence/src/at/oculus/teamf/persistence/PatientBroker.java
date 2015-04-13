@@ -36,7 +36,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		patient.setId(entity.getId());
 		patient.setFirstName(entity.getFirstName());
 		patient.setLastName(entity.getLastName());
-		patient.setSvn(entity.getSocialInsuranceNr());
+		patient.setSocialInsuranceNr(entity.getSocialInsuranceNr());
 
 		if(entity.getDoctor() != null) {
 			patient.setDoctor((Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
@@ -48,13 +48,47 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 			patient.setGender(Gender.Female);
 		}
 
+		patient.setAllergy(entity.getAllergy());
+		patient.setBirthDay(entity.getBirthDay());
+		patient.setChildhoodAilments(entity.getChildhoodAilments());
+		patient.setCity(entity.getCity());
+		patient.setCountryIsoCode(entity.getCountryIsoCode());
+		patient.setEmail(entity.getEmail());
+		patient.setMedicineIntolerance(entity.getMedicineIntolerance());
+		patient.setPhone(entity.getPhone());
+		patient.setPostalCode(entity.getPostalCode());
+		patient.setStreet(entity.getStreet());
+
 		return patient;
 	}
 
 	@Override
 	protected PatientEntity domainToPersitent(Patient obj) {
 		//Todo: reverse
-		return null;
+        PatientEntity patientEntity = new PatientEntity();
+        patientEntity.setId(obj.getId());
+        patientEntity.setFirstName(obj.getFirstName());
+        patientEntity.setLastName(obj.getLastName());
+		patientEntity.setSocialInsuranceNr(obj.getSocialInsuranceNr());
+        patientEntity.setAllergy(obj.getAllergy());
+        patientEntity.setBirthDay(obj.getBirthDay());
+        patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
+        patientEntity.setCity(obj.getCity());
+        patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
+		if(obj.getDoctor()!=null) {
+			patientEntity.setDoctorId(obj.getDoctor().getId());
+		}
+        patientEntity.setEmail(obj.getEmail());
+        patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
+		if(obj.getGender()==Gender.Male) {
+			patientEntity.setGender("M");
+		} else {
+			patientEntity.setGender("F");
+		}
+        patientEntity.setPhone(obj.getPhone());
+        patientEntity.setPostalCode(obj.getPostalCode());
+        patientEntity.setStreet(obj.getStreet());
+		return patientEntity;
 	}
 
 	@Override

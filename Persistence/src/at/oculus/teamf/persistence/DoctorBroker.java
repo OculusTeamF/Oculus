@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entities.*;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
@@ -69,10 +70,11 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		doctorEntity.setId(entity.getId());
 		try {
 			doctorEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
-			                                                .persitentToDomain((IEntity) entity.getCalendar()));
-			doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
-			                                                      .persitentToDomain(
-					                                                      (IEntity) entity.getDoctorSubstitude()));
+			                                                .domainToPersitent((IDomain) entity.getCalendar()));
+            // TODO recursiv hure dreck scheisse
+            /*doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+			                                                      .domainToPersitent(
+                                                                          (IDomain) entity.getDoctorSubstitude()));*/
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
