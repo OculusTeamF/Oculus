@@ -9,11 +9,6 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
-
-import java.util.Collection;
-
 /**
  * Created by oculus on 09.04.15.
  */

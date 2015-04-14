@@ -10,6 +10,7 @@
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.technical.loggin.ILogger;
+import org.junit.Ignore;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,12 +20,6 @@ import static junit.framework.TestCase.assertNull;
 
 
 public class PatientQueueTest implements ILogger{
-
-    @org.junit.Test
-    public void testUpdateQueueEntry() throws Exception {
-        PatientQueue patQueue = new PatientQueue();
-        patQueue.updateQueueEntry();
-    }
 
     @org.junit.Test
     public void testSetUserID() throws Exception {
@@ -69,6 +64,7 @@ public class PatientQueueTest implements ILogger{
         //patQueue.removePatient(pat);
     }
 
+    @Ignore
     @org.junit.Test
     public void testGetNext() throws Exception {
         Doctor doc = Facade.getInstance().getById(Doctor.class, 1);

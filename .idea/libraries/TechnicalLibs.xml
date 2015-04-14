@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="TechnicalLibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Technical/lib/log4j-api-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/log4j-core-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/shiro-core-1.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/slf4j-api-1.7.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/log4j-slf4j-impl-2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

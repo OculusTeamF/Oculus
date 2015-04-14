@@ -8,9 +8,8 @@
  */
 
 #pane{
-    -fx-background-image: url("oculus.JPG");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 900 400;
-    -fx-background-position: center center;
+    -fx-background-color: white;
+
+
 
 }

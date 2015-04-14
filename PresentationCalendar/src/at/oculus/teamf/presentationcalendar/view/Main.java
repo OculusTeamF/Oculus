@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
+package at.oculus.teamf.presentationcalendar.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,18 +19,17 @@ import javafx.stage.Stage;
 /**
  * Created by Karo on 09.04.2015.
  */
-public class lMain extends Application
+public class Main extends Application
 {
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
         primaryStage.setTitle("OCULUS - Gemeinschaftspraxis Dr. Tavolato");
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root, 900, 600);
         scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

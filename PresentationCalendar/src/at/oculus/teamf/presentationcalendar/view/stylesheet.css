@@ -1,8 +1,9 @@
 #pane{
     -fx-background-image: url("oculus.JPG");
     -fx-background-repeat: stretch;
-    -fx-background-size: 900 400;
+    -fx-background-size: 379 108;
     -fx-background-position: center;
+    -fx-background-color: white;
 }
 #newPatientPane{
     -fx-background-color:lightblue;
@@ -12,7 +13,7 @@
     -fx-background-color: lightblue;
 }
 #waitingListBox{
-    -fx-background-color: cornflowerblue;
+    -fx-background-color: white;
 }
 #newPatientLabel{
     -fx-font-size: 16px;

@@ -2,12 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e254defe-7300-411b-8b11-ccef44fce2d5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ApplicationUnitTests/src/SearchPatientControllerTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/MiGCalendarBeanDemo.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/MiGCalendarDemo.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-agenda-8.0-r4-20150404.080058-179.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-common-8.0-r4-20150404.080112-179.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-controls-8.0-r4-20150404.080125-179.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-fxml-8.0-r4-20150404.080139-179.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/lib/license4j-1.4.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/GUIlibs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/MainController.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/TechnicalLibs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agenda.fxml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agenda2.fxml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agenda2Controller.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/calendarFrame.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/main.fxml" />
+      <change type="DELETED" beforePath="E:\Oculus\Oculus\Presentation\lib\jfxtras-labs-samples-8.0-r4-SNAPSHOT-shadow.jar" afterPath="" />
+      <change type="DELETED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\CloseIconImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\MainController.java" afterPath="" />
+      <change type="DELETED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\agenda.fxml" afterPath="" />
+      <change type="DELETED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\main.fxml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ApplicationUnitTests/src/at/oculus/teamf/applicationunittests/ApplicationUnitTests.java" afterPath="$PROJECT_DIR$/ApplicationUnitTests/src/at/oculus/teamf/applicationunittests/ApplicationUnitTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CreatePatientController.java" afterPath="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CreatePatientController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientController.java" afterPath="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" afterPath="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DomainUnitTests/src/PatientQueueTest.java" afterPath="$PROJECT_DIR$/DomainUnitTests/src/PatientQueueTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Persistence/Persistence.iml" afterPath="$PROJECT_DIR$/Persistence/Persistence.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Technical/Technical.iml" afterPath="$PROJECT_DIR$/Technical/Technical.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PresentationTest/src/stylesheet.css" afterPath="$PROJECT_DIR$/PresentationTest/src/stylesheet.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\Presentation.iml" afterPath="$PROJECT_DIR$/PresentationCalendar/PresentationCalendar.iml" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\Main.java" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/Main.java" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\agendaController.java" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agendaController.java" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\newPatient.fxml" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/newPatient.fxml" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\newPatientController.java" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/newPatientController.java" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\oculus.JPG" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/oculus.JPG" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\patientRecord.fxml" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/patientRecord.fxml" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\patientRecordController.java" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/patientRecordController.java" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\searchPatient.fxml" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/searchPatient.fxml" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\searchPatientController.java" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/searchPatientController.java" />
+      <change type="MOVED" beforePath="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view\stylesheet.css" afterPath="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/stylesheet.css" />
     </list>
     <ignored path="OculusGit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,70 +91,13 @@
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DbRootNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="MySQL - oculus_f@83.212.126.222" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="oculus_f" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="weekday" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="OculusGit" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="SearchPatientController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="2640">
-              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#6395#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#2556#2565#0" expanded="true" />
-                <element signature="e#2849#2858#0" expanded="true" />
-                <element signature="e#5222#5231#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchPatientControllerTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ApplicationUnitTests/src/SearchPatientControllerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4921875" vertical-offset="0" max-vertical-offset="640">
-              <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApplicationUnitTests.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ApplicationUnitTests/src/at/oculus/teamf/applicationunittests/ApplicationUnitTests.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -141,18 +119,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/NotAbleToLoadClass.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/NotAbleToLoadClassException.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/exceptions/ReloadInterfaceNotImplementedException.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/ICollectionReload.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/CalendarBroker.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/EntityBroker.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/broker/CalendarEventBoker.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/facade/Facade.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/exceptions/NoBrokerMappedException.java" />
-        <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/IEntity.java" />
-        <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/EntityBrokerTest.java" />
-        <option value="$PROJECT_DIR$/PersistenceUnitTests/src/at/oculus/teamf/persistencetests/FacadeTest.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/exceptions/ReloadException.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/CalendarEventBoker.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/EntityBroker.java" />
@@ -165,7 +131,6 @@
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/QueueEntry.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Doctor.java" />
         <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java" />
-        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
         <option value="$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java" />
         <option value="$PROJECT_DIR$/Presentation/src/MainController.java" />
         <option value="$PROJECT_DIR$/Presentation/src/sample/Main.java" />
@@ -175,16 +140,12 @@
         <option value="$PROJECT_DIR$/Presentation/src/sample/CloseIconImpl.java" />
         <option value="$PROJECT_DIR$/Presentation/src/sample/patientRecordController.java" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/newPatientController.java" />
-        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/CloseIconImpl.java" />
-        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/MainController.java" />
-        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/main.fxml" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/newPatient.fxml" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/patientRecord.fxml" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/searchPatientController.java" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/searchPatient.fxml" />
         <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/patientRecordController.java" />
-        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/agenda.fxml" />
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/StartupController.java" />
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/ReceivePatientController.java" />
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CreatePatientController.java" />
@@ -192,6 +153,23 @@
         <option value="$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientControllerTest.java" />
         <option value="$PROJECT_DIR$/ApplicationUnitTests/src/at/oculus/teamf/applicationunittests/ApplicationUnitTests.java" />
         <option value="$PROJECT_DIR$/ApplicationUnitTests/src/SearchPatientControllerTest.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/DomainUnitTests/src/PatientQueueTest.java" />
+        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java" />
+        <option value="$PROJECT_DIR$/PresentationTest/src/stylesheet.css" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/stylesheet.css" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/agenda.fxml" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/calendarController.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/CloseIconImpl.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/AgendaApplication.java" />
+        <option value="$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/calendarFrame.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/agendaController.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/MainController.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/agenda2Controller.java" />
+        <option value="$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/agenda2.fxml" />
+        <option value="$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/Main.java" />
       </list>
     </option>
   </component>
@@ -210,10 +188,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="64" />
-    <option name="y" value="-4" />
-    <option name="width" value="1537" />
-    <option name="height" value="800" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -243,7 +221,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -262,179 +240,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Presentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Presentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Presentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ApplicationUnitTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ApplicationUnitTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ApplicationUnitTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="applicationunittests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="facade" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OculusGit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Oculus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="facade" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="exceptions" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -448,7 +256,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15527344" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Presentation/lib/jfxtras-labs-samples-8.0-r4-SNAPSHOT-shadow.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/PresentationCalendar/lib/MiGCalendarDemo.jar!/" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="options.lastSelected" value="preferences.sourceCode" />
@@ -466,6 +274,7 @@
       <recent name="at.oculus.teamf.persistence.facade" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Oculus\Oculus\Presentation\src\at\oculus\teamf\presentation\view" />
       <recent name="C:\Users\Karo\IdeaProjects\Oculus\Presentation\src\at\oculus\teamf\presentation\view" />
       <recent name="C:\Users\Karo\IdeaProjects\Oculus\Presentation\lib" />
       <recent name="C:\Users\Karo\IdeaProjects\Oculus\Presentation\src" />
@@ -487,16 +296,16 @@
       <recent name="at.oculus.teamf.persistence.entities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SearchPatientControllerTest">
-    <configuration default="false" name="All in PersistenceUnitTests (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Main (1)">
+    <configuration default="false" name="DomainUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="PersistenceUnitTests" />
+      <module name="DomainUnitTests" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
+      <option name="MAIN_CLASS_NAME" value="DomainUnitTests" />
       <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -507,29 +316,34 @@
       </option>
       <envs />
       <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="PatientQueueTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="DomainUnitTests" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PatientQueueTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="sample.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="sample.Main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="Presentation" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="at.oculus.teamf.presentation.view.*" />
@@ -547,16 +361,18 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="Presentation" />
       <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="ApplicationUnitTests" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="AgendaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="at.oculus.teamf.applicationunittests.*" />
+          <option name="PATTERN" value="at.oculus.teamf.presentation.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="at.oculus.teamf.applicationunittests.ApplicationUnitTests" />
+      <option name="MAIN_CLASS_NAME" value="at.oculus.teamf.presentation.view.AgendaApplication" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -565,37 +381,30 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="ApplicationUnitTests" />
+      <module name="Presentation" />
       <envs />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="SearchPatientControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="ApplicationUnitTests" />
+    <configuration default="false" name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="at.oculus.teamf.presentationcalendar.view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="at.oculus.teamf.presentationcalendar.view.Main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SearchPatientControllerTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
+      <module name="PresentationCalendar" />
       <envs />
-      <patterns />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
@@ -667,6 +476,7 @@
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/Presentation/lib/controlsfx-8.20.9-20150325.095507-3730.jar" />
       <envs />
       <method />
     </configuration>
@@ -811,6 +621,9 @@
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -843,6 +656,12 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="com.intellij.database.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
+      <option name="VM_PARAMETERS" value="" />
+      <option name="USER_CFG_CLASS" />
+      <option name="CONTEXT_PROVIDER" />
+      <method />
+    </configuration>
     <configuration default="false" name="All in PersistenceUnitTests (1)" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="PersistenceUnitTests" />
@@ -866,23 +685,28 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="JUnit.All in PersistenceUnitTests (1)" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.All in PersistenceUnitTests (3)" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="3" class="java.lang.String" itemvalue="Application.Main (1)" />
-      <item index="4" class="java.lang.String" itemvalue="Application.ApplicationUnitTests" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.SearchPatientControllerTest" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.DomainUnitTests" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.PatientQueueTest" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="4" class="java.lang.String" itemvalue="Application.AgendaApplication" />
+      <item index="5" class="java.lang.String" itemvalue="Application.Main (1)" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.SearchPatientControllerTest" />
-        <item index="1" class="java.lang.String" itemvalue="Application.ApplicationUnitTests" />
-        <item index="2" class="java.lang.String" itemvalue="Application.Main (1)" />
-        <item index="3" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.All in PersistenceUnitTests (3)" />
+        <item index="0" class="java.lang.String" itemvalue="Application.Main (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="2" class="java.lang.String" itemvalue="Application.AgendaApplication" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.PatientQueueTest" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.DomainUnitTests" />
       </list>
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SliceManager">
+    <option name="analysisUIOptions">
+      <AnalysisUIOptions />
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -916,6 +740,10 @@
       <workItem from="1428925946344" duration="2560000" />
       <workItem from="1428928850977" duration="2416000" />
       <workItem from="1428935354326" duration="1132000" />
+      <workItem from="1428941179123" duration="4568000" />
+      <workItem from="1428946483417" duration="13931000" />
+      <workItem from="1429006889576" duration="14174000" />
+      <workItem from="1429021140609" duration="217000" />
     </task>
     <task id="LOCAL-00001" summary="It compiles! :)">
       <created>1428397587232</created>
@@ -989,11 +817,17 @@
       <option name="project" value="LOCAL" />
       <updated>1428935428237</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Merge branch 'dev' into master_fabiansalzgeber&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;Oculus.iml&#10;&#9;Persistence/src/at/oculus/teamf/persistence/QueueBroker.java&#10;">
+      <created>1428941402184</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1428941402184</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57336000" />
+    <option name="totallyTimeSpent" value="90226000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1016,39 +850,39 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-4" width="1537" height="800" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="0" />
+    <editor active="false" />
     <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.4996651" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32794118" sideWeight="0.49698594" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3611691" sideWeight="0.49832553" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.4996651" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3617647" sideWeight="0.5016745" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991013" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.054411765" sideWeight="0.49698594" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22338204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.4996651" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21089298" sideWeight="0.3395973" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1546855" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2453125" sideWeight="0.66040266" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15416667" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.4996651" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32794118" sideWeight="0.49698594" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3617647" sideWeight="0.49832553" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.4996651" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.054411765" sideWeight="0.49698594" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36911765" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.4996651" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21089298" sideWeight="0.3395973" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2458138" sideWeight="0.66040266" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34920636" sideWeight="0.4948652" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34920636" sideWeight="0.4948652" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1078,7 +912,8 @@
     <MESSAGE value="Gui integration" />
     <MESSAGE value="Gui integration, it works" />
     <MESSAGE value="fixing searchPatientController bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing searchPatientController bugs" />
+    <MESSAGE value="Merge branch 'dev' into master_fabiansalzgeber&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;Oculus.iml&#10;&#9;Persistence/src/at/oculus/teamf/persistence/QueueBroker.java&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'dev' into master_fabiansalzgeber&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;Oculus.iml&#10;&#9;Persistence/src/at/oculus/teamf/persistence/QueueBroker.java&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1091,101 +926,11 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/ISessionClosable.java">
+    <entry file="file://$PROJECT_DIR$/DomainUnitTests/src/PatientQueueTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3586498" vertical-offset="0" max-vertical-offset="0">
-          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/ISessionBroker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29746836" vertical-offset="0" max-vertical-offset="0">
-          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/ISession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4050633" vertical-offset="0" max-vertical-offset="0">
-          <caret line="22" column="15" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/HibernateSessionBroker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46624473" vertical-offset="0" max-vertical-offset="0">
-          <caret line="25" column="15" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/ClassNotMappedException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3586498" vertical-offset="0" max-vertical-offset="0">
-          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/HibernateProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25105485" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="81" selection-start-line="14" selection-start-column="81" selection-end-line="14" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseConnection/src/at/oculus/teamf/databaseconnection/session/HibernateSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25105485" vertical-offset="0" max-vertical-offset="0">
-          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/PatientEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="266" column="5" selection-start-line="266" selection-start-column="5" selection-end-line="266" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/exceptions/NotAbleToLoadClassException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12673056" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/exceptions/ReloadInterfaceNotImplementedException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1629393" vertical-offset="0" max-vertical-offset="0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/ICollectionReload.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19914803" vertical-offset="0" max-vertical-offset="0">
-          <caret line="20" column="96" selection-start-line="20" selection-start-column="96" selection-end-line="20" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/exceptions/FacadeException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12673056" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/exceptions/NoBrokerMappedException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12673056" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="60" selection-start-line="14" selection-start-column="60" selection-end-line="14" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/entities/IEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1207">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1224,31 +969,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8523645" vertical-offset="0" max-vertical-offset="0">
-          <caret line="55" column="22" selection-start-line="55" selection-start-column="22" selection-end-line="55" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Doctor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21568628" vertical-offset="0" max-vertical-offset="0">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Orthoptist.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.43137255" vertical-offset="0" max-vertical-offset="0">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11764706" vertical-offset="0" max-vertical-offset="0">
-          <caret line="96" column="9" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1259,114 +983,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/main.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.882353" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="195" selection-start-line="14" selection-start-column="195" selection-end-line="14" selection-end-column="195" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/newPatient.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="393" selection-start-line="14" selection-start-column="393" selection-end-line="14" selection-end-column="393" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07275321" vertical-offset="0" max-vertical-offset="0">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8002853" vertical-offset="0" max-vertical-offset="0">
-          <caret line="115" column="59" selection-start-line="115" selection-start-column="59" selection-end-line="115" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/CloseIconImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2425107" vertical-offset="0" max-vertical-offset="0">
-          <caret line="22" column="67" selection-start-line="22" selection-start-column="67" selection-end-line="22" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/newPatientController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5820257" vertical-offset="0" max-vertical-offset="0">
-          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/searchPatientController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8059914" vertical-offset="0" max-vertical-offset="0">
-          <caret line="42" column="4" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/patientRecordController.java">
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/patientRecordController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.62846583" vertical-offset="0" max-vertical-offset="0">
           <caret line="31" column="4" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/patientRecordController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7227357" vertical-offset="0" max-vertical-offset="0">
-          <caret line="34" column="15" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/patientRecord.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="11.137931" vertical-offset="0" max-vertical-offset="0">
-          <caret line="437" column="114" selection-start-line="437" selection-start-column="107" selection-end-line="437" selection-end-column="114" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/agenda.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="0" max-vertical-offset="0">
-          <caret line="13" column="331" selection-start-line="13" selection-start-column="331" selection-end-line="13" selection-end-column="331" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Presentation/src/at/oculus/teamf/presentation/view/searchPatient.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.469428" vertical-offset="0" max-vertical-offset="0">
-          <caret line="14" column="402" selection-start-line="14" selection-start-column="402" selection-end-line="14" selection-end-column="402" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1381,10 +1001,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.03482587" vertical-offset="549" max-vertical-offset="1920">
           <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#3949#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1392,9 +1008,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.67164177" vertical-offset="0" max-vertical-offset="603">
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#1418#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1402,39 +1015,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33169532" vertical-offset="660" max-vertical-offset="4035">
           <caret line="68" column="15" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CreatePatientController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4987715" vertical-offset="427" max-vertical-offset="945">
-          <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="8025">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/jre/lib/rt.jar!/sun/misc/Launcher.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.08" vertical-offset="2918" max-vertical-offset="5475">
-          <caret line="236" column="24" selection-start-line="236" selection-start-column="24" selection-end-line="236" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/ClassLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6548" max-vertical-offset="32025">
-          <caret line="508" column="0" selection-start-line="508" selection-start-column="0" selection-end-line="508" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1443,61 +1023,316 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="428" max-vertical-offset="3195">
           <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
-            <element signature="e#1471#1485#0" expanded="true" />
+            <element signature="e#1471#1485#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="713" max-vertical-offset="2085">
-          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding>
-            <element signature="e#2146#2147#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.03655914" vertical-offset="0" max-vertical-offset="930">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/String.java">
+    <entry file="file://$PROJECT_DIR$/DomainUnitTests/src/DomainUnitTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31362468" vertical-offset="13783" max-vertical-offset="45885">
-          <caret line="982" column="0" selection-start-line="982" selection-start-column="0" selection-end-line="982" selection-end-column="0" />
-          <folding>
-            <element signature="e#62524#62525#0" expanded="true" />
-            <element signature="e#62580#62581#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.29462737" vertical-offset="0" max-vertical-offset="901">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientController.java">
+    <entry file="file://$PROJECT_DIR$/Persistence/src/at/oculus/teamf/persistence/QueueBroker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="2640">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#6395#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#2556#2565#0" expanded="true" />
-            <element signature="e#2849#2858#0" expanded="true" />
-            <element signature="e#5222#5231#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.5780142" vertical-offset="473" max-vertical-offset="1394">
+          <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/CreatePatientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.88388216" vertical-offset="204" max-vertical-offset="1071">
+          <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2a835/1bb3786c-7471-447d-9a02-fcb2ec1cdfc4/oculus_f..queue">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Doctor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="698" max-vertical-offset="1479">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/patientRecord.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-247.63333" vertical-offset="0" max-vertical-offset="7786">
+          <caret line="437" column="114" selection-start-line="437" selection-start-column="107" selection-end-line="437" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/searchPatientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.648855" vertical-offset="0" max-vertical-offset="917">
+          <caret line="42" column="4" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/PresentationCalendar.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="698">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationTest/src/at/oculus/teamf/presentation/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29781023" vertical-offset="0" max-vertical-offset="685">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/patientRecordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5601719" vertical-offset="0" max-vertical-offset="698">
+          <caret line="34" column="15" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/newPatientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74452555" vertical-offset="0" max-vertical-offset="969">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationTest/src/stylesheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2729927" vertical-offset="0" max-vertical-offset="685">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/oculus.JPG">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationTest/src/oculus.JPG">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/newPatient.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.140458" vertical-offset="2295" max-vertical-offset="7752">
+          <caret line="14" column="393" selection-start-line="14" selection-start-column="393" selection-end-line="14" selection-end-column="393" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ApplicationUnitTests/src/at/oculus/teamf/applicationunittests/ApplicationUnitTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.24355301" vertical-offset="0" max-vertical-offset="698">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ApplicationUnitTests/src/at/oculus/teamf/applicationunittests/SearchPatientControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1704871" vertical-offset="0" max-vertical-offset="698">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ApplicationUnitTests/src/SearchPatientControllerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4921875" vertical-offset="0" max-vertical-offset="640">
+        <state vertical-scroll-proportion="0.38968483" vertical-offset="0" max-vertical-offset="698">
           <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20200573" vertical-offset="63" max-vertical-offset="1190">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2a835/1bb3786c-7471-447d-9a02-fcb2ec1cdfc4/oculus_f..usergroup">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/src/at/oculus/teamf/application/facade/SearchPatientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44972068" vertical-offset="460" max-vertical-offset="2703">
+          <caret line="63" column="29" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.633333" vertical-offset="0" max-vertical-offset="2091">
+          <caret line="17" column="195" selection-start-line="17" selection-start-column="131" selection-end-line="17" selection-end-column="195" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/searchPatient.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="1547">
+          <caret line="14" column="402" selection-start-line="14" selection-start-column="402" selection-end-line="14" selection-end-column="402" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/stylesheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5460894" vertical-offset="0" max-vertical-offset="716">
+          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2a835/1bb3786c-7471-447d-9a02-fcb2ec1cdfc4/oculus_f..user">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agenda.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40416047" vertical-offset="0" max-vertical-offset="673">
+          <caret line="16" column="178" selection-start-line="16" selection-start-column="112" selection-end-line="16" selection-end-column="178" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/Patient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2329">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/calendarFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26600283" vertical-offset="0" max-vertical-offset="1751">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="16" selection-end-column="3" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/src/at/oculus/teamf/domain/entity/PatientQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.314367" vertical-offset="0" max-vertical-offset="5338">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="23" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#12330#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agendaController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41963017" vertical-offset="164" max-vertical-offset="867">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.7835195" vertical-offset="355" max-vertical-offset="2295">
+          <caret line="105" column="5" selection-start-line="105" selection-start-column="5" selection-end-line="105" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agenda2.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22734027" vertical-offset="0" max-vertical-offset="673">
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/agenda2Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41963017" vertical-offset="1320" max-vertical-offset="2023">
+          <caret line="98" column="0" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DomainUnitTests/src/PatientQueueTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="277" max-vertical-offset="1207">
+          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PresentationCalendar/src/at/oculus/teamf/presentationcalendar/view/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23743017" vertical-offset="0" max-vertical-offset="716">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1554,7 +1389,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Technical</last-edited>
+          <last-edited>PresentationCalendar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1566,7 +1401,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Hibernate 4.2.2-4.2.2</last-edited>
+          <last-edited>GUIlibs</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

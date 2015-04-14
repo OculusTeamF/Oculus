@@ -7,25 +7,44 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
-/*
-import at.oculus.teamf.application.facade;
-*/
+package at.oculus.teamf.presentationcalendar.view;
+
 /**
- * Created by Karo on 09.04.2015.
+ * MiG Calendar Test (embedded swing into javafx)
+ *
+ * @author Fabian Salzgeber
+ * @date 13.4.2015
  */
 
+import javafx.embed.swing.SwingNode;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class agendaController implements Initializable{
+    @FXML private SwingNode swingNode;
 
+    private JPanel test = new calendarFrame();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        createSwingContent(swingNode);
+    }
 
+    private void createSwingContent(final SwingNode swingNode) {
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                swingNode.setContent(test);
+                //swingNode.setContent(new JButton("Click me!"));
+
+            }
+        });
     }
 }

@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * Todo: add docs, implement equals
  *
- * @author Simon Angerer
+ * @author Fabian Salzgeber
  * @date 03.4.2015
  */
 public class PatientQueue implements ILogger{
@@ -144,22 +144,6 @@ public class PatientQueue implements ILogger{
 	    _entries = entries;
     }
 
-    public void updateQueueEntry() throws FacadeException {
-        Timestamp tstamp = new Timestamp(new Date().getTime());
-        Doctor doc = Facade.getInstance().getById(Doctor.class, 1);
-        Patient pat = Facade.getInstance().getById(Patient.class, 7);
-        Orthoptist ortho = null;
-
-        QueueEntry newEntry = new QueueEntry(1, pat, doc, ortho, 3, tstamp);
-
-        // add & save new entry
-        try {
-            Facade.getInstance().save(newEntry);
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
-        }
-    }
-
     public void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) {
         // get queue from user
         PatientQueue tempQueue = null;
@@ -167,17 +151,14 @@ public class PatientQueue implements ILogger{
         if(orthoptist != null) { tempQueue = new PatientQueue(orthoptist); }
         if(orthoptist == null && doctor == null) { tempQueue = new PatientQueue(); }
 
-        // set new queueEntry data
-        QueueEntry newEntry = new QueueEntry(0, patient, doctor, orthoptist, 3, arrivaltime);
-        // set queue id
-        int newQueueID = 8;   // not used (delete later)
-        newEntry.setId(0);    // set 0 to add as new entry on last position in queue
-
+        // set queue id & Parent ID
         Integer newParentID = tempQueue.getEntries().size();
         if (newParentID == 0) {
             newParentID = null;     // set null for first entry parentID
         }
-        newEntry.setQueueIdParent(newParentID);
+
+        // set new queueEntry data
+        QueueEntry newEntry = new QueueEntry(0, patient, doctor, orthoptist, newParentID, arrivaltime);
 
         // save new entry (send to persistence)
         try {
@@ -190,16 +171,16 @@ public class PatientQueue implements ILogger{
         if (doctor != null) {
             log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to '"
                     + doctor.getLastName() + "' in queue position "
-                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID );
+                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() );
         }
         if (orthoptist != null) {
             log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to '"
                     + orthoptist.getLastName() + "' in queue position "
-                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID );
+                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() );
         }
         if (orthoptist == null && doctor == null){
             log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to 'no user' in queue position "
-                    + newEntry.getQueueIdParent() + " / queueID:" + newQueueID);
+                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId());
         }
 
     }
