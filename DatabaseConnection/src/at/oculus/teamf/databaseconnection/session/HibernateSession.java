@@ -10,12 +10,14 @@
 package at.oculus.teamf.databaseconnection.session;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Encapsulated hibernate session that can be simple exchanged thought the {@code #ISession} implementation.
@@ -273,6 +275,15 @@ class HibernateSession implements ISession, ISessionClosable {
 		}
 
 		return false;
+	}
+
+	public List<Object> getQueryResult(String queryString, String[] parameters) throws BadSessionException  {
+		validateSession();
+		Query query = _session.createQuery(queryString);
+		for(int i = 0; i<parameters.length; i++){
+			query.setParameter(i, parameters[i]);
+		}
+		return query.list();
 	}
 
     /**

@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.exceptions.*;
 
 import java.util.Collection;
@@ -225,6 +226,28 @@ public class Facade {
 
 	public boolean deleteAll(Collection<IDomain> obj) throws FacadeException {
 		return (Boolean)worker(obj.getClass(), new DeleteAll(obj));
+	}
+
+	private class SearchPatient extends Execute<Collection<Patient>> {
+
+		private String _svn;
+		private String _firstName;
+		private String _lastName;
+
+		public SearchPatient(String svn, String firstName, String lastName) {
+			_svn = svn;
+			_firstName = firstName;
+			_lastName = lastName;
+		}
+
+		@Override
+		public Collection<Patient> execute(ISession session, EntityBroker broker) {
+			return ((PatientBroker) broker).searchPatient(session, _svn, _firstName, _lastName);
+		}
+	}
+
+	public Collection<Patient> searchPatient(String svn, String firstName, String lastName) throws FacadeException {
+		return (Collection<Patient>)worker(Patient.class, new SearchPatient(svn, firstName, lastName));
 	}
 
 	protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {

@@ -11,6 +11,7 @@ package at.oculus.teamf.databaseconnection.session;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Session interface to abstract sessions dealt by broker that implement the at.oculus.teamf.databaseconnection.session.ISessionBroker
@@ -95,4 +96,6 @@ public interface ISession {
 	 * @return the new id of the object in the database if it was saved an not updated
 	 */
 	Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
+
+	List<Object> getQueryResult(String query, String[] parameters) throws BadSessionException;
 }

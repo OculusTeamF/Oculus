@@ -13,10 +13,12 @@ import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
+import org.junit.Test;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -100,4 +102,36 @@ public class PatientBrokerTest extends BrokerTest {
         assertTrue(patient.getCalendarEvents() != null);
         assertTrue(patient.getCalendarEvents().size() == 1);
     }
+
+	@Test
+	public void testSearchPatient(){
+		LinkedList<Patient> patients = null;
+		// SVN only
+		try {
+			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("5947053957","","");
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(patients.size()==1);
+		// Firstname only
+		try {
+			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","Jane","");
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(patients.size()==3);
+		// Lastname only
+		try {
+			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","","son");
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(patients.size()==6);
+		for(Patient patient : patients){
+			System.out.println(patient);
+		}
+	}
 }
