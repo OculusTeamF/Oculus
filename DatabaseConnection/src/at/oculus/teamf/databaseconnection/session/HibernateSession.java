@@ -280,8 +280,8 @@ class HibernateSession implements ISession, ISessionClosable {
 	public List<Object> getQueryResult(String queryString, String[] parameters) throws BadSessionException  {
 		validateSession();
 		Query query = _session.createQuery(queryString);
-		for(int i = 0; i<parameters.length; i++){
-			query.setParameter(i, parameters[i]);
+		for(Integer i = 0; i<parameters.length; i++){
+			query.setParameter(i.toString(), parameters[i]);
 		}
 		return query.list();
 	}

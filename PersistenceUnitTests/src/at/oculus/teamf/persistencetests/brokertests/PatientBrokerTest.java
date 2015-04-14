@@ -116,7 +116,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==1);
 		// Firstname only
 		try {
-			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","Jane","");
+			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","JaNe","");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -124,14 +124,11 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==3);
 		// Lastname only
 		try {
-			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","","son");
+			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","","sOn");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 		assertTrue(patients.size()==6);
-		for(Patient patient : patients){
-			System.out.println(patient);
-		}
 	}
 }

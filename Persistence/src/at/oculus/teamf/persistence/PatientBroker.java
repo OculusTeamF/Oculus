@@ -109,7 +109,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		Collection<Patient> patients = new LinkedList<Patient>();
 
 		// create query
-		String query = "FROM PatientEntity where upper(socialInsuranceNr) like ? and upper(firstName) like ? and upper(lastName) like ?";
+		String query = "FROM PatientEntity where upper(socialInsuranceNr) like ?0 and upper(firstName) like ?1 and upper(lastName) like ?2";
 		String[] parameters = new String[3];
 		parameters[0] = "%" + svn.toUpperCase() + "%";
 		parameters[1] = "%" + firstName.toUpperCase() + "%";
