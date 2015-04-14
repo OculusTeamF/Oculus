@@ -17,28 +17,104 @@ package at.oculus.teamf.presentation.view;/*package sample;
  ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.Patient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import jfxtras.labs.scene.control.window.Window;
+import se.mbaeumer.fxmessagebox.MessageBox;
+import se.mbaeumer.fxmessagebox.MessageBoxType;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 /**
  * Created by Karo on 11.04.2015.
  */
 
-public class searchPatientController {
+public class searchPatientController implements Initializable{
 
- /*@FXML public ListView searchPatient;
- public Patient patient;
+    @FXML  public TextField searchPatientLastname;
+    @FXML public TextField searchPatientFirstname;;
+    @FXML public TextField searchPatientSVN;
+    @FXML public ListView searchPatientList;
+    @FXML public Button searchPatientButton;
 
- public void openPatientRecord(Event event)
- {
-      searchPatient.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>()
-      {
-       @Override
-       public void handle(javafx.scene.input.MouseEvent event)
-       {
-              if(event.getClickCount() == 2)
-              {
-                  currentItemSelected = searchPatient.getSelectionModel().getSelectedItem();
-              }
-       }
-      });
+    private SearchPatientController _searchPatientController = new SearchPatientController();
+    private Patient _patient;
 
- }*/
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        searchPatientLastname.requestFocus();
+    }
+
+    public void openPatientRecord(Event event)
+     {
+         /* searchPatient.setOnMouseClicked(new EventHandler<MouseEvent>()
+          {
+           @Override
+           public void handle(javafx.scene.input.MouseEvent event)
+           {
+               ObservableList<Patient> patientlist;
+               _patient = new Patient();
+
+                  if(event.getClickCount() == 2)
+                  {
+                      patientlist = (ObservableList<Patient>) searchPatient.getSelectionModel().getSelectedItem();
+                  }
+           }
+          });*/
+
+     }
+
+    public void searchPatient(ActionEvent actionEvent) {
+
+        //TODO: Focus on Lastneme at the beginning
+        String lastName = searchPatientLastname.getText();
+        String firstName = searchPatientFirstname.getText();
+        String svn = searchPatientSVN.getText();
+
+        if (lastName.length() == 0) {
+            lastName = null;
+        }
+        if (firstName.length() == 0) {
+            firstName = null;
+        }
+        if (svn.length() == 0) {
+            svn = null;
+        }
+
+        ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));
+
+        if(patientlist.size() > 0)
+        {
+            searchPatientList.setItems(patientlist);
+        }else{
+            MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
+            mb.showAndWait();
+            searchPatientLastname.clear();
+            searchPatientFirstname.clear();
+            searchPatientSVN.clear();
+
+        }
+
+    }
+
+
 }

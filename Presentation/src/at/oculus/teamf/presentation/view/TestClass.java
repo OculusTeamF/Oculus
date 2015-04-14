@@ -7,19 +7,39 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
-
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
+package at.oculus.teamf.presentation.view;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
- * Created by oculus on 09.04.15.
+ * Created by Karo on 13.04.2015.
  */
-public class ApplicationUnitTests {
+public class TestClass {
 
-    public static void main (String [] args){
 
+    public Collection<MyPatient> searchPatients (String svn, String lastName, String firstName)
+    {
+        Collection<MyPatient> patients = new LinkedList<MyPatient>();
+        MyPatient myPat = new MyPatient("Mustermann","Max",12345678);
+        patients.add(myPat);
+
+        return patients;
+    }
+
+}
+
+class MyPatient {
+
+    String fname;
+    String lname;
+    Integer svn;
+
+    public MyPatient(String lname, String fname, Integer svn)
+    {
+        lname = lname;
+        fname = fname;
+        svn = svn;
     }
 }

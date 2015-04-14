@@ -7,19 +7,23 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
-
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.Patient;
 
 import java.util.Collection;
 
-/**
- * Created by oculus on 09.04.15.
- */
-public class ApplicationUnitTests {
+import static org.junit.Assert.*;
 
-    public static void main (String [] args){
+public class SearchPatientControllerTest {
 
+    @org.junit.Test
+    public void testSearchPatients() throws Exception {
+        SearchPatientController controller =  new SearchPatientController();
+        Collection<Patient> patients = controller.searchPatients(null, "Hanson", null);
+        /*System.out.println(patients.size());
+        for (Patient patient : patients){
+            System.out.println(patient.getLastName() + " " + patient.getFirstName());
+        }*/
+        assertTrue(patients.size() == 2);
     }
 }

@@ -11,9 +11,9 @@ package at.oculus.teamf.presentation.view;
 /**
  * Created by Karo on 09.04.2015.
  */
-/*
-import at.oculus.teamf.application.facade;
-*/
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.domain.entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +30,7 @@ import jfxtras.labs.scene.control.window.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
@@ -39,18 +40,46 @@ public class MainController implements Initializable {
     @FXML private TabPane displayPane;
     @FXML private ListView wList1, wList2, wList3, wListO;
 
-    private Queue _patientQueue;
-    private Collection<Queue> _allQueues;
+    private Collection<PatientQueue> _allQueues;
     private Tab _newPatientTab;
     private Tab _calendarTab;
     private Tab _searchPatientTab;
+    private User _user;
+    private StartupController _startupController = new StartupController();
 
+
+    /**
+     * Initialize the waiting queue
+     * @param location
+     * @param resources
+     */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO: implement the Object waitingQueue
-        ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
-        wList1.setItems(wList);
+
+        ObservableList<String> patients = null;
+        String lname;
+        String fname;
+
+        _allQueues =  _startupController.getAllQueues();
+
+        for(PatientQueue pq : _allQueues)
+        {
+            for(QueueEntry qe : pq.getEntries()){
+
+                System.out.println(qe.getPatient().getLastName());
+                wList1.setItems((ObservableList) pq.getEntries());
+            }
+
+            }
+
     }
+
+
+       /*
+        ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
+        wList1.setItems(wList);*/
+
+
 
     /*Close the application by clicking the Menuitem 'Exit'*/
     @FXML
@@ -77,14 +106,20 @@ public class MainController implements Initializable {
     public void openPatient(ActionEvent actionEvent) {
        //TODO:
     }
+
     /*Opens a patient record after patient search*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
+
         _searchPatientTab = generateTab("Search Patient");
         displayPane.getTabs().add(_searchPatientTab);
     }
 
-
+    /**
+     * Opens new Tabs on displayscreen
+     * @param tabName
+     * @return
+     */
     private Tab generateTab(String tabName) {
         Tab tab = new Tab(tabName);
 

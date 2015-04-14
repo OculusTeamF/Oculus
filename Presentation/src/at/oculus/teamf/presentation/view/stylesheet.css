@@ -12,7 +12,7 @@
     -fx-background-color: lightblue;
 }
 #waitingListBox{
-    -fx-background-color: cornflowerblue;
+    -fx-background-color: powderblue;
 }
 #newPatientLabel{
     -fx-font-size: 16px;
@@ -28,6 +28,6 @@
 #employerInformation{
     -fx-background-color: lightsteelblue;
 }
-#searchPatientPaneList{
+#searchPatientPane{
     -fx-background-color: powderblue;
 }
