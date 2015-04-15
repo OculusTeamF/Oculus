@@ -51,12 +51,9 @@ public class QueueBrokerTest extends BrokerTest {
         assertTrue(doctor!=null);
         assertTrue(orthoptist!=null);
 
-
 		_newDoctorEntry = new QueueEntry(0,patientOne,doctor,null,0,new Timestamp(new Date().getTime()));
 		_newOrthoptistEntry = new QueueEntry(0,patientTwo,null,orthoptist,0,new Timestamp(new Date().getTime()));
 		_newEntry = new QueueEntry(0,patientThree,null,null,0,new Timestamp(new Date().getTime()));
-
-        System.out.println(_newDoctorEntry.getPatient());
 
 		try {
 			assertTrue(Facade.getInstance().save(_newDoctorEntry));

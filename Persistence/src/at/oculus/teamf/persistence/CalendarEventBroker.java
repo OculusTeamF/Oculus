@@ -23,7 +23,7 @@ class CalendarEventBroker extends EntityBroker<CalendarEvent, CalendarEventEntit
 	}
 
 	@Override
-	protected CalendarEvent persitentToDomain(CalendarEventEntity entity) throws FacadeException {
+	protected CalendarEvent persistentToDomain(CalendarEventEntity entity) throws FacadeException {
 		CalendarEvent event = new CalendarEvent();
 		event.setDescription(entity.getDescription());
 		event.setEventEnd(entity.getEventEnd());
@@ -39,7 +39,7 @@ class CalendarEventBroker extends EntityBroker<CalendarEvent, CalendarEventEntit
 	}
 
 	@Override
-	protected CalendarEventEntity domainToPersitent(CalendarEvent entity) {
+	protected CalendarEventEntity domainToPersistent(CalendarEvent entity) {
 		//Todo: reverse
 		return null;
 	}

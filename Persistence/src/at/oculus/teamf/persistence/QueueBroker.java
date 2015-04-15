@@ -27,7 +27,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 	}
 
 	@Override
-	protected QueueEntry persitentToDomain(QueueEntity entity) throws FacadeException {
+	protected QueueEntry persistentToDomain(QueueEntity entity) throws FacadeException {
 		Patient patient = (Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId());
 		Doctor doctor = null;
 		if (entity.getDoctorId() != null) {
@@ -42,7 +42,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 	}
 
 	@Override
-	protected QueueEntity domainToPersitent(QueueEntry queueEntry) {
+	protected QueueEntity domainToPersistent(QueueEntry queueEntry) {
 		Doctor doctor = queueEntry.getDoctor();
 		Orthoptist orthoptist = queueEntry.getOrthoptist();
 
@@ -51,7 +51,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 		if (doctor != null) {
 			doctorId = doctor.getId();
             try {
-                doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersitent(doctor);
+                doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(doctor);
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
             }
@@ -61,7 +61,8 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 		if (orthoptist != null) {
 			orthoptistId = orthoptist.getId();
             try {
-                orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersitent(orthoptist);
+                orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersistent(
+		                orthoptist);
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
             }
@@ -69,7 +70,8 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
         PatientEntity patientEntity = null;
         try {
-            patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class).domainToPersitent(queueEntry.getPatient());
+            patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class).domainToPersistent(
+		            queueEntry.getPatient());
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         }
@@ -78,7 +80,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
         /*QueueEntity queueEntity = null;
         if (queueEntry.getQueueIdParent() != null) {
             try {
-                queueEntity = (QueueEntity) Facade.getInstance().getBroker(QueueEntry.class).domainToPersitent((QueueEntry) Facade.getInstance().getById(QueueEntry.class, queueEntry.getQueueIdParent()));
+                queueEntity = (QueueEntity) Facade.getInstance().getBroker(QueueEntry.class).domainToPersistent((QueueEntry) Facade.getInstance().getById(QueueEntry.class, queueEntry.getQueueIdParent()));
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
             } catch (FacadeException e) {

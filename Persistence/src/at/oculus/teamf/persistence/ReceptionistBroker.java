@@ -23,7 +23,7 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 	}
 
 	@Override
-	protected Receptionist persitentToDomain(ReceptionistEntity entity) {
+	protected Receptionist persistentToDomain(ReceptionistEntity entity) {
 		Receptionist receptionist = new Receptionist();
 		receptionist.setId(entity.getId());
 		// TODO Kalender und Queues laden
@@ -45,7 +45,7 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 	}
 
 	@Override
-	protected ReceptionistEntity domainToPersitent(Receptionist entity) {
+	protected ReceptionistEntity domainToPersistent(Receptionist entity) {
 		ReceptionistEntity receptionistEntity = new ReceptionistEntity();
 		receptionistEntity.setId(entity.getId());
 		// TODO Kalender und Queues laden

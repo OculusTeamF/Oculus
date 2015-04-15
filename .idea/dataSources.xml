@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1111234032">
+  <component name="DataSourceManagerImpl" format="xml" hash="2489126745">
     <data-source source="LOCAL" name="MySQL - oculus_f@83.212.126.222" uuid="1bb3786c-7471-447d-9a02-fcb2ec1cdfc4">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
@@ -15,6 +15,57 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
       <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="NewPersistenceUnit/TopLink" uuid="5ab7c3f1-9490-4ed0-be62-51448d8ccdb7">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://83.212.126.222:3306/oculus_f</jdbc-url>
+      <driver-properties>
+        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="tinyInt1isBit" value="false" />
+        <property name="characterEncoding" value="utf8" />
+        <property name="characterSetResults" value="utf8" />
+        <property name="yearIsDateType" value="false" />
+      </driver-properties>
+      <libraries>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/jboss-transaction-api_1.1_spec-1.0.1.Final.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/jboss-logging-3.1.0.GA.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/hibernate-commons-annotations-4.0.2.Final.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/dom4j-1.6.1.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/javassist-3.15.0-GA.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/antlr-2.7.7.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/lib/hibernate-core-4.2.2.Final.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/DatabaseConnection/driver/mysql-connector-java-5.1.18-bin.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/Technical/lib/shiro-core-1.2.3.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/Technical/lib/slf4j-api-1.7.12.jar!/</url>
+        </library>
+        <library>
+          <url>jar://$PROJECT_DIR$/Technical/lib/slf4j-simple-1.7.12.jar!/</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>

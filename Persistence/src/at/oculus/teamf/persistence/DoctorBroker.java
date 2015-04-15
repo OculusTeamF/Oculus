@@ -31,16 +31,16 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 	}
 
 	@Override
-	protected Doctor persitentToDomain(DoctorEntity entity) {
+	protected Doctor persistentToDomain(DoctorEntity entity) {
 		Doctor doctor = new Doctor();
 		doctor.setId(entity.getId());
 		try {
 			doctor.setCalendar(
-					(Calendar) Facade.getInstance().getBroker(Calendar.class).persitentToDomain(entity.getCalendar()));
+					(Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(entity.getCalendar()));
 
 			if(doctor.getDoctorSubstitude() != null) {
 				doctor.setDoctorSubstitude((Doctor) Facade.getInstance().getBroker(Doctor.class)
-						.persitentToDomain(entity.getDoctorSubstitute()));
+						.persistentToDomain(entity.getDoctorSubstitute()));
 			}
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
@@ -64,16 +64,16 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 	}
 
 	@Override
-	protected DoctorEntity domainToPersitent(Doctor obj) {
+	protected DoctorEntity domainToPersistent(Doctor obj) {
 		Doctor entity = (Doctor) obj;
 		DoctorEntity doctorEntity = new DoctorEntity();
 		doctorEntity.setId(entity.getId());
 		try {
 			doctorEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
-			                                                .domainToPersitent((IDomain) entity.getCalendar()));
+			                                                .domainToPersistent((IDomain) entity.getCalendar()));
             // TODO recursiv hure dreck scheisse
             /*doctorEntity.setDoctorSubstitute((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
-			                                                      .domainToPersitent(
+			                                                      .domainToPersistent(
                                                                           (IDomain) entity.getDoctorSubstitude()));*/
 		} catch (FacadeException e) {
 			e.printStackTrace();

@@ -28,17 +28,17 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	@Override
-	protected Calendar persitentToDomain(CalendarEntity entity) throws FacadeException {
+	protected Calendar persistentToDomain(CalendarEntity entity) throws FacadeException {
 		Calendar calendar = new Calendar();
 		calendar.setId(entity.getId());
 
 
 		/*if (entity.getDoctor() != null) {
 			calendar.setUser(
-					(Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
+					(Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
 		} else if (entity.getOrthoptist() != null) {
 			calendar.setUser((Orthoptist) Facade.getInstance().getBroker(Orthoptist.class)
-			                                    .persitentToDomain(entity.getOrthoptist()));
+			                                    .persistentToDomain(entity.getOrthoptist()));
 		} else {
 			//Todo: add Logging
 			System.out.println("No User mapped to calendar!");
@@ -47,7 +47,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	@Override
-	protected CalendarEntity domainToPersitent(Calendar obj) {
+	protected CalendarEntity domainToPersistent(Calendar obj) {
 		//Todo: reverse
 		return null;
 	}

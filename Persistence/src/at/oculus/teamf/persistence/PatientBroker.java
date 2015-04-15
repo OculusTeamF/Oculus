@@ -9,7 +9,10 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.NoTransactionException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
@@ -20,6 +23,7 @@ import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by Norskan on 08.04.2015.
@@ -31,18 +35,19 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	}
 
 	@Override
-	protected Patient persitentToDomain(PatientEntity entity) throws FacadeException {
+	protected Patient persistentToDomain(PatientEntity entity) throws FacadeException {
 		Patient patient = new Patient();
 		patient.setId(entity.getId());
 		patient.setFirstName(entity.getFirstName());
 		patient.setLastName(entity.getLastName());
 		patient.setSocialInsuranceNr(entity.getSocialInsuranceNr());
 
-		if(entity.getDoctor() != null) {
-			patient.setDoctor((Doctor) Facade.getInstance().getBroker(Doctor.class).persitentToDomain(entity.getDoctor()));
+		if (entity.getDoctor() != null) {
+			patient.setDoctor(
+					(Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
 		}
 
-		if(entity.getGender().equals('M')) {
+		if (entity.getGender().equals('M')) {
 			patient.setGender(Gender.Male);
 		} else {
 			patient.setGender(Gender.Female);
@@ -63,31 +68,30 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	}
 
 	@Override
-	protected PatientEntity domainToPersitent(Patient obj) {
-		//Todo: reverse
-        PatientEntity patientEntity = new PatientEntity();
-        patientEntity.setId(obj.getId());
-        patientEntity.setFirstName(obj.getFirstName());
-        patientEntity.setLastName(obj.getLastName());
+	protected PatientEntity domainToPersistent(Patient obj) {
+		PatientEntity patientEntity = new PatientEntity();
+		patientEntity.setId(obj.getId());
+		patientEntity.setFirstName(obj.getFirstName());
+		patientEntity.setLastName(obj.getLastName());
 		patientEntity.setSocialInsuranceNr(obj.getSocialInsuranceNr());
-        patientEntity.setAllergy(obj.getAllergy());
-        patientEntity.setBirthDay(obj.getBirthDay());
-        patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
-        patientEntity.setCity(obj.getCity());
-        patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
-		if(obj.getDoctor()!=null) {
+		patientEntity.setAllergy(obj.getAllergy());
+		patientEntity.setBirthDay(obj.getBirthDay());
+		patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
+		patientEntity.setCity(obj.getCity());
+		patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
+		if (obj.getDoctor() != null) {
 			patientEntity.setDoctorId(obj.getDoctor().getId());
 		}
-        patientEntity.setEmail(obj.getEmail());
-        patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
-		if(obj.getGender()==Gender.Male) {
+		patientEntity.setEmail(obj.getEmail());
+		patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
+		if (obj.getGender() == Gender.Male) {
 			patientEntity.setGender("M");
 		} else {
 			patientEntity.setGender("F");
 		}
-        patientEntity.setPhone(obj.getPhone());
-        patientEntity.setPostalCode(obj.getPostalCode());
-        patientEntity.setStreet(obj.getStreet());
+		patientEntity.setPhone(obj.getPhone());
+		patientEntity.setPostalCode(obj.getPostalCode());
+		patientEntity.setStreet(obj.getStreet());
 		return patientEntity;
 	}
 
@@ -100,6 +104,39 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		}
 	}
 
+	public Collection<Patient> searchPatient(ISession session, String svn, String firstName, String lastName) {
+		Collection<Object> patientsResult = null;
+		Collection<Patient> patients = new LinkedList<Patient>();
+
+		// create query
+		String query = "FROM PatientEntity where upper(socialInsuranceNr) like ?0 and upper(firstName) like ?1 and upper(lastName) like ?2";
+		String[] parameters = new String[3];
+		parameters[0] = "%" + svn.toUpperCase() + "%";
+		parameters[1] = "%" + firstName.toUpperCase() + "%";
+		parameters[2] = "%" + lastName.toUpperCase() + "%";
+
+		try {
+			session.beginTransaction();
+
+			patientsResult = session.getQueryResult(query, parameters);
+
+			session.commit();
+		} catch (NoTransactionException | BadSessionException | AlreadyInTransactionException e) {
+			log.catching(e);
+		}
+
+		try {
+			for (Object obj : patientsResult) {
+				PatientEntity patientEntity = (PatientEntity) obj;
+				patients.add(persistentToDomain(patientEntity));
+			}
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+
+		return patients;
+	}
+
 	private class CalendarEventsLoader implements CollectionLoader<CalendarEventEntity> {
 
 		@Override
@@ -109,8 +146,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	}
 
 	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws FacadeException {
-		ReloadComponent reloadComponent =
-				new ReloadComponent(PatientEntity.class, CalendarEvent.class);
+		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
 
 		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
 	}

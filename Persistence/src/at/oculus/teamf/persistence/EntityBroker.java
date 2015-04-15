@@ -12,7 +12,6 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.*;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.entities.IEntity;
-import at.oculus.teamf.persistence.entities.QueueEntity;
 import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
@@ -23,7 +22,7 @@ import java.util.LinkedList;
 /**
  * Abstract EntityBroker from witch each Broker needs to extend, to be used in the facade. {@code EntityBroker} implements
  * {@code getByID}, {@code getAll}, {@code save}, {@code saveAll}. Each broker that extends from {@code EntityBroker} only needs
- * to implement {@code persitentToDomain} and {@code domainToPersitent}.
+ * to implement {@code persistentToDomain} and {@code domainToPersistent}.
  *
  * Extended Broker can implement {@code ICollectionReload} to add a reload functionality to the broker.
  *
@@ -72,7 +71,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             log.catching(e);
         }
 
-        D result = persitentToDomain(entity);
+        D result = persistentToDomain(entity);
 
         return result;
     }
@@ -97,7 +96,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         Collection<D> domainObjects = new ArrayList<D>();
         for (Object obj : entities) {
             P entity = (P) obj;
-            domainObjects.add(persitentToDomain(entity));
+            domainObjects.add(persistentToDomain(entity));
         }
 
         return domainObjects;
@@ -111,7 +110,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return {@code true} if the object was saved, {@code false} if the object could not be saved
      */
     public boolean saveEntity(ISession session, D domainObj) {
-        P entity = domainToPersitent(domainObj);
+        P entity = domainToPersistent(domainObj);
 
         try {
             session.beginTransaction();
@@ -149,7 +148,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
     public boolean saveAll(ISession session, Collection<D> domainObjs) {
         Collection<P> entities = new ArrayList<P>();
         for (D obj : domainObjs) {
-            entities.add(domainToPersitent(obj));
+            entities.add(domainToPersistent(obj));
         }
 
         try {
@@ -184,7 +183,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return {@code true} if the object was deleted from the database, {@code false} if the object was not deletet
      */
     public boolean deleteEntity(ISession session, D domainObj) {
-        P entity = domainToPersitent(domainObj);
+        P entity = domainToPersistent(domainObj);
 
         try {
             session.beginTransaction();
@@ -216,7 +215,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 		try {
 			session.beginTransaction();
 			for(Object obj : domainObjs) {
-				entity = domainToPersitent((D) obj);
+				entity = domainToPersistent((D) obj);
 				session.delete(entity);
 			}
 			session.commit();
@@ -261,7 +260,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return domain object that is created from entity
      * @throws FacadeException
      */
-    protected abstract D persitentToDomain(P entity) throws FacadeException;
+    protected abstract D persistentToDomain(P entity) throws FacadeException;
 
     /**
      * Converts a domain object to persitency entity
@@ -269,7 +268,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return return a persitency entity
      * @throws FacadeException
      */
-    protected abstract P domainToPersitent(D obj);
+    protected abstract P domainToPersistent(D obj);
 
     //</editor-fold>
 
