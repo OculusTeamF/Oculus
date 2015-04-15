@@ -79,8 +79,6 @@ public class MainController implements Initializable {
         ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
         wList1.setItems(wList);*/
 
-
-
     /*Close the application by clicking the Menuitem 'Exit'*/
     @FXML
     public void onClose(ActionEvent actionEvent) {
@@ -107,7 +105,7 @@ public class MainController implements Initializable {
        //TODO:
     }
 
-    /*Opens a patient record after patient search*/
+    /*Opens a patient search tab*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
 
@@ -120,7 +118,7 @@ public class MainController implements Initializable {
      * @param tabName
      * @return
      */
-    private Tab generateTab(String tabName) {
+    public Tab generateTab(String tabName) {
         Tab tab = new Tab(tabName);
 
         Group root = new Group();
@@ -131,32 +129,40 @@ public class MainController implements Initializable {
         w.setLayoutY(40);
         w.setPrefSize(1400, 900);
         /*w.getRightIcons().add(new MinimizeIcon(w));*/
-        w.getRightIcons().add(new CloseIconImpl(w, displayPane,tab));
+        w.getRightIcons().add(new CloseIconImpl(w, displayPane, tab));
 
-        if(tabName.equals("New Patient"))
-        {
+        if (tabName.equals("New Patient")) {
             try {
-                w.getContentPane().getChildren().add((Node)FXMLLoader.load(getClass().getResource("newPatient.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("newPatient.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(tabName.equals("Calendar")){
+        } else if (tabName.equals("Calendar")) {
             try {
-                w.getContentPane().getChildren().add((Node)FXMLLoader.load(getClass().getResource("agenda.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(tabName.equals("Search Patient")){
+        } else if (tabName.equals("Search Patient")) {
             try {
-                w.getContentPane().getChildren().add((Node)FXMLLoader.load(getClass().getResource("searchPatient.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("searchPatient.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (tabName.equals("Patient Record")) {
+            try {
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("patientRecord.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        root.getChildren().add(w);
-        return tab;
+            root.getChildren().add(w);
+            return tab;
+
     }
 
-
+    public TabPane getDisplayPane(){
+        return displayPane;
+    }
 
 }

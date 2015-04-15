@@ -27,20 +27,19 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jfxtras.labs.scene.control.window.Window;
+import org.controlsfx.control.PropertySheet;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -58,6 +57,8 @@ public class searchPatientController implements Initializable{
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
+    private Tab _patientRecordTab;
+    private MainController mainController = new MainController();
 
 
     @Override
@@ -70,28 +71,20 @@ public class searchPatientController implements Initializable{
         });
     }
 
-    public void openPatientRecord(Event event)
+    private void openPatientRecord()
      {
-         /* searchPatient.setOnMouseClicked(new EventHandler<MouseEvent>()
-          {
-           @Override
-           public void handle(javafx.scene.input.MouseEvent event)
-           {
-               ObservableList<Patient> patientlist;
-               _patient = new Patient();
-
-                  if(event.getClickCount() == 2)
-                  {
-                      patientlist = (ObservableList<Patient>) searchPatient.getSelectionModel().getSelectedItem();
-                  }
-           }
-          });*/
-
+         MessageBox mb = new MessageBox("in Patient Record", MessageBoxType.OK_ONLY);
+         mb.centerOnScreen();
+         mb.showAndWait();
+         _patientRecordTab = mainController.generateTab("Patient Record");
+         MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
+         mb1.centerOnScreen();
+         mb1.showAndWait();
+         mainController.getDisplayPane().getTabs().add(_patientRecordTab);
      }
 
     public void searchPatient(ActionEvent actionEvent) {
 
-        //TODO: Focus on Lastname at the beginning
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
@@ -114,7 +107,6 @@ public class searchPatientController implements Initializable{
         }else{
             MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
             mb.centerOnScreen();
-
             mb.showAndWait();
             searchPatientLastname.clear();
             searchPatientFirstname.clear();
@@ -122,6 +114,26 @@ public class searchPatientController implements Initializable{
             searchPatientLastname.requestFocus();
         }
 
+        searchPatientList.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                ObservableList<Patient> patientlist;
+
+                if(event.getClickCount() == 2)
+                {
+                    String currPatientItem = searchPatientList.getSelectionModel().getSelectedItem().toString();
+
+                    MessageBox mb = new MessageBox("double clicked", MessageBoxType.OK_ONLY);
+                    mb.centerOnScreen();
+                    mb.showAndWait();
+
+                    openPatientRecord();
+                    //TODO: open Patient record
+                }
+            }
+        });
     }
 
 
