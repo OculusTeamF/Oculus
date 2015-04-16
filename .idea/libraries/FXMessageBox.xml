@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FXMessageBox">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Presentation/lib/FXMessageBox.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
