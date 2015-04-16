@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="GUIlibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-agenda-8.0-r4-20150404.080058-179.jar!/" />
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-common-8.0-r4-20150404.080112-179.jar!/" />
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-controls-8.0-r4-20150404.080125-179.jar!/" />
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/jfxtras-fxml-8.0-r4-20150404.080139-179.jar!/" />
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/license4j-1.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/MiGCalendarBeanDemo.jar!/" />
+      <root url="jar://$PROJECT_DIR$/PresentationCalendar/lib/MiGCalendarDemo.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

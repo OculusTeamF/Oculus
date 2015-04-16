@@ -7,14 +7,31 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
+import at.oculus.teamf.technical.loggin.ILogger;
+import org.apache.logging.log4j.Level;
+import org.junit.Test;
 
 /**
- * Created by oculus on 09.04.15.
+ *
+ * @author Fabian Salzgeber
+ * @date 31.3.2015
+ * @version 1.0
+ *
  */
-public class ApplicationUnitTests {
 
-    public static void main (String [] args){
+public class Logger4JTest implements ILogger {
 
+    @Test
+    public void testLogging() throws Exception{
+        // common logging levels and pattern showcase
+        log.trace("trace message test");
+        log.debug("debug message test");
+        log.info("info message test");
+        log.warn("warn message test");
+        log.error("error message test");
+        log.fatal("fatal message test");
+
+        // advanced log
+        log.log(Level.WARN,"switch levels during runtime");
     }
 }

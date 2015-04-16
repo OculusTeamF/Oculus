@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 public class QueueBrokerTest extends BrokerTest {
 	private QueueEntry _newDoctorEntry;

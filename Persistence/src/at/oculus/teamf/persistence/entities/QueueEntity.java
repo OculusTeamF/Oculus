@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.persistence.entities;
 
+import at.oculus.teamf.technical.loggin.ILogger;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -17,7 +19,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")
-public class QueueEntity implements IEntity {
+public class QueueEntity implements IEntity, ILogger {
 	private int _id;
     private Integer _doctorId;
     private Integer _orthoptistId;
@@ -29,7 +31,7 @@ public class QueueEntity implements IEntity {
     private OrthoptistEntity _orthoptist;
     private QueueEntity _queueParent;
 
-    public QueueEntity() {
+    public QueueEntity(){
 
     }
 
@@ -41,6 +43,9 @@ public class QueueEntity implements IEntity {
 		_patientId = patientId;
 		_queueIdParent = queueIdParent;
 		_arrivalTime = arrivalTime;
+
+        log.debug("[CREATE QueueEntity] id: " + _id + " | doctorID: " + _doctorId + " | orthoptistID: " + _orthoptistId
+                + " | patientID: " + _patientId + " | queueIDParent: " + _queueIdParent + " | arrivalTime: " + _arrivalTime.toString());
 	}
 
     public QueueEntity(int id, DoctorEntity doctorId, OrthoptistEntity orthoptistId, PatientEntity patient, int patientId, QueueEntity queueIdParent,

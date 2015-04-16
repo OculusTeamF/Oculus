@@ -7,6 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Domain" exported="" />
     <orderEntry type="module" module-name="Persistence" exported="" />
+    <orderEntry type="library" exported="" name="GUIlibs" level="project" />
   </component>
 </module>
