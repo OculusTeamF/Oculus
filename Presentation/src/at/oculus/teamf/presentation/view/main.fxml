@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
    <top>
         <MenuBar fx:id="menubar" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="1445.0" BorderPane.alignment="CENTER">
             <menus>
@@ -72,55 +72,53 @@
         </MenuBar>
    </top>
    <right>
-        <VBox id="waitingListBox" fillWidth="false" BorderPane.alignment="CENTER">
-            <children>
-                <Label alignment="CENTER" prefHeight="63.0" prefWidth="386.0" text="Waiting Queue" textAlignment="CENTER">
-                    <font>
-                        <Font size="24.0" />
-                    </font>
-                </Label>
-                <TitledPane animated="false" layoutX="10.0" layoutY="60.0" prefHeight="212.0" prefWidth="384.0" text="Dr. Tavolato">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="wList1" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </TitledPane>
-                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" prefHeight="212.0" prefWidth="386.0" text="Dr. ABC">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="wList2" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </TitledPane>
-                <TitledPane animated="false" layoutX="10.0" layoutY="272.0" prefHeight="212.0" prefWidth="386.0" text="Dr. EFG">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="wList3" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </TitledPane>
-                <TitledPane animated="false" layoutX="10.0" layoutY="484.0" prefHeight="212.0" prefWidth="386.0" text="Orthoptist">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="wListO" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </TitledPane>
-            </children>
-        </VBox>
+       <VBox id="waitingListBox" prefHeight="1071.0" prefWidth="419.0" BorderPane.alignment="CENTER">
+           <children>
+               <Label alignment="CENTER" prefHeight="63.0" prefWidth="386.0" text="Waiting Queue" textAlignment="CENTER">
+                   <font>
+                       <Font size="24.0" />
+                   </font>
+               </Label>
+               <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Dr. Tavolato">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                               <ListView fx:id="wList1" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                       </AnchorPane>
+                   </content>
+               </TitledPane>
+               <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. ABC">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                               <ListView fx:id="wList2" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                       </AnchorPane>
+                   </content>
+               </TitledPane>
+               <TitledPane animated="false" layoutX="10.0" layoutY="272.0" text="Dr. EFG">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                               <ListView fx:id="wList3" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                       </AnchorPane>
+                   </content>
+               </TitledPane>
+               <TitledPane animated="false" layoutX="10.0" layoutY="484.0" text="Orthoptist">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                               <ListView fx:id="wListO" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                       </AnchorPane>
+                   </content>
+               </TitledPane>
+           </children>
+       </VBox>
    </right>
    <center>
-      <TabPane fx:id="displayPane" prefHeight="889.0" prefWidth="1513.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-
-      </TabPane>
+      <TabPane id="pane" fx:id="displayPane" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

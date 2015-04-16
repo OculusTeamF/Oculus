@@ -36,9 +36,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-
-    @FXML private TabPane displayPane;
-    @FXML private ListView wList1, wList2, wList3, wListO;
+    private static final MainController mainController = new MainController();
 
     private Collection<PatientQueue> _allQueues;
     private Tab _newPatientTab;
@@ -47,6 +45,15 @@ public class MainController implements Initializable {
     private User _user;
     private StartupController _startupController = new StartupController();
 
+    @FXML private TabPane displayPane;
+    @FXML private ListView wList1, wList2, wList3, wListO;
+
+    private MainController() {}
+
+    public static MainController getInstance()
+    {
+        return mainController;
+    }
 
     /**
      * Initialize the waiting queue
@@ -74,7 +81,6 @@ public class MainController implements Initializable {
 
     }
 
-
        /*
         ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
         wList1.setItems(wList);*/
@@ -88,18 +94,13 @@ public class MainController implements Initializable {
     /*Opens the calendar view by clicking Menuitem 'Calendar'*/
     @FXML
     public void openCal(ActionEvent event) {
-
-        _calendarTab = generateTab("Calendar");
-        displayPane.getTabs().add(_calendarTab);
+        generateTab("Calendar");
     }
     /*Opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
-
-        _newPatientTab = generateTab("New Patient");
-        displayPane.getTabs().add(_newPatientTab);
+        generateTab("New Patient");
     }
-
     @FXML
     public void openPatient(ActionEvent actionEvent) {
        //TODO:
@@ -108,9 +109,7 @@ public class MainController implements Initializable {
     /*Opens a patient search tab*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
-
-        _searchPatientTab = generateTab("Search Patient");
-        displayPane.getTabs().add(_searchPatientTab);
+        generateTab("Search Patient");
     }
 
     /**
@@ -118,7 +117,7 @@ public class MainController implements Initializable {
      * @param tabName
      * @return
      */
-    public Tab generateTab(String tabName) {
+     public void generateTab(String tabName) {
         Tab tab = new Tab(tabName);
 
         Group root = new Group();
@@ -127,13 +126,13 @@ public class MainController implements Initializable {
         Window w = new Window(tabName);
         w.setLayoutX(40);
         w.setLayoutY(40);
-        w.setPrefSize(1400, 900);
+       /* w.setPrefSize(900, 700);*/
         /*w.getRightIcons().add(new MinimizeIcon(w));*/
         w.getRightIcons().add(new CloseIconImpl(w, displayPane, tab));
 
         if (tabName.equals("New Patient")) {
             try {
-                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("newPatient.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("patientRecord.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -157,12 +156,7 @@ public class MainController implements Initializable {
             }
         }
             root.getChildren().add(w);
-            return tab;
-
+            displayPane.getTabs().add(tab);
+            displayPane.getSelectionModel().selectNext();
     }
-
-    public TabPane getDisplayPane(){
-        return displayPane;
-    }
-
 }

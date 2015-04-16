@@ -30,9 +30,11 @@ public class patientRecordController implements Initializable {
     }
 
     public void saveForm(ActionEvent actionEvent) {
+
     }
 
     public void onClose(ActionEvent actionEvent) {
+
 
     }
 }

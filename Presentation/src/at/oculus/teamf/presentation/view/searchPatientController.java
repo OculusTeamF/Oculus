@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;/*package sample;
+package at.oculus.teamf.presentation.view;
 /**
  ~ Copyright (c) 2015 Team F
  ~
@@ -29,17 +29,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import jfxtras.labs.scene.control.window.Window;
-import org.controlsfx.control.PropertySheet;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,7 +40,7 @@ import java.util.ResourceBundle;
  * Created by Karo on 11.04.2015.
  */
 
-public class searchPatientController implements Initializable{
+public class searchPatientController implements Initializable  {
 
     @FXML  public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
@@ -58,7 +51,8 @@ public class searchPatientController implements Initializable{
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
     private Tab _patientRecordTab;
-    private MainController mainController = new MainController();
+    private MainController mainController = MainController.getInstance();
+
 
 
     @Override
@@ -71,16 +65,12 @@ public class searchPatientController implements Initializable{
         });
     }
 
-    private void openPatientRecord()
+    private void openPatientRecord(String currPatient)
      {
          MessageBox mb = new MessageBox("in Patient Record", MessageBoxType.OK_ONLY);
          mb.centerOnScreen();
          mb.showAndWait();
-         _patientRecordTab = mainController.generateTab("Patient Record");
-         MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
-         mb1.centerOnScreen();
-         mb1.showAndWait();
-         mainController.getDisplayPane().getTabs().add(_patientRecordTab);
+         mainController.generateTab("Patient Record");
      }
 
     public void searchPatient(ActionEvent actionEvent) {
@@ -129,7 +119,7 @@ public class searchPatientController implements Initializable{
                     mb.centerOnScreen();
                     mb.showAndWait();
 
-                    openPatientRecord();
+                    openPatientRecord(currPatientItem);
                     //TODO: open Patient record
                 }
             }
