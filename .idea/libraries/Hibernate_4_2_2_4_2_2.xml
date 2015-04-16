@@ -10,6 +10,10 @@
       <root url="jar://$PROJECT_DIR$/DatabaseConnection/lib/javassist-3.15.0-GA.jar!/" />
       <root url="jar://$PROJECT_DIR$/DatabaseConnection/lib/antlr-2.7.7.jar!/" />
       <root url="jar://$PROJECT_DIR$/DatabaseConnection/lib/hibernate-core-4.2.2.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/DatabaseConnection/driver/mysql-connector-java-5.1.18-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/shiro-core-1.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/slf4j-api-1.7.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Technical/lib/slf4j-simple-1.7.12.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

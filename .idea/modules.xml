@@ -3,10 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Application/Application.iml" filepath="$PROJECT_DIR$/Application/Application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ApplicationUnitTests/ApplicationUnitTests.iml" filepath="$PROJECT_DIR$/ApplicationUnitTests/ApplicationUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseConnection/DatabaseConnection.iml" filepath="$PROJECT_DIR$/DatabaseConnection/DatabaseConnection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DatabaseConnectionUnitTests/DatabaseConnectionUnitTests.iml" filepath="$PROJECT_DIR$/DatabaseConnectionUnitTests/DatabaseConnectionUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/Domain/Domain.iml" filepath="$PROJECT_DIR$/Domain/Domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DomainUnitTests/DomainUnitTests.iml" filepath="$PROJECT_DIR$/DomainUnitTests/DomainUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/Oculus.iml" filepath="$PROJECT_DIR$/Oculus.iml" />
       <module fileurl="file://$PROJECT_DIR$/Persistence/Persistence.iml" filepath="$PROJECT_DIR$/Persistence/Persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PersistenceUnitTests/PersistenceUnitTests.iml" filepath="$PROJECT_DIR$/PersistenceUnitTests/PersistenceUnitTests.iml" />
       <module fileurl="file://$PROJECT_DIR$/Presentation/Presentation.iml" filepath="$PROJECT_DIR$/Presentation/Presentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/Technical/Technical.iml" filepath="$PROJECT_DIR$/Technical/Technical.iml" />
     </modules>
