@@ -7,11 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.entities;
+package at.oculus.teamf.persistence.exception;
 
 /**
- * WeekDayKey.java Created by oculus on 10.04.15.
+ * Created by Norskan on 08.04.2015.
  */
-public enum WeekDayKey {
-	MON, TUE, WED, THU, FRI, SAT, SUN
+public class NoBrokerMappedException extends FacadeException{
 }

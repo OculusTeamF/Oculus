@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.*;
+import at.oculus.teamf.persistence.exception.*;
 
 import java.util.Collection;
 
@@ -30,7 +30,9 @@ public class Calendar implements IDomain {
     //private User _user;
     //</editor-fold>
 
-    //<editor-fold desc="Getter/Setter">
+	public Calendar() {	}
+
+	//<editor-fold desc="Getter/Setter">
     public int getId() {
         return _id;
     }
@@ -64,15 +66,14 @@ public class Calendar implements IDomain {
         _events =events;
     }
 
-    /*
+/*
     public User getUser() {
         return _user;
     }
 
     public void setUser(User user) {
         _user = user;
-    }
-    */
+    }*/
 
     //</editor-fold>
 }

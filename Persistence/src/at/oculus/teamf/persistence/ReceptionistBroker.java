@@ -10,8 +10,8 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Receptionist;
-import at.oculus.teamf.persistence.entities.ReceptionistEntity;
-import at.oculus.teamf.persistence.entities.UserEntity;
+import at.oculus.teamf.persistence.entity.ReceptionistEntity;
+import at.oculus.teamf.persistence.entity.UserEntity;
 
 /**
  * Created by Norskan on 08.04.2015.

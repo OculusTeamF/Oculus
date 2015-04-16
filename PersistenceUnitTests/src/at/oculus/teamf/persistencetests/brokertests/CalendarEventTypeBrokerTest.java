@@ -12,15 +12,11 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.EventType;
 import at.oculus.teamf.domain.entity.RegularAppointment;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 public class CalendarEventTypeBrokerTest extends BrokerTest{
 	private EventType _eventType;

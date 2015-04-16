@@ -14,14 +14,14 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.persistence.exceptions.*;
+import at.oculus.teamf.persistence.exception.*;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Facade for requesting entities from hibernate. Singleton pattern.
+ * Facade for requesting entity from hibernate. Singleton pattern.
  *
  * //TODO: docs, tests many tests
  * @author Simon Angerer
@@ -43,6 +43,8 @@ public class Facade {
 		entityBrokers.add(new ReceptionistBroker());
 		entityBrokers.add(new OrthoptistBroker());
 		entityBrokers.add(new CalendarEventTypeBroker());
+		entityBrokers.add(new DiagnosisBroker());
+		entityBrokers.add(new ExaminationProtocolBroker());
 
 		init(entityBrokers);
 	}

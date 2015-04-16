@@ -5,8 +5,6 @@ import at.oculus.teamf.application.facade.exceptions.PatientNotFoundException;
 import at.oculus.teamf.application.facade.exceptions.QueueNotFoundException;
 import at.oculus.teamf.application.facade.exceptions.UserNotFoundException;
 import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;

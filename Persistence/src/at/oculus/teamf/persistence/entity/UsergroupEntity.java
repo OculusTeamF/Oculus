@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.entities;
+package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.util.Collection;

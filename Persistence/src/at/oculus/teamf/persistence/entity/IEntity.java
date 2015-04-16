@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.exceptions;
+package at.oculus.teamf.persistence.entity;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by Norskan on 07.04.2015.
  */
-public class NotAbleToLoadClassException extends FacadeException {
+public interface IEntity {
+	public int getId();
+	public void setId(int id);
 }

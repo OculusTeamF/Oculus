@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.*;
+import at.oculus.teamf.persistence.exception.*;
 
 import java.util.Collection;
 

@@ -12,11 +12,9 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import org.junit.Test;
 
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.LinkedList;
 

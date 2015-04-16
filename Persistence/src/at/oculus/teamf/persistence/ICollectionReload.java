@@ -10,7 +10,7 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 /**
  * Created by Norskan on 07.04.2015.

@@ -14,7 +14,7 @@ import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 public class QueueBrokerTest extends BrokerTest {
 	private QueueEntry _newDoctorEntry;

@@ -11,10 +11,10 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.persistence.entities.CalendarEntity;
-import at.oculus.teamf.persistence.entities.CalendarEventEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.entity.CalendarEntity;
+import at.oculus.teamf.persistence.entity.CalendarEventEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.InvalidReloadParameterException;
 
 import java.util.Collection;
 
@@ -48,8 +48,9 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 
 	@Override
 	protected CalendarEntity domainToPersistent(Calendar obj) {
-		//Todo: reverse
-		return null;
+		CalendarEntity calendarEntity = new CalendarEntity();
+		calendarEntity.setId(obj.getId());
+		return calendarEntity;
 	}
 
 	@Override

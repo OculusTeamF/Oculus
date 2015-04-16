@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.entities.UsergroupEntity;
+import at.oculus.teamf.persistence.entity.UsergroupEntity;
 
 import java.sql.Timestamp;
 

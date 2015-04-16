@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 import java.sql.Date;
 import java.util.Collection;

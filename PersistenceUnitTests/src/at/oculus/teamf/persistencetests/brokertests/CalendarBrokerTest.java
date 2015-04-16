@@ -12,7 +12,7 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.*;
+import at.oculus.teamf.persistence.exception.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

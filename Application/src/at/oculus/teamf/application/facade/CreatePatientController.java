@@ -12,7 +12,7 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 /**<h1>$CreatePatientController.java</h1>

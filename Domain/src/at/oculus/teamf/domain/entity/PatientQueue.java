@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -32,7 +32,7 @@ public class PatientQueue {
 
 	public PatientQueue(Doctor doctor){
 		_entries = new LinkedList<QueueEntry>();
-		// get all queue entities of a doctor
+		// get all queue entity of a doctor
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
 		try {
@@ -61,7 +61,7 @@ public class PatientQueue {
 
 	public PatientQueue(Orthoptist orthoptist){
 		_entries = new LinkedList<QueueEntry>();
-		// get all queue entities of a orthoptist
+		// get all queue entity of a orthoptist
 		HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
 		QueueEntry actEntry = null;
 		HashMap<Integer, QueueEntry> queueEntriesEx = new HashMap<Integer, QueueEntry>();

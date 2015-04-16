@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.entities;
+package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -33,25 +33,24 @@ public class QueueEntity implements IEntity {
 
     }
 
-	public QueueEntity(int id, Integer doctorId, Integer orthoptistId, int patientId, Integer queueIdParent,
-	                   Timestamp arrivalTime) {
-		_id = id;
-		_doctorId = doctorId;
-		_orthoptistId = orthoptistId;
-		_patientId = patientId;
-		_queueIdParent = queueIdParent;
-		_arrivalTime = arrivalTime;
-	}
-
-    public QueueEntity(int id, DoctorEntity doctorId, OrthoptistEntity orthoptistId, PatientEntity patient, int patientId, QueueEntity queueIdParent,
+    public QueueEntity(int id, DoctorEntity doctor, OrthoptistEntity orthoptist, PatientEntity patient, QueueEntity queueParent,
                        Timestamp arrivalTime) {
         _id = id;
-        _doctor = doctorId;
-        _orthoptist = orthoptistId;
+        _doctor = doctor;
+        _orthoptist = orthoptist;
         _patient = patient;
-        _queueParent = queueIdParent;
+        _queueParent = queueParent;
         _arrivalTime = arrivalTime;
-        _patientId = patientId;
+        _patientId = patient.getId();
+        if(doctor!=null){
+            _doctorId = doctor.getId();
+        }
+        if(orthoptist!=null){
+            _orthoptistId = orthoptist.getId();
+        }
+        if(queueParent!=null) {
+            _queueIdParent = queueParent.getId();
+        }
     }
 
     @Id
