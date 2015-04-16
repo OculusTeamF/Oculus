@@ -10,6 +10,8 @@
 package at.oculus.teamf.presentation.view;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,18 +21,38 @@ import javafx.stage.Stage;
 /**
  * Created by Karo on 09.04.2015.
  */
-public class Main extends Application
-{
+public class Main extends Application {
+
+    private  FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+    private MainController controller;
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+    public void start(Stage primaryStage) throws Exception  {
+
+        Parent root = (Parent) loader.load();
         primaryStage.setTitle("OCULUS - Gemeinschaftspraxis Dr. Tavolato");
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root, 900, 600);
         scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
+        controller = loader.getController();
+
+        // setup components in main.fxml
+        controller.getSplitter().setDividerPosition(0, 0.75);
+
+        // update splitter position
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                controller.getSplitter().setDividerPosition(0, 0.75);
+            }
+        });
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                controller.getSplitter().setDividerPosition(0, 0.75);
+            }
+        });
+
+
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

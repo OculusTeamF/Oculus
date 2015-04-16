@@ -11,10 +11,10 @@ package at.oculus.teamf.presentation.view;
 /**
  * Created by Karo on 09.04.2015.
  */
-import at.oculus.teamf.application.facade.SearchPatientController;
+
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.*;
-import javafx.collections.FXCollections;
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,23 +22,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import jfxtras.labs.scene.control.window.Window;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.List;
-import java.util.Queue;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-
+    @FXML private VBox vboxQueues;
     @FXML private TabPane displayPane;
     @FXML private ListView wList1, wList2, wList3, wListO;
+    @FXML private SplitPane splitter;
 
     private Collection<PatientQueue> _allQueues;
     private Tab _newPatientTab;
@@ -47,6 +45,9 @@ public class MainController implements Initializable {
     private User _user;
     private StartupController _startupController = new StartupController();
 
+    private int userAmount = 5;  // only user with permission 2 & 3 (usergroup)
+    final TitledPane[] tps = new TitledPane[userAmount];
+    final ListView<String> lists[] = new ListView[userAmount];
 
     /**
      * Initialize the waiting queue
@@ -60,19 +61,20 @@ public class MainController implements Initializable {
         String lname;
         String fname;
 
-        _allQueues =  _startupController.getAllQueues();
+        //_allQueues =  _startupController.getAllQueues();
 
-        for(PatientQueue pq : _allQueues)
+/*        for(PatientQueue pq : _allQueues)
         {
             for(QueueEntry qe : pq.getEntries()){
 
                 System.out.println(qe.getPatient().getLastName());
                 wList1.setItems((ObservableList) pq.getEntries());
             }
-
-            }
+        }*/
 
     }
+
+
 
 
        /*
@@ -86,18 +88,29 @@ public class MainController implements Initializable {
     }
 
     /*Opens the calendar view by clicking Menuitem 'Calendar'*/
+
     @FXML
     public void openCal(ActionEvent event) {
-
-        _calendarTab = generateTab("Calendar");
-        displayPane.getTabs().add(_calendarTab);
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("agenda2.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //_calendarTab = generateTab("Calendar");
+        //displayPane.getTabs().add(_calendarTab);
     }
+
+
     /*Opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
 
         _newPatientTab = generateTab("New Patient");
         displayPane.getTabs().add(_newPatientTab);
+    }
+
+    public SplitPane getSplitter(){
+        return this.splitter;
     }
 
     @FXML
@@ -139,7 +152,7 @@ public class MainController implements Initializable {
             }
         } else if (tabName.equals("Calendar")) {
             try {
-                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda2.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }

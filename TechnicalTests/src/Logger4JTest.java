@@ -7,10 +7,9 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.tests;
-
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.apache.logging.log4j.Level;
+import org.junit.Test;
 
 /**
  *
@@ -20,10 +19,10 @@ import org.apache.logging.log4j.Level;
  *
  */
 
-public class logger_testing implements ILogger {
+public class Logger4JTest implements ILogger {
 
-    public static void main(final String... args) {
-
+    @Test
+    public void testLogging() throws Exception{
         // common logging levels and pattern showcase
         log.trace("trace message test");
         log.debug("debug message test");
@@ -34,6 +33,5 @@ public class logger_testing implements ILogger {
 
         // advanced log
         log.log(Level.WARN,"switch levels during runtime");
-
     }
 }

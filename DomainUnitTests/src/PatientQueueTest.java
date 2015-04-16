@@ -38,19 +38,19 @@ public class PatientQueueTest implements ILogger{
     @org.junit.Test
     public void testAddPatient() throws Exception {
         Timestamp tstamp = new Timestamp(new Date().getTime());
-        Doctor doctor = Facade.getInstance().getById(Doctor.class, 1);
+        Doctor doc = Facade.getInstance().getById(Doctor.class, 1);
         Patient pat = Facade.getInstance().getById(Patient.class, 7);
         Orthoptist ortho = null;
-        PatientQueue patQueue = new PatientQueue(doctor);
+        PatientQueue patQueue = new PatientQueue();
 
-        log.debug("Add patient to queue for doctor: '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Patient: '" + pat.getFirstName() + " " + pat.getLastName() + "'");
+        log.debug("Add patient to queue for doctor: '" + doc.getFirstName() + " " + doc.getLastName() + "' / Patient: '" + pat.getFirstName() + " " + pat.getLastName() + "'");
 
         assertNotNull(pat);
-        assertNotNull(doctor);
+        assertNotNull(doc);
         assertNull(ortho);
         assertNotNull(tstamp);
 
-        patQueue.addPatient(pat, doctor, ortho, tstamp);
+        patQueue.addPatient(pat, doc, ortho, tstamp);
     }
 
     @org.junit.Test
