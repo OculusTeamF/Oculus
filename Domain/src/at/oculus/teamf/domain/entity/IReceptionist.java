@@ -7,10 +7,24 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pane{
-    -fx-background-image: url("oculus.JPG");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 900 400;
-    -fx-background-position: center center;
+package at.oculus.teamf.domain.entity;
 
+import java.util.Collection;
+
+/**
+ * Created by oculus on 16.04.15.
+ */
+public interface IReceptionist extends IDomain {
+    //<editor-fold desc="Getter/Setter">
+    int getId();
+
+    void setId(int _id);
+
+    Collection<Calendar> getCalendars();
+
+    void setCalendars(Collection<Calendar> calendars);
+
+    Collection<PatientQueue> getQueues();
+
+    void setQueues(Collection<PatientQueue> queues);
 }

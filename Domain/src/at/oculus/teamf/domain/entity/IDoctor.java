@@ -7,33 +7,37 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.tests;
+package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.technical.loggin.ILogger;
-import org.apache.logging.log4j.Level;
+import java.util.Collection;
 
 /**
- *
- * @author Fabian Salzgeber
- * @date 31.3.2015
- * @version 1.0
- *
+ * Created by oculus on 16.04.15.
  */
+public interface IDoctor extends IUser, IDomain {
+    //<editor-fold desc="Getter/Setter">
+    int getId();
 
-public class logger_testing implements ILogger {
+    void setId(int id);
 
-    public static void main(final String... args) {
+    Calendar getCalendar();
 
-        // common logging levels and pattern showcase
-        log.trace("trace message test");
-        log.debug("debug message test");
-        log.info("info message test");
-        log.warn("warn message test");
-        log.error("error message test");
-        log.fatal("fatal message test");
+    void setCalendar(Calendar _calendar);
 
-        // advanced log
-        log.log(Level.WARN,"switch levels during runtime");
+    PatientQueue getQueue();
 
-    }
+    void setQueue(PatientQueue _queue);
+
+    Doctor getDoctorSubstitude();
+
+    void setDoctorSubstitude(Doctor doctorSubstitude);
+
+    void addPatient(Patient patient);
+
+    void setPatients(Collection<Patient> patients);
+
+    Collection<Patient> getPatients();
+
+    @Override
+    String toString();
 }

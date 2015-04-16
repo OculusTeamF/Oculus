@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public class Receptionist extends User implements IDomain {
+public class Receptionist extends User implements IReceptionist {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -23,26 +23,32 @@ public class Receptionist extends User implements IDomain {
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int _id) {
         this._id = _id;
     }
 
+    @Override
     public Collection<Calendar> getCalendars() {
         return _calendars;
     }
 
+    @Override
     public void setCalendars(Collection<Calendar> calendars) {
         _calendars = calendars;
     }
 
+    @Override
     public Collection<PatientQueue> getQueues() {
         return _queues;
     }
 
+    @Override
     public void setQueues(Collection<PatientQueue> queues) {
         _queues = queues;
     }

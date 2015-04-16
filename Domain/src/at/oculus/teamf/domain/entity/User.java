@@ -19,7 +19,7 @@ import java.sql.Timestamp;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public abstract class User {
+public abstract class User implements IUser {
 
     //<editor-fold desc="Attributes">
     protected int _id;
@@ -36,80 +36,102 @@ public abstract class User {
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    @Override
     public int getUserId() {
         return _id;
     }
+    @Override
     public void setUserId(int id) {
         _id = id;
     }
 
-	public Integer getUserGroupId() {
+	@Override
+    public Integer getUserGroupId() {
 		return _userGroupId;
 	}
-	public void setUserGroupId(Integer userGroupId) {
+	@Override
+    public void setUserGroupId(Integer userGroupId) {
 		_userGroupId = userGroupId;
 	}
 
-	public String getUserName() {
+	@Override
+    public String getUserName() {
 		return _userName;
 	}
-	public void setUserName(String userName) {
+	@Override
+    public void setUserName(String userName) {
 		_userName = userName;
 	}
 
-	public String getPassword() {
+	@Override
+    public String getPassword() {
 		return _password;
 	}
-	public void setPassword(String password) {
+	@Override
+    public void setPassword(String password) {
 		_password = password;
 	}
 
-	public String getTitle() {
+	@Override
+    public String getTitle() {
 		return _title;
 	}
-	public void setTitle(String title) {
+	@Override
+    public void setTitle(String title) {
 		_title = title;
 	}
 
-	public String getFirstName() {
+	@Override
+    public String getFirstName() {
 		return _firstName;
 	}
-	public void setFirstName(String firstName) {
+	@Override
+    public void setFirstName(String firstName) {
 		_firstName = firstName;
 	}
 
-	public String getLastName() {
+	@Override
+    public String getLastName() {
 		return _lastName;
 	}
-	public void setLastName(String lastName) {
+	@Override
+    public void setLastName(String lastName) {
 		_lastName = lastName;
 	}
 
-	public String getEmail() {
+	@Override
+    public String getEmail() {
 		return _email;
 	}
-	public void setEmail(String email) {
+	@Override
+    public void setEmail(String email) {
 		_email = email;
 	}
 
-	public Timestamp getCreateDate() {
+	@Override
+    public Timestamp getCreateDate() {
 		return _createDate;
 	}
-	public void setCreateDate(Timestamp createDate) {
+	@Override
+    public void setCreateDate(Timestamp createDate) {
 		_createDate = createDate;
 	}
 
-	public Timestamp getIdleDate() {
+	@Override
+    public Timestamp getIdleDate() {
 		return _idleDate;
 	}
-	public void setIdleDate(Timestamp idleDate) {
+	@Override
+    public void setIdleDate(Timestamp idleDate) {
 		_idleDate = idleDate;
 	}
 
-	public UsergroupEntity getUserGroup() {
+	@Override
+    public UsergroupEntity getUserGroup() {
 		return _usergroup;
 	}
-	public void setUserGroup(UsergroupEntity usergroup) {
+	@Override
+    public void setUserGroup(UsergroupEntity usergroup) {
 		_usergroup = usergroup;
 	}
 	//</editor-fold>
