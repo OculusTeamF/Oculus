@@ -9,14 +9,12 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.technical.loggin.ILogger;
-
 import java.sql.Timestamp;
 
 /**
  * QueueEntry.java Created by Fabian on 10.04.15.
  */
-public class QueueEntry implements IDomain, ILogger {
+public class QueueEntry implements IDomain {
 	private int _id;
 	private Doctor _doctor;
 	private Orthoptist _orthoptist;
@@ -35,14 +33,6 @@ public class QueueEntry implements IDomain, ILogger {
 		_queueIdParent = queueIdParent;
 		_arrivalTime = arrivalTime;
 		_patient = patient;
-
-        // logging
-        Integer dID = null;
-        Integer oID = null;
-        if(_doctor != null) { dID = _doctor.getId();}
-        if(_orthoptist != null) { oID = _orthoptist.getId();}
-        log.debug("[CREATE QueueEntry] id: " + _id + " | doctorID: " + dID + " | orthoptistID: " + oID
-                + " | patientID: " + _patient.getId() + " | queueIDParent: " + _queueIdParent + " | arrivalTime: " + _arrivalTime.toString());
 	}
 
 	public int getId() {

@@ -7,19 +7,29 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
-
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
-
-import java.util.Collection;
+package at.oculus.teamf.presentation.view;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import jfxtras.labs.scene.control.window.CloseIcon;
+import jfxtras.labs.scene.control.window.Window;
 
 /**
- * Created by oculus on 09.04.15.
+ * Created by Karo on 11.04.2015.
  */
-public class ApplicationUnitTests {
+public class CloseIconImpl extends CloseIcon
+{
+    public CloseIconImpl(final Window w, final TabPane pane, final Tab tab) {
+        super(w);
 
-    public static void main (String [] args){
+        this.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                w.close();
+                pane.getTabs().remove(tab);
+            }
 
+        });
     }
 }

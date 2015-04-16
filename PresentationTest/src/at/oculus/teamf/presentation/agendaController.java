@@ -1,4 +1,4 @@
-/*
+package at.oculus.teamf.presentation;/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,19 +7,9 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
-
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
-
-import java.util.Collection;
-
 /**
- * Created by oculus on 09.04.15.
+ * Created by Karo on 09.04.2015.
  */
-public class ApplicationUnitTests {
+public class agendaController {
 
-    public static void main (String [] args){
-
-    }
 }

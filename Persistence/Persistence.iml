@@ -34,6 +34,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="Technical" exported="" />
-    <orderEntry type="library" exported="" name="TechnicalLibs" level="project" />
+    <orderEntry type="library" exported="" name="log4j-api-2.2" level="project" />
   </component>
 </module>

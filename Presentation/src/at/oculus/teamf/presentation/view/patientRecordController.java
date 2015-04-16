@@ -7,19 +7,32 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
-
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
-
-import java.util.Collection;
-
+package at.oculus.teamf.presentation.view;
 /**
- * Created by oculus on 09.04.15.
+ * Created by Karo on 09.04.2015.
  */
-public class ApplicationUnitTests {
+/*
+import at.oculus.teamf.application.facade;
+*/
 
-    public static void main (String [] args){
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class patientRecordController implements Initializable {
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    public void saveForm(ActionEvent actionEvent) {
+    }
+
+    public void onClose(ActionEvent actionEvent) {
 
     }
 }

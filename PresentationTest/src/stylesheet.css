@@ -7,19 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
+#pane{
+    -fx-background-image: url("oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 900 400;
+    -fx-background-position: center center;
 
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
-
-import java.util.Collection;
-
-/**
- * Created by oculus on 09.04.15.
- */
-public class ApplicationUnitTests {
-
-    public static void main (String [] args){
-
-    }
 }
