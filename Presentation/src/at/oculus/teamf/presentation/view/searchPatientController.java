@@ -29,17 +29,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import jfxtras.labs.scene.control.window.Window;
-import org.controlsfx.control.PropertySheet;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
