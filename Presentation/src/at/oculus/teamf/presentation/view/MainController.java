@@ -15,6 +15,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.User;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import jfxtras.labs.scene.control.window.Window;
 
@@ -57,6 +59,28 @@ public class MainController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        // setup queueLists
+        for (int i = 0; i < userAmount; i++) {
+            //create listViews
+            lists[i] = new ListView<>();
+            lists[i].setPrefSize(200, 250);
+            lists[i].minWidth(Region.USE_COMPUTED_SIZE);
+            lists[i].minHeight(Region.USE_COMPUTED_SIZE);
+            lists[i].maxWidth(Region.USE_COMPUTED_SIZE);
+            lists[i].maxHeight(Region.USE_COMPUTED_SIZE);
+
+            //create titlePanes
+            tps[i] = new TitledPane("User#" + i, lists[i]);
+            tps[i].setExpanded(false);
+            tps[i].setAnimated(true);
+        }
+        tps[0].setExpanded(true);
+        vboxQueues.getChildren().addAll(tps);
+
+        // fill queuelists
+        ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
+        lists[0].setItems(wList);
+
         ObservableList<String> patients = null;
         String lname;
         String fname;
@@ -73,13 +97,6 @@ public class MainController implements Initializable {
         }*/
 
     }
-
-
-
-
-       /*
-        ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
-        wList1.setItems(wList);*/
 
     /*Close the application by clicking the Menuitem 'Exit'*/
     @FXML

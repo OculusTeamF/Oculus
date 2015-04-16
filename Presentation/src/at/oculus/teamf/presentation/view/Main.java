@@ -50,6 +50,8 @@ public class Main extends Application {
             }
         });
 
+        // add app icon
+        //primaryStage.getIcons().add(new Image("file:icon.png"));
 
         primaryStage.setScene(scene);
         //primaryStage.setMaximized(true);
