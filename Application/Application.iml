@@ -9,6 +9,5 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Domain" exported="" />
     <orderEntry type="module" module-name="Persistence" exported="" />
-    <orderEntry type="library" name="FXMessageBox" level="project" />
   </component>
 </module>

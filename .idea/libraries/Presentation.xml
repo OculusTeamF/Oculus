@@ -1,7 +1,8 @@
 <component name="libraryTable">
-  <library name="FXMessageBox">
+  <library name="Presentation">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Presentation/lib/FXMessageBox.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Presentation/lib/jfxtras-labs-samples-8.0-r4-SNAPSHOT-shadow.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
