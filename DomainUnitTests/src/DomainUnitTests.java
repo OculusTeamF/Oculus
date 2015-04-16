@@ -14,6 +14,7 @@ import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import javax.print.Doc;
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
@@ -54,7 +55,7 @@ public class DomainUnitTests implements ILogger {
     public void testGetUnassignedPatientQueue() throws Exception {
         Object obj = null;
 
-        PatientQueue pqUnassigned = new PatientQueue(obj);
+        PatientQueue pqUnassigned = new PatientQueue((Doctor)obj);
         Collection<QueueEntry> entriesUnassigned =  pqUnassigned.getEntries();
 
         assertTrue(entriesUnassigned != null);

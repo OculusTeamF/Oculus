@@ -41,7 +41,7 @@ public class PatientQueueTest implements ILogger{
         Doctor doctor = Facade.getInstance().getById(Doctor.class, 1);
         Patient pat = Facade.getInstance().getById(Patient.class, 7);
         Orthoptist ortho = null;
-        PatientQueue patQueue = new PatientQueue();
+        PatientQueue patQueue = new PatientQueue(doctor);
 
         log.debug("Add patient to queue for doctor: '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Patient: '" + pat.getFirstName() + " " + pat.getLastName() + "'");
 
