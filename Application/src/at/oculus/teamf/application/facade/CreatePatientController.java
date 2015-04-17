@@ -10,7 +10,9 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.IDoctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -62,7 +64,7 @@ public class CreatePatientController implements ILogger{
 
     /*this method creates a new Patient-Object, sets all given data und saves the new Patient in the database.
     If some Information is missing, then an exception is thrown*/
-    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email) throws RequirementsNotMetException {
+    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException {
         Patient patient = new Patient();
         if(gender.equals("female")){
             patient.setGender(Gender.Female);
@@ -78,6 +80,8 @@ public class CreatePatientController implements ILogger{
         patient.setCity(city);
         patient.setPhone(phone);
         patient.setEmail(email);
+        patient.setCountryIsoCode(countryIsoCode);
+        patient.setDoctor((Doctor) doctor);
 
         try {
             savePatient(patient);
