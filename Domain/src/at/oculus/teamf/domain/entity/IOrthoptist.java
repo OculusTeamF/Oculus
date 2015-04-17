@@ -12,8 +12,17 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by jpo2433 on 17.04.15.
  */
-public interface IPatientQueue {
-    int getUserID();
+public interface IOrthoptist {
 
-    void setUserID(int userID);
+    int getId();
+
+    void setId(int id);
+
+    Calendar getCalendar();
+
+    void setCalendar(Calendar calendar);
+
+    PatientQueue getQueue();
+
+    void setQueue(PatientQueue queue);
 }

@@ -14,7 +14,7 @@ import at.oculus.teamf.persistence.Facade;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public class Orthoptist extends User implements IDomain {
+public class Orthoptist extends User implements IDomain, IOrthoptist {
 	//<editor-fold desc="Attributes">
 	private int _id;
     private Calendar _calendar;
@@ -23,27 +23,33 @@ public class Orthoptist extends User implements IDomain {
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    @Override
     public int getId() {
 	    return _id;
     }
 
-	public void setId(int id) {
+	@Override
+    public void setId(int id) {
 		_id = id;
 	}
 
+    @Override
     public Calendar getCalendar() {
 	    return _calendar;
     }
 
+    @Override
     public void setCalendar(Calendar calendar) {
         _calendar = calendar;
     }
 
+    @Override
     public PatientQueue getQueue() {
 	    _queue = new PatientQueue(this);
 	    return _queue;
     }
 
+    @Override
     public void setQueue(PatientQueue queue) {
         _queue = queue;
     }

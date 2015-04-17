@@ -78,6 +78,7 @@ public class searchPatientController implements Initializable{
 
      }
 
+    @FXML
     public void searchPatient(ActionEvent actionEvent) {
 
         String lastName = searchPatientLastname.getText();
