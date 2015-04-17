@@ -41,7 +41,7 @@
                   <Menu mnemonicParsing="false" text="Patient">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#newPatient" text="New Patient" />
-                        <MenuItem mnemonicParsing="false" onAction="#openPatient" text="Open patient record" />
+                        <MenuItem fx:id="openPatientSearch" mnemonicParsing="false" onAction="#searchPatient" text="Open patient record" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Forms">

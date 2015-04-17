@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private  FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+    private FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
     private MainController controller;
 
     @Override

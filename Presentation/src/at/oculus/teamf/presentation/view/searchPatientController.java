@@ -23,14 +23,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import se.mbaeumer.fxmessagebox.MessageBox;
-import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
 
@@ -43,7 +40,7 @@ import java.util.ResourceBundle;
 
 public class searchPatientController implements Initializable{
 
-    @FXML  public TextField searchPatientLastname;
+    @FXML public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
@@ -65,8 +62,7 @@ public class searchPatientController implements Initializable{
         });
     }
 
-    private void openPatientRecord()
-     {
+    private void openPatientRecord() {
          MessageBox mb = new MessageBox("in Patient Record", MessageBoxType.OK_ONLY);
          mb.centerOnScreen();
          mb.showAndWait();

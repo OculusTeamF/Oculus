@@ -1,12 +1,13 @@
 <component name="libraryTable">
   <library name="Presentation">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Presentation/lib/FXMessageBox.jar!/" />
       <root url="jar://$PROJECT_DIR$/Presentation/lib/jfxtras-labs-samples-8.0-r4-SNAPSHOT-shadow.jar!/" />
       <root url="jar://$PROJECT_DIR$/Presentation/lib/jfxtras-agenda-8.0-r4-20150404.080058-179.jar!/" />
       <root url="jar://$PROJECT_DIR$/Presentation/lib/jfxtras-common-8.0-r4-20150404.080112-179.jar!/" />
       <root url="jar://$PROJECT_DIR$/Presentation/lib/jfxtras-controls-8.0-r4-20150404.080125-179.jar!/" />
       <root url="jar://$PROJECT_DIR$/Presentation/lib/jfxtras-fxml-8.0-r4-20150404.080139-179.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Presentation/lib/controlsfx-8.20.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Presentation/lib/openjfx-dialogs-1.0.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
