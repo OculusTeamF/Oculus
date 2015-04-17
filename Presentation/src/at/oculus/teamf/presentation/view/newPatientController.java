@@ -16,22 +16,21 @@ import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
+import java.net.URL;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ResourceBundle;
 
 
-
-public class newPatientController{
+public class newPatientController implements Initializable{
 
     @FXML public RadioButton radioGenderFemale;
     @FXML public RadioButton radioGenderMale;
@@ -44,8 +43,8 @@ public class newPatientController{
     @FXML public DatePicker PatientRecordBday;
     @FXML public TextField PatientRecordPLZ;
     @FXML public TextField PatientRecordCity;
-    @FXML private GridPane newPatientPane;
-    @FXML private Button newPatientSaveButton;
+    @FXML public ChoiceBox newPatientDoctor;
+    @FXML public Button newPatientSaveButton;
 
     CreatePatientController createPatientController = new CreatePatientController();
 
@@ -111,6 +110,11 @@ public class newPatientController{
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
 }
