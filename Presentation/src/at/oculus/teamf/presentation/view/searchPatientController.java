@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;/*package sample;
+package at.oculus.teamf.presentation.view;
 /**
  ~ Copyright (c) 2015 Team F
  ~
@@ -52,7 +52,6 @@ public class searchPatientController implements Initializable{
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
     private Tab _patientRecordTab;
-    private MainController mainController = new MainController();
 
 
     @Override
@@ -65,16 +64,18 @@ public class searchPatientController implements Initializable{
         });
     }
 
-    private void openPatientRecord()
+    private void openPatientRecord(String currPatient)
      {
          MessageBox mb = new MessageBox("in Patient Record", MessageBoxType.OK_ONLY);
+         mb.setHeight(150);
          mb.centerOnScreen();
          mb.showAndWait();
          _patientRecordTab = mainController.generateTab("Patient Record");
          MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
+         mb.setHeight(150);
          mb1.centerOnScreen();
          mb1.showAndWait();
-         mainController.getDisplayPane().getTabs().add(_patientRecordTab);
+
      }
 
     public void searchPatient(ActionEvent actionEvent) {
@@ -83,16 +84,6 @@ public class searchPatientController implements Initializable{
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
 
-        if (lastName.length() == 0) {
-            lastName = null;
-        }
-        if (firstName.length() == 0) {
-            firstName = null;
-        }
-        if (svn.length() == 0) {
-            svn = null;
-        }
-
         ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));
 
         if(patientlist.size() > 0)
@@ -100,6 +91,7 @@ public class searchPatientController implements Initializable{
             searchPatientList.setItems(patientlist);
         }else{
             MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
+            mb.setHeight(150);
             mb.centerOnScreen();
             mb.showAndWait();
             searchPatientLastname.clear();
@@ -123,8 +115,9 @@ public class searchPatientController implements Initializable{
                     mb.centerOnScreen();
                     mb.showAndWait();
 
-                    openPatientRecord();
-                    //TODO: open Patient record
+                    //open Patient record
+                    openPatientRecord(currPatientItem);
+
                 }
             }
         });
