@@ -46,6 +46,9 @@ public class StartupController implements ILogger{
      * receptionist is needed.
      *
      **/
+    public StartupController(){
+        Facade facade = Facade.getInstance();
+    }
 
     public IUser getUser (){
         Facade facade = Facade.getInstance();
