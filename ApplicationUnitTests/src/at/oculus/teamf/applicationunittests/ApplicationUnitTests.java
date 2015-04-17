@@ -22,6 +22,6 @@ import java.util.Collection;
 public class ApplicationUnitTests {
 
     public static void main (String [] args){
-        
+
     }
 }
