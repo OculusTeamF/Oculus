@@ -106,16 +106,18 @@ public class MainController implements Initializable {
     }
 
     /*Opens the calendar view by clicking Menuitem 'Calendar'*/
-
     @FXML
     public void openCal(ActionEvent event) {
-        try {
+        /*try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("agenda2.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        //_calendarTab = generateTab("Calendar");
-        //displayPane.getTabs().add(_calendarTab);
+        }*/
+      /*  _calendarTab = generateTab("Calendar");
+        displayPane.getTabs().add(_calendarTab);*/
+
+        _calendarTab = generateTab("Calendar");
+        displayPane.getTabs().add(_calendarTab);
     }
 
 
@@ -163,13 +165,13 @@ public class MainController implements Initializable {
 
         if (tabName.equals("New Patient")) {
             try {
-                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("patientRecord.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("newPatient.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (tabName.equals("Calendar")) {
             try {
-                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda2.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
