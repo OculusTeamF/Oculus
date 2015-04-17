@@ -23,8 +23,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private  FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
-    private MainController controller;
+    public FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+    public static MainController controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception  {
@@ -54,7 +54,7 @@ public class Main extends Application {
         //primaryStage.getIcons().add(new Image("file:icon.png"));
 
         primaryStage.setScene(scene);
-        //primaryStage.setMaximized(true);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

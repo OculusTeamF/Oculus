@@ -11,62 +11,110 @@ package at.oculus.teamf.presentation.view;
 /**
  * Created by Karo on 09.04.2015.
  */
-/*
-import at.oculus.teamf.application.facade;
-*/
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import at.oculus.teamf.application.facade.CreatePatientController;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import se.mbaeumer.fxmessagebox.MessageBox;
+import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
-public class newPatientController implements Initializable {
 
-    @FXML public ChoiceBox<String> cBoxGender;
-    @FXML public ComboBox<String> cBoxInsurance;
-    @FXML public ChoiceBox cBoxGender1;
-    @FXML public ComboBox cBoxInsurance1;
-    @FXML public Button closeButton;
-    @FXML public Button saveButton;
-    @FXML public GridPane newPatientPane;
-    @FXML public ComboBox statusPatient;
-    @FXML public ComboBox statusInsured;
+public class newPatientController implements Initializable{
 
+    @FXML public RadioButton radioGenderFemale;
+    @FXML public RadioButton radioGenderMale;
+    @FXML public TextField PatientRecordLastname;
+    @FXML public TextField PatientRecordFirstname;
+    @FXML public TextField PatientRecordStreet;
+    @FXML public TextField PatientRecordPhone;
+    @FXML public TextField PatientRecordEmail;
+    @FXML public TextField PatientRecordSVN;
+    @FXML public DatePicker PatientRecordBday;
+    @FXML public TextField PatientRecordPLZ;
+    @FXML public TextField PatientRecordCity;
+    @FXML public ChoiceBox newPatientDoctor;
+    @FXML public Button newPatientSaveButton;
 
-    @Override
-    @FXML
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        ObservableList<String> gender = FXCollections.observableArrayList("Mister","Ms");
-        cBoxGender.setItems(gender);
-        cBoxGender1.setItems(gender);
+    CreatePatientController createPatientController = new CreatePatientController();
 
-        ObservableList<String> insurance = FXCollections.observableArrayList("GKK","VA für Eisenbahn und Bergbau", "VA öffentlich Bediensteter", "SVA der gewerblichen Wirtschaft", "SVA der Bauern");
-        cBoxInsurance.setItems(insurance);
-        cBoxInsurance1.setItems(insurance);
-
-        ObservableList<String> status = FXCollections.observableArrayList("employed","non-working","self-employed");
-        statusPatient.setItems(status);
-        statusInsured.setItems(status);
-    }
-
-    @FXML
-    /*Close the 'new Patient' form without saving'*/
-    public void onClose(ActionEvent actionEvent)
-    {
-        newPatientPane.setVisible(false);
-    }
     /*Saves the form in a new Patient-Object*/
     public void saveForm(ActionEvent actionEvent)
     {
-        //TODO: connect with application
+        String gender = null;
+        String lastname = PatientRecordLastname.getText();
+        String firstname = PatientRecordFirstname.getText();
+        String svn = PatientRecordSVN.getText();
+
+        LocalDate localDate = PatientRecordBday.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        java.util.Date utildate = Date.from(instant);
+        Date bday = new Date(utildate.getTime());
+
+        String street = PatientRecordStreet.getText();
+        String postalcode = PatientRecordPLZ.getText();
+        String city = PatientRecordCity.getText();
+        String phone = PatientRecordPhone.getText();
+        String email = PatientRecordEmail.getText();
+
+        if(radioGenderFemale.isSelected()){
+            gender = "female";
+        }else if(radioGenderMale.isSelected()){
+            gender = "male";
+        }else{
+            MessageBox mb1 = new MessageBox("Please choose gender.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(lastname.isEmpty()){
+            MessageBox mb1 = new MessageBox("Please enter Lastname.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(firstname.isEmpty()){
+            MessageBox mb1 = new MessageBox("Please enter Firstname.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(svn.isEmpty()){
+            MessageBox mb1 = new MessageBox("Please enter Social security number.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(bday.toString().isEmpty()) {
+            MessageBox mb1 = new MessageBox("Please enter Birthday.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        try {
+            createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email);
+            MessageBox mb1 = new MessageBox("New Patient saved.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        } catch (RequirementsNotMetException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

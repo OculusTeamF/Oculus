@@ -7,30 +7,22 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import jfxtras.scene.control.window.CloseIcon;
-import jfxtras.scene.control.window.Window;
-
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Karo on 11.04.2015.
+ * Created by jpo2433 on 17.04.15.
  */
-public class CloseIconImpl extends CloseIcon
-{
-    public CloseIconImpl(final Window w, final TabPane pane, final Tab tab) {
-        super(w);
+public interface IOrthoptist {
 
-        this.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                w.close();
-                pane.getTabs().remove(tab);
-            }
+    int getId();
 
-        });
-    }
+    void setId(int id);
+
+    Calendar getCalendar();
+
+    void setCalendar(Calendar calendar);
+
+    PatientQueue getQueue();
+
+    void setQueue(PatientQueue queue);
 }

@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
+import at.oculus.teamf.technical.loggin.ILogger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,7 +30,7 @@ import java.util.List;
  * @date 30.03.2015
  * @version 1.0
  */
-class HibernateSession implements ISession, ISessionClosable {
+class HibernateSession implements ISession, ISessionClosable, ILogger {
 
     //hibernate session
     private Session _session;
@@ -74,7 +75,7 @@ class HibernateSession implements ISession, ISessionClosable {
             _transaction = _session.getTransaction();
             _transaction.begin();
         } catch (HibernateException e) {
-            System.out.println("Can not start transaction! OriginalMessage: " + e.getMessage());
+            log.error("Can not start transaction! OriginalMessage: " + e.getMessage());
             return false;
         }
 
@@ -111,9 +112,7 @@ class HibernateSession implements ISession, ISessionClosable {
         try {
             _transaction.commit();
         } catch (HibernateException e) {
-            //Todo: add Logging
-            System.out.println("Can not commit the transaction! OriginalMessage: " + e.getMessage());
-
+            log.error("Can not commit the transaction! OriginalMessage: " + e.getMessage());
             rollback();
             return false;
         }
@@ -140,8 +139,7 @@ class HibernateSession implements ISession, ISessionClosable {
         try {
             _transaction.rollback();
         } catch (HibernateException e) {
-            //Todo: add Logging
-            System.out.println("A error occurred when rolling back the transaction! OriginalMessage: " + e.getMessage());
+            log.error("A error occurred when rolling back the transaction! OriginalMessage: " + e.getMessage());
             return false;
         }
 
@@ -170,9 +168,7 @@ class HibernateSession implements ISession, ISessionClosable {
         try {
             _session.delete(obj);
         } catch (HibernateException e) {
-            //Todo: add Logging
-            System.out.println("A error ocured during the deletion process!: " + e.getMessage());
-
+            log.error("A error ocured during the deletion process!: " + e.getMessage());
             rollback();
             return false;
         }
@@ -244,8 +240,7 @@ class HibernateSession implements ISession, ISessionClosable {
         try {
             _session.save(obj);
         } catch (HibernateException e) {
-            //Todo: add Logging
-            System.out.println("A error occurred when trying to save " + obj +"! OriginalMessage: " + e.getMessage());
+            log.error("A error occurred when trying to save " + obj + "! OriginalMessage: " + e.getMessage());
 
             rollback();
             return false;
@@ -274,9 +269,7 @@ class HibernateSession implements ISession, ISessionClosable {
 		try {
 			_session.saveOrUpdate(obj);
 		} catch (HibernateException e) {
-			//Todo: add Logging
-			System.out.println("A error occurred when trying to save " + obj +"! OriginalMessage: " + e.getMessage());
-
+            log.error("A error occurred when trying to save " + obj +"! OriginalMessage: " + e.getMessage());
 			rollback();
 			return false;
 		}

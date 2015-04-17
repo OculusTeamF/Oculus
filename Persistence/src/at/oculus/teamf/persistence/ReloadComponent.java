@@ -21,74 +21,74 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * ReloadComponent provides an abstract implementation for reloading collections that belong to an entity. It only needs
+ * to know which entity class to load and witch domain class to cast the loaded collection from the entity.
+ *
+ * The user of this component only needs to implement an object that implements the {@code ICollectionLoader} interface and
+ * pass the object to the {@code reloadCollection()} method.
+ *
  * @author Simon Angerer
  * @version 1.0
  * @date 12.04.2015
  */
 public class ReloadComponent {
 
-	private Class _entityClazz;
-	private Class _clazzToLoad;
+    private Class _entityClazz;
+    private Class _clazzToLoad;
 
-	/**
-	 *
-	 * @param entityClazz entity class from which the reload needs to be extracted
-	 * @param clazzToLoad domain class that needs to be reloaded
-	 */
-	public ReloadComponent(Class entityClazz, Class clazzToLoad) {
-		_entityClazz = entityClazz;
-		_clazzToLoad = clazzToLoad;
-	}
-	/**
-	 * @param session
-	 * 		session to use
-	 * @param id
-	 * 		of the object to reload
-	 * @param loader
-	 * 		that will load the collection
-	 *
-	 * @return collection of entityClazz
-	 *
-	 * @throws FacadeException
-	 * 		gets thrown if an error occures
-	 */
-	public Collection reloadCollection(ISession session, int id, CollectionLoader loader) throws FacadeException {
-		Facade facade = Facade.getInstance();
+    /**
+     * @param entityClazz entity class from which the reload needs to be extracted
+     * @param clazzToLoad domain class that needs to be reloaded
+     */
+    public ReloadComponent(Class entityClazz, Class clazzToLoad) {
+        _entityClazz = entityClazz;
+        _clazzToLoad = clazzToLoad;
+    }
 
-		//load database CalendarEventEntity that has the collection that needs to be reloaded
-		Object databaseEntity = null;
-		try {
-			databaseEntity = session.getByID(_entityClazz, id);
-		} catch (BadSessionException e) {
-			e.printStackTrace();
-		} catch (ClassNotMappedException e) {
-			e.printStackTrace();
-		}
-		if (databaseEntity == null) {
-			throw new NotAbleToLoadClassException();
-		}
+    /**
+     * @param session session to use
+     * @param id      of the object to reload
+     * @param loader  that will load the collection
+     * @return collection of domain objects
+     * @throws FacadeException gets thrown if an error occures
+     */
+    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws FacadeException {
+        Facade facade = Facade.getInstance();
 
-		//load CalendarEventEntity collection from database CalendarEventEntity
-		Collection entities = loader.load(databaseEntity);
+        //load database CalendarEventEntity that has the collection that needs to be reloaded
+        Object databaseEntity = null;
+        try {
+            databaseEntity = session.getByID(_entityClazz, id);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
+        } catch (ClassNotMappedException e) {
+            e.printStackTrace();
+        }
+        if (databaseEntity == null) {
+            throw new NotAbleToLoadClassException();
+        }
+
+        //load CalendarEventEntity collection from database CalendarEventEntity
+        Collection entities = loader.load(databaseEntity);
 
 
-		//get domain object broker
-		EntityBroker toLoadClassDomainBroker = null;
-		try {
-			toLoadClassDomainBroker = facade.getBroker(_clazzToLoad);
-		} catch (NoBrokerMappedException e) {
-			//Todo: add Loging
-			e.printStackTrace();
+        //get domain object broker
+        EntityBroker toLoadClassDomainBroker = null;
+        try {
+            toLoadClassDomainBroker = facade.getBroker(_clazzToLoad);
+        } catch (NoBrokerMappedException e) {
+            //Todo: add Loging
+            e.printStackTrace();
 
-			throw new NotAbleToLoadClassException();
-		}
+            throw new NotAbleToLoadClassException();
+        }
 
-		//convert database entity collection to domain entity collection
-		Collection objects = new ArrayList();
-		for (Object obj : entities) {
-			objects.add(toLoadClassDomainBroker.persistentToDomain((IEntity) obj));
-		}
+        //convert database entity collection to domain entity collection
+        Collection objects = new ArrayList();
+        for (Object obj : entities) {
+            objects.add(toLoadClassDomainBroker.persistentToDomain((IEntity) obj));
+        }
 
-		return objects;
-	}
+        return objects;
+    }
 }

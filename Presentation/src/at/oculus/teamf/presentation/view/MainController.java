@@ -26,7 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import jfxtras.labs.scene.control.window.Window;
+import jfxtras.scene.control.window.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    @FXML public MenuItem openPatientsearch;
     @FXML private VBox vboxQueues;
     @FXML private TabPane displayPane;
     @FXML private ListView wList1, wList2, wList3, wListO;
@@ -105,7 +106,6 @@ public class MainController implements Initializable {
     }
 
     /*Opens the calendar view by clicking Menuitem 'Calendar'*/
-
     @FXML
     public void openCal(ActionEvent event) {
         try {
@@ -121,9 +121,21 @@ public class MainController implements Initializable {
     /*Opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("newPatientTab.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //_newPatientTab = generateTab("New Patient");
+        //displayPane.getTabs().add(_newPatientTab);
+    }
 
-        _newPatientTab = generateTab("New Patient");
-        displayPane.getTabs().add(_newPatientTab);
+    public void addPatientTab(){
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("patientRecordTab.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public SplitPane getSplitter(){
@@ -138,9 +150,14 @@ public class MainController implements Initializable {
     /*Opens a patient search tab*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("searchPatientTab.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        _searchPatientTab = generateTab("Search Patient");
-        displayPane.getTabs().add(_searchPatientTab);
+        //_searchPatientTab = generateTab("Search Patient");
+        //displayPane.getTabs().add(_searchPatientTab);
     }
 
     /**
@@ -158,7 +175,6 @@ public class MainController implements Initializable {
         w.setLayoutX(40);
         w.setLayoutY(40);
         w.setPrefSize(1400, 900);
-        /*w.getRightIcons().add(new MinimizeIcon(w));*/
         w.getRightIcons().add(new CloseIconImpl(w, displayPane, tab));
 
         if (tabName.equals("New Patient")) {
@@ -169,7 +185,7 @@ public class MainController implements Initializable {
             }
         } else if (tabName.equals("Calendar")) {
             try {
-                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda2.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("agenda.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -188,7 +204,6 @@ public class MainController implements Initializable {
         }
             root.getChildren().add(w);
             return tab;
-
     }
 
     public TabPane getDisplayPane(){

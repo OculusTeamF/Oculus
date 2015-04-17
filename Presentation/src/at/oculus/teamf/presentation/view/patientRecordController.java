@@ -16,6 +16,7 @@ import at.oculus.teamf.application.facade;
 */
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -30,9 +31,11 @@ public class patientRecordController implements Initializable {
     }
 
     public void saveForm(ActionEvent actionEvent) {
+
     }
 
     public void onClose(ActionEvent actionEvent) {
+
 
     }
 }

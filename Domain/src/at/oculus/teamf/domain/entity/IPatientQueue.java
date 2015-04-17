@@ -7,14 +7,13 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence;
-
-import java.util.Collection;
+package at.oculus.teamf.domain.entity;
 
 /**
- * Created by Norskan on 09.04.2015.
+ * Created by jpo2433 on 17.04.15.
  */
-//Todo: testen
-interface CollectionLoader<R> {
-	Collection<R> load(Object databaseEntity);
+public interface IPatientQueue {
+    int getUserID();
+
+    void setUserID(int userID);
 }

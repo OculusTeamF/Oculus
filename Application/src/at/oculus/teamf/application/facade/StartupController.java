@@ -42,12 +42,15 @@ public class StartupController implements ILogger{
      *<h3>$getUser</h3>
      *
      * <b>Description:</b>
-     * This method returns a user (at the moment a receptionist) to try and test the first Usecase (where only a
-     * receptionist ist needed.
+     * This method returns a User-Interface (at the moment a receptionist) to try and test the first UseCase (where only a
+     * receptionist is needed.
      *
      **/
+    public StartupController(){
+        Facade facade = Facade.getInstance();
+    }
 
-    public User getUser (){
+    public IUser getUser (){
         Facade facade = Facade.getInstance();
 
         User user = null;
@@ -71,7 +74,7 @@ public class StartupController implements ILogger{
      *
      **/
 
-    public Collection<PatientQueue> getAllQueues() {
+    public Collection<IPatientQueue> getAllQueues() {
 
         Collection <Doctor> doctors = null;
         Facade facade = Facade.getInstance();
@@ -82,13 +85,78 @@ public class StartupController implements ILogger{
             log.warn("Facade exception caught!");
             //TODO
         }
-        Collection<PatientQueue> queues = new LinkedList<PatientQueue>();
+        Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
         for (Doctor doctor : doctors){
             queues.add(doctor.getQueue());
         }
 
         return queues;
+    }
+    /**
+     *<h3>$getAllDoctors</h3>
+     *
+     * <b>Description:</b>
+     *
+     * This method returns all available doctors. We get a list of all doctors from the persistence layer,
+     * convert it into Interfaces and
+     * return it.
+     *
+     *<b>Parameter</b>
+     *
+     **/
+    public Collection<IDoctor> getAllDoctors(){
+        Collection<Doctor> doctors = null;
+        Facade facade = Facade.getInstance();
+
+        try {
+            doctors = facade.getAll(Doctor.class);
+        } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
+            e.printStackTrace();
+        }
+
+        Collection<IDoctor> iDoctors = new LinkedList<IDoctor>();
+
+        for(Doctor doc : doctors){
+            iDoctors.add((IDoctor)doc);
+        }
+
+        return iDoctors;
+
+    }
+
+    /**
+     *<h3>$getAllOrthoptists</h3>
+     *
+     * <b>Description:</b>
+     *
+     * This method returns all available orthoptists. We get a list of all orthoptists from the persistence layer,
+     * convert it into Interfaces and
+     * return it.
+     *
+     *<b>Parameter</b>
+     *
+     **/
+    public Collection<IOrthoptist> getAllOrthoptists(){
+        Collection<Orthoptist> orthoptists = null;
+        Facade facade = Facade.getInstance();
+
+        try {
+            orthoptists = facade.getAll(Orthoptist.class);
+        } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
+            e.printStackTrace();
+        }
+
+        Collection<IOrthoptist> iOrthoptists = new LinkedList<IOrthoptist>();
+
+        for(Orthoptist o : orthoptists){
+            iOrthoptists.add((IOrthoptist)o);
+        }
+
+        return iOrthoptists;
+
     }
 
     /**
@@ -100,10 +168,10 @@ public class StartupController implements ILogger{
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      *<b>Parameter</b>
-     * @param user description
+     *
      **/
 
-    public Collection<Calendar> getAllCalendars(User user){
+    public Collection<ICalendar> getAllCalendars(){
         Facade facade = Facade.getInstance();
 
         Collection<Calendar> calendars = null;
@@ -114,8 +182,13 @@ public class StartupController implements ILogger{
             e.printStackTrace();
             //TODO
         }
+        Collection<ICalendar> iCalendars = new LinkedList<ICalendar>();
 
-        return calendars;
+        for(Calendar c : calendars){
+            iCalendars.add((ICalendar)c);
+        }
+
+        return iCalendars;
     }
 
 

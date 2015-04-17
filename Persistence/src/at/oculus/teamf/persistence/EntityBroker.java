@@ -66,9 +66,9 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         try {
             entity = (P) session.getByID(_entityClass, id);
         } catch (BadSessionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
         } catch (ClassNotMappedException e) {
-            log.catching(e);
+            log.error(e.getMessage());;
         }
 
         D result = persistentToDomain(entity);
@@ -88,9 +88,9 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         try {
             entities = (Collection<Object>) session.getAll(_entityClass);
         } catch (BadSessionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
         } catch (ClassNotMappedException e) {
-            log.catching(e);
+            log.error(e.getMessage());
         }
 
         Collection<D> domainObjects = new ArrayList<D>();
@@ -125,16 +125,16 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 	            domainObj.setId(entity.getId());
             }
         } catch (BadSessionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (AlreadyInTransactionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (NoTransactionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (ClassNotMappedException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         }
 
@@ -162,17 +162,16 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             session.commit();
 
         } catch (BadSessionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (AlreadyInTransactionException e) {
-            log.catching(e);
-            ;
+            log.error(e.getMessage());
             return false;
         } catch (NoTransactionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (ClassNotMappedException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         }
 
@@ -196,16 +195,16 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             session.commit();
 
         } catch (BadSessionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (AlreadyInTransactionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (NoTransactionException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         } catch (ClassNotMappedException e) {
-            log.catching(e);
+            log.error(e.getMessage());
             return false;
         }
 
@@ -224,16 +223,16 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 			session.commit();
 
 		} catch (BadSessionException e) {
-			e.printStackTrace();
+            log.error(e.getMessage());
 			return false;
 		} catch (AlreadyInTransactionException e) {
-			e.printStackTrace();
+            log.error(e.getMessage());
 			return false;
 		} catch (NoTransactionException e) {
-			e.printStackTrace();
+            log.error(e.getMessage());
 			return false;
 		} catch (ClassNotMappedException e) {
-			e.printStackTrace();
+            log.error(e.getMessage());
 			return false;
 		}
 		return true;
