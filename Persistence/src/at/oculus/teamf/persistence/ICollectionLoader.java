@@ -15,6 +15,6 @@ import java.util.Collection;
  * Created by Norskan on 09.04.2015.
  */
 //Todo: testen
-interface CollectionLoader<R> {
+interface ICollectionLoader<R> {
 	Collection<R> load(Object databaseEntity);
 }

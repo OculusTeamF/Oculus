@@ -137,7 +137,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		return patients;
 	}
 
-	private class CalendarEventsLoader implements CollectionLoader<CalendarEventEntity> {
+	private class CalendarEventsLoaderI implements ICollectionLoader<CalendarEventEntity> {
 
 		@Override
 		public Collection<CalendarEventEntity> load(Object databaseEntity) {
@@ -148,6 +148,6 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws FacadeException {
 		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
+		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoaderI());
 	}
 }

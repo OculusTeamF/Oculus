@@ -62,7 +62,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		}
 	}
 
-	private class CalendarEventsLoader implements CollectionLoader<CalendarEventEntity> {
+	private class CalendarEventsLoaderI implements ICollectionLoader<CalendarEventEntity> {
 
 		@Override
 		public Collection<CalendarEventEntity> load(Object databaseEntity) {
@@ -74,6 +74,6 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		ReloadComponent reloadComponent =
 				new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
+		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoaderI());
 	}
 }
