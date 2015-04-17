@@ -107,7 +107,7 @@ public class CreatePatientController implements ILogger{
 
     /*in this method the data gets checked, if all fields are complete everything is alright. Some requirements are missing TODO */
     private boolean checkRequirements(Patient patient) {
-        if(patient.getSocialInsuranceNr() == "" || patient.getLastName() == "" || patient.getFirstName() == "" || patient.getGender() == null ||
+        if(patient.getSocialInsuranceNr() == "" || patient.getLastName() == "" || patient.getFirstName() == "" ||
                 patient.getBirthDay() == null){
             return false;
         }else{
