@@ -40,9 +40,9 @@ class HibernateSession implements ISession, ISessionClosable {
     //classes that can be serialised and deserialised
     private HashSet<Class> _clazzes;
 
-	static EntityManagerFactory _entityManagerFactory = Persistence.createEntityManagerFactory("JPAService");
+	private static EntityManagerFactory _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f");
 
-	static EntityManager _entityManager = _entityManagerFactory.createEntityManager();
+	private static EntityManager _entityManager = _entityManagerFactory.createEntityManager();
 
     public HibernateSession(Session session, Collection<Class> classes) {
         _session = session;

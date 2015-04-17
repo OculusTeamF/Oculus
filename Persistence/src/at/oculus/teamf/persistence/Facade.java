@@ -157,7 +157,6 @@ public class Facade {
 		worker(obj.getClass(), new ReloadCollection(obj, clazz));
 	}
 
-
 	private class Save extends Execute<Boolean> {
 
 		private IDomain _toSave;
@@ -230,41 +229,6 @@ public class Facade {
 		return (Boolean)worker(obj.getClass(), new DeleteAll(obj));
 	}
 
-	private class SearchPatient extends Execute<Collection<Patient>> {
-
-		private String _svn;
-		private String _firstName;
-		private String _lastName;
-		private String _search;
-
-		public SearchPatient(String svn, String firstName, String lastName) {
-			_svn = svn;
-			_firstName = firstName;
-			_lastName = lastName;
-		}
-
-		public SearchPatient(String search) {
-			_search = search;
-		}
-
-		@Override
-		public Collection<Patient> execute(ISession session, EntityBroker broker) {
-			if(_search!=null){
-				return ((PatientBroker) broker).searchPatient(session, _search);
-			} else {
-				return ((PatientBroker) broker).searchPatient(session, _svn, _firstName, _lastName);
-			}
-		}
-	}
-
-	public Collection<Patient> searchPatient(String svn, String firstName, String lastName) throws FacadeException {
-		return (Collection<Patient>)worker(Patient.class, new SearchPatient(svn, firstName, lastName));
-	}
-
-	public Collection<Patient> searchPatient(String search) throws FacadeException {
-		return (Collection<Patient>)worker(Patient.class, new SearchPatient(search));
-	}
-
 	private class Search extends Execute<Collection<Object>> {
 
 		private String[] _params;
@@ -274,12 +238,22 @@ public class Facade {
 		}
 
 		@Override
-		public Collection<Object> execute(ISession session, EntityBroker broker) {
-			return broker.search(session, _params);
+		public Collection<Object> execute(ISession session, EntityBroker broker) throws FacadeException {
+			if(!(broker instanceof ISearch)) {
+				throw new SearchInterfaceNotImplementedException();
+			}
+
+			Collection<Object> collection = new LinkedList<Object>();
+
+			for(Object obj : ((ISearch) broker).search(session, _params)){
+				collection.add(obj);
+			}
+
+			return collection;
 		}
 	}
 
-	public <T> Collection<T> searchPatient(Class clazz, String... search) throws FacadeException {
+	public <T> Collection<T> search(Class clazz, String... search) throws FacadeException {
 		return (Collection<T>)(Collection<?>)worker(clazz, new Search(search));
 	}
 

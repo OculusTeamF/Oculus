@@ -20,16 +20,16 @@ import java.util.Collection;
 @Table(name = "patient", schema = "", catalog = "oculus_f")
 @NamedNativeQueries({@NamedNativeQuery(
 		name = "getPatientBySingle",
-		query = "SELECT *" +
+		query = "SELECT * " +
 		        "FROM patient " +
-		        "WHERE UPPER(socialInsuranceNr) like UPPER(\"%?0%\") " +
-		        "AND UPPER(firstName) like UPPER(\"%?1%\") " +
-		        "AND UPPER(lastName) like UPPER(\"%?2%\")",
+		        "WHERE UPPER(socialInsuranceNr) like UPPER(\"%(?0)%\") " +
+		        "AND UPPER(firstName) like UPPER(\"%(?1)%\") " +
+		        "AND UPPER(lastName) like UPPER(\"%(?2)%\")",
 		resultClass = PatientEntity.class), @NamedNativeQuery(
 		name = "getPatientByAll",
 		query = "SELECT * " +
 		        "FROM patient " +
-		        "WHERE match (socialInsuranceNr, firstName, lastName) against (?3)",
+		        "WHERE match (socialInsuranceNr, firstName, lastName) against (\"(?3)\")",
 		resultClass = PatientEntity.class)})
 public class PatientEntity implements IEntity {
 	private int _id;

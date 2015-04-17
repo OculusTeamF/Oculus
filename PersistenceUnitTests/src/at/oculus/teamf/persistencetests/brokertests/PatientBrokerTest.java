@@ -103,10 +103,10 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Test
 	public void testSearchPatient(){
-		LinkedList<Patient> patients = null;
+		Collection<Patient> patients = null;
 		// SVN only
 		try {
-			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("5947053957","","");
+			patients = Facade.getInstance().search(Patient.class,"5947053957","","","son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -114,7 +114,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==1);
 		// Firstname only
 		try {
-			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","JaNe","");
+			patients = Facade.getInstance().search(Patient.class,"","JaNe","","son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -122,7 +122,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==3);
 		// Lastname only
 		try {
-			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("","","sOn");
+			patients = Facade.getInstance().search(Patient.class,"","","sOn","");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -130,7 +130,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==6);
 		// Fulltext
 		try {
-			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("sOn");
+			patients = Facade.getInstance().search(Patient.class, "", "", "", "son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);

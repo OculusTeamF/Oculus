@@ -148,15 +148,17 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		Collection<Patient> patients = new LinkedList<Patient>();
 
 		// create query
-		String query = "name";
+		String query = null;
+
+		if(params[3].equals("")){
+			query = "getPatientBySingle";
+		} else {
+			query = "getPatientByAll";
+		}
 
 		try {
-			session.beginTransaction();
-
 			patientsResult = session.search(query, params);
-
-			session.commit();
-		} catch (NoTransactionException | BadSessionException | AlreadyInTransactionException e) {
+		} catch (BadSessionException e) {
 			log.catching(e);
 		}
 
