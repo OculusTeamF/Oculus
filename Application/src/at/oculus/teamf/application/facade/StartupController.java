@@ -93,6 +93,71 @@ public class StartupController implements ILogger{
 
         return queues;
     }
+    /**
+     *<h3>$getAllDoctors</h3>
+     *
+     * <b>Description:</b>
+     *
+     * This method returns all available doctors. We get a list of all doctors from the persistence layer,
+     * convert it into Interfaces and
+     * return it.
+     *
+     *<b>Parameter</b>
+     *
+     **/
+    public Collection<IDoctor> getAllDoctors(){
+        Collection<Doctor> doctors = null;
+        Facade facade = Facade.getInstance();
+
+        try {
+            doctors = facade.getAll(Doctor.class);
+        } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
+            e.printStackTrace();
+        }
+
+        Collection<IDoctor> iDoctors = new LinkedList<IDoctor>();
+
+        for(Doctor doc : doctors){
+            iDoctors.add((IDoctor)doc);
+        }
+
+        return iDoctors;
+
+    }
+
+    /**
+     *<h3>$getAllOrthoptists</h3>
+     *
+     * <b>Description:</b>
+     *
+     * This method returns all available orthoptists. We get a list of all orthoptists from the persistence layer,
+     * convert it into Interfaces and
+     * return it.
+     *
+     *<b>Parameter</b>
+     *
+     **/
+    public Collection<IOrthoptist> getAllOrthoptists(){
+        Collection<Orthoptist> orthoptists = null;
+        Facade facade = Facade.getInstance();
+
+        try {
+            orthoptists = facade.getAll(Orthoptist.class);
+        } catch (FacadeException e) {
+            log.warn("Facade exception caught!");
+            e.printStackTrace();
+        }
+
+        Collection<IOrthoptist> iOrthoptists = new LinkedList<IOrthoptist>();
+
+        for(Orthoptist o : orthoptists){
+            iOrthoptists.add((IOrthoptist)o);
+        }
+
+        return iOrthoptists;
+
+    }
 
     /**
      *<h3>$getAllCalendars</h3>
