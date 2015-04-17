@@ -12,8 +12,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import jfxtras.labs.scene.control.window.CloseIcon;
-import jfxtras.labs.scene.control.window.Window;
+import jfxtras.scene.control.window.CloseIcon;
+import jfxtras.scene.control.window.Window;
+
 
 /**
  * Created by Karo on 11.04.2015.

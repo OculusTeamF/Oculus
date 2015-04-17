@@ -26,7 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import jfxtras.labs.scene.control.window.Window;
+import jfxtras.scene.control.window.Window;
 
 import java.io.IOException;
 import java.net.URL;
