@@ -43,7 +43,7 @@ import java.util.ResourceBundle;
 
 public class searchPatientController implements Initializable{
 
-    @FXML  public TextField searchPatientLastname;
+    @FXML public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
@@ -70,7 +70,7 @@ public class searchPatientController implements Initializable{
          mb.setHeight(150);
          mb.centerOnScreen();
          mb.showAndWait();
-         _patientRecordTab = mainController.generateTab("Patient Record");
+         //_patientRecordTab = Main.controller.generateTab("");
          MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
          mb.setHeight(150);
          mb1.centerOnScreen();
