@@ -24,10 +24,10 @@
     <RowConstraints maxHeight="291.0" minHeight="5.0" prefHeight="216.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <GridPane>
+      <GridPane hgap="5.0" vgap="5.0">
         <columnConstraints>
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="159.0" />
-          <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="518.0" minWidth="371.0" prefWidth="371.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="159.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="371.0" prefWidth="371.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints vgrow="SOMETIMES" />
@@ -38,6 +38,7 @@
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
           <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -52,37 +53,21 @@
                </children>
             </AnchorPane>
             <Label text="Street" GridPane.rowIndex="5" />
-            <Label text="Phone #" GridPane.rowIndex="7" />
-            <Label text="E-mail" GridPane.rowIndex="8" />
+            <Label text="Phone #" GridPane.rowIndex="8" />
+            <Label text="E-mail" GridPane.rowIndex="9" />
             <Label text="Postal code" GridPane.rowIndex="6" />
-            <TextField fx:id="PatientRecordLastname" prefHeight="31.0" prefWidth="427.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="PatientRecordFirstname" prefHeight="31.0" prefWidth="427.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="PatientRecordStreet" prefHeight="31.0" prefWidth="427.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="PatientRecordPhone" prefHeight="31.0" prefWidth="427.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="PatientRecordEmail" prefHeight="31.0" prefWidth="427.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="PatientRecordLastname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="PatientRecordFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="PatientRecordStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="PatientRecordPhone" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="PatientRecordEmail" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label text="Social Insurance #" GridPane.rowIndex="3" />
-            <TextField fx:id="PatientRecordSVN" prefHeight="31.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="PatientRecordSVN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Birthday" GridPane.rowIndex="4" />
             <DatePicker fx:id="PatientRecordBday" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="128.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="60.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="174.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <TextField fx:id="PatientRecordPLZ" prefHeight="31.0" prefWidth="218.0" />
-                  <Label contentDisplay="RIGHT" text="City" GridPane.columnIndex="1">
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="PatientRecordCity" prefHeight="31.0" prefWidth="192.0" GridPane.columnIndex="2" />
-               </children>
-            </GridPane>
+            <TextField fx:id="PatientRecordPLZ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="PatientRecordCity" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
          </children>
       </GridPane>
       <GridPane GridPane.rowIndex="1">
