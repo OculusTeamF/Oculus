@@ -108,25 +108,34 @@ public class MainController implements Initializable {
     /*Opens the calendar view by clicking Menuitem 'Calendar'*/
     @FXML
     public void openCal(ActionEvent event) {
-        /*try {
+        try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("agenda2.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
-      /*  _calendarTab = generateTab("Calendar");
-        displayPane.getTabs().add(_calendarTab);*/
-
-        _calendarTab = generateTab("Calendar");
-        displayPane.getTabs().add(_calendarTab);
+        }
+        //_calendarTab = generateTab("Calendar");
+        //displayPane.getTabs().add(_calendarTab);
     }
 
 
     /*Opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("newPatientTab.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //_newPatientTab = generateTab("New Patient");
+        //displayPane.getTabs().add(_newPatientTab);
+    }
 
-        _newPatientTab = generateTab("New Patient");
-        displayPane.getTabs().add(_newPatientTab);
+    public void addPatientTab(){
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("patientRecordTab.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public SplitPane getSplitter(){
@@ -141,9 +150,14 @@ public class MainController implements Initializable {
     /*Opens a patient search tab*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("searchPatientTab.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        _searchPatientTab = generateTab("Search Patient");
-        displayPane.getTabs().add(_searchPatientTab);
+        //_searchPatientTab = generateTab("Search Patient");
+        //displayPane.getTabs().add(_searchPatientTab);
     }
 
     /**
