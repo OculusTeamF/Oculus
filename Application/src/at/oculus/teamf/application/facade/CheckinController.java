@@ -34,12 +34,16 @@ public class CheckinController implements ILogger {
      * a QueueNotFoundException is thrown. If there is a queue, the patient and the user is given to the queue to save.
      *
      *<b>Parameter</b>
-     * @param patient this parameter shows the patient which should be added to the queue of the specified user
-     * @param user the patient should be added to the queue of this user
-     * @param queue this is the queue, to which the patient should be added
+     * @param ipatient this parameter shows the interface of the patient which should be added to the queue of the specified user
+     * @param iuser the patient should be added to the queue of this user
+     * @param iqueue this is the interface of the queue, to which the patient should be added
      *
      */
-    public void insertPatientIntoQueue(Patient patient, User user, PatientQueue queue) throws CheckinControllerException {
+    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser, IPatientQueue iqueue) throws CheckinControllerException {
+
+        Patient patient = (Patient) ipatient;
+        User user = (User) iuser;
+        PatientQueue queue = (PatientQueue) iqueue;
 
         if(queue == null) {
             log.warn("Queue can not be null!");

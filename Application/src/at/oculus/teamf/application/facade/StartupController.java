@@ -42,12 +42,12 @@ public class StartupController implements ILogger{
      *<h3>$getUser</h3>
      *
      * <b>Description:</b>
-     * This method returns a user (at the moment a receptionist) to try and test the first Usecase (where only a
-     * receptionist ist needed.
+     * This method returns a User-Interface (at the moment a receptionist) to try and test the first UseCase (where only a
+     * receptionist is needed.
      *
      **/
 
-    public User getUser (){
+    public IUser getUser (){
         Facade facade = Facade.getInstance();
 
         User user = null;
@@ -71,7 +71,7 @@ public class StartupController implements ILogger{
      *
      **/
 
-    public Collection<PatientQueue> getAllQueues() {
+    public Collection<IPatientQueue> getAllQueues() {
 
         Collection <Doctor> doctors = null;
         Facade facade = Facade.getInstance();
@@ -82,7 +82,7 @@ public class StartupController implements ILogger{
             log.warn("Facade exception caught!");
             //TODO
         }
-        Collection<PatientQueue> queues = new LinkedList<PatientQueue>();
+        Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
         for (Doctor doctor : doctors){
             queues.add(doctor.getQueue());
@@ -100,10 +100,10 @@ public class StartupController implements ILogger{
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      *<b>Parameter</b>
-     * @param user description
+     *
      **/
 
-    public Collection<Calendar> getAllCalendars(User user){
+    public Collection<ICalendar> getAllCalendars(){
         Facade facade = Facade.getInstance();
 
         Collection<Calendar> calendars = null;
@@ -114,8 +114,13 @@ public class StartupController implements ILogger{
             e.printStackTrace();
             //TODO
         }
+        Collection<ICalendar> iCalendars = new LinkedList<ICalendar>();
 
-        return calendars;
+        for(Calendar c : calendars){
+            iCalendars.add((ICalendar)c);
+        }
+
+        return iCalendars;
     }
 
 
