@@ -70,7 +70,7 @@ public class searchPatientController implements Initializable{
          mb.setHeight(150);
          mb.centerOnScreen();
          mb.showAndWait();
-         //_patientRecordTab = Main.controller.generateTab("");
+         Main.controller.addPatientTab();
          MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
          mb.setHeight(150);
          mb1.centerOnScreen();
@@ -80,6 +80,7 @@ public class searchPatientController implements Initializable{
 
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
+
 
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();

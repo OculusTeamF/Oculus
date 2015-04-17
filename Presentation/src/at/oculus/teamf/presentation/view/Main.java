@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     public FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
-    public MainController controller;
+    public static MainController controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception  {
