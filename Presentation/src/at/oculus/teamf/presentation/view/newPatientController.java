@@ -13,12 +13,14 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.CreatePatientController;
+import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.domain.entity.IDoctor;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
@@ -34,38 +36,48 @@ public class newPatientController implements Initializable{
 
     @FXML public RadioButton radioGenderFemale;
     @FXML public RadioButton radioGenderMale;
-    @FXML public TextField PatientRecordLastname;
-    @FXML public TextField PatientRecordFirstname;
-    @FXML public TextField PatientRecordStreet;
-    @FXML public TextField PatientRecordPhone;
-    @FXML public TextField PatientRecordEmail;
-    @FXML public TextField PatientRecordSVN;
-    @FXML public DatePicker PatientRecordBday;
-    @FXML public TextField PatientRecordPLZ;
-    @FXML public TextField PatientRecordCity;
+    @FXML public TextField newPatientLastname;
+    @FXML public TextField newPatientFirstname;
+    @FXML public TextField newPatientStreet;
+    @FXML public TextField newPatientPhone;
+    @FXML public TextField newPatientEmail;
+    @FXML public TextField newPatientSVN;
+    @FXML public DatePicker newPatientBday;
+    @FXML public TextField newPatientPLZ;
+    @FXML public TextField newPatientCity;
     @FXML public ChoiceBox newPatientDoctor;
     @FXML public Button newPatientSaveButton;
+    @FXML public TextField newPatientCountryIsoCode;
 
     CreatePatientController createPatientController = new CreatePatientController();
+    StartupController startupController = new StartupController();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
+    }
 
     /*Saves the form in a new Patient-Object*/
     public void saveForm(ActionEvent actionEvent)
     {
         String gender = null;
-        String lastname = PatientRecordLastname.getText();
-        String firstname = PatientRecordFirstname.getText();
-        String svn = PatientRecordSVN.getText();
+        String lastname = newPatientLastname.getText();
+        String firstname = newPatientFirstname.getText();
+        String svn = newPatientSVN.getText();
 
-        LocalDate localDate = PatientRecordBday.getValue();
+        LocalDate localDate = newPatientBday.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         java.util.Date utildate = Date.from(instant);
         Date bday = new Date(utildate.getTime());
 
-        String street = PatientRecordStreet.getText();
-        String postalcode = PatientRecordPLZ.getText();
-        String city = PatientRecordCity.getText();
-        String phone = PatientRecordPhone.getText();
-        String email = PatientRecordEmail.getText();
+        String street = newPatientStreet.getText();
+        String postalcode = newPatientPLZ.getText();
+        String city = newPatientCity.getText();
+        String phone = newPatientPhone.getText();
+        String email = newPatientEmail.getText();
+        IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
+        String countryIsoCode = newPatientCountryIsoCode.getText();
 
         if(radioGenderFemale.isSelected()){
             gender = "female";
@@ -102,7 +114,7 @@ public class newPatientController implements Initializable{
             mb1.showAndWait();
         }
         try {
-            createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email);
+            createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
             MessageBox mb1 = new MessageBox("New Patient saved.", MessageBoxType.OK_ONLY);
             mb1.setHeight(150);
             mb1.centerOnScreen();
@@ -113,8 +125,5 @@ public class newPatientController implements Initializable{
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-    }
 }
