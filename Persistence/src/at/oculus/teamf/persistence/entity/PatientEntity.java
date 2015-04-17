@@ -22,14 +22,13 @@ import java.util.Collection;
 		name = "getPatientBySingle",
 		query = "SELECT * " +
 		        "FROM patient " +
-		        "WHERE UPPER(socialInsuranceNr) like UPPER(\"%(?0)%\") " +
-		        "AND UPPER(firstName) like UPPER(\"%(?1)%\") " +
-		        "AND UPPER(lastName) like UPPER(\"%(?2)%\")",
-		resultClass = PatientEntity.class), @NamedNativeQuery(
+		        "WHERE UPPER(socialInsuranceNr) like UPPER(?0) " +
+		        "AND UPPER(firstName) like UPPER(?1) " +
+		        "AND UPPER(lastName) like UPPER(?2)",
+		resultClass = PatientEntity.class),
+        @NamedNativeQuery(
 		name = "getPatientByAll",
-		query = "SELECT * " +
-		        "FROM patient " +
-		        "WHERE match (socialInsuranceNr, firstName, lastName) against (\"(?3)\")",
+		query = "select * from patient where CONCAT(UPPER(firstName),UPPER(lastName),UPPER(socialInsuranceNr)) like UPPER(?3)",
 		resultClass = PatientEntity.class)})
 public class PatientEntity implements IEntity {
 	private int _id;

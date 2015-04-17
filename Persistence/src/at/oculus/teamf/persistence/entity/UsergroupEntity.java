@@ -77,6 +77,7 @@ public class UsergroupEntity implements IEntity {
         return result;
     }
 
+    /*
     @OneToMany(mappedBy = "_usergroupByUserGroupId")
     public Collection<UserEntity> get_users() {
         return _users;
@@ -84,5 +85,5 @@ public class UsergroupEntity implements IEntity {
 
     public void set_users(Collection<UserEntity> usersByUserGroupId) {
         _users = usersByUserGroupId;
-    }
+    }*/
 }

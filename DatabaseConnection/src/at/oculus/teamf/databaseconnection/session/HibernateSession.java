@@ -10,9 +10,7 @@
 package at.oculus.teamf.databaseconnection.session;
 
 import at.oculus.teamf.technical.loggin.ILogger;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -282,7 +280,11 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
 		validateSession();
 		Query query = _entityManager.createNamedQuery(queryName);
 		for(Integer i = 0; i<parameters.length; i++){
-			query.setParameter(i.toString(), parameters[i]);
+            try{
+                query.setParameter(i.toString(), "%"+parameters[i].replace(" ","%")+"%");
+            } catch (Exception e) {
+                // niaccchhtt
+            }
 		}
 		return query.getResultList();
 	}

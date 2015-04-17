@@ -9,10 +9,8 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.AlreadyInTransactionException;
 import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.NoTransactionException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
@@ -28,7 +26,7 @@ import java.util.LinkedList;
 /**
  * Created by Norskan on 08.04.2015.
  */
-public class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload {
+public class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload, ISearch<Patient> {
 
 	public PatientBroker() {
 		super(Patient.class, PatientEntity.class);
@@ -143,6 +141,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	 * @param params    Parameter in der Reichenfolge (SVN, Firstname, Lastname, Suchstring)
 	 * @return
 	 */
+    @Override
 	public Collection<Patient> search(ISession session, String... params) {
 		Collection<Object> patientsResult = null;
 		Collection<Patient> patients = new LinkedList<Patient>();

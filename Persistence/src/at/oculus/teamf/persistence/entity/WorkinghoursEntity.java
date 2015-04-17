@@ -117,6 +117,7 @@ public class WorkinghoursEntity implements IEntity {
         return result;
     }
 
+    /*
     @OneToMany(mappedBy = "_workinghours")
     public Collection<CalendarworkinghoursEntity> getCalendarworkinghoursesByWorkingHoursId() {
         return _calendarworkinghoursesByWorkingHoursId;
@@ -124,5 +125,5 @@ public class WorkinghoursEntity implements IEntity {
 
     public void setCalendarworkinghoursesByWorkingHoursId(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId) {
         this._calendarworkinghoursesByWorkingHoursId = calendarworkinghoursesByWorkingHoursId;
-    }
+    }*/
 }

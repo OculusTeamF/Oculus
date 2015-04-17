@@ -46,7 +46,7 @@ public class CalendarworkinghoursEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }
@@ -77,7 +77,7 @@ public class CalendarworkinghoursEntity implements IEntity {
         return result;
     }
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "workingHoursId", referencedColumnName = "workingHoursId", nullable = false)
     public WorkinghoursEntity getWorkinghours() {
         return _workinghours;
@@ -85,7 +85,7 @@ public class CalendarworkinghoursEntity implements IEntity {
 
     public void setWorkinghours(WorkinghoursEntity workinghours) {
         _workinghours = workinghours;
-    }
+    }*/
 
     @ManyToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
