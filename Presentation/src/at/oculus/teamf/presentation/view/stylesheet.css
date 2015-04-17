@@ -1,0 +1,34 @@
+#displayPane{
+    -fx-background-image: url("oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 379 108;
+    -fx-background-position: center;
+    -fx-background-color: white;
+}
+#newPatientPane{
+    -fx-background-color:lightblue;
+    -fx-border-style: solid;
+}
+#agendaPane{
+    -fx-background-color: lightblue;
+}
+#waitingListBox{
+    -fx-background-color: powderblue;
+}
+#newPatientLabel{
+    -fx-font-size: 16px;
+    -fx-background-color: cornflowerblue;
+    -fx-border-style: solid;
+}
+#patientInformation{
+    -fx-background-color: powderblue;
+}
+#insuredInformation{
+    -fx-background-color: lightcyan;
+}
+#employerInformation{
+    -fx-background-color: lightsteelblue;
+}
+#searchPatientPane{
+    -fx-background-color: powderblue;
+}

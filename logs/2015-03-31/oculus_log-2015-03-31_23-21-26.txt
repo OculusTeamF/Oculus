@@ -1,0 +1,6 @@
+[TIME:23:21:26.108] [CLASS:testing][METHOD:main] TRACE -> trace message test
+[TIME:23:21:26.110] [CLASS:testing][METHOD:main] DEBUG -> debug message test
+[TIME:23:21:26.110] [CLASS:testing][METHOD:main] INFO  -> info message test
+[TIME:23:21:26.110] [CLASS:testing][METHOD:main] WARN  -> warn message test
+[TIME:23:21:26.110] [CLASS:testing][METHOD:main] ERROR -> error message test
+[TIME:23:21:26.110] [CLASS:testing][METHOD:main] FATAL -> fatal message test
