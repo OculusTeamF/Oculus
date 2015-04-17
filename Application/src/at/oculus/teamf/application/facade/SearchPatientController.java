@@ -19,6 +19,7 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.domain.entity.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -54,117 +55,22 @@ public class SearchPatientController implements ILogger{
      * @param firstName description
      */
 
-    public Collection <Patient> searchPatients (String svn, String lastName, String firstName){
+    public Collection <IPatient> searchPatients (String svn, String lastName, String firstName){
 
         Facade facade = Facade.getInstance();
-
         Collection<Patient> patients = new LinkedList<Patient>();
-
         try {
-            patients = facade.getAll(Patient.class);
+            patients = facade.searchPatient(svn, firstName, lastName);
         } catch (FacadeException e) {
             log.warn("Facade Exception caught!");
             e.printStackTrace();
-            //TODO
         }
 
-        Collection<Patient> selectedPatients = new LinkedList<Patient>();
-
-        if (svn != null){
-            selectedPatients = getPatientBySocialInsuranceNumber(patients, svn);
-            if (selectedPatients.size() <= 1) {
-                return selectedPatients;
-            }
+        Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
+        for(Patient patient : patients){
+            selectedPatients.add(patient);
         }
-        if (lastName != null) {
-            selectedPatients = getPatientByLastName(patients, lastName);
-            if (selectedPatients.size() <= 1){
-                return selectedPatients;
-            } else if (firstName != null){
-                selectedPatients = getPatientByFirstName(selectedPatients, firstName);
-                return selectedPatients;
-            }
-            return selectedPatients;
-        }
-        if (firstName != null){
-            selectedPatients = getPatientByFirstName(patients, firstName);
-            return selectedPatients;
-        }
-        return patients;
-    }
 
-    /**
-     *<h3>$getPatientBySocialInsuranceNumber</h3>
-     *
-     * <b>Description:</b>
-     * This method will fetch all the patients from the facade and then search for patients with a matching social
-     * insurance number. If a match occurs the patient is added to a collection of patients and finally returned.
-     *
-     *<b>Parameter</b>
-     * @param patients description
-     * @param svn description
-     */
-
-    private Collection <Patient> getPatientBySocialInsuranceNumber(Collection <Patient> patients, String svn){
-
-        Collection <Patient> selectedPatients = new LinkedList<Patient>();
-
-        for(Patient patient: patients){
-            if (svn.equals(patient.getSocialInsuranceNr())){
-                selectedPatients.add(patient);
-            }
-        }
-        return selectedPatients;
-    }
-
-    /**
-     *<h3>$getPatientByLastName</h3>
-     *
-     * <b>Description:</b>
-     * This method will most likely be called when there are no patients being found by the first method (social
-     * insurance number). Again the facade will fetch all patients and the list will be iterated. Every time a patients
-     * last name matches the search string the patient will be added to a new list which will be returned at the end.
-     *
-     *<b>Parameter</b>
-     * @param patients description
-     * @param lastName description
-     */
-
-    private Collection <Patient> getPatientByLastName(Collection<Patient> patients, String lastName){
-
-        Collection<Patient> selectedPatients = new LinkedList<Patient>();
-
-        for(Patient patient: patients){
-            if (patient.getLastName().equals(lastName)){
-                selectedPatients.add(patient);
-            }
-        }
-        return selectedPatients;
-    }
-
-    /**
-     *<h3>$getPatientByFirstName</h3>
-     *
-     * <b>Description:</b>
-     *  This method is normally called when the previous method returns a list with more than 1 result. Also the
-     *  parameter for the first name cannot be null. Then the collection of patients which was returned by the
-     *  searchByLastName method will be searched for matching first names and added to a new collection. The collection
-     *  will be returned.
-     *
-     *<b>Parameter</b>
-     * @param patients description
-     * @param firstName description
-     */
-
-    private Collection<Patient> getPatientByFirstName(Collection<Patient> patients, String firstName) {
-
-        Collection<Patient> selectedPatients = new LinkedList<Patient>();
-
-        for(Patient patient: patients){
-            if (patient.getFirstName().equals(firstName)){
-                selectedPatients.add(patient);
-            }
-        }
         return selectedPatients;
     }
 }
