@@ -8,6 +8,7 @@
  */
 
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
 
 import java.util.Collection;
@@ -19,9 +20,9 @@ public class SearchPatientControllerTest {
     @org.junit.Test
     public void testSearchPatients() throws Exception {
         SearchPatientController controller =  new SearchPatientController();
-        Collection<Patient> patients = controller.searchPatients(null, "Hanson", null);
+        Collection<IPatient> patients = controller.searchPatients("", "Wood", "");
         /*System.out.println(patients.size());
-        for (Patient patient : patients){
+        for (IPatient patient : patients){
             System.out.println(patient.getLastName() + " " + patient.getFirstName());
         }*/
         assertTrue(patients.size() == 2);

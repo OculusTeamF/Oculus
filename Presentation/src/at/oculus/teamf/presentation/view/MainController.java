@@ -26,7 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import jfxtras.labs.scene.control.window.Window;
+import jfxtras.scene.control.window.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    @FXML public MenuItem openPatientsearch;
     @FXML private VBox vboxQueues;
     @FXML private TabPane displayPane;
     @FXML private ListView wList1, wList2, wList3, wListO;
@@ -158,12 +159,11 @@ public class MainController implements Initializable {
         w.setLayoutX(40);
         w.setLayoutY(40);
         w.setPrefSize(1400, 900);
-        /*w.getRightIcons().add(new MinimizeIcon(w));*/
         w.getRightIcons().add(new CloseIconImpl(w, displayPane, tab));
 
         if (tabName.equals("New Patient")) {
             try {
-                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("newPatient.fxml")));
+                w.getContentPane().getChildren().add((Node) FXMLLoader.load(getClass().getResource("patientRecord.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -188,7 +188,6 @@ public class MainController implements Initializable {
         }
             root.getChildren().add(w);
             return tab;
-
     }
 
     public TabPane getDisplayPane(){

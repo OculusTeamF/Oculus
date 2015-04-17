@@ -15,7 +15,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="pane" prefHeight="725.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
+<BorderPane id="pane" prefHeight="725.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="at.oculus.teamf.presentation.view.MainController">
    <top>
       <VBox prefHeight="71.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
          <children>
@@ -41,7 +42,7 @@
                   <Menu mnemonicParsing="false" text="Patient">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#newPatient" text="New Patient" />
-                        <MenuItem mnemonicParsing="false" onAction="#openPatient" text="Open patient record" />
+                        <MenuItem fx:id="openPatientsearch" mnemonicParsing="false" onAction="#searchPatient" text="Open patient record" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Forms">
