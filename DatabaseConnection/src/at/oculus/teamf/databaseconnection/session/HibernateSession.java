@@ -10,10 +10,13 @@
 package at.oculus.teamf.databaseconnection.session;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -36,6 +39,10 @@ class HibernateSession implements ISession, ISessionClosable {
 
     //classes that can be serialised and deserialised
     private HashSet<Class> _clazzes;
+
+	static EntityManagerFactory _entityManagerFactory = Persistence.createEntityManagerFactory("JPAService");
+
+	static EntityManager _entityManager = _entityManagerFactory.createEntityManager();
 
     public HibernateSession(Session session, Collection<Class> classes) {
         _session = session;
@@ -277,16 +284,17 @@ class HibernateSession implements ISession, ISessionClosable {
 		return false;
 	}
 
-	public List<Object> getQueryResult(String queryString, String[] parameters) throws BadSessionException  {
+	@Override
+	public List<Object> search(String queryName, String[] parameters) throws BadSessionException {
 		validateSession();
-		Query query = _session.createQuery(queryString);
+		Query query = _entityManager.createNamedQuery(queryName);
 		for(Integer i = 0; i<parameters.length; i++){
 			query.setParameter(i.toString(), parameters[i]);
 		}
-		return query.list();
+		return query.getResultList();
 	}
 
-    /**
+	/**
      * Closess the current session
      */
     @Override

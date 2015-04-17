@@ -104,7 +104,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		}
 	}
 
-	public Collection<Patient> searchPatient(ISession session, String svn, String firstName, String lastName) {
+	/*public Collection<Patient> searchPatient(ISession session, String svn, String firstName, String lastName) {
 		Collection<Object> patientsResult = null;
 		Collection<Patient> patients = new LinkedList<Patient>();
 
@@ -119,6 +119,41 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 			session.beginTransaction();
 
 			patientsResult = session.getQueryResult(query, parameters);
+
+			session.commit();
+		} catch (NoTransactionException | BadSessionException | AlreadyInTransactionException e) {
+			log.catching(e);
+		}
+
+		try {
+			for (Object obj : patientsResult) {
+				PatientEntity patientEntity = (PatientEntity) obj;
+				patients.add(persistentToDomain(patientEntity));
+			}
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
+
+		return patients;
+	}*/
+
+	/**
+	 *
+	 * @param session   Session
+	 * @param params    Parameter in der Reichenfolge (SVN, Firstname, Lastname, Suchstring)
+	 * @return
+	 */
+	public Collection<Patient> search(ISession session, String... params) {
+		Collection<Object> patientsResult = null;
+		Collection<Patient> patients = new LinkedList<Patient>();
+
+		// create query
+		String query = "name";
+
+		try {
+			session.beginTransaction();
+
+			patientsResult = session.search(query, params);
 
 			session.commit();
 		} catch (NoTransactionException | BadSessionException | AlreadyInTransactionException e) {

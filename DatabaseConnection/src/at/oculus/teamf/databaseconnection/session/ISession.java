@@ -82,7 +82,7 @@ public interface ISession {
 	 *
 	 * @param obj
 	 * 		that needs to be saved
-	 *
+	 *void search(Class<P> , String[] );
 	 * @return the new id of the object in the database
 	 */
 	Serializable save(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
@@ -97,5 +97,5 @@ public interface ISession {
 	 */
 	Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
 
-	List<Object> getQueryResult(String query, String[] parameters) throws BadSessionException;
+	List<Object> search(String queryName, String[] parameters) throws BadSessionException;
 }

@@ -128,5 +128,13 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 		assertTrue(patients.size()==6);
+		// Fulltext
+		try {
+			patients = (LinkedList<Patient>) Facade.getInstance().searchPatient("sOn");
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(patients.size()==6);
 	}
 }

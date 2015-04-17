@@ -287,6 +287,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
     public Collection<Class> getDomainClasses() {
         return _domainClasses;
     }
-    //</editor-fold>
+	//</editor-fold>
 
 }
