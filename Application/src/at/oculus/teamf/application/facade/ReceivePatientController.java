@@ -19,6 +19,11 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.IPatientQueue;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.PatientQueue;
+
 /**
  * <h2>$ReceivePatientController</h2>
  *
@@ -30,4 +35,12 @@ public class ReceivePatientController {
     /*createUntersuchungsprotokoll holt instanz und gibt sie an presentation layer .
     * Presentation layer füllt  protokoll aus und speichert.
     * Methode saveUntersuchungsprotokoll speichert Protokoll zu Patient*/
-}
+
+    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue){
+        Patient patient = (Patient) ipatient;
+        PatientQueue queue = (PatientQueue) iqueue;
+
+        queue.removePatient(patient);
+    }
+
+ }
