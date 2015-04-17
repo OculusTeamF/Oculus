@@ -11,9 +11,7 @@ package at.oculus.teamf.presentation.view;
 /**
  * Created by Karo on 09.04.2015.
  */
-/*
-import at.oculus.teamf.application.facade;
-*/
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,33 +28,14 @@ import java.util.ResourceBundle;
 
 public class newPatientController implements Initializable {
 
-    @FXML public ChoiceBox<String> cBoxGender;
-    @FXML public ComboBox<String> cBoxInsurance;
-    @FXML public ChoiceBox cBoxGender1;
-    @FXML public ComboBox cBoxInsurance1;
-    @FXML public Button closeButton;
-    @FXML public Button saveButton;
     @FXML public GridPane newPatientPane;
-    @FXML public ComboBox statusPatient;
-    @FXML public ComboBox statusInsured;
+    @FXML public Button newPatientCancelButton;
+    @FXML public Button newPatientSaveButton;
 
 
     @Override
     @FXML
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        ObservableList<String> gender = FXCollections.observableArrayList("Mister","Ms");
-        cBoxGender.setItems(gender);
-        cBoxGender1.setItems(gender);
-
-        ObservableList<String> insurance = FXCollections.observableArrayList("GKK","VA für Eisenbahn und Bergbau", "VA öffentlich Bediensteter", "SVA der gewerblichen Wirtschaft", "SVA der Bauern");
-        cBoxInsurance.setItems(insurance);
-        cBoxInsurance1.setItems(insurance);
-
-        ObservableList<String> status = FXCollections.observableArrayList("employed","non-working","self-employed");
-        statusPatient.setItems(status);
-        statusInsured.setItems(status);
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 
     @FXML
     /*Close the 'new Patient' form without saving'*/

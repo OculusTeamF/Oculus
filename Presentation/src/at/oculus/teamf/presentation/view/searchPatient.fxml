@@ -14,7 +14,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="searchPatientPane" fx:id="searchPatientPane" layoutX="5.0" layoutY="38.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1268.0" GridPane.columnIndex="0" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.searchPatientController">
+<GridPane id="searchPatientPane" fx:id="searchPatientPane" layoutX="5.0" layoutY="38.0" GridPane.columnIndex="0" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.searchPatientController">
     <children>
         <GridPane alignment="CENTER" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <columnConstraints>
@@ -45,12 +45,12 @@
             <Insets bottom="20.0" />
          </padding>
         </GridPane>
-              <ListView fx:id="searchPatientList" prefHeight="398.0" prefWidth="1035.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <ListView fx:id="searchPatientList" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <padding>
             <Insets top="10.0" />
          </padding>
       </ListView>
-             <Label prefHeight="45.0" prefWidth="341.0" text="PATIENT SEARCH" GridPane.columnIndex="1" />
+             <Label text="PATIENT SEARCH" GridPane.columnIndex="1" />
     </children>
    <columnConstraints>
       <ColumnConstraints maxWidth="161.0" minWidth="10.0" prefWidth="60.0" />
@@ -62,5 +62,8 @@
       <RowConstraints maxHeight="186.0" minHeight="161.0" prefHeight="185.0" />
       <RowConstraints maxHeight="506.0" minHeight="481.0" prefHeight="482.0" />
    </rowConstraints>
+   <padding>
+      <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+   </padding>
 
 </GridPane>
