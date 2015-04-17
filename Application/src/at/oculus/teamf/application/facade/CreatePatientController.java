@@ -24,8 +24,9 @@ import java.sql.Date;
  * @author $sha9939
  * @since $02.04.15
  *
- * Description: TODO
- * A short description of the File content
+ * Description:
+ * This File contains the CreatePatientController class,
+ * which is responsible for the creation of a new patient object and to save it into the database.
  **/
 
 /**
@@ -47,16 +48,16 @@ public class CreatePatientController implements ILogger{
      *  If some Information is missing, then an exception is thrown.
      *
      *<b>Parameter</b>
-     * @param gender description
-     * @param svn description
-     * @param lastName description
-     * @param firstName description
-     * @param bday description
-     * @param street description
-     * @param postalCode description
-     * @param city description
-     * @param email description
-     * @param phone description
+     * @param gender the gender of the patient which should be created
+     * @param svn the social insurance number of the patient which should be created
+     * @param lastName the last name of the patient which should be created
+     * @param firstName the first name of the patient which should be created
+     * @param bday the birthdate of the patient which should be created
+     * @param street the street of the new patients address
+     * @param postalCode the postal code of the new patients address
+     * @param city the city of the new patients address
+     * @param email the email address of the patient which should be created
+     * @param phone the phonenumber of the patient which should be created
      */
 
     /*this method creates a new Patient-Object, sets all given data und saves the new Patient in the database.

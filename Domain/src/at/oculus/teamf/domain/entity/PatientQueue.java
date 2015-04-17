@@ -22,7 +22,7 @@ import java.util.*;
  * @author Fabian Salzgeber
  * @date 03.4.2015
  */
-public class PatientQueue implements ILogger{
+public class PatientQueue implements ILogger, IPatientQueue {
 
     //<editor-fold desc="Attributes">
     private int _userID;
@@ -130,8 +130,10 @@ public class PatientQueue implements ILogger{
         log.info("Retrieved queue from unassigned patients -> Queuesize: " + _entries.size());
     }
 
+    @Override
     public int getUserID() { return _userID; }
 
+    @Override
     public void setUserID(int userID) {
         _userID = userID;
     }
