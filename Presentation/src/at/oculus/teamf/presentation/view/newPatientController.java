@@ -104,6 +104,10 @@ public class newPatientController{
         }
         try {
             createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email);
+            MessageBox mb1 = new MessageBox("New Patient saved.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
         }
