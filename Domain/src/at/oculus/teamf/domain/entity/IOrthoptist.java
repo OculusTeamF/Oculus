@@ -12,7 +12,7 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by jpo2433 on 17.04.15.
  */
-public interface IOrthoptist {
+public interface IOrthoptist extends IUser {
 
     int getId();
 
