@@ -58,7 +58,8 @@ public class SearchPatientController implements ILogger{
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
-            patients = facade.searchPatient(svn, firstName, lastName);
+            patients = facade.search(Patient.class, lastName);
+            //patients = facade.searchPatient(svn, firstName, lastName);
         } catch (FacadeException e) {
             log.warn("Facade Exception caught!");
             e.printStackTrace();

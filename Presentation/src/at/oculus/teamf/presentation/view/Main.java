@@ -9,19 +9,21 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.technical.localization.ILocal;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
 /**
  * Created by Karo on 09.04.2015.
  */
-public class Main extends Application {
+public class Main extends Application implements ILocal{
 
     public FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
     public static MainController controller;
@@ -30,28 +32,28 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception  {
 
         Parent root = (Parent) loader.load();
-        primaryStage.setTitle("OCULUS - Gemeinschaftspraxis Dr. Tavolato");
+        primaryStage.setTitle(locstring.getString("MainWindowTitle"));      //localization example
         Scene scene = new Scene(root, 900, 600);
         scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
         controller = loader.getController();
 
         // setup components in main.fxml
-        controller.getSplitter().setDividerPosition(0, 0.75);
+        controller.getSplitter().setDividerPosition(0, 0.80);
 
         // update splitter position
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                controller.getSplitter().setDividerPosition(0, 0.75);
+                controller.getSplitter().setDividerPosition(0, 0.80);
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                controller.getSplitter().setDividerPosition(0, 0.75);
+                controller.getSplitter().setDividerPosition(0, 0.80);
             }
         });
 
         // add app icon
-        //primaryStage.getIcons().add(new Image("file:icon.png"));
+        primaryStage.getIcons().add(new Image("/res/32x32.png"));
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
