@@ -84,9 +84,10 @@ public class searchPatientController implements Initializable{
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
 
-       /* ObservableList<Patient> patientlist = FXCollections.observableList((List<Patient>) _searchPatientController.searchPatients(svn,lastName,firstName));*/
 
-       /* if(patientlist.size() > 0)
+        ObservableList<Patient> patientlist = FXCollections.observableList((List)_searchPatientController.searchPatients(svn,lastName,firstName));
+
+       if(patientlist.size() > 0)
         {
             searchPatientList.setItems(patientlist);
         }else{
@@ -98,7 +99,7 @@ public class searchPatientController implements Initializable{
             searchPatientFirstname.clear();
             searchPatientSVN.clear();
             searchPatientLastname.requestFocus();
-        }*/
+        }
 
         searchPatientList.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
