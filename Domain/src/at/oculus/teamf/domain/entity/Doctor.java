@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.*;
+import at.oculus.teamf.persistence.exception.*;
 
 import java.util.Collection;
 
@@ -20,7 +20,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Doctor extends User implements IDomain {
+public class Doctor extends User implements IDoctor {
     //<editor-fold desc="Attributes">
     private int _id;
     private Calendar _calendar;
@@ -41,44 +41,55 @@ public class Doctor extends User implements IDomain {
 	}
 
 	//<editor-fold desc="Getter/Setter">
+    @Override
     public int getId() {
         return _id;
     }
+    @Override
     public void setId(int id) {
         _id = id;
     }
 
-	public Calendar getCalendar() {
+	@Override
+    public Calendar getCalendar() {
 		return _calendar;
     }
+    @Override
     public void setCalendar(Calendar _calendar) {
         this._calendar = _calendar;
     }
 
+    @Override
     public PatientQueue getQueue() {
 	    _queue = new PatientQueue(this);
 	    return _queue;
     }
+    @Override
     public void setQueue(PatientQueue _queue) {
         this._queue = _queue;
     }
 
+    @Override
     public Doctor getDoctorSubstitude() {
 	    return _doctorSubstitude;
     }
+    @Override
     public void setDoctorSubstitude(Doctor doctorSubstitude) {
         _doctorSubstitude = doctorSubstitude;
     }
 
+    @Override
     public void addPatient(Patient patient) {
         if (patient != null) {
             _patients.add(patient);
         }
     }
 
-	public void setPatients(Collection<Patient> patients) {
+	@Override
+    public void setPatients(Collection<Patient> patients) {
 		_patients = patients;
 	}
+    @Override
     public Collection<Patient> getPatients() {
 	    Facade facade = Facade.getInstance();
 

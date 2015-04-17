@@ -1,11 +1,9 @@
-#pane{
+#displayPane{
     -fx-background-image: url("oculus.JPG");
     -fx-background-repeat: stretch;
-    -fx-background-size: 700 200;
+    -fx-background-size: 379 108;
     -fx-background-position: center;
-}
-#waitingListBox{
-    -fx-background-color: powderblue;
+    -fx-background-color: white;
 }
 #newPatientPane{
     -fx-background-color:lightblue;
@@ -14,10 +12,7 @@
 #agendaPane{
     -fx-background-color: lightblue;
 }
-#searchPatientPane{
-    -fx-background-color: powderblue;
-}
-#patientRecordPane{
+#waitingListBox{
     -fx-background-color: powderblue;
 }
 #newPatientLabel{
@@ -33,4 +28,7 @@
 }
 #employerInformation{
     -fx-background-color: lightsteelblue;
+}
+#searchPatientPane{
+    -fx-background-color: powderblue;
 }

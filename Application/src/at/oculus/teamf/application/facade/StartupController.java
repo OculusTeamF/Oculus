@@ -23,7 +23,7 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;

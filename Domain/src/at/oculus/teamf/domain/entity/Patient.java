@@ -10,16 +10,10 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Todo: add docs, implement equals, getter into interface wrappen
@@ -209,5 +203,4 @@ public class Patient implements IPatient, IDomain {
 	public String toString(){
 		return getFirstName() + " " + getLastName();
 	}
-
 }

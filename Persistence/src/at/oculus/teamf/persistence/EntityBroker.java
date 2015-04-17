@@ -11,8 +11,8 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.*;
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.persistence.entities.IEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.ArrayList;
@@ -111,16 +111,19 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      */
     public boolean saveEntity(ISession session, D domainObj) {
         P entity = domainToPersistent(domainObj);
+	    Boolean returnValue = true;
 
         try {
             session.beginTransaction();
 
             session.saveOrUpdate(entity);
 
-            session.commit();
+	        returnValue = session.commit();
 
-            domainObj.setId(entity.getId());
-
+	        // update IDs when commit was successful
+            if(returnValue){
+	            domainObj.setId(entity.getId());
+            }
         } catch (BadSessionException e) {
             log.catching(e);
             return false;
@@ -135,7 +138,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             return false;
         }
 
-        return true;
+        return returnValue;
     }
 
     /**

@@ -11,8 +11,8 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.persistence.entities.CalendarEventEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.entity.CalendarEventEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 /**
  * Created by Norskan on 08.04.2015.

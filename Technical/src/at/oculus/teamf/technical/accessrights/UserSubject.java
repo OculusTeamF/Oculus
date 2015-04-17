@@ -54,7 +54,7 @@ public class UserSubject implements ILogger {
             } catch (LockedAccountException lae) {
                 log.warn("The account for username " + token.getPrincipal() + " is locked. Please contact your administrator to unlock it.");
             }
-            // ... catch more exceptions here
+            // ... catch more exception here
             catch (AuthenticationException ae) {
                 //unexpected conditions ?
             }

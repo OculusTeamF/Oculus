@@ -12,17 +12,16 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
-import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
-import at.oculus.teamf.persistence.exceptions.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.NotAbleToLoadClassException;
+import at.oculus.teamf.persistence.exception.ReloadInterfaceNotImplementedException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 public class DoctorBrokerTest extends BrokerTest {
 	private Doctor _doctor;

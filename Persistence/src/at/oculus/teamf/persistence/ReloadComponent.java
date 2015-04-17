@@ -12,10 +12,10 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ClassNotMappedException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.persistence.entities.IEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exceptions.NotAbleToLoadClassException;
+import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.NotAbleToLoadClassException;
 
 import java.util.ArrayList;
 import java.util.Collection;

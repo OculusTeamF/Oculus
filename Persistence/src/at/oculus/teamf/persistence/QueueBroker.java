@@ -10,12 +10,12 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.persistence.entities.DoctorEntity;
-import at.oculus.teamf.persistence.entities.OrthoptistEntity;
-import at.oculus.teamf.persistence.entities.PatientEntity;
-import at.oculus.teamf.persistence.entities.QueueEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.NoBrokerMappedException;
+import at.oculus.teamf.persistence.entity.DoctorEntity;
+import at.oculus.teamf.persistence.entity.OrthoptistEntity;
+import at.oculus.teamf.persistence.entity.PatientEntity;
+import at.oculus.teamf.persistence.entity.QueueEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
  * QueueBroker.java Created by dgr on 08.04.15.
@@ -77,18 +77,17 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
         }
 
         // TODO QueueParent laden
-        /*QueueEntity queueEntity = null;
-        if (queueEntry.getQueueIdParent() != null) {
+        QueueEntity queueEntityParent = null;
+        if (queueEntry.getQueueIdParent() != null && !queueEntry.getQueueIdParent().equals(0)) {
             try {
-                queueEntity = (QueueEntity) Facade.getInstance().getBroker(QueueEntry.class).domainToPersistent((QueueEntry) Facade.getInstance().getById(QueueEntry.class, queueEntry.getQueueIdParent()));
+                queueEntityParent = (QueueEntity) Facade.getInstance().getBroker(QueueEntry.class).domainToPersistent((QueueEntry) Facade.getInstance().getById(QueueEntry.class, queueEntry.getQueueIdParent()));
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
             } catch (FacadeException e) {
                 e.printStackTrace();
             }
-        }*/
-		/*return new QueueEntity(queueEntry.getId(), doctorId, orthoptistId, queueEntry.getPatient().getId(),
-		                       queueEntry.getQueueIdParent(), queueEntry.getArrivalTime());*/
-        return new QueueEntity(queueEntry.getId(), doctorEntity, orthoptistEntity, patientEntity, queueEntry.getPatient().getId(), null, queueEntry.getArrivalTime());
+        }
+
+        return new QueueEntity(queueEntry.getId(), doctorEntity, orthoptistEntity, patientEntity, queueEntityParent, queueEntry.getArrivalTime());
     }
 }

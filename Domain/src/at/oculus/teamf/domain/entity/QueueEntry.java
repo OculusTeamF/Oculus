@@ -9,83 +9,93 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.technical.loggin.ILogger;
+
 import java.sql.Timestamp;
 
 /**
  * QueueEntry.java Created by Fabian on 10.04.15.
  */
-public class QueueEntry implements IDomain {
-	private int _id;
-	private Doctor _doctor;
-	private Orthoptist _orthoptist;
-	private Integer _queueIdParent;
-	private Timestamp _arrivalTime;
-	private Patient _patient;
+public class QueueEntry implements IDomain, ILogger {
+    private int _id;
+    private Doctor _doctor;
+    private Orthoptist _orthoptist;
+    private Integer _queueIdParent;
+    private Timestamp _arrivalTime;
+    private Patient _patient;
 
-	public QueueEntry() {
-	}
+    public QueueEntry() {
+    }
 
-	public QueueEntry(int id, Patient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
-	                  Timestamp arrivalTime) {
-		_id = id;
-		_doctor = doctor;
-		_orthoptist = orthoptist;
-		_queueIdParent = queueIdParent;
-		_arrivalTime = arrivalTime;
-		_patient = patient;
-	}
+    public QueueEntry(int id, Patient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
+                      Timestamp arrivalTime) {
+        _id = id;
+        _doctor = doctor;
+        _orthoptist = orthoptist;
+        _queueIdParent = queueIdParent;
+        _arrivalTime = arrivalTime;
+        _patient = patient;
 
-	public int getId() {
-		return _id;
-	}
+        // logging
+        Integer dID = null;
+        Integer oID = null;
+        if(_doctor != null) { dID = _doctor.getId();}
+        if(_orthoptist != null) { oID = _orthoptist.getId();}
+        log.debug("[CREATE QueueEntry] id: " + _id + " | doctorID: " + dID + " | orthoptistID: " + oID
+                + " | patientID: " + _patient.getId() + " | queueIDParent: " + _queueIdParent + " | arrivalTime: " + _arrivalTime.toString());
+    }
 
-	public void setId(int id) {
-		_id = id;
-	}
+    public int getId() {
+        return _id;
+    }
 
-	public Doctor getDoctor() {
-		return _doctor;
-	}
+    public void setId(int id) {
+        _id = id;
+    }
 
-	public void setDoctor(Doctor doctor) {
-		_doctor = doctor;
-	}
+    public Doctor getDoctor() {
+        return _doctor;
+    }
 
-	public Orthoptist getOrthoptist() {
-		return _orthoptist;
-	}
+    public void setDoctor(Doctor doctor) {
+        _doctor = doctor;
+    }
 
-	public void setOrthoptist(Orthoptist orthoptist) {
-		_orthoptist = orthoptist;
-	}
+    public Orthoptist getOrthoptist() {
+        return _orthoptist;
+    }
 
-	public Patient getPatient() {
-		return _patient;
-	}
+    public void setOrthoptist(Orthoptist orthoptist) {
+        _orthoptist = orthoptist;
+    }
 
-	public void setPatient(Patient patient) {
-		_patient = patient;
-	}
+    public Patient getPatient() {
+        return _patient;
+    }
 
-	public Integer getQueueIdParent() {
-		return _queueIdParent;
-	}
+    public void setPatient(Patient patient) {
+        _patient = patient;
+    }
 
-	public void setQueueIdParent(Integer queueIdParent) {
-		_queueIdParent = queueIdParent;
-	}
+    public Integer getQueueIdParent() {
+        return _queueIdParent;
+    }
 
-	public Timestamp getArrivalTime() {
-		return _arrivalTime;
-	}
+    public void setQueueIdParent(Integer queueIdParent) {
+        _queueIdParent = queueIdParent;
+    }
 
-	public void setArrivalTime(Timestamp arrivalTime) {
-		_arrivalTime = arrivalTime;
-	}
+    public Timestamp getArrivalTime() {
+        return _arrivalTime;
+    }
 
-	@Override
-	public String toString() {
-		return "QueueID " + getId() + " with Patient: " + getPatient() + ", Doctor: " + getDoctor() + ", Orthoptist: " +
-		       getOrthoptist();
-	}
+    public void setArrivalTime(Timestamp arrivalTime) {
+        _arrivalTime = arrivalTime;
+    }
+
+    @Override
+    public String toString() {
+        return "QueueID " + getId() + " with Patient: " + getPatient() + ", Doctor: " + getDoctor() + ", Orthoptist: " +
+                getOrthoptist();
+    }
 }

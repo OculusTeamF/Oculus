@@ -17,10 +17,10 @@ import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.persistence.entities.CalendarEventEntity;
-import at.oculus.teamf.persistence.entities.PatientEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
-import at.oculus.teamf.persistence.exceptions.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.entity.CalendarEventEntity;
+import at.oculus.teamf.persistence.entity.PatientEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.InvalidReloadParameterException;
 
 import java.util.Collection;
 import java.util.LinkedList;

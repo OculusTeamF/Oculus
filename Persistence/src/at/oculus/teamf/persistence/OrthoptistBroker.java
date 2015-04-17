@@ -11,9 +11,9 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.persistence.entities.OrthoptistEntity;
-import at.oculus.teamf.persistence.entities.UserEntity;
-import at.oculus.teamf.persistence.exceptions.FacadeException;
+import at.oculus.teamf.persistence.entity.OrthoptistEntity;
+import at.oculus.teamf.persistence.entity.UserEntity;
+import at.oculus.teamf.persistence.exception.FacadeException;
 
 /**
  * Created by Norskan on 10.04.2015.

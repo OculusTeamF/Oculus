@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
+package at.oculus.teamf.presentation.view;/*package sample;
 /**
  ~ Copyright (c) 2015 Team F
  ~
@@ -33,6 +33,7 @@ import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -40,7 +41,7 @@ import java.util.ResourceBundle;
  * Created by Karo on 11.04.2015.
  */
 
-public class searchPatientController implements Initializable  {
+public class searchPatientController implements Initializable{
 
     @FXML  public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
@@ -51,8 +52,7 @@ public class searchPatientController implements Initializable  {
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;
     private Tab _patientRecordTab;
-    private MainController mainController = MainController.getInstance();
-
+    private MainController mainController = new MainController();
 
 
     @Override
@@ -65,12 +65,16 @@ public class searchPatientController implements Initializable  {
         });
     }
 
-    private void openPatientRecord(String currPatient)
+    private void openPatientRecord()
      {
          MessageBox mb = new MessageBox("in Patient Record", MessageBoxType.OK_ONLY);
          mb.centerOnScreen();
          mb.showAndWait();
-         mainController.generateTab("Patient Record");
+         _patientRecordTab = mainController.generateTab("Patient Record");
+         MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
+         mb1.centerOnScreen();
+         mb1.showAndWait();
+         mainController.getDisplayPane().getTabs().add(_patientRecordTab);
      }
 
     public void searchPatient(ActionEvent actionEvent) {
@@ -119,7 +123,7 @@ public class searchPatientController implements Initializable  {
                     mb.centerOnScreen();
                     mb.showAndWait();
 
-                    openPatientRecord(currPatientItem);
+                    openPatientRecord();
                     //TODO: open Patient record
                 }
             }
