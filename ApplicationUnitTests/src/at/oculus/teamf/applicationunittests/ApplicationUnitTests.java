@@ -9,9 +9,11 @@
 
 package at.oculus.teamf.applicationunittests;
 
+import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.Patient;
 
+import java.sql.Date;
 import java.util.Collection;
 
 /**

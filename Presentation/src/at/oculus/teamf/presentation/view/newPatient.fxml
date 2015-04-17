@@ -56,18 +56,18 @@
             <Label text="Phone #" GridPane.rowIndex="8" />
             <Label text="E-mail" GridPane.rowIndex="9" />
             <Label text="Postal code" GridPane.rowIndex="6" />
+             <Label text="Social Insurance #" GridPane.rowIndex="3" />
+             <Label text="Birthday" GridPane.rowIndex="4" />
+             <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
             <TextField fx:id="PatientRecordLastname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="PatientRecordFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <TextField fx:id="PatientRecordSVN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+             <DatePicker fx:id="PatientRecordBday" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="PatientRecordStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+             <TextField fx:id="PatientRecordPLZ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+             <TextField fx:id="PatientRecordCity" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <TextField fx:id="PatientRecordPhone" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField fx:id="PatientRecordEmail" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <Label text="Social Insurance #" GridPane.rowIndex="3" />
-            <TextField fx:id="PatientRecordSVN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Birthday" GridPane.rowIndex="4" />
-            <DatePicker fx:id="PatientRecordBday" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="PatientRecordPLZ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="PatientRecordCity" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
          </children>
       </GridPane>
       <GridPane GridPane.rowIndex="1">
@@ -95,7 +95,7 @@
           <RowConstraints maxHeight="69.0" minHeight="0.0" prefHeight="9.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="newPatientSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="newPatientSaveButton" onAction="#saveForm" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>
