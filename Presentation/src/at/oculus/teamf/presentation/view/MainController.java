@@ -13,8 +13,7 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.domain.entity.User;
+import at.oculus.teamf.domain.entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,15 +29,14 @@ import jfxtras.scene.control.window.Window;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
 
     @FXML public MenuItem openPatientsearch;
     @FXML private VBox vboxQueues;
     @FXML private TabPane displayPane;
-    @FXML private ListView wList1, wList2, wList3, wListO;
+    //@FXML private ListView wList1, wList2, wList3, wListO;
     @FXML private SplitPane splitter;
 
     private Collection<PatientQueue> _allQueues;
@@ -48,9 +46,8 @@ public class MainController implements Initializable {
     private User _user;
     private StartupController _startupController = new StartupController();
 
-    private int userAmount = 5;  // only user with permission 2 & 3 (usergroup)
-    final TitledPane[] tps = new TitledPane[userAmount];
-    final ListView<String> lists[] = new ListView[userAmount];
+    private TitledPane[] tps;
+    private ListView<String> lists[];
 
     /**
      * Initialize the waiting queue
@@ -59,43 +56,56 @@ public class MainController implements Initializable {
      */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<IDoctor> doctors = FXCollections.observableArrayList(_startupController.getAllDoctors());
+        ObservableList<IOrthoptist> orthoptists = FXCollections.observableArrayList(_startupController.getAllOrthoptists());
 
-        // setup queueLists
+        int userAmount =  doctors.size() + orthoptists.size(); // only user with permission 2 & 3 (usergroup)
+        tps = new TitledPane[userAmount];
+        lists = new ListView[userAmount];
+
+
+        // setup listviews
         for (int i = 0; i < userAmount; i++) {
-            //create listViews
             lists[i] = new ListView<>();
             lists[i].setPrefSize(200, 250);
             lists[i].minWidth(Region.USE_COMPUTED_SIZE);
             lists[i].minHeight(Region.USE_COMPUTED_SIZE);
             lists[i].maxWidth(Region.USE_COMPUTED_SIZE);
             lists[i].maxHeight(Region.USE_COMPUTED_SIZE);
-
-            //create titlePanes
-            tps[i] = new TitledPane("User#" + i, lists[i]);
-            tps[i].setExpanded(false);
-            tps[i].setAnimated(true);
         }
+
+        // setup titlepane (doctors)
+        String userQueueName;
+        int orth = 0;
+        for (int i = 0; i < userAmount; i++) {
+            if (i < doctors.size()) {
+                userQueueName = doctors.get(i).getTitle() + " " + doctors.get(i).getFirstName() + " " + doctors.get(i).getLastName();
+            } else {
+                orth = i - doctors.size();
+                if (orthoptists.get(orth).getTitle() != null) {
+                    userQueueName = orthoptists.get(orth).getTitle() + " " + orthoptists.get(orth).getFirstName() + " " + orthoptists.get(orth).getLastName();
+                } else {
+                    userQueueName = orthoptists.get(orth).getFirstName() + " " + orthoptists.get(orth).getLastName();
+                }
+            }
+
+            tps[i] = new TitledPane(userQueueName, lists[i]);
+            tps[i].setExpanded(false); tps[i].setAnimated(true);
+        }
+
+
         tps[0].setExpanded(true);
         vboxQueues.getChildren().addAll(tps);
 
         // fill queuelists
-        ObservableList<String> wList = FXCollections.observableArrayList("Donald Duck", "Daisy Duck ", "Dagobert Duck");
+        List<String> list = new ArrayList<String>();
+        ObservableList<String> wList = FXCollections.observableList(list);
+
+        for (QueueEntry qe : doctors.get(0).getQueue().getEntries()) {
+                wList.add(qe.getPatient().getFirstName());
+        }
+
         lists[0].setItems(wList);
-
-        ObservableList<String> patients = null;
-        String lname;
-        String fname;
-
-        //_allQueues =  _startupController.getAllQueues();
-
-/*        for(PatientQueue pq : _allQueues)
-        {
-            for(QueueEntry qe : pq.getEntries()){
-
-                System.out.println(qe.getPatient().getLastName());
-                wList1.setItems((ObservableList) pq.getEntries());
-            }
-        }*/
 
     }
 
