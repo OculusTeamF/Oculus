@@ -102,7 +102,6 @@
       <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Button layoutX="435.0" layoutY="193.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" text="Save" />
-            <Button layoutX="313.0" layoutY="193.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" text="Cancel" />
          </children>
       </AnchorPane>
    </children>

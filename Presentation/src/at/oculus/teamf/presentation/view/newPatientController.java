@@ -12,40 +12,101 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import at.oculus.teamf.application.facade.CreatePatientController;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import se.mbaeumer.fxmessagebox.MessageBox;
+import se.mbaeumer.fxmessagebox.MessageBoxType;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class newPatientController implements Initializable {
-
-    @FXML public GridPane newPatientPane;
-    @FXML public Button newPatientCancelButton;
-    @FXML public Button newPatientSaveButton;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 
-    @Override
-    @FXML
-    public void initialize(URL location, ResourceBundle resources) {}
 
-    @FXML
-    /*Close the 'new Patient' form without saving'*/
-    public void onClose(ActionEvent actionEvent)
-    {
-        newPatientPane.setVisible(false);
-    }
+public class newPatientController{
+
+    @FXML public RadioButton radioGenderFemale;
+    @FXML public RadioButton radioGenderMale;
+    @FXML public TextField PatientRecordLastname;
+    @FXML public TextField PatientRecordFirstname;
+    @FXML public TextField PatientRecordStreet;
+    @FXML public TextField PatientRecordPhone;
+    @FXML public TextField PatientRecordEmail;
+    @FXML public TextField PatientRecordSVN;
+    @FXML public DatePicker PatientRecordBday;
+    @FXML public TextField PatientRecordPLZ;
+    @FXML public TextField PatientRecordCity;
+    @FXML private GridPane newPatientPane;
+    @FXML private Button newPatientSaveButton;
+
+    CreatePatientController createPatientController = new CreatePatientController();
+
     /*Saves the form in a new Patient-Object*/
     public void saveForm(ActionEvent actionEvent)
     {
-        //TODO: connect with application
+        String gender = null;
+        String lastname = PatientRecordLastname.getText();
+        String firstname = PatientRecordFirstname.getText();
+        String svn = PatientRecordSVN.getText();
+
+        LocalDate localDate = PatientRecordBday.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        java.util.Date utildate = Date.from(instant);
+        Date bday = new Date(utildate.getTime());
+
+        String street = PatientRecordStreet.getText();
+        String postalcode = PatientRecordPLZ.getText();
+        String city = PatientRecordCity.getText();
+        String phone = PatientRecordPhone.getText();
+        String email = PatientRecordEmail.getText();
+
+        if(radioGenderFemale.isSelected()){
+            gender = "female";
+        }else if(radioGenderMale.isSelected()){
+            gender = "male";
+        }else{
+            MessageBox mb1 = new MessageBox("Please choose gender.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(lastname.isEmpty()){
+            MessageBox mb1 = new MessageBox("Please enter Lastname.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(firstname.isEmpty()){
+            MessageBox mb1 = new MessageBox("Please enter Firstname.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(svn.isEmpty()){
+            MessageBox mb1 = new MessageBox("Please enter Social security number.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        if(bday.toString().isEmpty()) {
+            MessageBox mb1 = new MessageBox("Please enter Birthday.", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
+        }
+        try {
+            createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email);
+        } catch (RequirementsNotMetException e) {
+            e.printStackTrace();
+        }
+
     }
 }
