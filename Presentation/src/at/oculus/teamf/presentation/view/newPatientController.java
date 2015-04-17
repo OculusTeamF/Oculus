@@ -12,24 +12,19 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class newPatientController implements Initializable {
 
+    
+
     @FXML public GridPane newPatientPane;
-    @FXML public Button newPatientCancelButton;
     @FXML public Button newPatientSaveButton;
 
 
@@ -37,15 +32,11 @@ public class newPatientController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {}
 
-    @FXML
-    /*Close the 'new Patient' form without saving'*/
-    public void onClose(ActionEvent actionEvent)
-    {
-        newPatientPane.setVisible(false);
-    }
+
     /*Saves the form in a new Patient-Object*/
     public void saveForm(ActionEvent actionEvent)
     {
         //TODO: connect with application
+
     }
 }
