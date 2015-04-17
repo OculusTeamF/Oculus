@@ -37,7 +37,6 @@
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
@@ -55,23 +54,31 @@
                </children>
             </AnchorPane>
             <Label text="Street" GridPane.rowIndex="5" />
-            <Label text="Phone #" GridPane.rowIndex="9" />
-            <Label text="E-mail" GridPane.rowIndex="10" />
+            <Label text="Phone #" GridPane.rowIndex="8" />
+            <Label text="E-mail" GridPane.rowIndex="9" />
             <Label text="Postal code" GridPane.rowIndex="6" />
              <Label text="Social Insurance #" GridPane.rowIndex="3" />
              <Label text="Birthday" GridPane.rowIndex="4" />
-             <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
-            <TextField fx:id="PatientRecordLastname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="PatientRecordFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-             <TextField fx:id="PatientRecordSVN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-             <DatePicker fx:id="PatientRecordBday" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="PatientRecordStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-             <TextField fx:id="PatientRecordPLZ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-             <TextField fx:id="PatientRecordCity" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="PatientRecordPhone" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <TextField fx:id="PatientRecordEmail" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <Label text="Country Iso code" GridPane.rowIndex="8" />
-            <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+             <Label text="Country Iso code" GridPane.rowIndex="7" />
+            <TextField fx:id="newPatientLastname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="newPatientFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <TextField fx:id="newPatientSVN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+             <DatePicker fx:id="newPatientBday" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+             <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="newPatientPhone" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                   <TextField fx:id="newPatientPLZ" alignment="CENTER" prefHeight="31.0" prefWidth="125.0" />
+                   <Label contentDisplay="RIGHT" text="City">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                   <TextField fx:id="newPatientCity" prefHeight="31.0" prefWidth="300.0" />
+               </children>
+            </FlowPane>
          </children>
       </GridPane>
       <GridPane prefHeight="228.0" prefWidth="530.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -97,7 +104,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Choose Doctor:" GridPane.rowIndex="1" />
+            <Label text="Doctor:" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="newPatientDoctor" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="newPatientSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveForm" prefHeight="31.0" prefWidth="140.0" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>

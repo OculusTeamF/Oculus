@@ -8,4 +8,12 @@
 #waitingListBox{
     -fx-background-color: powderblue;
 }
-
+#newPatientPane{
+    -fx-background-color: powderblue;
+}
+#patientRecordPane{
+    -fx-background-color: powderblue;
+}
+#searchPatientPane{
+    -fx-background-color: powderblue;
+}

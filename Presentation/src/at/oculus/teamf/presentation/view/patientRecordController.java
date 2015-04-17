@@ -18,6 +18,7 @@ import at.oculus.teamf.application.facade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,8 +26,26 @@ import java.util.ResourceBundle;
 public class patientRecordController implements Initializable {
 
 
+    @FXML public TextField patientRecordLastname;
+    @FXML public TextField patientRecordFirstname;
+    @FXML public TextField patientRecordSVN;
+    @FXML public DatePicker patientRecordBday;
+    @FXML public TextField patientRecordStreet;
+    @FXML public TextField patientRecordCountryIsoCode;
+    @FXML public TextField patientRecordPhone;
+    @FXML public TextField patientRecordEmail;
+    @FXML public TextField patientRecordPLZ;
+    @FXML public TextField newPatientCity;
+    @FXML public ChoiceBox patientRecordDoctor;
+    @FXML public RadioButton patientRecordradioGenderFemale;
+    @FXML public RadioButton patientRecordradioGenderMale;
+    @FXML public ListView patientRecordAppointmentList;
+    @FXML public Button patientRecordSaveButton;
+    @FXML public Button patientRecordEditButton;
+
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
 
     }
 
