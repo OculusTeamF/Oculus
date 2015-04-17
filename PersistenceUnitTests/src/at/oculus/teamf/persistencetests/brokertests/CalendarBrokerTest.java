@@ -80,6 +80,6 @@ public class CalendarBrokerTest extends BrokerTest{
 		}
 
 		assertTrue(cal.getEvents() != null);
-		assertTrue(cal.getEvents().size() == 6);
+		assertTrue(cal.getEvents().size() > 1);
 	}
 }

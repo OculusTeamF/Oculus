@@ -102,7 +102,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		}
 	}
 
-	private class PatientsLoader implements CollectionLoader<PatientEntity> {
+	private class PatientsLoaderI implements ICollectionLoader<PatientEntity> {
 
 		@Override
 		public Collection<PatientEntity> load(Object databaseEntity) {
@@ -114,7 +114,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		ReloadComponent reloadComponent =
 				new ReloadComponent(DoctorEntity.class, Patient.class);
 
-		return reloadComponent.reloadCollection(session, ((Doctor) obj).getId(), new PatientsLoader());
+		return reloadComponent.reloadCollection(session, ((Doctor) obj).getId(), new PatientsLoaderI());
 	}
 
 	/**

@@ -24,5 +24,6 @@
     <orderEntry type="library" exported="" name="Hibernate 4.2.2-4.2.2" level="project" />
     <orderEntry type="module" module-name="Technical" exported="" />
     <orderEntry type="library" exported="" name="Technical" level="project" />
+    <orderEntry type="library" exported="" name="hibernate-entitymanager-4.2.2.Final" level="project" />
   </component>
 </module>

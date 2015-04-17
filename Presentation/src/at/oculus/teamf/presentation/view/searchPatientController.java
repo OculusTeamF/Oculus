@@ -92,7 +92,7 @@ public class searchPatientController implements Initializable{
        if(patientlist.size() > 0)
         {
             searchPatientList.setItems(patientlist);
-        }else{
+        } else {
             MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
             mb.setHeight(150);
             mb.centerOnScreen();
