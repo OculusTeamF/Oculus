@@ -9,19 +9,12 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.facade.CreatePatientController;
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.Patient;
+import static org.junit.Assert.*;
 
-import java.sql.Date;
-import java.util.Collection;
+public class CreatePatientControllerTest {
 
-/**
- * Created by oculus on 09.04.15.
- */
-public class ApplicationUnitTests {
-
-    public static void main (String [] args){
+    @org.junit.Test
+    public void testCreatePatient() throws Exception {
 
     }
 }

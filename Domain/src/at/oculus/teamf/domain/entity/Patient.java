@@ -211,4 +211,8 @@ public class Patient implements IPatient, IDomain {
 	public String toString(){
 		return getFirstName() + " " + getLastName();
 	}
+
+    public void addExaminationProtocol(ExaminationProtocol examinationProtocol) {
+        //TODO
+    }
 }

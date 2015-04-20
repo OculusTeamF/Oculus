@@ -51,7 +51,7 @@ public class ReceivePatientController {
                 0, starttime, endtime, description, (Patient) iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
         );
         Patient patient = (Patient) iPatient;
-        //patient.addExaminationProtocol(examinationProtocol);
+        patient.addExaminationProtocol(examinationProtocol);
 
         return examinationProtocol;
     }
