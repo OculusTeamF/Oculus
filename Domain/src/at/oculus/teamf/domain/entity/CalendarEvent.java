@@ -69,10 +69,10 @@ public class CalendarEvent implements ICalendarEvent {
         _eventEnd = eventEnd;
     }
 
-    @Override
+    //@Override
     public Patient getPatient(){return _patient; }
 
-    @Override
+    //@Override
     public void addPatient(Patient patient) {
         _patient = patient;
     }

@@ -24,6 +24,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -38,8 +40,9 @@ public class MainController implements Initializable {
     @FXML public MenuItem openPatientsearch;
     @FXML private VBox vboxQueues;
     @FXML private TabPane displayPane;
-    //@FXML private ListView wList1, wList2, wList3, wListO;
     @FXML private SplitPane splitter;
+    @FXML private Button searchButton;
+    @FXML private ListView listSearchResults;
 
     private Collection<PatientQueue> _allQueues;
     private Tab _newPatientTab;
@@ -59,14 +62,16 @@ public class MainController implements Initializable {
      */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        // search button init
+        Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
+        searchButton.setGraphic(new ImageView(imageDecline));
+
         ObservableList<IDoctor> doctors = FXCollections.observableArrayList(_startupController.getAllDoctors());
         ObservableList<IOrthoptist> orthoptists = FXCollections.observableArrayList(_startupController.getAllOrthoptists());
 
         int userAmount =  doctors.size() + orthoptists.size(); // only user with permission 2 & 3 (usergroup)
         tps = new TitledPane[userAmount];
         lists = new ListView[userAmount];
-
-
 
         // setup listviews
         for (int i = 0; i < userAmount; i++) {
@@ -115,25 +120,26 @@ public class MainController implements Initializable {
         vboxQueues.getChildren().addAll(tps);
 
         // fill queuelists with available patients
-        LinkedList<ObservableList<String>> userQueueLists = new LinkedList();
+        // TODO: dynamic code
+        List<String> list1 = new ArrayList<String>();
+        List<String> list2 = new ArrayList<String>();
+        ObservableList<String> userQList1 = FXCollections.observableList(list1);
+        ObservableList<String> userQList2 = FXCollections.observableList(list2);
 
-        List<String> list = new ArrayList<String>();
-        ObservableList<String> userQList = FXCollections.observableList(list);
+        LinkedList<ObservableList<String>> uuq = new LinkedList<ObservableList<String>>();
+
+        uuq.add(userQList1);
+        uuq.add(userQList2);
 
         for (QueueEntry qe : doctors.get(0).getQueue().getEntries()) {
-            userQList.add(qe.getPatient().getFirstName() + " " + qe.getPatient().getLastName() + " / " + qe.getPatient().getSocialInsuranceNr());
+            userQList1.add(qe.getPatient().getFirstName() + " " + qe.getPatient().getLastName() + " / " + qe.getPatient().getSocialInsuranceNr());
         }
-        userQueueLists.add(userQList);
-        lists[0].setItems(userQueueLists.get(0));
-
-        //userQList.clear();
-
-  /*      for (QueueEntry qe : doctors.get(1).getQueue().getEntries()) {
-            userQList.add(qe.getPatient().getFirstName());
+        for (QueueEntry qe : doctors.get(1).getQueue().getEntries()) {
+            userQList2.add(qe.getPatient().getFirstName() + " " + qe.getPatient().getLastName() + " / " + qe.getPatient().getSocialInsuranceNr());
         }
-        userQueueLists.add(userQList);
-        lists[1].setItems(userQueueLists.get(1));*/
 
+        lists[0].setItems(uuq.get(0));
+        lists[1].setItems(uuq.get(1));
     }
 
     /*Close the application by clicking the Menuitem 'Exit'*/
@@ -150,8 +156,6 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //_calendarTab = generateTab("Calendar");
-        //displayPane.getTabs().add(_calendarTab);
     }
 
 

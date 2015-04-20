@@ -9,6 +9,7 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -100,12 +101,17 @@
                     <children>
                         <VBox fx:id="vboxQueues" prefHeight="623.0" prefWidth="376.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <TextField fx:id="textSearch" promptText="Search Patient" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="284.0">
+                           <children>
+                                      <TextField fx:id="textSearch" prefHeight="32.0" prefWidth="257.0" promptText="Search Patient" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="searchButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="29.0" prefWidth="27.0" />
+                           </children>
+                        </HBox>
                                 <TitledPane fx:id="searchResults" expanded="false" text="Search results">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                             <children>
-                                                <ListView fx:id="listSearchResults" layoutX="46.0" layoutY="-10.0" prefHeight="180.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="listSearchResults" layoutX="46.0" layoutY="-10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                             </children>
                                         </AnchorPane>
                                     </content>
