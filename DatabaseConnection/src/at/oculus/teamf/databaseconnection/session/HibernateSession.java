@@ -9,6 +9,10 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
+import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.hibernate.*;
 

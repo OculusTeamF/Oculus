@@ -9,6 +9,11 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
+import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;

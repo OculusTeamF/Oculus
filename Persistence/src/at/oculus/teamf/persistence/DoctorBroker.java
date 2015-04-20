@@ -10,6 +10,10 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
