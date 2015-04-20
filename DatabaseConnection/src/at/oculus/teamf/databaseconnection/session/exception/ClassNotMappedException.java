@@ -7,14 +7,25 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence;
-
-import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.persistence.exception.FacadeException;
+package at.oculus.teamf.databaseconnection.session.exception;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Is thrown when a class was not mapped.
+ *
+ * @author Simon Angerer
+ * @date 30.03.2015
+ * @version 1.0
  */
-interface ICollectionReload {
-    void reload(ISession session, Object obj, Class clazz) throws FacadeException;
+public class ClassNotMappedException extends SessionException {
+
+    private String _clazz;
+
+    public ClassNotMappedException(String clazz) {
+        _clazz = clazz;
+    }
+
+    @Override
+    public String getMessage() {
+        return "Class was not mapped: " + _clazz;
+    }
 }

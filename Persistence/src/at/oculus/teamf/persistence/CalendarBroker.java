@@ -14,7 +14,7 @@ import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
 
 import java.util.Collection;
 

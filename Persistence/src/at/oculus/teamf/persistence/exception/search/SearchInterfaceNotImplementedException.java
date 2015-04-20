@@ -7,14 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence;
+package at.oculus.teamf.persistence.exception.search;
 
-import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.persistence.exception.FacadeException;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Created by Norskan on 08.04.2015.
  */
-interface ICollectionReload {
-    void reload(ISession session, Object obj, Class clazz) throws FacadeException;
+public class SearchInterfaceNotImplementedException extends SearchException {
 }

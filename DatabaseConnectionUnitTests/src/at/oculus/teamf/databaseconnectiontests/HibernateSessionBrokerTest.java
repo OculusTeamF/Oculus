@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.databaseconnectiontests;
 
-import at.oculus.teamf.databaseconnection.session.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;

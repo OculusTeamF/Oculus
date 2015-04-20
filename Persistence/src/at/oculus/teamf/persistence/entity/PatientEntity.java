@@ -18,7 +18,8 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus_f")
-@NamedNativeQueries({@NamedNativeQuery(
+@NamedNativeQueries({
+		@NamedNativeQuery(
 		name = "getPatientBySingle",
 		query = "SELECT * " +
 		        "FROM patient " +
@@ -26,10 +27,12 @@ import java.util.Collection;
 		        "AND UPPER(firstName) like UPPER(?1) " +
 		        "AND UPPER(lastName) like UPPER(?2)",
 		resultClass = PatientEntity.class),
+
         @NamedNativeQuery(
 		name = "getPatientByAll",
-		query = "select * from patient where CONCAT(UPPER(firstName),UPPER(lastName),UPPER(socialInsuranceNr)) like UPPER(?3)",
+		query = "select * from patient where CONCAT(UPPER(firstName),UPPER(lastName),UPPER(socialInsuranceNr)) like UPPER(?0)",
 		resultClass = PatientEntity.class)})
+
 public class PatientEntity implements IEntity {
 	private int _id;
 	private Integer _doctorId;

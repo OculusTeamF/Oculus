@@ -13,8 +13,9 @@ import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.exception.*;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
 import java.util.HashMap;

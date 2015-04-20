@@ -13,9 +13,9 @@ import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
 import at.oculus.teamf.persistence.exception.NotAbleToLoadClassException;
-import at.oculus.teamf.persistence.exception.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import org.junit.Before;
 import org.junit.Test;
 

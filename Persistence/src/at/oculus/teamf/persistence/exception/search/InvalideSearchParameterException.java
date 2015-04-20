@@ -7,10 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.exception;
+package at.oculus.teamf.persistence.exception.search;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by Simon Angerer on 20.04.2015.
  */
-public class ReloadException extends FacadeException{
+public class InvalideSearchParameterException extends SearchException {
 }

@@ -7,7 +7,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="NewPersistenceUnit" value="1bb3786c-7471-447d-9a02-fcb2ec1cdfc4" />
-          <factory-entry name="oculus_f" />
+          <factory-entry name="oculus_f" value="1bb3786c-7471-447d-9a02-fcb2ec1cdfc4" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
       </configuration>

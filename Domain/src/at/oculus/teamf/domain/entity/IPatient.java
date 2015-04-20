@@ -27,7 +27,7 @@ public interface IPatient {
     Patient setLastName(String lastName);
 
     Gender getGender();
-    void setGender(Gender gender);
+    void setGender(String gender);
 
     String getSocialInsuranceNr();
     void setSocialInsuranceNr(String svn);

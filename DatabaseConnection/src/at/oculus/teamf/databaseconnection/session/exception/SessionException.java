@@ -7,10 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.exception;
+package at.oculus.teamf.databaseconnection.session.exception;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * SessionException indicates that something went wrong when calling a method from the session.
+ *
+ * @author Simon Angerer
+ * @date 30.03.2015
+ * @version 1.0
  */
-public class SearchInterfaceNotImplementedException extends FacadeException {
+public class SessionException extends Exception {
 }

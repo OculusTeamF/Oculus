@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.databaseconnection.session.exception;
 
 /**
  * AlreadyInTransactionException is thrown when the session is already in an transaction state.
