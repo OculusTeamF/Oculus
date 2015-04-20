@@ -44,6 +44,9 @@
                         <TextField fx:id="patientRecordSVN" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <DatePicker fx:id="patientRecordBday" editable="false" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="patientRecordStreet" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="patientRecordCountryIsoCode" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="patientRecordPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="patientRecordEmail" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <children>
                               <TextField fx:id="patientRecordPLZ" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="125.0" />
@@ -54,22 +57,9 @@
                               </Label>
                               <TextField fx:id="patientRecordCity" editable="false" prefHeight="31.0" prefWidth="209.0" />
                            </children>
-                           <TextField fx:id="patientRecordCountryIsoCode" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                           <TextField fx:id="patientRecordPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                           <TextField fx:id="patientRecordEmail" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         </FlowPane>
                         <Label text="Doctor" GridPane.rowIndex="10" />
                         <ChoiceBox fx:id="patientRecordDoctor" disable="true" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                        <GridPane alignment="CENTER_RIGHT" hgap="20.0" vgap="20.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="314.0" minWidth="10.0" prefWidth="154.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="314.0" minWidth="10.0" prefWidth="140.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="138.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                        </GridPane>
                      </children>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="159.0" />
@@ -86,8 +76,7 @@
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
@@ -122,14 +111,12 @@
                   <GridPane hgap="10.0" vgap="10.0" GridPane.columnIndex="1">
                      <children>
                         <Label text="ALLERGIES:" />
-                        <TextArea fx:id="patientRecordAllergies" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                         <Label text="MEDICINE INTOLERANCE:" GridPane.rowIndex="2" />
-                        <TextArea fx:id="patientRecordIntolerance" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
-                        <Label text="CHILDHOOD AILMENTS:" GridPane.rowIndex="4" />
-                        <TextArea fx:id="patientRecordChildhood" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
+                        <TextArea fx:id="patientRecordIntolerance" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                         <GridPane hgap="20.0" vgap="20.0" GridPane.rowIndex="6">
                            <children>
-                              <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
+                              <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveChangedForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
                               <Button fx:id="patientRecordEditButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Edit" GridPane.columnIndex="1" />
                            </children>
                            <columnConstraints>
@@ -141,6 +128,8 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
+                        <Label text="CHILDHOOD AILMENTS:" GridPane.rowIndex="4" />
+                        <TextArea fx:id="patientRecordChildhood" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
                      </children>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="309.0" />

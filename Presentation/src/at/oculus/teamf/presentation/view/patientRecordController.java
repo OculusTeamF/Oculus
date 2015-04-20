@@ -65,6 +65,7 @@ public class patientRecordController implements Initializable {
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
 
+
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
     private IPatient patient = Main.controller.getPatient();
@@ -123,9 +124,9 @@ public class patientRecordController implements Initializable {
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
-        patientRecordAllergies.setText(patient.getAllergy());
+       /* patientRecordAllergies.setText(patient.getAllergy());
         patientRecordIntolerance.setText(patient.getMedicineIntolerance());
-        patientRecordChildhood.setText(patient.getChildhoodAilments());
+        patientRecordChildhood.setText(patient.getChildhoodAilments());*/
     }
 
    @FXML
