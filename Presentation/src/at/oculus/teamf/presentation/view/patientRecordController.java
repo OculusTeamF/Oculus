@@ -120,7 +120,7 @@ public class patientRecordController implements Initializable {
         patientRecordPhone.setText(patient.getPhone());
         patientRecordEmail.setText(patient.getEmail());
 
-        patientRecordDoctor.setValue(patient.getDoctor());
+        patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
         patientRecordAllergies.setText(patient.getAllergy());
@@ -205,7 +205,7 @@ public class patientRecordController implements Initializable {
         patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
         patient.setPhone(patientRecordPhone.getText());
         patient.setEmail(patientRecordEmail.getText());
-        patient.setDoctor((IDoctor) patientRecordDoctor.getValue());
+        patient.setIDoctor((IDoctor) patientRecordDoctor.getValue());
         patient.setAllergy(patientRecordAllergies.getText());
         patient.setMedicineIntolerance(patientRecordIntolerance.getText());
         patient.setChildhoodAilments(patientRecordChildhood.getText());

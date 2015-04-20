@@ -129,7 +129,7 @@
                         <TextArea fx:id="patientRecordChildhood" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
                         <GridPane hgap="20.0" vgap="20.0" GridPane.rowIndex="6">
                            <children>
-                              <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
+                              <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveChangedForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
                               <Button fx:id="patientRecordEditButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Edit" GridPane.columnIndex="1" />
                            </children>
                            <columnConstraints>
