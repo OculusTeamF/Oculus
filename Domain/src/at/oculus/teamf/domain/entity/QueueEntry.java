@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 /**
  * QueueEntry.java Created by Fabian on 10.04.15.
  */
-public class QueueEntry implements IDomain, ILogger {
+public class QueueEntry implements IQueueEntry {
     private int _id;
     private Doctor _doctor;
     private Orthoptist _orthoptist;
@@ -45,50 +45,62 @@ public class QueueEntry implements IDomain, ILogger {
                 + " | patientID: " + _patient.getId() + " | queueIDParent: " + _queueIdParent + " | arrivalTime: " + _arrivalTime.toString());
     }
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
 
+    @Override
     public Doctor getDoctor() {
         return _doctor;
     }
 
+    @Override
     public void setDoctor(Doctor doctor) {
         _doctor = doctor;
     }
 
+    @Override
     public Orthoptist getOrthoptist() {
         return _orthoptist;
     }
 
+    @Override
     public void setOrthoptist(Orthoptist orthoptist) {
         _orthoptist = orthoptist;
     }
 
+    @Override
     public Patient getPatient() {
         return _patient;
     }
 
+    @Override
     public void setPatient(Patient patient) {
         _patient = patient;
     }
 
+    @Override
     public Integer getQueueIdParent() {
         return _queueIdParent;
     }
 
+    @Override
     public void setQueueIdParent(Integer queueIdParent) {
         _queueIdParent = queueIdParent;
     }
 
+    @Override
     public Timestamp getArrivalTime() {
         return _arrivalTime;
     }
 
+    @Override
     public void setArrivalTime(Timestamp arrivalTime) {
         _arrivalTime = arrivalTime;
     }
