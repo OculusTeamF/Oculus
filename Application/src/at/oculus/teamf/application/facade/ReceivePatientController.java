@@ -21,6 +21,7 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -40,13 +41,14 @@ public class ReceivePatientController {
      * interface to review it.
      * <b>Parameter</b>
      * @param starttime start time of the examination
-     * @param endtime end time of the examination
      * @param description description of the examination
      * @param iPatient the patient who is being examined
      * @param iDoctor the doctor who does the examination
      * @param iOrthoptist the orthoptist who does the examination
      */
-    public IExaminationProtocol createNewExaminationProtocol(Date starttime, Date endtime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) {
+    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) {
+        Date endtime = new Timestamp(new Date().getTime());
+
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(
                 0, starttime, endtime, description, (Patient) iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
         );
