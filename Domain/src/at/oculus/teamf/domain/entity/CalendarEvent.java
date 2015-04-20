@@ -68,15 +68,12 @@ public class CalendarEvent implements ICalendarEvent {
     public void setEventEnd(Date eventEnd) {
         _eventEnd = eventEnd;
     }
-    /*
 
-    //@Override
     public Patient getPatient(){return _patient; }
 
-    //@Override
     public void addPatient(Patient patient) {
         _patient = patient;
     }
-    */
+
 	//</editor-fold>
 }

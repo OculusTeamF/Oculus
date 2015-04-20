@@ -18,7 +18,7 @@ import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 /**<h1>$CreatePatientController.java</h1>
