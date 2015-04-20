@@ -18,7 +18,8 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -142,17 +143,20 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	 * @return
 	 */
     @Override
-	public Collection<Patient> search(ISession session, String... params) {
+	public Collection<Patient> search(ISession session, String... params) throws InvalideSearchParameterException {
 		Collection<Object> patientsResult = null;
 		Collection<Patient> patients = new LinkedList<Patient>();
 
 		// create query
 		String query = null;
 
-		if(params[3].equals("")){
+		//decide on query
+		if(params.length == 1) {
+			query = "getPatientByAll";
+		} else if(params.length == 3) {
 			query = "getPatientBySingle";
 		} else {
-			query = "getPatientByAll";
+			throw new InvalideSearchParameterException();
 		}
 
 		try {

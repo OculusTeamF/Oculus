@@ -12,7 +12,7 @@
 
     <persistence-unit name="oculus_f">
       <class>at.oculus.teamf.persistence.entity.UserEntity</class>
-        <class>at.oculus.teamf.persistence.entity.UsergroupEntity</class>
+      <class>at.oculus.teamf.persistence.entity.UsergroupEntity</class>
       <class>at.oculus.teamf.persistence.entity.CalendarEntity</class>
       <class>at.oculus.teamf.persistence.entity.CalendarEventEntity</class>
       <class>at.oculus.teamf.persistence.entity.CalendarworkinghoursEntity</class>

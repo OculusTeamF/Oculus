@@ -107,7 +107,7 @@ public class PatientBrokerTest extends BrokerTest {
 		Collection<Patient> patients = null;
 		// SVN only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"5947053957","","","");
+			patients = Facade.getInstance().search(Patient.class,"5947053957", "", "");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -115,7 +115,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==1);
 		// Firstname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"","JaNe","","");
+			patients = Facade.getInstance().search(Patient.class,"","JaNe","");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -123,7 +123,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size() == 3);
 		// Lastname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"","","sOn","");
+			patients = Facade.getInstance().search(Patient.class,"","","sOn");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -131,7 +131,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size()==6);
 		// Fulltext
 		try {
-			patients = Facade.getInstance().search(Patient.class, "", "", "", "son");
+			patients = Facade.getInstance().search(Patient.class,"son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);

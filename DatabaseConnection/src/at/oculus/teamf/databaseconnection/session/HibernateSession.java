@@ -279,7 +279,7 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
 	public List<Object> search(String queryName, String[] parameters) throws BadSessionException {
 		validateSession();
 		Query query = _entityManager.createNamedQuery(queryName);
-		for(Integer i = 0; i<parameters.length; i++){
+		for(Integer i = 0; i < parameters.length; i++){
             try{
                 query.setParameter(i.toString(), "%"+parameters[i].replace(" ","%")+"%");
             } catch (Exception e) {
