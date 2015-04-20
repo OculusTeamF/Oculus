@@ -23,31 +23,19 @@
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
-                        <MenuItem disable="true" mnemonicParsing="false" text="Logout" />
-                        <MenuItem disable="true" mnemonicParsing="false" text="Change User" />
+                        <MenuItem mnemonicParsing="false" text="Logout" />
+                        <MenuItem mnemonicParsing="false" text="Change User" />
                         <MenuItem mnemonicParsing="false" onAction="#onClose" text="Exit" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Edit">
                      <items>
-                        <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="View">
                      <items>
-                        <Menu mnemonicParsing="false" text="Theme">
-                          <items>
-                              <CheckMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" selected="true" text="Default Theme" />
-                              <CheckMenuItem id="darkTheme" fx:id="DarkTheme" mnemonicParsing="false" text="Dark Theme" />
-                              <CheckMenuItem id="whiteTheme" fx:id="whiteTheme" mnemonicParsing="false" text="White Theme" />
-                          </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Language">
-                           <items>
-                              <CheckMenuItem id="languageEnglish" fx:id="languageEnglish" mnemonicParsing="false" selected="true" text="English" />
-                              <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />
-                           </items>
-                        </Menu>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Patient">
@@ -64,7 +52,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Calendar">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#openCal" text="Calendar " />
+                        <MenuItem mnemonicParsing="false" onAction="#openCal" text="Calendar (JXtras)" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="ICD-10 Codes">
@@ -79,7 +67,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Help">
                      <items>
-                        <MenuItem fx:id="menuAbout" mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="about" />
                      </items>
                   </Menu>
                </menus>

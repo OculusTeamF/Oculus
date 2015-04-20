@@ -15,6 +15,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade;
 */
 
+import at.oculus.teamf.domain.entity.IPatient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,6 +47,12 @@ public class patientRecordController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        IPatient patient = Main.controller.getPatient();
+
+        patientRecordLastname.setText(patient.getLastName());
+        patientRecordFirstname.setText(patient.getFirstName());
+        patientRecordSVN.setText(patient.getSocialInsuranceNr());
+        
 
     }
 
