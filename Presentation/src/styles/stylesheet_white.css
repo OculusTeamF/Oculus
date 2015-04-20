@@ -1,5 +1,5 @@
 #displayPane{
-    -fx-background-image: url("oculus.JPG");
+    -fx-background-image: url("/res/oculus.JPG");
     -fx-background-repeat: stretch;
     -fx-background-size: 379 108;
     -fx-background-position: center;
