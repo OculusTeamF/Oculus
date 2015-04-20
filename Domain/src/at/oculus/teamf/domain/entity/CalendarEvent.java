@@ -17,7 +17,7 @@ import java.util.Date;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class CalendarEvent implements IDomain {
+public class CalendarEvent implements ICalendarEvent {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -29,40 +29,50 @@ public class CalendarEvent implements IDomain {
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
 
+    @Override
     public String getDescription() {
         return _description;
     }
 
+    @Override
     public void setDescription(String description) {
         _description = description;
     }
 
+    @Override
     public Date getEventStart() {
         return _eventStart;
     }
 
+    @Override
     public void setEventStart(Date eventStart) {
         _eventStart = eventStart;
     }
 
+    @Override
     public Date getEventEnd() {
         return _eventEnd;
     }
 
+    @Override
     public void setEventEnd(Date eventEnd) {
         _eventEnd = eventEnd;
     }
 
+    @Override
     public Patient getPatient(){return _patient; }
 
+    @Override
     public void addPatient(Patient patient) {
         _patient = patient;
     }

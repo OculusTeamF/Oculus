@@ -22,7 +22,7 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Calendar implements IDomain {
+public class Calendar implements ICalendar {
 
     //<editor-fold desc="Attributes">
     private int _id;
