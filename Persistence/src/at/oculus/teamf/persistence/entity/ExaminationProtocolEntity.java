@@ -80,7 +80,7 @@ public class ExaminationProtocolEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "patientId", nullable = true, insertable = true, updatable = true)
+	@Column(name = "patientId", nullable = true, insertable = false, updatable = false)
 	public Integer getPatientId() {
 		return _patientId;
 	}
@@ -89,7 +89,7 @@ public class ExaminationProtocolEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "userId", nullable = true, insertable = true, updatable = true)
+	@Column(name = "userId", nullable = true, insertable = false, updatable = false)
 	public Integer getUserId() {
 		return _userId;
 	}
@@ -98,7 +98,7 @@ public class ExaminationProtocolEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "diagnosisId", nullable = true, insertable = true, updatable = true)
+	@Column(name = "diagnosisId", nullable = true, insertable = false, updatable = false)
 	public Integer getDiagnosisId() {
 		return _diagnosisId;
 	}

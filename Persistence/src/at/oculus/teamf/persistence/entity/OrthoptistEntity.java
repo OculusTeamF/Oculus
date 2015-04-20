@@ -36,7 +36,7 @@ public class OrthoptistEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "userId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "userId", nullable = true, insertable = false, updatable = false)
     public Integer getUserId() {
         return _userId;
     }
@@ -46,7 +46,7 @@ public class OrthoptistEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "calendarId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "calendarId", nullable = false, insertable = false, updatable = false)
     public int getCalendarId() {
         return _calendarId;
     }

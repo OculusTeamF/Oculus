@@ -65,7 +65,7 @@ public class QueueEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "doctorId", nullable = true, insertable = false, updatable = false)
     public Integer getDoctorId() {
         return _doctorId;
     }
@@ -75,7 +75,7 @@ public class QueueEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "orthoptistId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "orthoptistId", nullable = true, insertable = false, updatable = false)
     public Integer getOrthoptistId() {
         return _orthoptistId;
     }
@@ -85,7 +85,7 @@ public class QueueEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "patientId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "patientId", nullable = false, insertable = false, updatable = false)
     public int getPatientId() {
         return _patientId;
     }
@@ -95,7 +95,7 @@ public class QueueEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "queueIdParent", nullable = true, insertable = true, updatable = true)
+    @Column(name = "queueIdParent", nullable = true, insertable = false, updatable = false)
     public Integer getQueueIdParent() {
         return _queueIdParent;
     }

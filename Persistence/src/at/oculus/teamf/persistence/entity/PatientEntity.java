@@ -66,7 +66,7 @@ public class PatientEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
+	@Column(name = "doctorId", nullable = true, insertable = false, updatable = false)
 	public Integer getDoctorId() {
 		return _doctorId;
 	}
