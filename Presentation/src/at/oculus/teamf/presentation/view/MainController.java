@@ -17,12 +17,14 @@ import at.oculus.teamf.domain.entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import jfxtras.scene.control.window.Window;
@@ -65,6 +67,7 @@ public class MainController implements Initializable {
         lists = new ListView[userAmount];
 
 
+
         // setup listviews
         for (int i = 0; i < userAmount; i++) {
             lists[i] = new ListView<>();
@@ -73,9 +76,23 @@ public class MainController implements Initializable {
             lists[i].minHeight(Region.USE_COMPUTED_SIZE);
             lists[i].maxWidth(Region.USE_COMPUTED_SIZE);
             lists[i].maxHeight(Region.USE_COMPUTED_SIZE);
+            lists[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getClickCount() == 2) {
+                        System.out.println("clicked on " + lists[0].getSelectionModel().getSelectedItem());
+
+
+                        addPatientTab(null);
+                    }
+                }
+            });
         }
 
-        // setup titlepane (doctors)
+
+        // setup titlepane (doctors & orthoptists)
+        // todo: add unassigned patients to list
         String userQueueName;
         int orth = 0;
         for (int i = 0; i < userAmount; i++) {
@@ -94,19 +111,29 @@ public class MainController implements Initializable {
             tps[i].setExpanded(false); tps[i].setAnimated(true);
         }
 
-
+        // add to stage
         tps[0].setExpanded(true);
         vboxQueues.getChildren().addAll(tps);
 
-        // fill queuelists
+        // fill queuelists with available patients
+        LinkedList<ObservableList<String>> userQueueLists = new LinkedList();
+
         List<String> list = new ArrayList<String>();
-        ObservableList<String> wList = FXCollections.observableList(list);
+        ObservableList<String> userQList = FXCollections.observableList(list);
 
         for (QueueEntry qe : doctors.get(0).getQueue().getEntries()) {
-                wList.add(qe.getPatient().getFirstName());
+            userQList.add(qe.getPatient().getFirstName() + " " + qe.getPatient().getLastName() + " / " + qe.getPatient().getSocialInsuranceNr());
         }
+        userQueueLists.add(userQList);
+        lists[0].setItems(userQueueLists.get(0));
 
-        lists[0].setItems(wList);
+        //userQList.clear();
+
+  /*      for (QueueEntry qe : doctors.get(1).getQueue().getEntries()) {
+            userQList.add(qe.getPatient().getFirstName());
+        }
+        userQueueLists.add(userQList);
+        lists[1].setItems(userQueueLists.get(1));*/
 
     }
 
