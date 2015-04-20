@@ -15,8 +15,11 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade;
 */
 
+import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.IDoctor;
 import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.Patient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +27,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxResult;
@@ -33,7 +37,9 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class patientRecordController implements Initializable {
@@ -57,17 +63,18 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
     @FXML public TextArea patientRecordMedicineIntolerance;
-    @FXML public Tab searchPatientTab;
+    @FXML public Tab patientRecordTab;
+    @FXML public Button addToQueue;
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
     private IPatient patient = Main.controller.getPatient();
-
+    private StartupController startupController = new StartupController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        searchPatientTab.setOnCloseRequest(new EventHandler<Event>() {
+        patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
 
@@ -82,6 +89,8 @@ public class patientRecordController implements Initializable {
                 }
             }
         });
+
+        patientRecordDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
 
         patientRecordSaveButton.setDisable(true);
 
@@ -112,11 +121,8 @@ public class patientRecordController implements Initializable {
         patientRecordPhone.setText(patient.getPhone());
         patientRecordEmail.setText(patient.getEmail());
 
-        patientRecordDoctor.selectionModelProperty().setValue(patient.getDoctor());
+        patientRecordDoctor.setValue(patient.getDoctor());
         patientRecordDoctor.setDisable(true);
-
-        ObservableList<CalendarEvent> appointments = FXCollections.observableArrayList(patient.getCalendarEvents());
-        patientRecordAppointmentList.setItems(appointments);
 
         patientRecordAllergies.setText(patient.getAllergy());
         patientRecordMedicineIntolerance.setText(patient.getMedicineIntolerance());

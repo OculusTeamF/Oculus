@@ -53,8 +53,8 @@ public class searchPatientController implements Initializable{
     @FXML public Tab searchPatientTab;
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
-    private Patient _patient;
-    private Tab _patientRecordTab;
+    /*private Patient _patient;
+    private Tab _patientRecordTab;*/
 
 
     @Override
