@@ -57,6 +57,10 @@ public class newPatientController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
+
+        radioGenderFemale.setToggleGroup(group);
+        radioGenderMale.setToggleGroup(group);
+        radioGenderFemale.setSelected(true);
     }
 
     /*Saves the form in a new Patient-Object*/
@@ -80,9 +84,7 @@ public class newPatientController implements Initializable{
         IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
         String countryIsoCode = newPatientCountryIsoCode.getText();
 
-        radioGenderFemale.setToggleGroup(group);
-        radioGenderMale.setToggleGroup(group);
-        radioGenderFemale.setSelected(true);
+
 
         if(radioGenderFemale.isSelected()){
             gender = "female";

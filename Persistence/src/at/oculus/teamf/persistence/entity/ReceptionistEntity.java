@@ -33,7 +33,7 @@ public class ReceptionistEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "userId", nullable = true, insertable = false, updatable = false)
+    @Column(name = "userId", nullable = false, insertable = false, updatable = false)
     public Integer getUserId() {
         return _userId;
     }
