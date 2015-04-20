@@ -11,16 +11,15 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
+import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
 import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -46,12 +45,11 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 					(Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
 		}
 
-		if (entity.getGender().equals('M')) {
+		if (entity.getGender().equals("M")) {
 			patient.setGender(Gender.Male);
 		} else {
 			patient.setGender(Gender.Female);
 		}
-
 		patient.setAllergy(entity.getAllergy());
 		patient.setBirthDay(entity.getBirthDay());
 		patient.setChildhoodAilments(entity.getChildhoodAilments());
@@ -74,7 +72,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		patientEntity.setLastName(obj.getLastName());
 		patientEntity.setSocialInsuranceNr(obj.getSocialInsuranceNr());
 		patientEntity.setAllergy(obj.getAllergy());
-		patientEntity.setBirthDay(obj.getBirthDay());
+		patientEntity.setBirthDay(new Date(obj.getBirthDay().getTime()));
 		patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
 		patientEntity.setCity(obj.getCity());
 		patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
@@ -190,4 +188,18 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 
 		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoaderI());
 	}
+
+    private class ExaminationProtocolI implements ICollectionLoader<ExaminationProtocolEntity> {
+
+        @Override
+        public Collection<ExaminationProtocolEntity> load(Object databaseEntity) {
+            return ((PatientEntity) databaseEntity).getExaminationProtocol();
+        }
+    }
+
+    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws FacadeException {
+        ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
+
+        return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoaderI());
+    }
 }

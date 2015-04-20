@@ -16,6 +16,7 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.Date;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -41,6 +42,7 @@ public class PatientBrokerTest extends BrokerTest {
 		_patient.setMedicineIntolerance("Medizin Unverträglichkeiten");
 		_patient.setPhone("+43 664 987356 34");
 		_patient.setPostalCode("4633");
+        _patient.setBirthDay(new Date());
 		try {
 			assertTrue(Facade.getInstance().save(_patient));
 		} catch (FacadeException e) {
@@ -70,6 +72,17 @@ public class PatientBrokerTest extends BrokerTest {
 
         assertTrue(patient != null);
         assertTrue(patient.getFirstName().equals(_patient.getFirstName()));
+        assertTrue(patient.getLastName().equals(_patient.getLastName()));
+        assertTrue(patient.getSocialInsuranceNr().equals(_patient.getSocialInsuranceNr()));
+        assertTrue(patient.getStreet().equals(_patient.getStreet()));
+        assertTrue(patient.getCity().equals(_patient.getCity()));
+        assertTrue(patient.getPostalCode().equals(_patient.getPostalCode()));
+        assertTrue(patient.getEmail().equals(_patient.getEmail()));
+        assertTrue(patient.getPhone().equals(_patient.getPhone()));
+        assertTrue(patient.getGender() == _patient.getGender());
+        assertTrue(patient.getAllergy().equals(_patient.getAllergy()));
+        assertTrue(patient.getChildhoodAilments().equals(_patient.getChildhoodAilments()));
+        assertTrue(patient.getMedicineIntolerance().equals(_patient.getMedicineIntolerance()));
     }
 
     @Override

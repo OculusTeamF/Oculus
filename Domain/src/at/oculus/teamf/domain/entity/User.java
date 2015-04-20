@@ -10,8 +10,9 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.entity.UsergroupEntity;
+import javafx.scene.control.DateCell;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Todo: add docs, implement equals
@@ -30,8 +31,8 @@ public abstract class User implements IUser {
 	private String _firstName;
 	private String _lastName;
 	private String _email;
-	private Timestamp _createDate;
-	private Timestamp _idleDate;
+	private Date _createDate;
+	private Date _idleDate;
 	private UsergroupEntity _usergroup;
     //</editor-fold>
 
@@ -109,20 +110,20 @@ public abstract class User implements IUser {
 	}
 
 	@Override
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
 		return _createDate;
 	}
 	@Override
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
 		_createDate = createDate;
 	}
 
 	@Override
-    public Timestamp getIdleDate() {
+    public Date getIdleDate() {
 		return _idleDate;
 	}
 	@Override
-    public void setIdleDate(Timestamp idleDate) {
+    public void setIdleDate(Date idleDate) {
 		_idleDate = idleDate;
 	}
 

@@ -53,6 +53,7 @@ public class PatientEntity implements IEntity {
 	private Collection<CalendarEventEntity> _calendarevents;
 	private DoctorEntity _doctor;
 	private QueueEntity _queue;
+    private Collection<ExaminationProtocolEntity> _examinationProtocol;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -292,6 +293,15 @@ public class PatientEntity implements IEntity {
 	public void setCalendarevents(Collection<CalendarEventEntity> calendarevents) {
 		_calendarevents = calendarevents;
 	}
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
+    public Collection<ExaminationProtocolEntity> getExaminationProtocol() {
+        return _examinationProtocol;
+    }
+
+    public void setExaminationProtocol(Collection<ExaminationProtocolEntity> examinationProtocol) {
+        _examinationProtocol = examinationProtocol;
+    }
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "doctorId", referencedColumnName = "doctorId")

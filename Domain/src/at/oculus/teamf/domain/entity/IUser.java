@@ -11,7 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.persistence.entity.UsergroupEntity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by oculus on 16.04.15.
@@ -50,13 +50,13 @@ public interface IUser {
 
     void setEmail(String email);
 
-    Timestamp getCreateDate();
+    Date getCreateDate();
 
-    void setCreateDate(Timestamp createDate);
+    void setCreateDate(Date createDate);
 
-    Timestamp getIdleDate();
+    Date getIdleDate();
 
-    void setIdleDate(Timestamp idleDate);
+    void setIdleDate(Date idleDate);
 
     UsergroupEntity getUserGroup();
 
