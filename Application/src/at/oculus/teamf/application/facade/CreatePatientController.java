@@ -46,7 +46,7 @@ public class CreatePatientController implements ILogger{
      *<h3>$createPatient</h3>
      *
      * <b>Description:</b>
-     *  this method creates a new Patient-Object, sets all given data und saves the new Patient in the database.
+     *  This method creates a new patient-object, sets all given data und saves the new Patient in the database.
      *  If some Information is missing, then an exception is thrown.
      *
      *<b>Parameter</b>
@@ -54,16 +54,16 @@ public class CreatePatientController implements ILogger{
      * @param svn the social insurance number of the patient which should be created
      * @param lastName the last name of the patient which should be created
      * @param firstName the first name of the patient which should be created
-     * @param bday the birthdate of the patient which should be created
+     * @param bday the birthday of the patient which should be created
      * @param street the street of the new patients address
      * @param postalCode the postal code of the new patients address
      * @param city the city of the new patients address
      * @param email the email address of the patient which should be created
-     * @param phone the phonenumber of the patient which should be created
+     * @param phone the phone-number of the patient which should be created
+     * @param doctor this is the doctor, who is referred to the new patient
+     * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
 
-    /*this method creates a new Patient-Object, sets all given data und saves the new Patient in the database.
-    If some Information is missing, then an exception is thrown*/
     public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException {
         Patient patient = new Patient();
         if(gender.equals("female")){
@@ -91,7 +91,17 @@ public class CreatePatientController implements ILogger{
         }
     }
 
-    /*with this method the Patient Collection gets up to date*/
+    /**
+     *<h3>$savePatient</h3>
+     *
+     * <b>Description:</b>
+     *This method gets the patient object which should be saved. The requirements were checked with another method
+     *and if everything is alright, the object is given to the facade to save it into the database. Afterwards
+     *the patient collection in the database should be up to date again.
+     *
+     *<b>Parameter</b>
+     * @param patient this is the Patient-object, which should be saved in the database
+     */
     private void savePatient(Patient patient)throws RequirementsNotMetException{
 
         if(checkRequirements(patient)){
@@ -109,7 +119,16 @@ public class CreatePatientController implements ILogger{
 
     }
 
-    /*in this method the data gets checked, if all fields are complete everything is alright. Some requirements are missing TODO */
+    /**
+     *<h3>$checkRequirements</h3>
+     *
+     * <b>Description:</b>
+     *In this method the data gets checked. If all fields are complete - everything is alright and the method returns true.
+     *If some required data is missing, the method return false.
+     *
+     *<b>Parameter</b>
+     * @param patient this is the Patient-object, which should be checked before it is saved
+     */
     private boolean checkRequirements(Patient patient) {
         if(patient.getSocialInsuranceNr() == "" || patient.getLastName() == "" || patient.getFirstName() == "" ||
                 patient.getBirthDay() == null){

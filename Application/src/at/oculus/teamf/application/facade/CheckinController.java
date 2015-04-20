@@ -22,7 +22,7 @@ import java.util.Date;
  * <h2>$CheckinController</h2>
  *
  * <b>Description:</b>
- * The CheckinController is to realise the first usecase. It implements the method insertPatientIntoQueue.
+ * The Checkin-Controller is to realise the first UseCase. It implements the method insertPatientIntoQueue.
  **/
 public class CheckinController implements ILogger {
 

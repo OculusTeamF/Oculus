@@ -14,7 +14,7 @@
  *
  * Description:
  * This file contains the main class StartupController for the startup of the program. It contains methods to get
- * objects the program needs when started to begin the Usecases.
+ * objects the program needs when started to begin the UseCases.
  * At the moment this file contains a method to get a user, a method to get all Queues and a method to get all
  * Calendars.
  **/
@@ -39,17 +39,25 @@ import java.util.LinkedList;
 public class StartupController implements ILogger{
 
     /**
-     *<h3>$getUser</h3>
+     *<h3>$StartupController</h3>
      *
      * <b>Description:</b>
-     * This method returns a User-Interface (at the moment a receptionist) to try and test the first UseCase (where only a
-     * receptionist is needed.
+     * This is the contructor of the StartupController class. It gets a instance of a facade, so that the facade
+     * is loaded at the start up.
      *
      **/
     public StartupController(){
         Facade facade = Facade.getInstance();
     }
 
+    /**
+     *<h3>$getUser</h3>
+     *
+     * <b>Description:</b>
+     * This method returns a User-Interface (at the moment a receptionist) to try and test the first UseCase (where only a
+     * receptionist is needed)
+     *
+     **/
     public IUser getUser (){
         Facade facade = Facade.getInstance();
 
@@ -61,7 +69,6 @@ public class StartupController implements ILogger{
             e.printStackTrace();
             //TODO
         }
-
         return user;
     }
 
@@ -69,11 +76,10 @@ public class StartupController implements ILogger{
      *<h3>$getAllQueues</h3>
      *
      * <b>Description:</b>
-     * This method returns all available queues. We get a list of all queues from the persistence layer and return it.
+     * This method returns all available queues. We get a list of all queues from the persistence layer and return  a list of interfaces.
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      **/
-
     public Collection<IPatientQueue> getAllQueues() {
 
         Collection <Doctor> doctors = null;
@@ -90,19 +96,16 @@ public class StartupController implements ILogger{
         for (Doctor doctor : doctors){
             queues.add(doctor.getQueue());
         }
-
         return queues;
     }
+
     /**
      *<h3>$getAllDoctors</h3>
      *
      * <b>Description:</b>
      *
      * This method returns all available doctors. We get a list of all doctors from the persistence layer,
-     * convert it into Interfaces and
-     * return it.
-     *
-     *<b>Parameter</b>
+     * convert it into Interfaces and return it.
      *
      **/
     public Collection<IDoctor> getAllDoctors(){
@@ -121,9 +124,7 @@ public class StartupController implements ILogger{
         for(Doctor doc : doctors){
             iDoctors.add((IDoctor)doc);
         }
-
         return iDoctors;
-
     }
 
     /**
@@ -132,11 +133,7 @@ public class StartupController implements ILogger{
      * <b>Description:</b>
      *
      * This method returns all available orthoptists. We get a list of all orthoptists from the persistence layer,
-     * convert it into Interfaces and
-     * return it.
-     *
-     *<b>Parameter</b>
-     *
+     * convert it into Interfaces and return it.
      **/
     public Collection<IOrthoptist> getAllOrthoptists(){
         Collection<Orthoptist> orthoptists = null;
@@ -154,9 +151,7 @@ public class StartupController implements ILogger{
         for(Orthoptist o : orthoptists){
             iOrthoptists.add((IOrthoptist)o);
         }
-
         return iOrthoptists;
-
     }
 
     /**
@@ -164,13 +159,10 @@ public class StartupController implements ILogger{
      *
      * <b>Description:</b>
      * This method returns all available calendars. We get a list of all calendars from the persistence layer
-     * and return it.
+     * and return a list of interfaces.
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
-     *<b>Parameter</b>
-     *
      **/
-
     public Collection<ICalendar> getAllCalendars(){
         Facade facade = Facade.getInstance();
 
@@ -187,7 +179,6 @@ public class StartupController implements ILogger{
         for(Calendar c : calendars){
             iCalendars.add((ICalendar)c);
         }
-
         return iCalendars;
     }
 
