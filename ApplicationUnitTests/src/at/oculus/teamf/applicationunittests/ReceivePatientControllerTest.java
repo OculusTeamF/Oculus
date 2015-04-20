@@ -33,7 +33,7 @@ public class ReceivePatientControllerTest {
         SearchPatientController searchPatientController = new SearchPatientController();
         LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Duck");
         IPatient iPatient = patients.getFirst();
-        IDoctor iDoctor = iPatient.getDoctor();
+        IDoctor iDoctor = iPatient.getIDoctor();
 
         StartupController startupController = new StartupController();
         IOrthoptist iOrthoptist = (IOrthoptist) startupController.getUser();
@@ -48,7 +48,7 @@ public class ReceivePatientControllerTest {
         SearchPatientController searchPatientController = new SearchPatientController();
         LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Duck");
         IPatient iPatient = patients.getFirst();
-        IDoctor iDoctor = iPatient.getDoctor();
+        IDoctor iDoctor = iPatient.getIDoctor();
         IPatientQueue iQueue = iDoctor.getQueue();
 
         CheckinController checkinController = new CheckinController();

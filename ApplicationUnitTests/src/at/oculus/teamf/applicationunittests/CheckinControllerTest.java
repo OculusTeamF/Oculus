@@ -25,7 +25,7 @@ public class CheckinControllerTest {
         SearchPatientController searchPatientController = new SearchPatientController();
         LinkedList <IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Duck");
         IPatient iPatient = patients.getFirst();
-        IUser iUser = iPatient.getDoctor();
+        IUser iUser = iPatient.getIDoctor();
 
         CheckinController checkinController = new CheckinController();
         checkinController.insertPatientIntoQueue(iPatient, iUser);
