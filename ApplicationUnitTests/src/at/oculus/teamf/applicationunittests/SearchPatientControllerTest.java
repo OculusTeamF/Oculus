@@ -9,13 +9,22 @@
 
 package at.oculus.teamf.applicationunittests;
 
-/**
- * Created by Norskan on 09.04.2015.
- */
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.Patient;
+
+import java.util.LinkedList;
+
+import static org.junit.Assert.*;
+
 public class SearchPatientControllerTest {
+
+    SearchPatientController searchPatientController = new SearchPatientController();
 
     @org.junit.Test
     public void testSearchPatients() throws Exception {
-
+        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("son");
+        assert (patients.size() > 0);
     }
+
 }
