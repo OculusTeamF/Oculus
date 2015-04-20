@@ -27,7 +27,6 @@ public class ReceivePatientControllerTest {
     @org.junit.Test
     public void testCreateNewExaminationProtocol() throws Exception {
         Date startDate = new Date();
-        Date endDate = new Date();
         String description = new String("TEST TEST TEST TEST");
 
         SearchPatientController searchPatientController = new SearchPatientController();
@@ -36,9 +35,9 @@ public class ReceivePatientControllerTest {
         IDoctor iDoctor = iPatient.getIDoctor();
 
         StartupController startupController = new StartupController();
-        IOrthoptist iOrthoptist = (IOrthoptist) startupController.getUser();
+        LinkedList <IOrthoptist> iOrthoptists = (LinkedList<IOrthoptist>) startupController.getAllOrthoptists();
 
-        IExaminationProtocol examinationProtocol = receivePatientController.createNewExaminationProtocol(startDate, endDate, description, iPatient, iDoctor, iOrthoptist);
+        IExaminationProtocol examinationProtocol = receivePatientController.createNewExaminationProtocol(startDate, description, iPatient, iDoctor, iOrthoptists.getFirst());
         assert (examinationProtocol != null);
     }
 
@@ -52,7 +51,7 @@ public class ReceivePatientControllerTest {
         IPatientQueue iQueue = iDoctor.getQueue();
 
         CheckinController checkinController = new CheckinController();
-        checkinController.insertPatientIntoQueue(iPatient, (IUser) iDoctor);
+        checkinController.insertPatientIntoQueue(iPatient, iDoctor);
 
         receivePatientController.removePatientFromQueue(iPatient, iQueue);
 
