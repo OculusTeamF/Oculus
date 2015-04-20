@@ -30,6 +30,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
@@ -49,6 +50,7 @@ public class searchPatientController implements Initializable{
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
     @FXML public Button searchPatientButton;
+    @FXML public Tab searchPatientTab;
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private Patient _patient;

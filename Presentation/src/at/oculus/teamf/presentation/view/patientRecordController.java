@@ -43,6 +43,7 @@ public class patientRecordController implements Initializable {
     @FXML public ListView patientRecordAppointmentList;
     @FXML public Button patientRecordSaveButton;
     @FXML public Button patientRecordEditButton;
+    @FXML public Tab patientRecordTab;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -52,8 +53,6 @@ public class patientRecordController implements Initializable {
         patientRecordLastname.setText(patient.getLastName());
         patientRecordFirstname.setText(patient.getFirstName());
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
-        
-
     }
 
     public void saveForm(ActionEvent actionEvent) {

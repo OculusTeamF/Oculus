@@ -83,8 +83,7 @@ public class MainController implements Initializable {
                     if (event.getClickCount() == 2) {
                         System.out.println("clicked on " + lists[0].getSelectionModel().getSelectedItem());
 
-
-                        addPatientTab(null);
+                        //addPatientTab(null);
                     }
                 }
             });
@@ -173,6 +172,8 @@ public class MainController implements Initializable {
             currPatient = patient;
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("patientRecordTab.fxml")));
 
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -180,6 +181,10 @@ public class MainController implements Initializable {
 
     public SplitPane getSplitter(){
         return this.splitter;
+    }
+
+    public TabPane getTabPane(){
+        return this.displayPane;
     }
 
     @FXML
