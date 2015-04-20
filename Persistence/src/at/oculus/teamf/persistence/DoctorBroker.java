@@ -22,6 +22,7 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
@@ -90,8 +91,8 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
 		userEntity.setFirstName(entity.getFirstName());
 		userEntity.setLastName(entity.getLastName());
 		userEntity.setEmail(entity.getEmail());
-		userEntity.setCreateDate(entity.getCreateDate());
-		userEntity.setIdleDate(entity.getIdleDate());
+		userEntity.setCreateDate((Timestamp) entity.getCreateDate());
+		userEntity.setIdleDate((Timestamp) entity.getIdleDate());
 		//userEntity.setUserGroup(entity.getUserGroup());
 		doctorEntity.setUser(userEntity);
 		return doctorEntity;

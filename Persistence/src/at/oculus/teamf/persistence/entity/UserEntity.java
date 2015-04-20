@@ -42,7 +42,7 @@ public class UserEntity implements IEntity {
     }
 
     @Basic
-    @Column(name = "userGroupId", nullable = true, insertable = true, updatable = true)
+    @Column(name = "userGroupId", nullable = true, insertable = false, updatable = false)
     public Integer getUserGroupId() {
         return _userGroupId;
     }

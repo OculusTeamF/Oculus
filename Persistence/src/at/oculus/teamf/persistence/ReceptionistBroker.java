@@ -13,6 +13,8 @@ import at.oculus.teamf.domain.entity.Receptionist;
 import at.oculus.teamf.persistence.entity.ReceptionistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 
+import java.sql.Timestamp;
+
 /**
  * Created by Norskan on 08.04.2015.
  */
@@ -59,8 +61,8 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 		userEntity.setFirstName(entity.getFirstName());
 		userEntity.setLastName(entity.getLastName());
 		userEntity.setEmail(entity.getEmail());
-		userEntity.setCreateDate(entity.getCreateDate());
-		userEntity.setIdleDate(entity.getIdleDate());
+		userEntity.setCreateDate((Timestamp) entity.getCreateDate());
+		userEntity.setIdleDate((Timestamp) entity.getIdleDate());
 		//userEntity.setUserGroup(entity.getUserGroup());
 		receptionistEntity.setUser(userEntity);
 		return null;

@@ -15,6 +15,8 @@ import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.FacadeException;
 
+import java.sql.Timestamp;
+
 /**
  * Created by Norskan on 10.04.2015.
  */
@@ -72,8 +74,8 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		userEntity.setFirstName(entity.getFirstName());
 		userEntity.setLastName(entity.getLastName());
 		userEntity.setEmail(entity.getEmail());
-		userEntity.setCreateDate(entity.getCreateDate());
-		userEntity.setIdleDate(entity.getIdleDate());
+		userEntity.setCreateDate((Timestamp) entity.getCreateDate());
+		userEntity.setIdleDate((Timestamp) entity.getIdleDate());
 		//userEntity.setUserGroup(entity.getUserGroup());
 		orthoptistEntity.setUser(userEntity);
 		return orthoptistEntity;
