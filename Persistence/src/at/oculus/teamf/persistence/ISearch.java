@@ -19,6 +19,6 @@ import java.util.List;
 /**
  * ISearch.java Created by oculus on 17.04.15.
  */
-public interface ISearch<T> {
+interface ISearch<T> {
 	public Collection<T> search(ISession session, String[] params) throws FacadeException;
 }

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.*;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.FacadeException;

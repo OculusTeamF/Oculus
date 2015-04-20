@@ -14,6 +14,9 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.Collection;
 
 /**
@@ -26,9 +29,11 @@ import java.util.Collection;
  */
 public class HibernateSessionBroker implements ISessionBroker {
 
+    private Collection<Class> _clazzes;
+
     private SessionFactory _sessionFactory;
 
-    private Collection<Class> _clazzes;
+    private EntityManagerFactory _entityManagerFactory;
 
     /**
      * Creates a new {@code #HibernateSessionBroker}
@@ -53,6 +58,8 @@ public class HibernateSessionBroker implements ISessionBroker {
         ServiceRegistry serviceRegistry =
                 new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
         _sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+        _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f");
     }
 
     /**
@@ -62,7 +69,7 @@ public class HibernateSessionBroker implements ISessionBroker {
      */
     @Override
     public ISession getSession() {
-        return new HibernateSession(_sessionFactory.openSession(), _clazzes);
+        return new HibernateSession(_entityManagerFactory.createEntityManager(), _sessionFactory.openSession(), _clazzes);
     }
 
     /**

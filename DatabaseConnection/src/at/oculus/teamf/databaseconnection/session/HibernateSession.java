@@ -46,7 +46,7 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
 	private EntityManagerFactory _entityManagerFactory;
 	private EntityManager _entityManager;
 
-    public HibernateSession(Session session, Collection<Class> classes) {
+    public HibernateSession(EntityManager entityManager, Session session, Collection<Class> classes) {
         _session = session;
 
         _clazzes = new HashSet<Class>();
@@ -54,9 +54,7 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
             _clazzes.add(clazz);
         }
 
-        _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f");
-
-        _entityManager = _entityManagerFactory.createEntityManager();
+        _entityManager = entityManager;
     }
 
     /**
