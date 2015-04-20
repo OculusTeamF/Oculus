@@ -1,0 +1,20 @@
+#displayPane{
+    -fx-background-image: url("oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 379 108;
+    -fx-background-position: center;
+    -fx-background-color: dimgray;
+}
+#waitingListBox{
+    -fx-background-color: dimgray;
+}
+#newPatientPane{
+    -fx-background-color: dimgray;
+}
+#patientRecordPane{
+    -fx-background-color: dimgray;
+}
+#searchPatientPane{
+    -fx-background-color: dimgray;
+}
+
