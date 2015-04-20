@@ -93,9 +93,12 @@ public class StartupController implements ILogger{
         }
         Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
-        for (Doctor doctor : doctors){
-            queues.add(doctor.getQueue());
+        if (doctors != null){
+            for (Doctor doctor : doctors){
+                queues.add(doctor.getQueue());
+            }
         }
+
         return queues;
     }
 
@@ -121,8 +124,10 @@ public class StartupController implements ILogger{
 
         Collection<IDoctor> iDoctors = new LinkedList<IDoctor>();
 
-        for(Doctor doc : doctors){
-            iDoctors.add((IDoctor)doc);
+        if (doctors != null){
+            for(Doctor doc : doctors){
+                iDoctors.add(doc);
+            }
         }
         return iDoctors;
     }
@@ -148,8 +153,10 @@ public class StartupController implements ILogger{
 
         Collection<IOrthoptist> iOrthoptists = new LinkedList<IOrthoptist>();
 
-        for(Orthoptist o : orthoptists){
-            iOrthoptists.add((IOrthoptist)o);
+        if (orthoptists != null){
+            for(Orthoptist o : orthoptists){
+                iOrthoptists.add(o);
+            }
         }
         return iOrthoptists;
     }
@@ -176,8 +183,10 @@ public class StartupController implements ILogger{
         }
         Collection<ICalendar> iCalendars = new LinkedList<ICalendar>();
 
-        for(Calendar c : calendars){
-            iCalendars.add((ICalendar)c);
+        if (calendars != null){
+            for(Calendar c : calendars){
+                iCalendars.add((ICalendar)c);
+            }
         }
         return iCalendars;
     }
