@@ -20,6 +20,8 @@ import at.oculus.teamf.domain.entity.IPatient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -55,14 +57,32 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
     @FXML public TextArea patientRecordMedicineIntolerance;
+    @FXML public Tab searchPatientTab;
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
     private IPatient patient = Main.controller.getPatient();
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        searchPatientTab.setOnCloseRequest(new EventHandler<Event>() {
+            @Override
+            public void handle(Event t) {
+
+                Boolean closing = false;
+
+                if (closing == false){
+
+                    System.out.println("Closing tab.....");
+                } else {
+                    t.consume(); // eat event
+                    System.out.println("Do not close tab.....");
+                }
+            }
+        });
+
         patientRecordSaveButton.setDisable(true);
 
         patientRecordradioGenderFemale.setToggleGroup(group);

@@ -110,11 +110,8 @@ public class searchPatientController implements Initializable{
                     mb.centerOnScreen();
                     mb.showAndWait();
 
-
-
                     //open Patient record
                     openPatientRecord(currPatientItem);
-
                 }
             }
         });
