@@ -102,5 +102,5 @@ public interface ISession {
 	 */
 	Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
 
-	List<Object> search(String queryName, String[] parameters) throws BadSessionException;
+	Collection<Object> search(String queryName, String[] parameters) throws BadSessionException;
 }
