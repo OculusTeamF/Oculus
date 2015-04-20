@@ -14,12 +14,12 @@ import java.util.Collection;
 /**
  * Created by FabianLaptop on 08.04.2015.
  */
-public interface ICalendar {
-    int getCalendarID();
+public interface ICalendar extends IDomain{
+    int getId();
 
-    void addCalendarID(int calendarID);
+    /*
+    void setId(int calendarID);
 
-    Collection<CalendarEvent> getEvents();
-
-    void addEvents(Collection<CalendarEvent> events);
+    void setEvents(Collection<CalendarEvent> events);
+    */
 }

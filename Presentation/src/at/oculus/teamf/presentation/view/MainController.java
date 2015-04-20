@@ -147,6 +147,7 @@ public class MainController implements Initializable {
     public void openCal(ActionEvent event) {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("agenda2.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,6 +161,7 @@ public class MainController implements Initializable {
     public void newPatient(ActionEvent actionEvent) {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("newPatientTab.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,7 +173,6 @@ public class MainController implements Initializable {
         try {
             currPatient = patient;
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("patientRecordTab.fxml")));
-
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
 
         } catch (IOException e) {

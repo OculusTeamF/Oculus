@@ -19,10 +19,9 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.domain.entity.IPatient;
-import at.oculus.teamf.domain.entity.IPatientQueue;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.*;
+
+import java.util.Date;
 
 /**
  * <h2>$ReceivePatientController</h2>
@@ -31,6 +30,24 @@ import at.oculus.teamf.domain.entity.PatientQueue;
  * This class contains all the necessary methods for the usecase ReceivePatient.
  **/
 public class ReceivePatientController {
+
+    /**
+     *<h3>$createNewExaminationProtocol</h3>
+     *
+     * <b>Description:</b>
+     * This method is being used to create a new examination protocol. The given information via parameters is given to
+     * the new object and then added to the patient. The protocol is then given to the presentation layer as an
+     * interface to review it.
+     */
+    public IExaminationProtocol createNewExaminationProtocol(Date starttime, Date endtime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) {
+        ExaminationProtocol examinationProtocol = new ExaminationProtocol(
+                0, starttime, endtime, description, (Patient) iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
+        );
+        Patient patient = (Patient) iPatient;
+        patient.addExaminationProtocol(examinationProtocol);
+
+        return examinationProtocol;
+    }
 
     /**
      *<h3>$removePatientFromQueue</h3>

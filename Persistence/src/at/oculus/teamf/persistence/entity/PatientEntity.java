@@ -27,7 +27,7 @@ import java.util.Collection;
 		        "AND UPPER(firstName) like UPPER(?1) " +
 		        "AND UPPER(lastName) like UPPER(?2)",
 		resultClass = PatientEntity.class),
-
+		
         @NamedNativeQuery(
 		name = "getPatientByAll",
 		query = "select * from patient where CONCAT(UPPER(firstName),UPPER(lastName),UPPER(socialInsuranceNr)) like UPPER(?0)",

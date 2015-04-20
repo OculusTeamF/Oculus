@@ -15,7 +15,7 @@ import java.util.Date;
  * ExaminationProtocol.java
  * Created by oculus on 16.04.15.
  */
-public class ExaminationProtocol implements IDomain {
+public class ExaminationProtocol implements IExaminationProtocol {
     private int _id;
 	private Date _startTime;
 	private Date _endTime;
@@ -48,52 +48,66 @@ public class ExaminationProtocol implements IDomain {
 		_id = id;
 	}
 
-	public Date getStartTime() {
+	@Override
+    public Date getStartTime() {
 		return _startTime;
 	}
-	public void setStartTime(Date startTime) {
+	@Override
+    public void setStartTime(Date startTime) {
 		_startTime = startTime;
 	}
 
-	public Date getEndTime() {
+	@Override
+    public Date getEndTime() {
 		return _endTime;
 	}
-	public void setEndTime(Date endTime) {
+	@Override
+    public void setEndTime(Date endTime) {
 		_endTime = endTime;
 	}
 
-	public String getDescription() {
+	@Override
+    public String getDescription() {
 		return _description;
 	}
-	public void setDescription(String description) {
+	@Override
+    public void setDescription(String description) {
 		_description = description;
 	}
 
-	public Doctor getDoctor() {
+	@Override
+    public Doctor getDoctor() {
 		return _doctor;
 	}
-	public void setDoctor(Doctor doctor) {
+	@Override
+    public void setDoctor(Doctor doctor) {
 		_doctor = doctor;
 	}
 
-	public Orthoptist getOrthoptist() {
+	@Override
+    public Orthoptist getOrthoptist() {
 		return _orthoptist;
 	}
-	public void setOrthoptist(Orthoptist orthoptist) {
+	@Override
+    public void setOrthoptist(Orthoptist orthoptist) {
 		_orthoptist = orthoptist;
 	}
 
-	public Diagnosis getDiagnosis() {
+	@Override
+    public Diagnosis getDiagnosis() {
 		return _diagnosis;
 	}
-	public void setDiagnosis(Diagnosis diagnosis) {
+	@Override
+    public void setDiagnosis(Diagnosis diagnosis) {
 		_diagnosis = diagnosis;
 	}
 
-	public Patient getPatient() {
+	@Override
+    public Patient getPatient() {
 		return _patient;
 	}
-	public void setPatient(Patient patient) {
+	@Override
+    public void setPatient(Patient patient) {
 		_patient = patient;
 	}
 }

@@ -9,14 +9,38 @@
 
 package at.oculus.teamf.domain.entity;
 
-/**
- * Created by Norskan on 03.04.2015.
- */
-public class OrthoptistAppointment extends EventType implements IOrthoptistAppointment {
-	public OrthoptistAppointment() {
-	}
+import at.oculus.teamf.technical.loggin.ILogger;
 
-	public OrthoptistAppointment(int id, String eventTypeName, int estimatedTime, String description) {
-		super(id, eventTypeName, estimatedTime, description);
-	}
+import java.sql.Timestamp;
+
+/**
+ * Created by oculus on 20.04.15.
+ */
+public interface IQueueEntry extends IDomain, ILogger {
+    int getId();
+
+    void setId(int id);
+
+    Doctor getDoctor();
+
+    void setDoctor(Doctor doctor);
+
+    Orthoptist getOrthoptist();
+
+    void setOrthoptist(Orthoptist orthoptist);
+
+    Patient getPatient();
+
+    void setPatient(Patient patient);
+
+    Integer getQueueIdParent();
+
+    void setQueueIdParent(Integer queueIdParent);
+
+    Timestamp getArrivalTime();
+
+    void setArrivalTime(Timestamp arrivalTime);
+
+    @Override
+    String toString();
 }

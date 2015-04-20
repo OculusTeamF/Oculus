@@ -185,11 +185,51 @@ public class StartupController implements ILogger{
 
         if (calendars != null){
             for(Calendar c : calendars){
-                iCalendars.add((ICalendar)c);
+                iCalendars.add(c);
             }
         }
         return iCalendars;
     }
 
+    /**
+     *<h3>$getAllEntries</h3>
+     *
+     * <b>Description:</b>
+     * This method returns all available calendar entries. We get a list of all calendar events from the persistence
+     * layer and return a list of interfaces.
+     *
+     **/
+    public Collection<ICalendarEvent> getAllEntries (ICalendar iCalendar) {
+        Calendar calendar = (Calendar) iCalendar;
+        Collection <CalendarEvent> calendarEvents = calendar.getEvents();
+        Collection <ICalendarEvent> iCalendarEvents = new LinkedList <ICalendarEvent>();
 
+        if (calendarEvents != null){
+            for (CalendarEvent event : calendarEvents){
+                iCalendarEvents.add(event);
+            }
+        }
+
+        return iCalendarEvents;
+    }
+
+    /**
+     *<h3>$getAllEntries</h3>
+     *
+     * <b>Description:</b>
+     * This method returns all available calendar entries for a single patient.
+     *
+     **/
+    public Collection <ICalendarEvent> getEventsFromPatient (IPatient iPatient){
+        Patient patient = (Patient) iPatient;
+        Collection <CalendarEvent> events = patient.getCalendarEvents();
+        Collection <ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();
+
+        if (events != null){
+            for (CalendarEvent event : events){
+                iEvents.add(event);
+            }
+        }
+        return iEvents;
+    }
 }

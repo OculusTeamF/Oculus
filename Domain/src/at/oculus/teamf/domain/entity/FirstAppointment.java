@@ -12,7 +12,7 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public class FirstAppointment extends EventType{
+public class FirstAppointment extends EventType implements IFirstAppointment {
 	public FirstAppointment() {
 	}
 

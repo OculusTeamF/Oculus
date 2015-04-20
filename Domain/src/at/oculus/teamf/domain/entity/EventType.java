@@ -12,7 +12,7 @@ package at.oculus.teamf.domain.entity;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public abstract class EventType implements IDomain {
+public abstract class EventType implements IEventType {
 	//<editor-fold desc="Attributes">
 	private int _id;
 	private String _eventTypeName;
@@ -31,35 +31,43 @@ public abstract class EventType implements IDomain {
 	}
 
 	//<editor-fold desc="Getter/Setter">
-	public int getId() {
+	@Override
+    public int getId() {
 		return _id;
 	}
 
-	public void setId(int id) {
+	@Override
+    public void setId(int id) {
 		_id = id;
 	}
 
-	public String getEventTypeName() {
+	@Override
+    public String getEventTypeName() {
 		return _eventTypeName;
 	}
 
-	public void setEventTypeName(String eventTypeName) {
+	@Override
+    public void setEventTypeName(String eventTypeName) {
 		_eventTypeName = eventTypeName;
 	}
 
-	public int getEstimatedTime() {
+	@Override
+    public int getEstimatedTime() {
 		return _estimatedTime;
 	}
 
-	public void setEstimatedTime(int estimatedTime) {
+	@Override
+    public void setEstimatedTime(int estimatedTime) {
 		_estimatedTime = estimatedTime;
 	}
 
-	public String getDescription() {
+	@Override
+    public String getDescription() {
 		return _description;
 	}
 
-	public void setDescription(String description) {
+	@Override
+    public void setDescription(String description) {
 		_description = description;
 	}
 	//</editor-fold>
