@@ -24,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -62,6 +63,9 @@ public class MainController implements Initializable {
      */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        Reflection reflection = new Reflection();
+        displayPane.setEffect(reflection);
+
         // search button init
         Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
         searchButton.setGraphic(new ImageView(imageDecline));

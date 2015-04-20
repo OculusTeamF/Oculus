@@ -77,15 +77,19 @@ public class patientRecordController implements Initializable {
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
+                if(isFormEdited) {
+                    MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
+                    mb1.setHeight(150);
+                    mb1.centerOnScreen();
+                    mb1.showAndWait();
 
-                Boolean closing = false;
-
-                if (closing == false) {
-
-                    System.out.println("Closing tab.....");
-                } else {
-                    t.consume(); // eat event
-                    System.out.println("Do not close tab.....");
+                    if(mb1.getMessageBoxResult() == MessageBoxResult.OK)
+                    {
+                        saveChanges();
+                    }else{
+                        t.consume();
+                        //TODO: close Tab;
+                    }
                 }
             }
         });
