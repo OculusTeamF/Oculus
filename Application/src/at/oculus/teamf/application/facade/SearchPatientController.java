@@ -33,7 +33,9 @@ import java.util.LinkedList;
  *
  * <b>Description:</b>
  * This class contains all the necessary methods for the UseCase SearchPatient.
- * This is only one method, which is called searchPatient().
+ * This are only two methods, which are both called searchPatient(). The only difference are the given parameters.
+ * In the first method only one parameter is necessary (with full text search) and in the other method
+ * are three parameters available.
  **/
 
 public class SearchPatientController implements ILogger{
@@ -42,24 +44,57 @@ public class SearchPatientController implements ILogger{
      *<h3>$searchPatients</h3>
      *
      * <b>Description:</b>
-     * This method gets the three parameters svn, lastName and firstName. With the help of the facade,
+     * This method gets one  parameter data. With the help of the facade,
      * we get a collection of selected Patients.
+     * If no patient is found, an empty list is returned.
+     * This collection is transformed into a Collection of Patient-Interfaces,
+     * which can be returned to the presentation layer.
+     *
+     *<b>Parameter</b>
+     * @param data this is all given information to search the patient (with full-text-search)
+     */
+
+    public Collection <IPatient> searchPatients (String data){
+
+        Facade facade = Facade.getInstance();
+        Collection<Patient> patients = new LinkedList<Patient>();
+        try {
+            patients = facade.search(Patient.class, data);
+            //patients = facade.searchPatient(svn, firstName, lastName);
+        } catch (FacadeException e) {
+            log.warn("Facade Exception caught!");
+            e.printStackTrace();
+        }
+
+        Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
+        for(Patient patient : patients){
+            selectedPatients.add(patient);
+        }
+
+        return selectedPatients;
+    }
+
+    /**
+     *<h3>$searchPatients</h3>
+     *
+     * <b>Description:</b>
+     * This method gets the three parameters svn, lastName and firstName. With the help of the facade,
+     * we get a collection of selected Patients. If no patient is found, an empty list is returned.
      * This collection is transformed into a Collection of Patient-Interfaces,
      * which can be returned to the presentation layer.
      *
      *<b>Parameter</b>
      * @param svn this is the social insurance number of the searched patient
-     * @param lastName this is the last name of the searched patient
      * @param firstName this is the first name of the searched patient
+     * @param lastName this is the last name of the searched patient
      */
 
-    public Collection <IPatient> searchPatients (String svn, String lastName, String firstName){
+    public Collection <IPatient> searchPatients (String svn, String firstName, String lastName){
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
-            patients = facade.search(Patient.class, lastName);
-            //patients = facade.searchPatient(svn, firstName, lastName);
+            patients = facade.search(Patient.class, svn, firstName, lastName);
         } catch (FacadeException e) {
             log.warn("Facade Exception caught!");
             e.printStackTrace();

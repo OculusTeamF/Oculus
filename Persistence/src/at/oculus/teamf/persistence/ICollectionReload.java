@@ -15,6 +15,6 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 /**
  * Created by Norskan on 07.04.2015.
  */
-public interface ICollectionReload {
+interface ICollectionReload {
     void reload(ISession session, Object obj, Class clazz) throws FacadeException;
 }

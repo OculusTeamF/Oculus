@@ -15,13 +15,23 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade;
 */
 
+import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.IPatient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import se.mbaeumer.fxmessagebox.MessageBox;
+import se.mbaeumer.fxmessagebox.MessageBoxResult;
+import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class patientRecordController implements Initializable {
@@ -31,36 +41,135 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordFirstname;
     @FXML public TextField patientRecordSVN;
     @FXML public DatePicker patientRecordBday;
-    @FXML public TextField patientRecordStreet;
     @FXML public TextField patientRecordCountryIsoCode;
     @FXML public TextField patientRecordPhone;
     @FXML public TextField patientRecordEmail;
     @FXML public TextField patientRecordPLZ;
-    @FXML public TextField newPatientCity;
+    @FXML public TextField patientRecordStreet;
     @FXML public ChoiceBox patientRecordDoctor;
     @FXML public RadioButton patientRecordradioGenderFemale;
     @FXML public RadioButton patientRecordradioGenderMale;
     @FXML public ListView patientRecordAppointmentList;
     @FXML public Button patientRecordSaveButton;
     @FXML public Button patientRecordEditButton;
-    @FXML public Tab patientRecordTab;
+    @FXML public TextField patientRecordCity;
+    @FXML public TextArea patientRecordAllergies;
+    @FXML public TextArea patientRecordMedicineIntolerance;
+
+    private boolean isFormEdited = false;
+    private ToggleGroup group = new ToggleGroup();
+    private IPatient patient = Main.controller.getPatient();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        IPatient patient = Main.controller.getPatient();
+        patientRecordSaveButton.setDisable(true);
+
+        patientRecordradioGenderFemale.setToggleGroup(group);
+        patientRecordradioGenderMale.setToggleGroup(group);
 
         patientRecordLastname.setText(patient.getLastName());
         patientRecordFirstname.setText(patient.getFirstName());
+
+        if(patient.getGender().equals("female"))
+        {
+            patientRecordradioGenderFemale.setSelected(true);
+            patientRecordradioGenderFemale.setDisable(true);
+        }else{
+            patientRecordradioGenderMale.setSelected(true);
+            patientRecordradioGenderMale.setDisable(true);
+        }
+
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
+
+        Date bday = (Date) patient.getBirthDay();
+        patientRecordBday.setAccessibleText(String.valueOf(bday));
+
+        patientRecordStreet.setText(patient.getStreet());
+        patientRecordPLZ.setText(patient.getPostalCode());
+        patientRecordCity.setText(patient.getCity());
+        patientRecordCountryIsoCode.setText(patient.getCountryIsoCode());
+        patientRecordPhone.setText(patient.getPhone());
+        patientRecordEmail.setText(patient.getEmail());
+
+        patientRecordDoctor.selectionModelProperty().setValue(patient.getDoctor());
+        patientRecordDoctor.setDisable(true);
+
+        ObservableList<CalendarEvent> appointments = FXCollections.observableArrayList(patient.getCalendarEvents());
+        patientRecordAppointmentList.setItems(appointments);
+
+        patientRecordAllergies.setText(patient.getAllergy());
+        patientRecordMedicineIntolerance.setText(patient.getMedicineIntolerance());
+
     }
 
-    public void saveForm(ActionEvent actionEvent) {
+   @FXML
+    public void editForm(ActionEvent actionEvent)
+    {
+        patientRecordradioGenderMale.setDisable(false);
+        patientRecordradioGenderFemale.setDisable(false);
+        patientRecordLastname.setEditable(true);
+        patientRecordFirstname.setEditable(true);
+        patientRecordSVN.setEditable(true);
+        patientRecordBday.setEditable(true);
+        patientRecordStreet.setEditable(true);
+        patientRecordPLZ.setEditable(true);
+        patientRecordCity.setEditable(true);
+        patientRecordCountryIsoCode.setEditable(true);
+        patientRecordPhone.setEditable(true);
+        patientRecordEmail.setEditable(true);
+        patientRecordDoctor.setDisable(false);
+        patientRecordAllergies.setEditable(true);
+
+        isFormEdited = true;
+
+        patientRecordSaveButton.setDisable(false);
+    }
+    @FXML
+    public void saveChangedForm(ActionEvent actionEvent)
+    {
+        if(patientRecordradioGenderFemale.isSelected())
+        {
+            patient.setGender("female");
+        }else{
+            patient.setGender("male");
+        }
+        patient.setLastName(patientRecordLastname.getText());
+        patient.setFirstName(patientRecordFirstname.getText());
+        patient.setSocialInsuranceNr(patientRecordSVN.getText());
+
+        LocalDate localDate = patientRecordBday.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        java.util.Date utildate = java.sql.Date.from(instant);
+        java.sql.Date bday = new java.sql.Date(utildate.getTime());
+        patient.setBirthDay(bday);
 
     }
 
-    public void onClose(ActionEvent actionEvent) {
+    @FXML
+    public void onClose(ActionEvent actionEvent)
+    {
+        if(isFormEdited)
+        {
+            MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
 
+            if(mb1.getMessageBoxResult() == MessageBoxResult.OK)
+            {
+                saveChanges();
+            }else{
+
+            }
+        }
+    }
+
+    /**
+     * saves the changes in the patient record
+     */
+    private void saveChanges()
+    {
 
     }
 }

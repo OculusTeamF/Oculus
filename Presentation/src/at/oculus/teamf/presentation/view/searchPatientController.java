@@ -81,7 +81,7 @@ public class searchPatientController implements Initializable{
         String svn = searchPatientSVN.getText();
 
 
-        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_searchPatientController.searchPatients(svn,lastName,firstName));
+        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_searchPatientController.searchPatients(svn,firstName,lastName));
 
        if(patientlist.size() > 0)
         {

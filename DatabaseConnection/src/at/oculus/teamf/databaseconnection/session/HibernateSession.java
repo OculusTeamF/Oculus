@@ -9,6 +9,10 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
+import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.hibernate.*;
 
@@ -19,7 +23,6 @@ import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Encapsulated hibernate session that can be simple exchanged thought the {@code #ISession} implementation.
@@ -39,17 +42,19 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
     //classes that can be serialised and deserialised
     private HashSet<Class> _clazzes;
 
-	private static EntityManagerFactory _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f");
 
-	private static EntityManager _entityManager = _entityManagerFactory.createEntityManager();
+	private EntityManagerFactory _entityManagerFactory;
+	private EntityManager _entityManager;
 
-    public HibernateSession(Session session, Collection<Class> classes) {
+    public HibernateSession(EntityManager entityManager, Session session, Collection<Class> classes) {
         _session = session;
 
         _clazzes = new HashSet<Class>();
         for(Class clazz : classes) {
             _clazzes.add(clazz);
         }
+
+        _entityManager = entityManager;
     }
 
     /**
@@ -275,15 +280,22 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
 		return false;
 	}
 
+    /**
+     * Searches for an database entry by using named queries and parameters.
+     *
+     * @param queryName namedquery name that is spezivied in the entity
+     * @param parameters to use in the query if needed
+     * @return a collection of objects or null if no entry was found
+     */
 	@Override
-	public List<Object> search(String queryName, String[] parameters) throws BadSessionException {
+	public Collection<Object> search(String queryName, String[] parameters) throws BadSessionException {
 		validateSession();
 		Query query = _entityManager.createNamedQuery(queryName);
 		for(Integer i = 0; i < parameters.length; i++){
             try{
                 query.setParameter(i.toString(), "%"+parameters[i].replace(" ","%")+"%");
             } catch (Exception e) {
-                // niaccchhtt
+                log.error("A error occurred when trying to search for an object through named queries! OriginalMessage: " + e.getMessage());
             }
 		}
 		return query.getResultList();

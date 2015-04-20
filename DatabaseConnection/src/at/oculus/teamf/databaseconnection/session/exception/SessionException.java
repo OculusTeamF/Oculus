@@ -7,25 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.databaseconnection.session;
+package at.oculus.teamf.databaseconnection.session.exception;
 
 /**
- * Is thrown when a class was not mapped.
+ * SessionException indicates that something went wrong when calling a method from the session.
  *
  * @author Simon Angerer
  * @date 30.03.2015
  * @version 1.0
  */
-public class ClassNotMappedException extends SessionException {
-
-    private String _clazz;
-
-    public ClassNotMappedException(String clazz) {
-        _clazz = clazz;
-    }
-
-    @Override
-    public String getMessage() {
-        return "Class was not mapped: " + _clazz;
-    }
+public class SessionException extends Exception {
 }

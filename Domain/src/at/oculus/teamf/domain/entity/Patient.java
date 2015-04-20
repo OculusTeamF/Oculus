@@ -83,8 +83,16 @@ public class Patient implements IPatient, IDomain {
         return _gender;
     }
 
+    public void setGender(String gender){
+        if(gender.equals("male")){
+            setGender(Gender.Male);
+        }else if(gender.equals("female")){
+            setGender(Gender.Female);
+        }
+    }
+
     public void setGender(Gender gender) {
-        _gender = _gender;
+        _gender = gender;
     }
 
     public Doctor getDoctor() {

@@ -32,9 +32,18 @@ import at.oculus.teamf.domain.entity.PatientQueue;
  **/
 public class ReceivePatientController {
 
-    /*createUntersuchungsprotokoll holt instanz und gibt sie an presentation layer .
-    * Presentation layer füllt  protokoll aus und speichert.
-    * Methode saveUntersuchungsprotokoll speichert Protokoll zu Patient*/
+    /**
+     *<h3>$removePatientFromQueue</h3>
+     *
+     * <b>Description:</b>
+     * This method should remove a patient from a given queue. The two parameters are interfaces of a
+     * patient and of a queue. These interfaces were parsed into objects and afterwards the patient-object
+     * gets removed from the queue-object. The patient is no longer available in the specified queue.
+     *
+     *<b>Parameter</b>
+     * @param ipatient the interface of the patient which should be removed from the specified queue
+     * @param iqueue the interface of the queue from which the specified patient should be removed
+     */
 
     public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue){
         Patient patient = (Patient) ipatient;

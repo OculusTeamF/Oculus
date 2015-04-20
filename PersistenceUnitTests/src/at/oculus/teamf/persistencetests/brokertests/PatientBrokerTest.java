@@ -12,12 +12,10 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.ISearch;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import org.junit.Test;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 import static junit.framework.Assert.assertTrue;
 
