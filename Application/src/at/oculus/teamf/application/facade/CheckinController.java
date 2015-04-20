@@ -36,19 +36,12 @@ public class CheckinController implements ILogger {
      *<b>Parameter</b>
      * @param ipatient this parameter shows the interface of the patient which should be added to the queue of the specified user
      * @param iuser the patient should be added to the queue of this user
-     * @param iqueue this is the interface of the queue, to which the patient should be added
      *
      */
-    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser, IPatientQueue iqueue) throws CheckinControllerException {
-
+    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CheckinControllerException {
         Patient patient = (Patient) ipatient;
         User user = (User) iuser;
-        PatientQueue queue = (PatientQueue) iqueue;
 
-        if(queue == null) {
-            log.warn("Queue can not be null!");
-            throw new QueueNotFoundException();
-        }
         if(user == null){
             log.warn("User can not be null!");
             throw new UserNotFoundException();
@@ -58,11 +51,25 @@ public class CheckinController implements ILogger {
             throw new PatientNotFoundException();
         }
 
+
         Timestamp tstamp = new Timestamp(new Date().getTime());
+        PatientQueue queue = null;
+        Doctor doctor = null;
+        Orthoptist orthoptist = null;
+
         if(user instanceof Doctor){
-            queue.addPatient(patient, (Doctor)user, null, tstamp);
+            doctor = (Doctor) iuser;
+            queue = doctor.getQueue();
         }else if(user instanceof Orthoptist){
-            queue.addPatient(patient, null, (Orthoptist)user, tstamp);
+            orthoptist = (Orthoptist) iuser;
+            queue = orthoptist.getQueue();
+        }
+
+        if(queue != null){
+            queue.addPatient(patient, doctor, orthoptist, tstamp);
+        }else{
+            log.warn("Queue can not be null");
+            throw new QueueNotFoundException();
         }
     }
 }
