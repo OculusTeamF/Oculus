@@ -32,8 +32,8 @@ public interface IPatient {
     String getSocialInsuranceNr();
     void setSocialInsuranceNr(String svn);
 
-    Doctor getDoctor();
-    void setDoctor(Doctor doctor);
+    IDoctor getIDoctor();
+    void setIDoctor(IDoctor idoctor);
 
     Collection<CalendarEvent> getCalendarEvents();
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);

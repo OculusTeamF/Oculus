@@ -125,7 +125,17 @@ public class Patient implements IPatient, IDomain {
 		_socialInsuranceNr = socialInsuranceNr;
 	}
 
-	public Date getBirthDay() {
+    @Override
+    public IDoctor getIDoctor() {
+        return _doctor;
+    }
+
+    @Override
+    public void setIDoctor(IDoctor idoctor) {
+        _doctor = (Doctor) idoctor;
+    }
+
+    public Date getBirthDay() {
 		return _birthDay;
 	}
 
