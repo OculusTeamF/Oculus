@@ -66,7 +66,7 @@ public class PatientEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "doctorId", nullable = true, insertable = false, updatable = false)
+	@Column(name = "doctorId", nullable = true, insertable = true, updatable = true)
 	public Integer getDoctorId() {
 		return _doctorId;
 	}
@@ -76,7 +76,7 @@ public class PatientEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "socialInsuranceNr", nullable = true, insertable = false, updatable = false, length = 10)
+	@Column(name = "socialInsuranceNr", nullable = true, insertable = true, updatable = true, length = 10)
 	public String getSocialInsuranceNr() {
 		return _socialInsuranceNr;
 	}
