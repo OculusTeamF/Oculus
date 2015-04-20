@@ -51,9 +51,18 @@ public class patientRecordController implements Initializable {
 
         patientRecordLastname.setText(patient.getLastName());
         patientRecordFirstname.setText(patient.getFirstName());
-        patientRecordSVN.setText(patient.getSocialInsuranceNr());
-        
 
+        if(patient.getGender().equals("female"))
+        {
+            patientRecordradioGenderFemale.isSelected();
+        }else{
+            patientRecordradioGenderMale.isSelected();
+        }
+
+        patientRecordSVN.setText(patient.getSocialInsuranceNr());
+        patientRecordBday.setAccessibleText(patient.getBday());
+        patientRecordStreet.setText(patient.getStreet());
+        patientRecordPLZ.setText(patient.get);
     }
 
     public void saveForm(ActionEvent actionEvent) {

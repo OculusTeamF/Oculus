@@ -48,6 +48,7 @@ public class newPatientController implements Initializable{
     @FXML public ChoiceBox newPatientDoctor;
     @FXML public Button newPatientSaveButton;
     @FXML public TextField newPatientCountryIsoCode;
+    @FXML public RadioButton patientRecordradioGenderFemale;
 
     CreatePatientController createPatientController = new CreatePatientController();
     StartupController startupController = new StartupController();
