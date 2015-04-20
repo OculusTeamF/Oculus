@@ -48,10 +48,10 @@ public class newPatientController implements Initializable{
     @FXML public ChoiceBox newPatientDoctor;
     @FXML public Button newPatientSaveButton;
     @FXML public TextField newPatientCountryIsoCode;
-    @FXML public RadioButton patientRecordradioGenderFemale;
 
-    CreatePatientController createPatientController = new CreatePatientController();
-    StartupController startupController = new StartupController();
+    private CreatePatientController createPatientController = new CreatePatientController();
+    private StartupController startupController = new StartupController();
+    private ToggleGroup group = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -79,6 +79,10 @@ public class newPatientController implements Initializable{
         String email = newPatientEmail.getText();
         IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
         String countryIsoCode = newPatientCountryIsoCode.getText();
+
+        radioGenderFemale.setToggleGroup(group);
+        radioGenderMale.setToggleGroup(group);
+        radioGenderFemale.setSelected(true);
 
         if(radioGenderFemale.isSelected()){
             gender = "female";
@@ -123,8 +127,5 @@ public class newPatientController implements Initializable{
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }
