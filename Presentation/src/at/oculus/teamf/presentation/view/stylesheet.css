@@ -1,7 +1,7 @@
 #displayPane{
-    -fx-background-image: url("oculus.JPG");
+    -fx-background-image: url("/res/oculus_logo_reflect.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 379 108;
+    -fx-background-size: 416 175;
     -fx-background-position: center;
     -fx-background-color: white;
 }
