@@ -60,9 +60,10 @@ public class patientRecordController implements Initializable {
     @FXML public Button patientRecordEditButton;
     @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
-    @FXML public TextArea patientRecordMedicineIntolerance;
     @FXML public Tab patientRecordTab;
     @FXML public Button addToQueue;
+    @FXML public TextArea patientRecordIntolerance;
+    @FXML public TextArea patientRecordChildhood;
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
@@ -78,7 +79,7 @@ public class patientRecordController implements Initializable {
 
                 Boolean closing = false;
 
-                if (closing == false){
+                if (closing == false) {
 
                     System.out.println("Closing tab.....");
                 } else {
@@ -109,7 +110,7 @@ public class patientRecordController implements Initializable {
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
 
-        Date bday = (Date) patient.getBirthDay();
+        Date bday = patient.getBirthDay();
         patientRecordBday.setAccessibleText(String.valueOf(bday));
 
         patientRecordStreet.setText(patient.getStreet());
@@ -123,8 +124,8 @@ public class patientRecordController implements Initializable {
         patientRecordDoctor.setDisable(true);
 
         patientRecordAllergies.setText(patient.getAllergy());
-        patientRecordMedicineIntolerance.setText(patient.getMedicineIntolerance());
-
+        patientRecordIntolerance.setText(patient.getMedicineIntolerance());
+        patientRecordChildhood.setText(patient.getChildhoodAilments());
     }
 
    @FXML
@@ -144,30 +145,19 @@ public class patientRecordController implements Initializable {
         patientRecordEmail.setEditable(true);
         patientRecordDoctor.setDisable(false);
         patientRecordAllergies.setEditable(true);
+        patientRecordIntolerance.setEditable(true);
+        patientRecordChildhood.setEditable(true);
 
         isFormEdited = true;
-
         patientRecordSaveButton.setDisable(false);
     }
+    /**
+     * saves the changes in the patient record
+     */
     @FXML
     public void saveChangedForm(ActionEvent actionEvent)
     {
-        if(patientRecordradioGenderFemale.isSelected())
-        {
-            patient.setGender("female");
-        }else{
-            patient.setGender("male");
-        }
-        patient.setLastName(patientRecordLastname.getText());
-        patient.setFirstName(patientRecordFirstname.getText());
-        patient.setSocialInsuranceNr(patientRecordSVN.getText());
-
-        LocalDate localDate = patientRecordBday.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        java.util.Date utildate = java.sql.Date.from(instant);
-        java.sql.Date bday = new java.sql.Date(utildate.getTime());
-        patient.setBirthDay(bday);
-
+        saveChanges();
     }
 
     @FXML
@@ -184,16 +174,40 @@ public class patientRecordController implements Initializable {
             {
                 saveChanges();
             }else{
-
+                //TODO: close Tab;
             }
         }
     }
 
     /**
-     * saves the changes in the patient record
+     * save Changes in Patient Record Form
      */
     private void saveChanges()
     {
+        if(patientRecordradioGenderFemale.isSelected())
+        {
+            patient.setGender("female");
+        }else{
+            patient.setGender("male");
+        }
+        patient.setLastName(patientRecordLastname.getText());
+        patient.setFirstName(patientRecordFirstname.getText());
+        patient.setSocialInsuranceNr(patientRecordSVN.getText());
 
+        LocalDate localDate = patientRecordBday.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        java.util.Date utildate = java.sql.Date.from(instant);
+        Date bday = new java.sql.Date(utildate.getTime());
+        patient.setBirthDay(bday);
+        patient.setStreet(patientRecordStreet.getText());
+        patient.setPostalCode(patientRecordPLZ.getText());
+        patient.setCity(patientRecordCity.getText());
+        patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
+        patient.setPhone(patientRecordPhone.getText());
+        patient.setEmail(patientRecordEmail.getText());
+        patient.setDoctor((IDoctor) patientRecordDoctor.getValue());
+        patient.setAllergy(patientRecordAllergies.getText());
+        patient.setMedicineIntolerance(patientRecordIntolerance.getText());
+        patient.setChildhoodAilments(patientRecordChildhood.getText());
     }
 }
