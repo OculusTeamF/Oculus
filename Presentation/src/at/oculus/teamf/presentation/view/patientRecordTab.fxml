@@ -18,7 +18,7 @@
   <content>
     <AnchorPane id="patientRecordPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <GridPane hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" vgap="10.0">
+            <GridPane id="patientRecordPane" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" vgap="10.0">
                <children>
                   <GridPane hgap="5.0" prefHeight="608.0" prefWidth="530.0" vgap="5.0">
                      <children>
@@ -44,6 +44,9 @@
                         <TextField fx:id="patientRecordSVN" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <DatePicker fx:id="patientRecordBday" editable="false" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="patientRecordStreet" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="patientRecordCountryIsoCode" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="patientRecordPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="patientRecordEmail" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <children>
                               <TextField fx:id="patientRecordPLZ" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="125.0" />
@@ -55,9 +58,6 @@
                               <TextField fx:id="patientRecordCity" editable="false" prefHeight="31.0" prefWidth="209.0" />
                            </children>
                         </FlowPane>
-                        <TextField fx:id="patientRecordCountryIsoCode" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <TextField fx:id="patientRecordPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <TextField fx:id="patientRecordEmail" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <Label text="Doctor" GridPane.rowIndex="10" />
                         <ChoiceBox fx:id="patientRecordDoctor" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                         <GridPane alignment="CENTER_RIGHT" hgap="20.0" vgap="20.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
@@ -93,12 +93,12 @@
                   </GridPane>
                   <GridPane prefHeight="228.0" prefWidth="530.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="addToQueue" mnemonicParsing="false" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Button mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                      </children>
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="151.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="319.0" minWidth="10.0" prefWidth="115.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="128.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="319.0" minWidth="10.0" prefWidth="138.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" prefWidth="263.0" />
                      </columnConstraints>
                      <rowConstraints>
@@ -122,17 +122,17 @@
                   <GridPane hgap="10.0" vgap="10.0" GridPane.columnIndex="1">
                      <children>
                         <Label text="ALLERGIES:" GridPane.rowIndex="1" />
-                        <TextArea fx:id="patientRecordAllergies" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
                         <Label text="MEDICINE INTOLERANCE:" GridPane.rowIndex="3" />
-                        <TextArea fx:id="patientRecordMedicineIntolerance" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
                         <GridPane hgap="20.0" vgap="20.0" GridPane.rowIndex="6">
                            <children>
                               <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveChangedForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
-                              <Button fx:id="patientRecordEditButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="135.0" text="Edit" onAction="#editForm" GridPane.columnIndex="1" />
+                              <Button fx:id="patientRecordEditButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Edit" GridPane.columnIndex="1" />
                            </children>
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="117.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="97.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="89.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="116.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="166.0" />
                            </columnConstraints>
                            <rowConstraints>
