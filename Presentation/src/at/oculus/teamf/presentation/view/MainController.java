@@ -198,6 +198,7 @@ public class MainController implements Initializable {
     public void searchPatient(ActionEvent actionEvent) {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("searchPatientTab.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
         }

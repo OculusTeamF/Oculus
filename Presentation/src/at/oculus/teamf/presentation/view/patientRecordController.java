@@ -11,9 +11,7 @@ package at.oculus.teamf.presentation.view;
 /**
  * Created by Karo on 09.04.2015.
  */
-/*
-import at.oculus.teamf.application.facade;
-*/
+
 
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.CalendarEvent;
@@ -29,6 +27,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxResult;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
@@ -37,6 +37,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -46,7 +47,6 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordLastname;
     @FXML public TextField patientRecordFirstname;
     @FXML public TextField patientRecordSVN;
-    @FXML public DatePicker patientRecordBday;
     @FXML public TextField patientRecordCountryIsoCode;
     @FXML public TextField patientRecordPhone;
     @FXML public TextField patientRecordEmail;
@@ -64,6 +64,7 @@ public class patientRecordController implements Initializable {
     @FXML public Button addToQueue;
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
+    @FXML public TextField patientRecordBday;
 
 
     private boolean isFormEdited = false;
@@ -98,7 +99,9 @@ public class patientRecordController implements Initializable {
         patientRecordradioGenderMale.setToggleGroup(group);
 
         patientRecordLastname.setText(patient.getLastName());
+        patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(patient.getFirstName());
+        patientRecordFirstname.setDisable(true);
 
         if(patient.getGender().equals("female"))
         {
@@ -110,23 +113,43 @@ public class patientRecordController implements Initializable {
         }
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
-
-        Date bday = patient.getBirthDay();
-        patientRecordBday.setAccessibleText(String.valueOf(bday));
-
+        patientRecordSVN.setDisable(true);
+        patientRecordBday.setText(patient.getBirthDay().toString());
+        patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
+        patientRecordStreet.setDisable(true);
         patientRecordPLZ.setText(patient.getPostalCode());
+        patientRecordPLZ.setDisable(true);
         patientRecordCity.setText(patient.getCity());
+        patientRecordCity.setDisable(true);
         patientRecordCountryIsoCode.setText(patient.getCountryIsoCode());
+        patientRecordCountryIsoCode.setDisable(true);
         patientRecordPhone.setText(patient.getPhone());
+        patientRecordPhone.setDisable(true);
         patientRecordEmail.setText(patient.getEmail());
+        patientRecordEmail.setDisable(true);
 
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
-       /* patientRecordAllergies.setText(patient.getAllergy());
-        patientRecordIntolerance.setText(patient.getMedicineIntolerance());
-        patientRecordChildhood.setText(patient.getChildhoodAilments());*/
+        if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
+        {
+            patientRecordAllergies.setText("No Allergies known");
+        }else{
+            patientRecordAllergies.setText(patient.getAllergy());
+        }
+        if(patient.getMedicineIntolerance() == null || patient.getMedicineIntolerance().length() < 1)
+        {
+            patientRecordIntolerance.setText("No Intolerance known");
+        }else{
+            patientRecordIntolerance.setText(patient.getMedicineIntolerance());
+        }
+        if(patient.getChildhoodAilments() == null || patient.getChildhoodAilments().length() < 1)
+        {
+            patientRecordChildhood.setText("No childhood Ailments");
+        }else{
+            patientRecordChildhood.setText(patient.getChildhoodAilments());
+        }
     }
 
    @FXML
@@ -134,23 +157,24 @@ public class patientRecordController implements Initializable {
     {
         patientRecordradioGenderMale.setDisable(false);
         patientRecordradioGenderFemale.setDisable(false);
-        patientRecordLastname.setEditable(true);
-        patientRecordFirstname.setEditable(true);
-        patientRecordSVN.setEditable(true);
-        patientRecordBday.setEditable(true);
-        patientRecordStreet.setEditable(true);
-        patientRecordPLZ.setEditable(true);
-        patientRecordCity.setEditable(true);
-        patientRecordCountryIsoCode.setEditable(true);
-        patientRecordPhone.setEditable(true);
-        patientRecordEmail.setEditable(true);
+        patientRecordLastname.setDisable(false);
+        patientRecordFirstname.setDisable(false);
+        patientRecordSVN.setDisable(false);
+        patientRecordBday.setDisable(false);
+        patientRecordStreet.setDisable(false);
+        patientRecordPLZ.setDisable(false);
+        patientRecordCity.setDisable(false);
+        patientRecordCountryIsoCode.setDisable(false);
+        patientRecordPhone.setDisable(false);
+        patientRecordEmail.setDisable(false);
         patientRecordDoctor.setDisable(false);
-        patientRecordAllergies.setEditable(true);
-        patientRecordIntolerance.setEditable(true);
-        patientRecordChildhood.setEditable(true);
+        patientRecordAllergies.setDisable(false);
+        patientRecordIntolerance.setDisable(false);
+        patientRecordChildhood.setDisable(false);
 
         isFormEdited = true;
         patientRecordSaveButton.setDisable(false);
+
     }
     /**
      * saves the changes in the patient record
@@ -195,11 +219,9 @@ public class patientRecordController implements Initializable {
         patient.setFirstName(patientRecordFirstname.getText());
         patient.setSocialInsuranceNr(patientRecordSVN.getText());
 
-        LocalDate localDate = patientRecordBday.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        java.util.Date utildate = java.sql.Date.from(instant);
-        Date bday = new java.sql.Date(utildate.getTime());
-        patient.setBirthDay(bday);
+
+        //TODO: Bday speichern
+
         patient.setStreet(patientRecordStreet.getText());
         patient.setPostalCode(patientRecordPLZ.getText());
         patient.setCity(patientRecordCity.getText());

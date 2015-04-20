@@ -9,6 +9,7 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -27,8 +28,8 @@
                         <AnchorPane>
                            <children>
                               <Label focusTraversable="false" layoutX="308.0" layoutY="30.0" text="Gender" />
-                              <RadioButton fx:id="patientRecordradioGenderFemale" disable="true" layoutX="452.0" layoutY="30.0" mnemonicParsing="false" text="Female" />
-                              <RadioButton fx:id="patientRecordradioGenderMale" disable="true" layoutX="375.0" layoutY="30.0" mnemonicParsing="false" text="Male" />
+                              <RadioButton fx:id="patientRecordradioGenderFemale"  layoutX="452.0" layoutY="30.0" mnemonicParsing="false" text="Female" />
+                              <RadioButton fx:id="patientRecordradioGenderMale"  layoutX="375.0" layoutY="30.0" mnemonicParsing="false" text="Male" />
                               <Label layoutY="4.0" text="PATIENT INFORMATION" />
                            </children>
                         </AnchorPane>
@@ -39,28 +40,27 @@
                         <Label text="Social Insurance #" GridPane.rowIndex="3" />
                         <Label text="Birthday" GridPane.rowIndex="4" />
                         <Label text="Country Iso code" GridPane.rowIndex="7" />
-                        <TextField fx:id="patientRecordLastname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="patientRecordFirstname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="patientRecordSVN" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <DatePicker fx:id="patientRecordBday" editable="false" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="patientRecordStreet" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <TextField fx:id="patientRecordCountryIsoCode" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <TextField fx:id="patientRecordPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <TextField fx:id="patientRecordEmail" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <TextField fx:id="patientRecordLastname"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="patientRecordFirstname"  GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="patientRecordSVN"  GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="patientRecordStreet"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="patientRecordBday"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <children>
-                              <TextField fx:id="patientRecordPLZ" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="125.0" />
+                              <TextField fx:id="patientRecordPLZ" alignment="CENTER" prefHeight="31.0" prefWidth="125.0" />
                               <Label contentDisplay="RIGHT" text="City">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="patientRecordCity" editable="false" prefHeight="31.0" prefWidth="209.0" />
+                              <TextField fx:id="patientRecordCity" prefHeight="31.0" prefWidth="209.0" />
                            </children>
                         </FlowPane>
+                        <TextField fx:id="patientRecordCountryIsoCode"  GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="patientRecordPhone"  GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="patientRecordEmail"  GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <Label text="Doctor" GridPane.rowIndex="10" />
-                        <ChoiceBox fx:id="patientRecordDoctor" disable="true" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                     </children>
+                        <ChoiceBox fx:id="patientRecordDoctor" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" /></children>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="159.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="371.0" prefWidth="371.0" />

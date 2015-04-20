@@ -53,9 +53,6 @@ public class searchPatientController implements Initializable{
     @FXML public Tab searchPatientTab;
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
-    /*private Patient _patient;
-    private Tab _patientRecordTab;*/
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -107,10 +104,6 @@ public class searchPatientController implements Initializable{
                 if(event.getClickCount() == 2)
                 {
                     IPatient currPatientItem = (IPatient) searchPatientList.getSelectionModel().getSelectedItem();
-
-                    MessageBox mb = new MessageBox("double clicked", MessageBoxType.OK_ONLY);
-                    mb.centerOnScreen();
-                    mb.showAndWait();
 
                     //open Patient record
                     openPatientRecord(currPatientItem);
