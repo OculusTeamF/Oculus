@@ -27,8 +27,8 @@
                         <AnchorPane>
                            <children>
                               <Label focusTraversable="false" layoutX="308.0" layoutY="30.0" text="Gender" />
-                              <RadioButton fx:id="radioGenderFemale" layoutX="452.0" layoutY="30.0" mnemonicParsing="false" text="Female" />
                               <RadioButton fx:id="radioGenderMale" layoutX="375.0" layoutY="30.0" mnemonicParsing="false" text="Male" />
+                              <RadioButton fx:id="radioGenderFemale" layoutX="452.0" layoutY="30.0" mnemonicParsing="false" text="Female" />
                               <Label layoutY="4.0" text="PATIENT INFORMATION" />
                            </children>
                         </AnchorPane>
@@ -44,9 +44,6 @@
                         <TextField fx:id="newPatientSVN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <DatePicker fx:id="newPatientBday" promptText="dd.mm.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <TextField fx:id="newPatientPhone" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <children>
                               <TextField fx:id="newPatientPLZ" alignment="CENTER" prefHeight="31.0" prefWidth="125.0" />
@@ -58,6 +55,9 @@
                               <TextField fx:id="newPatientCity" prefHeight="31.0" prefWidth="300.0" />
                            </children>
                         </FlowPane>
+                        <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="newPatientPhone" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                      </children>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="159.0" />

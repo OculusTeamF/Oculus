@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -17,30 +18,54 @@ import java.util.Collection;
 public interface IPatient {
     //<editor-fold desc="Getter/Setter">
     int getId();
-
     void setId(int patientID);
 
     String getFirstName();
-
     void setFirstName(String firstName);
 
     String getLastName();
-
     Patient setLastName(String lastName);
 
     Gender getGender();
-
     void setGender(Gender gender);
 
     String getSocialInsuranceNr();
-
     void setSocialInsuranceNr(String svn);
 
     Doctor getDoctor();
-
     void setDoctor(Doctor doctor);
 
     Collection<CalendarEvent> getCalendarEvents();
-
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
+
+    Date getBirthDay();
+    void setBirthDay(Date birthDay);
+
+    String getStreet();
+    void setStreet(String street);
+
+    String getPostalCode();
+    void setPostalCode(String postalCode);
+
+    String getCity();
+    void setCity(String city);
+
+    String getCountryIsoCode();
+    void setCountryIsoCode(String countryIsoCode);
+
+    String getPhone();
+    void setPhone(String phone);
+
+    String getEmail();
+    void setEmail(String email);
+
+    String getAllergy();
+    void setAllergy(String allergy);
+
+    String getChildhoodAilments();
+    void setChildhoodAilments(String childhoodAilments);
+
+    String getMedicineIntolerance();
+    void setMedicineIntolerance(String medicineIntolerance);
+
 }

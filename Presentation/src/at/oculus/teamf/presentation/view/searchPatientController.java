@@ -18,6 +18,7 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -64,18 +65,9 @@ public class searchPatientController implements Initializable{
         });
     }
 
-    private void openPatientRecord(String currPatient)
+    private void openPatientRecord(IPatient currPatient)
      {
-         MessageBox mb = new MessageBox("in Patient Record", MessageBoxType.OK_ONLY);
-         mb.setHeight(150);
-         mb.centerOnScreen();
-         mb.showAndWait();
-         Main.controller.addPatientTab();
-         MessageBox mb1 = new MessageBox("2", MessageBoxType.OK_ONLY);
-         mb.setHeight(150);
-         mb1.centerOnScreen();
-         mb1.showAndWait();
-
+         Main.controller.addPatientTab(currPatient);
      }
 
     @FXML
@@ -87,7 +79,7 @@ public class searchPatientController implements Initializable{
         String svn = searchPatientSVN.getText();
 
 
-        ObservableList<Patient> patientlist = FXCollections.observableList((List)_searchPatientController.searchPatients(svn,lastName,firstName));
+        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_searchPatientController.searchPatients(svn,lastName,firstName));
 
        if(patientlist.size() > 0)
         {
@@ -108,15 +100,17 @@ public class searchPatientController implements Initializable{
             @Override
             public void handle(MouseEvent event)
             {
-                ObservableList<Patient> patientlist;
+                ObservableList<IPatient> patientlist;
 
                 if(event.getClickCount() == 2)
                 {
-                    String currPatientItem = searchPatientList.getSelectionModel().getSelectedItem().toString();
+                    IPatient currPatientItem = (IPatient) searchPatientList.getSelectionModel().getSelectedItem();
 
                     MessageBox mb = new MessageBox("double clicked", MessageBoxType.OK_ONLY);
                     mb.centerOnScreen();
                     mb.showAndWait();
+
+
 
                     //open Patient record
                     openPatientRecord(currPatientItem);
