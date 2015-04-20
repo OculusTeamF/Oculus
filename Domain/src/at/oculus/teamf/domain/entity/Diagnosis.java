@@ -13,7 +13,7 @@ package at.oculus.teamf.domain.entity;
  * Diagnosis.java
  * Created by oculus on 16.04.15.
  */
-public class Diagnosis implements IDomain {
+public class Diagnosis implements IDiagnosis {
     private int _id;
     private String _title;
     private String _description;
@@ -38,31 +38,39 @@ public class Diagnosis implements IDomain {
 		_id = id;
 	}
 
-	public String getTitle() {
+	@Override
+    public String getTitle() {
 		return _title;
 	}
-	public void setTitle(String title) {
+	@Override
+    public void setTitle(String title) {
 		_title = title;
 	}
 
-	public String getDescription() {
+	@Override
+    public String getDescription() {
 		return _description;
 	}
-	public void setDescription(String description) {
+	@Override
+    public void setDescription(String description) {
 		_description = description;
 	}
 
-	public Integer getDoctorId() {
+	@Override
+    public Integer getDoctorId() {
 		return _doctorId;
 	}
-	public void setDoctorId(Integer doctorId) {
+	@Override
+    public void setDoctorId(Integer doctorId) {
 		_doctorId = doctorId;
 	}
 
-	public Doctor getDoctor() {
+	@Override
+    public Doctor getDoctor() {
 		return _doctor;
 	}
-	public void setDoctor(Doctor doctor) {
+	@Override
+    public void setDoctor(Doctor doctor) {
 		_doctor = doctor;
 		if(doctor!=null) {
 			_doctorId = doctor.getId();
