@@ -9,14 +9,30 @@
 
 package at.oculus.teamf.domain.entity;
 
-/**
- * Created by Norskan on 03.04.2015.
- */
-public class OrthoptistAppointment extends EventType implements IOrthoptistAppointment {
-	public OrthoptistAppointment() {
-	}
+import java.util.Date;
 
-	public OrthoptistAppointment(int id, String eventTypeName, int estimatedTime, String description) {
-		super(id, eventTypeName, estimatedTime, description);
-	}
+/**
+ * Created by oculus on 20.04.15.
+ */
+public interface ICalendarEvent extends IDomain {
+    //<editor-fold desc="Getter/Setter">
+    int getId();
+
+    void setId(int id);
+
+    String getDescription();
+
+    void setDescription(String description);
+
+    Date getEventStart();
+
+    void setEventStart(Date eventStart);
+
+    Date getEventEnd();
+
+    void setEventEnd(Date eventEnd);
+
+    //Patient getPatient();
+
+    //void addPatient(Patient patient);
 }
