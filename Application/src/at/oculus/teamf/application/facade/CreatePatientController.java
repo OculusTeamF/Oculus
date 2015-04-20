@@ -26,7 +26,7 @@ import java.sql.Date;
  * @author $sha9939
  * @since $02.04.15
  *
- * Description:
+ * <b>Description:</b>
  * This File contains the CreatePatientController class,
  * which is responsible for the creation of a new patient object and to save it into the database.
  **/
@@ -68,7 +68,7 @@ public class CreatePatientController implements ILogger{
         Patient patient = new Patient();
         if(gender.equals("female")){
             patient.setGender(Gender.Female);
-        }else if(gender.equals(Gender.Male)){
+        }else if(gender.equals("male")){
             patient.setGender(Gender.Male);
         }
         patient.setLastName(lastName);
@@ -86,7 +86,7 @@ public class CreatePatientController implements ILogger{
         try {
             savePatient(patient);
         } catch (RequirementsNotMetException e) {
-            log.warn("RequirementsNotMetException catched");
+            log.warn("RequirementsNotMetException caught!");
             throw new RequirementsNotMetException();
         }
     }
@@ -95,9 +95,9 @@ public class CreatePatientController implements ILogger{
      *<h3>$savePatient</h3>
      *
      * <b>Description:</b>
-     *This method gets the patient object which should be saved. The requirements were checked with another method
-     *and if everything is alright, the object is given to the facade to save it into the database. Afterwards
-     *the patient collection in the database should be up to date again.
+     * This method gets the patient object which should be saved. The requirements were checked with another method
+     * and if everything is alright, the object is given to the facade to save it into the database. Afterwards
+     * the patient collection in the database should be up to date again.
      *
      *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be saved in the database
@@ -109,11 +109,11 @@ public class CreatePatientController implements ILogger{
             try {
                 facade.save(patient);
             } catch (FacadeException e) {
-                log.warn("FacadeException catched");
+                log.warn("FacadeException caught!");
                 e.printStackTrace();
             }
         }else{
-            log.warn("Requirements unfulfilled");
+            log.warn("Requirements unfulfilled!");
             throw new RequirementsNotMetException();
         }
 
@@ -123,19 +123,18 @@ public class CreatePatientController implements ILogger{
      *<h3>$checkRequirements</h3>
      *
      * <b>Description:</b>
-     *In this method the data gets checked. If all fields are complete - everything is alright and the method returns true.
-     *If some required data is missing, the method return false.
+     * In this method the data gets checked. If all fields are complete - everything is alright and the method returns true.
+     * If some required data is missing the method returns false.
      *
      *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be checked before it is saved
      */
     private boolean checkRequirements(Patient patient) {
-        if(patient.getSocialInsuranceNr() == "" || patient.getLastName() == "" || patient.getFirstName() == "" ||
-                patient.getBirthDay() == null){
+        if(patient.getSocialInsuranceNr().equals("") || patient.getLastName().equals("") || patient.getFirstName().equals("") ||
+                patient.getBirthDay().equals(null)){
             return false;
         }else{
             return true;
         }
     }
-
 }
