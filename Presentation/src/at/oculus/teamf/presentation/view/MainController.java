@@ -150,11 +150,11 @@ public class MainController implements Initializable {
         lists[0].setPrefHeight(uuq.get(0).size() * 24 + 2);
         lists[1].setItems(uuq.get(1));
         tps[0].setVisible(true);
-        tps[1].setDisable(true);
-        tps[2].setDisable(true);
-        tps[3].setDisable(true);
-        tps[4].setDisable(true);
-        tps[5].setDisable(true);
+        tps[1].setVisible(true);
+        tps[2].setVisible(true);
+        tps[3].setVisible(true);
+        tps[4].setVisible(true);
+        tps[5].setVisible(true);
 
         listSearchResults.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
