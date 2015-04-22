@@ -64,7 +64,7 @@ public class CreatePatientController implements ILogger{
      * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
 
-    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException {
+    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, FacadeException {
         Patient patient = new Patient();
         if(gender.equals("female")){
             patient.setGender(Gender.Female);
@@ -85,9 +85,9 @@ public class CreatePatientController implements ILogger{
 
         try {
             savePatient(patient);
-        } catch (RequirementsNotMetException e) {
-            log.warn("RequirementsNotMetException caught!");
-            throw new RequirementsNotMetException();
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Patient cannot be saved!");
+            throw facadeException;
         }
     }
 
@@ -102,15 +102,16 @@ public class CreatePatientController implements ILogger{
      *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be saved in the database
      */
-    private void savePatient(Patient patient)throws RequirementsNotMetException{
+    private void savePatient(Patient patient) throws RequirementsNotMetException, FacadeException {
 
         if(checkRequirements(patient)){
             Facade facade = Facade.getInstance();
             try {
                 facade.save(patient);
-            } catch (FacadeException e) {
-                log.warn("FacadeException caught!");
-                e.printStackTrace();
+            } catch (FacadeException facadeException) {
+                log.warn("FacadeException caught! Patient cannot be saved!");
+                throw facadeException;
+
             }
         }else{
             log.warn("Requirements unfulfilled!");

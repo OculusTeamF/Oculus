@@ -58,16 +58,15 @@ public class StartupController implements ILogger{
      * receptionist is needed)
      *
      **/
-    public IUser getUser (){
+    public IUser getUser () throws FacadeException {
         Facade facade = Facade.getInstance();
 
         User user = null;
         try {
             user = facade.getById(Receptionist.class, 1);
-        } catch (FacadeException e) {
-            log.warn("Facade exception caught!");
-            e.printStackTrace();
-            //TODO
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Patient cannot be saved!");
+            throw facadeException;
         }
         return user;
     }
@@ -80,16 +79,16 @@ public class StartupController implements ILogger{
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      **/
-    public Collection<IPatientQueue> getAllQueues() {
+    public Collection<IPatientQueue> getAllQueues() throws FacadeException {
 
         Collection <Doctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
             doctors = facade.getAll(Doctor.class);
-        } catch (FacadeException e) {
-            log.warn("Facade exception caught!");
-            //TODO
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Cannot get all doctors!");
+            throw facadeException;
         }
         Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
@@ -111,15 +110,15 @@ public class StartupController implements ILogger{
      * convert it into Interfaces and return it.
      *
      **/
-    public Collection<IDoctor> getAllDoctors(){
+    public Collection<IDoctor> getAllDoctors() throws FacadeException {
         Collection<Doctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
             doctors = facade.getAll(Doctor.class);
-        } catch (FacadeException e) {
-            log.warn("Facade exception caught!");
-            e.printStackTrace();
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Cannot get all doctors!");
+            throw facadeException;
         }
 
         Collection<IDoctor> iDoctors = new LinkedList<IDoctor>();
@@ -140,15 +139,15 @@ public class StartupController implements ILogger{
      * This method returns all available orthoptists. We get a list of all orthoptists from the persistence layer,
      * convert it into Interfaces and return it.
      **/
-    public Collection<IOrthoptist> getAllOrthoptists(){
+    public Collection<IOrthoptist> getAllOrthoptists() throws FacadeException {
         Collection<Orthoptist> orthoptists = null;
         Facade facade = Facade.getInstance();
 
         try {
             orthoptists = facade.getAll(Orthoptist.class);
-        } catch (FacadeException e) {
-            log.warn("Facade exception caught!");
-            e.printStackTrace();
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Cannot get all orthoptists!");
+            throw facadeException;
         }
 
         Collection<IOrthoptist> iOrthoptists = new LinkedList<IOrthoptist>();
@@ -170,16 +169,15 @@ public class StartupController implements ILogger{
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      **/
-    public Collection<ICalendar> getAllCalendars(){
+    public Collection<ICalendar> getAllCalendars() throws FacadeException {
         Facade facade = Facade.getInstance();
 
         Collection<Calendar> calendars = null;
         try {
             calendars = facade.getAll(Calendar.class);
-        } catch (FacadeException e) {
-            log.warn("Facade exception caught!");
-            e.printStackTrace();
-            //TODO
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Cannot get all calendars!");
+            throw facadeException;
         }
         Collection<ICalendar> iCalendars = new LinkedList<ICalendar>();
 

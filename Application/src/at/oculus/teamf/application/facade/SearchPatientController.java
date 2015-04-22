@@ -54,16 +54,16 @@ public class SearchPatientController implements ILogger{
      * @param data this is all given information to search the patient (with full-text-search)
      */
 
-    public Collection <IPatient> searchPatients (String data){
+    public Collection <IPatient> searchPatients (String data) throws FacadeException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
             patients = facade.search(Patient.class, data);
             //patients = facade.searchPatient(svn, firstName, lastName);
-        } catch (FacadeException e) {
-            log.warn("Facade Exception caught!");
-            e.printStackTrace();
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Facade couldn't find patient!");
+            throw facadeException;
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
@@ -89,15 +89,15 @@ public class SearchPatientController implements ILogger{
      * @param lastName this is the last name of the searched patient
      */
 
-    public Collection <IPatient> searchPatients (String svn, String firstName, String lastName){
+    public Collection <IPatient> searchPatients (String svn, String firstName, String lastName) throws FacadeException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
             patients = facade.search(Patient.class, svn, firstName, lastName);
-        } catch (FacadeException e) {
-            log.warn("Facade Exception caught!");
-            e.printStackTrace();
+        } catch (FacadeException facadeException) {
+            log.warn("FacadeException caught! Facade couldn't find patient!");
+            throw facadeException;
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
