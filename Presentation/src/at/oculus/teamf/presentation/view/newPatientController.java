@@ -14,8 +14,10 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.IDoctor;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,7 +58,11 @@ public class newPatientController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
+        try {
+            newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
 
         radioGenderFemale.setToggleGroup(group);
         radioGenderMale.setToggleGroup(group);
@@ -121,7 +127,13 @@ public class newPatientController implements Initializable{
             mb1.showAndWait();
         }
         try {
-            createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+            try {
+                createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+            } catch (FacadeException e) {
+                e.printStackTrace();
+            } catch (PatientCouldNotBeSavedException e) {
+                e.printStackTrace();
+            }
             MessageBox mb1 = new MessageBox("New Patient saved.", MessageBoxType.OK_ONLY);
             mb1.setHeight(150);
             mb1.centerOnScreen();

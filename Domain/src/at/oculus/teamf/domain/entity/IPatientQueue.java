@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import java.util.Collection;
+
 /**
  * Created by jpo2433 on 17.04.15.
  */
@@ -16,4 +18,6 @@ public interface IPatientQueue {
     int getUserID();
 
     void setUserID(int userID);
+
+    Collection<QueueEntry> getEntries();
 }

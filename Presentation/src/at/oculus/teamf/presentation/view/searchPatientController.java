@@ -19,23 +19,23 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.IPatient;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.WindowEvent;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -81,9 +81,14 @@ public class searchPatientController implements Initializable{
         String svn = searchPatientSVN.getText();
 
 
-        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_searchPatientController.searchPatients(svn,firstName,lastName));
+        ObservableList<IPatient> patientlist = null;
+        try {
+            patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(svn, firstName, lastName));
+        } catch (FacadeException e) {
+            e.printStackTrace();
+        }
 
-       if(patientlist.size() > 0)
+        if(patientlist.size() > 0)
         {
             searchPatientList.setItems(patientlist);
         } else {
