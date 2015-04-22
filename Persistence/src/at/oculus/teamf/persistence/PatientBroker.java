@@ -72,7 +72,9 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		patientEntity.setLastName(obj.getLastName());
 		patientEntity.setSocialInsuranceNr(obj.getSocialInsuranceNr());
 		patientEntity.setAllergy(obj.getAllergy());
-		patientEntity.setBirthDay(new Date(obj.getBirthDay().getTime()));
+		if(obj.getBirthDay() != null) {
+			patientEntity.setBirthDay(new Date(obj.getBirthDay().getTime()));
+		}
 		patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
 		patientEntity.setCity(obj.getCity());
 		patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
