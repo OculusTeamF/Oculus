@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
@@ -64,8 +65,9 @@ public class CreatePatientController implements ILogger{
      * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
 
-    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, FacadeException {
+    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, FacadeException, PatientCouldNotBeSavedException {
         Patient patient = new Patient();
+        log.info("New patient object has been created.");
         if(gender.equals("female")){
             patient.setGender(Gender.Female);
         }else if(gender.equals("male")){
@@ -82,9 +84,10 @@ public class CreatePatientController implements ILogger{
         patient.setEmail(email);
         patient.setCountryIsoCode(countryIsoCode);
         patient.setDoctor((Doctor) doctor);
-
+        log.info("Patient attributes have been assigned.");
         try {
             savePatient(patient);
+            log.info("Patient object has been saved!");
         } catch (FacadeException facadeException) {
             log.warn("FacadeException caught! Patient cannot be saved!");
             throw facadeException;
@@ -102,12 +105,18 @@ public class CreatePatientController implements ILogger{
      *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be saved in the database
      */
-    private void savePatient(Patient patient) throws RequirementsNotMetException, FacadeException {
+    private void savePatient(Patient patient) throws RequirementsNotMetException, FacadeException, PatientCouldNotBeSavedException {
 
         if(checkRequirements(patient)){
+            log.info("Requirements are fulfilled!");
             Facade facade = Facade.getInstance();
             try {
-                facade.save(patient);
+                if (facade.save(patient)){
+                    log.info("Patient has been saved!");
+                } else {
+                    log.warn("Patient could not be saved!");
+                    throw new PatientCouldNotBeSavedException();
+                }
             } catch (FacadeException facadeException) {
                 log.warn("FacadeException caught! Patient cannot be saved!");
                 throw facadeException;

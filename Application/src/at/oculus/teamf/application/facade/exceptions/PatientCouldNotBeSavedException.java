@@ -7,22 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**<h1>$RequirementsNotMetException.java</h1>
- * @author $jpo2433
- * @author $sha9939
- * @since $13.04.15
- *
- * Description:
- * In this file is  the RequirementsNotMetException-class which extends Exception
- **/
 package at.oculus.teamf.application.facade.exceptions;
 
 /**
- * <h2>$RequirementsNotMetException</h2>
- *
- * <b>Description:</b>
- * This Exception is thrown, if the requirements of given data, when a new patient is created, are unfulfilled.
- **/
-public class RequirementsNotMetException extends CreatePatientControllerException {
-
+ * Created by oculus on 22.04.15.
+ */
+public class PatientCouldNotBeSavedException extends CreatePatientControllerException {
 }

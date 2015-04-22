@@ -60,10 +60,11 @@ public class StartupController implements ILogger{
      **/
     public IUser getUser () throws FacadeException {
         Facade facade = Facade.getInstance();
-
         User user = null;
+
         try {
             user = facade.getById(Receptionist.class, 1);
+            log.info("Got receptionist.");
         } catch (FacadeException facadeException) {
             log.warn("FacadeException caught! Patient cannot be saved!");
             throw facadeException;
@@ -86,6 +87,7 @@ public class StartupController implements ILogger{
 
         try {
             doctors = facade.getAll(Doctor.class);
+            log.info("All doctors have been acquired.");
         } catch (FacadeException facadeException) {
             log.warn("FacadeException caught! Cannot get all doctors!");
             throw facadeException;
@@ -97,6 +99,7 @@ public class StartupController implements ILogger{
                 queues.add(doctor.getQueue());
             }
         }
+        log.info("All queues have been acquired.");
 
         return queues;
     }
@@ -116,6 +119,7 @@ public class StartupController implements ILogger{
 
         try {
             doctors = facade.getAll(Doctor.class);
+            log.info("All doctors have been acquired.");
         } catch (FacadeException facadeException) {
             log.warn("FacadeException caught! Cannot get all doctors!");
             throw facadeException;
@@ -128,6 +132,7 @@ public class StartupController implements ILogger{
                 iDoctors.add(doc);
             }
         }
+        log.info("All doctors have been added to the IDoctor collection.");
         return iDoctors;
     }
 
@@ -145,6 +150,7 @@ public class StartupController implements ILogger{
 
         try {
             orthoptists = facade.getAll(Orthoptist.class);
+            log.info("All orthoptists have been acquired.");
         } catch (FacadeException facadeException) {
             log.warn("FacadeException caught! Cannot get all orthoptists!");
             throw facadeException;
@@ -157,6 +163,7 @@ public class StartupController implements ILogger{
                 iOrthoptists.add(o);
             }
         }
+        log.info("All doctors have been added to the IOrthoptist collection.");
         return iOrthoptists;
     }
 
@@ -175,6 +182,7 @@ public class StartupController implements ILogger{
         Collection<Calendar> calendars = null;
         try {
             calendars = facade.getAll(Calendar.class);
+            log.info("All calendars have been acquired.");
         } catch (FacadeException facadeException) {
             log.warn("FacadeException caught! Cannot get all calendars!");
             throw facadeException;
@@ -186,6 +194,7 @@ public class StartupController implements ILogger{
                 iCalendars.add(c);
             }
         }
+        log.info("All doctors have been added to the ICalendar collection.");
         return iCalendars;
     }
 
@@ -207,6 +216,7 @@ public class StartupController implements ILogger{
                 iCalendarEvents.add(event);
             }
         }
+        log.info("All calendar events have been acquired and added to the ICalendarEvent collection.");
 
         return iCalendarEvents;
     }
@@ -228,6 +238,7 @@ public class StartupController implements ILogger{
                 iEvents.add(event);
             }
         }
+        log.info("All calendar events have been acquired and added to the ICalendarEvent collection.");
         return iEvents;
     }
 }

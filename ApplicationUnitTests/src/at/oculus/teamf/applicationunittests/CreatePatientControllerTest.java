@@ -9,12 +9,41 @@
 
 package at.oculus.teamf.applicationunittests;
 
+import at.oculus.teamf.application.facade.CreatePatientController;
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.application.facade.additional.RemovePatientController;
+import at.oculus.teamf.domain.entity.IDoctor;
+import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.Patient;
+
+import java.util.Date;
+import java.util.LinkedList;
+
 import static org.junit.Assert.*;
 
 public class CreatePatientControllerTest {
 
     @org.junit.Test
     public void testCreatePatient() throws Exception {
+        StartupController startupController = new StartupController();
+        LinkedList<IDoctor> iDoctors = (LinkedList<IDoctor>) startupController.getAllDoctors();
+        CreatePatientController createPatientController = new CreatePatientController();
+        createPatientController.createPatient("male", "Gruber", "Hans", "1234567890", new Date(), "Schlumpfweg", "6830", "Muntlix", "0987654321", "hans.gruber@email.com", iDoctors.getFirst(), "at");
 
+        SearchPatientController searchPatientController = new SearchPatientController();
+        LinkedList <IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("gruber");
+        Patient temppatient = new Patient();
+        for (IPatient patient : patients){
+            Patient patient1 = (Patient) patient;
+            if (patient1.getFirstName().equals("Hans")){
+                temppatient = patient1;
+            }
+        }
+        assert (temppatient.getFirstName().equals("Hans"));
+        assert (temppatient.getCity().equals("Muntlix"));
+
+        RemovePatientController removePatientController = new RemovePatientController();
+        removePatientController.removePatientFromDatabase(temppatient);
     }
 }

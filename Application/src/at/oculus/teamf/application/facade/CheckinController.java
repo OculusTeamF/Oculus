@@ -40,7 +40,9 @@ public class CheckinController implements ILogger {
      */
     public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CheckinControllerException {
         Patient patient = (Patient) ipatient;
+        log.info("Patient object has been created and assigned from interface.");
         User user = (User) iuser;
+        log.info("User object has been created and assigned from interface.");
 
         if(user == null){
             log.warn("User can not be null!");
@@ -60,13 +62,16 @@ public class CheckinController implements ILogger {
         if(user instanceof Doctor){
             doctor = (Doctor) iuser;
             queue = doctor.getQueue();
+            log.info("Queue belongs to doctor.");
         }else if(user instanceof Orthoptist){
             orthoptist = (Orthoptist) iuser;
             queue = orthoptist.getQueue();
+            log.info("Queue belongs to orthoptist.");
         }
 
         if(queue != null){
             queue.addPatient(patient, doctor, orthoptist, tstamp);
+            log.info("Patient has been added to correct queue.");
         }else{
             log.warn("Queue can not be null");
             throw new QueueNotFoundException();

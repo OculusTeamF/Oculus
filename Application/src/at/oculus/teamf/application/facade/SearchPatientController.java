@@ -60,9 +60,9 @@ public class SearchPatientController implements ILogger{
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
             patients = facade.search(Patient.class, data);
-            //patients = facade.searchPatient(svn, firstName, lastName);
+            log.info("Search has been successful.");
         } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Facade couldn't find patient!");
+            log.warn("FacadeException caught! Facade could not find patient!");
             throw facadeException;
         }
 
@@ -70,6 +70,7 @@ public class SearchPatientController implements ILogger{
         for(Patient patient : patients){
             selectedPatients.add(patient);
         }
+        log.info("All patients have been added to IPatient Collection.");
 
         return selectedPatients;
     }
@@ -95,8 +96,9 @@ public class SearchPatientController implements ILogger{
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
             patients = facade.search(Patient.class, svn, firstName, lastName);
+            log.info("Search has been successful.");
         } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Facade couldn't find patient!");
+            log.warn("FacadeException caught! Facade could not find patient!");
             throw facadeException;
         }
 
@@ -104,6 +106,7 @@ public class SearchPatientController implements ILogger{
         for(Patient patient : patients){
             selectedPatients.add(patient);
         }
+        log.info("All patients have been added to IPatient Collection.");
 
         return selectedPatients;
     }
