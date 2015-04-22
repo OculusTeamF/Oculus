@@ -18,7 +18,6 @@ package at.oculus.teamf.application.facade.additional;
  * This file contains the removePatientController. It implements the posibility to remove a patient from the database.
  **/
 
-import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
@@ -33,6 +32,17 @@ import at.oculus.teamf.technical.loggin.ILogger;
  **/
 public class RemovePatientController implements ILogger{
 
+    /**
+     *<h3>$insertPatientIntoQueue</h3>
+     *
+     * <b>Description:</b>
+     * This method inserts a patient into the queue of the specified user. If the user doesn't have a queue,
+     * a QueueNotFoundException is thrown. If there is a queue, the patient and the user is given to the queue to save.
+     *
+     *<b>Parameter</b>
+     * @param iPatient this parameter shows the interface of the patient which should be removed from the database
+     *
+     */
     public void removePatientFromDatabase (IPatient iPatient) throws FacadeException {
         Facade facade = Facade.getInstance();
         try {
