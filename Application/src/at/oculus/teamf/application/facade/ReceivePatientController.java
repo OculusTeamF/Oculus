@@ -20,6 +20,7 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -30,7 +31,7 @@ import java.util.Date;
  * <b>Description:</b>
  * This class contains all the necessary methods for the usecase ReceivePatient.
  **/
-public class ReceivePatientController {
+public class ReceivePatientController implements ILogger {
 
     /**
      *<h3>$createNewExaminationProtocol</h3>
@@ -55,6 +56,8 @@ public class ReceivePatientController {
         Patient patient = (Patient) iPatient;
         patient.addExaminationProtocol(examinationProtocol);
 
+        log.info("New Examination Protocol has been created!");
+
         return examinationProtocol;
     }
 
@@ -76,6 +79,7 @@ public class ReceivePatientController {
         PatientQueue queue = (PatientQueue) iqueue;
 
         queue.removePatient(patient);
+        log.info("Patient has been removed from queue.");
     }
 
  }
