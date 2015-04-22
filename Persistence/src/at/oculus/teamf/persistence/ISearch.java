@@ -10,15 +10,15 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * ISearch.java Created by oculus on 17.04.15.
  */
 interface ISearch<T> {
-	public Collection<T> search(ISession session, String[] params) throws FacadeException;
+	public Collection<T> search(ISession session, String[] params) throws BadConnectionException, NoBrokerMappedException, InvalideSearchParameterException;
 }

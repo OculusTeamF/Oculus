@@ -13,7 +13,7 @@ import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedExcep
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;

@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IOrthoptistAppointment;
+
 /**
  * Created by Norskan on 03.04.2015.
  */

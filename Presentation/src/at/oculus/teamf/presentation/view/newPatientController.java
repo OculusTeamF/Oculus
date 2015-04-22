@@ -15,7 +15,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.domain.entity.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

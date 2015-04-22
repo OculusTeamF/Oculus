@@ -52,7 +52,8 @@ public class OrthoptistBrokerTest extends BrokerTest {
 	    try {
 		    orthoptists = Facade.getInstance().getAll(Orthoptist.class);
 	    } catch (FacadeException e) {
-		    e.printStackTrace();
+		    assertTrue(false);
+            e.printStackTrace();
 	    }
 
 	    Assert.assertTrue(orthoptists != null);

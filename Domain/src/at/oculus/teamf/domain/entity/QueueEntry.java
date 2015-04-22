@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.technical.loggin.ILogger;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 
 import java.sql.Timestamp;
 

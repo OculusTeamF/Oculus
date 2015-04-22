@@ -31,7 +31,7 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
 	}
 
 	@Override
-	protected EventType persistentToDomain(EventtypeEntity entity) throws FacadeException {
+	protected EventType persistentToDomain(EventtypeEntity entity) {
 		EventType eventType = null;
 
 		switch (entity.getEventTypeName()) {

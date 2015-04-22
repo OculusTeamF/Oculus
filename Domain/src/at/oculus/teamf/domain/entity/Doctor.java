@@ -9,9 +9,10 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.*;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
@@ -95,22 +96,22 @@ public class Doctor extends User implements IDoctor {
     public Collection<Patient> getPatients() {
 	    Facade facade = Facade.getInstance();
 
-	    try {
-		    facade.reloadCollection(this, Patient.class);
-	    } catch (ReloadInterfaceNotImplementedException e) {
-		    e.printStackTrace();
-		    //Todo: Add Logging
-	    } catch (InvalidReloadParameterException invalidReloadParameterException) {
-		    invalidReloadParameterException.printStackTrace();
-	    } catch (NotAbleToLoadClassException e) {
-		    e.printStackTrace();
-	    } catch (NoBrokerMappedException e) {
-		    e.printStackTrace();
-	    } catch (FacadeException e) {
-		    e.printStackTrace();
-	    }
 
-	    return _patients;
+        //Todo: Exception Handling
+        try {
+            facade.reloadCollection(this, Patient.class);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+        }
+
+
+        return _patients;
     }
     //</editor-fold>
 

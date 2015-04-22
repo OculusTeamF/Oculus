@@ -16,18 +16,14 @@ import at.oculus.teamf.application.facade;
 */
 
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.IDoctor;
-import at.oculus.teamf.domain.entity.IPatient;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxResult;

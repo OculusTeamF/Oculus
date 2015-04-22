@@ -12,9 +12,13 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
-import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.exception.*;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
@@ -23,248 +27,301 @@ import java.util.LinkedList;
 
 /**
  * Facade for requesting entity from hibernate. Singleton pattern.
- *
+ * <p/>
  * //TODO: docs, tests many tests
+ *
  * @author Simon Angerer
  * @version 0.1
  */
 public class Facade {
-	private static Facade _self;
-	private HashMap<Class, EntityBroker> _entityBrokers;
-	private ISessionBroker _sessionBroker;
+    private static Facade _self;
+    private HashMap<Class, EntityBroker> _entityBrokers;
+    private ISessionBroker _sessionBroker;
 
-	private Facade() {
+    private Facade() {
 
-		Collection<EntityBroker> entityBrokers = new LinkedList<EntityBroker>();
-		entityBrokers.add(new CalendarBroker());
-		entityBrokers.add(new CalendarEventBroker());
-		entityBrokers.add(new DoctorBroker());
-		entityBrokers.add(new PatientBroker());
-		entityBrokers.add(new QueueBroker());
-		entityBrokers.add(new ReceptionistBroker());
-		entityBrokers.add(new OrthoptistBroker());
-		entityBrokers.add(new CalendarEventTypeBroker());
-		entityBrokers.add(new DiagnosisBroker());
-		entityBrokers.add(new ExaminationProtocolBroker());
+        Collection<EntityBroker> entityBrokers = new LinkedList<EntityBroker>();
+        entityBrokers.add(new CalendarBroker());
+        entityBrokers.add(new CalendarEventBroker());
+        entityBrokers.add(new DoctorBroker());
+        entityBrokers.add(new PatientBroker());
+        entityBrokers.add(new QueueBroker());
+        entityBrokers.add(new ReceptionistBroker());
+        entityBrokers.add(new OrthoptistBroker());
+        entityBrokers.add(new CalendarEventTypeBroker());
+        entityBrokers.add(new DiagnosisBroker());
+        entityBrokers.add(new ExaminationProtocolBroker());
 
-		init(entityBrokers);
-	}
+        init(entityBrokers);
+    }
 
-	public static Facade getInstance() {
-		if (_self == null) {
-			_self = new Facade();
-		}
-		return _self;
-	}
+    public static Facade getInstance() {
+        if (_self == null) {
+            _self = new Facade();
+        }
+        return _self;
+    }
 
-	//determine where to call
-	private void init(Collection<EntityBroker> brokers){
-		_entityBrokers = new HashMap<Class, EntityBroker>();
-		Collection<Class> entityClazzes = new LinkedList<Class>();
+    //determine where to call
+    private void init(Collection<EntityBroker> brokers) {
+        _entityBrokers = new HashMap<Class, EntityBroker>();
+        Collection<Class> entityClazzes = new LinkedList<Class>();
 
-		for(EntityBroker broker : brokers) {
-			for(Object obj : broker.getDomainClasses()) {
-				Class clazz = (Class) obj;
-				_entityBrokers.put(clazz, broker);
-			}
-			entityClazzes.addAll(broker.getEntityClasses());
-		}
+        for (EntityBroker broker : brokers) {
+            for (Object obj : broker.getDomainClasses()) {
+                Class clazz = (Class) obj;
+                _entityBrokers.put(clazz, broker);
+            }
+            entityClazzes.addAll(broker.getEntityClasses());
+        }
 
-		_sessionBroker = new HibernateSessionBroker(entityClazzes);
-	}
+        _sessionBroker = new HibernateSessionBroker(entityClazzes);
+    }
 
-	/**
-	 * A worker class can implement the interface to be used in {@code #worker()}
-	 */
-	private abstract class Execute<T> {
-		abstract  T execute(ISession session, EntityBroker broker) throws FacadeException;
-	}
+    /**
+     * A worker class can implement the interface to be used in {@code #worker()}
+     */
+    private abstract class Execute<T> {
+        abstract T execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, InvalideSearchParameterException, InvalidReloadClassException;
+    }
 
-	/**
-	 * @param clazz class to load
-	 * @param execute individual implementation
-	 * @param <T> type of the return value
-	 * @return an object dependion on the implementation
-	 * @throws FacadeException if an error occures
-	 */
-	private <T> T worker(Class clazz, Execute<T> execute) throws FacadeException {
-		EntityBroker broker = getBroker(clazz);
+    /**
+     * @param clazz   class to load
+     * @param execute individual implementation
+     * @param <T>     type of the return value
+     * @return an object dependion on the implementation
+     * @throws FacadeException if an error occures
+     */
+    private <T> T worker(Class clazz, Execute<T> execute) throws NoBrokerMappedException, SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, InvalideSearchParameterException, InvalidReloadClassException {
+        EntityBroker broker = getBroker(clazz);
 
-		ISession session = _sessionBroker.getSession();
+        ISession session = _sessionBroker.getSession();
 
-		T obj = execute.execute(session, broker);
+        T obj = execute.execute(session, broker);
 
-		_sessionBroker.releaseSession(session);
+        _sessionBroker.releaseSession(session);
 
-		return obj;
-	}
-
-	
-	private class Get extends Execute<Object> {
-
-		private int _id;
-
-		public Get(int id) {
-			_id = id;
-		}
-
-		@Override
-		public Object execute(ISession session, EntityBroker broker) throws FacadeException {
-			return broker.getEntity(session, _id);
-		}
-	}
-
-	public <T> T getById(Class clazz, int id) throws FacadeException {
-		return (T)worker(clazz, new Get(id));
-	}
+        return obj;
+    }
 
 
-	private class GetAll extends Execute<Collection<Object>> {
+    private class Get extends Execute<Object> {
 
-		@Override
-		public Collection<Object> execute(ISession session, EntityBroker broker) throws FacadeException {
-			return broker.getAll(session);
-		}
-	}
+        private int _id;
 
-	public <T> Collection<T> getAll(Class clazz) throws FacadeException {
-		return (Collection<T>)(Collection<?>)worker(clazz, new GetAll());
-	}
+        public Get(int id) {
+            _id = id;
+        }
+
+        @Override
+        public Object execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+            return broker.getEntity(session, _id);
+        }
+    }
+
+    public <T> T getById(Class clazz, int id) throws BadConnectionException, NoBrokerMappedException {
+        T object = null;
+
+        try {
+            object = (T) worker(clazz, new Get(id));
+        }  catch (SearchException | ReloadException e) {
+            //eat up
+        }
+
+        return object;
+    }
 
 
-	private class ReloadCollection extends Execute {
+    private class GetAll extends Execute<Collection> {
 
-		private IDomain _obj;
-		private Class _reloadClass;
+        @Override
+        public Collection execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+            return broker.getAll(session);
+        }
+    }
 
-		public ReloadCollection(IDomain obj, Class reloadClass) {
-			_obj = obj;
-			_reloadClass = reloadClass;
-		}
+    public <T> Collection<T> getAll(Class clazz) throws BadConnectionException, NoBrokerMappedException {
+        Collection<T> objects = null;
 
-		@Override
-		public Object execute(ISession session, EntityBroker broker) throws FacadeException {
-			if(!(broker instanceof ICollectionReload)) {
-				throw new ReloadInterfaceNotImplementedException();
-			}
+        try {
+            objects = (Collection<T>) (Collection<?>) worker(clazz, new GetAll());
+        } catch (SearchException | ReloadException e) {
+            //eat up
+        }
 
-			((ICollectionReload) broker).reload(session, _obj, _reloadClass);
+        return objects;
+    }
 
-			return null;
-		}
-	}
 
-	public void reloadCollection(IDomain obj, Class clazz) throws FacadeException {
-		worker(obj.getClass(), new ReloadCollection(obj, clazz));
-	}
+    private class ReloadCollection extends Execute {
 
-	private class Save extends Execute<Boolean> {
+        private IDomain _obj;
+        private Class _reloadClass;
 
-		private IDomain _toSave;
+        public ReloadCollection(IDomain obj, Class reloadClass) {
+            _obj = obj;
+            _reloadClass = reloadClass;
+        }
 
-		public Save(IDomain toSave) {
-			_toSave = toSave;
-		}
+        @Override
+        public Object execute(ISession session, EntityBroker broker) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
+            if (!(broker instanceof ICollectionReload)) {
+                throw new ReloadInterfaceNotImplementedException();
+            }
 
-		@Override
-		public Boolean execute(ISession session, EntityBroker broker) {
-			 return broker.saveEntity(session, _toSave);
-		}
-	}
+            ((ICollectionReload) broker).reload(session, _obj, _reloadClass);
 
-	public boolean save(IDomain obj) throws FacadeException {
-		return (boolean)worker(obj.getClass(), new Save(obj));
-	}
+            return null;
+        }
+    }
 
-	private class SaveAll extends Execute<Boolean> {
+    public void reloadCollection(IDomain obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException, InvalidReloadClassException {
+        try {
+            worker(obj.getClass(), new ReloadCollection(obj, clazz));
+        } catch (SearchException e) {
+            //eat up
+        }
+    }
 
-		private Collection<IDomain> _toSave;
+    private class Save extends Execute<Boolean> {
 
-		public SaveAll(Collection<IDomain> toSave) {
-			_toSave = toSave;
-		}
+        private IDomain _toSave;
 
-		@Override
-		public Boolean execute(ISession session, EntityBroker broker) {
-			return broker.saveAll(session, _toSave);
-		}
-	}
+        public Save(IDomain toSave) {
+            _toSave = toSave;
+        }
 
-	public boolean saveAll(Collection<IDomain> obj) throws FacadeException {
-		return (boolean)worker(obj.getClass(), new SaveAll(obj));
-	}
+        @Override
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+            return broker.saveEntity(session, _toSave);
+        }
+    }
 
-	private class Delete extends Execute<Boolean> {
+    public boolean save(IDomain obj) throws BadConnectionException, NoBrokerMappedException {
+        boolean isSaved = false;
 
-		private IDomain _toDelete;
+        try {
+            isSaved = (boolean) worker(obj.getClass(), new Save(obj));
+        } catch (SearchException | ReloadException e) {
+            //eat up
+        }
 
-		public Delete(IDomain toDelete) {
-			_toDelete = toDelete;
-		}
+        return isSaved;
+    }
 
-		@Override
-		public Boolean execute(ISession session, EntityBroker broker) {
-			return broker.deleteEntity(session, (IDomain) _toDelete);
-		}
-	}
+    private class SaveAll extends Execute<Boolean> {
 
-	public boolean delete(IDomain obj) throws FacadeException {
-		return (Boolean)worker(obj.getClass(), new Delete(obj));
-	}
+        private Collection<IDomain> _toSave;
 
-	private class DeleteAll extends Execute<Boolean> {
+        public SaveAll(Collection<IDomain> toSave) {
+            _toSave = toSave;
+        }
 
-		private Collection<IDomain> _toDelete;
+        @Override
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+            return broker.saveAll(session, _toSave);
+        }
+    }
 
-		public DeleteAll(Collection<IDomain> toDelete) {
-			_toDelete = toDelete;
-		}
+    public boolean saveAll(Collection<IDomain> obj) throws BadConnectionException, NoBrokerMappedException {
+        boolean isSaved = false;
 
-		@Override
-		public Boolean execute(ISession session, EntityBroker broker) {
-			return broker.deleteAll(session, _toDelete);
-		}
-	}
+        try {
+            isSaved = (boolean) worker(obj.getClass(), new SaveAll(obj));
+        } catch (SearchException | ReloadException e) {
+            //eat up
+        }
 
-	public boolean deleteAll(Collection<IDomain> obj) throws FacadeException {
-		return (Boolean)worker(obj.getClass(), new DeleteAll(obj));
-	}
+        return isSaved;
+    }
 
-	private class Search extends Execute<Collection<Object>> {
+    private class Delete extends Execute<Boolean> {
 
-		private String[] _params;
+        private IDomain _toDelete;
 
-		public Search(String... params) {
-			_params = params;
-		}
+        public Delete(IDomain toDelete) {
+            _toDelete = toDelete;
+        }
 
-		@Override
-		public Collection<Object> execute(ISession session, EntityBroker broker) throws FacadeException {
-			if(!(broker instanceof ISearch)) {
-				throw new SearchInterfaceNotImplementedException();
-			}
+        @Override
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+            return broker.deleteEntity(session, (IDomain) _toDelete);
+        }
+    }
 
-			Collection<Object> collection = new LinkedList<Object>();
+    public boolean delete(IDomain obj) throws BadConnectionException, NoBrokerMappedException, InvalideSearchParameterException {
+        boolean isDeleted = false;
 
-			for(Object obj : ((ISearch) broker).search(session, _params)){
-				collection.add(obj);
-			}
+        try {
+            isDeleted = (Boolean) worker(obj.getClass(), new Delete(obj));
+        } catch (SearchException | ReloadException e) {
+            //eat up
+        }
 
-			return collection;
-		}
-	}
+        return isDeleted;
+    }
 
-	public <T> Collection<T> search(Class clazz, String... search) throws FacadeException {
-		return (Collection<T>)(Collection<?>)worker(clazz, new Search(search));
-	}
+    private class DeleteAll extends Execute<Boolean> {
 
-	protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
-		EntityBroker broker = _entityBrokers.get(clazz);
+        private Collection<IDomain> _toDelete;
 
-		if(broker == null) {
-			throw new NoBrokerMappedException();
-		}
+        public DeleteAll(Collection<IDomain> toDelete) {
+            _toDelete = toDelete;
+        }
 
-		return broker;
-	}
+        @Override
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+            return broker.deleteAll(session, _toDelete);
+        }
+    }
+
+    public boolean deleteAll(Collection<IDomain> obj) throws FacadeException {
+        return (Boolean) worker(obj.getClass(), new DeleteAll(obj));
+    }
+
+    private class Search extends Execute<Collection<Object>> {
+
+        private String[] _params;
+
+        public Search(String... params) {
+            _params = params;
+        }
+
+        @Override
+        public Collection<Object> execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, InvalideSearchParameterException, BadConnectionException, NoBrokerMappedException {
+            if (!(broker instanceof ISearch)) {
+                throw new SearchInterfaceNotImplementedException();
+            }
+
+            Collection<Object> collection = new LinkedList<Object>();
+
+            for (Object obj : ((ISearch) broker).search(session, _params)) {
+                collection.add(obj);
+            }
+
+            return collection;
+        }
+    }
+
+    public <T> Collection<T> search(Class clazz, String... search) throws SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, InvalideSearchParameterException {
+        Collection<T> searchResult = null;
+
+        try {
+            searchResult = (Collection<T>) (Collection<?>) worker(clazz, new Search(search));
+        } catch (ReloadException e) {
+            //eat up
+        }
+
+        return searchResult;
+    }
+
+    protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
+        EntityBroker broker = _entityBrokers.get(clazz);
+
+        if (broker == null) {
+            throw new NoBrokerMappedException();
+        }
+
+        return broker;
+    }
 }

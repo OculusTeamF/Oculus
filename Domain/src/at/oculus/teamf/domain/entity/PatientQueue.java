@@ -9,15 +9,19 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.*;
 
 /**
- * Todo: add docs, implement equals
+ * Todo: add docs, implement equals, logging
  *
  * @author Fabian Salzgeber
  * @date 03.4.2015
@@ -40,6 +44,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
         HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
         QueueEntry actEntry = null;
 
+
+        //Todo: Exception Handling
         try {
             for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
                 QueueEntry qe = (QueueEntry) obj;
@@ -53,8 +59,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
                     }
                 }
             }
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
         // set linked list
@@ -73,6 +81,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
         HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
         QueueEntry actEntry = null;
 
+        //Todo: Exception Handling
         try {
             for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
                 QueueEntry qe = (QueueEntry) obj;
@@ -86,8 +95,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
                     }
                 }
             }
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
+        }  catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
         // set linked list
@@ -106,6 +117,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
         HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
         QueueEntry actEntry = null;
 
+
+        //Todo: Exception Handling
         try {
             for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
                 QueueEntry qe = (QueueEntry) obj;
@@ -117,8 +130,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
                     }
                 }
             }
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
+        }  catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
         // set linked list
@@ -163,10 +178,14 @@ public class PatientQueue implements ILogger, IPatientQueue {
         QueueEntry newEntry = new QueueEntry(0, patient, doctor, orthoptist, newParentID, arrivaltime);
 
         // save new entry (send to persistence)
+
+        //Todo: Exception Handling
         try {
             Facade.getInstance().save(newEntry);
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
+        }  catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
         // logging
@@ -195,13 +214,16 @@ public class PatientQueue implements ILogger, IPatientQueue {
         LinkedList<QueueEntry> tempUnassignedQueueEntries = new LinkedList();
 
         // getAll queueEntrys from queue table
+        // Todo: Exception Handling
         try {
             for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
                 QueueEntry qe = (QueueEntry) obj;
                 queue.add(qe);
             }
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
         // remove patient from queuelist
@@ -278,10 +300,13 @@ public class PatientQueue implements ILogger, IPatientQueue {
         deleteAllQueueEntries();
 
         for (QueueEntry queueRebuild : rebuildQueueEntries){
+            //Todo: Exception Handling
             try {
                 Facade.getInstance().save(queueRebuild);
-            } catch (FacadeException e) {
-                log.error("Facade Exception", e);
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
             }
         }
 
@@ -293,21 +318,29 @@ public class PatientQueue implements ILogger, IPatientQueue {
         LinkedList<QueueEntry> queueAll = new LinkedList();
 
         // getAll queueEntrys from queue table
+        //Todo: Exception Handling
         try {
             for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
                 QueueEntry qe = (QueueEntry) obj;
                 queueAll.add(qe);
             }
-        } catch (FacadeException e) {
-            log.error("Facade Exception", e);
+        }  catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
         // deleteAll
+        //Todo: Exception Handling
         for (QueueEntry queueDelete : queueAll) {
             try {
                 Facade.getInstance().delete(queueDelete);
-            } catch (FacadeException e) {
-                log.error("Facade Exception", e);
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+            } catch (InvalideSearchParameterException e) {
+                e.printStackTrace();
             }
         }
     }

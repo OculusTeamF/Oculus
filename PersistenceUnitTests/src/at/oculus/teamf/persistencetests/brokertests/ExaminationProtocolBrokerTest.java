@@ -81,6 +81,7 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			examinationProtocolDoctor = Facade.getInstance().getById(ExaminationProtocol.class,_examinationProtocolDoctor.getId());
 			examinationProtocolOrthoptist = Facade.getInstance().getById(ExaminationProtocol.class,_examinationProtocolOrthoptist.getId());
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 		assertTrue(examinationProtocolDoctor!=null);

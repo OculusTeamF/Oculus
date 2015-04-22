@@ -10,12 +10,9 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.IPatient;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 
 import java.util.LinkedList;
-
-import static org.junit.Assert.*;
 
 public class SearchPatientControllerTest {
 

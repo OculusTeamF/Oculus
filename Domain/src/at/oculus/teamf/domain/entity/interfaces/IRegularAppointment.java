@@ -7,10 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.interfaces;
 
 /**
  * Created by oculus on 20.04.15.
  */
-public interface IOrthoptistAppointment extends IDomain, IEventType {
+public interface IRegularAppointment extends IDomain, IEventType {
 }

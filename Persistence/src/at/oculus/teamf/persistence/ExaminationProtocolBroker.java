@@ -10,99 +10,91 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.*;
-import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
  * ExaminationProtocolBroker.java Created by oculus on 16.04.15.
  */
 public class ExaminationProtocolBroker extends EntityBroker {
-	public ExaminationProtocolBroker() {
-		super(ExaminationProtocol.class, ExaminationProtocolEntity.class);
-	}
+    public ExaminationProtocolBroker() {
+        super(ExaminationProtocol.class, ExaminationProtocolEntity.class);
+    }
 
-	@Override
-	protected IDomain persistentToDomain(IEntity entity) throws FacadeException {
-		ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
-		Doctor doctor = null;
-		Orthoptist orthoptist = null;
-		if (examinationProtocolEntity.getUserId()>0) {
-			for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
-				if (((Doctor) obj).getUserId() == (int) examinationProtocolEntity.getUserId()) {
-					doctor = (Doctor) obj;
-				}
-			}
-			for (Object obj : Facade.getInstance().getAll(Orthoptist.class)) {
-				if (((Orthoptist) obj).getUserId() == (int) examinationProtocolEntity.getUserId()) {
-					orthoptist = (Orthoptist) obj;
-				}
-			}
-		}
+    @Override
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
+        Doctor doctor = null;
+        Orthoptist orthoptist = null;
+        if (examinationProtocolEntity.getUserId() > 0) {
+            for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
+                if (((Doctor) obj).getUserId() == (int) examinationProtocolEntity.getUserId()) {
+                    doctor = (Doctor) obj;
+                }
+            }
+            for (Object obj : Facade.getInstance().getAll(Orthoptist.class)) {
+                if (((Orthoptist) obj).getUserId() == (int) examinationProtocolEntity.getUserId()) {
+                    orthoptist = (Orthoptist) obj;
+                }
+            }
+        }
 
-		Diagnosis diagnosis = null;
-		if (examinationProtocolEntity.getDiagnosisId() != null) {
-			diagnosis = (Diagnosis) Facade.getInstance().getBroker(Diagnosis.class)
-			                              .persistentToDomain(examinationProtocolEntity.getDiagnosis());
-		}
+        Diagnosis diagnosis = null;
+        if (examinationProtocolEntity.getDiagnosisId() != null) {
+            diagnosis = (Diagnosis) Facade.getInstance().getBroker(Diagnosis.class)
+                    .persistentToDomain(examinationProtocolEntity.getDiagnosis());
+        }
 
-		Patient patient = null;
-		if(examinationProtocolEntity.getPatientId() != null){
-			patient = (Patient) Facade.getInstance().getBroker(Patient.class)
-			                            .persistentToDomain(examinationProtocolEntity.getPatient());
-		}
+        Patient patient = null;
+        if (examinationProtocolEntity.getPatientId() != null) {
+            patient = (Patient) Facade.getInstance().getBroker(Patient.class)
+                    .persistentToDomain(examinationProtocolEntity.getPatient());
+        }
 
-		return new ExaminationProtocol(examinationProtocolEntity.getId(), examinationProtocolEntity.getStartTime(),
-		                               examinationProtocolEntity.getEndTime(),
-		                               examinationProtocolEntity.getDescription(), patient, doctor, orthoptist, diagnosis);
-	}
+        return new ExaminationProtocol(examinationProtocolEntity.getId(), examinationProtocolEntity.getStartTime(),
+                examinationProtocolEntity.getEndTime(),
+                examinationProtocolEntity.getDescription(), patient, doctor, orthoptist, diagnosis);
+    }
 
-	@Override
-	protected IEntity domainToPersistent(IDomain obj) {
-		ExaminationProtocol examinationProtocol = (ExaminationProtocol) obj;
+    @Override
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+        ExaminationProtocol examinationProtocol = (ExaminationProtocol) obj;
 
-		PatientEntity patientEntity = null;
-		if(examinationProtocol.getPatient()!=null){
-			try {
-				patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class)
-				                         .domainToPersistent(examinationProtocol.getPatient());
-			} catch (NoBrokerMappedException e) {
-				e.printStackTrace();
-			}
-		}
+        PatientEntity patientEntity = null;
+        if (examinationProtocol.getPatient() != null) {
 
-		UserEntity userEntity = null;
-		if(examinationProtocol.getDoctor()!=null){
-			try {
-				userEntity = ((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
-				                                                  .domainToPersistent(examinationProtocol.getDoctor())).getUser();
-			} catch (NoBrokerMappedException e) {
-				e.printStackTrace();
-			}
-		}
-		if(examinationProtocol.getOrthoptist()!=null){
-			try {
-				userEntity = ((OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
-				                                .domainToPersistent(examinationProtocol.getOrthoptist())).getUser();
-			} catch (NoBrokerMappedException e) {
-				e.printStackTrace();
-			}
-		}
+            patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class)
+                    .domainToPersistent(examinationProtocol.getPatient());
 
-		DiagnosisEntity diagnosisEntity = null;
-		if(examinationProtocol.getDiagnosis()!=null){
-			try {
-				diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
-				                                      .domainToPersistent(examinationProtocol.getDiagnosis());
-			} catch (NoBrokerMappedException e) {
-				e.printStackTrace();
-			}
-		}
+        }
 
-		return new ExaminationProtocolEntity(examinationProtocol.getId(),
-		                                     new java.sql.Date(examinationProtocol.getStartTime().getTime()),
-		                                     new java.sql.Date(examinationProtocol.getEndTime().getTime()),
-		                                     examinationProtocol.getDescription(), patientEntity, userEntity,
-		                                     diagnosisEntity);
-	}
+        UserEntity userEntity = null;
+        if (examinationProtocol.getDoctor() != null) {
+
+            userEntity = ((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+                    .domainToPersistent(examinationProtocol.getDoctor())).getUser();
+
+        }
+        if (examinationProtocol.getOrthoptist() != null) {
+
+            userEntity = ((OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
+                    .domainToPersistent(examinationProtocol.getOrthoptist())).getUser();
+
+        }
+
+        DiagnosisEntity diagnosisEntity = null;
+        if (examinationProtocol.getDiagnosis() != null) {
+            diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
+                    .domainToPersistent(examinationProtocol.getDiagnosis());
+
+        }
+
+        return new ExaminationProtocolEntity(examinationProtocol.getId(),
+                new java.sql.Date(examinationProtocol.getStartTime().getTime()),
+                new java.sql.Date(examinationProtocol.getEndTime().getTime()),
+                examinationProtocol.getDescription(), patientEntity, userEntity,
+                diagnosisEntity);
+    }
 }

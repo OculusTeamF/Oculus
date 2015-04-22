@@ -52,7 +52,8 @@ public class ReceptionistBrokerTest extends BrokerTest {
 	    try {
 		    receptionists = Facade.getInstance().getAll(Receptionist.class);
 	    } catch (FacadeException e) {
-		    e.printStackTrace();
+            assertTrue(false);
+            e.printStackTrace();
 	    }
 
 	    Assert.assertTrue(receptionists != null);

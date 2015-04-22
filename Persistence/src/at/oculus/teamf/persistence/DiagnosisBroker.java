@@ -11,46 +11,44 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.DiagnosisEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
  * DiagnosisBroker.java Created by oculus on 16.04.15.
  */
 public class DiagnosisBroker extends EntityBroker {
-	public DiagnosisBroker() {
-		super(Diagnosis.class, DiagnosisEntity.class);
-	}
+    public DiagnosisBroker() {
+        super(Diagnosis.class, DiagnosisEntity.class);
+    }
 
-	@Override
-	protected IDomain persistentToDomain(IEntity entity) throws FacadeException {
-		DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
+    @Override
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
 
-		Doctor doctor = null;
-		if(diagnosisEntity.getDoctor()!=null){
-			doctor = (Doctor) Facade.getInstance().getById(Doctor.class, diagnosisEntity.getDoctorId());
-		}
+        Doctor doctor = null;
+        if (diagnosisEntity.getDoctor() != null) {
+            doctor = (Doctor) Facade.getInstance().getById(Doctor.class, diagnosisEntity.getDoctorId());
+        }
 
-		return new Diagnosis(diagnosisEntity.getId(), diagnosisEntity.getTitle(), diagnosisEntity.getDescription(), doctor);
-	}
+        return new Diagnosis(diagnosisEntity.getId(), diagnosisEntity.getTitle(), diagnosisEntity.getDescription(), doctor);
+    }
 
-	@Override
-	protected IEntity domainToPersistent(IDomain obj) {
-		Diagnosis diagnosis = (Diagnosis) obj;
+    @Override
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+        Diagnosis diagnosis = (Diagnosis) obj;
 
-		DoctorEntity doctorEntity = null;
-		if(diagnosis.getDoctor()!=null){
-			try {
-				doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(diagnosis.getDoctor());
-			} catch (NoBrokerMappedException e) {
-				e.printStackTrace();
-			}
-		}
+        DoctorEntity doctorEntity = null;
+        if (diagnosis.getDoctor() != null) {
 
-		return new DiagnosisEntity(diagnosis.getId(), diagnosis.getTitle(), diagnosis.getDescription(), doctorEntity);
-	}
+            doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(diagnosis.getDoctor());
+
+        }
+
+        return new DiagnosisEntity(diagnosis.getId(), diagnosis.getTitle(), diagnosis.getDescription(), doctorEntity);
+    }
 }

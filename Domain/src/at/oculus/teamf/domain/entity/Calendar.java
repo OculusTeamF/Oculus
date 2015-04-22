@@ -9,9 +9,10 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.*;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
@@ -46,20 +47,19 @@ public class Calendar implements ICalendar {
     public Collection<CalendarEvent> getEvents() {
         Facade facade = Facade.getInstance();
 
+        //Todo: Exception handling
         try {
             facade.reloadCollection(this, CalendarEvent.class);
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
         } catch (ReloadInterfaceNotImplementedException e) {
             e.printStackTrace();
-            //Todo: Add Loging
-        } catch (InvalidReloadParameterException invalidReloadParameterException) {
-            invalidReloadParameterException.printStackTrace();
-        } catch (NotAbleToLoadClassException e) {
+        } catch (BadConnectionException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-        } catch (FacadeException e) {
-            e.printStackTrace();
         }
+
 
         return _events;
     }
@@ -67,15 +67,6 @@ public class Calendar implements ICalendar {
     public void setEvents(Collection<CalendarEvent> events) {
         _events =events;
     }
-
-/*
-    public User getUser() {
-        return _user;
-    }
-
-    public void setUser(User user) {
-        _user = user;
-    }*/
 
     //</editor-fold>
 }

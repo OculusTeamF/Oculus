@@ -14,5 +14,5 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 /**
  * Created by Norskan on 08.04.2015.
  */
-public class ReloadInterfaceNotImplementedException extends FacadeException {
+public class ReloadInterfaceNotImplementedException extends ReloadException {
 }

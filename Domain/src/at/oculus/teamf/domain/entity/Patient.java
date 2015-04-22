@@ -9,14 +9,20 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Date;
 import java.util.Collection;
 
 /**
- * Todo: add docs, implement equals, getter into interface wrappen
+ * Todo: add docs, implement equals, logger
  *
  * @author Simon Angerer
  * @date 03.4.2015
@@ -104,10 +110,17 @@ public class Patient implements IPatient, IDomain {
     }
 
     public Collection<CalendarEvent> getCalendarEvents() {
+
+        //Todo: Exception Handling
         try {
             Facade.getInstance().reloadCollection(this, CalendarEvent.class);
-        } catch (FacadeException e) {
-            //Todo: add loging
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (InvalidReloadClassException e) {
             e.printStackTrace();
         }
         return _calendarEvents;

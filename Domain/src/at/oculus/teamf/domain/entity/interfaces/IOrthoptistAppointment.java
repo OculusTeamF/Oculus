@@ -7,45 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
-
-import java.util.Date;
+package at.oculus.teamf.domain.entity.interfaces;
 
 /**
  * Created by oculus on 20.04.15.
  */
-public interface IExaminationProtocol extends IDomain {
-    @Override
-    int getId();
-
-    @Override
-    void setId(int id);
-
-    Date getStartTime();
-
-    void setStartTime(Date startTime);
-
-    Date getEndTime();
-
-    void setEndTime(Date endTime);
-
-    String getDescription();
-
-    void setDescription(String description);
-
-    Doctor getDoctor();
-
-    void setDoctor(Doctor doctor);
-
-    Orthoptist getOrthoptist();
-
-    void setOrthoptist(Orthoptist orthoptist);
-
-    Diagnosis getDiagnosis();
-
-    void setDiagnosis(Diagnosis diagnosis);
-
-    Patient getPatient();
-
-    void setPatient(Patient patient);
+public interface IOrthoptistAppointment extends IDomain, IEventType {
 }

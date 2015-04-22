@@ -7,24 +7,32 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.interfaces;
 
-import java.util.Collection;
+import java.util.Date;
 
 /**
- * Created by oculus on 16.04.15.
+ * Created by oculus on 20.04.15.
  */
-public interface IReceptionist extends IDomain {
+public interface ICalendarEvent extends IDomain {
     //<editor-fold desc="Getter/Setter">
     int getId();
 
-    void setId(int _id);
+    void setId(int id);
 
-    Collection<Calendar> getCalendars();
+    String getDescription();
 
-    void setCalendars(Collection<Calendar> calendars);
+    void setDescription(String description);
 
-    Collection<PatientQueue> getQueues();
+    Date getEventStart();
 
-    void setQueues(Collection<PatientQueue> queues);
+    void setEventStart(Date eventStart);
+
+    Date getEventEnd();
+
+    void setEventEnd(Date eventEnd);
+
+    //Patient getPatient();
+
+    //void addPatient(Patient patient);
 }

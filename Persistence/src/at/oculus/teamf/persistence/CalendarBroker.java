@@ -10,11 +10,13 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
-import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 
 import java.util.Collection;
 
@@ -28,21 +30,9 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	@Override
-	protected Calendar persistentToDomain(CalendarEntity entity) throws FacadeException {
+	protected Calendar persistentToDomain(CalendarEntity entity) {
 		Calendar calendar = new Calendar();
 		calendar.setId(entity.getId());
-
-
-		/*if (entity.getDoctor() != null) {
-			calendar.setUser(
-					(Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
-		} else if (entity.getOrthoptist() != null) {
-			calendar.setUser((Orthoptist) Facade.getInstance().getBroker(Orthoptist.class)
-			                                    .persistentToDomain(entity.getOrthoptist()));
-		} else {
-			//Todo: add Logging
-			System.out.println("No User mapped to calendar!");
-		}*/
 		return calendar;
 	}
 
@@ -54,15 +44,15 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 	}
 
 	@Override
-	public void reload(ISession session, Object obj, Class clazz) throws FacadeException {
+	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException{
 		if (clazz == CalendarEvent.class) {
 			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
 		} else {
-			throw new InvalidReloadParameterException();
+			throw new InvalidReloadClassException();
 		}
 	}
 
-	private class CalendarEventsLoaderI implements ICollectionLoader<CalendarEventEntity> {
+	private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {
 
 		@Override
 		public Collection<CalendarEventEntity> load(Object databaseEntity) {
@@ -70,10 +60,10 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		}
 	}
 
-	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws FacadeException {
+	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
 		ReloadComponent reloadComponent =
 				new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoaderI());
+		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
 	}
 }
