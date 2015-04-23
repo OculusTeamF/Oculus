@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * ExaminationProtocolEntity.java Created by oculus on 16.04.15.
+ * Hibernate annotated examination protocol class
  */
 @Entity
 @Table(name = "examinationprotocol", schema = "", catalog = "oculus_f")

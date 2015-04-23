@@ -51,7 +51,7 @@ public class ReceivePatientController implements ILogger {
      * @param iDoctor the doctor who does the examination
      * @param iOrthoptist the orthoptist who does the examination
      */
-    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) {
+    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws NoBrokerMappedException, BadConnectionException {
         Date endtime = new Timestamp(new Date().getTime());
 
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(

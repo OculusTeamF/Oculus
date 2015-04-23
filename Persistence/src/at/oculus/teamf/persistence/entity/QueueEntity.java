@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated queue class
  */
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")

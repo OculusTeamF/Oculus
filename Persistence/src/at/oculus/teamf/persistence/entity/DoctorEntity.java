@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated doctor class
  */
 @Entity
 @Table(name = "doctor", schema = "", catalog = "oculus_f")

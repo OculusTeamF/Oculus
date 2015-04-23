@@ -14,7 +14,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated patient class
  */
 @Entity
 @Table(name = "patient", schema = "", catalog = "oculus_f")

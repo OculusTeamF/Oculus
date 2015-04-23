@@ -25,8 +25,9 @@ import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -225,7 +226,7 @@ public class StartupController implements ILogger{
      * layer and return a list of interfaces.
      *
      **/
-    public Collection<ICalendarEvent> getAllEntries (ICalendar iCalendar) {
+    public Collection<ICalendarEvent> getAllEntries(ICalendar iCalendar) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
         Calendar calendar = (Calendar) iCalendar;
         Collection <CalendarEvent> calendarEvents = calendar.getEvents();
         Collection <ICalendarEvent> iCalendarEvents = new LinkedList <ICalendarEvent>();
@@ -247,7 +248,7 @@ public class StartupController implements ILogger{
      * This method returns all available calendar entries for a single patient.
      *
      **/
-    public Collection <ICalendarEvent> getEventsFromPatient (IPatient iPatient){
+    public Collection<ICalendarEvent> getEventsFromPatient(IPatient iPatient) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
         Patient patient = (Patient) iPatient;
         Collection <CalendarEvent> events = patient.getCalendarEvents();
         Collection <ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();

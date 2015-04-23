@@ -12,7 +12,7 @@ package at.oculus.teamf.persistence.entity;
 import javax.persistence.*;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated event type class
  */
 @Entity
 @Table(name = "eventtype", schema = "", catalog = "oculus_f")

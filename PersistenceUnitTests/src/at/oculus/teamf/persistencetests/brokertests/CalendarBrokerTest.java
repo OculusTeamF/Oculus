@@ -9,20 +9,18 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Norskan on 08.04.2015.
- */
 public class CalendarBrokerTest extends BrokerTest{
 	@Override
 	public void setUp() {
@@ -59,9 +57,9 @@ public class CalendarBrokerTest extends BrokerTest{
 		Facade facade = Facade.getInstance();
 		Calendar cal = null;
 		try {
-			cal = (Calendar)facade.getById(Calendar.class, 1);
-		} catch (FacadeException e) {
-			assertTrue(false);
+            cal = facade.getById(Calendar.class, 1);
+        } catch (FacadeException e) {
+            assertTrue(false);
 			e.printStackTrace();
 		}
 		assertTrue(cal != null);
@@ -73,7 +71,11 @@ public class CalendarBrokerTest extends BrokerTest{
 			assertTrue(false);
 		}
 
-		assertTrue(cal.getEvents() != null);
-		assertTrue(cal.getEvents().size() > 1);
-	}
+        try {
+            assertTrue(cal.getEvents() != null);
+            assertTrue(cal.getEvents().size() > 1);
+        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
+    }
 }

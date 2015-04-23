@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated user class
  */
 @Entity
 @Table(name = "user", schema = "", catalog = "oculus_f")
@@ -28,7 +28,7 @@ public class UserEntity implements IEntity {
     private String _email;
     private Timestamp _createDate;
     private Timestamp _idleDate;
-    private UsergroupEntity _usergroup;
+    //private UsergroupEntity _usergroup;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

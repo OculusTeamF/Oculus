@@ -11,6 +11,9 @@ package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 
+/**
+ * Hibernate annotated calendar working hours class
+ */
 @Entity
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
 public class CalendarworkinghoursEntity implements IEntity {

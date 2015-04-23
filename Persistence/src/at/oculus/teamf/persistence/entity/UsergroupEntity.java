@@ -10,10 +10,9 @@
 package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated user group class
  */
 @Entity
 @Table(name = "usergroup", schema = "", catalog = "oculus_f")
@@ -21,7 +20,7 @@ public class UsergroupEntity implements IEntity {
     private int _id;
     private String _userGroupName;
     private String _description;
-    private Collection<UserEntity> _users;
+    //private Collection<UserEntity> _users;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
