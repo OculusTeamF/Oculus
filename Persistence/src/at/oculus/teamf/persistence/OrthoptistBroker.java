@@ -9,11 +9,14 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 import java.sql.Timestamp;
 
@@ -28,15 +31,13 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 	}
 
 	@Override
-	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws FacadeException {
+	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException {
 		Orthoptist orthoptist = new Orthoptist();
 		orthoptist.setId(entity.getId());
-		try {
-			orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(
+
+		orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(
 					entity.getCalendar()));
-		} catch (FacadeException e) {
-			e.printStackTrace();
-		}
+
 		orthoptist.setQueue(null); // reload when needed!
 		// user data
 		UserEntity userEntity = entity.getUser();

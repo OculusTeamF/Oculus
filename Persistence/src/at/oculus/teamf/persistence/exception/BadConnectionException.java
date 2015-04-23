@@ -7,17 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
-
-import java.util.Collection;
+package at.oculus.teamf.persistence.exception;
 
 /**
- * Created by jpo2433 on 17.04.15.
+ * Created by Simon Angerer on 22.04.2015.
  */
-public interface IPatientQueue {
-    int getUserID();
-
-    void setUserID(int userID);
-
-    Collection<QueueEntry> getEntries();
+public class BadConnectionException extends FacadeException {
 }

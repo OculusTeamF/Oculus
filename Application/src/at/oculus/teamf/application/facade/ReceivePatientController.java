@@ -20,7 +20,6 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.Date;

@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+
 import java.util.Date;
 
 /**

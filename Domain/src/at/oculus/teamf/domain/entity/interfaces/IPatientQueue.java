@@ -7,12 +7,17 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.exception.reload;
+package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.persistence.exception.reload.ReloadException;
+import java.util.Collection;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * Created by jpo2433 on 17.04.15.
  */
-public class InvalidReloadParameterException extends ReloadException {
+public interface IPatientQueue {
+    int getUserID();
+
+    void setUserID(int userID);
+
+    Collection<QueueEntry> getEntries();
 }

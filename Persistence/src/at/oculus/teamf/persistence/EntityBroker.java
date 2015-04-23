@@ -14,9 +14,11 @@ import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransaction
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
-import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.ArrayList;
@@ -64,18 +66,21 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return an instance of {@code D}
      * @throws FacadeException if an error occurs
      */
-    public D getEntity(ISession session, int id) throws FacadeException {
+    public D getEntity(ISession session, int id) throws BadConnectionException, NoBrokerMappedException {
         P entity = null;
 
         try {
             entity = (P) session.getByID(_entityClass, id);
         } catch (BadSessionException e) {
             log.error(e.getMessage());
+            throw new BadConnectionException();
         } catch (ClassNotMappedException e) {
-            log.error(e.getMessage());;
+            log.error(e.getMessage());
+            throw new NoBrokerMappedException();
         }
 
         D result = persistentToDomain(entity);
+
 
         return result;
     }
@@ -87,19 +92,22 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return a collection of objects that are instance of D
      * @throws FacadeException if an error occures
      */
-    public Collection<D> getAll(ISession session) throws FacadeException {
+    public Collection<D> getAll(ISession session) throws BadConnectionException, NoBrokerMappedException {
         Collection<Object> entities = null;
         try {
             entities = (Collection<Object>) session.getAll(_entityClass);
         } catch (BadSessionException e) {
             log.error(e.getMessage());
+            throw new BadConnectionException();
         } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
+            throw new NoBrokerMappedException();
         }
 
         Collection<D> domainObjects = new ArrayList<D>();
         for (Object obj : entities) {
             P entity = (P) obj;
+
             domainObjects.add(persistentToDomain(entity));
         }
 
@@ -113,9 +121,10 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @param domainObj that needs to be saved
      * @return {@code true} if the object was saved, {@code false} if the object could not be saved
      */
-    public boolean saveEntity(ISession session, D domainObj) {
+    public boolean saveEntity(ISession session, D domainObj) throws BadConnectionException, NoBrokerMappedException {
         P entity = domainToPersistent(domainObj);
-	    Boolean returnValue = true;
+
+        Boolean returnValue = true;
 
         try {
             session.beginTransaction();
@@ -128,18 +137,12 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             if(returnValue){
 	            domainObj.setId(entity.getId());
             }
-        } catch (BadSessionException e) {
+        } catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
             log.error(e.getMessage());
-            return false;
-        } catch (AlreadyInTransactionException e) {
-            log.error(e.getMessage());
-            return false;
-        } catch (NoTransactionException e) {
-            log.error(e.getMessage());
-            return false;
+            throw new BadConnectionException();
         } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
-            return false;
+            throw new NoBrokerMappedException();
         }
 
         return returnValue;
@@ -152,7 +155,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @param domainObjs that need to be saved
      * @return {@code true} if the objects was saved, {@code false} if the objects could not be saved
      */
-    public boolean saveAll(ISession session, Collection<D> domainObjs) {
+    public boolean saveAll(ISession session, Collection<D> domainObjs) throws BadConnectionException, NoBrokerMappedException {
         Collection<P> entities = new ArrayList<P>();
         for (D obj : domainObjs) {
             entities.add(domainToPersistent(obj));
@@ -165,18 +168,12 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             }
             session.commit();
 
-        } catch (BadSessionException e) {
+        } catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
             log.error(e.getMessage());
-            return false;
-        } catch (AlreadyInTransactionException e) {
-            log.error(e.getMessage());
-            return false;
-        } catch (NoTransactionException e) {
-            log.error(e.getMessage());
-            return false;
+            throw new BadConnectionException();
         } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
-            return false;
+            throw new NoBrokerMappedException();
         }
 
         return true;
@@ -188,8 +185,10 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @param domainObj that needs to be deleted from the database
      * @return {@code true} if the object was deleted from the database, {@code false} if the object was not deletet
      */
-    public boolean deleteEntity(ISession session, D domainObj) {
-        P entity = domainToPersistent(domainObj);
+    public boolean deleteEntity(ISession session, D domainObj) throws BadConnectionException, NoBrokerMappedException {
+        P entity = null;
+
+        entity = domainToPersistent(domainObj);
 
         try {
             session.beginTransaction();
@@ -198,24 +197,17 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 
             session.commit();
 
-        } catch (BadSessionException e) {
+        } catch (BadSessionException | AlreadyInTransactionException | ClassNotMappedException e) {
             log.error(e.getMessage());
-            return false;
-        } catch (AlreadyInTransactionException e) {
-            log.error(e.getMessage());
-            return false;
+            throw new BadConnectionException();
         } catch (NoTransactionException e) {
             log.error(e.getMessage());
-            return false;
-        } catch (ClassNotMappedException e) {
-            log.error(e.getMessage());
-            return false;
+            throw new BadConnectionException();
         }
-
         return true;
     }
 
-	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs){
+	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs) throws BadConnectionException, NoBrokerMappedException {
 		P entity = null;
 
 		try {
@@ -226,20 +218,14 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 			}
 			session.commit();
 
-		} catch (BadSessionException e) {
+		} catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
             log.error(e.getMessage());
-			return false;
-		} catch (AlreadyInTransactionException e) {
-            log.error(e.getMessage());
-			return false;
-		} catch (NoTransactionException e) {
-            log.error(e.getMessage());
-			return false;
+            throw new BadConnectionException();
 		} catch (ClassNotMappedException e) {
             log.error(e.getMessage());
-			return false;
-		}
-		return true;
+            throw new NoBrokerMappedException();
+        }
+        return true;
 	}
 
     /**
@@ -266,7 +252,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return domain object that is created from entity
      * @throws FacadeException
      */
-    protected abstract D persistentToDomain(P entity) throws FacadeException;
+    protected abstract D persistentToDomain(P entity) throws NoBrokerMappedException, BadConnectionException;
 
     /**
      * Converts a domain object to persitency entity
@@ -274,7 +260,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return return a persitency entity
      * @throws FacadeException
      */
-    protected abstract P domainToPersistent(D obj);
+    protected abstract P domainToPersistent(D obj) throws NoBrokerMappedException, BadConnectionException;
 
     //</editor-fold>
 

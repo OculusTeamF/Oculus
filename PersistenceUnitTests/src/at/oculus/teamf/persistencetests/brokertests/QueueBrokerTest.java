@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -59,6 +60,7 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().save(_newOrthoptistEntry));
 			assertTrue(Facade.getInstance().save(_newEntry));
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
@@ -70,6 +72,7 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(_newOrthoptistEntry));
 			assertTrue(Facade.getInstance().delete(_newEntry));
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
@@ -96,6 +99,7 @@ public class QueueBrokerTest extends BrokerTest {
 		try {
 			queueEntries = Facade.getInstance().getAll(QueueEntry.class);
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 

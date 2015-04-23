@@ -7,32 +7,50 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.interfaces;
+
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.domain.entity.Patient;
 
 import java.util.Date;
 
 /**
  * Created by oculus on 20.04.15.
  */
-public interface ICalendarEvent extends IDomain {
-    //<editor-fold desc="Getter/Setter">
+public interface IExaminationProtocol extends IDomain {
+    @Override
     int getId();
 
+    @Override
     void setId(int id);
+
+    Date getStartTime();
+
+    void setStartTime(Date startTime);
+
+    Date getEndTime();
+
+    void setEndTime(Date endTime);
 
     String getDescription();
 
     void setDescription(String description);
 
-    Date getEventStart();
+    Doctor getDoctor();
 
-    void setEventStart(Date eventStart);
+    void setDoctor(Doctor doctor);
 
-    Date getEventEnd();
+    Orthoptist getOrthoptist();
 
-    void setEventEnd(Date eventEnd);
+    void setOrthoptist(Orthoptist orthoptist);
 
-    //Patient getPatient();
+    Diagnosis getDiagnosis();
 
-    //void addPatient(Patient patient);
+    void setDiagnosis(Diagnosis diagnosis);
+
+    Patient getPatient();
+
+    void setPatient(Patient patient);
 }

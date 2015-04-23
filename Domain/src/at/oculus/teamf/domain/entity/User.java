@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.entity.UsergroupEntity;
-import javafx.scene.control.DateCell;
 
 import java.util.Date;
 

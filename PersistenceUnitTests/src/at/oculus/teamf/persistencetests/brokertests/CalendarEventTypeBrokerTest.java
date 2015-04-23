@@ -27,6 +27,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		try {
 			assertTrue(Facade.getInstance().save(_eventType));
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
@@ -36,6 +37,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		try {
 			assertTrue(Facade.getInstance().delete(_eventType));
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
@@ -47,6 +49,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		try {
 			eventType = Facade.getInstance().getById(EventType.class, 1);
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 
@@ -60,6 +63,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		try {
 			eventTypes = Facade.getInstance().getAll(EventType.class);
 		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 

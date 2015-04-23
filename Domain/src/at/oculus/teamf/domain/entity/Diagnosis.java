@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+
 /**
  * Diagnosis.java
  * Created by oculus on 16.04.15.

@@ -9,12 +9,14 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
-import at.oculus.teamf.persistence.exception.NotAbleToLoadClassException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,8 +48,8 @@ public class DoctorBrokerTest extends BrokerTest {
             doctor = facade.getById(Doctor.class, 1);
 	        System.out.println("Doctor with ID=1 loaded in " + ((System.nanoTime() - startTime)/1000000) + "ms");
         } catch (FacadeException e) {
-            assertTrue(false);
             e.printStackTrace();
+            assertTrue(false);
         }
         assertTrue(doctor != null);
     }
@@ -60,7 +62,8 @@ public class DoctorBrokerTest extends BrokerTest {
 	    try {
 		    doctors = Facade.getInstance().getAll(Doctor.class);
 	    } catch (FacadeException e) {
-		    e.printStackTrace();
+            assertTrue(false);
+            e.printStackTrace();
 	    }
 
 	    assertTrue(doctors != null);
@@ -83,15 +86,6 @@ public class DoctorBrokerTest extends BrokerTest {
 
         try {
             facade.reloadCollection(doctor, Patient.class);
-        } catch (InvalidReloadParameterException invalidReloadParameterException) {
-            invalidReloadParameterException.printStackTrace();
-            assertTrue(false);
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        } catch (NotAbleToLoadClassException e) {
-            e.printStackTrace();
-            assertTrue(false);
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);

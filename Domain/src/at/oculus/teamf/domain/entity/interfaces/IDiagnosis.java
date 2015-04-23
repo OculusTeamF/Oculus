@@ -7,22 +7,33 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.interfaces;
+
+import at.oculus.teamf.domain.entity.Doctor;
 
 /**
- * Created by jpo2433 on 17.04.15.
+ * Created by oculus on 20.04.15.
  */
-public interface IOrthoptist extends IUser {
-
+public interface IDiagnosis extends IDomain {
+    @Override
     int getId();
 
+    @Override
     void setId(int id);
 
-    Calendar getCalendar();
+    String getTitle();
 
-    void setCalendar(Calendar calendar);
+    void setTitle(String title);
 
-    PatientQueue getQueue();
+    String getDescription();
 
-    void setQueue(PatientQueue queue);
+    void setDescription(String description);
+
+    Integer getDoctorId();
+
+    void setDoctorId(Integer doctorId);
+
+    Doctor getDoctor();
+
+    void setDoctor(Doctor doctor);
 }

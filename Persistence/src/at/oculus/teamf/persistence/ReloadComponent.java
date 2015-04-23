@@ -13,9 +13,10 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.NotAbleToLoadClassException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +32,7 @@ import java.util.Collection;
  * @version 1.0
  * @date 12.04.2015
  */
-public class ReloadComponent {
+public class ReloadComponent implements ILogger{
 
     private Class _entityClazz;
     private Class _clazzToLoad;
@@ -52,20 +53,20 @@ public class ReloadComponent {
      * @return collection of domain objects
      * @throws FacadeException gets thrown if an error occures
      */
-    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws FacadeException {
+    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
         //load database CalendarEventEntity that has the collection that needs to be reloaded
         Object databaseEntity = null;
+
         try {
             databaseEntity = session.getByID(_entityClazz, id);
         } catch (BadSessionException e) {
-            e.printStackTrace();
+            log.error("Session is no longer valide! Original Message: " + e.getMessage());
+            throw new BadConnectionException();
         } catch (ClassNotMappedException e) {
-            e.printStackTrace();
-        }
-        if (databaseEntity == null) {
-            throw new NotAbleToLoadClassException();
+            log.error("Class not mapped: " + e.getMessage());
+            throw new NoBrokerMappedException();
         }
 
         //load CalendarEventEntity collection from database CalendarEventEntity
@@ -74,14 +75,8 @@ public class ReloadComponent {
 
         //get domain object broker
         EntityBroker toLoadClassDomainBroker = null;
-        try {
-            toLoadClassDomainBroker = facade.getBroker(_clazzToLoad);
-        } catch (NoBrokerMappedException e) {
-            //Todo: add Loging
-            e.printStackTrace();
+        toLoadClassDomainBroker = facade.getBroker(_clazzToLoad);
 
-            throw new NotAbleToLoadClassException();
-        }
 
         //convert database entity collection to domain entity collection
         Collection objects = new ArrayList();

@@ -39,6 +39,7 @@ public class CalendarEventBrokerTest extends BrokerTest {
         try {
             calendarEvent = Facade.getInstance().getById(CalendarEvent.class, 1);
         } catch (FacadeException e) {
+            assertTrue(false);
             e.printStackTrace();
         }
 
@@ -52,6 +53,7 @@ public class CalendarEventBrokerTest extends BrokerTest {
         try {
             calendarEvents = Facade.getInstance().getAll(CalendarEvent.class);
         } catch (FacadeException e) {
+            assertTrue(false);
             e.printStackTrace();
         }
 

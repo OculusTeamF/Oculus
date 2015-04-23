@@ -7,10 +7,17 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.interfaces;
 
 /**
- * Created by oculus on 20.04.15.
+ * Created by FabianLaptop on 08.04.2015.
  */
-public interface IFirstAppointment extends IDomain, IEventType {
+public interface ICalendar extends IDomain{
+    int getId();
+
+    /*
+    void setId(int calendarID);
+
+    void setEvents(Collection<CalendarEvent> events);
+    */
 }

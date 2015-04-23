@@ -13,12 +13,10 @@ import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.interfaces.*;
 
 import java.util.Date;
 import java.util.LinkedList;
-
-import static org.junit.Assert.*;
 
 public class ReceivePatientControllerTest {
 

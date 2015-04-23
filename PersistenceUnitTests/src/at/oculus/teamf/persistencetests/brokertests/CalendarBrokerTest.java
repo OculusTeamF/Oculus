@@ -9,11 +9,12 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.*;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadParameterException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import org.junit.Test;
 
@@ -67,15 +68,6 @@ public class CalendarBrokerTest extends BrokerTest{
 
 		try {
 			facade.reloadCollection(cal, CalendarEvent.class);
-		} catch (InvalidReloadParameterException invalidReloadParameterException) {
-			invalidReloadParameterException.printStackTrace();
-			assertTrue(false);
-		} catch (ReloadInterfaceNotImplementedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NotAbleToLoadClassException e) {
-			e.printStackTrace();
-			assertTrue(false);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);

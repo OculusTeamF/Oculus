@@ -9,7 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 
 /**
  * Created by Norskan on 03.04.2015.

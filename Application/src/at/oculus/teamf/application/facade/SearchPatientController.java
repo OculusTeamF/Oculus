@@ -19,7 +19,7 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
