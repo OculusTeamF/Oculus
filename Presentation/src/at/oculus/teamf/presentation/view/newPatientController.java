@@ -16,7 +16,7 @@ import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.domain.entity.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

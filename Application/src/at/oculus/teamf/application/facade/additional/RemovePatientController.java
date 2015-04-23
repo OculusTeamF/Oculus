@@ -18,8 +18,9 @@ package at.oculus.teamf.application.facade.additional;
  * This file contains the removePatientController. It implements the posibility to remove a patient from the database.
  **/
 
-import at.oculus.teamf.domain.entity.IPatient;
+
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;

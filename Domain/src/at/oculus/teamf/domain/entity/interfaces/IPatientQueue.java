@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.QueueEntry;
+
 import java.util.Collection;
 
 /**
