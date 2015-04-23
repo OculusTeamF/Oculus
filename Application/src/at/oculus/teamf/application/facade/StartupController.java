@@ -260,4 +260,57 @@ public class StartupController implements ILogger{
         log.info("All calendar events have been acquired and added to the ICalendarEvent collection.");
         return iEvents;
     }
+
+    /**
+    * <h3>$getAllDoctorsAndOrthoptists</h3>
+    *
+    * <b>Description:</b>
+    *
+    * This method returns all available orthoptists and doctors in one collection. We get a list of all
+    * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
+    **/
+    public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, NoBrokerMappedException {
+        Collection<Orthoptist> orthoptists;
+        Facade facade = Facade.getInstance();
+
+        try {
+            orthoptists = facade.getAll(Orthoptist.class);
+            log.info("All orthoptists have been acquired.");
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        Collection<Doctor> doctors;
+
+        try {
+            doctors = facade.getAll(Doctor.class);
+            log.info("All doctors have been acquired.");
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        Collection<IUser> iUsers = new LinkedList<>();
+
+        if (orthoptists != null){
+            for(Orthoptist o : orthoptists){
+                iUsers.add(o);
+            }
+        }
+        if (doctors != null){
+            for (Doctor doc : doctors){
+                iUsers.add(doc);
+            }
+        }
+
+        log.info("All doctors and orthoptists have been added to the IUser collection.");
+        return iUsers;
+    }
 }
