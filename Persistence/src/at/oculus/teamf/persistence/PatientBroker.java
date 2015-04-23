@@ -11,7 +11,6 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
@@ -19,7 +18,7 @@ import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -120,7 +119,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return
      */
     @Override
-    public Collection<Patient> search(ISession session, String... params) throws InvalideSearchParameterException, BadConnectionException, NoBrokerMappedException {
+    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
         Collection<Object> patientsResult = null;
         Collection<Patient> patients = new LinkedList<Patient>();
 
@@ -133,7 +132,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         } else if (params.length == 3) {
             query = "getPatientBySingle";
         } else {
-            throw new InvalideSearchParameterException();
+            throw new InvalidSearchParameterException();
         }
 
         try {

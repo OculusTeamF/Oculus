@@ -7,18 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence;
-
-import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
-
-import java.util.Collection;
+package at.oculus.teamf.application.facade.exceptions;
 
 /**
- * ISearch.java Created by oculus on 17.04.15.
+ * Created by oculus on 23.04.15.
  */
-interface ISearch<T> {
-	public Collection<T> search(ISession session, String[] params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException;
+public class SearchPatientControllerException extends Exception {
 }

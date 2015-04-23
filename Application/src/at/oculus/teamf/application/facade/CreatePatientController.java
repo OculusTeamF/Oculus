@@ -16,7 +16,9 @@ import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
@@ -65,7 +67,7 @@ public class CreatePatientController implements ILogger{
      * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
 
-    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, FacadeException, PatientCouldNotBeSavedException {
+    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
         Patient patient = new Patient();
         log.info("New patient object has been created.");
         if(gender.equals("female")){
@@ -88,9 +90,12 @@ public class CreatePatientController implements ILogger{
         try {
             savePatient(patient);
             log.info("Patient object has been saved!");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Patient cannot be saved!");
-            throw facadeException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Patient cannot be saved!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
+            throw noBrokerMappedException;
         }
     }
 
@@ -105,7 +110,7 @@ public class CreatePatientController implements ILogger{
      *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be saved in the database
      */
-    private void savePatient(Patient patient) throws RequirementsNotMetException, FacadeException, PatientCouldNotBeSavedException {
+    private void savePatient(Patient patient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
 
         if(checkRequirements(patient)){
             log.info("Requirements are fulfilled!");
@@ -117,10 +122,12 @@ public class CreatePatientController implements ILogger{
                     log.warn("Patient could not be saved!");
                     throw new PatientCouldNotBeSavedException();
                 }
-            } catch (FacadeException facadeException) {
-                log.warn("FacadeException caught! Patient cannot be saved!");
-                throw facadeException;
-
+            } catch (BadConnectionException badConnectionException) {
+                log.warn("BadConnectionException caught! Patient cannot be saved!");
+                throw badConnectionException;
+            } catch (NoBrokerMappedException noBrokerMappedException) {
+                log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
+                throw noBrokerMappedException;
             }
         }else{
             log.warn("Requirements unfulfilled!");

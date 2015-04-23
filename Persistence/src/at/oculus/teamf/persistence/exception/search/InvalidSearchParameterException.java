@@ -12,5 +12,5 @@ package at.oculus.teamf.persistence.exception.search;
 /**
  * Created by Simon Angerer on 20.04.2015.
  */
-public class InvalideSearchParameterException extends SearchException {
+public class InvalidSearchParameterException extends SearchException {
 }

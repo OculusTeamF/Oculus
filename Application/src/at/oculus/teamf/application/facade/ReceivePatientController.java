@@ -21,6 +21,9 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -75,7 +78,7 @@ public class ReceivePatientController implements ILogger {
      * @param iqueue the interface of the queue from which the specified patient should be removed
      */
 
-    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue){
+    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
         Patient patient = (Patient) ipatient;
         PatientQueue queue = (PatientQueue) iqueue;
 
