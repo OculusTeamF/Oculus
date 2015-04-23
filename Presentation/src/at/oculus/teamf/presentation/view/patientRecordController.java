@@ -16,8 +16,8 @@ import at.oculus.teamf.application.facade;
 */
 
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.IDoctor;
-import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

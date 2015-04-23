@@ -18,7 +18,7 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
