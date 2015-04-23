@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.IPatient;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
