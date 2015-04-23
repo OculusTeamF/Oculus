@@ -67,6 +67,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @throws FacadeException if an error occurs
      */
     public D getEntity(ISession session, int id) throws BadConnectionException, NoBrokerMappedException {
+        log.info("get " + _domainClass.getClass() + " with ID " + id);
+
         P entity = null;
 
         try {
@@ -81,7 +83,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 
         D result = persistentToDomain(entity);
 
-
         return result;
     }
 
@@ -93,6 +94,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @throws FacadeException if an error occures
      */
     public Collection<D> getAll(ISession session) throws BadConnectionException, NoBrokerMappedException {
+        log.info("get all " + _domainClass.getClass());
+
         Collection<Object> entities = null;
         try {
             entities = (Collection<Object>) session.getAll(_entityClass);
@@ -122,6 +125,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return {@code true} if the object was saved, {@code false} if the object could not be saved
      */
     public boolean saveEntity(ISession session, D domainObj) throws BadConnectionException, NoBrokerMappedException {
+        log.info("save " + _domainClass.getClass() + " with ID " + domainObj.getId());
+
         P entity = domainToPersistent(domainObj);
 
         Boolean returnValue = true;
@@ -145,6 +150,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             throw new NoBrokerMappedException();
         }
 
+        log.info(_domainClass.getClass() + " with ID " + domainObj.getId() + " saved");
+
         return returnValue;
     }
 
@@ -156,6 +163,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return {@code true} if the objects was saved, {@code false} if the objects could not be saved
      */
     public boolean saveAll(ISession session, Collection<D> domainObjs) throws BadConnectionException, NoBrokerMappedException {
+        log.info("save collection of " + _domainClass.getClass());
+
         Collection<P> entities = new ArrayList<P>();
         for (D obj : domainObjs) {
             entities.add(domainToPersistent(obj));
@@ -176,6 +185,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             throw new NoBrokerMappedException();
         }
 
+        log.info("collection of " + _domainClass.getClass() + " saved");
+
         return true;
     }
 
@@ -186,6 +197,8 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @return {@code true} if the object was deleted from the database, {@code false} if the object was not deletet
      */
     public boolean deleteEntity(ISession session, D domainObj) throws BadConnectionException, NoBrokerMappedException {
+        log.info("delete " + _domainClass.getClass() + " with id " + domainObj.getId());
+
         P entity = null;
 
         entity = domainToPersistent(domainObj);
@@ -204,10 +217,15 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             log.error(e.getMessage());
             throw new BadConnectionException();
         }
+
+        log.info( _domainClass.getClass() + " with id " + domainObj.getId() + " deleted");
+
         return true;
     }
 
 	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs) throws BadConnectionException, NoBrokerMappedException {
+        log.info("deleting collection of " + _domainClass.getClass());
+
 		P entity = null;
 
 		try {
@@ -225,6 +243,9 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             log.error(e.getMessage());
             throw new NoBrokerMappedException();
         }
+
+        log.info("collection of " + _domainClass.getClass() + " deleted");
+
         return true;
 	}
 

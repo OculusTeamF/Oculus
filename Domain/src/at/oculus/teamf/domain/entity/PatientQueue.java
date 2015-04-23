@@ -241,8 +241,6 @@ public class PatientQueue implements ILogger, IPatientQueue {
                         break;
                     }
                 } else {
-                    log.debug("queue entity: " + qe);
-                    log.debug("queue delete: " + queueEntryDel);
                     if(qe.getQueueIdParent() != null) {
                         if ((int) qe.getQueueIdParent() == queueEntryDel.getId()) {
                             queueEntryChd = qe;
@@ -254,7 +252,6 @@ public class PatientQueue implements ILogger, IPatientQueue {
             }
         }
 
-        log.debug("queue entry child: " + queueEntryChd);
         if(queueEntryChd != null) {
             Facade.getInstance().save(queueEntryChd);
         }
