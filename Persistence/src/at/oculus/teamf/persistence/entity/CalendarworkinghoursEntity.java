@@ -11,17 +11,13 @@ package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 
-/**
- * Created by Norskan on 07.04.2015.
- */
-// TODO PropertyHelper für catalog="oculus_f"
 @Entity
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
 public class CalendarworkinghoursEntity implements IEntity {
 	private int _id;
     private int _workingHoursId;
     private int _calendarId;
-    private WorkinghoursEntity _workinghours;
+    //private WorkinghoursEntity _workinghours;
     private CalendarEntity _calendar;
 
 	@Id
@@ -62,11 +58,7 @@ public class CalendarworkinghoursEntity implements IEntity {
 
         CalendarworkinghoursEntity that = (CalendarworkinghoursEntity) o;
 
-	    if (_id != that._id) return false;
-        if (_workingHoursId != that._workingHoursId) return false;
-        if (_calendarId != that._calendarId) return false;
-
-        return true;
+        return _id == that._id && _workingHoursId == that._workingHoursId && _calendarId == that._calendarId;
     }
 
     @Override
