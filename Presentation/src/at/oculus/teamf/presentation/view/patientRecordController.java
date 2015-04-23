@@ -29,7 +29,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxResult;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
@@ -191,7 +190,10 @@ public class patientRecordController implements Initializable {
         }
     }
 
+    @FXML
     private void addPatientToQueue(){
+        DialogBoxController dial = new DialogBoxController();
+        dial.showInformationDialog("added",patient.getFirstName());
         try {
             Timestamp tstamp = new Timestamp(new Date().getTime());
             Doctor doc = Facade.getInstance().getById(Doctor.class, 4);
@@ -203,8 +205,6 @@ public class patientRecordController implements Initializable {
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**

@@ -286,7 +286,7 @@ public class MainController implements Initializable {
     @FXML
     public void newPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/newPatientTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
@@ -296,7 +296,7 @@ public class MainController implements Initializable {
     public void addPatientTab(IPatient patient){
         try {
             currPatient = patient;
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
             displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + currPatient.getFirstName() + " " + currPatient.getLastName());
         } catch (IOException e) {
@@ -315,7 +315,7 @@ public class MainController implements Initializable {
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/searchPatientTab.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
