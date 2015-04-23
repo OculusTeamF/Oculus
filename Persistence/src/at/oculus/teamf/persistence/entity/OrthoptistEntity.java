@@ -77,7 +77,7 @@ public class OrthoptistEntity implements IEntity {
         return result;
     }
 
-    @ManyToOne
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;

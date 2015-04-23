@@ -9,6 +9,11 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.*;
@@ -67,7 +72,6 @@ public class ExaminationProtocolBroker extends EntityBroker {
 
             patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class)
                     .domainToPersistent(examinationProtocol.getPatient());
-
         }
 
         UserEntity userEntity = null;
@@ -75,20 +79,17 @@ public class ExaminationProtocolBroker extends EntityBroker {
 
             userEntity = ((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
                     .domainToPersistent(examinationProtocol.getDoctor())).getUser();
-
         }
         if (examinationProtocol.getOrthoptist() != null) {
 
             userEntity = ((OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
                     .domainToPersistent(examinationProtocol.getOrthoptist())).getUser();
-
         }
 
         DiagnosisEntity diagnosisEntity = null;
         if (examinationProtocol.getDiagnosis() != null) {
             diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
                     .domainToPersistent(examinationProtocol.getDiagnosis());
-
         }
 
         return new ExaminationProtocolEntity(examinationProtocol.getId(),
@@ -97,4 +98,45 @@ public class ExaminationProtocolBroker extends EntityBroker {
                 examinationProtocol.getDescription(), patientEntity, userEntity,
                 diagnosisEntity);
     }
+
+	/**
+	 * save the examination protocol (override methog because of transient instance user)
+	 * @param session that should be used
+	 * @param domainObj that needs to be saved
+	 * @return
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 */
+	@Override
+	public boolean saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException {
+		log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
+
+		ExaminationProtocolEntity entity = (ExaminationProtocolEntity) domainToPersistent(domainObj);
+
+		Boolean returnValue = true;
+
+		try {
+			session.beginTransaction();
+
+			session.saveOrUpdate(entity.getUser());
+			session.saveOrUpdate(entity);
+
+			returnValue = session.commit();
+
+			// update IDs when commit was successful
+			if(returnValue){
+				domainObj.setId(entity.getId());
+			}
+		} catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
+			log.error(e.getMessage());
+			throw new BadConnectionException();
+		} catch (ClassNotMappedException e) {
+			log.error(e.getMessage());
+			throw new NoBrokerMappedException();
+		}
+
+		log.info(_domainClass.toString() + " with ID " + domainObj.getId() + " saved");
+
+		return returnValue;
+	}
 }

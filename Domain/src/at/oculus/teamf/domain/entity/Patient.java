@@ -17,6 +17,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
 import java.util.Collection;
@@ -27,108 +28,101 @@ import java.util.Collection;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Patient implements IPatient, IDomain {
+public class Patient implements IPatient, IDomain, ILogger {
 
-    //<editor-fold desc="Attributes">
-    private int _id;
-    private String _firstName;
-    private String _lastName;
-    private Gender _gender;
-    private String _socialInsuranceNr;
-    private Doctor _doctor;
-    private Collection<CalendarEvent> _calendarEvents;
-    private Date _birthDay;
-    private String _street;
-    private String _postalCode;
-    private String _city;
-    private String _countryIsoCode;
-    private String _phone;
-    private String _email;
-    private String _allergy;
-    private String _childhoodAilments;
-    private String _medicineIntolerance;
+	//<editor-fold desc="Attributes">
+	private int _id;
+	private String _firstName;
+	private String _lastName;
+	private Gender _gender;
+	private String _socialInsuranceNr;
+	private Doctor _doctor;
+	private Collection<CalendarEvent> _calendarEvents;
+	private Date _birthDay;
+	private String _street;
+	private String _postalCode;
+	private String _city;
+	private String _countryIsoCode;
+	private String _phone;
+	private String _email;
+	private String _allergy;
+	private String _childhoodAilments;
+	private String _medicineIntolerance;
+	private Collection<ExaminationProtocol> _examinationProtocol;
 
-    //private EntityBroker eb;
+	//private EntityBroker eb;
 
-    //</editor-fold>
+	//</editor-fold>
 
-    public Patient(){
-        //IEntity p = eb.getEnity(PatientEntity.class, 0);
+	public Patient() {
+		//IEntity p = eb.getEnity(PatientEntity.class, 0);
 
-    }
+	}
 
-    //<editor-fold desc="Getter/Setter">
+	//<editor-fold desc="Getter/Setter">
 
-    public int getId() {
+	public int getId() {
 
-        return _id;
-    }
+		return _id;
+	}
 
-    public void setId(int id) {
-        _id = id;
-    }
+	public void setId(int id) {
+		_id = id;
+	}
 
-    public String getFirstName() {
-        return _firstName;
-    }
+	public String getFirstName() {
+		return _firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        _firstName = firstName;
-    }
+	public void setFirstName(String firstName) {
+		_firstName = firstName;
+	}
 
-    public String getLastName() {
-        return _lastName;
-    }
+	public String getLastName() {
+		return _lastName;
+	}
 
-    public Patient setLastName(String lastName) {
-        _lastName = lastName;
-        return this;
-    }
+	public Patient setLastName(String lastName) {
+		_lastName = lastName;
+		return this;
+	}
 
-    public Gender getGender() {
-        return _gender;
-    }
+	public Gender getGender() {
+		return _gender;
+	}
 
-    public void setGender(String gender){
-        if(gender.equals("male")){
-            setGender(Gender.Male);
-        }else if(gender.equals("female")){
-            setGender(Gender.Female);
-        }
-    }
+	public void setGender(String gender) {
+		if (gender.equals("male")) {
+			setGender(Gender.Male);
+		} else if (gender.equals("female")) {
+			setGender(Gender.Female);
+		}
+	}
 
-    public void setGender(Gender gender) {
-        _gender = gender;
-    }
+	public void setGender(Gender gender) {
+		_gender = gender;
+	}
 
-    public Doctor getDoctor() {
-        return _doctor;
-    }
+	public Doctor getDoctor() {
+		return _doctor;
+	}
 
-    public void setDoctor(Doctor doctor) {
-        _doctor = doctor;
-    }
+	public void setDoctor(Doctor doctor) {
+		_doctor = doctor;
+	}
 
-    public Collection<CalendarEvent> getCalendarEvents() {
+	public Collection<CalendarEvent> getCalendarEvents()
+			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+			       NoBrokerMappedException {
 
-        //Todo: Exception Handling
-        try {
-            Facade.getInstance().reloadCollection(this, CalendarEvent.class);
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        }
-        return _calendarEvents;
-    }
+		Facade.getInstance().reloadCollection(this, CalendarEvent.class);
 
-    public void setCalendarEvents(Collection<CalendarEvent> calendarEvents) {
-        _calendarEvents = calendarEvents;
-    }
+		return _calendarEvents;
+	}
+
+	public void setCalendarEvents(Collection<CalendarEvent> calendarEvents) {
+		_calendarEvents = calendarEvents;
+	}
 
 	public String getSocialInsuranceNr() {
 		return _socialInsuranceNr;
@@ -138,17 +132,17 @@ public class Patient implements IPatient, IDomain {
 		_socialInsuranceNr = socialInsuranceNr;
 	}
 
-    @Override
-    public IDoctor getIDoctor() {
-        return _doctor;
-    }
+	@Override
+	public IDoctor getIDoctor() {
+		return _doctor;
+	}
 
-    @Override
-    public void setIDoctor(IDoctor idoctor) {
-        _doctor = (Doctor) idoctor;
-    }
+	@Override
+	public void setIDoctor(IDoctor idoctor) {
+		_doctor = (Doctor) idoctor;
+	}
 
-    public Date getBirthDay() {
+	public Date getBirthDay() {
 		return _birthDay;
 	}
 
@@ -228,14 +222,31 @@ public class Patient implements IPatient, IDomain {
 		_medicineIntolerance = medicineIntolerance;
 	}
 
+	public Collection<ExaminationProtocol> getExaminationProtocol()
+			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+			       NoBrokerMappedException {
+
+		Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
+
+		return _examinationProtocol;
+	}
+
+	public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
+		_examinationProtocol = examinationProtocol;
+	}
+
 	//</editor-fold>
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return getFirstName() + " " + getLastName();
 	}
 
-    public void addExaminationProtocol(ExaminationProtocol examinationProtocol) {
-        //TODO
-    }
+	public void addExaminationProtocol(ExaminationProtocol examinationProtocol)
+			throws NoBrokerMappedException, BadConnectionException {
+		log.debug("adding examination protocol to patient " + this);
+		examinationProtocol.setPatient(this);
+		_examinationProtocol.add(examinationProtocol);
+		Facade.getInstance().save(examinationProtocol);
+	}
 }

@@ -62,7 +62,7 @@ public class ReceptionistEntity implements IEntity {
         return result;
     }
 
-    @OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;

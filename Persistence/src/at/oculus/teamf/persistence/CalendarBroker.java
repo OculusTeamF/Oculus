@@ -10,19 +10,14 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-
 import java.util.Collection;
 
-/**
- * Created by Norskan on 08.04.2015. //Todo: add docs
- */
 class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements ICollectionReload {
 
 	public CalendarBroker() {

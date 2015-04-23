@@ -95,23 +95,28 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         return patientEntity;
     }
 
-
     private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
         ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
 
         return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
     }
 
+	private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws  BadConnectionException, NoBrokerMappedException {
+		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
+
+		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
+	}
+
     @Override
     public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException {
         if (clazz == CalendarEvent.class) {
-            ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
+	        ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
+        } else if (clazz == ExaminationProtocol.class) {
+	        ((Patient) obj).setExaminationProtocol(reloadExaminationProtocol(session, obj));
         } else {
             throw new InvalidReloadClassException();
         }
     }
-
-
 
     /**
      * @param session Session
@@ -157,18 +162,11 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         }
     }
 
-
-    private class ExaminationProtocol implements ICollectionLoader<ExaminationProtocolEntity> {
+    private class ExaminationProtocolLoader implements ICollectionLoader<ExaminationProtocolEntity> {
 
         @Override
         public Collection<ExaminationProtocolEntity> load(Object databaseEntity) {
             return ((PatientEntity) databaseEntity).getExaminationProtocol();
         }
-    }
-
-    private Collection<at.oculus.teamf.domain.entity.ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws  BadConnectionException, NoBrokerMappedException {
-        ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, at.oculus.teamf.domain.entity.ExaminationProtocol.class);
-
-        return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
     }
 }

@@ -9,10 +9,18 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -100,17 +108,36 @@ public class PatientBrokerTest extends BrokerTest {
 
     }
 
+	@Test
 	public void testReload() {
         Patient patient = null;
         try {
-            patient = Facade.getInstance().getById(Patient.class, 1);
+	        for(Object p : Facade.getInstance().search(Patient.class, "5678151082")){
+		        patient = (Patient) p;
+	        }
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
         }
 
-        assertTrue(patient.getCalendarEvents() != null);
-        assertTrue(patient.getCalendarEvents().size() == 1);
+		try {
+			assertTrue(patient.getCalendarEvents() != null);
+			assertTrue(patient.getCalendarEvents().size() == 3);
+			assertTrue(patient.getExaminationProtocol() != null);
+			assertTrue(patient.getExaminationProtocol().size()==5);
+		} catch (InvalidReloadClassException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (ReloadInterfaceNotImplementedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
     }
 
 	@Test
@@ -148,5 +175,77 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 		assertTrue(patients.size()==6);
+	}
+
+	@Test
+	public void testAddExaminationProtocol(){
+		// load patient and doctor
+		Patient patient = null;
+		try {
+			for(Object p : Facade.getInstance().search(Patient.class, "5678151082")){
+				patient = (Patient) p;
+			}
+		} catch (SearchInterfaceNotImplementedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (InvalidSearchParameterException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		// create diagnosis
+		Diagnosis diagnosis = new Diagnosis();
+		diagnosis.setDoctor(patient.getDoctor());
+		diagnosis.setTitle("Test Diagnosis");
+		diagnosis.setDescription("Test Text einer Diagnose.");
+		try {
+			assertTrue(Facade.getInstance().save(diagnosis));
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		// create examination protocol
+		ExaminationProtocol examinationProtocol = new ExaminationProtocol();
+		examinationProtocol.setDoctor(patient.getDoctor());
+		examinationProtocol.setOrthoptist(null);
+		examinationProtocol.setDescription("Test Text eines Protokolls.");
+		examinationProtocol.setStartTime(new Date());
+		examinationProtocol.setEndTime(new Date());
+		examinationProtocol.setDiagnosis(diagnosis);
+		try {
+			assertTrue(Facade.getInstance().save(examinationProtocol));
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		// delete
+		try {
+			assertTrue(Facade.getInstance().save(examinationProtocol.getDoctor()));
+			assertTrue(Facade.getInstance().delete(examinationProtocol));
+			assertTrue(Facade.getInstance().delete(diagnosis));
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		} catch (InvalidSearchParameterException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 }

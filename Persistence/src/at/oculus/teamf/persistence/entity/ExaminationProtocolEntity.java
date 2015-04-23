@@ -116,7 +116,7 @@ public class ExaminationProtocolEntity implements IEntity {
 	}
 
 	//TODO Review cascade=CascadeType.ALL
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	public UserEntity getUser() {
 		return _user;
