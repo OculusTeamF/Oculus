@@ -11,14 +11,17 @@ package at.oculus.teamf.presentation.view;
 /**
  * Created by Karo on 09.04.2015.
  */
-/*
-import at.oculus.teamf.application.facade;
-*/
 
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.IDoctor;
-import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -26,11 +29,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxResult;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -132,6 +137,7 @@ public class patientRecordController implements Initializable {
        /* patientRecordAllergies.setText(patient.getAllergy());
         patientRecordIntolerance.setText(patient.getMedicineIntolerance());
         patientRecordChildhood.setText(patient.getChildhoodAilments());*/
+
     }
 
    @FXML
@@ -183,6 +189,22 @@ public class patientRecordController implements Initializable {
                 //TODO: close Tab;
             }
         }
+    }
+
+    private void addPatientToQueue(){
+        try {
+            Timestamp tstamp = new Timestamp(new Date().getTime());
+            Doctor doc = Facade.getInstance().getById(Doctor.class, 4);
+            IPatientQueue qe = doc.getQueue();
+            qe.addPatient((Patient) patient,doc,null,tstamp);
+            Main.controller.refreshQueue();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**

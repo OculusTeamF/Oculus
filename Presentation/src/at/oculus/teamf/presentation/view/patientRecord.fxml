@@ -95,7 +95,7 @@
           <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="addToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>

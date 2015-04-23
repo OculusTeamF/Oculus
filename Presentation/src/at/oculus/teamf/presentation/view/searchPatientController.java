@@ -18,7 +18,7 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -32,11 +32,17 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import org.controlsfx.control.PropertySheet;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -45,20 +51,44 @@ import java.util.ResourceBundle;
 
 public class searchPatientController implements Initializable{
 
+    private static Map<String, Object> customDataMap = new LinkedHashMap<>();
+
+    static {
+        customDataMap.put("1. Name#First Name", "Jonathan");
+        customDataMap.put("1. Name#Last Name", "Giles");
+        customDataMap.put("1. Name#Birthday", LocalDate.of(1985, Month.JANUARY, 12));
+        customDataMap.put("2. Billing Address#Address 1", "");
+        customDataMap.put("2. Billing Address#Address 2", "");
+        customDataMap.put("2. Billing Address#City", "");
+        customDataMap.put("2. Billing Address#State", "");
+        customDataMap.put("2. Billing Address#Zip", "");
+        customDataMap.put("3. Phone#Home", "123-123-1234");
+        customDataMap.put("3. Phone#Mobile", "234-234-2345");
+        customDataMap.put("3. Phone#Work", "");
+    }
+
+
     @FXML public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
     @FXML public Button searchPatientButton;
     @FXML public Tab searchPatientTab;
+    @FXML public AnchorPane searchAnchor;
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
-    /*private Patient _patient;
-    private Tab _patientRecordTab;*/
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<PropertySheet.Item> list = FXCollections.observableArrayList();
+        for (String key : customDataMap.keySet()) {
+            list.add(new CustomPropertyItem(key));
+        }
+
+        PropertySheet propertySheet = new PropertySheet(list);
+        searchPatientTab.setContent(propertySheet);
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -122,6 +152,50 @@ public class searchPatientController implements Initializable{
                 }
             }
         });
+    }
+
+    class CustomPropertyItem implements PropertySheet.Item {
+
+        private String key;
+        private String category, name;
+
+        public CustomPropertyItem(String key) {
+            this.key = key;
+            String[] skey = key.split("#");
+            category = skey[0];
+            name = skey[1];
+        }
+
+        @Override
+        public Class<?> getType() {
+            return customDataMap.get(key).getClass();
+        }
+
+        @Override
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getDescription() {
+            return null;
+        }
+
+        @Override
+        public Object getValue() {
+            return customDataMap.get(key);
+        }
+
+        @Override
+        public void setValue(Object value) {
+            customDataMap.put(key, value);
+        }
+
     }
 
 

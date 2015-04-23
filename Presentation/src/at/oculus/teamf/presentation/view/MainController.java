@@ -15,6 +15,8 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +33,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import org.controlsfx.dialog.Dialogs;
 
 import java.io.IOException;
 import java.net.URL;
@@ -143,6 +146,7 @@ public class MainController implements Initializable {
         String queuename = "";
         for (int i = 0; i < queues.size(); i++) {
             queueentry = (LinkedList) queues.get(i).getEntries();
+
             if (queueentry.size() != 0) {
                 if (queueentry.get(0).getDoctor() != null) {
                     queuename = queueentry.get(0).getDoctor().getTitle() + " " + queueentry.get(0).getDoctor().getFirstName() + " " + queueentry.get(0).getDoctor().getLastName();
@@ -187,6 +191,13 @@ public class MainController implements Initializable {
         lists[2].setPrefHeight(queuepatientlist3.size() * 24);
         lists[3].setItems(queuepatientlist4);
         lists[3].setPrefHeight(queuepatientlist4.size() * 24);
+    }
+
+
+    public void refreshQueue(){
+        tps = null;
+        lists = null;
+        buildQueueLists();
     }
 
 
@@ -256,7 +267,12 @@ public class MainController implements Initializable {
 
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-       //TODO:
+        Dialogs.create()
+                .owner(Main.stage)
+                .title("Error Dialog")
+                .masthead("EIN FEHLER !!!")
+                .message("Soeben hat ein Fehler stattgefunden!")
+                .showError();
     }
 
     /*Opens a patient search tab*/

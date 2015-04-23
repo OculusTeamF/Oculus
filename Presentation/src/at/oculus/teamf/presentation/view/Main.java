@@ -27,6 +27,7 @@ public class Main extends Application implements ILocal {
 
     public FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
     public static MainController controller;
+    public static Stage stage;
 
     @Override
     public void start(Stage primaryStage) throws Exception  {
@@ -56,6 +57,7 @@ public class Main extends Application implements ILocal {
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        stage = primaryStage;
         primaryStage.show();
     }
 
