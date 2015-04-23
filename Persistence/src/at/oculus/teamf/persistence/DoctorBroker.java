@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.*;
+import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
@@ -17,7 +17,10 @@ import at.oculus.teamf.databaseconnection.session.exception.NoTransactionExcepti
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.persistence.entity.*;
+import at.oculus.teamf.persistence.entity.CalendarEntity;
+import at.oculus.teamf.persistence.entity.DoctorEntity;
+import at.oculus.teamf.persistence.entity.PatientEntity;
+import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -26,7 +29,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * DoctorBroker.java Created by oculus on 08.04.15.
+ * doctor broker translating domain objects to persistence entities
  */
 public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload {
     public DoctorBroker() {
@@ -34,8 +37,17 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         addClassMapping(UserEntity.class);
     }
 
+    /**
+     * Converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
     @Override
     protected Doctor persistentToDomain(DoctorEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Doctor doctor = new Doctor();
         doctor.setId(entity.getId());
 
@@ -59,12 +71,19 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         doctor.setCreateDate(userEntity.getCreateDate());
         doctor.setIdleDate(userEntity.getIdleDate());
         //doctor.setUserGroup(userEntity.getUserGroup());
+
         return doctor;
     }
 
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
     @Override
     protected DoctorEntity domainToPersistent(Doctor obj) throws NoBrokerMappedException, BadConnectionException {
-        Doctor entity = (Doctor) obj;
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
+        Doctor entity = obj;
         DoctorEntity doctorEntity = new DoctorEntity();
         doctorEntity.setId(entity.getId());
         CalendarEntity calendarEntity = null;
@@ -90,6 +109,15 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         return doctorEntity;
     }
 
+    /**
+     * reload collections of a doctor
+     * @param session session to be used
+     * @param obj patient
+     * @param clazz to be reloaded
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     * @throws InvalidReloadClassException
+     */
     @Override
     public void reload(ISession session, Object obj, Class clazz) throws InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
         if (clazz == Patient.class) {
@@ -99,15 +127,16 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         }
     }
 
-    private class PatientsLoader implements ICollectionLoader<PatientEntity> {
-
-        @Override
-        public Collection<PatientEntity> load(Object databaseEntity) {
-            return ((DoctorEntity) databaseEntity).getPatients();
-        }
-    }
-
+    /**
+     * reload the patients of a doctor
+     * @param session to be used
+     * @param obj patient
+     * @return collection of calendar events
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
     private Collection<Patient> reloadPatients(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
+        log.debug("reloading patients");
         ReloadComponent reloadComponent =
                 new ReloadComponent(DoctorEntity.class, Patient.class);
 
@@ -123,6 +152,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
      */
     @Override
     public boolean saveEntity(ISession session, Doctor domainObj) throws BadConnectionException, NoBrokerMappedException {
+        log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
         DoctorEntity entity = domainToPersistent(domainObj);
         Boolean returnValue = true;
 
@@ -153,5 +183,13 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         }
 
         return returnValue;
+    }
+
+    private class PatientsLoader implements ICollectionLoader<PatientEntity> {
+
+        @Override
+        public Collection<PatientEntity> load(Object databaseEntity) {
+            return ((DoctorEntity) databaseEntity).getPatients();
+        }
     }
 }

@@ -21,7 +21,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
- * QueueBroker.java Created by dgr on 08.04.15.
+ * queue broker translating domain objects to persistence entities
  */
 public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
@@ -29,8 +29,17 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
         super(QueueEntry.class, QueueEntity.class);
     }
 
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
     @Override
     protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
         Doctor doctor = null;
         if (entity.getDoctorId() != null) {
@@ -44,8 +53,14 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
                 entity.getArrivalTime());
     }
 
+    /**
+     * Converts a domain object to persitency entity
+     * @param queueEntry that needs to be converted
+     * @return return a persitency entity
+     */
     @Override
     protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Doctor doctor = queueEntry.getDoctor();
         Orthoptist orthoptist = queueEntry.getOrthoptist();
 

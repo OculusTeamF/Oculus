@@ -10,42 +10,88 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.Calendar;
+import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+
 import java.util.Collection;
 
+/**
+ * calendar broker translating domain objects to persistence entities
+ */
 class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements ICollectionReload {
 
 	public CalendarBroker() {
 		super(Calendar.class, CalendarEntity.class);
 	}
 
-	@Override
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
+    @Override
 	protected Calendar persistentToDomain(CalendarEntity entity) {
-		Calendar calendar = new Calendar();
-		calendar.setId(entity.getId());
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+        Calendar calendar = new Calendar();
+        calendar.setId(entity.getId());
 		return calendar;
-	}
+    }
 
-	@Override
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
+    @Override
 	protected CalendarEntity domainToPersistent(Calendar obj) {
-		CalendarEntity calendarEntity = new CalendarEntity();
-		calendarEntity.setId(obj.getId());
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
+        CalendarEntity calendarEntity = new CalendarEntity();
+        calendarEntity.setId(obj.getId());
 		return calendarEntity;
-	}
+    }
 
-	@Override
+    /**
+     * reload collections of a calendar
+     * @param session session to be used
+     * @param obj patient
+     * @param clazz to be reloaded
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     * @throws InvalidReloadClassException
+     */
+    @Override
 	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException{
 		if (clazz == CalendarEvent.class) {
 			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
-		}
-	}
+        }
+    }
+
+    /**
+     * reload the calendar events of a calendar
+     *
+     * @param session session to be used
+     * @param obj     patient
+     * @return collection of examnation protocols
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
+    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
+        log.debug("reloading calendar events");
+        ReloadComponent reloadComponent =
+                new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
+
+        return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
+    }
 
 	private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {
 
@@ -53,12 +99,5 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 		public Collection<CalendarEventEntity> load(Object databaseEntity) {
 			return ((CalendarEntity) databaseEntity).getCalendarEvents();
 		}
-	}
-
-	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
-		ReloadComponent reloadComponent =
-				new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
-
-		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
 	}
 }

@@ -19,27 +19,42 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
- * DiagnosisBroker.java Created by oculus on 16.04.15.
+ * diagnosis broker translating domain objects to persistence entities
  */
 public class DiagnosisBroker extends EntityBroker {
     public DiagnosisBroker() {
         super(Diagnosis.class, DiagnosisEntity.class);
     }
 
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
     @Override
     protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
 
         Doctor doctor = null;
         if (diagnosisEntity.getDoctor() != null) {
-            doctor = (Doctor) Facade.getInstance().getById(Doctor.class, diagnosisEntity.getDoctorId());
+            doctor = Facade.getInstance().getById(Doctor.class, diagnosisEntity.getDoctorId());
         }
 
         return new Diagnosis(diagnosisEntity.getId(), diagnosisEntity.getTitle(), diagnosisEntity.getDescription(), doctor);
     }
 
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
     @Override
     protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Diagnosis diagnosis = (Diagnosis) obj;
 
         DoctorEntity doctorEntity = null;

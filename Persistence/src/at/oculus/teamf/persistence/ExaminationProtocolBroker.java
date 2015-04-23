@@ -21,26 +21,35 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
- * ExaminationProtocolBroker.java Created by oculus on 16.04.15.
+ * examination protocol broker translating domain objects to persistence entities
  */
 public class ExaminationProtocolBroker extends EntityBroker {
     public ExaminationProtocolBroker() {
         super(ExaminationProtocol.class, ExaminationProtocolEntity.class);
     }
 
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
     @Override
     protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         Doctor doctor = null;
         Orthoptist orthoptist = null;
         if (examinationProtocolEntity.getUserId() > 0) {
             for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
-                if (((Doctor) obj).getUserId() == (int) examinationProtocolEntity.getUserId()) {
+                if (((Doctor) obj).getUserId() == examinationProtocolEntity.getUserId()) {
                     doctor = (Doctor) obj;
                 }
             }
             for (Object obj : Facade.getInstance().getAll(Orthoptist.class)) {
-                if (((Orthoptist) obj).getUserId() == (int) examinationProtocolEntity.getUserId()) {
+                if (((Orthoptist) obj).getUserId() == examinationProtocolEntity.getUserId()) {
                     orthoptist = (Orthoptist) obj;
                 }
             }
@@ -63,8 +72,14 @@ public class ExaminationProtocolBroker extends EntityBroker {
                 examinationProtocolEntity.getDescription(), patient, doctor, orthoptist, diagnosis);
     }
 
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
     @Override
     protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         ExaminationProtocol examinationProtocol = (ExaminationProtocol) obj;
 
         PatientEntity patientEntity = null;

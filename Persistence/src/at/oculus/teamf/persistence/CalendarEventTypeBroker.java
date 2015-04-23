@@ -14,10 +14,9 @@ import at.oculus.teamf.domain.entity.FirstAppointment;
 import at.oculus.teamf.domain.entity.OrthoptistAppointment;
 import at.oculus.teamf.domain.entity.RegularAppointment;
 import at.oculus.teamf.persistence.entity.EventtypeEntity;
-import at.oculus.teamf.persistence.exception.FacadeException;
 
 /**
- * Created by Norskan on 10.04.2015.
+ * calendar event typ broker translating domain objects to persistence entities
  */
 public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEntity> {
 
@@ -30,9 +29,16 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
 		addDomainClass(RegularAppointment.class);
 	}
 
-	@Override
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     */
+    @Override
 	protected EventType persistentToDomain(EventtypeEntity entity) {
-		EventType eventType = null;
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+        EventType eventType = null;
 
 		switch (entity.getEventTypeName()) {
 			case ("Ersttermin"):
@@ -51,10 +57,16 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
 		}
 
 		return eventType;
-	}
+    }
 
-	@Override
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
+    @Override
 	protected EventtypeEntity domainToPersistent(EventType obj) {
-		return new EventtypeEntity(obj.getId(),obj.getEventTypeName(),obj.getEstimatedTime(),obj.getDescription());
-	}
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
+        return new EventtypeEntity(obj.getId(), obj.getEventTypeName(), obj.getEstimatedTime(), obj.getDescription());
+    }
 }
