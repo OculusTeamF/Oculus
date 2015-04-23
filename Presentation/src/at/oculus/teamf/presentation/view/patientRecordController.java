@@ -31,11 +31,6 @@ import se.mbaeumer.fxmessagebox.MessageBoxResult;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class patientRecordController implements Initializable {
@@ -58,11 +53,10 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
     @FXML public Tab patientRecordTab;
-    @FXML public Button addToQueue;
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
-    @FXML public TextField patientRecordBday;
-
+    @FXML public DatePicker patientRecordBday;
+    @FXML public ChoiceBox addToQueue;
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
@@ -75,16 +69,15 @@ public class patientRecordController implements Initializable {
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
-                if(isFormEdited) {
+                if (isFormEdited) {
                     MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
                     mb1.setHeight(150);
                     mb1.centerOnScreen();
                     mb1.showAndWait();
 
-                    if(mb1.getMessageBoxResult() == MessageBoxResult.OK)
-                    {
+                    if (mb1.getMessageBoxResult() == MessageBoxResult.OK) {
                         saveChanges();
-                    }else{
+                    } else {
                         t.consume();
                         //TODO: close Tab;
                     }
@@ -119,7 +112,7 @@ public class patientRecordController implements Initializable {
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
-        patientRecordBday.setText(patient.getBirthDay().toString());
+        patientRecordBday.setPromptText(patient.getBirthDay().toString());
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
         patientRecordStreet.setDisable(true);
@@ -154,6 +147,12 @@ public class patientRecordController implements Initializable {
             patientRecordChildhood.setText("No childhood Ailments");
         }else{
             patientRecordChildhood.setText(patient.getChildhoodAilments());
+        }
+
+        try {
+            addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
+        } catch (FacadeException e) {
+            e.printStackTrace();
         }
     }
 
