@@ -13,9 +13,11 @@ import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.additional.RemovePatientController;
-import at.oculus.teamf.domain.entity.IDoctor;
-import at.oculus.teamf.domain.entity.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
+import org.junit.After;
+import org.junit.Before;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -23,6 +25,8 @@ import java.util.LinkedList;
 import static org.junit.Assert.*;
 
 public class CreatePatientControllerTest {
+
+//TESTS CREATE PATIENT AND REMOVE PATIENT
 
     @org.junit.Test
     public void testCreatePatient() throws Exception {

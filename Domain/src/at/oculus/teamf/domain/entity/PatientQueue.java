@@ -9,12 +9,11 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -339,7 +338,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
                 e.printStackTrace();
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
-            } catch (InvalideSearchParameterException e) {
+            } catch (InvalidSearchParameterException e) {
                 e.printStackTrace();
             }
         }

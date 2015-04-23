@@ -17,7 +17,7 @@ import at.oculus.teamf.persistence.exception.*;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
@@ -82,7 +82,7 @@ public class Facade {
      * A worker class can implement the interface to be used in {@code #worker()}
      */
     private abstract class Execute<T> {
-        abstract T execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, InvalideSearchParameterException, InvalidReloadClassException;
+        abstract T execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, InvalidSearchParameterException, InvalidReloadClassException;
     }
 
     /**
@@ -92,7 +92,7 @@ public class Facade {
      * @return an object dependion on the implementation
      * @throws FacadeException if an error occures
      */
-    private <T> T worker(Class clazz, Execute<T> execute) throws NoBrokerMappedException, SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, InvalideSearchParameterException, InvalidReloadClassException {
+    private <T> T worker(Class clazz, Execute<T> execute) throws NoBrokerMappedException, SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, InvalidSearchParameterException, InvalidReloadClassException {
         EntityBroker broker = getBroker(clazz);
 
         ISession session = _sessionBroker.getSession();
@@ -249,7 +249,7 @@ public class Facade {
         }
     }
 
-    public boolean delete(IDomain obj) throws BadConnectionException, NoBrokerMappedException, InvalideSearchParameterException {
+    public boolean delete(IDomain obj) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
         boolean isDeleted = false;
 
         try {
@@ -288,7 +288,7 @@ public class Facade {
         }
 
         @Override
-        public Collection<Object> execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, InvalideSearchParameterException, BadConnectionException, NoBrokerMappedException {
+        public Collection<Object> execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
             if (!(broker instanceof ISearch)) {
                 throw new SearchInterfaceNotImplementedException();
             }
@@ -303,7 +303,7 @@ public class Facade {
         }
     }
 
-    public <T> Collection<T> search(Class clazz, String... search) throws SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, InvalideSearchParameterException {
+    public <T> Collection<T> search(Class clazz, String... search) throws SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
         Collection<T> searchResult = null;
 
         try {
