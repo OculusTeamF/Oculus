@@ -10,8 +10,10 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.CheckinController;
+import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 
@@ -21,21 +23,20 @@ public class CheckinControllerTest {
     public void testInsertPatientIntoQueue() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
         LinkedList <IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Duck");
+
         IPatient iPatient = patients.getFirst();
-        IUser iUser = iPatient.getIDoctor();
+        IDoctor iDoctor = iPatient.getIDoctor();
 
         CheckinController checkinController = new CheckinController();
-        checkinController.insertPatientIntoQueue(iPatient, iUser);
+        checkinController.insertPatientIntoQueue(iPatient, iDoctor);
 
-        IPatientQueue iQueue;
+        IPatientQueue iQueue = iDoctor.getQueue();
 
-        if (iUser instanceof IDoctor){
-            IDoctor iDoctor = (IDoctor) iUser;
-            iQueue = iDoctor.getQueue();
-        } else {
-            IOrthoptist iOrthoptist  = (IOrthoptist) iUser;
-            iQueue = iOrthoptist.getQueue();
-        }
         assert (iQueue != null);
+
+        ReceivePatientController receivePatientController = new ReceivePatientController();
+        receivePatientController.removePatientFromQueue(iPatient, iQueue);
+
+        assert (iQueue.getEntries().size()  == 0);
     }
 }

@@ -24,7 +24,9 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -59,16 +61,19 @@ public class StartupController implements ILogger{
      * receptionist is needed)
      *
      **/
-    public IUser getUser () throws FacadeException {
+    public IUser getUser () throws BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
         User user = null;
 
         try {
             user = facade.getById(Receptionist.class, 1);
             log.info("Got receptionist.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Patient cannot be saved!");
-            throw facadeException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
         }
         return user;
     }
@@ -81,7 +86,7 @@ public class StartupController implements ILogger{
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      **/
-    public Collection<IPatientQueue> getAllQueues() throws FacadeException {
+    public Collection<IPatientQueue> getAllQueues() throws BadConnectionException, NoBrokerMappedException {
 
         Collection <Doctor> doctors = null;
         Facade facade = Facade.getInstance();
@@ -89,10 +94,14 @@ public class StartupController implements ILogger{
         try {
             doctors = facade.getAll(Doctor.class);
             log.info("All doctors have been acquired.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Cannot get all doctors!");
-            throw facadeException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
         }
+
         Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
         if (doctors != null){
@@ -114,16 +123,19 @@ public class StartupController implements ILogger{
      * convert it into Interfaces and return it.
      *
      **/
-    public Collection<IDoctor> getAllDoctors() throws FacadeException {
+    public Collection<IDoctor> getAllDoctors() throws NoBrokerMappedException, BadConnectionException {
         Collection<Doctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
             doctors = facade.getAll(Doctor.class);
             log.info("All doctors have been acquired.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Cannot get all doctors!");
-            throw facadeException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
         }
 
         Collection<IDoctor> iDoctors = new LinkedList<IDoctor>();
@@ -145,16 +157,19 @@ public class StartupController implements ILogger{
      * This method returns all available orthoptists. We get a list of all orthoptists from the persistence layer,
      * convert it into Interfaces and return it.
      **/
-    public Collection<IOrthoptist> getAllOrthoptists() throws FacadeException {
+    public Collection<IOrthoptist> getAllOrthoptists() throws BadConnectionException, NoBrokerMappedException {
         Collection<Orthoptist> orthoptists = null;
         Facade facade = Facade.getInstance();
 
         try {
             orthoptists = facade.getAll(Orthoptist.class);
             log.info("All orthoptists have been acquired.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Cannot get all orthoptists!");
-            throw facadeException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
         }
 
         Collection<IOrthoptist> iOrthoptists = new LinkedList<IOrthoptist>();
@@ -177,16 +192,19 @@ public class StartupController implements ILogger{
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
      *
      **/
-    public Collection<ICalendar> getAllCalendars() throws FacadeException {
+    public Collection<ICalendar> getAllCalendars() throws BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
         Collection<Calendar> calendars = null;
         try {
             calendars = facade.getAll(Calendar.class);
             log.info("All calendars have been acquired.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Cannot get all calendars!");
-            throw facadeException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
         }
         Collection<ICalendar> iCalendars = new LinkedList<ICalendar>();
 
@@ -241,5 +259,58 @@ public class StartupController implements ILogger{
         }
         log.info("All calendar events have been acquired and added to the ICalendarEvent collection.");
         return iEvents;
+    }
+
+    /**
+    * <h3>$getAllDoctorsAndOrthoptists</h3>
+    *
+    * <b>Description:</b>
+    *
+    * This method returns all available orthoptists and doctors in one collection. We get a list of all
+    * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
+    **/
+    public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, NoBrokerMappedException {
+        Collection<Orthoptist> orthoptists;
+        Facade facade = Facade.getInstance();
+
+        try {
+            orthoptists = facade.getAll(Orthoptist.class);
+            log.info("All orthoptists have been acquired.");
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        Collection<Doctor> doctors;
+
+        try {
+            doctors = facade.getAll(Doctor.class);
+            log.info("All doctors have been acquired.");
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        Collection<IUser> iUsers = new LinkedList<>();
+
+        if (orthoptists != null){
+            for(Orthoptist o : orthoptists){
+                iUsers.add(o);
+            }
+        }
+        if (doctors != null){
+            for (Doctor doc : doctors){
+                iUsers.add(doc);
+            }
+        }
+
+        log.info("All doctors and orthoptists have been added to the IUser collection.");
+        return iUsers;
     }
 }
