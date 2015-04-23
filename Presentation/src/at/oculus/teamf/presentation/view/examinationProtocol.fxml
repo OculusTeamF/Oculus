@@ -43,15 +43,22 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="437.0" minHeight="10.0" prefHeight="343.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="437.0" minHeight="10.0" prefHeight="315.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="42.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
           <RowConstraints vgrow="SOMETIMES" />
           <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="197.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ListView fx:id="examinationList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
-            <Label text="Protocolls: " GridPane.rowIndex="2" />
+            <ListView fx:id="examinationList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
+            <Label text="Protocolls: " GridPane.rowIndex="4" />
             <Label text="Documentation:" />
             <TextArea fx:id="examinationDocumentation" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="TOP" layoutX="740.0" layoutY="5.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="139.0" text="Save" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
     </children>

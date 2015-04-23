@@ -15,11 +15,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Tab fx:id="newPatientTab" text="New Patient" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.newPatientController">
+<Tab fx:id="examinationTab" text="New Patient" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="at.oculus.teamf.presentation.view.examinationController">
   <content>
     <AnchorPane id="newPatientPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <GridPane id="searchPatientPane" fx:id="searchPatientPane" prefHeight="888.0" prefWidth="1173.0">
+            <GridPane id="searchPatientPane" fx:id="examinationtPane" prefHeight="888.0" prefWidth="1173.0">
                <children>
                   <GridPane prefHeight="183.0" prefWidth="881.0" GridPane.rowIndex="1">
                      <children>
@@ -43,17 +44,24 @@
                   </GridPane>
                   <GridPane GridPane.rowIndex="2">
                      <children>
-                        <ListView fx:id="examinationList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
-                        <Label text="Protocolls: " GridPane.rowIndex="2" />
+                        <ListView fx:id="examinationList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
+                        <Label text="Protocolls: " GridPane.rowIndex="4" />
                         <Label text="Documentation:" />
                         <TextArea fx:id="examinationDocumentation" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <Button alignment="CENTER" contentDisplay="TOP" layoutX="740.0" layoutY="5.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="139.0" text="Save" textAlignment="CENTER" />
+                           </children>
+                        </AnchorPane>
                      </children>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="437.0" minHeight="10.0" prefHeight="343.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="437.0" minHeight="10.0" prefHeight="315.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="42.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="197.0" vgrow="SOMETIMES" />
                      </rowConstraints>

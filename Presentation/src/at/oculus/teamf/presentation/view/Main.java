@@ -37,17 +37,17 @@ public class Main extends Application implements ILocal {
         controller = loader.getController();
 
         // setup components in main.fxml
-        controller.getSplitter().setDividerPosition(0, 0.80);
+        controller.getSplitter().setDividerPosition(0, 0.20);
 
         // update splitter position
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                controller.getSplitter().setDividerPosition(0, 0.80);
+                controller.getSplitter().setDividerPosition(0, 0.20);
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                controller.getSplitter().setDividerPosition(0, 0.80);
+                controller.getSplitter().setDividerPosition(0, 0.20);
             }
         });
 
