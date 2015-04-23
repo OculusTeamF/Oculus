@@ -14,10 +14,16 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,13 +37,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.controlsfx.dialog.Dialogs;
+import org.controlsfx.control.StatusBar;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
@@ -50,6 +61,8 @@ public class MainController implements Initializable {
     @FXML private ListView listSearchResults;
     @FXML private TitledPane searchResults;
     @FXML private Tab patientRecordTab;
+    @FXML private BorderPane borderPane;
+    @FXML private HBox statusHBox;
 
     private Collection<PatientQueue> _allQueues;
     private Tab _newPatientTab;
@@ -75,6 +88,10 @@ public class MainController implements Initializable {
         searchButton.setGraphic(new ImageView(imageDecline));
         listSearchResults.setPrefHeight(0);
 
+        StatusBar statusBar = new StatusBar();
+        borderPane.setBottom(statusBar);
+        statusBar.setText("Welcome to Oculus");
+
         // tooltip test
         Tooltip tp = new Tooltip();
         tp.setText("Search for Firstname, Lastname or SVN number");
@@ -98,24 +115,31 @@ public class MainController implements Initializable {
 
     private void buildQueueLists(){
         // get queue lists for doctors & orthoptists
-        LinkedList<QueueEntry> queueentry = new LinkedList();
-        ObservableList<IPatientQueue> queues = null;
-
+        LinkedList<IUser> userlist = null;
         try {
-            queues = FXCollections.observableArrayList(_startupController.getAllQueues());
-        } catch (FacadeException e) {
+            userlist = (LinkedList) _startupController.getAllDoctorsAndOrthoptists();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+
+        } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         }
 
-
         // set needed amount of lists for gui
-        int userAmount = queues.size();//doctors.size() + orthoptists.size();
-        tps = new TitledPane[userAmount];
-        lists = new ListView[userAmount];
+        int usercount = 0;
+        for (int i = 0; i < userlist.size(); i++) {
+            if (userlist.get(i).getUserGroupId() != null){
+                if (userlist.get(i).getUserGroupId() == 2 || userlist.get(i).getUserGroupId() == 3){
+                    usercount++;
+                }
+            }
+        }
 
+        tps = new TitledPane[usercount];
+        lists = new ListView[usercount];
 
         // setup listviews
-        for (int i = 0; i < queues.size(); i++) {
+        for (int i = 0; i < usercount; i++) {
             lists[i] = new ListView<>();
             lists[i].setPrefSize(200, 250);
             lists[i].minWidth(Region.USE_COMPUTED_SIZE);
@@ -137,66 +161,70 @@ public class MainController implements Initializable {
             });
         }
 
-        // create queues
-        ObservableList<IPatient> queuepatientlist = FXCollections.observableArrayList();  // need array from it ! (problem: generic arrays not allowed)
+        // add patients to queue
+        ObservableList<IPatient> queuepatientlist1 = FXCollections.observableArrayList();  // need array ! (problem: generic arrays not allowed)
         ObservableList<IPatient> queuepatientlist2 = FXCollections.observableArrayList();
         ObservableList<IPatient> queuepatientlist3 = FXCollections.observableArrayList();
         ObservableList<IPatient> queuepatientlist4 = FXCollections.observableArrayList();
 
-        String queuename = "";
-        for (int i = 0; i < queues.size(); i++) {
-            queueentry = (LinkedList) queues.get(i).getEntries();
-
-            if (queueentry.size() != 0) {
-                if (queueentry.get(0).getDoctor() != null) {
-                    queuename = queueentry.get(0).getDoctor().getTitle() + " " + queueentry.get(0).getDoctor().getFirstName() + " " + queueentry.get(0).getDoctor().getLastName();
-                }else{
-                    queuename = queueentry.get(0).getOrthoptist().getTitle() + " " + queueentry.get(0).getOrthoptist().getFirstName() + " " + queueentry.get(0).getOrthoptist().getLastName();
-                }
-                for  (int j = 0; j < queueentry.size(); j++){
-                    switch(i){
-                        case 0:
-                            queuepatientlist.add(queueentry.get(j).getPatient());
-                            break;
-                        case 1:
-                            queuepatientlist2.add(queueentry.get(j).getPatient());
-                            break;
-                        case 2:
-                            queuepatientlist3.add(queueentry.get(j).getPatient());
-                            break;
-                        case 3:
-                            queuepatientlist4.add(queueentry.get(j).getPatient());
-                            break;
-                    }
-                }
-            } else {
-                queuename = "no patients for queue available";
-            }
-
-            tps[i] = new TitledPane(queuename, lists[i]);
-            tps[i].setExpanded(false);
-            tps[i].setAnimated(true);
-            tps[i].setVisible(true);
+        LinkedList<IPatientQueue> qe = null;
+        try {
+            qe = (LinkedList) _startupController.getAllQueues();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
-        // add to stage
-        tps[0].setExpanded(true);
-        vboxQueues.getChildren().addAll(tps);
+        // build
+        String queuename = "";
+        LinkedList<IQueueEntry> queueentries;
+        int count = 0;
+        for (int i = 0; i < userlist.size(); i++) {
+            if (userlist.get(i).getUserGroupId() != null){
+                if (userlist.get(i).getUserGroupId() == 2  || userlist.get(i).getUserGroupId() == 3){
+                    if (userlist.get(i).getTitle() != null) {
+                        queuename = userlist.get(i).getTitle() + " " + userlist.get(i).getFirstName() + " " + userlist.get(i).getLastName();
+                    } else {
+                        queuename = userlist.get(i).getFirstName() + " " + userlist.get(i).getLastName();
+                    }
 
-        lists[0].setItems(queuepatientlist);
-        lists[0].setPrefHeight(queuepatientlist.size() * 24);
-        lists[1].setItems(queuepatientlist2);
-        lists[1].setPrefHeight(queuepatientlist2.size() * 24);
-        lists[2].setItems(queuepatientlist3);
-        lists[2].setPrefHeight(queuepatientlist3.size() * 24);
-        lists[3].setItems(queuepatientlist4);
-        lists[3].setPrefHeight(queuepatientlist4.size() * 24);
+
+                    // needed get Queue From UserID
+                    for (int j = 0; j < qe.size(); j++) {
+                        if (qe.get(j).getUserID() == userlist.get(i).getUserId()){
+                            queueentries = (LinkedList) qe.get(j).getEntries();
+                            if (queueentries.size() > 0){
+                                for (int k = 0; k < queueentries.size(); k++) {
+                                    queuepatientlist1.add(queueentries.get(k).getPatient());
+                                }
+                            }
+                            queueentries.clear();
+                        }
+                    }
+
+                    lists[count].setItems(queuepatientlist1);
+                    lists[count].setPrefHeight(queuepatientlist1.size() * 24);
+
+                    tps[count] = new TitledPane(queuename, lists[count]);
+                    tps[count].setExpanded(false);
+                    tps[count].setAnimated(true);
+                    tps[count].setVisible(true);
+
+                    count++;
+                }
+            }
+        }
+
+        //tps[0].setExpanded(true);
+        vboxQueues.getChildren().addAll(tps);
     }
 
 
     public void refreshQueue(){
         tps = null;
         lists = null;
+        vboxQueues.getChildren().removeAll();
         buildQueueLists();
     }
 
@@ -214,6 +242,8 @@ public class MainController implements Initializable {
         try {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
         } catch (FacadeException e) {
+            e.printStackTrace();
+        } catch (InvalidSearchParameterException e) {
             e.printStackTrace();
         }
         if(patientlist.size() > 0) {
@@ -234,7 +264,17 @@ public class MainController implements Initializable {
     @FXML
     public void openCal(ActionEvent event) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("agenda2.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/Agenda.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void openPatientProperty (ActionEvent event) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientProperty.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
@@ -246,7 +286,7 @@ public class MainController implements Initializable {
     @FXML
     public void newPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("newPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
@@ -256,7 +296,7 @@ public class MainController implements Initializable {
     public void addPatientTab(IPatient patient){
         try {
             currPatient = patient;
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("patientRecordTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
             displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + currPatient.getFirstName() + " " + currPatient.getLastName());
         } catch (IOException e) {
@@ -267,19 +307,15 @@ public class MainController implements Initializable {
 
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-        Dialogs.create()
-                .owner(Main.stage)
-                .title("Error Dialog")
-                .masthead("EIN FEHLER !!!")
-                .message("Soeben hat ein Fehler stattgefunden!")
-                .showError();
+        DialogBoxController dial = new DialogBoxController();
+        dial.showLoginDialog("a","b");
     }
 
     /*Opens a patient search tab*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("searchPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }

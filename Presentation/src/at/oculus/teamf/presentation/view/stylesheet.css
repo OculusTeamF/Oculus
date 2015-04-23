@@ -17,3 +17,8 @@
 #searchPatientPane{
     -fx-background-color: powderblue;
 }
+
+#searchResults{
+    -fx-border-width: 0%;
+    -fx-tick-label-font: bolder;
+}

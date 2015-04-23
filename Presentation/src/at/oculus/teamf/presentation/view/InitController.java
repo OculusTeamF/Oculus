@@ -8,24 +8,35 @@
  */
 
 package at.oculus.teamf.presentation.view;
-/*
-import at.oculus.teamf.application.facade;
-*/
-/**
- * Created by Karo on 09.04.2015.
- */
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressIndicator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Created by Fabian on 23.04.2015.
+ */
+public class InitController implements Initializable {
 
-public class agendaController implements Initializable{
+    @FXML ProgressIndicator loader;
 
-
-    @Override
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
+/*        System.out.println("hallo");
+        Task<Object> worker = new Task<Object>() {
+            @Override
+            protected Object call() throws Exception {
+                return null;
+            }
+        };
 
+        Thread th = new Thread(worker);
+        th.setDaemon(true);
+        th.start();*/
+        //Main.istage.setTitle("Loading Oculus");
     }
+
 }

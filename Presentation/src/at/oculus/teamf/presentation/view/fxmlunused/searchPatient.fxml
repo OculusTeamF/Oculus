@@ -14,7 +14,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="searchPatientPane" fx:id="searchPatientPane" layoutX="5.0" layoutY="38.0" GridPane.columnIndex="0" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.searchPatientController">
+<GridPane id="searchPatientPane" fx:id="searchPatientPane" layoutX="5.0" layoutY="38.0" GridPane.columnIndex="0" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.PatientSearchController">
     <children>
         <GridPane id="searchPatientTab" alignment="CENTER" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <columnConstraints>
