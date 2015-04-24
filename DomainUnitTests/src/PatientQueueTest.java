@@ -68,14 +68,9 @@ public class PatientQueueTest implements ILogger {
     @After
     public void tearDown() {
         try {
-
-            System.out.println("before remove: size = " + _size + ", real = " + _patientQueue.getEntries().size());
             assertTrue(_patientQueue.getEntries().size() == _size + 1);
 
-
             _patientQueue.removePatient(_patient);
-
-            System.out.println("after remove: size = " + _size + ", real = " + _patientQueue.getEntries().size());
 
             assertTrue(_patientQueue.getEntries().size() == _size);
         } catch (FacadeException e) {
