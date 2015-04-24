@@ -63,9 +63,9 @@ public class PatientQueue implements ILogger, IPatientQueue {
     public LinkedList<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
         HashMap<Integer, QueueEntry> queueEntries = new HashMap<>();
         QueueEntry actEntry = null;
+        _entries = new LinkedList<>();
 
         if (_user instanceof Doctor) {
-            _entries = new LinkedList<>();
             // get all queue entities of a doctor
             for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
                 QueueEntry qe = (QueueEntry) obj;
