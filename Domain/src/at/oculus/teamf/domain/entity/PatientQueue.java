@@ -71,10 +71,11 @@ public class PatientQueue implements ILogger, IPatientQueue {
                 QueueEntry qe = (QueueEntry) obj;
                 if (qe.getDoctor() != null) {
                     if (qe.getDoctor().getId() == ((Doctor) _user).getId()) {
-                        queueEntries.put(qe.getQueueIdParent(), qe);
                         // set first entity
                         if (qe.getQueueIdParent() == null) {
                             actEntry = qe;
+                        } else {
+                            queueEntries.put(qe.getQueueIdParent(), qe);
                         }
                     }
                 }
@@ -96,6 +97,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
                     queueEntries.put(qe.getQueueIdParent(), qe);
                 }
             }
+        }
+
+        if (actEntry == null && !queueEntries.isEmpty()) {
+            actEntry = queueEntries.remove(null);
         }
 
         // set linked list
