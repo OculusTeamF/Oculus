@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
@@ -19,12 +20,13 @@ import java.util.ResourceBundle;
 /**
  * Created by Fabian on 23.04.2015.
  */
-public class InitController implements Initializable {
+public class InitController implements Initializable, ILogger {
 
     @FXML ProgressIndicator loader;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
 /*        System.out.println("hallo");
         Task<Object> worker = new Task<Object>() {
             @Override
