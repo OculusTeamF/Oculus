@@ -57,7 +57,6 @@ public class PatientSearchController implements Initializable{
     @FXML public Tab searchPatientTab;
     @FXML public AnchorPane searchAnchor;
 
-    private SearchPatientController _searchPatientController = new SearchPatientController();
     private at.oculus.teamf.application.facade.SearchPatientController _searchPatientController = new at.oculus.teamf.application.facade.SearchPatientController();
 
     @Override
