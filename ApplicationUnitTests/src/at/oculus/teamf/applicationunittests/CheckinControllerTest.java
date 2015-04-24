@@ -12,31 +12,57 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
+import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
+import org.junit.After;
+import org.junit.Before;
 
 import java.util.LinkedList;
 
 public class CheckinControllerTest implements ILogger {
 
-    @org.junit.Test
-    public void testInsertPatientIntoQueue() throws Exception {
-        SearchPatientController searchPatientController = new SearchPatientController();
-        LinkedList <IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Duck");
+    private LinkedList<IPatient> patients;
+    private IPatient iPatient;
+    private IDoctor iDoctor;
+    private IPatientQueue iQueue;
+    private int size;
 
-        IPatient iPatient = patients.getFirst();
-        IDoctor iDoctor = iPatient.getIDoctor();
+
+
+    @Before
+    public void setUp() throws Exception {
+        SearchPatientController searchPatientController = new SearchPatientController();
+        patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Hanson");
+
+        iPatient = patients.getFirst();
+        iDoctor = iPatient.getIDoctor();
+        iQueue = iDoctor.getQueue();
 
         CheckinController checkinController = new CheckinController();
         checkinController.insertPatientIntoQueue(iPatient, iDoctor);
 
-        IPatientQueue iQueue = iDoctor.getQueue();
-
+        System.out.println(iQueue.getEntries().size());
+        size = iQueue.getEntries().size();
         assert(iQueue != null);
+        System.out.println(iQueue.getEntries().size());
+    }
 
+    @After
+    public void tearDown() throws Exception{
         ReceivePatientController receivePatientController = new ReceivePatientController();
         receivePatientController.removePatientFromQueue(iPatient, iQueue);
+        size = size -1;
+        System.out.println(iQueue.getEntries().size());
+        assert(iQueue.getEntries().size() == size);
+    }
 
-        assert(iQueue.getEntries().size() > 0);
+    @org.junit.Test
+    public void testInsertPatientIntoQueue() throws Exception {
+
     }
 }
