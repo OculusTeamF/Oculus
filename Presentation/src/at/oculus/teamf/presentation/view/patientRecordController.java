@@ -45,6 +45,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -130,8 +131,16 @@ public class patientRecordController implements Initializable {
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
-        Date bday = patient.getBirthDay();
-        patientRecordBday.setPromptText(bday.toString());
+
+        Date input = patient.getBirthDay();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(input);
+        LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH) + 1,
+                cal.get(Calendar.DAY_OF_MONTH));
+
+        patientRecordBday.setValue(date);
+
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
         patientRecordStreet.setDisable(true);
@@ -231,7 +240,7 @@ public class patientRecordController implements Initializable {
     public void addPatientToQueue(){
         DialogBoxController dial = new DialogBoxController();
         dial.showInformationDialog("added",patient.getFirstName());
-        /*try {
+        try {
             Timestamp tstamp = new Timestamp(new Date().getTime());
             IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
             IPatientQueue qe = user.getUserId().getQueue();
@@ -241,7 +250,7 @@ public class patientRecordController implements Initializable {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     /**
@@ -275,7 +284,7 @@ public class patientRecordController implements Initializable {
         patient.setMedicineIntolerance(patientRecordIntolerance.getText());
         patient.setChildhoodAilments(patientRecordChildhood.getText());
 
-        /*createPatientController.saveIPatient(patient);*/
+        createPatientController.saveIPatient(patient);
 
         DialogBoxController box = new DialogBoxController();
         box.showInformationDialog("Patient record edited", "Changes saved");
