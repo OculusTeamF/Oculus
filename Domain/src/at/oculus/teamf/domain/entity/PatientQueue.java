@@ -85,23 +85,15 @@ public class PatientQueue implements ILogger, IPatientQueue {
                 QueueEntry qe = (QueueEntry) obj;
                 if (qe.getOrthoptist() != null) {
                     if (qe.getOrthoptist().getId() == ((Orthoptist) _user).getId()) {
-                        queueEntries.put(qe.getQueueIdParent(), qe);
                         // set first entity
                         if (qe.getQueueIdParent() == null) {
                             actEntry = qe;
+                        } else {
+                            queueEntries.put(qe.getQueueIdParent(), qe);
                         }
                     }
-                }
-            }
-
-            for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
-                QueueEntry qe = (QueueEntry) obj;
-                if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
+                } else if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
                     queueEntries.put(qe.getQueueIdParent(), qe);
-                    // set first entity
-                    if (qe.getQueueIdParent() == null) {
-                        actEntry = qe;
-                    }
                 }
             }
         }
@@ -109,7 +101,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
         // set linked list
         while (actEntry != null) {
             _entries.add(actEntry);
-            actEntry = queueEntries.get(actEntry.getId());
+            actEntry = queueEntries.remove(actEntry.getId());
+            if (actEntry == null && !queueEntries.isEmpty()) {
+                actEntry = queueEntries.remove(null);
+            }
         }
 
         return _entries;
