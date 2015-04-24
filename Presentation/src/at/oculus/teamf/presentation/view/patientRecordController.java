@@ -51,7 +51,6 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordLastname;
     @FXML public TextField patientRecordFirstname;
     @FXML public TextField patientRecordSVN;
-    @FXML public DatePicker patientRecordBday;
     @FXML public TextField patientRecordCountryIsoCode;
     @FXML public TextField patientRecordPhone;
     @FXML public TextField patientRecordEmail;
@@ -66,7 +65,6 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
     @FXML public Tab patientRecordTab;
-    @FXML public Button addToQueue;
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;

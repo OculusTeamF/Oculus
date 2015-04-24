@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="pane" prefHeight="725.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
+<BorderPane id="pane" fx:id="borderPane" prefHeight="725.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
     <top>
         <VBox prefHeight="71.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
             <children>
@@ -85,7 +85,11 @@
                         </Menu>
                     </menus>
                 </MenuBar>
-                <ToolBar fx:id="toolbar" prefHeight="57.0" prefWidth="1099.0" />
+                <ToolBar fx:id="toolbar" prefHeight="57.0" prefWidth="1099.0">
+               <items>
+                  <Button fx:id="buttonTest" mnemonicParsing="false" onAction="#openPatient" prefHeight="25.0" prefWidth="68.0" text="Test" />
+                  <ComboBox prefWidth="150.0" />
+               </items></ToolBar>
             </children>
         </VBox>
     </top>
@@ -123,13 +127,4 @@
             </items>
         </SplitPane>
     </center>
-    <bottom>
-        <HBox prefHeight="27.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
-            <children>
-                <Label fx:id="labelStatus1" prefHeight="24.0" prefWidth="442.0" text="  Statusinfo #1" />
-                <Pane prefHeight="24.0" prefWidth="512.0" />
-                <Label fx:id="labelStatus2" prefHeight="27.0" prefWidth="177.0" text="Status #2" textAlignment="RIGHT" />
-            </children>
-        </HBox>
-    </bottom>
 </BorderPane>

@@ -19,6 +19,7 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
+import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.application.Platform;
@@ -45,7 +46,8 @@ import java.util.ResourceBundle;
  * Created by Karo on 11.04.2015.
  */
 
-public class searchPatientController implements Initializable{
+public class PatientSearchController implements Initializable{
+
 
     @FXML public TextField searchPatientLastname;
     @FXML public TextField searchPatientFirstname;;
@@ -56,6 +58,7 @@ public class searchPatientController implements Initializable{
     @FXML public AnchorPane searchAnchor;
 
     private SearchPatientController _searchPatientController = new SearchPatientController();
+    private at.oculus.teamf.application.facade.SearchPatientController _searchPatientController = new at.oculus.teamf.application.facade.SearchPatientController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

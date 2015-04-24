@@ -217,6 +217,8 @@ public class MainController implements Initializable {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
         } catch (FacadeException e) {
             e.printStackTrace();
+        } catch (InvalidSearchParameterException e) {
+            e.printStackTrace();
         }
         if(patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
@@ -294,5 +296,8 @@ public class MainController implements Initializable {
 
     public TabPane getTabPane(){
         return this.displayPane;
+    }
+
+    public void refreshQueue() {
     }
 }
