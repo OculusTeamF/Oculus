@@ -11,6 +11,7 @@ package at.oculus.teamf.presentation.view;
 
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Modality;
 import org.controlsfx.dialog.ExceptionDialog;
@@ -110,6 +111,17 @@ public class DialogBoxController {
         dlg.setContentText(information);
         dlg.setHeaderText("Exception occured !");
         dlg.setTitle("Oculus Error");
+        dlg.show();
+    }
+
+    // *******************************************************************
+    // YesNoBox
+    // *******************************************************************
+    public void showYesNoialog(String title, String information){
+        Alert dlg = createAlert(Alert.AlertType.CONFIRMATION);
+        dlg.setTitle(title);
+        dlg.getDialogPane().setContentText(information);
+        //dlg.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
         dlg.show();
     }
 
