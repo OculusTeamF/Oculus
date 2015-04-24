@@ -13,7 +13,6 @@ import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Modality;
-import org.controlsfx.dialog.ExceptionDialog;
 import org.controlsfx.dialog.LoginDialog;
 import org.controlsfx.dialog.ProgressDialog;
 
@@ -86,17 +85,6 @@ public class DialogBoxController {
     // *******************************************************************
     public void showLoginDialog(String title, String information){
         LoginDialog dlg = new LoginDialog(null, null);
-        dlg.show();
-    }
-
-    // *******************************************************************
-    // Exception Box
-    // *******************************************************************
-    public void showExceptionDialog(Exception e, String information){
-        ExceptionDialog dlg = new ExceptionDialog(e);
-        dlg.setContentText(information);
-        dlg.setHeaderText("Exception occured !");
-        dlg.setTitle("Oculus Error");
         dlg.show();
     }
 

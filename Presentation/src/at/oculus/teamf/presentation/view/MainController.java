@@ -18,7 +18,6 @@ import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.PatientQueue;
-import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
@@ -78,15 +77,6 @@ public class MainController implements Initializable {
     private TitledPane[] tps;
     private ListView<IPatient> lists[];
     private IPatient currPatient;
-    private  DialogBoxController box = new DialogBoxController();
-
-    private ObservableList<IPatient> queuepatientlist1 = FXCollections.observableArrayList();  // need array ! (problem: generic arrays not allowed)
-    private ObservableList<IPatient> queuepatientlist2 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist3 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist4 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist5 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist6 = FXCollections.observableArrayList();
-
 
     /**
      * Initialize the waiting queue
@@ -174,12 +164,24 @@ public class MainController implements Initializable {
             });
         }
 
+        // add patients to queue
+        ObservableList<IPatient> queuepatientlist1 = FXCollections.observableArrayList();  // need array ! (problem: generic arrays not allowed)
+        ObservableList<IPatient> queuepatientlist2 = FXCollections.observableArrayList();
+        ObservableList<IPatient> queuepatientlist3 = FXCollections.observableArrayList();
+        ObservableList<IPatient> queuepatientlist4 = FXCollections.observableArrayList();
 
+        LinkedList<IPatientQueue> qe = null;
+        try {
+            qe = (LinkedList) _startupController.getAllQueues();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
 
         // build
         String queuename = "";
         LinkedList<IQueueEntry> queueentries = null;
-        IPatientQueue qe = null;
         int count = 0;
         for (int i = 0; i < userlist.size(); i++) {
             if (userlist.get(i).getUserGroupId() != null){
@@ -192,25 +194,22 @@ public class MainController implements Initializable {
 
 
                     // needed get Queue From UserID
-                    try {
-                        System.out.println("TEST");
-                        qe = _startupController.getQueueByUserId(userlist.get(i));
-                    } catch (BadConnectionException e) {
-                        e.printStackTrace();
-                    } catch (NoBrokerMappedException e) {
-                        e.printStackTrace();
-                    }
-
-                    try {
-                        for (QueueEntry q: qe.getEntries()){
-
-                            queuepatientlist1.add(q.getPatient());
-
+                    for (int j = 0; j < qe.size(); j++) {
+                        if (qe.get(j).getUserID() == userlist.get(i).getUserId()) {
+                            try {
+                                queueentries = (LinkedList) qe.get(j).getEntries();
+                            } catch (NoBrokerMappedException e) {
+                                e.printStackTrace();
+                            } catch (BadConnectionException e) {
+                                e.printStackTrace();
+                            }
+                            if (queueentries.size() > 0) {
+                                for (int k = 0; k < queueentries.size(); k++) {
+                                    queuepatientlist1.add(queueentries.get(k).getPatient());
+                                }
+                            }
+                            queueentries.clear();
                         }
-                    } catch (NoBrokerMappedException e) {
-                        e.printStackTrace();
-                    } catch (BadConnectionException e) {
-                        e.printStackTrace();
                     }
 
                     lists[count].setItems(queuepatientlist1);

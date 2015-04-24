@@ -13,43 +13,26 @@ package at.oculus.teamf.presentation.view;
  */
 
 
-import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
-import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.entity.UsergroupEntity;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
-import javafx.util.StringConverter;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxResult;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -85,8 +68,6 @@ public class patientRecordController implements Initializable {
     private IPatient patient = Main.controller.getPatient();
     private StartupController startupController = new StartupController();
     private CreatePatientController createPatientController = new CreatePatientController();
-    private DialogBoxController box = new DialogBoxController();
-    public CheckinController checkinController = new CheckinController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -137,16 +118,8 @@ public class patientRecordController implements Initializable {
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
-
-        Date input = patient.getBirthDay();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(input);
-        LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH) + 1,
-                cal.get(Calendar.DAY_OF_MONTH));
-
-        patientRecordBday.setValue(date);
-
+        Date bday = patient.getBirthDay();
+        patientRecordBday.setPromptText(bday.toString());
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
         patientRecordStreet.setDisable(true);
@@ -246,20 +219,17 @@ public class patientRecordController implements Initializable {
     public void addPatientToQueue(){
         DialogBoxController dial = new DialogBoxController();
         dial.showInformationDialog("added",patient.getFirstName());
-        try {
+        /*try {
+            Timestamp tstamp = new Timestamp(new Date().getTime());
             IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
-            checkinController.insertPatientIntoQueue(patient, user);
+            IPatientQueue qe = user.getUserId().getQueue();
+            qe.addPatient((Patient) patient,doc,null,tstamp);
             Main.controller.refreshQueue();
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
-        } catch (CheckinControllerException e) {
-            e.printStackTrace();
-            box.showExceptionDialog(e, "CheckinControllerException: Please contact your Systemadministrator");
-        }
+        }*/
     }
 
     /**
@@ -276,6 +246,8 @@ public class patientRecordController implements Initializable {
         patient.setLastName(patientRecordLastname.getText());
         patient.setFirstName(patientRecordFirstname.getText());
         patient.setSocialInsuranceNr(patientRecordSVN.getText());
+
+        //TODO: Bday speichern
         LocalDate localDate = patientRecordBday.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         Date bday = java.sql.Date.from(instant);
@@ -291,21 +263,9 @@ public class patientRecordController implements Initializable {
         patient.setMedicineIntolerance(patientRecordIntolerance.getText());
         patient.setChildhoodAilments(patientRecordChildhood.getText());
 
-        try {
-            createPatientController.saveIPatient(patient);
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            box.showExceptionDialog(e, "RequrementsNotMetException: Please contact your Systemadministrator");
-        } catch (PatientCouldNotBeSavedException e) {
-            e.printStackTrace();
-            box.showExceptionDialog(e, "PatientCouldNotBeSavedException: Please contact your Systemadministrator");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            box.showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
-        }
+        /*createPatientController.saveIPatient(patient);*/
+
+        DialogBoxController box = new DialogBoxController();
         box.showInformationDialog("Patient record edited", "Changes saved");
     }
 }
