@@ -20,7 +20,6 @@ import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -320,7 +319,7 @@ public class MainController implements Initializable {
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/searchPatientTab.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
