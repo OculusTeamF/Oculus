@@ -300,7 +300,7 @@ public class MainController implements Initializable {
     public void addPatientTab(IPatient patient){
         try {
             currPatient = patient;
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
             displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + currPatient.getFirstName() + " " + currPatient.getLastName());
         } catch (IOException e) {
