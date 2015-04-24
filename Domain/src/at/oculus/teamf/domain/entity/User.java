@@ -141,7 +141,9 @@ public abstract class User implements IUser {
         String title = getTitle();
         if (title == null) {
             title = "";
+        } else {
+            title = title + " ";
         }
-        return title + " " + getFirstName() + " " + getLastName();
+        return title + getFirstName() + " " + getLastName();
     }
 }
