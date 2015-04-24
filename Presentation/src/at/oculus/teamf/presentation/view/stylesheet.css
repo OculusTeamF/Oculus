@@ -17,3 +17,12 @@
 #searchPatientPane{
     -fx-background-color: powderblue;
 }
+
+.text-area:disabled, .text-field:disabled{
+    -fx-text-fill: #000000;
+    -fx-opacity: 0.5;
+}
+
+.text-area .scroll-pane:disabled{
+    -fx-opacity: 1.0;
+}

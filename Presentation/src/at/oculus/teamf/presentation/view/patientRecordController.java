@@ -23,6 +23,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
@@ -150,6 +151,10 @@ public class patientRecordController implements Initializable {
             mb1.centerOnScreen();
             mb1.showAndWait();
         }
+
+        patientRecordAllergies.setDisable(true);
+        patientRecordIntolerance.setDisable(true);
+        patientRecordChildhood.setDisable(true);
     }
 
    @FXML
