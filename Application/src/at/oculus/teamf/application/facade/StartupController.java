@@ -314,4 +314,50 @@ public class StartupController implements ILogger{
         log.info("All doctors and orthoptists have been added to the IUser collection.");
         return iUsers;
     }
+
+
+    /**
+     * <h3>$getQueueByUserId</h3>
+     *
+     * <b>Description:</b>
+     *
+     * This method gets a user-id from the presentation-layer, fetches the correct queue from the given user
+     * and returns an interface of the chosen queue.
+     *
+     * <b>Parameter</b>
+     * @param userId this parameter shows the user id of the user, who's queue should be returned
+     **/
+    public IPatientQueue getQueueByUserId(int userId) throws BadConnectionException, NoBrokerMappedException {
+        Facade facade = Facade.getInstance();
+
+        User user;
+        Doctor doctor;
+        Orthoptist orthoptist;
+        PatientQueue queue = null;
+
+        try {
+            user = facade.getById(Doctor.class, userId);
+            if(user == null){
+                user = facade.getById(Orthoptist.class, userId);
+            }
+            log.info("The correct user have been acquired.");
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        if(user != null){
+            if(user instanceof Doctor){
+                doctor = (Doctor) user;
+                queue = doctor.getQueue();
+            }else if(user instanceof Orthoptist){
+                orthoptist = (Orthoptist) user;
+                queue = orthoptist.getQueue();
+            }
+        }
+        return queue;
+    }
 }
