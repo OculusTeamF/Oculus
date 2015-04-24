@@ -38,7 +38,8 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 		// user data
 		UserEntity userEntity = entity.getUser();
 		if (userEntity != null){
-			receptionist.setUserGroupId(userEntity.getUserGroupId());
+            receptionist.setUserId(entity.getUserId());
+            receptionist.setUserGroupId(userEntity.getUserGroupId());
 			receptionist.setUserName(userEntity.getUserName());
 			receptionist.setPassword(userEntity.getPassword());
 			receptionist.setTitle(userEntity.getTitle());
