@@ -14,6 +14,7 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
@@ -33,6 +34,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import se.mbaeumer.fxmessagebox.MessageBox;
+import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -206,6 +209,16 @@ public class MainController implements Initializable {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
         } catch (FacadeException e) {
             e.printStackTrace();
+            MessageBox mb = new MessageBox("Error!!! Please contact your Support", MessageBoxType.OK_ONLY);
+            mb.setHeight(150);
+            mb.centerOnScreen();
+            mb.showAndWait();
+        } catch (InvalidSearchParameterException e) {
+            e.printStackTrace();
+            MessageBox mb = new MessageBox("Error!!! Please contact your Support", MessageBoxType.OK_ONLY);
+            mb.setHeight(150);
+            mb.centerOnScreen();
+            mb.showAndWait();
         }
         if(patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);

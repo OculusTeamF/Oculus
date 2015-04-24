@@ -84,23 +84,18 @@ public class patientRecordController implements Initializable {
                 }
             }
         });
-
         try {
             patientRecordDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
         } catch (FacadeException e) {
             e.printStackTrace();
         }
-
         patientRecordSaveButton.setDisable(true);
-
         patientRecordradioGenderFemale.setToggleGroup(group);
         patientRecordradioGenderMale.setToggleGroup(group);
-
         patientRecordLastname.setText(patient.getLastName());
         patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(patient.getFirstName());
         patientRecordFirstname.setDisable(true);
-
         if(patient.getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
@@ -109,7 +104,6 @@ public class patientRecordController implements Initializable {
             patientRecordradioGenderMale.setSelected(true);
             patientRecordradioGenderMale.setDisable(true);
         }
-
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
         patientRecordBday.setPromptText(patient.getBirthDay().toString());
@@ -126,7 +120,6 @@ public class patientRecordController implements Initializable {
         patientRecordPhone.setDisable(true);
         patientRecordEmail.setText(patient.getEmail());
         patientRecordEmail.setDisable(true);
-
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
@@ -148,9 +141,8 @@ public class patientRecordController implements Initializable {
         }else{
             patientRecordChildhood.setText(patient.getChildhoodAilments());
         }
-
         try {
-            addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
+            addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
         } catch (FacadeException e) {
             e.printStackTrace();
         }
