@@ -42,12 +42,12 @@ public class examinationController implements Initializable {
     @FXML public ListView examinationList;
     @FXML public TextArea examinationDocumentation;
 
-    private IPatient patient = Main.controller.getPatient();
+    private IPatient patient;
     private Date date = new Date();
-    private DialogBoxController box = new DialogBoxController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        patient = (IPatient)resources.getObject(null);
         examinationTab.setText(patient.getLastName()+", "+patient.getFirstName()+", "+date.toString());
 
         examinationCurrDate.setText(date.toString());
@@ -62,13 +62,13 @@ public class examinationController implements Initializable {
         ReceivePatientController receivePatientController = new ReceivePatientController();
         try {
             receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
-            box.showInformationDialog("Save examination protocol", "Examination Protocol: "+patient.getLastName()+", "+patient.getFirstName()+" saved.");
+            DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + patient.getLastName() + ", " + patient.getFirstName() + " saved.");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e,"NoBrokerMappedException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException");
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "BadConnectionException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException");
         }
     }
 }

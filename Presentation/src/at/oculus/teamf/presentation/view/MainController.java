@@ -236,8 +236,7 @@ public class MainController implements Initializable {
 
     public void addPatientTab(final IPatient patient){
         try {
-            ResourceBundle resourceBundle = new SingleBundle((Object) patient);
-            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), resourceBundle);
+            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), new SingleResourceBundle(patient));
 
             displayPane.getTabs().addAll(tab);
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
@@ -283,26 +282,6 @@ public class MainController implements Initializable {
             }
         } catch (NoBrokerMappedException | BadConnectionException e) {
             e.printStackTrace();
-        }
-    }
-
-
-    private class SingleBundle extends ResourceBundle{
-
-        private Object _obj;
-
-        public SingleBundle(Object obj) {
-          _obj = obj;
-        }
-
-        @Override
-        protected Object handleGetObject(String key) {
-            return _obj;
-        }
-
-        @Override
-        public Enumeration<String> getKeys() {
-            return null;
         }
     }
 }
