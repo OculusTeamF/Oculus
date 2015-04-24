@@ -48,7 +48,7 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
 
     @Override
     public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
-        if(_queue != null) {
+        if(_queue == null) {
             _queue = new PatientQueue(this);
         }
         return _queue;

@@ -182,7 +182,6 @@ public class MainController implements Initializable {
             // needed get Queue From UserID
             IPatientQueue qe = null;
             try {
-
                 qe = _startupController.getQueueByUserId(u);
             } catch (BadConnectionException e) {
                 e.printStackTrace();
