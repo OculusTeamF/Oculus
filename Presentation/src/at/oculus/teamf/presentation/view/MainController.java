@@ -181,7 +181,7 @@ public class MainController implements Initializable {
 
         // build
         String queuename = "";
-        LinkedList<IQueueEntry> queueentries;
+        LinkedList<IQueueEntry> queueentries = null;
         int count = 0;
         for (int i = 0; i < userlist.size(); i++) {
             if (userlist.get(i).getUserGroupId() != null){
@@ -196,7 +196,13 @@ public class MainController implements Initializable {
                     // needed get Queue From UserID
                     for (int j = 0; j < qe.size(); j++) {
                         if (qe.get(j).getUserID() == userlist.get(i).getUserId()){
-                            queueentries = (LinkedList) qe.get(j).getEntries();
+                            try {
+                                queueentries = (LinkedList) qe.get(j).getEntries();
+                            } catch (NoBrokerMappedException e) {
+                                e.printStackTrace();
+                            } catch (BadConnectionException e) {
+                                e.printStackTrace();
+                            }
                             if (queueentries.size() > 0){
                                 for (int k = 0; k < queueentries.size(); k++) {
                                     queuepatientlist1.add(queueentries.get(k).getPatient());
