@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015 Team F
+ *
+ * This file is part of Oculus.
+ * Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
@@ -7,6 +16,8 @@ import at.oculus.teamf.application.facade.exceptions.UserNotFoundException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -40,7 +51,7 @@ public class CheckinController implements ILogger {
      * @param iuser the patient should be added to the queue of this user
      *
      */
-    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CheckinControllerException {
+    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CheckinControllerException, NoBrokerMappedException, BadConnectionException {
         Patient patient = (Patient) ipatient;
         log.info("Patient object has been created and assigned from interface.");
         User user = (User) iuser;

@@ -16,7 +16,7 @@ import at.oculus.teamf.persistence.entity.UserEntity;
 import java.sql.Timestamp;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * patient broker translating domain objects to persistence entities
  */
 public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity> {
 	public ReceptionistBroker() {
@@ -24,11 +24,17 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 		addClassMapping(UserEntity.class);
 	}
 
-	@Override
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     */
+    @Override
 	protected Receptionist persistentToDomain(ReceptionistEntity entity) {
-		Receptionist receptionist = new Receptionist();
-		receptionist.setId(entity.getId());
-		// TODO Kalender und Queues laden
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+        Receptionist receptionist = new Receptionist();
+        receptionist.setId(entity.getId());
 		// user data
 		UserEntity userEntity = entity.getUser();
 		if (userEntity != null){
@@ -44,13 +50,18 @@ public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistE
 		}
 		//orthoptist.setUserGroup(userEntity.getUserGroup());
 		return receptionist;
-	}
+    }
 
-	@Override
+    /**
+     * Converts a domain object to persitency entity
+     * @param entity that needs to be converted
+     * @return return a persitency entity
+     */
+    @Override
 	protected ReceptionistEntity domainToPersistent(Receptionist entity) {
-		ReceptionistEntity receptionistEntity = new ReceptionistEntity();
-		receptionistEntity.setId(entity.getId());
-		// TODO Kalender und Queues laden
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
+        ReceptionistEntity receptionistEntity = new ReceptionistEntity();
+        receptionistEntity.setId(entity.getId());
 		// user data
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(entity.getUserId());

@@ -137,4 +137,12 @@ public abstract class User implements IUser {
 	}
 	//</editor-fold>
 
+    @Override
+    public String toString() {
+        String title = getTitle();
+        if (title == null) {
+            title = new String();
+        }
+        return title + " " + getFirstName() + " " + getLastName();
+    }
 }

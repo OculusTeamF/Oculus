@@ -10,7 +10,7 @@
 package at.oculus.teamf.persistence.entity;
 
 /**
- * WeekDayKey.java Created by oculus on 10.04.15.
+ * WeekDayKey enum
  */
 public enum WeekDayKey {
 	MON, TUE, WED, THU, FRI, SAT, SUN

@@ -34,9 +34,7 @@ public class CheckinControllerTest implements ILogger {
 
         assert(iQueue != null);
 
-        log.info("Insert Patient into Queue");
         ReceivePatientController receivePatientController = new ReceivePatientController();
-        log.info("Delete Patient from Queue");
         receivePatientController.removePatientFromQueue(iPatient, iQueue);
 
         assert(iQueue.getEntries().size() > 0);

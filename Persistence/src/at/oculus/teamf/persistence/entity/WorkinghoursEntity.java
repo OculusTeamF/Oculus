@@ -11,21 +11,19 @@ package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.util.Collection;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated workinghours class
  */
 @Entity
 @Table(name = "workinghours", schema = "", catalog = "oculus_f")
 public class WorkinghoursEntity implements IEntity {
     private int _id;
-    private WeekDayKey _weekDayKey;
     private Time _morningFrom;
     private Time _morningTo;
     private Time _afternoonFrom;
     private Time _afternoonTo;
-    private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
+    //private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -36,16 +34,6 @@ public class WorkinghoursEntity implements IEntity {
 
     public void setId(int id) {
         _id = id;
-    }
-
-    @Basic
-    @Column(name = "weekDayKey", nullable = false, insertable = true, updatable = true, length = 3)
-    public WeekDayKey getWeekDayKey() {
-        return _weekDayKey;
-    }
-
-    public void setWeekDayKey(WeekDayKey weekDayKey) {
-        _weekDayKey = weekDayKey;
     }
 
     @Basic
@@ -96,7 +84,6 @@ public class WorkinghoursEntity implements IEntity {
         WorkinghoursEntity that = (WorkinghoursEntity) o;
 
         if (_id != that._id) return false;
-        if (_weekDayKey != null ? !_weekDayKey.equals(that._weekDayKey) : that._weekDayKey != null) return false;
         if (_morningFrom != null ? !_morningFrom.equals(that._morningFrom) : that._morningFrom != null) return false;
         if (_morningTo != null ? !_morningTo.equals(that._morningTo) : that._morningTo != null) return false;
         if (_afternoonFrom != null ? !_afternoonFrom.equals(that._afternoonFrom) : that._afternoonFrom != null)
@@ -109,7 +96,6 @@ public class WorkinghoursEntity implements IEntity {
     @Override
     public int hashCode() {
         int result = _id;
-        result = 31 * result + (_weekDayKey != null ? _weekDayKey.hashCode() : 0);
         result = 31 * result + (_morningFrom != null ? _morningFrom.hashCode() : 0);
         result = 31 * result + (_morningTo != null ? _morningTo.hashCode() : 0);
         result = 31 * result + (_afternoonFrom != null ? _afternoonFrom.hashCode() : 0);

@@ -11,17 +11,16 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
 
+// Todo: add docs, implement equals
 /**
- * Todo: add docs, implement equals
- *
  * @author Simon Angerer
- * @date 03.4.2015
  */
 public class Calendar implements ICalendar {
 
@@ -44,22 +43,10 @@ public class Calendar implements ICalendar {
         _id = calendarID;
     }
 
-    public Collection<CalendarEvent> getEvents() {
+    public Collection<CalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
-        //Todo: Exception handling
-        try {
-            facade.reloadCollection(this, CalendarEvent.class);
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-
+        facade.reloadCollection(this, CalendarEvent.class);
 
         return _events;
     }

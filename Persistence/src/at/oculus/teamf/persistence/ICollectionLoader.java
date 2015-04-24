@@ -11,10 +11,6 @@ package at.oculus.teamf.persistence;
 
 import java.util.Collection;
 
-/**
- * Created by Norskan on 09.04.2015.
- */
-//Todo: testen
 interface ICollectionLoader<R> {
 	Collection<R> load(Object databaseEntity);
 }

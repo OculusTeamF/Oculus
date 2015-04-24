@@ -13,12 +13,13 @@ import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
 
-/**
- * Created by oculus on 16.04.15.
- */
 public interface IDoctor extends IUser, IDomain {
     //<editor-fold desc="Getter/Setter">
     int getId();
@@ -29,7 +30,7 @@ public interface IDoctor extends IUser, IDomain {
 
     void setCalendar(Calendar _calendar);
 
-    PatientQueue getQueue();
+    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
 
     void setQueue(PatientQueue _queue);
 
@@ -39,9 +40,9 @@ public interface IDoctor extends IUser, IDomain {
 
     void addPatient(Patient patient);
 
-    void setPatients(Collection<Patient> patients);
+    Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException;
 
-    Collection<Patient> getPatients();
+    void setPatients(Collection<Patient> patients);
 
     @Override
     String toString();

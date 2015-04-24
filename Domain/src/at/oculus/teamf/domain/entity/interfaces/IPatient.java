@@ -12,6 +12,10 @@ package at.oculus.teamf.domain.entity.interfaces;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Date;
 import java.util.Collection;
@@ -39,7 +43,9 @@ public interface IPatient {
     IDoctor getIDoctor();
     void setIDoctor(IDoctor idoctor);
 
-    Collection<CalendarEvent> getCalendarEvents();
+    Collection<CalendarEvent> getCalendarEvents()
+		    throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+		           NoBrokerMappedException;
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
 
     Date getBirthDay();
