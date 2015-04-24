@@ -20,7 +20,6 @@ import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -58,30 +57,12 @@ public class MainController implements Initializable {
     @FXML private TextField textSearch;
     @FXML private ListView listSearchResults;
     @FXML private TitledPane searchResults;
-    @FXML private Tab patientRecordTab;
     @FXML private BorderPane borderPane;
-    @FXML private HBox statusHBox;
 
-    private Collection<PatientQueue> _allQueues;
-    private Tab _newPatientTab;
-    private Tab _calendarTab;
-    private Tab _searchPatientTab;
-    private User _user;
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
-    private TitledPane[] tps;
-    private ListView<IPatient> lists[];
-    private IPatient currPatient;
-    private  DialogBoxController box = new DialogBoxController();
-
-    private ObservableList<IPatient> queuepatientlist1 = FXCollections.observableArrayList();  // need array ! (problem: generic arrays not allowed)
-    private ObservableList<IPatient> queuepatientlist2 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist3 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist4 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist5 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist6 = FXCollections.observableArrayList();
-    private LinkedList<IUser> userlist = null;
+    private HashMap<Integer, ObservableList> _listMap;
 
 
     /**
@@ -114,48 +95,30 @@ public class MainController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    currPatient = (IPatient) listSearchResults.getSelectionModel().getSelectedItem();
-                    addPatientTab(currPatient);
+                    addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
         });
     }
 
-    private HashMap<Integer, ObservableList> _listMap;
-
     private void buildQueueLists() {
-        // get queue lists for doctors & orthoptists
-
         _listMap = new HashMap<>();
 
+        TitledPane[] titledPanes;
+        LinkedList<IUser> userlist = null;
 
         try {
             userlist = (LinkedList) _startupController.getAllDoctorsAndOrthoptists();
-        } catch (BadConnectionException e) {
+        } catch (BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
 
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
         }
 
-        LinkedList<IUser> user = new LinkedList<>();
-        //Todo: deligate down
-        // set needed amount of lists for gui
-
-        for(IUser u : userlist) {
-            if (u.getUserGroupId() != null) {
-                if (u.getUserGroupId() == 2 || u.getUserGroupId() == 3) {
-                    user.add(u);
-                }
-            }
-        }
-
-        tps = new TitledPane[user.size()];
-        lists = new ListView[user.size()];
+        titledPanes = new TitledPane[userlist.size()];
 
         // setup listviews
         int i = 0;
-        for(IUser u : user) {
+        for(IUser u : userlist) {
             ListView<IPatient>  listView = new ListView<>();
             listView = new ListView<>();
             listView.setPrefSize(200, 250);
@@ -171,8 +134,7 @@ public class MainController implements Initializable {
                         ListView source;
                         source = (ListView) event.getSource();
 
-                        currPatient = (IPatient) source.getSelectionModel().getSelectedItem();
-                        addPatientTab(currPatient);
+                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
@@ -183,9 +145,7 @@ public class MainController implements Initializable {
             IPatientQueue qe = null;
             try {
                 qe = _startupController.getQueueByUserId(u);
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-            } catch (NoBrokerMappedException e) {
+            } catch (BadConnectionException | NoBrokerMappedException e) {
                 e.printStackTrace();
             }
 
@@ -195,43 +155,24 @@ public class MainController implements Initializable {
                 for(QueueEntry entry : qe.getEntries()) {
                     olist.add(entry.getPatient());
                 }
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-            } catch (BadConnectionException e) {
+            } catch (NoBrokerMappedException | BadConnectionException e) {
                 e.printStackTrace();
             }
 
             listView.setItems(olist);
             _listMap.put(u.getUserId(), olist);
 
-            tps[i] = new TitledPane(queuename, listView);
-            tps[i].setExpanded(false);
-            tps[i].setAnimated(true);
-            tps[i].setVisible(true);
+            titledPanes[i] = new TitledPane(queuename, listView);
+            titledPanes[i].setExpanded(false);
+            titledPanes[i].setAnimated(true);
+            titledPanes[i].setVisible(true);
 
             i++;
         }
 
-        //tps[0].setExpanded(true);
-        vboxQueues.getChildren().addAll(tps);
+        //titledPanes[0].setExpanded(true);
+        vboxQueues.getChildren().addAll(titledPanes);
     }
-
-    public void refreshQueue(IPatientQueue queue, IUser user)
-    {
-        ObservableList observableList = _listMap.get(user.getUserId());
-        observableList.remove(0, observableList.size());
-
-        try {
-            for(QueueEntry entry : queue.getEntries()) {
-                observableList.add(entry.getPatient());
-            }
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @FXML
     public void handleEnterPressed(KeyEvent event) {
@@ -245,9 +186,7 @@ public class MainController implements Initializable {
         ObservableList<IPatient> patientlist = null;
         try {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
-        } catch (FacadeException e) {
-            e.printStackTrace();
-        } catch (InvalidSearchParameterException e) {
+        } catch (FacadeException | InvalidSearchParameterException e) {
             e.printStackTrace();
         }
         if(patientlist.size() > 0) {
@@ -256,7 +195,6 @@ public class MainController implements Initializable {
             searchResults.setExpanded(true);
         }
     }
-
 
     /*Close the application by clicking the Menuitem 'Exit'*/
     @FXML
@@ -285,24 +223,24 @@ public class MainController implements Initializable {
         }
     }
 
-
     /*Opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/newPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void addPatientTab(IPatient patient){
+    public void addPatientTab(final IPatient patient){
         try {
-            currPatient = patient;
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml")));
+            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), new SingleResourceBundle(patient));
+
+            displayPane.getTabs().addAll(tab);
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-            displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + currPatient.getFirstName() + " " + currPatient.getLastName());
+            displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -311,8 +249,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-        DialogBoxController dial = new DialogBoxController();
-        dial.showLoginDialog("a","b");
+        DialogBoxController.getInstance().showLoginDialog("a", "b");
     }
 
     /*Opens a patient search tab*/
@@ -320,13 +257,10 @@ public class MainController implements Initializable {
     public void searchPatient(ActionEvent actionEvent) {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public IPatient getPatient(){
-        return currPatient;
     }
 
     public SplitPane getSplitter(){
@@ -335,6 +269,20 @@ public class MainController implements Initializable {
 
     public TabPane getTabPane(){
         return this.displayPane;
+    }
+
+    public void refreshQueue(IPatientQueue queue, IUser user)
+    {
+        ObservableList observableList = _listMap.get(user.getUserId());
+        observableList.remove(0, observableList.size());
+
+        try {
+            for(QueueEntry entry : queue.getEntries()) {
+                observableList.add(entry.getPatient());
+            }
+        } catch (NoBrokerMappedException | BadConnectionException e) {
+            e.printStackTrace();
+        }
     }
 }
 
