@@ -93,12 +93,14 @@ public class PatientQueue implements ILogger, IPatientQueue {
                             queueEntries.put(qe.getQueueIdParent(), qe);
                         }
                     }
+                    // get queue entries for all orthoptists
                 } else if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
                     queueEntries.put(qe.getQueueIdParent(), qe);
                 }
             }
         }
 
+        // if no actual entry for orhoptist, use first entry for all orthoptists
         if (actEntry == null && !queueEntries.isEmpty()) {
             actEntry = queueEntries.remove(null);
         }
@@ -107,6 +109,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
         while (actEntry != null) {
             _entries.add(actEntry);
             actEntry = queueEntries.remove(actEntry.getId());
+            // if no actual entry for orhoptist, use first entry for all orthoptists
             if (actEntry == null && !queueEntries.isEmpty()) {
                 actEntry = queueEntries.remove(null);
             }
@@ -183,6 +186,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
                 // child entry update
                 if (queueEntryDel.getQueueIdParent() == null) {
                     if (qe.getOrthoptist() == queueEntryDel.getOrthoptist() && qe.getDoctor() == queueEntryDel.getDoctor()) {
+                        // update to null
                         queueEntryChd = qe;
                         queueEntryChd.setQueueIdParent(null);
                         break;
@@ -190,6 +194,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
                 } else {
                     if (qe.getQueueIdParent() != null) {
                         if (qe.getQueueIdParent() == queueEntryDel.getId()) {
+                            // update to parent id from entry to delete
                             queueEntryChd = qe;
                             queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
                             break;

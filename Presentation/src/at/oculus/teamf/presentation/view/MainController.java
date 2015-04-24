@@ -1,5 +1,3 @@
-
-
 /*
  * Copyright (c) 2015 Team F
  *
@@ -48,10 +46,7 @@ import org.controlsfx.control.StatusBar;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
 
@@ -86,6 +81,7 @@ public class MainController implements Initializable {
     private ObservableList<IPatient> queuepatientlist4 = FXCollections.observableArrayList();
     private ObservableList<IPatient> queuepatientlist5 = FXCollections.observableArrayList();
     private ObservableList<IPatient> queuepatientlist6 = FXCollections.observableArrayList();
+    private LinkedList<IUser> userlist = null;
 
 
     /**
@@ -125,10 +121,14 @@ public class MainController implements Initializable {
         });
     }
 
+    private HashMap<Integer, ObservableList> _listMap;
 
-    private void buildQueueLists(){
+    private void buildQueueLists() {
         // get queue lists for doctors & orthoptists
-        LinkedList<IUser> userlist = null;
+
+        _listMap = new HashMap<>();
+
+
         try {
             userlist = (LinkedList) _startupController.getAllDoctorsAndOrthoptists();
         } catch (BadConnectionException e) {
@@ -138,132 +138,99 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
 
+        LinkedList<IUser> user = new LinkedList<>();
+        //Todo: deligate down
         // set needed amount of lists for gui
-        int usercount = 0;
-        for (int i = 0; i < userlist.size(); i++) {
-            if (userlist.get(i).getUserGroupId() != null){
-                if (userlist.get(i).getUserGroupId() == 2 || userlist.get(i).getUserGroupId() == 3){
-                    usercount++;
+
+        for(IUser u : userlist) {
+            if (u.getUserGroupId() != null) {
+                if (u.getUserGroupId() == 2 || u.getUserGroupId() == 3) {
+                    user.add(u);
                 }
             }
         }
 
-        tps = new TitledPane[usercount];
-        lists = new ListView[usercount];
+        tps = new TitledPane[user.size()];
+        lists = new ListView[user.size()];
 
         // setup listviews
-        for (int i = 0; i < usercount; i++) {
-            lists[i] = new ListView<>();
-            lists[i].setPrefSize(200, 250);
-            lists[i].minWidth(Region.USE_COMPUTED_SIZE);
-            lists[i].minHeight(Region.USE_COMPUTED_SIZE);
-            lists[i].maxWidth(Region.USE_COMPUTED_SIZE);
-            lists[i].maxHeight(Region.USE_COMPUTED_SIZE);
-            lists[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
+        int i = 0;
+        for(IUser u : user) {
+            ListView<IPatient>  listView = new ListView<>();
+            listView = new ListView<>();
+            listView.setPrefSize(200, 250);
+            listView.minWidth(Region.USE_COMPUTED_SIZE);
+            listView.minHeight(Region.USE_COMPUTED_SIZE);
+            listView.maxWidth(Region.USE_COMPUTED_SIZE);
+            listView.maxHeight(Region.USE_COMPUTED_SIZE);
+            listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getClickCount() == 2) {
                         ListView source;
-                        source = (ListView)event.getSource();
+                        source = (ListView) event.getSource();
 
                         currPatient = (IPatient) source.getSelectionModel().getSelectedItem();
                         addPatientTab(currPatient);
                     }
                 }
             });
-        }
 
-        // build
-        String queuename = "";
-        LinkedList<IQueueEntry> queueentries = null;
-        IPatientQueue qe = null;
-        int count = 0;
-        for (int i = 0; i < userlist.size(); i++) {
-            if (userlist.get(i).getUserGroupId() != null){
-                if (userlist.get(i).getUserGroupId() == 2  || userlist.get(i).getUserGroupId() == 3){
-                    if (userlist.get(i).getTitle() != null) {
-                        queuename = userlist.get(i).getTitle() + " " + userlist.get(i).getFirstName() + " " + userlist.get(i).getLastName();
-                    } else {
-                        queuename = userlist.get(i).getFirstName() + " " + userlist.get(i).getLastName();
-                    }
-                    System.out.println("TEST" + userlist.get(i).getFirstName());
+            String queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
 
-                    // needed get Queue From UserID
-                    try {
+            // needed get Queue From UserID
+            IPatientQueue qe = null;
+            try {
 
-                        qe = _startupController.getQueueByUserId(userlist.get(i));
-                    } catch (BadConnectionException e) {
-                        e.printStackTrace();
-                    } catch (NoBrokerMappedException e) {
-                        e.printStackTrace();
-                    }
-
-                    try {
-                        for (QueueEntry q: qe.getEntries()){
-                            switch(count){
-                                case 0:
-                                    queuepatientlist1.add(q.getPatient());
-                                    lists[0].setItems(queuepatientlist1);
-                                    lists[0].setPrefHeight(queuepatientlist1.size() * 24);
-                                    break;
-                                case 1:
-                                    queuepatientlist2.add(q.getPatient());
-                                    lists[1].setItems(queuepatientlist2);
-                                    lists[1].setPrefHeight(queuepatientlist2.size() * 24);
-                                    break;
-                                case 2:
-                                    queuepatientlist3.add(q.getPatient());
-                                    lists[2].setItems(queuepatientlist3);
-                                    lists[2].setPrefHeight(queuepatientlist3.size() * 24);
-                                    break;
-                                case 3:
-                                    queuepatientlist4.add(q.getPatient());
-                                    lists[3].setItems(queuepatientlist4);
-                                    lists[3].setPrefHeight(queuepatientlist4.size() * 24);
-                                    break;
-                                case 4:
-                                    queuepatientlist5.add(q.getPatient());
-                                    lists[4].setItems(queuepatientlist5);
-                                    lists[4].setPrefHeight(queuepatientlist5.size() * 24);
-                                    break;
-                                case 5:
-                                    queuepatientlist6.add(q.getPatient());
-                                    lists[5].setItems(queuepatientlist6);
-                                    lists[5].setPrefHeight(queuepatientlist6.size() * 24);
-                                    break;
-                            }
-
-
-                        }
-                    } catch (NoBrokerMappedException e) {
-                        e.printStackTrace();
-                    } catch (BadConnectionException e) {
-                        e.printStackTrace();
-                    }
-
-
-
-                    tps[count] = new TitledPane(queuename, lists[count]);
-                    tps[count].setExpanded(false);
-                    tps[count].setAnimated(true);
-                    tps[count].setVisible(true);
-
-                    count++;
-                }
+                qe = _startupController.getQueueByUserId(u);
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
             }
+
+            ObservableList<IPatient> olist = FXCollections.observableArrayList();
+
+            try {
+                for(QueueEntry entry : qe.getEntries()) {
+                    olist.add(entry.getPatient());
+                }
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+            }
+
+            listView.setItems(olist);
+            _listMap.put(u.getUserId(), olist);
+
+            tps[i] = new TitledPane(queuename, listView);
+            tps[i].setExpanded(false);
+            tps[i].setAnimated(true);
+            tps[i].setVisible(true);
+
+            i++;
         }
 
         //tps[0].setExpanded(true);
         vboxQueues.getChildren().addAll(tps);
     }
 
+    public void refreshQueue(IPatientQueue queue, IUser user)
+    {
+        ObservableList observableList = _listMap.get(user.getUserId());
+        observableList.remove(0, observableList.size());
 
-    public void refreshQueue(){
-        tps = null;
-        lists = null;
-        vboxQueues.getChildren().removeAll();
-        buildQueueLists();
+        try {
+            for(QueueEntry entry : queue.getEntries()) {
+                observableList.add(entry.getPatient());
+            }
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -21,6 +21,7 @@ import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedExcep
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
@@ -138,14 +139,17 @@ public class patientRecordController implements Initializable {
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
 
-        Date input = patient.getBirthDay();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(input);
-        LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH) + 1,
-                cal.get(Calendar.DAY_OF_MONTH));
+        if(patient.getBirthDay() != null)
+        {
+            Date input = patient.getBirthDay();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(input);
+            LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH) + 1,
+                    cal.get(Calendar.DAY_OF_MONTH));
 
-        patientRecordBday.setValue(date);
+            patientRecordBday.setValue(date);
+        }
 
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
@@ -237,7 +241,8 @@ public class patientRecordController implements Initializable {
      * saves the changes in the patient record
      */
     @FXML
-    public void saveChangedForm(ActionEvent actionEvent) {
+    public void saveChangedForm(ActionEvent actionEvent)
+    {
         saveChanges();
     }
 
@@ -248,7 +253,8 @@ public class patientRecordController implements Initializable {
         try {
             IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
             checkinController.insertPatientIntoQueue(patient, user);
-            Main.controller.refreshQueue();
+            IPatientQueue queue = startupController.getQueueByUserId(user);
+            Main.controller.refreshQueue(queue, user);
         } catch (BadConnectionException e) {
             e.printStackTrace();
             box.showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
