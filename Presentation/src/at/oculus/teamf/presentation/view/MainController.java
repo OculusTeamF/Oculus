@@ -174,8 +174,6 @@ public class MainController implements Initializable {
             });
         }
 
-
-
         // build
         String queuename = "";
         LinkedList<IQueueEntry> queueentries = null;
@@ -190,7 +188,6 @@ public class MainController implements Initializable {
                         queuename = userlist.get(i).getFirstName() + " " + userlist.get(i).getLastName();
                     }
                     System.out.println("TEST" + userlist.get(i).getFirstName());
-
 
                     // needed get Queue From UserID
                     try {
@@ -213,46 +210,31 @@ public class MainController implements Initializable {
                                 case 1:
                                     queuepatientlist2.add(q.getPatient());
                                     lists[1].setItems(queuepatientlist2);
-                                    lists[1].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[1].setPrefHeight(queuepatientlist2.size() * 24);
                                     break;
                                 case 2:
                                     queuepatientlist3.add(q.getPatient());
                                     lists[2].setItems(queuepatientlist3);
-                                    lists[2].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[2].setPrefHeight(queuepatientlist3.size() * 24);
                                     break;
                                 case 3:
                                     queuepatientlist4.add(q.getPatient());
                                     lists[3].setItems(queuepatientlist4);
-                                    lists[3].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[3].setPrefHeight(queuepatientlist4.size() * 24);
                                     break;
                                 case 4:
                                     queuepatientlist5.add(q.getPatient());
                                     lists[4].setItems(queuepatientlist5);
-                                    lists[4].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[4].setPrefHeight(queuepatientlist5.size() * 24);
                                     break;
                                 case 5:
                                     queuepatientlist6.add(q.getPatient());
                                     lists[5].setItems(queuepatientlist6);
-                                    lists[5].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[5].setPrefHeight(queuepatientlist6.size() * 24);
                                     break;
                             }
 
 
-                    for (int j = 0; j < qe.size(); j++) {
-                        if (qe.get(j).getUserID() == userlist.get(i).getUserId()) {
-                            try {
-                                queueentries = (LinkedList) qe.get(j).getEntries();
-                            } catch (NoBrokerMappedException e) {
-                                e.printStackTrace();
-                            } catch (BadConnectionException e) {
-                                e.printStackTrace();
-                            }
-                            if (queueentries.size() > 0) {
-                                for (int k = 0; k < queueentries.size(); k++) {
-                                    queuepatientlist1.add(queueentries.get(k).getPatient());
-                                }
-                            }
-                            queueentries.clear();
                         }
                     } catch (NoBrokerMappedException e) {
                         e.printStackTrace();
@@ -260,8 +242,7 @@ public class MainController implements Initializable {
                         e.printStackTrace();
                     }
 
-                    lists[count].setItems(queuepatientlist1);
-                    lists[count].setPrefHeight(queuepatientlist1.size() * 24);
+
 
                     tps[count] = new TitledPane(queuename, lists[count]);
                     tps[count].setExpanded(false);
