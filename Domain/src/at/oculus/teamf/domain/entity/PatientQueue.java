@@ -34,6 +34,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
     public PatientQueue(Doctor doctor) throws NoBrokerMappedException, BadConnectionException {
         _user = doctor;
+        _userID = _user.getUserId();
         getEntries();
 
         log.info("[CREATE PatientQueue for DOCTOR '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Queuesize: " + _entries.size());
@@ -41,6 +42,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
     public PatientQueue(Orthoptist orthoptist) throws NoBrokerMappedException, BadConnectionException {
         _user = orthoptist;
+        _userID = _user.getUserId();
         getEntries();
 
         log.info("[CREATE PatientQueue for ORTHOPTIST '" + orthoptist.getFirstName() + " " + orthoptist.getLastName() + "' / Queuesize: " + _entries.size());
