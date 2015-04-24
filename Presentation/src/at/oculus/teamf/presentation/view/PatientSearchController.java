@@ -87,8 +87,6 @@ public class PatientSearchController implements Initializable{
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(svn, firstName, lastName));
         } catch (FacadeException e) {
             e.printStackTrace();
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
         }
 
         if(patientlist.size() > 0)

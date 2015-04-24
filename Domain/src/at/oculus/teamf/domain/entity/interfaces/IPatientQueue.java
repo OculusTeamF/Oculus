@@ -13,6 +13,8 @@ import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -27,5 +29,5 @@ public interface IPatientQueue {
 
     Collection<QueueEntry> getEntries();
 
-    void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime);
+    void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException;
 }
