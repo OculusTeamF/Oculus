@@ -15,6 +15,8 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
@@ -81,6 +83,7 @@ public class patientRecordController implements Initializable {
     private IPatient patient = Main.controller.getPatient();
     private StartupController startupController = new StartupController();
     private CreatePatientController createPatientController = new CreatePatientController();
+    private  DialogBoxController box = new DialogBoxController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -240,17 +243,19 @@ public class patientRecordController implements Initializable {
     public void addPatientToQueue(){
         DialogBoxController dial = new DialogBoxController();
         dial.showInformationDialog("added",patient.getFirstName());
-        try {
+       /* try {
             Timestamp tstamp = new Timestamp(new Date().getTime());
             IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
-            IPatientQueue qe = user.getUserId().getQueue();
+            IPatientQueue qe = startupController.getQueueByUserId(user);
             qe.addPatient((Patient) patient,doc,null,tstamp);
             Main.controller.refreshQueue();
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            box.showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-        }
+            box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
+        }*/
     }
 
     /**
@@ -267,8 +272,6 @@ public class patientRecordController implements Initializable {
         patient.setLastName(patientRecordLastname.getText());
         patient.setFirstName(patientRecordFirstname.getText());
         patient.setSocialInsuranceNr(patientRecordSVN.getText());
-
-        //TODO: Bday speichern
         LocalDate localDate = patientRecordBday.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         Date bday = java.sql.Date.from(instant);
@@ -284,9 +287,21 @@ public class patientRecordController implements Initializable {
         patient.setMedicineIntolerance(patientRecordIntolerance.getText());
         patient.setChildhoodAilments(patientRecordChildhood.getText());
 
-        createPatientController.saveIPatient(patient);
-
-        DialogBoxController box = new DialogBoxController();
+        try {
+            createPatientController.saveIPatient(patient);
+        } catch (RequirementsNotMetException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "RequrementsNotMetException: Please contact your Systemadministrator");
+        } catch (PatientCouldNotBeSavedException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "PatientCouldNotBeSavedException: Please contact your Systemadministrator");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
+        }
         box.showInformationDialog("Patient record edited", "Changes saved");
     }
 }
