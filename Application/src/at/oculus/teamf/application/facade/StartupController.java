@@ -330,23 +330,18 @@ public class StartupController implements ILogger{
     public IPatientQueue getQueueByUserId(int userId) throws BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
-        User user;
+        User user =  null;
         Doctor doctor;
         Orthoptist orthoptist;
         PatientQueue queue = null;
+        Collection<IUser> users = getAllDoctorsAndOrthoptists();
 
-        try {
-            user = facade.getById(Doctor.class, userId);
-            if(user == null){
-                user = facade.getById(Orthoptist.class, userId);
+        //TODO IUser do not have a userId ;)
+        for(IUser iUser : users){
+            if(iUser.getUserId() == userId){
+                user = (User) iUser;
+                break;
             }
-            log.info("The correct user have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
         }
 
         if(user != null){
