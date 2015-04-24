@@ -15,10 +15,17 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.User;
+import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +43,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
+import org.controlsfx.control.StatusBar;
 
 import java.io.IOException;
 import java.net.URL;
@@ -209,16 +217,6 @@ public class MainController implements Initializable {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
         } catch (FacadeException e) {
             e.printStackTrace();
-            MessageBox mb = new MessageBox("Error!!! Please contact your Support", MessageBoxType.OK_ONLY);
-            mb.setHeight(150);
-            mb.centerOnScreen();
-            mb.showAndWait();
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-            MessageBox mb = new MessageBox("Error!!! Please contact your Support", MessageBoxType.OK_ONLY);
-            mb.setHeight(150);
-            mb.centerOnScreen();
-            mb.showAndWait();
         }
         if(patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
@@ -280,6 +278,7 @@ public class MainController implements Initializable {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("searchPatientTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+           
         } catch (IOException e) {
             e.printStackTrace();
         }

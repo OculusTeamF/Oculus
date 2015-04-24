@@ -14,9 +14,15 @@ package at.oculus.teamf.presentation.view;
 
 
 import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -32,6 +38,11 @@ import se.mbaeumer.fxmessagebox.MessageBoxResult;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class patientRecordController implements Initializable {
@@ -40,6 +51,7 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordLastname;
     @FXML public TextField patientRecordFirstname;
     @FXML public TextField patientRecordSVN;
+    @FXML public DatePicker patientRecordBday;
     @FXML public TextField patientRecordCountryIsoCode;
     @FXML public TextField patientRecordPhone;
     @FXML public TextField patientRecordEmail;
@@ -54,10 +66,12 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
     @FXML public Tab patientRecordTab;
+    @FXML public Button addToQueue;
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
     @FXML public ChoiceBox addToQueue;
+
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
@@ -70,33 +84,37 @@ public class patientRecordController implements Initializable {
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
-                if (isFormEdited) {
+                if(isFormEdited) {
                     MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
                     mb1.setHeight(150);
                     mb1.centerOnScreen();
                     mb1.showAndWait();
 
-                    if (mb1.getMessageBoxResult() == MessageBoxResult.OK) {
+                    if(mb1.getMessageBoxResult() == MessageBoxResult.OK)
+                    {
                         saveChanges();
-                    } else {
+                    }else{
                         t.consume();
                         //TODO: close Tab;
                     }
                 }
             }
         });
+
         try {
             patientRecordDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
         } catch (FacadeException e) {
             e.printStackTrace();
         }
+
         patientRecordSaveButton.setDisable(true);
+
         patientRecordradioGenderFemale.setToggleGroup(group);
         patientRecordradioGenderMale.setToggleGroup(group);
+
         patientRecordLastname.setText(patient.getLastName());
-        patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(patient.getFirstName());
-        patientRecordFirstname.setDisable(true);
+
         if(patient.getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
@@ -105,22 +123,19 @@ public class patientRecordController implements Initializable {
             patientRecordradioGenderMale.setSelected(true);
             patientRecordradioGenderMale.setDisable(true);
         }
+
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
-        patientRecordSVN.setDisable(true);
-        patientRecordBday.setPromptText(patient.getBirthDay().toString());
-        patientRecordBday.setDisable(true);
+
+        Date bday = patient.getBirthDay();
+        patientRecordBday.setAccessibleText(String.valueOf(bday));
+
         patientRecordStreet.setText(patient.getStreet());
-        patientRecordStreet.setDisable(true);
         patientRecordPLZ.setText(patient.getPostalCode());
-        patientRecordPLZ.setDisable(true);
         patientRecordCity.setText(patient.getCity());
-        patientRecordCity.setDisable(true);
         patientRecordCountryIsoCode.setText(patient.getCountryIsoCode());
-        patientRecordCountryIsoCode.setDisable(true);
         patientRecordPhone.setText(patient.getPhone());
-        patientRecordPhone.setDisable(true);
         patientRecordEmail.setText(patient.getEmail());
-        patientRecordEmail.setDisable(true);
+
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
@@ -179,7 +194,6 @@ public class patientRecordController implements Initializable {
 
         isFormEdited = true;
         patientRecordSaveButton.setDisable(false);
-
     }
     /**
      * saves the changes in the patient record
@@ -206,6 +220,23 @@ public class patientRecordController implements Initializable {
             }else{
                 //TODO: close Tab;
             }
+        }
+    }
+
+    @FXML
+    private void addPatientToQueue(){
+        DialogBoxController dial = new DialogBoxController();
+        dial.showInformationDialog("added",patient.getFirstName());
+        try {
+            Timestamp tstamp = new Timestamp(new Date().getTime());
+            Doctor doc = Facade.getInstance().getById(Doctor.class, 4);
+            IPatientQueue qe = doc.getQueue();
+            qe.addPatient((Patient) patient,doc,null,tstamp);
+            Main.controller.refreshQueue();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
     }
 

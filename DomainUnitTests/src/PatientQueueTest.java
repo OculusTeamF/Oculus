@@ -38,7 +38,7 @@ public class PatientQueueTest implements ILogger{
     @org.junit.Test
     public void testAddPatient() throws Exception {
         Timestamp tstamp = new Timestamp(new Date().getTime());
-        Doctor doc = Facade.getInstance().getById(Doctor.class, 1);
+        Doctor doc = Facade.getInstance().getById(Doctor.class, 4);
         Patient pat = Facade.getInstance().getById(Patient.class, 7);
         Orthoptist ortho = null;
         PatientQueue patQueue = new PatientQueue();

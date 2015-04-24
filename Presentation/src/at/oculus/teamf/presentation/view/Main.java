@@ -25,29 +25,47 @@ import javafx.stage.Stage;
  */
 public class Main extends Application implements ILocal {
 
-    public FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+    public FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
+    public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
     public static MainController controller;
+    public static Stage stage;
+    public static Stage istage;
 
     @Override
     public void start(Stage primaryStage) throws Exception  {
+        // splashscreen test
+        Parent initroot = (Parent) initloader.load();
+        Stage init = new Stage();
+        Scene sceneInit = new Scene(initroot, 472, 314);
+        sceneInit.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
+        init.setScene(sceneInit);
+        init.setTitle("Oculus is loading...");
+        init.setResizable(false);
+        init.centerOnScreen();
+        init.getIcons().add(new Image("/res/32x32.png"));
+        init.show();
+
+
+        // main window load
         Parent root = (Parent) loader.load();
+
         primaryStage.setTitle(locstring.getString("MainWindowTitle"));      //localization example
         Scene scene = new Scene(root, 900, 600);
         scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
         controller = loader.getController();
 
-        // setup components in main.fxml
-        controller.getSplitter().setDividerPosition(0, 0.20);
+        // setup components in MainWindow.fxml
+        controller.getSplitter().setDividerPosition(0, 0.80);
 
         // update splitter position
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                controller.getSplitter().setDividerPosition(0, 0.20);
+                controller.getSplitter().setDividerPosition(0, 0.25);
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                controller.getSplitter().setDividerPosition(0, 0.20);
+                controller.getSplitter().setDividerPosition(0, 0.25);
             }
         });
 
@@ -56,8 +74,12 @@ public class Main extends Application implements ILocal {
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        stage = primaryStage;
         primaryStage.show();
+        init.close();
+
     }
+
 
 
     public static void main(String[] args) {
