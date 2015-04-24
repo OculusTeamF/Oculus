@@ -290,7 +290,7 @@ public class MainController implements Initializable {
     @FXML
     public void newPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/newPatientTab.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
