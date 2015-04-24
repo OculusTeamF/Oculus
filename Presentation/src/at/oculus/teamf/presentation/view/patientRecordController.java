@@ -13,8 +13,10 @@ package at.oculus.teamf.presentation.view;
  */
 
 
+import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.Doctor;
@@ -83,7 +85,8 @@ public class patientRecordController implements Initializable {
     private IPatient patient = Main.controller.getPatient();
     private StartupController startupController = new StartupController();
     private CreatePatientController createPatientController = new CreatePatientController();
-    private  DialogBoxController box = new DialogBoxController();
+    private DialogBoxController box = new DialogBoxController();
+    public CheckinController checkinController = new CheckinController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -243,11 +246,9 @@ public class patientRecordController implements Initializable {
     public void addPatientToQueue(){
         DialogBoxController dial = new DialogBoxController();
         dial.showInformationDialog("added",patient.getFirstName());
-       /* try {
-            Timestamp tstamp = new Timestamp(new Date().getTime());
+        try {
             IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
-            IPatientQueue qe = startupController.getQueueByUserId(user);
-            qe.addPatient((Patient) patient,doc,null,tstamp);
+            checkinController.insertPatientIntoQueue(patient, user);
             Main.controller.refreshQueue();
         } catch (BadConnectionException e) {
             e.printStackTrace();
@@ -255,7 +256,10 @@ public class patientRecordController implements Initializable {
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
             box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
-        }*/
+        } catch (CheckinControllerException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "CheckinControllerException: Please contact your Systemadministrator");
+        }
     }
 
     /**
