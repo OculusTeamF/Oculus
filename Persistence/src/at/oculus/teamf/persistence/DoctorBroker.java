@@ -61,6 +61,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         doctor.setQueue(null);
         // user data
         UserEntity userEntity = entity.getUser();
+        doctor.setUserId(entity.getUserId());
         doctor.setUserGroupId(userEntity.getUserGroupId());
         doctor.setUserName(userEntity.getUserName());
         doctor.setPassword(userEntity.getPassword());
