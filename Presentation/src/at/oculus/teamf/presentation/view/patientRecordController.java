@@ -196,7 +196,11 @@ public class patientRecordController implements Initializable {
         patientRecordIntolerance.setDisable(true);
         patientRecordChildhood.setDisable(true);
 
-        addToQueue.setValue(user);
+        if(user != null){
+            addToQueue.setValue(user);
+        }else if(patient.getIDoctor() != null){
+            addToQueue.setValue(patient.getIDoctor());
+        }
     }
 
     @FXML
@@ -277,22 +281,26 @@ public class patientRecordController implements Initializable {
     @FXML
     public void addPatientToQueue(){
 
-        DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
-        try {
-            IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
-            checkinController.insertPatientIntoQueue(patient, user);
-            IPatientQueue queue = startupController.getQueueByUserId(user);
-            Main.controller.refreshQueue(queue, user);
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-            DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Queue.");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        } catch (CheckinControllerException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
+        if(addToQueue.getSelectionModel().getSelectedItem() != null){
+            try {
+                IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
+                checkinController.insertPatientIntoQueue(patient, user);
+                IPatientQueue queue = startupController.getQueueByUserId(user);
+                Main.controller.refreshQueue(queue, user);
+                DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+                DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Queue.");
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+            } catch (CheckinControllerException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
+            }
+        }else{
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Queue");
         }
     }
 
