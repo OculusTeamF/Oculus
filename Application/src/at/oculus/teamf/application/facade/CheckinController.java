@@ -83,7 +83,7 @@ public class CheckinController implements ILogger {
         }
 
         if(queue != null){
-            queue.addPatient(patient, doctor, orthoptist, tstamp);
+            queue.addPatient(patient, tstamp);
             log.info("Patient has been added to correct queue.");
         }else{
             log.warn("Queue can not be null");
