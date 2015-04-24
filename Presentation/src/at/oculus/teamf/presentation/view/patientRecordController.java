@@ -15,6 +15,7 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.CreatePatientController;
+import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
@@ -26,6 +27,7 @@ import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -44,6 +46,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -58,7 +61,7 @@ public class patientRecordController implements Initializable {
     @FXML public TextField patientRecordEmail;
     @FXML public TextField patientRecordPLZ;
     @FXML public TextField patientRecordStreet;
-    @FXML public ChoiceBox patientRecordDoctor;
+    @FXML public ComboBox<IDoctor> patientRecordDoctor;
     @FXML public RadioButton patientRecordradioGenderFemale;
     @FXML public RadioButton patientRecordradioGenderMale;
     @FXML public ListView patientRecordAppointmentList;
@@ -70,7 +73,7 @@ public class patientRecordController implements Initializable {
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
-    @FXML public ChoiceBox addToQueue;
+    @FXML public ComboBox<IUser> addToQueue;
     @FXML public Button addPatientToQueue;
     @FXML public Button examinationProtocolButton;
 
@@ -81,6 +84,7 @@ public class patientRecordController implements Initializable {
     private CreatePatientController createPatientController = new CreatePatientController();
     private DialogBoxController box = new DialogBoxController();
     public CheckinController checkinController = new CheckinController();
+    private ReceivePatientController receivePatientController = new ReceivePatientController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -192,6 +196,20 @@ public class patientRecordController implements Initializable {
         patientRecordAllergies.setDisable(true);
         patientRecordIntolerance.setDisable(true);
         patientRecordChildhood.setDisable(true);
+
+        if(patient.getIDoctor()== null)
+        {
+            try {
+                Collection<IDoctor> doctors = startupController.getAllDoctors();
+                IDoctor doc = doctors.iterator().next();
+                patient.setIDoctor(doc);
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+            }
+        }
+        addToQueue.setValue(patient.getIDoctor());
     }
 
     @FXML
@@ -237,6 +255,36 @@ public class patientRecordController implements Initializable {
     public void saveChangedForm(ActionEvent actionEvent)
     {
         saveChanges();
+
+        patientRecordradioGenderMale.setDisable(true);
+        patientRecordradioGenderFemale.setDisable(true);
+        patientRecordLastname.setDisable(true);
+        patientRecordLastname.setEditable(false);
+        patientRecordFirstname.setDisable(true);
+        patientRecordFirstname.setEditable(false);
+        patientRecordSVN.setDisable(true);
+        patientRecordSVN.setEditable(false);
+        patientRecordBday.setDisable(true);
+        patientRecordBday.setEditable(false);
+        patientRecordStreet.setDisable(true);
+        patientRecordStreet.setEditable(false);
+        patientRecordPLZ.setDisable(true);
+        patientRecordPLZ.setEditable(false);
+        patientRecordCity.setDisable(true);
+        patientRecordCity.setEditable(false);
+        patientRecordCountryIsoCode.setDisable(true);
+        patientRecordCountryIsoCode.setEditable(false);
+        patientRecordPhone.setDisable(true);
+        patientRecordPhone.setEditable(false);
+        patientRecordEmail.setDisable(true);
+        patientRecordEmail.setEditable(false);
+        patientRecordDoctor.setDisable(true);
+        patientRecordAllergies.setDisable(true);
+        patientRecordAllergies.setEditable(false);
+        patientRecordIntolerance.setDisable(true);
+        patientRecordIntolerance.setEditable(false);
+        patientRecordChildhood.setDisable(true);
+        patientRecordChildhood.setEditable(false);
     }
 
     @FXML
@@ -319,6 +367,25 @@ public class patientRecordController implements Initializable {
             e.printStackTrace();
             box.showExceptionDialog(e, "IOException: Please contact your Systemadministrator");
         }
-    }
+        try {
+            IUser user = addToQueue.getSelectionModel().getSelectedItem();
+            System.out.println(user.getLastName());
+            IPatientQueue patientqueue = startupController.getQueueByUserId(user);
+            System.out.println(patient.getFirstName());
+            System.out.println(patientqueue.getEntries().size());
+            receivePatientController.removePatientFromQueue(patient, patientqueue);
+            Main.controller.refreshQueue(patientqueue, user);
+            box.showInformationDialog("removed ", patient.getFirstName());
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e,"BadConnectionException");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "NoBrokerMappedException");
+        } catch (InvalidSearchParameterException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "InvalidSearchParameterException");
+        }
 
+    }
 }

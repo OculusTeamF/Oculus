@@ -58,7 +58,7 @@
                                     </children>
                                 </FlowPane>
                                 <Label text="Doctor" GridPane.rowIndex="10" />
-                                <ChoiceBox fx:id="patientRecordDoctor" disable="true" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                <ComboBox fx:id="patientRecordDoctor" disable="true" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                                 <TextField fx:id="patientRecordStreet" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                 <DatePicker fx:id="patientRecordBday" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                             </children>
@@ -84,7 +84,7 @@
                         <GridPane hgap="20.0" prefHeight="228.0" prefWidth="530.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <Button fx:id="examinationProtocolButton" onAction="#openExamination" mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                <ChoiceBox fx:id="addToQueue" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <ComboBox fx:id="addToQueue" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="Add to Queue" GridPane.columnIndex="1" />
                                 <Button fx:id="addPatientToQueue" onAction="#addPatientToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                             </children>
