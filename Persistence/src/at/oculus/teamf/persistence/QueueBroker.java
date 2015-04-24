@@ -20,6 +20,8 @@ import at.oculus.teamf.persistence.entity.QueueEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
+import java.util.Collection;
+
 /**
  * queue broker translating domain objects to persistence entities
  */
