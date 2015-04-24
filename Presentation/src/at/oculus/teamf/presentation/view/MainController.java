@@ -210,27 +210,27 @@ public class MainController implements Initializable {
                                 case 1:
                                     queuepatientlist2.add(q.getPatient());
                                     lists[1].setItems(queuepatientlist2);
-                                    lists[1].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[1].setPrefHeight(queuepatientlist2.size() * 24);
                                     break;
                                 case 2:
                                     queuepatientlist3.add(q.getPatient());
                                     lists[2].setItems(queuepatientlist3);
-                                    lists[2].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[2].setPrefHeight(queuepatientlist3.size() * 24);
                                     break;
                                 case 3:
                                     queuepatientlist4.add(q.getPatient());
                                     lists[3].setItems(queuepatientlist4);
-                                    lists[3].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[3].setPrefHeight(queuepatientlist4.size() * 24);
                                     break;
                                 case 4:
                                     queuepatientlist5.add(q.getPatient());
                                     lists[4].setItems(queuepatientlist5);
-                                    lists[4].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[4].setPrefHeight(queuepatientlist5.size() * 24);
                                     break;
                                 case 5:
                                     queuepatientlist6.add(q.getPatient());
                                     lists[5].setItems(queuepatientlist6);
-                                    lists[5].setPrefHeight(queuepatientlist1.size() * 24);
+                                    lists[5].setPrefHeight(queuepatientlist6.size() * 24);
                                     break;
                             }
 
