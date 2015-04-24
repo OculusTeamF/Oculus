@@ -28,7 +28,7 @@ import se.mbaeumer.fxmessagebox.MessageBox;
 import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -79,10 +79,14 @@ public class newPatientController implements Initializable{
         String firstname = newPatientFirstname.getText();
         String svn = newPatientSVN.getText();
 
-        LocalDate localDate = newPatientBday.getValue();
+        /*LocalDate localDate = newPatientBday.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         java.util.Date utildate = Date.from(instant);
-        Date bday = new Date(utildate.getTime());
+        Date bday = new Date(utildate.getTime());*/
+
+        LocalDate localDate = newPatientBday.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        Date bday = Date.from(instant);
 
         String street = newPatientStreet.getText();
         String postalcode = newPatientPLZ.getText();
