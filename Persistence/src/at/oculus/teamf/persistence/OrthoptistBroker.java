@@ -48,7 +48,8 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		orthoptist.setQueue(null); // reload when needed!
 		// user data
 		UserEntity userEntity = entity.getUser();
-		orthoptist.setUserGroupId(userEntity.getUserGroupId());
+        orthoptist.setUserId(entity.getUserId());
+        orthoptist.setUserGroupId(userEntity.getUserGroupId());
 		orthoptist.setUserName(userEntity.getUserName());
 		orthoptist.setPassword(userEntity.getPassword());
 		orthoptist.setTitle(userEntity.getTitle());
