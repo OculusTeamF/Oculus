@@ -30,6 +30,7 @@ public class CheckinControllerTest implements ILogger {
     private IPatient iPatient;
     private IDoctor iDoctor;
     private IPatientQueue iQueue;
+    private int size;
 
 
 
@@ -45,14 +46,23 @@ public class CheckinControllerTest implements ILogger {
         CheckinController checkinController = new CheckinController();
         checkinController.insertPatientIntoQueue(iPatient, iDoctor);
 
+        System.out.println(iQueue.getEntries().size());
+        size = iQueue.getEntries().size();
         assert(iQueue != null);
+        System.out.println(iQueue.getEntries().size());
     }
 
     @After
     public void tearDown() throws Exception{
         ReceivePatientController receivePatientController = new ReceivePatientController();
         receivePatientController.removePatientFromQueue(iPatient, iQueue);
-        assert(iQueue.getEntries().size() > 0);
+        size = size -1;
+        System.out.println(iQueue.getEntries().size());
+        assert(iQueue.getEntries().size() == size);
     }
 
+    @org.junit.Test
+    public void testInsertPatientIntoQueue() throws Exception {
+
+    }
 }
