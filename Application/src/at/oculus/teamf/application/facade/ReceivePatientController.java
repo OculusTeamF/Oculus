@@ -23,11 +23,15 @@ import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * <h2>$ReceivePatientController</h2>
@@ -63,6 +67,35 @@ public class ReceivePatientController implements ILogger {
         log.info("New Examination Protocol has been created!");
 
         return examinationProtocol;
+    }
+
+    public Collection<IExaminationProtocol> getAllExaminationProtocols(IPatient iPatient) throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, BadConnectionException {
+        Patient patient = (Patient) iPatient;
+        Collection<ExaminationProtocol> protocols = null;
+        try {
+            protocols = patient.getExaminationProtocol();
+        } catch (InvalidReloadClassException invalidReloadClassException) {
+            log.warn("FacadeException caught! Invalid reload class!");
+            throw invalidReloadClassException;
+        } catch (ReloadInterfaceNotImplementedException reloadInterfaceNotImplementedException) {
+            log.warn("FacadeException caught! reload interface not implemented!");
+            throw reloadInterfaceNotImplementedException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("FacadeException caught! Bad Connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        Collection<IExaminationProtocol> examinationProtocols = new LinkedList<IExaminationProtocol>();
+        if(protocols != null){
+            for(ExaminationProtocol examinationProtocol : protocols){
+                examinationProtocols.add(examinationProtocol);
+            }
+        }
+
+        return examinationProtocols;
     }
 
     /**
