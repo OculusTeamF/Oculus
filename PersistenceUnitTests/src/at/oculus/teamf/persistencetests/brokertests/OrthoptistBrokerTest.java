@@ -59,8 +59,5 @@ public class OrthoptistBrokerTest extends BrokerTest {
 
 	    Assert.assertTrue(orthoptists != null);
 	    Assert.assertTrue(orthoptists.size() > 1);
-        for (Orthoptist o : orthoptists) {
-            System.out.println(o);
-        }
     }
 }
