@@ -145,6 +145,10 @@ public class patientRecordController implements Initializable {
             addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
         } catch (FacadeException e) {
             e.printStackTrace();
+            MessageBox mb1 = new MessageBox("Error", MessageBoxType.OK_ONLY);
+            mb1.setHeight(150);
+            mb1.centerOnScreen();
+            mb1.showAndWait();
         }
     }
 

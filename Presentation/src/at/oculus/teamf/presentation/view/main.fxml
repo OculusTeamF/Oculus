@@ -29,12 +29,12 @@
                                 <MenuItem mnemonicParsing="false" onAction="#onClose" text="Exit" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
+                        <Menu disable="true" mnemonicParsing="false" text="Edit">
                             <items>
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="View">
+                        <Menu disable="true" mnemonicParsing="false" text="View">
                             <items>
                                 <Menu mnemonicParsing="false" text="Theme">
                                     <items>
@@ -57,7 +57,7 @@
                                 <MenuItem fx:id="openPatientsearch" mnemonicParsing="false" onAction="#searchPatient" text="Search patient record" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Forms">
+                        <Menu disable="true" mnemonicParsing="false" text="Forms">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Medical prescription" />
                                 <MenuItem mnemonicParsing="false" text="Visual aid" />
@@ -68,17 +68,17 @@
                                 <MenuItem mnemonicParsing="false" onAction="#openCal" text="Calendar " />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="ICD-10 Codes">
+                        <Menu disable="true" mnemonicParsing="false" text="ICD-10 Codes">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="open list" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Medicament">
+                        <Menu disable="true" mnemonicParsing="false" text="Medicament">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="open medical list" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
+                        <Menu disable="true" mnemonicParsing="false" text="Help">
                             <items>
                                 <MenuItem fx:id="menuAbout" mnemonicParsing="false" text="About" />
                             </items>

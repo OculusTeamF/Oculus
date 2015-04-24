@@ -88,45 +88,33 @@ public class searchPatientController implements Initializable{
             mb.setHeight(150);
             mb.centerOnScreen();
             mb.showAndWait();
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-            MessageBox mb = new MessageBox("Error!!! Please contact your Support", MessageBoxType.OK_ONLY);
-            mb.setHeight(150);
-            mb.centerOnScreen();
-            mb.showAndWait();
         }
 
-        if(patientlist.size() > 0)
-        {
-            searchPatientList.setItems(patientlist);
-        } else {
-            MessageBox mb = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
-            mb.setHeight(150);
-            mb.centerOnScreen();
-            mb.showAndWait();
-            searchPatientLastname.clear();
-            searchPatientFirstname.clear();
-            searchPatientSVN.clear();
-            searchPatientLastname.requestFocus();
-        }
+            if (patientlist.size() > 0) {
+                searchPatientList.setItems(patientlist);
+            } else {
+                MessageBox mb1 = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
+                mb1.setHeight(150);
+                mb1.centerOnScreen();
+                mb1.showAndWait();
 
-        searchPatientList.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(MouseEvent event)
-            {
-                ObservableList<IPatient> patientlist;
-
-                if(event.getClickCount() == 2)
-                {
-                    IPatient currPatientItem = (IPatient) searchPatientList.getSelectionModel().getSelectedItem();
-
-                    //open Patient record
-                    openPatientRecord(currPatientItem);
-                }
+                searchPatientLastname.clear();
+                searchPatientFirstname.clear();
+                searchPatientSVN.clear();
+                searchPatientLastname.requestFocus();
             }
-        });
-    }
 
+            searchPatientList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
 
+                    if (event.getClickCount() == 2) {
+                        IPatient currPatientItem = (IPatient) searchPatientList.getSelectionModel().getSelectedItem();
+
+                        //open Patient record
+                        openPatientRecord(currPatientItem);
+                    }
+                }
+            });
+        }
 }
