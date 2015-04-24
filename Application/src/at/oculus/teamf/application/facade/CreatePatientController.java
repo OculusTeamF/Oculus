@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -90,6 +91,37 @@ public class CreatePatientController implements ILogger{
         try {
             savePatient(patient);
             log.info("Patient object has been saved!");
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Patient cannot be saved!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
+            throw noBrokerMappedException;
+        }
+    }
+
+    /**
+     *<h3>$saveIPatient</h3>
+     *
+     * <b>Description:</b>
+     * This method gets the interface of the patient object which should be saved. The requirements were checked with another method
+     * and if everything is alright, the object is given to the facade to save it into the database. Afterwards
+     * the patient collection in the database should be up to date again.
+     *
+     *<b>Parameter</b>
+     * @param iPatient this is the interface of Patient-object, which should be saved in the database
+     */
+    public void saveIPatient(IPatient iPatient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+        Patient patient = (Patient) iPatient;
+        try {
+            savePatient(patient);
+            log.info("Patient object has been saved!");
+        } catch (RequirementsNotMetException requirementsNotMetException) {
+            log.warn("Requirements are unfulfilled");
+            throw requirementsNotMetException;
+        } catch (PatientCouldNotBeSavedException patientCouldNotBeSavedException) {
+            log.warn("Patient could not be saved!");
+            throw patientCouldNotBeSavedException;
         } catch (BadConnectionException badConnectionException) {
             log.warn("BadConnectionException caught! Patient cannot be saved!");
             throw badConnectionException;

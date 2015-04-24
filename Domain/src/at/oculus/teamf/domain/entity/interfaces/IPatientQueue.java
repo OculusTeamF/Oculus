@@ -9,25 +9,24 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
 import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * Created by jpo2433 on 17.04.15.
+ * interface patient queue for presentation layer
  */
 public interface IPatientQueue {
     int getUserID();
 
-    void setUserID(int userID);
+    Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException;
 
-    Collection<QueueEntry> getEntries();
+    void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException;
 
-    void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException;
+    void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException;
 }

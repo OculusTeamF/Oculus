@@ -74,6 +74,7 @@ public class StartupControllerTest {
     @org.junit.Test
     public void testGetQueueByUserId() throws Exception {
         IPatientQueue queue = startupController.getQueueByUserId(1);
+
         assert (queue.getEntries().size() == 4);
     }
 

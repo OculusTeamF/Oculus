@@ -7,76 +7,80 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.technical.loggin.ILogger;
-import org.junit.Ignore;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 
-public class PatientQueueTest implements ILogger{
+public class PatientQueueTest implements ILogger {
+    private Timestamp _timestamp;
+    private Patient _patient;
+    private Doctor _doctor;
+    private PatientQueue _patientQueue;
+    private int _size;
 
-    @org.junit.Test
-    public void testSetUserID() throws Exception {
-
+    @Before
+    public void setUp() {
+        _timestamp = new Timestamp(new Date().getTime());
+        try {
+            for (Object p : Facade.getInstance().search(Patient.class, "5835897249")) {
+                _patient = (Patient) p;
+            }
+            for (Object d : Facade.getInstance().getAll(Doctor.class)) {
+                _doctor = (Doctor) d;
+            }
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(_doctor != null);
+        try {
+            _patientQueue = _doctor.getQueue();
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        try {
+            _size = _patientQueue.getEntries().size();
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        try {
+            _patientQueue.addPatient(_patient, _timestamp);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 
-    @org.junit.Test
-    public void testGetEntries() throws Exception {
+    @After
+    public void tearDown() {
+        try {
+            assertTrue(_patientQueue.getEntries().size() == _size + 1);
+
+            _patientQueue.removePatient(_patient);
+
+            assertTrue(_patientQueue.getEntries().size() == _size);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 
-    @org.junit.Test
-    public void testSetQueueEntry() throws Exception {
+    @Test
+    public void getQueue() {
 
-    }
-
-    @org.junit.Test
-    public void testAddPatient() throws Exception {
-        Timestamp tstamp = new Timestamp(new Date().getTime());
-        Doctor doc = Facade.getInstance().getById(Doctor.class, 4);
-        Patient pat = Facade.getInstance().getById(Patient.class, 7);
-        Orthoptist ortho = null;
-        PatientQueue patQueue = new PatientQueue();
-
-        log.debug("Add patient to queue for doctor: '" + doc.getFirstName() + " " + doc.getLastName() + "' / Patient: '" + pat.getFirstName() + " " + pat.getLastName() + "'");
-
-        assertNotNull(pat);
-        assertNotNull(doc);
-        assertNull(ortho);
-        assertNotNull(tstamp);
-
-        patQueue.addPatient(pat, doc, ortho, tstamp);
-    }
-
-    @org.junit.Test
-    public void testRemovePatient() throws Exception {
-        //Patient pat = Facade.getInstance().getById(Patient.class, 7);
-        //PatientQueue patQueue = new PatientQueue();
-
-        //log.debug("Remove patient from queue for doctor: '" + pat.getFirstName() + " " + pat.getLastName() + "' / patID: " + pat.getId());
-        //log.debug("testcase disabled");
-        //TODO writing tableentry tests
-        //patQueue.removePatient(pat);
-    }
-
-    @Ignore
-    @org.junit.Test
-    public void testGetNext() throws Exception {
-        Doctor doc = Facade.getInstance().getById(Doctor.class, 1);
-        PatientQueue pqDoctor = new PatientQueue(doc);
-
-        log.debug("GETNEXT PatientQueue bound to doctor: '" + doc.getFirstName() + " " + doc.getLastName() + "' / QueueEntries: " + pqDoctor.getEntries().size());
-
-        QueueEntry nextQueueEntry = null;
-        nextQueueEntry = pqDoctor.getNext();
-
-        log.debug("GETNEXT queue entry for doctor: '" + doc.getLastName() + "' / next patient in queue: '" + nextQueueEntry.getPatient().getLastName() + "' id: " + nextQueueEntry.getPatient().getId());
-
-        assertNotNull(nextQueueEntry);
     }
 }
