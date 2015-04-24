@@ -63,9 +63,9 @@ public class PatientQueue implements ILogger, IPatientQueue {
     public LinkedList<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
         HashMap<Integer, QueueEntry> queueEntries = new HashMap<>();
         QueueEntry actEntry = null;
+        _entries = new LinkedList<>();
 
         if (_user instanceof Doctor) {
-            _entries = new LinkedList<>();
             // get all queue entities of a doctor
             for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
                 QueueEntry qe = (QueueEntry) obj;
@@ -128,15 +128,18 @@ public class PatientQueue implements ILogger, IPatientQueue {
      */
     public void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException {
         // id of last queue element
-        QueueEntry queueEntryLast = _entries.getLast();
+        Integer parentId = null;
+        if (!_entries.isEmpty()) {
+            parentId = _entries.getLast().getId();
+        }
 
         // new queue entry
         QueueEntry queueEntryNew = null;
         // TODO Umbau QueueEntry auf User statt Doc und Orth extra
         if (_user instanceof Doctor) {
-            queueEntryNew = new QueueEntry(0, patient, (Doctor) _user, null, queueEntryLast.getId(), arrivaltime);
+            queueEntryNew = new QueueEntry(0, patient, (Doctor) _user, null, parentId, arrivaltime);
         } else {
-            queueEntryNew = new QueueEntry(0, patient, null, (Orthoptist) _user, queueEntryLast.getId(), arrivaltime);
+            queueEntryNew = new QueueEntry(0, patient, null, (Orthoptist) _user, parentId, arrivaltime);
         }
 
         // save

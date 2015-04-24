@@ -174,6 +174,8 @@ public class MainController implements Initializable {
             });
         }
 
+
+
         // build
         String queuename = "";
         LinkedList<IQueueEntry> queueentries = null;
@@ -188,6 +190,7 @@ public class MainController implements Initializable {
                         queuename = userlist.get(i).getFirstName() + " " + userlist.get(i).getLastName();
                     }
                     System.out.println("TEST" + userlist.get(i).getFirstName());
+
 
                     // needed get Queue From UserID
                     try {
@@ -235,6 +238,21 @@ public class MainController implements Initializable {
                             }
 
 
+                    for (int j = 0; j < qe.size(); j++) {
+                        if (qe.get(j).getUserID() == userlist.get(i).getUserId()) {
+                            try {
+                                queueentries = (LinkedList) qe.get(j).getEntries();
+                            } catch (NoBrokerMappedException e) {
+                                e.printStackTrace();
+                            } catch (BadConnectionException e) {
+                                e.printStackTrace();
+                            }
+                            if (queueentries.size() > 0) {
+                                for (int k = 0; k < queueentries.size(); k++) {
+                                    queuepatientlist1.add(queueentries.get(k).getPatient());
+                                }
+                            }
+                            queueentries.clear();
                         }
                     } catch (NoBrokerMappedException e) {
                         e.printStackTrace();
@@ -242,7 +260,8 @@ public class MainController implements Initializable {
                         e.printStackTrace();
                     }
 
-
+                    lists[count].setItems(queuepatientlist1);
+                    lists[count].setPrefHeight(queuepatientlist1.size() * 24);
 
                     tps[count] = new TitledPane(queuename, lists[count]);
                     tps[count].setExpanded(false);
@@ -254,7 +273,7 @@ public class MainController implements Initializable {
             }
         }
 
-        tps[0].setExpanded(true);
+        //tps[0].setExpanded(true);
         vboxQueues.getChildren().addAll(tps);
     }
 
