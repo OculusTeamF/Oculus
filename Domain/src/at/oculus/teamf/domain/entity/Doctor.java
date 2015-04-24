@@ -103,9 +103,4 @@ public class Doctor extends User implements IDoctor {
 		_patients = patients;
 	}
     //</editor-fold>
-
-	@Override
-	public String toString(){
-		return getTitle() + " " + getFirstName() + " " + getLastName();
-	}
 }

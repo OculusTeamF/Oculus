@@ -57,9 +57,4 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
         _queue = queue;
     }
     //</editor-fold>
-
-	@Override
-	public String toString(){
-		return getTitle() + " " + getFirstName() + " " + getLastName();
-	}
 }
