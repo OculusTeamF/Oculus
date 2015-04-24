@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 // Todo: add docs, implement equals, logging
+
 /**
  * @author Fabian Salzgeber
  */
@@ -46,6 +47,14 @@ public class PatientQueue implements ILogger, IPatientQueue {
         getEntries();
 
         log.info("[CREATE PatientQueue for ORTHOPTIST '" + orthoptist.getFirstName() + " " + orthoptist.getLastName() + "' / Queuesize: " + _entries.size());
+    }
+
+    public PatientQueue() throws NoBrokerMappedException, BadConnectionException {
+        _user = null;
+        _userID = 0;
+        getEntries();
+
+        log.info("[CREATE PatientQueue for ORTHOPTISTS / Queuesize: " + _entries.size());
     }
 
     @Override
@@ -80,7 +89,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
                     }
                 }
             }
-        } else {
+        } else if (_user instanceof Orthoptist) {
             // get all queue entities of a orthoptist
             for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
                 QueueEntry qe = (QueueEntry) obj;
@@ -96,6 +105,19 @@ public class PatientQueue implements ILogger, IPatientQueue {
                     // get queue entries for all orthoptists
                 } else if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
                     queueEntries.put(qe.getQueueIdParent(), qe);
+                }
+            }
+        } else {
+            // get all queue entities of a orthoptists
+            for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
+                QueueEntry qe = (QueueEntry) obj;
+                if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
+                    // set first entity
+                    if (qe.getQueueIdParent() == null) {
+                        actEntry = qe;
+                    } else {
+                        queueEntries.put(qe.getQueueIdParent(), qe);
+                    }
                 }
             }
         }
@@ -141,8 +163,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
         // TODO Umbau QueueEntry auf User statt Doc und Orth extra
         if (_user instanceof Doctor) {
             queueEntryNew = new QueueEntry(0, patient, (Doctor) _user, null, parentId, arrivaltime);
-        } else {
+        } else if (_user instanceof Orthoptist) {
             queueEntryNew = new QueueEntry(0, patient, null, (Orthoptist) _user, parentId, arrivaltime);
+        } else {
+            queueEntryNew = new QueueEntry(0, patient, null, null, parentId, arrivaltime);
         }
 
         // save
@@ -157,6 +181,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
     /**
      * removes patient from queue
+     *
      * @param patient patient to be removed
      * @throws NoBrokerMappedException
      * @throws BadConnectionException

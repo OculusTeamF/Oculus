@@ -39,6 +39,7 @@ public class PatientQueueTest implements ILogger {
             }
             for (Object d : Facade.getInstance().getAll(Doctor.class)) {
                 _doctor = (Doctor) d;
+                break;
             }
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -81,6 +82,5 @@ public class PatientQueueTest implements ILogger {
 
     @Test
     public void getQueue() {
-
     }
 }
