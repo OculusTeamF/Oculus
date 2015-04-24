@@ -88,6 +88,7 @@ public class patientRecordController implements Initializable {
     public void initialize(URL location, ResourceBundle resources)
     {
         patient =  (IPatient)resources.getObject(null);
+        IUser user = Main.controller.user;
 
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
@@ -112,6 +113,7 @@ public class patientRecordController implements Initializable {
             patientRecordDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
         } catch (FacadeException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
 
         patientRecordSaveButton.setDisable(true);
@@ -187,29 +189,14 @@ public class patientRecordController implements Initializable {
             addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
         } catch (FacadeException e) {
             e.printStackTrace();
-            MessageBox mb1 = new MessageBox("Error", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
 
         patientRecordAllergies.setDisable(true);
         patientRecordIntolerance.setDisable(true);
         patientRecordChildhood.setDisable(true);
 
-        if(patient.getIDoctor()== null)
-        {
-            try {
-                Collection<IDoctor> doctors = startupController.getAllDoctors();
-                IDoctor doc = doctors.iterator().next();
-                patient.setIDoctor(doc);
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-            }
-        }
-        addToQueue.setValue(patient.getIDoctor());
+        addToQueue.setValue(user);
     }
 
     @FXML
@@ -298,14 +285,14 @@ public class patientRecordController implements Initializable {
             Main.controller.refreshQueue(queue, user);
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
             DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Queue.");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (CheckinControllerException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
         }
     }
 
@@ -342,16 +329,16 @@ public class patientRecordController implements Initializable {
             createPatientController.saveIPatient(patient);
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
         } catch (PatientCouldNotBeSavedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         }
         DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
     }
@@ -362,7 +349,7 @@ public class patientRecordController implements Initializable {
             Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
         try {
             IUser user = addToQueue.getSelectionModel().getSelectedItem();
@@ -372,16 +359,16 @@ public class patientRecordController implements Initializable {
             System.out.println(patientqueue.getEntries().size());
             receivePatientController.removePatientFromQueue(patient, patientqueue);
             Main.controller.refreshQueue(patientqueue, user);
-            box.showInformationDialog("removed ", patient.getFirstName());
+            DialogBoxController.getInstance().showInformationDialog("removed ", patient.getFirstName());
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e,"BadConnectionException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "NoBrokerMappedException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (InvalidSearchParameterException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "InvalidSearchParameterException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
         }
 
     }

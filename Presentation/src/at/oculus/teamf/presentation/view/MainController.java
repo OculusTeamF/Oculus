@@ -15,9 +15,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
-import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.QueueEntry;
-import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
@@ -38,7 +36,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.StatusBar;
@@ -62,7 +59,8 @@ public class MainController implements Initializable {
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
-    private HashMap<Integer, ObservableList> _listMap;
+    private HashMap<IUser, ObservableList> _listMap;
+    public IUser user;
 
 
     /**
@@ -111,6 +109,7 @@ public class MainController implements Initializable {
             userlist = (LinkedList) _startupController.getAllDoctorsAndOrthoptists();
         } catch (BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
 
         }
 
@@ -133,7 +132,9 @@ public class MainController implements Initializable {
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-
+                        ObservableList<IPatient> ql = FXCollections.observableArrayList();
+                        ql = source.getItems();
+                        user = getKeyByValue(_listMap, ql);
                         addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
@@ -147,6 +148,7 @@ public class MainController implements Initializable {
                 qe = _startupController.getQueueByUserId(u);
             } catch (BadConnectionException | NoBrokerMappedException e) {
                 e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
             }
 
             ObservableList<IPatient> olist = FXCollections.observableArrayList();
@@ -157,10 +159,12 @@ public class MainController implements Initializable {
                 }
             } catch (NoBrokerMappedException | BadConnectionException e) {
                 e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
             }
 
             listView.setItems(olist);
-            _listMap.put(u.getUserId(), olist);
+            listView.setPrefHeight(olist.size() * 24);
+            _listMap.put(u, olist);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -188,6 +192,7 @@ public class MainController implements Initializable {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
         } catch (FacadeException | InvalidSearchParameterException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException, InvalidSearchParameterException - Please contact support");
         }
         if(patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
@@ -210,6 +215,7 @@ public class MainController implements Initializable {
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
     }
 
@@ -220,6 +226,7 @@ public class MainController implements Initializable {
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
     }
 
@@ -231,6 +238,7 @@ public class MainController implements Initializable {
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
     }
 
@@ -243,6 +251,7 @@ public class MainController implements Initializable {
             displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
         } catch (IOException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
     }
 
@@ -260,6 +269,7 @@ public class MainController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
     }
 
@@ -282,7 +292,17 @@ public class MainController implements Initializable {
             }
         } catch (NoBrokerMappedException | BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
+    }
+
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }
 

@@ -64,6 +64,7 @@ public class newPatientController implements Initializable{
             newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
         } catch (FacadeException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
 
         radioGenderFemale.setToggleGroup(group);
@@ -79,11 +80,6 @@ public class newPatientController implements Initializable{
         String firstname = newPatientFirstname.getText();
         String svn = newPatientSVN.getText();
 
-        /*LocalDate localDate = newPatientBday.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        java.util.Date utildate = Date.from(instant);
-        Date bday = new Date(utildate.getTime());*/
-
         LocalDate localDate = newPatientBday.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         Date bday = Date.from(instant);
@@ -96,56 +92,39 @@ public class newPatientController implements Initializable{
         IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
         String countryIsoCode = newPatientCountryIsoCode.getText();
 
-
-
         if(radioGenderFemale.isSelected()){
             gender = "female";
         }else if(radioGenderMale.isSelected()){
             gender = "male";
         }else{
-            MessageBox mb1 = new MessageBox("Please choose gender.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose gender.");
         }
         if(lastname.isEmpty()){
-            MessageBox mb1 = new MessageBox("Please enter Lastname.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Lastname.");
         }
         if(firstname.isEmpty()){
-            MessageBox mb1 = new MessageBox("Please enter Firstname.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Firstname.");
         }
         if(svn.isEmpty()){
-            MessageBox mb1 = new MessageBox("Please enter Social security number.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Social security number.");
         }
         if(bday.toString().isEmpty()) {
-            MessageBox mb1 = new MessageBox("Please enter Birthday.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Birthday.");
         }
         try {
             try {
                 createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
             } catch (FacadeException e) {
                 e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
             } catch (PatientCouldNotBeSavedException e) {
                 e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
             }
-            MessageBox mb1 = new MessageBox("New Patient saved.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "New Patient saved");
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
         }
     }
 }
