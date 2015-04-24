@@ -13,13 +13,16 @@ package at.oculus.teamf.presentation.view;
  */
 
 
+import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.entity.UsergroupEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -69,12 +72,14 @@ public class patientRecordController implements Initializable {
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
     @FXML public ChoiceBox addToQueue;
+    @FXML public Button addPatientToQueue;
 
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
     private IPatient patient = Main.controller.getPatient();
     private StartupController startupController = new StartupController();
+    private CreatePatientController createPatientController = new CreatePatientController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -82,16 +87,15 @@ public class patientRecordController implements Initializable {
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
-                if(isFormEdited) {
+                if (isFormEdited) {
                     MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
                     mb1.setHeight(150);
                     mb1.centerOnScreen();
                     mb1.showAndWait();
 
-                    if(mb1.getMessageBoxResult() == MessageBoxResult.OK)
-                    {
+                    if (mb1.getMessageBoxResult() == MessageBoxResult.OK) {
                         saveChanges();
-                    }else{
+                    } else {
                         t.consume();
                         //TODO: close Tab;
                     }
@@ -111,7 +115,9 @@ public class patientRecordController implements Initializable {
         patientRecordradioGenderMale.setToggleGroup(group);
 
         patientRecordLastname.setText(patient.getLastName());
+        patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(patient.getFirstName());
+        patientRecordFirstname.setDisable(true);
 
         if(patient.getGender().equals("female"))
         {
@@ -123,16 +129,22 @@ public class patientRecordController implements Initializable {
         }
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
-
+        patientRecordSVN.setDisable(true);
         Date bday = patient.getBirthDay();
-        patientRecordBday.setAccessibleText(String.valueOf(bday));
-
+        patientRecordBday.setPromptText(bday.toString());
+        patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
+        patientRecordStreet.setDisable(true);
         patientRecordPLZ.setText(patient.getPostalCode());
+        patientRecordPLZ.setDisable(true);
         patientRecordCity.setText(patient.getCity());
+        patientRecordCity.setDisable(true);
         patientRecordCountryIsoCode.setText(patient.getCountryIsoCode());
+        patientRecordCountryIsoCode.setDisable(true);
         patientRecordPhone.setText(patient.getPhone());
+        patientRecordPhone.setDisable(true);
         patientRecordEmail.setText(patient.getEmail());
+        patientRecordEmail.setDisable(true);
 
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
@@ -176,19 +188,32 @@ public class patientRecordController implements Initializable {
         patientRecordradioGenderMale.setDisable(false);
         patientRecordradioGenderFemale.setDisable(false);
         patientRecordLastname.setDisable(false);
+        patientRecordLastname.setEditable(true);
         patientRecordFirstname.setDisable(false);
+        patientRecordFirstname.setEditable(true);
         patientRecordSVN.setDisable(false);
+        patientRecordSVN.setEditable(true);
         patientRecordBday.setDisable(false);
+        patientRecordBday.setEditable(true);
         patientRecordStreet.setDisable(false);
+        patientRecordStreet.setEditable(true);
         patientRecordPLZ.setDisable(false);
+        patientRecordPLZ.setEditable(true);
         patientRecordCity.setDisable(false);
+        patientRecordCity.setEditable(true);
         patientRecordCountryIsoCode.setDisable(false);
+        patientRecordCountryIsoCode.setEditable(true);
         patientRecordPhone.setDisable(false);
+        patientRecordPhone.setEditable(true);
         patientRecordEmail.setDisable(false);
+        patientRecordEmail.setEditable(true);
         patientRecordDoctor.setDisable(false);
         patientRecordAllergies.setDisable(false);
+        patientRecordAllergies.setEditable(true);
         patientRecordIntolerance.setDisable(false);
+        patientRecordIntolerance.setEditable(true);
         patientRecordChildhood.setDisable(false);
+        patientRecordChildhood.setEditable(true);
 
         isFormEdited = true;
         patientRecordSaveButton.setDisable(false);
@@ -203,39 +228,20 @@ public class patientRecordController implements Initializable {
     }
 
     @FXML
-    public void onClose(ActionEvent actionEvent)
-    {
-        if(isFormEdited)
-        {
-            MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
-
-            if(mb1.getMessageBoxResult() == MessageBoxResult.OK)
-            {
-                saveChanges();
-            }else{
-                //TODO: close Tab;
-            }
-        }
-    }
-
-    @FXML
-    private void addPatientToQueue(){
+    public void addPatientToQueue(){
         DialogBoxController dial = new DialogBoxController();
         dial.showInformationDialog("added",patient.getFirstName());
-        try {
+        /*try {
             Timestamp tstamp = new Timestamp(new Date().getTime());
-            Doctor doc = Facade.getInstance().getById(Doctor.class, 4);
-            IPatientQueue qe = doc.getQueue();
+            IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
+            IPatientQueue qe = user.getUserId().getQueue();
             qe.addPatient((Patient) patient,doc,null,tstamp);
             Main.controller.refreshQueue();
         } catch (BadConnectionException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -253,9 +259,11 @@ public class patientRecordController implements Initializable {
         patient.setFirstName(patientRecordFirstname.getText());
         patient.setSocialInsuranceNr(patientRecordSVN.getText());
 
-
         //TODO: Bday speichern
-
+        LocalDate localDate = patientRecordBday.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        Date bday = java.sql.Date.from(instant);
+        patient.setBirthDay(bday);
         patient.setStreet(patientRecordStreet.getText());
         patient.setPostalCode(patientRecordPLZ.getText());
         patient.setCity(patientRecordCity.getText());
@@ -266,5 +274,10 @@ public class patientRecordController implements Initializable {
         patient.setAllergy(patientRecordAllergies.getText());
         patient.setMedicineIntolerance(patientRecordIntolerance.getText());
         patient.setChildhoodAilments(patientRecordChildhood.getText());
+
+        /*createPatientController.saveIPatient(patient);*/
+
+        DialogBoxController box = new DialogBoxController();
+        box.showInformationDialog("Patient record edited", "Changes saved");
     }
 }

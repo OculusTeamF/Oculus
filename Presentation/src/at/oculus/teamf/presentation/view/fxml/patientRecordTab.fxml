@@ -83,9 +83,10 @@
                   </GridPane>
                   <GridPane hgap="20.0" prefHeight="228.0" prefWidth="530.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Button mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                         <ChoiceBox fx:id="addToQueue" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Add to Queue" GridPane.columnIndex="1" />
+                        <Button fx:id="addPatientToQueue" onAction="#addPatientToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="105.0" />
@@ -93,8 +94,8 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="265.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
@@ -120,7 +121,7 @@
                         <GridPane hgap="20.0" vgap="20.0" GridPane.rowIndex="6">
                            <children>
                               <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveChangedForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
-                              <Button fx:id="patientRecordEditButton" onAction="#editForm" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Edit" GridPane.columnIndex="1" />
+                              <Button fx:id="patientRecordEditButton" mnemonicParsing="false" onAction="#editForm" prefHeight="31.0" prefWidth="120.0" text="Edit" GridPane.columnIndex="1" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="89.0" />

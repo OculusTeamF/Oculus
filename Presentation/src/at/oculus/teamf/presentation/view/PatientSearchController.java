@@ -41,7 +41,7 @@ import se.mbaeumer.fxmessagebox.MessageBoxType;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import at.oculus.teamf.application.facade.SearchPatientController;
 /**
  * Created by Karo on 11.04.2015.
  */
@@ -57,7 +57,7 @@ public class PatientSearchController implements Initializable{
     @FXML public Tab searchPatientTab;
     @FXML public AnchorPane searchAnchor;
 
-    private at.oculus.teamf.application.facade.SearchPatientController _searchPatientController = new at.oculus.teamf.application.facade.SearchPatientController();
+    private SearchPatientController _searchPatientController = new SearchPatientController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
