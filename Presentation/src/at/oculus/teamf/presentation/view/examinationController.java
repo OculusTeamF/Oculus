@@ -9,26 +9,66 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.application.facade.ReceivePatientController;
+import at.oculus.teamf.domain.entity.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+
+import java.net.URL;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 /**
  * Created by Karo on 20.04.2015.
  */
-public class examinationController {
+public class examinationController implements Initializable {
 
-    @FXML
-    public Text examinationCurrDate;
-    @FXML
-    public Text examinationLnameFnameSvn;
-    @FXML
-    public TextArea examinationAllergies;
-    @FXML
-    public ListView examinationList;
-    @FXML
-    public TextArea examinationDocumentation;
+    @FXML public Button saveButton;
+    @FXML private Tab examinationTab;
+    @FXML public Text examinationCurrDate;
+    @FXML public Text examinationLnameFnameSvn;
+    @FXML public TextArea examinationAllergies;
+    @FXML public ListView examinationList;
+    @FXML public TextArea examinationDocumentation;
 
+    private IPatient patient = Main.controller.getPatient();
+    private Date date = new Date();
+    private DialogBoxController box = new DialogBoxController();
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        examinationTab.setText(patient.getLastName()+", "+patient.getFirstName()+", "+date.toString());
+
+        examinationCurrDate.setText(date.toString());
+        examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
+        examinationAllergies.setText(patient.getAllergy());
+        //examinationList.setItems(FXCollections.observableArrayList(patient.get));
+
+    }
+
+    public void saveProtocol(ActionEvent actionEvent)
+    {
+        ReceivePatientController receivePatientController = new ReceivePatientController();
+        try {
+            receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
+            box.showInformationDialog("Save examination protocol", "Examination Protocol: "+patient.getLastName()+", "+patient.getFirstName()+" saved.");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e,"NoBrokerMappedException");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            box.showExceptionDialog(e, "BadConnectionException");
+        }
+    }
 }

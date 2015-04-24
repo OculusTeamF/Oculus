@@ -75,12 +75,12 @@ public class MainController implements Initializable {
     private IPatient currPatient;
     private  DialogBoxController box = new DialogBoxController();
 
-    private ObservableList<IPatient> queuepatientlist1 = FXCollections.observableArrayList();  // need array ! (problem: generic arrays not allowed)
+    /*private ObservableList<IPatient> queuepatientlist1 = FXCollections.observableArrayList();  // need array ! (problem: generic arrays not allowed)
     private ObservableList<IPatient> queuepatientlist2 = FXCollections.observableArrayList();
     private ObservableList<IPatient> queuepatientlist3 = FXCollections.observableArrayList();
     private ObservableList<IPatient> queuepatientlist4 = FXCollections.observableArrayList();
     private ObservableList<IPatient> queuepatientlist5 = FXCollections.observableArrayList();
-    private ObservableList<IPatient> queuepatientlist6 = FXCollections.observableArrayList();
+    private ObservableList<IPatient> queuepatientlist6 = FXCollections.observableArrayList();*/
     private LinkedList<IUser> userlist = null;
 
 

@@ -83,7 +83,7 @@
                         </GridPane>
                         <GridPane hgap="20.0" prefHeight="228.0" prefWidth="530.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
-                                <Button mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <Button fx:id="examinationProtocolButton" onAction="#openExamination" mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                 <ChoiceBox fx:id="addToQueue" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="Add to Queue" GridPane.columnIndex="1" />
                                 <Button fx:id="addPatientToQueue" onAction="#addPatientToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
