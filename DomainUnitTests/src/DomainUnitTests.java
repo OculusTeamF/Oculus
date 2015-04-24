@@ -49,15 +49,4 @@ public class DomainUnitTests implements ILogger {
         assertTrue(entriesOrthoptist != null);
         assertTrue(entriesOrthoptist.size() > 0);
     }
-
-    @org.junit.Test
-    public void testGetUnassignedPatientQueue() throws Exception {
-        Object obj = null;
-
-        PatientQueue pqUnassigned = new PatientQueue(obj);
-        Collection<QueueEntry> entriesUnassigned =  pqUnassigned.getEntries();
-
-        assertTrue(entriesUnassigned != null);
-        assertTrue(entriesUnassigned.size() > 0);
-    }
 }
