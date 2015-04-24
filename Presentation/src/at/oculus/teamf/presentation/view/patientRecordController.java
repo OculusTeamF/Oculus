@@ -313,7 +313,7 @@ public class patientRecordController implements Initializable {
 
     public void openExamination(ActionEvent actionEvent) {
         try {
-            Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/examinationTab.fxml")));
+            Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml")));
             Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
