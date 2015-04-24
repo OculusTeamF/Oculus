@@ -12,7 +12,6 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-
 import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.CreatePatientController;
 import at.oculus.teamf.application.facade.StartupController;
@@ -76,15 +75,16 @@ public class patientRecordController implements Initializable {
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
-    private IPatient patient = Main.controller.getPatient();
+    private IPatient patient;
     private StartupController startupController = new StartupController();
     private CreatePatientController createPatientController = new CreatePatientController();
-    private DialogBoxController box = new DialogBoxController();
     public CheckinController checkinController = new CheckinController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        patient =  (IPatient)resources.getObject(null);
+
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
@@ -242,25 +242,22 @@ public class patientRecordController implements Initializable {
     @FXML
     public void addPatientToQueue(){
 
-        if(addToQueue.getSelectionModel().getSelectedItem() != null){
-            try {
-                IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
-                checkinController.insertPatientIntoQueue(patient, user);
-                IPatientQueue queue = startupController.getQueueByUserId(user);
-                Main.controller.refreshQueue(queue, user);
-                box.showInformationDialog("added", patient.getFirstName());
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-                box.showExceptionDialog(e, "Patient already in Queue.");
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-                box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
-            } catch (CheckinControllerException e) {
-                e.printStackTrace();
-                box.showExceptionDialog(e, "CheckinControllerException: Please contact your Systemadministrator");
-            }
-        }else{
-            box.showInformationDialog("","Choose a Doctor or Orthoptist to add a patient to queue");
+        DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
+        try {
+            IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
+            checkinController.insertPatientIntoQueue(patient, user);
+            IPatientQueue queue = startupController.getQueueByUserId(user);
+            Main.controller.refreshQueue(queue, user);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Queue.");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
+        } catch (CheckinControllerException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException: Please contact your Systemadministrator");
         }
     }
 
@@ -297,18 +294,18 @@ public class patientRecordController implements Initializable {
             createPatientController.saveIPatient(patient);
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "RequrementsNotMetException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException: Please contact your Systemadministrator");
         } catch (PatientCouldNotBeSavedException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "PatientCouldNotBeSavedException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException: Please contact your Systemadministrator");
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException: Please contact your Systemadministrator");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException: Please contact your Systemadministrator");
         }
-        box.showInformationDialog("Patient record edited", "Changes saved");
+        DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
     }
 
     public void openExamination(ActionEvent actionEvent) {
@@ -317,7 +314,7 @@ public class patientRecordController implements Initializable {
             Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();
-            box.showExceptionDialog(e, "IOException: Please contact your Systemadministrator");
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException: Please contact your Systemadministrator");
         }
     }
 

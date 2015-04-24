@@ -270,6 +270,7 @@ public class StartupController implements ILogger{
     * This method returns all available orthoptists and doctors in one collection. We get a list of all
     * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
     **/
+    //Todo: add getAllDoctors, getAllOrthoptists
     public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, NoBrokerMappedException {
         Collection<Orthoptist> orthoptists;
         Facade facade = Facade.getInstance();
@@ -314,6 +315,8 @@ public class StartupController implements ILogger{
         log.info("All doctors and orthoptists have been added to the IUser collection.");
         return iUsers;
     }
+
+
 
 
     /**

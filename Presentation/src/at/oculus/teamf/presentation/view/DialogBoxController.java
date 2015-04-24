@@ -22,6 +22,19 @@ import org.controlsfx.dialog.ProgressDialog;
  */
 public class DialogBoxController {
 
+
+    private static DialogBoxController _selfe;
+
+    private DialogBoxController() { /*singelton*/ };
+
+    public static DialogBoxController getInstance() {
+        if(_selfe == null) {
+            _selfe = new DialogBoxController();
+        }
+
+        return _selfe;
+    }
+
     // *******************************************************************
     // Information Dialog
     // *******************************************************************
