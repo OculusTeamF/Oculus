@@ -19,11 +19,10 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
@@ -103,7 +102,7 @@ public class SearchPatientController implements ILogger{
      * @param lastName this is the last name of the searched patient
      */
 
-    public Collection <IPatient> searchPatients (String svn, String firstName, String lastName) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
+    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
@@ -121,7 +120,7 @@ public class SearchPatientController implements ILogger{
             throw noBrokerMappedException;
         } catch (InvalidSearchParameterException invalidSearchException) {
             log.warn("InvalidSearchParameterException caught! Invalid search parameter!");
-            throw new at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException();
+            throw new InvalidSearchParameterException();
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();

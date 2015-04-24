@@ -11,9 +11,11 @@ package at.oculus.teamf.domain.entity.interfaces;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
- * Created by jpo2433 on 17.04.15.
+ * orthoptist interface for presentation layer
  */
 public interface IOrthoptist extends IUser {
 
@@ -25,7 +27,7 @@ public interface IOrthoptist extends IUser {
 
     void setCalendar(Calendar calendar);
 
-    PatientQueue getQueue();
+    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
 
     void setQueue(PatientQueue queue);
 }

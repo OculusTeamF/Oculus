@@ -10,7 +10,7 @@
 package at.oculus.teamf.persistence.entity;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * interface for persistence entity
  */
 public interface IEntity {
 	public int getId();

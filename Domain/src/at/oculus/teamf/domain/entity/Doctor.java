@@ -11,17 +11,17 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
 
+
+// Todo: add docs, implement equals
 /**
- * Todo: add docs, implement equals
- *
  * @author Simon Angerer
- * @date 03.4.2015
  */
 public class Doctor extends User implements IDoctor {
     //<editor-fold desc="Attributes">
@@ -32,12 +32,13 @@ public class Doctor extends User implements IDoctor {
     private Doctor _doctorSubstitude;
     //</editor-fold>
 
-	public Doctor(){};
+    public Doctor() {
+    }
 
-	public Doctor(int id, Calendar calendar, PatientQueue queue, Collection<Patient> patients,
-	              Doctor doctorSubstitude) {
-		_id = id;
-		_calendar = calendar;
+    public Doctor(int id, Calendar calendar, PatientQueue queue, Collection<Patient> patients,
+                  Doctor doctorSubstitude) {
+        _id = id;
+        _calendar = calendar;
 		_queue = queue;
 		_patients = patients;
 		_doctorSubstitude = doctorSubstitude;
@@ -63,9 +64,9 @@ public class Doctor extends User implements IDoctor {
     }
 
     @Override
-    public PatientQueue getQueue() {
-	    _queue = new PatientQueue(this);
-	    return _queue;
+    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+        _queue = new PatientQueue(this);
+        return _queue;
     }
     @Override
     public void setQueue(PatientQueue _queue) {
@@ -88,31 +89,19 @@ public class Doctor extends User implements IDoctor {
         }
     }
 
+    @Override
+    public Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
+        Facade facade = Facade.getInstance();
+
+        facade.reloadCollection(this, Patient.class);
+
+        return _patients;
+    }
+
 	@Override
     public void setPatients(Collection<Patient> patients) {
 		_patients = patients;
 	}
-    @Override
-    public Collection<Patient> getPatients() {
-	    Facade facade = Facade.getInstance();
-
-
-        //Todo: Exception Handling
-        try {
-            facade.reloadCollection(this, Patient.class);
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        }
-
-
-        return _patients;
-    }
     //</editor-fold>
 
 	@Override

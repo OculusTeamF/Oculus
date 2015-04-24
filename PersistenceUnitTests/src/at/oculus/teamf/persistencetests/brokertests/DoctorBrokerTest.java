@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
@@ -26,11 +25,9 @@ import java.util.Collection;
 import static junit.framework.Assert.assertTrue;
 
 public class DoctorBrokerTest extends BrokerTest {
-	private Doctor _doctor;
-
 	@Before
 	public void setUp() {
-		// TODO implement
+
 	}
 
 	@Override
@@ -75,7 +72,7 @@ public class DoctorBrokerTest extends BrokerTest {
         Facade facade = Facade.getInstance();
         Doctor doctor = null;
         try {
-            doctor = (Doctor)facade.getById(Doctor.class, 1);
+            doctor = facade.getById(Doctor.class, 1);
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
@@ -91,7 +88,12 @@ public class DoctorBrokerTest extends BrokerTest {
             assertTrue(false);
         }
 
-        assertTrue(doctor.getPatients() != null);
-        assertTrue(doctor.getPatients().size() > 0);
+        try {
+            assertTrue(doctor.getPatients() != null);
+            assertTrue(doctor.getPatients().size() > 0);
+        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 }

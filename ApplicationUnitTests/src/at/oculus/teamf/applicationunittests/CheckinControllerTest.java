@@ -13,11 +13,11 @@ import at.oculus.teamf.application.facade.CheckinController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import sun.awt.image.ImageWatched;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.LinkedList;
 
-public class CheckinControllerTest {
+public class CheckinControllerTest implements ILogger {
 
     @org.junit.Test
     public void testInsertPatientIntoQueue() throws Exception {
@@ -32,11 +32,11 @@ public class CheckinControllerTest {
 
         IPatientQueue iQueue = iDoctor.getQueue();
 
-        assert (iQueue != null);
+        assert(iQueue != null);
 
         ReceivePatientController receivePatientController = new ReceivePatientController();
         receivePatientController.removePatientFromQueue(iPatient, iQueue);
 
-        assert (iQueue.getEntries().size()  == 0);
+        assert(iQueue.getEntries().size() > 0);
     }
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated calendar class
  */
 @Entity
 @Table(name = "calendar", schema = "", catalog = "oculus_f")
@@ -21,7 +21,7 @@ public class CalendarEntity implements IEntity {
     private int _id;
     private String _title;
     private Collection<CalendarEventEntity> _calendarevents;
-    private Collection<CalendarworkinghoursEntity> _calendarworkinghours;
+    //private Collection<CalendarworkinghoursEntity> _calendarworkinghours;
     private DoctorEntity _doctor;
     private OrthoptistEntity _orthoptist;
 

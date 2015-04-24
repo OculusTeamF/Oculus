@@ -9,12 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-/**
- * Todo: Doc
- *
- * @author Simon Angerer
- * @date 30.3.2015
- */
 public enum Gender {
     Male,
     Female

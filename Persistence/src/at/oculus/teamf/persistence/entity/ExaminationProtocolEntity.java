@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * ExaminationProtocolEntity.java Created by oculus on 16.04.15.
+ * Hibernate annotated examination protocol class
  */
 @Entity
 @Table(name = "examinationprotocol", schema = "", catalog = "oculus_f")
@@ -115,8 +115,7 @@ public class ExaminationProtocolEntity implements IEntity {
 		_patient = patient;
 	}
 
-	//TODO Review cascade=CascadeType.ALL
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	public UserEntity getUser() {
 		return _user;

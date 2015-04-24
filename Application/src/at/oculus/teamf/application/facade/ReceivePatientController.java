@@ -21,6 +21,9 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -48,7 +51,7 @@ public class ReceivePatientController implements ILogger {
      * @param iDoctor the doctor who does the examination
      * @param iOrthoptist the orthoptist who does the examination
      */
-    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) {
+    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws NoBrokerMappedException, BadConnectionException {
         Date endtime = new Timestamp(new Date().getTime());
 
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(
@@ -75,7 +78,7 @@ public class ReceivePatientController implements ILogger {
      * @param iqueue the interface of the queue from which the specified patient should be removed
      */
 
-    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue){
+    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
         Patient patient = (Patient) ipatient;
         PatientQueue queue = (PatientQueue) iqueue;
 
