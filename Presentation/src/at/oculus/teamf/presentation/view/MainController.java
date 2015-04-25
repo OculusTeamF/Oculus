@@ -59,8 +59,9 @@ public class MainController implements Initializable {
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
-    private HashMap<IUser, ObservableList> _listMap;
-    public IUser user;
+    private HashMap<Integer, ObservableList> _listMap;
+    //public IUser user;
+    public int userID;
 
 
     /**
@@ -134,7 +135,7 @@ public class MainController implements Initializable {
                         source = (ListView) event.getSource();
                         ObservableList<IPatient> ql = FXCollections.observableArrayList();
                         ql = source.getItems();
-                        user = getKeyByValue(_listMap, ql);
+                        userID = getKeyByValue(_listMap, ql);
                         addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
@@ -164,7 +165,7 @@ public class MainController implements Initializable {
 
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
-            _listMap.put(u, olist);
+            _listMap.put(u.getUserId(), olist);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -284,7 +285,12 @@ public class MainController implements Initializable {
     public void refreshQueue(IPatientQueue queue, IUser user)
     {
         ObservableList observableList = _listMap.get(user.getUserId());
-        observableList.remove(0, observableList.size());
+        if(observableList != null){
+            observableList.remove(0, observableList.size());
+        }else{
+            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
+        }
+
 
         try {
             for(QueueEntry entry : queue.getEntries()) {

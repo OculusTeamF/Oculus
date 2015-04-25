@@ -72,8 +72,8 @@ public class patientRecordController implements Initializable {
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
-    @FXML public ComboBox<IUser> addToQueue;
-    @FXML public Button addPatientToQueue;
+    @FXML public ComboBox<IUser> addToQueueBox;
+    @FXML public Button addPatientToQueueButton;
     @FXML public Button examinationProtocolButton;
 
     private boolean isFormEdited = false;
@@ -83,12 +83,27 @@ public class patientRecordController implements Initializable {
     private CreatePatientController createPatientController = new CreatePatientController();
     public CheckinController checkinController = new CheckinController();
     private ReceivePatientController receivePatientController = new ReceivePatientController();
+    private IUser _user = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         patient =  (IPatient)resources.getObject(null);
-        IUser user = Main.controller.user;
+        Integer userID = Main.controller.userID;
+
+        try {
+            Collection<IUser> users = startupController.getAllDoctorsAndOrthoptists();
+            for(IUser user : users){
+                if(user.getUserId() == userID) {
+                    _user = user;
+                }
+            }
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
+
 
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
@@ -186,7 +201,7 @@ public class patientRecordController implements Initializable {
             patientRecordChildhood.setText(patient.getChildhoodAilments());
         }
         try {
-            addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
+            addToQueueBox.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
         } catch (FacadeException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
@@ -196,10 +211,10 @@ public class patientRecordController implements Initializable {
         patientRecordIntolerance.setDisable(true);
         patientRecordChildhood.setDisable(true);
 
-        if(user != null){
-            addToQueue.setValue(user);
+        if(_user != null){
+            addToQueueBox.setValue(_user);
         }else if(patient.getIDoctor() != null){
-            addToQueue.setValue(patient.getIDoctor());
+            addToQueueBox.setValue(patient.getIDoctor());
         }
     }
 
@@ -281,13 +296,13 @@ public class patientRecordController implements Initializable {
     @FXML
     public void addPatientToQueue(){
 
-        if(addToQueue.getSelectionModel().getSelectedItem() != null){
+        if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
             try {
-                IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
+                IUser user = (IUser) addToQueueBox.getSelectionModel().getSelectedItem();
+                DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
                 checkinController.insertPatientIntoQueue(patient, user);
                 IPatientQueue queue = startupController.getQueueByUserId(user);
                 Main.controller.refreshQueue(queue, user);
-                DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
             } catch (BadConnectionException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
@@ -360,7 +375,7 @@ public class patientRecordController implements Initializable {
             DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
         try {
-            IUser user = addToQueue.getSelectionModel().getSelectedItem();
+            IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
             System.out.println(user.getLastName());
             IPatientQueue patientqueue = startupController.getQueueByUserId(user);
             System.out.println(patient.getFirstName());
