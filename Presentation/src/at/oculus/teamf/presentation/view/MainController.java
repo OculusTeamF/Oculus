@@ -24,7 +24,6 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,6 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.StatusBar;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,14 +55,13 @@ public class MainController implements Initializable {
     @FXML private ListView listSearchResults;
     @FXML private TitledPane searchResults;
     @FXML private BorderPane borderPane;
-    @FXML private Button buttonTest;
 
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
-    private HashMap<IUser, ObservableList> _listMap;
-    public IUser user;
-    public boolean loadingDone;
+    private HashMap<Integer, ObservableList> _listMap;
+    //public IUser user;
+    public int userID;
 
 
     /**
@@ -78,9 +77,9 @@ public class MainController implements Initializable {
         listSearchResults.setPrefHeight(0);
 
         // statusbar test
-        buttonTest.setVisible(true);
-        borderPane.setBottom(StatusBarController.getInstance());
-        StatusBarController.getInstance().setText("Welcome to Oculus");
+        StatusBar statusBar = new StatusBar();
+        borderPane.setBottom(statusBar);
+        statusBar.setText("Welcome to Oculus");
 
         // tooltip test
         Tooltip tp = new Tooltip();
@@ -99,7 +98,6 @@ public class MainController implements Initializable {
                 }
             }
         });
-        loadingDone = true;
     }
 
     private void buildQueueLists() {
@@ -137,13 +135,19 @@ public class MainController implements Initializable {
                         source = (ListView) event.getSource();
                         ObservableList<IPatient> ql = FXCollections.observableArrayList();
                         ql = source.getItems();
-                        user = getKeyByValue(_listMap, ql);
+                        userID = getKeyByValue(_listMap, ql);
                         addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
+            String queuename = null;
+            if(u.getTitle().equals("null") || u.getTitle() == null || u.getTitle().equals(""))
+            {
+                 queuename = u.getFirstName() + " " + u.getLastName();
+            }else{
+                 queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
 
-            String queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
+            }
 
             // needed get Queue From UserID
             IPatientQueue qe = null;
@@ -167,7 +171,7 @@ public class MainController implements Initializable {
 
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
-            _listMap.put(u, olist);
+            _listMap.put(u.getUserId(), olist);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -261,24 +265,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-        Task<Void> task = new Task<Void>() {
-            @Override protected Void call() throws Exception {
-                updateMessage("First we sleep ....");
-
-                Thread.sleep(2500);
-
-                int max = 1000;
-                for (int i = 0; i < max; i++) {
-                    updateMessage("Message " + i);
-                    updateProgress(i, max);
-                }
-
-                updateProgress(0, 0);
-                done();
-                return null;
-            }
-        };
-        StatusBarController.getInstance().progressProperty().bind(task.progressProperty());
+        DialogBoxController.getInstance().showLoginDialog("a", "b");
     }
 
     /*Opens a patient search tab*/
@@ -304,7 +291,12 @@ public class MainController implements Initializable {
     public void refreshQueue(IPatientQueue queue, IUser user)
     {
         ObservableList observableList = _listMap.get(user.getUserId());
-        observableList.remove(0, observableList.size());
+        if(observableList != null){
+            observableList.remove(0, observableList.size());
+        }else{
+            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
+        }
+
 
         try {
             for(QueueEntry entry : queue.getEntries()) {
@@ -323,17 +315,6 @@ public class MainController implements Initializable {
             }
         }
         return null;
-    }
-
-
-    /*Opens a new Patient record to add a patient*/
-    @FXML
-    public void showMenuHelp(ActionEvent actionEvent) {
-        DialogBoxController.getInstance().showInformationDialog("Help","Shows Help");
-    }
-
-    public void showMenuAbout(ActionEvent actionEvent) {
-        DialogBoxController.getInstance().showInformationDialog("About","Shows About");
     }
 }
 

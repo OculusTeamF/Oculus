@@ -27,6 +27,8 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -72,8 +74,8 @@ public class patientRecordController implements Initializable {
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
-    @FXML public ComboBox<IUser> addToQueue;
-    @FXML public Button addPatientToQueue;
+    @FXML public ComboBox<IUser> addToQueueBox;
+    @FXML public Button addPatientToQueueButton;
     @FXML public Button examinationProtocolButton;
 
     private boolean isFormEdited = false;
@@ -83,26 +85,42 @@ public class patientRecordController implements Initializable {
     private CreatePatientController createPatientController = new CreatePatientController();
     public CheckinController checkinController = new CheckinController();
     private ReceivePatientController receivePatientController = new ReceivePatientController();
+    private IUser _user = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         patient =  (IPatient)resources.getObject(null);
-        IUser user = Main.controller.user;
+        Integer userID = Main.controller.userID;
+
+        try {
+            Collection<IUser> users = startupController.getAllDoctorsAndOrthoptists();
+            for(IUser user : users){
+                if(user.getUserId() == userID) {
+                    _user = user;
+                }
+            }
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
 
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (isFormEdited) {
-                    MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
+                   MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
                     mb1.setHeight(150);
                     mb1.centerOnScreen();
                     mb1.showAndWait();
 
-                    if (mb1.getMessageBoxResult() == MessageBoxResult.OK) {
+                    if (mb1.getMessageBoxResult() == MessageBoxResult.YES) {
                         saveChanges();
-                    } else {
-                        t.consume();
+
+                    } else{
+                        isFormEdited = false;
+                        //t.consume();
                         //TODO: close Tab;
                     }
                 }
@@ -116,6 +134,7 @@ public class patientRecordController implements Initializable {
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
 
+        //disable all Patientfields and the save button, sets the text from IPatient into fields
         patientRecordSaveButton.setDisable(true);
 
         patientRecordradioGenderFemale.setToggleGroup(group);
@@ -149,7 +168,6 @@ public class patientRecordController implements Initializable {
 
             patientRecordBday.setValue(date);
         }
-
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
         patientRecordStreet.setDisable(true);
@@ -163,10 +181,8 @@ public class patientRecordController implements Initializable {
         patientRecordPhone.setDisable(true);
         patientRecordEmail.setText(patient.getEmail());
         patientRecordEmail.setDisable(true);
-
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
-
         if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
         {
             patientRecordAllergies.setText("No Allergies known");
@@ -186,23 +202,225 @@ public class patientRecordController implements Initializable {
             patientRecordChildhood.setText(patient.getChildhoodAilments());
         }
         try {
-            addToQueue.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
+            addToQueueBox.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
         } catch (FacadeException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
-
         patientRecordAllergies.setDisable(true);
         patientRecordIntolerance.setDisable(true);
         patientRecordChildhood.setDisable(true);
-
-        if(user != null){
-            addToQueue.setValue(user);
+        if(_user != null){
+            addToQueueBox.setValue(_user);
         }else if(patient.getIDoctor() != null){
-            addToQueue.setValue(patient.getIDoctor());
+            addToQueueBox.setValue(patient.getIDoctor());
         }
+
+        //TODO: überall changelisteners einbauen
+        //check if something has changed, if changes detected --> saveChanges()
+        patientRecordLastname.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Lastname changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Lastname");
+                }
+            }
+        });
+        patientRecordFirstname.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Firstname changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Firstname");
+                }
+            }
+        });
+        patientRecordSVN.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("SVN changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield SVN");
+                }
+            }
+        });
+        patientRecordBday.accessibleTextProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Bday changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Birthday");
+                }
+            }
+        });
+        patientRecordStreet.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Street changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Street");
+                }
+            }
+        });
+        patientRecordPLZ.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("PLZ changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Postal code");
+                }
+            }
+        });
+        patientRecordCity.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("City changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield City");
+                }
+            }
+        });
+        patientRecordCountryIsoCode.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Countryisocode changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield country iso code");
+                }
+            }
+        });
+        patientRecordPhone.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Phone changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Phone");
+                }
+            }
+        });
+        patientRecordEmail.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Email changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Email");
+                }
+            }
+        });
+        patientRecordDoctor.valueProperty().addListener(new ChangeListener<IDoctor>() {
+            @Override
+            public void changed(ObservableValue<? extends IDoctor> observable, IDoctor oldValue, IDoctor newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Doctor changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Combobox Doctor");
+                }
+            }
+        });
+        patientRecordAllergies.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Allergies changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Allergies");
+                }
+            }
+        });
+        patientRecordIntolerance.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Intolerances changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Intolerances");
+                }
+            }
+        });
+        patientRecordChildhood.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Childhood changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Childhood");
+                }
+            }
+        });
     }
 
+    /**
+     * when press edit button all patientfield are disable(false) and editable
+     * savebutton is disable(false)
+     * @param actionEvent
+     */
     @FXML
     public void editForm(ActionEvent actionEvent)
     {
@@ -235,18 +453,22 @@ public class patientRecordController implements Initializable {
         patientRecordIntolerance.setEditable(true);
         patientRecordChildhood.setDisable(false);
         patientRecordChildhood.setEditable(true);
-
-        isFormEdited = true;
         patientRecordSaveButton.setDisable(false);
     }
+
     /**
-     * saves the changes in the patient record
+     * saves the changes in the patient record after press Button save
      */
     @FXML
     public void saveChangedForm(ActionEvent actionEvent)
     {
-        saveChanges();
+        if(isFormEdited){
+            saveChanges();
+        }else{
+            DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
+        }
 
+        //disables every field, radiobutton or choicebox
         patientRecordradioGenderMale.setDisable(true);
         patientRecordradioGenderFemale.setDisable(true);
         patientRecordLastname.setDisable(true);
@@ -281,13 +503,13 @@ public class patientRecordController implements Initializable {
     @FXML
     public void addPatientToQueue(){
 
-        if(addToQueue.getSelectionModel().getSelectedItem() != null){
+        if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
             try {
-                IUser user = (IUser) addToQueue.getSelectionModel().getSelectedItem();
+                IUser user = (IUser) addToQueueBox.getSelectionModel().getSelectedItem();
+                DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
                 checkinController.insertPatientIntoQueue(patient, user);
                 IPatientQueue queue = startupController.getQueueByUserId(user);
                 Main.controller.refreshQueue(queue, user);
-                DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
             } catch (BadConnectionException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
@@ -305,7 +527,7 @@ public class patientRecordController implements Initializable {
     }
 
     /**
-     * save Changes in Patient Record Form
+     * save Changes in Patient Record Form if isFormEdited == true
      */
     private void saveChanges()
     {
@@ -335,6 +557,8 @@ public class patientRecordController implements Initializable {
 
         try {
             createPatientController.saveIPatient(patient);
+            DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
+            isFormEdited = false;
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
@@ -348,9 +572,43 @@ public class patientRecordController implements Initializable {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         }
-        DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
+
+        //disables every field, radiobutton or choicebox
+        patientRecordradioGenderMale.setDisable(true);
+        patientRecordradioGenderFemale.setDisable(true);
+        patientRecordLastname.setDisable(true);
+        patientRecordLastname.setEditable(false);
+        patientRecordFirstname.setDisable(true);
+        patientRecordFirstname.setEditable(false);
+        patientRecordSVN.setDisable(true);
+        patientRecordSVN.setEditable(false);
+        patientRecordBday.setDisable(true);
+        patientRecordBday.setEditable(false);
+        patientRecordStreet.setDisable(true);
+        patientRecordStreet.setEditable(false);
+        patientRecordPLZ.setDisable(true);
+        patientRecordPLZ.setEditable(false);
+        patientRecordCity.setDisable(true);
+        patientRecordCity.setEditable(false);
+        patientRecordCountryIsoCode.setDisable(true);
+        patientRecordCountryIsoCode.setEditable(false);
+        patientRecordPhone.setDisable(true);
+        patientRecordPhone.setEditable(false);
+        patientRecordEmail.setDisable(true);
+        patientRecordEmail.setEditable(false);
+        patientRecordDoctor.setDisable(true);
+        patientRecordAllergies.setDisable(true);
+        patientRecordAllergies.setEditable(false);
+        patientRecordIntolerance.setDisable(true);
+        patientRecordIntolerance.setEditable(false);
+        patientRecordChildhood.setDisable(true);
+        patientRecordChildhood.setEditable(false);
     }
 
+    /**
+     * opens a new Examination protocol
+     * @param actionEvent
+     */
     public void openExamination(ActionEvent actionEvent) {
         try {
             Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(patient)));
@@ -360,7 +618,7 @@ public class patientRecordController implements Initializable {
             DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
         }
         try {
-            IUser user = addToQueue.getSelectionModel().getSelectedItem();
+            IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
             System.out.println(user.getLastName());
             IPatientQueue patientqueue = startupController.getQueueByUserId(user);
             System.out.println(patient.getFirstName());
