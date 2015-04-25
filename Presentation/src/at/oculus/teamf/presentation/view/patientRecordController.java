@@ -27,6 +27,8 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -120,6 +122,8 @@ public class patientRecordController implements Initializable {
                         t.consume();
                         //TODO: close Tab;
                     }
+                }else{
+                    //TODO close Tab;
                 }
             }
         });
@@ -218,6 +222,10 @@ public class patientRecordController implements Initializable {
         }
     }
 
+    /**
+     * when press edit button
+     * @param actionEvent
+     */
     @FXML
     public void editForm(ActionEvent actionEvent)
     {
@@ -250,18 +258,37 @@ public class patientRecordController implements Initializable {
         patientRecordIntolerance.setEditable(true);
         patientRecordChildhood.setDisable(false);
         patientRecordChildhood.setEditable(true);
-
-        isFormEdited = true;
+     //   isFormEdited = true;
         patientRecordSaveButton.setDisable(false);
     }
     /**
-     * saves the changes in the patient record
+     * saves the changes in the patient record after press Button save
      */
     @FXML
     public void saveChangedForm(ActionEvent actionEvent)
     {
-        saveChanges();
+        //TODO: überall changelisteners einbauen
+        //check if something has changed, if changes detected --> saveChanges()
+        patientRecordFirstname.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Firstname changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield");
+                }
+            }
+        });
 
+        if(isFormEdited == true){
+            saveChanges();
+        }
+
+        //disables every field, radiobutton or choicebox
         patientRecordradioGenderMale.setDisable(true);
         patientRecordradioGenderFemale.setDisable(true);
         patientRecordLastname.setDisable(true);
@@ -320,7 +347,7 @@ public class patientRecordController implements Initializable {
     }
 
     /**
-     * save Changes in Patient Record Form
+     * save Changes in Patient Record Form if isFormEdited == true
      */
     private void saveChanges()
     {
@@ -349,7 +376,12 @@ public class patientRecordController implements Initializable {
         patient.setChildhoodAilments(patientRecordChildhood.getText());
 
         try {
-            createPatientController.saveIPatient(patient);
+            if(isFormEdited == true){
+                createPatientController.saveIPatient(patient);
+                DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
+            }else{
+                DialogBoxController.getInstance().showInformationDialog("Patient record edited", "No changes detected");
+            }
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
@@ -363,7 +395,8 @@ public class patientRecordController implements Initializable {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         }
-        DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
+
+
     }
 
     public void openExamination(ActionEvent actionEvent) {
