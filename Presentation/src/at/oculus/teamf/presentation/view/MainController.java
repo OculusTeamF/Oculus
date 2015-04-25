@@ -54,6 +54,7 @@ public class MainController implements Initializable {
     @FXML private ListView listSearchResults;
     @FXML private TitledPane searchResults;
     @FXML private BorderPane borderPane;
+    @FXML private Button buttonTest;
 
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
@@ -70,6 +71,7 @@ public class MainController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         // search button & list init
+        buttonTest.setVisible(true);
         Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
         searchButton.setGraphic(new ImageView(imageDecline));
         listSearchResults.setPrefHeight(0);
@@ -338,7 +340,8 @@ public class MainController implements Initializable {
     /*Button: opens test action*/
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-        DialogBoxController.getInstance().showLoginDialog("a", "b");
+
+        System.out.println(DialogBoxController.getInstance().showYesNoDialog("Frage", "ist es OK?"));
     }
 
     /*Close the application by clicking the Menuitem 'Exit'*/

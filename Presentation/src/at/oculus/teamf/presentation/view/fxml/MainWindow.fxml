@@ -89,7 +89,7 @@
                 </MenuBar>
                 <ToolBar fx:id="toolbar" prefHeight="57.0" prefWidth="1099.0">
                     <items>
-                        <Button fx:id="buttonTest" mnemonicParsing="false" onAction="#openPatient" prefHeight="25.0" prefWidth="68.0" text="Test" visible="false" />
+                        <Button fx:id="buttonTest" mnemonicParsing="false" onAction="#openPatient" prefHeight="25.0" prefWidth="68.0" text="Test" />
                         <ComboBox prefWidth="150.0" visible="false" />
                     </items></ToolBar>
             </children>

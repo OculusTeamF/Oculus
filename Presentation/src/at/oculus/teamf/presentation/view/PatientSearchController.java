@@ -18,8 +18,6 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
-import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.application.Platform;
@@ -35,13 +33,13 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import se.mbaeumer.fxmessagebox.MessageBox;
-import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import at.oculus.teamf.application.facade.SearchPatientController;
+
+//import se.mbaeumer.fxmessagebox.MessageBox;
+//import se.mbaeumer.fxmessagebox.MessageBoxType;
 /**
  * Created by Karo on 11.04.2015.
  */

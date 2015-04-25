@@ -37,9 +37,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import se.mbaeumer.fxmessagebox.MessageBox;
-import se.mbaeumer.fxmessagebox.MessageBoxResult;
-import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -110,14 +107,8 @@ public class patientRecordController implements Initializable {
             @Override
             public void handle(Event t) {
                 if (isFormEdited) {
-                   MessageBox mb1 = new MessageBox("Do you want to save changes?", MessageBoxType.YES_NO);
-                    mb1.setHeight(150);
-                    mb1.centerOnScreen();
-                    mb1.showAndWait();
-
-                    if (mb1.getMessageBoxResult() == MessageBoxResult.YES) {
+                    if (DialogBoxController.getInstance().showYesNoDialog("Save patient", "Do you want to save changes?") == true){
                         saveChanges();
-
                     } else{
                         isFormEdited = false;
                         //t.consume();
@@ -156,6 +147,7 @@ public class patientRecordController implements Initializable {
 
         patientRecordSVN.setText(patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
+        addTextLimiter(patientRecordSVN, 10);
 
         if(patient.getBirthDay() != null)
         {
@@ -648,5 +640,23 @@ public class patientRecordController implements Initializable {
             DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
         }
 
+    }
+
+    /**
+     * add textlimiter to textfield
+     *
+     * @param tf    set textfield
+     * @param maxLength max length of input chars
+     */
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
     }
 }

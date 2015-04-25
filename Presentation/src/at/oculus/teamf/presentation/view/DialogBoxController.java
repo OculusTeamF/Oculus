@@ -11,12 +11,15 @@ package at.oculus.teamf.presentation.view;
 
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import org.controlsfx.dialog.ExceptionDialog;
 import org.controlsfx.dialog.LoginDialog;
 import org.controlsfx.dialog.ProgressDialog;
+
+import java.util.Optional;
 
 /**
  * Created by Fabian on 23.04.2015.
@@ -117,12 +120,19 @@ public class DialogBoxController {
     // *******************************************************************
     // YesNoBox
     // *******************************************************************
-    public void showYesNoDialog(String title, String information){
+    public boolean showYesNoDialog(String title, String information){
         Alert dlg = createAlert(Alert.AlertType.CONFIRMATION);
         dlg.setTitle(title);
         dlg.getDialogPane().setContentText(information);
         //dlg.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
-        dlg.show();
+        //dlg.show();
+
+        Optional<ButtonType> result = dlg.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // *******************************************************************

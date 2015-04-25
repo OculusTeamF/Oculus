@@ -23,6 +23,6 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="314.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" visible="false" width="472.0" />
       <ProgressIndicator fx:id="loader" layoutY="14.0" opacity="0.16" prefHeight="285.0" prefWidth="472.0" />
-      <Label fx:id="loadLabel" layoutX="191.0" layoutY="259.0" text="Loading Oculus..." />
+      <Label fx:id="loadLabel" layoutX="199.0" layoutY="209.0" text="Loading Oculus..." />
    </children>
 </Pane>

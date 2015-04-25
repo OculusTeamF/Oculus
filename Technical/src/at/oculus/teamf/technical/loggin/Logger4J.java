@@ -74,6 +74,11 @@ public class Logger4J {
     }
 
 
+    /**
+     *
+     * @param log
+     * @param level
+     */
     public void setLevel(Logger log, Level level) {
         // config stuff for changes during runtime (unused)
         LoggerContext ctx = (LoggerContext)LogManager.getContext(false);

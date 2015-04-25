@@ -25,6 +25,11 @@ import org.apache.shiro.subject.Subject;
 public class UserSubject implements ILogger {
     private Subject currentUser;     // user security-object
 
+    /**
+     *
+     * @param sessionKey setup sessionkey (identifier) for new session
+     * @param Password  setup password for new session
+     */
     public UserSubject(String sessionKey, String Password){
         currentUser = new Subject.Builder().buildSubject();
 
