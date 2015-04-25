@@ -82,7 +82,7 @@
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
                                 <MenuItem fx:id="menuAbout" disable="true" mnemonicParsing="false" text="About" />
-                                <MenuItem fx:id="userManual" mnemonicParsing="false" text="About" />
+                                <MenuItem disable="true" fx:id="userManual" mnemonicParsing="false" text="User Manual" />
                             </items>
                         </Menu>
                     </menus>

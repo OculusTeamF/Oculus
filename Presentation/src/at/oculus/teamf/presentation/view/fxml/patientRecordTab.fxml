@@ -85,8 +85,8 @@
                             <children>
                                 <Button fx:id="examinationProtocolButton" onAction="#openExamination" mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                 <ComboBox fx:id="addToQueueBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label text="Add to Queue" GridPane.columnIndex="1" />
-                                <Button fx:id="addPatientToQueueButton" onAction="#addPatientToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Queue" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label text="Add to Waitinglist" GridPane.columnIndex="1" />
+                                <Button fx:id="addPatientToQueueButton" onAction="#addPatientToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Waitinglist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="105.0" />

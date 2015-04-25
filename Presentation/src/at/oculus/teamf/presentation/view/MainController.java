@@ -140,8 +140,14 @@ public class MainController implements Initializable {
                     }
                 }
             });
+            String queuename = null;
+            if(u.getTitle().equals("null") || u.getTitle() == null || u.getTitle().equals(""))
+            {
+                 queuename = u.getFirstName() + " " + u.getLastName();
+            }else{
+                 queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
 
-            String queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
+            }
 
             // needed get Queue From UserID
             IPatientQueue qe = null;
