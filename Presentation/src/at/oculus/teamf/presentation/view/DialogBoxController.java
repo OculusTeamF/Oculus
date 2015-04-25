@@ -12,6 +12,7 @@ package at.oculus.teamf.presentation.view;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import org.controlsfx.dialog.ExceptionDialog;
 import org.controlsfx.dialog.LoginDialog;
@@ -127,11 +128,19 @@ public class DialogBoxController {
     // *******************************************************************
     // AboutBox
     // *******************************************************************
-    public void showAboutDialog(String title, String information){
-        Alert dlg = createAlert(Alert.AlertType.CONFIRMATION);
-        dlg.setTitle(title);
-        dlg.getDialogPane().setContentText(information);
-        //dlg.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
+    public void showAboutDialog(){
+        Alert dlg = createAlert(Alert.AlertType.INFORMATION);
+        dlg.setTitle("Oculus 1.0 (2015)");
+        dlg.setContentText("TEAM F:" + System.getProperty("line.separator") + System.getProperty("line.separator") +
+                "Simon Angerer" + System.getProperty("line.separator") +
+                "Daniel Griesser" + System.getProperty("line.separator") +
+                "Karoline Deuring" + System.getProperty("line.separator") +
+                "Simon Hartmann" + System.getProperty("line.separator") +
+                "Jasmin Pogatschneg" + System.getProperty("line.separator") +
+                "Fabian Salzgeber");
+                dlg.getDialogPane().setGraphic(new javafx.scene.image.ImageView(new Image(getClass().getResource("/res/oculus_small.png").toExternalForm())));
+        dlg.getDialogPane().setStyle("-fx-background-color: white;");
+        dlg.setHeaderText("");
         dlg.show();
     }
 

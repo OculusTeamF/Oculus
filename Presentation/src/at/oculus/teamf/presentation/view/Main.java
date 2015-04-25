@@ -36,15 +36,16 @@ public class Main extends Application implements ILocal {
     final Stage initStage = new Stage(StageStyle.DECORATED);;
     final Stage primaryStage = new Stage(StageStyle.DECORATED);
 
-
+    /*start (init and build) application*/
     @Override
     public void start(Stage mStage) throws Exception {
 
-        initLoadingScreen();
-        initStage.show();
-        initMainWindow();
-        primaryStage.show();
-        initStage.close();
+        //TODO create thread for loading
+        initLoadingScreen();        // create splashcreen
+        initStage.show();           // show splashcreen
+        initMainWindow();           // build main window (heavy queue load process)
+        primaryStage.show();        // show main window
+        initStage.close();          // close splashscreen
 
        /* Task<Void> task = new Task<Void>() {
 
@@ -71,13 +72,10 @@ public class Main extends Application implements ILocal {
 
         Thread th = new Thread(task);
         th.start();*/
-
     }
 
-
+    /*create main screen*/
     private void initMainWindow() throws IOException {
-
-
         Parent root = (Parent) loader.load();
         primaryStage.setTitle(locstring.getString("MainWindowTitle"));      //localization example
         scene = new Scene(root, 900, 600);
@@ -106,7 +104,7 @@ public class Main extends Application implements ILocal {
         primaryStage.show();
     }
 
-
+    /*create loading screen (splashcreen)*/
     private void initLoadingScreen() {
         //init = new Stage(StageStyle.UNDECORATED);
         Parent initroot = null;

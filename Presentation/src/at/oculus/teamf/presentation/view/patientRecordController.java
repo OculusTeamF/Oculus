@@ -505,8 +505,17 @@ public class patientRecordController implements Initializable {
 
         if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
             try {
+                /*Task<Void> task = new Task<Void>() {
+                    @Override protected Void call() throws Exception {
+                        done();
+                        return null;
+                    }
+                };
+                StatusBarController.getInstance().progressProperty().bind(task.progressProperty());*/
+
+                DialogBoxController.getInstance().showInformationDialog("Adding patient '" + patient.getLastName() + "'. Please wait." , patient.getFirstName());
                 IUser user = (IUser) addToQueueBox.getSelectionModel().getSelectedItem();
-                DialogBoxController.getInstance().showInformationDialog("added", patient.getFirstName());
+                StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + user.getLastName());
                 checkinController.insertPatientIntoQueue(patient, user);
                 IPatientQueue queue = startupController.getQueueByUserId(user);
                 Main.controller.refreshQueue(queue, user);
@@ -557,7 +566,8 @@ public class patientRecordController implements Initializable {
 
         try {
             createPatientController.saveIPatient(patient);
-            DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
+            //DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
+            StatusBarController.getInstance().setText("Changes saved...");
             isFormEdited = false;
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
@@ -613,6 +623,7 @@ public class patientRecordController implements Initializable {
         try {
             Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(patient)));
             Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
+            StatusBarController.getInstance().setText("Open examination...");
         } catch (IOException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");

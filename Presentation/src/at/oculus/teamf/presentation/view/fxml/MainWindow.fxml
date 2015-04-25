@@ -81,8 +81,8 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
-                                <MenuItem fx:id="menuAbout" disable="true" mnemonicParsing="false" text="About" />
-                                <MenuItem fx:id="userManual" mnemonicParsing="false" text="About" />
+                                <MenuItem fx:id="userManual" mnemonicParsing="false" onAction="#showMenuHelp" text="Oculus Help" />
+                                <MenuItem fx:id="aboutOculus" mnemonicParsing="false" onAction="#showMenuAbout" text="About Oculus" />
                             </items>
                         </Menu>
                     </menus>

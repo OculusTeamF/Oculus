@@ -38,7 +38,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.StatusBar;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,7 +59,6 @@ public class MainController implements Initializable {
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
     private HashMap<Integer, ObservableList> _listMap;
-    //public IUser user;
     public int userID;
 
 
@@ -76,10 +74,9 @@ public class MainController implements Initializable {
         searchButton.setGraphic(new ImageView(imageDecline));
         listSearchResults.setPrefHeight(0);
 
-        // statusbar test
-        StatusBar statusBar = new StatusBar();
-        borderPane.setBottom(statusBar);
-        statusBar.setText("Welcome to Oculus");
+        // statusbar setup
+        borderPane.setBottom(StatusBarController.getInstance());
+        StatusBarController.getInstance().setText("Welcome to Oculus");
 
         // tooltip test
         Tooltip tp = new Tooltip();
@@ -100,6 +97,11 @@ public class MainController implements Initializable {
         });
     }
 
+    // *******************************************************************
+    // Queuelist
+    // *******************************************************************
+
+    /*load and setup queuelist for all users (on application load)*/
     private void buildQueueLists() {
         _listMap = new HashMap<>();
 
@@ -141,7 +143,7 @@ public class MainController implements Initializable {
                 }
             });
             String queuename = null;
-            if(u.getTitle().equals("null") || u.getTitle() == null || u.getTitle().equals(""))
+            if(u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals(""))
             {
                  queuename = u.getFirstName() + " " + u.getLastName();
             }else{
@@ -185,111 +187,8 @@ public class MainController implements Initializable {
         vboxQueues.getChildren().addAll(titledPanes);
     }
 
-    @FXML
-    public void handleEnterPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            doSearch();
-        }
-    }
-
-    @FXML
-    public void doSearch()  {
-        ObservableList<IPatient> patientlist = null;
-        try {
-            patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
-        } catch (FacadeException | InvalidSearchParameterException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException, InvalidSearchParameterException - Please contact support");
-        }
-        if(patientlist.size() > 0) {
-            listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight(patientlist.size() * 24);
-            searchResults.setExpanded(true);
-        }
-    }
-
-    /*Close the application by clicking the Menuitem 'Exit'*/
-    @FXML
-    public void onClose(ActionEvent actionEvent) {
-        System.exit(0);
-    }
-
-    /*Opens the calendar view by clicking Menuitem 'Calendar'*/
-    @FXML
-    public void openCal(ActionEvent event) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/Agenda.fxml")));
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-    }
-
-    @FXML
-    public void openPatientProperty (ActionEvent event) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientProperty.fxml")));
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-    }
-
-    /*Opens a new Patient record to add a patient*/
-    @FXML
-    public void newPatient(ActionEvent actionEvent) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-    }
-
-    public void addPatientTab(final IPatient patient){
-        try {
-            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), new SingleResourceBundle(patient));
-
-            displayPane.getTabs().addAll(tab);
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-            displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-    }
-
-
-    @FXML
-    public void openPatient(ActionEvent actionEvent) {
-        DialogBoxController.getInstance().showLoginDialog("a", "b");
-    }
-
-    /*Opens a patient search tab*/
-    @FXML
-    public void searchPatient(ActionEvent actionEvent) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-    }
-
-    public SplitPane getSplitter(){
-        return this.splitter;
-    }
-
-    public TabPane getTabPane(){
-        return this.displayPane;
-    }
-
-    public void refreshQueue(IPatientQueue queue, IUser user)
-    {
+    /*refresh queue after adding or removing patient*/
+    public void refreshQueue(IPatientQueue queue, IUser user) {
         ObservableList observableList = _listMap.get(user.getUserId());
         if(observableList != null){
             observableList.remove(0, observableList.size());
@@ -306,8 +205,12 @@ public class MainController implements Initializable {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
+
+        //StatusBarController.getInstance().progressProperty().unbind();
+        //StatusBarController.getInstance().setText("Queue refreshed");
     }
 
+    /*get key by value for userlist hashmap*/
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
@@ -315,6 +218,145 @@ public class MainController implements Initializable {
             }
         }
         return null;
+    }
+
+    // *******************************************************************
+    // Searchbox
+    // *******************************************************************
+
+    /*Key pressed: do search for patients*/
+    @FXML
+    public void handleEnterPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            doSearch();
+        }
+    }
+
+    /*search and list patients with used keywords*/
+    @FXML
+    public void doSearch()  {
+        ObservableList<IPatient> patientlist = null;
+        try {
+            patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
+        } catch (FacadeException | InvalidSearchParameterException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException, InvalidSearchParameterException - Please contact support");
+        }
+        if(patientlist.size() > 0) {
+            listSearchResults.setItems(patientlist);
+            listSearchResults.setPrefHeight(patientlist.size() * 24);
+            searchResults.setExpanded(true);
+            StatusBarController.getInstance().setText("Found patient...");
+        } else {
+            StatusBarController.getInstance().setText("No patients found");
+        }
+    }
+
+    // *******************************************************************
+    // New Tabs Methods
+    // *******************************************************************
+
+    /*Tab: opens new tab for patient search (detailled search)*/
+    @FXML
+    public void searchPatient(ActionEvent actionEvent) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+        }
+    }
+
+    /*Tab: opens patient record for selected patient*/
+    public void addPatientTab(final IPatient patient){
+        try {
+            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), new SingleResourceBundle(patient));
+
+            displayPane.getTabs().addAll(tab);
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+            displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
+            StatusBarController.getInstance().setText("Opened Patient Record: " + patient.getFirstName() + " " + patient.getLastName());
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+        }
+    }
+
+    /*Tab: opens a new Patient record to add a patient*/
+    @FXML
+    public void newPatient(ActionEvent actionEvent) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+        }
+    }
+
+    /*Tab: Opens the agenda calendar (unused)*/
+    @FXML
+    public void openCal(ActionEvent event) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/Agenda.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+        }
+    }
+
+    /*Tab: opens the patient property (unused)*/
+    @FXML
+    public void openPatientProperty (ActionEvent event) {
+        try {
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientProperty.fxml")));
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+        }
+    }
+
+    // *******************************************************************
+    // Menu & Button Items Actions
+    // *******************************************************************
+
+    /*Menu item: opens help window*/
+    @FXML
+    public void showMenuHelp(ActionEvent actionEvent) {
+        DialogBoxController.getInstance().showInformationDialog("Oculus Help", "User manula for Oculus");
+    }
+
+    /*Menu item: opens about dialog*/
+    @FXML
+    public void showMenuAbout(ActionEvent actionEvent) {
+        DialogBoxController.getInstance().showAboutDialog();
+    }
+
+    /*Button: opens test action*/
+    @FXML
+    public void openPatient(ActionEvent actionEvent) {
+        DialogBoxController.getInstance().showLoginDialog("a", "b");
+    }
+
+    /*Close the application by clicking the Menuitem 'Exit'*/
+    @FXML
+    public void onClose(ActionEvent actionEvent) {
+        System.exit(0);
+    }
+
+    // *******************************************************************
+    // Getter & Setter
+    // *******************************************************************
+
+    public SplitPane getSplitter(){
+        return this.splitter;
+    }
+
+    public TabPane getTabPane(){
+        return this.displayPane;
     }
 }
 
