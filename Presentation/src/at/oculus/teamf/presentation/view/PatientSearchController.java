@@ -88,19 +88,13 @@ public class PatientSearchController implements Initializable{
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(svn, firstName, lastName));
         } catch (FacadeException e) {
             e.printStackTrace();
-            MessageBox mb = new MessageBox("Error!!! Please contact your Support", MessageBoxType.OK_ONLY);
-            mb.setHeight(150);
-            mb.centerOnScreen();
-            mb.showAndWait();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
 
         if (patientlist.size() > 0) {
             searchPatientList.setItems(patientlist);
         } else {
-            MessageBox mb1 = new MessageBox("No matches found", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "No matches found");
 
             searchPatientLastname.clear();
             searchPatientFirstname.clear();

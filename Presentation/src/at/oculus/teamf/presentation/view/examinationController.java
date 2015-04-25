@@ -15,6 +15,8 @@ import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,16 +46,34 @@ public class examinationController implements Initializable {
 
     private IPatient patient;
     private Date date = new Date();
+    private ReceivePatientController receivePatientController = new ReceivePatientController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        patient = (IPatient)resources.getObject(null);
+
+        patient =  (IPatient)resources.getObject(null);
         examinationTab.setText(patient.getLastName()+", "+patient.getFirstName()+", "+date.toString());
 
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
         examinationAllergies.setText(patient.getAllergy());
-        //examinationList.setItems(FXCollections.observableArrayList(patient.get));
+        try {
+
+
+            examinationList.setItems(FXCollections.observableArrayList(receivePatientController.getAllExaminationProtocols(patient)));
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException");
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException");
+        }
 
     }
 

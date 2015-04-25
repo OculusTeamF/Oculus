@@ -14,7 +14,7 @@
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="Presentation.jar">
+      <element id="archive" name="Oculus.jar">
         <element id="module-output" name="Presentation" />
       </element>
       <element id="module-output" name="Application" />
