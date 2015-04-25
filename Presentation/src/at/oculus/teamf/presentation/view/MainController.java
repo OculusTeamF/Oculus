@@ -71,7 +71,7 @@ public class MainController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         // search button & list init
-        buttonTest.setVisible(true);
+        buttonTest.setVisible(false);
         Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
         searchButton.setGraphic(new ImageView(imageDecline));
         listSearchResults.setPrefHeight(0);

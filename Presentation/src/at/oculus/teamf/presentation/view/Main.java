@@ -114,7 +114,7 @@ public class Main extends Application implements ILocal {
             e.printStackTrace();
         }
 
-        Scene sceneInit = new Scene(initroot, 472, 314);
+        Scene sceneInit = new Scene(initroot, 472, 362);
         sceneInit.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
         initStage.setScene(sceneInit);
         initStage.setTitle("Oculus is loading...");

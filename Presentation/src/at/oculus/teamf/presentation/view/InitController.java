@@ -15,7 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +32,7 @@ public class InitController implements Initializable, ILogger {
 
     @FXML ProgressIndicator loader;
     @FXML Label loadLabel;
+    @FXML Label labelQuote;
     @FXML Pane loaderPane;
 
     @FXML
@@ -53,7 +59,32 @@ public class InitController implements Initializable, ILogger {
 
         Thread th = new Thread(task);
         th.start();*/
+        labelQuote.setText(getQuote());
+    }
 
+    private String getQuote(){
+        String html = "http://ivyjoy.com/quote.shtml";
+        try {
+            Document doc = Jsoup.connect(html).get();
+            Elements tableElements = doc.select("table");
+
+            //Elements tableHeaderEles = tableElements.select("thead tr th");
+
+            Elements tableRowElements = tableElements.select(":not(thead) tr");
+
+            Element row = tableRowElements.get(0);
+
+            Elements rowItems = row.select("td");
+            for (int j = 0; j < rowItems.size(); j++) {
+                return (rowItems.get(j).text());
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
 }
