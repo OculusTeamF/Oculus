@@ -18,6 +18,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 
 /**
@@ -28,29 +31,56 @@ public class Main extends Application implements ILocal {
     public FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
     public static MainController controller;
-    public static Stage stage;
-    public static Stage istage;
+
+    private Scene scene;
+    final Stage initStage = new Stage(StageStyle.DECORATED);;
+    final Stage primaryStage = new Stage(StageStyle.DECORATED);
+
 
     @Override
-    public void start(Stage primaryStage) throws Exception  {
-        // splashscreen test
-        Parent initroot = (Parent) initloader.load();
-        Stage init = new Stage();
-        Scene sceneInit = new Scene(initroot, 472, 314);
-        sceneInit.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
-        init.setScene(sceneInit);
-        init.setTitle("Oculus is loading...");
-        init.setResizable(false);
-        init.centerOnScreen();
-        init.getIcons().add(new Image("/res/32x32.png"));
-        init.show();
+    public void start(Stage mStage) throws Exception {
+
+        initLoadingScreen();
+        initStage.show();
+        initMainWindow();
+        primaryStage.show();
+        initStage.close();
+
+       /* Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                new Thread(new Runnable() {
+
+                    @Override public void run() {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    showMainWindow();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }).start();
+                return null;
+            }
+        };
+
+        Thread th = new Thread(task);
+        th.start();*/
+
+    }
 
 
-        // main window load
+    private void initMainWindow() throws IOException {
+
+
         Parent root = (Parent) loader.load();
-
         primaryStage.setTitle(locstring.getString("MainWindowTitle"));      //localization example
-        Scene scene = new Scene(root, 900, 600);
+        scene = new Scene(root, 900, 600);
         scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
         controller = loader.getController();
 
@@ -71,15 +101,29 @@ public class Main extends Application implements ILocal {
 
         // add app icon
         primaryStage.getIcons().add(new Image("/res/32x32.png"));
-
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
-        stage = primaryStage;
         primaryStage.show();
-        init.close();
-
     }
 
+
+    private void initLoadingScreen() {
+        //init = new Stage(StageStyle.UNDECORATED);
+        Parent initroot = null;
+        try {
+            initroot = (Parent) initloader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene sceneInit = new Scene(initroot, 472, 314);
+        sceneInit.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
+        initStage.setScene(sceneInit);
+        initStage.setTitle("Oculus is loading...");
+        initStage.setResizable(false);
+        initStage.centerOnScreen();
+        initStage.getIcons().add(new Image("/res/32x32.png"));
+    }
 
 
     public static void main(String[] args) {

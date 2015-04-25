@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import jfxtras.scene.control.agenda.*?>
@@ -18,10 +19,10 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.InitController">
+<Pane fx:id="loaderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.InitController">
    <children>
-      <ProgressIndicator fx:id="loader" layoutX="100.0" layoutY="41.0" prefHeight="194.0" prefWidth="272.0" />
-      <Label layoutX="191.0" layoutY="259.0" text="Loading Oculus..." />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="314.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" visible="false" width="472.0" />
+      <ProgressIndicator fx:id="loader" layoutY="14.0" opacity="0.16" prefHeight="285.0" prefWidth="472.0" />
+      <Label fx:id="loadLabel" layoutX="191.0" layoutY="259.0" text="Loading Oculus..." />
    </children>
 </Pane>

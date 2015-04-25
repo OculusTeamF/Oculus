@@ -12,7 +12,9 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,23 +24,36 @@ import java.util.ResourceBundle;
  */
 public class InitController implements Initializable, ILogger {
 
+
     @FXML ProgressIndicator loader;
+    @FXML Label loadLabel;
+    @FXML Pane loaderPane;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-/*        System.out.println("hallo");
-        Task<Object> worker = new Task<Object>() {
+      /*  Task<Void> task = new Task<Void>() {
+
             @Override
-            protected Object call() throws Exception {
+            protected Void call() throws Exception {
+                new Thread(new Runnable() {
+                    @Override public void run() {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        });
+
+                    }
+                }).start();
                 return null;
             }
         };
 
-        Thread th = new Thread(worker);
-        th.setDaemon(true);
+        Thread th = new Thread(task);
         th.start();*/
-        //Main.istage.setTitle("Loading Oculus");
+
     }
 
 }

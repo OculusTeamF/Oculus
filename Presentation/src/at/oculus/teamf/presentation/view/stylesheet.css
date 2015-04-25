@@ -18,6 +18,14 @@
     -fx-background-color: powderblue;
 }
 
+#loaderPane{
+    -fx-background-color: white;
+    -fx-background-image: url("/res/oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 316 90;
+    -fx-background-position: center;
+}
+
 .text-area:disabled, .text-field:disabled{
     -fx-text-fill: #000000;
     -fx-opacity: 0.5;

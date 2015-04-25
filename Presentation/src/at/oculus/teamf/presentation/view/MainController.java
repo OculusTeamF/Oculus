@@ -24,6 +24,7 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,7 +39,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.StatusBar;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,12 +55,14 @@ public class MainController implements Initializable {
     @FXML private ListView listSearchResults;
     @FXML private TitledPane searchResults;
     @FXML private BorderPane borderPane;
+    @FXML private Button buttonTest;
 
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
     private HashMap<IUser, ObservableList> _listMap;
     public IUser user;
+    public boolean loadingDone;
 
 
     /**
@@ -76,9 +78,9 @@ public class MainController implements Initializable {
         listSearchResults.setPrefHeight(0);
 
         // statusbar test
-        StatusBar statusBar = new StatusBar();
-        borderPane.setBottom(statusBar);
-        statusBar.setText("Welcome to Oculus");
+        buttonTest.setVisible(true);
+        borderPane.setBottom(StatusBarController.getInstance());
+        StatusBarController.getInstance().setText("Welcome to Oculus");
 
         // tooltip test
         Tooltip tp = new Tooltip();
@@ -97,6 +99,7 @@ public class MainController implements Initializable {
                 }
             }
         });
+        loadingDone = true;
     }
 
     private void buildQueueLists() {
@@ -258,7 +261,24 @@ public class MainController implements Initializable {
 
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-        DialogBoxController.getInstance().showLoginDialog("a", "b");
+        Task<Void> task = new Task<Void>() {
+            @Override protected Void call() throws Exception {
+                updateMessage("First we sleep ....");
+
+                Thread.sleep(2500);
+
+                int max = 1000;
+                for (int i = 0; i < max; i++) {
+                    updateMessage("Message " + i);
+                    updateProgress(i, max);
+                }
+
+                updateProgress(0, 0);
+                done();
+                return null;
+            }
+        };
+        StatusBarController.getInstance().progressProperty().bind(task.progressProperty());
     }
 
     /*Opens a patient search tab*/
@@ -303,6 +323,17 @@ public class MainController implements Initializable {
             }
         }
         return null;
+    }
+
+
+    /*Opens a new Patient record to add a patient*/
+    @FXML
+    public void showMenuHelp(ActionEvent actionEvent) {
+        DialogBoxController.getInstance().showInformationDialog("Help","Shows Help");
+    }
+
+    public void showMenuAbout(ActionEvent actionEvent) {
+        DialogBoxController.getInstance().showInformationDialog("About","Shows About");
     }
 }
 
