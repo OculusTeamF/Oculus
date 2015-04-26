@@ -484,43 +484,48 @@ public class PatientRecordController implements Initializable {
      * saves the changes in the patient record after press Button 'Save'
      */
     @FXML
-    public void saveChangedForm(ActionEvent actionEvent)
-    {
-        if(isFormEdited){
-            saveChanges();
-        }else{
-            DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
+    public void saveChangedForm(ActionEvent actionEvent) {
+
+        if (patientRecordFirstname.getLength() == 0 || patientRecordLastname.getLength() == 0 || patientRecordSVN.getLength() == 0 || patientRecordBday == null){
+            DialogBoxController.getInstance().showInformationDialog("Missing patient data requirements", "Please fill the following fields: Firstname / Lastname / SVN / Birthdate");
+        } else {
+
+            if (isFormEdited) {
+                saveChanges();
+            } else {
+                DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
+            }
+            //disables every field, radiobutton or choicebox
+            patientRecordradioGenderMale.setDisable(true);
+            patientRecordradioGenderFemale.setDisable(true);
+            patientRecordLastname.setDisable(true);
+            patientRecordLastname.setEditable(false);
+            patientRecordFirstname.setDisable(true);
+            patientRecordFirstname.setEditable(false);
+            patientRecordSVN.setDisable(true);
+            patientRecordSVN.setEditable(false);
+            patientRecordBday.setDisable(true);
+            patientRecordBday.setEditable(false);
+            patientRecordStreet.setDisable(true);
+            patientRecordStreet.setEditable(false);
+            patientRecordPLZ.setDisable(true);
+            patientRecordPLZ.setEditable(false);
+            patientRecordCity.setDisable(true);
+            patientRecordCity.setEditable(false);
+            patientRecordCountryIsoCode.setDisable(true);
+            patientRecordCountryIsoCode.setEditable(false);
+            patientRecordPhone.setDisable(true);
+            patientRecordPhone.setEditable(false);
+            patientRecordEmail.setDisable(true);
+            patientRecordEmail.setEditable(false);
+            patientRecordDoctor.setDisable(true);
+            patientRecordAllergies.setDisable(true);
+            patientRecordAllergies.setEditable(false);
+            patientRecordIntolerance.setDisable(true);
+            patientRecordIntolerance.setEditable(false);
+            patientRecordChildhood.setDisable(true);
+            patientRecordChildhood.setEditable(false);
         }
-        //disables every field, radiobutton or choicebox
-        patientRecordradioGenderMale.setDisable(true);
-        patientRecordradioGenderFemale.setDisable(true);
-        patientRecordLastname.setDisable(true);
-        patientRecordLastname.setEditable(false);
-        patientRecordFirstname.setDisable(true);
-        patientRecordFirstname.setEditable(false);
-        patientRecordSVN.setDisable(true);
-        patientRecordSVN.setEditable(false);
-        patientRecordBday.setDisable(true);
-        patientRecordBday.setEditable(false);
-        patientRecordStreet.setDisable(true);
-        patientRecordStreet.setEditable(false);
-        patientRecordPLZ.setDisable(true);
-        patientRecordPLZ.setEditable(false);
-        patientRecordCity.setDisable(true);
-        patientRecordCity.setEditable(false);
-        patientRecordCountryIsoCode.setDisable(true);
-        patientRecordCountryIsoCode.setEditable(false);
-        patientRecordPhone.setDisable(true);
-        patientRecordPhone.setEditable(false);
-        patientRecordEmail.setDisable(true);
-        patientRecordEmail.setEditable(false);
-        patientRecordDoctor.setDisable(true);
-        patientRecordAllergies.setDisable(true);
-        patientRecordAllergies.setEditable(false);
-        patientRecordIntolerance.setDisable(true);
-        patientRecordIntolerance.setEditable(false);
-        patientRecordChildhood.setDisable(true);
-        patientRecordChildhood.setEditable(false);
     }
 
     @FXML
