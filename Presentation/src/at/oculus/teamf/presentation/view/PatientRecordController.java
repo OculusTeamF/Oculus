@@ -26,6 +26,8 @@ import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.presentation.view.Main;
@@ -202,7 +204,17 @@ public class PatientRecordController implements Initializable {
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
-        //patientRecordAppointmentList.setItems(patient.getAppoi);
+        try {
+            patientRecordAppointmentList.setItems(FXCollections.observableArrayList(patient.getCalendarEvents()));
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        }
 
         if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
         {
@@ -247,7 +259,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Lastname changed");
                     }
@@ -261,7 +273,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Firstname changed");
                     }
@@ -275,7 +287,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("SVN changed");
                     }
@@ -289,7 +301,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Bday changed");
                     }
@@ -303,7 +315,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Street changed");
                     }
@@ -317,7 +329,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("PLZ changed");
                     }
@@ -331,7 +343,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("City changed");
                     }
@@ -345,7 +357,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Countryisocode changed");
                     }
@@ -359,7 +371,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Phone changed");
                     }
@@ -373,7 +385,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Email changed");
                     }
@@ -393,7 +405,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                     }
                 } catch (Exception e) {
@@ -406,7 +418,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Intolerances changed");
                     }
@@ -420,7 +432,7 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                     }
                 } catch (Exception e) {
@@ -527,10 +539,10 @@ public class PatientRecordController implements Initializable {
                 };
                 StatusBarController.getInstance().progressProperty().bind(task.progressProperty());*/
 
-                DialogBoxController.getInstance().showInformationDialog("Adding patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
+                /*DialogBoxController.getInstance().showInformationDialog("Adding patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
                         + patient.getFirstName() + " " + patient.getLastName() + System.getProperty("line.separator")
                         + "To queue:" + System.getProperty("line.separator")+ _user.getFirstName() + " " + _user.getLastName()  + System.getProperty("line.separator")
-                        + System.getProperty("line.separator") + "Please wait");
+                        + System.getProperty("line.separator") + "Please wait");*/
                 _user = addToQueueBox.getSelectionModel().getSelectedItem();
                 StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + _user.getLastName());
                 checkinController.insertPatientIntoQueue(patient, _user);
@@ -675,14 +687,21 @@ public class PatientRecordController implements Initializable {
      * @param maxLength max length of input chars
      */
     public static void addTextLimiter(final TextField tf, final int maxLength) {
-        tf.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-                if (tf.getText().length() > maxLength) {
-                    String s = tf.getText().substring(0, maxLength);
-                    tf.setText(s);
+        //if (!tf.getText().isEmpty()) {
+        try {
+            tf.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                    if (tf.getText().length() > maxLength) {
+                        String s = tf.getText().substring(0, maxLength);
+                        tf.setText(s);
+                    }
                 }
-            }
-        });
+            });
+        } catch(NullPointerException e) {
+            //
+        }
+        //}
+
     }
 }
