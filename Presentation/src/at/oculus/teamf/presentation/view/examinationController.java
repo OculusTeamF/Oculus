@@ -11,8 +11,7 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -71,7 +70,6 @@ public class examinationController implements Initializable {
         }
 
         try {
-
             examinationList.setItems(FXCollections.observableArrayList(receivePatientController.getAllExaminationProtocols(patient)));
         } catch (InvalidReloadClassException e) {
             e.printStackTrace();
@@ -114,10 +112,11 @@ public class examinationController implements Initializable {
         ReceivePatientController receivePatientController = new ReceivePatientController();
         try {
             receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
+            DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + patient.getLastName() + ", " + patient.getFirstName() + " saved.");
+
             if(isFormEdited){
                 patient.setAllergy(examinationAllergies.getText());
             }
-            DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + patient.getLastName() + ", " + patient.getFirstName() + " saved.");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");

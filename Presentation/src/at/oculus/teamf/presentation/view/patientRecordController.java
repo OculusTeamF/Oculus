@@ -366,15 +366,7 @@ public class patientRecordController implements Initializable {
         patientRecordDoctor.valueProperty().addListener(new ChangeListener<IDoctor>() {
             @Override
             public void changed(ObservableValue<? extends IDoctor> observable, IDoctor oldValue, IDoctor newValue) {
-                try {
-                    if (!oldValue.equals(newValue)) {
-                        isFormEdited = true;
-                        System.out.println("Doctor changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Combobox Doctor");
-                }
+                isFormEdited = true;
             }
         });
         patientRecordAllergies.textProperty().addListener(new ChangeListener<String>() {
@@ -383,7 +375,6 @@ public class patientRecordController implements Initializable {
                 try {
                     if (!oldValue.equals(newValue)) {
                         isFormEdited = true;
-                        System.out.println("Allergies changed");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -411,7 +402,6 @@ public class patientRecordController implements Initializable {
                 try {
                     if (!oldValue.equals(newValue)) {
                         isFormEdited = true;
-                        System.out.println("Childhood changed");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -518,11 +508,11 @@ public class patientRecordController implements Initializable {
                 StatusBarController.getInstance().progressProperty().bind(task.progressProperty());*/
 
                 DialogBoxController.getInstance().showInformationDialog("Adding patient '" + patient.getLastName() + "'. Please wait." , patient.getFirstName());
-                IUser user = (IUser) addToQueueBox.getSelectionModel().getSelectedItem();
-                StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + user.getLastName());
-                checkinController.insertPatientIntoQueue(patient, user);
-                IPatientQueue queue = startupController.getQueueByUserId(user);
-                Main.controller.refreshQueue(queue, user);
+                _user = addToQueueBox.getSelectionModel().getSelectedItem();
+                StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + _user.getLastName());
+                checkinController.insertPatientIntoQueue(patient, _user);
+                IPatientQueue queue = startupController.getQueueByUserId(_user);
+                Main.controller.refreshQueue(queue, _user);
             } catch (BadConnectionException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
@@ -624,34 +614,35 @@ public class patientRecordController implements Initializable {
      * @param actionEvent
      */
     public void openExamination(ActionEvent actionEvent) {
-        try {
-            Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(patient)));
-            Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
-            StatusBarController.getInstance().setText("Open examination...");
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-        try {
-            IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
-            System.out.println(user.getLastName());
-            IPatientQueue patientqueue = startupController.getQueueByUserId(user);
-            System.out.println(patient.getFirstName());
-            System.out.println(patientqueue.getEntries().size());
-            receivePatientController.removePatientFromQueue(patient, patientqueue);
-            Main.controller.refreshQueue(patientqueue, user);
-            DialogBoxController.getInstance().showInformationDialog("Information", patient.getLastName()+", "+patient.getFirstName()+" removed from Waitinglist" );
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
-        }
 
+        if(addToQueueBox.getSelectionModel().getSelectedItem() != null) {
+            try {
+                Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(patient)));
+                Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
+                StatusBarController.getInstance().setText("Open examination...");
+            } catch (IOException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+            }
+            try {
+                IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
+                IPatientQueue patientqueue = startupController.getQueueByUserId(user);
+                receivePatientController.removePatientFromQueue(patient, patientqueue);
+                Main.controller.refreshQueue(patientqueue, user);
+                DialogBoxController.getInstance().showInformationDialog("Information", patient.getLastName() + ", " + patient.getFirstName() + " removed from Waitinglist");
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+            } catch (InvalidSearchParameterException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
+            }
+        }else{
+            DialogBoxController.getInstance().showInformationDialog("Cannot open examination protocoll", "Please make sure, that the patient was in Waitinglist and a Doctor is selected");
+        }
     }
 
     /**
