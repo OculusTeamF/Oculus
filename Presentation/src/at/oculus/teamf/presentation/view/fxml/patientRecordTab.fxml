@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Team F
+  ~
+  ~ This file is part of Oculus.
+  ~ Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~ Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Tab fx:id="patientRecordTab" text="patientRecordTab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.patientRecordController">
+    <content>
+        <AnchorPane id="patientRecordPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <GridPane id="patientRecordPane" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" vgap="10.0">
+                    <children>
+                        <GridPane hgap="5.0" prefHeight="608.0" prefWidth="530.0" vgap="5.0">
+                            <children>
+                                <Label text="Lastname" GridPane.rowIndex="1" />
+                                <Label text="Firstname" GridPane.rowIndex="2" />
+                                <AnchorPane>
+                                    <children>
+                                        <Label focusTraversable="false" layoutX="308.0" layoutY="30.0" text="Gender" />
+                                        <RadioButton fx:id="patientRecordradioGenderFemale" disable="true" layoutX="452.0" layoutY="30.0" mnemonicParsing="false" text="Female" />
+                                        <RadioButton fx:id="patientRecordradioGenderMale" disable="true" layoutX="375.0" layoutY="30.0" mnemonicParsing="false" text="Male" />
+                                        <Label layoutY="4.0" text="PATIENT INFORMATION" />
+                                    </children>
+                                </AnchorPane>
+                                <Label text="Street" GridPane.rowIndex="5" />
+                                <Label text="Phone #" GridPane.rowIndex="8" />
+                                <Label text="E-mail" GridPane.rowIndex="9" />
+                                <Label text="Postal code" GridPane.rowIndex="6" />
+                                <Label text="Social Insurance #" GridPane.rowIndex="3" />
+                                <Label text="Birthday" GridPane.rowIndex="4" />
+                                <Label text="Country Iso code" GridPane.rowIndex="7" />
+                                <TextField fx:id="patientRecordLastname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="patientRecordFirstname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextField fx:id="patientRecordSVN" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField fx:id="patientRecordCountryIsoCode" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                <TextField fx:id="patientRecordPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                <TextField fx:id="patientRecordEmail" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <children>
+                                        <TextField fx:id="patientRecordPLZ" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="125.0" />
+                                        <Label contentDisplay="RIGHT" text="City">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="patientRecordCity" editable="false" prefHeight="31.0" prefWidth="209.0" />
+                                    </children>
+                                </FlowPane>
+                                <Label text="Doctor" GridPane.rowIndex="10" />
+                                <ComboBox fx:id="patientRecordDoctor" disable="true" prefHeight="31.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                <TextField fx:id="patientRecordStreet" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <DatePicker fx:id="patientRecordBday" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="159.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="371.0" prefWidth="371.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                        <GridPane hgap="20.0" prefHeight="228.0" prefWidth="530.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <children>
+                                <Button fx:id="examinationProtocolButton" onAction="#openExamination" mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <ComboBox fx:id="addToQueueBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label text="Add to Waitinglist" GridPane.columnIndex="1" />
+                                <Button fx:id="addPatientToQueueButton" onAction="#addPatientToQueue" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Waitinglist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="105.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="319.0" minWidth="10.0" prefWidth="121.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="265.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                        <GridPane prefHeight="146.0" prefWidth="531.0" GridPane.rowIndex="1">
+                            <children>
+                                <Label text="APPOINTMENTS" />
+                                <ListView fx:id="patientRecordAppointmentList" prefHeight="100.0" prefWidth="532.0" GridPane.rowIndex="1" />
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                        <GridPane hgap="10.0" vgap="10.0" GridPane.columnIndex="1">
+                            <children>
+                                <Label text="ALLERGIES:" />
+                                <TextArea fx:id="patientRecordAllergies" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.rowIndex="1" />
+                                <Label text="DRUG INTOLERANCE:" GridPane.rowIndex="2" />
+                                <TextArea fx:id="patientRecordIntolerance" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.rowIndex="3" />
+                                <GridPane hgap="20.0" vgap="20.0" GridPane.rowIndex="6">
+                                    <children>
+                                        <Button fx:id="patientRecordSaveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveChangedForm" prefHeight="31.0" prefWidth="161.0" text="Save" GridPane.columnIndex="2" />
+                                        <Button fx:id="patientRecordEditButton" mnemonicParsing="false" onAction="#editForm" prefHeight="31.0" prefWidth="120.0" text="Edit" GridPane.columnIndex="1" />
+                                    </children>
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="89.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="116.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="166.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                </GridPane>
+                                <Label text="CHILDHOOD ILLNESSES:" GridPane.rowIndex="4" />
+                                <TextArea fx:id="patientRecordChildhood" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.rowIndex="5" />
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="309.0" />
+                            </columnConstraints>
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="254.0" minHeight="60.0" prefHeight="121.0" vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="176.0" minHeight="18.0" prefHeight="122.0" vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="159.0" minHeight="18.0" prefHeight="111.0" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="70.0" minHeight="2.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                    </children>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="625.0" minWidth="10.0" prefWidth="531.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="538.0" minWidth="10.0" prefWidth="529.0" />
+                    </columnConstraints>
+                    <padding>
+                        <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+                    </padding>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="665.0" minHeight="10.0" prefHeight="542.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="291.0" minHeight="5.0" prefHeight="128.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+            </children>
+        </AnchorPane>
+    </content>
+</Tab>

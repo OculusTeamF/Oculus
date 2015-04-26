@@ -1,0 +1,13 @@
+[TIME:22:23:32.207] [CLASS:shiro_test][METHOD:main] INFO  -> Security management intialized
+[TIME:22:23:32.295] [CLASS:UserSubject][METHOD:main] INFO  -> User session management intialized
+[TIME:22:23:32.296] [CLASS:UserSubject][METHOD:main] INFO  -> User session management intialized
+[TIME:22:23:32.296] [CLASS:UserSubject][METHOD:main] INFO  -> Trying to login user [simonangerer]
+[TIME:22:23:32.297] [CLASS:UserSubject][METHOD:main] INFO  -> Login [simonangerer] successfull
+[TIME:22:23:32.297] [CLASS:UserSubject][METHOD:main] INFO  -> Trying to login user [fabiansalzgeber]
+[TIME:22:23:32.298] [CLASS:UserSubject][METHOD:main] INFO  -> Login [fabiansalzgeber] successfull
+[TIME:22:23:32.298] [CLASS:UserSubject][METHOD:main] INFO  -> User [simonangerer] is not permitted for adminstuff
+[TIME:22:23:32.298] [CLASS:UserSubject][METHOD:main] INFO  -> User [simonangerer] has role for doctor
+[TIME:22:23:32.299] [CLASS:UserSubject][METHOD:main] INFO  -> User [simonangerer] is logged in
+[TIME:22:23:32.299] [CLASS:UserSubject][METHOD:main] INFO  -> Logout [simonangerer] successfull
+[TIME:22:23:32.300] [CLASS:UserSubject][METHOD:main] INFO  -> Logout [fabiansalzgeber] successfull
+[TIME:22:23:32.301] [CLASS:UserSubject][METHOD:main] INFO  -> No user in this session logged in

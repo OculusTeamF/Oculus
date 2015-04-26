@@ -1,0 +1,36 @@
+#displayPane{
+    -fx-background-image: url("/res/oculus_logo_reflect.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 416 175;
+    -fx-background-position: center;
+    -fx-background-color: white;
+}
+#waitingListBox{
+    -fx-background-color: powderblue;
+}
+#newPatientPane{
+    -fx-background-color: powderblue;
+}
+#patientRecordPane{
+    -fx-background-color: powderblue;
+}
+#searchPatientPane{
+    -fx-background-color: powderblue;
+}
+
+#loaderPane{
+    -fx-background-color: white;
+    -fx-background-image: url("/res/oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 316 90;
+    -fx-background-position: center;
+}
+
+.text-area:disabled, .text-field:disabled{
+    -fx-text-fill: #000000;
+    -fx-opacity: 0.5;
+}
+
+.text-area .scroll-pane:disabled{
+    -fx-opacity: 1.0;
+}
