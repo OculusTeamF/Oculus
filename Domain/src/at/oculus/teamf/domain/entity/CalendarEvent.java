@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -78,4 +79,13 @@ public class CalendarEvent implements ICalendarEvent {
     }
 
 	//</editor-fold>
+
+    @Override
+    public String toString(){
+        String eventDate = (new SimpleDateFormat("dd.MM.yyyy").format(_eventStart)) + " from " + (new SimpleDateFormat("HH:mm").format(_eventStart) + " to " + (new SimpleDateFormat("HH:mm").format(_eventEnd)));
+        if(_description!=null && !_description.isEmpty()){
+            eventDate = eventDate + ", " + _description;
+        }
+        return eventDate;
+    }
 }

@@ -22,6 +22,7 @@ import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,6 +61,7 @@ public class MainController implements Initializable {
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
     private HashMap<Integer, ObservableList> _listMap;
+    private HashMap<Integer, ListView> _listViewMap;
     public int userID;
 
 
@@ -106,6 +108,7 @@ public class MainController implements Initializable {
     /*load and setup queuelist for all users (on application load)*/
     private void buildQueueLists() {
         _listMap = new HashMap<>();
+        _listViewMap = new HashMap<>();
 
         TitledPane[] titledPanes;
         LinkedList<IUser> userlist = null;
@@ -176,6 +179,7 @@ public class MainController implements Initializable {
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
             _listMap.put(u.getUserId(), olist);
+            _listViewMap.put(u.getUserId(), listView);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -208,6 +212,8 @@ public class MainController implements Initializable {
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
 
+        ListView list = _listViewMap.get(user.getUserId());
+        list.setPrefHeight(observableList.size() * 24);
         //StatusBarController.getInstance().progressProperty().unbind();
         //StatusBarController.getInstance().setText("Queue refreshed");
     }
@@ -250,6 +256,8 @@ public class MainController implements Initializable {
             searchResults.setExpanded(true);
             StatusBarController.getInstance().setText("Found patient...");
         } else {
+            listSearchResults.setItems(patientlist);
+            listSearchResults.setPrefHeight(patientlist.size() * 24);
             StatusBarController.getInstance().setText("No patients found");
         }
     }
@@ -273,7 +281,7 @@ public class MainController implements Initializable {
     /*Tab: opens patient record for selected patient*/
     public void addPatientTab(final IPatient patient){
         try {
-            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), new SingleResourceBundle(patient));
+            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new SingleResourceBundle(patient));
 
             displayPane.getTabs().addAll(tab);
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);

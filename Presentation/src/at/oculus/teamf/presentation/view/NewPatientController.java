@@ -18,6 +18,7 @@ import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedExcep
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -36,9 +37,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 
-
-
-public class newPatientController implements Initializable{
+public class NewPatientController implements Initializable{
 
     @FXML public RadioButton radioGenderFemale;
     @FXML public RadioButton radioGenderMale;
@@ -65,6 +64,15 @@ public class newPatientController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         addTextLimiter(newPatientSVN, 10);
+        addTextLimiter(newPatientLastname, 50);
+        addTextLimiter(newPatientFirstname, 50);
+        addTextLimiter(newPatientStreet, 255);
+        addTextLimiter(newPatientPLZ, 20);
+        addTextLimiter(newPatientCity, 50);
+        addTextLimiter(newPatientCountryIsoCode, 2);
+        addTextLimiter(newPatientPhone, 50);
+        addTextLimiter(newPatientEmail, 255);
+
 
         try {
             newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));

@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
+package at.oculus.teamf.presentation.view.resourcebundel;
 
 import java.util.Enumeration;
 import java.util.ResourceBundle;

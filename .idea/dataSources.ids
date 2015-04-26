@@ -935,6 +935,7 @@
       <column name="doctorId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="orthoptistId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="patientId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="calendarEventId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="queueIdParent" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="arrivalTime" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
       <primary-key name="PRIMARY" columns="queueId"/>
@@ -943,6 +944,7 @@
       <foreign-key name="queue_ibfk_3" columns="orthoptistId" ref-table="orthoptist" ref-schema="" ref-catalog="oculus_f" ref-columns="orthoptistId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="queue_ibfk_4" columns="queueIdParent" ref-table="queue" ref-schema="" ref-catalog="oculus_f" ref-columns="queueId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="queue_ibfk_4" table="queue" schema="" catalog="oculus_f" columns="queueIdParent"/>
+      <index name="calendarEventId" unique="true" columns="calendarEventId"/>
       <index name="queue_i1" unique="false" columns="doctorId"/>
       <index name="queue_i2" unique="false" columns="patientId"/>
       <index name="queue_i3" unique="false" columns="orthoptistId"/>
