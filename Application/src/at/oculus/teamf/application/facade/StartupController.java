@@ -139,15 +139,8 @@ public class StartupController implements ILogger{
             throw noBrokerMappedException;
         }
 
-        Collection<IDoctor> iDoctors = new LinkedList<IDoctor>();
-
-        if (doctors != null){
-            for(Doctor doc : doctors){
-                iDoctors.add(doc);
-            }
-        }
         log.info("All doctors have been added to the IDoctor collection.");
-        return iDoctors;
+        return (Collection<IDoctor>)(Collection<?>)doctors;
     }
 
     /**
@@ -173,15 +166,8 @@ public class StartupController implements ILogger{
             throw noBrokerMappedException;
         }
 
-        Collection<IOrthoptist> iOrthoptists = new LinkedList<IOrthoptist>();
-
-        if (orthoptists != null){
-            for(Orthoptist o : orthoptists){
-                iOrthoptists.add(o);
-            }
-        }
         log.info("All doctors have been added to the IOrthoptist collection.");
-        return iOrthoptists;
+        return (Collection<IOrthoptist>)(Collection<?>)orthoptists;
     }
 
     /**
@@ -207,15 +193,9 @@ public class StartupController implements ILogger{
             log.warn("FacadeException caught! No broker mapped!");
             throw noBrokerMappedException;
         }
-        Collection<ICalendar> iCalendars = new LinkedList<ICalendar>();
 
-        if (calendars != null){
-            for(Calendar c : calendars){
-                iCalendars.add(c);
-            }
-        }
         log.info("All doctors have been added to the ICalendar collection.");
-        return iCalendars;
+        return (Collection<ICalendar>)(Collection<?>)calendars;
     }
 
     /**
@@ -301,13 +281,13 @@ public class StartupController implements ILogger{
 
         Collection<IUser> iUsers = new LinkedList<>();
 
-        if (orthoptists != null){
-            for(Orthoptist o : orthoptists){
+        if (orthoptists != null) {
+            for (Orthoptist o : orthoptists) {
                 iUsers.add(o);
             }
         }
-        if (doctors != null){
-            for (Doctor doc : doctors){
+        if (doctors != null) {
+            for (Doctor doc : doctors) {
                 iUsers.add(doc);
             }
         }
@@ -316,11 +296,8 @@ public class StartupController implements ILogger{
         return iUsers;
     }
 
-
-
-
     /**
-     * <h3>$getQueueByUserId</h3>
+     * <h3>$getQueueByUser</h3>
      *
      * <b>Description:</b>
      *
@@ -330,7 +307,7 @@ public class StartupController implements ILogger{
      * <b>Parameter</b>
      * @param iUser this parameter shows the interface of the user, who's queue should be returned
      **/
-    public IPatientQueue getQueueByUserId(IUser iUser) throws BadConnectionException, NoBrokerMappedException {
+    public IPatientQueue getQueueByUser(IUser iUser) throws BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
         User user =  (User) iUser;
