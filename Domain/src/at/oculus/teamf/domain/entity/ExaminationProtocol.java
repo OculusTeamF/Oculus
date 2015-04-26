@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -112,4 +113,9 @@ public class ExaminationProtocol implements IExaminationProtocol {
     public void setPatient(Patient patient) {
 		_patient = patient;
 	}
+
+    @Override
+    public String toString(){
+        return (new SimpleDateFormat("dd.MM.yyyy").format(_startTime));
+    }
 }

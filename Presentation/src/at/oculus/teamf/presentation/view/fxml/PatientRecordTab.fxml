@@ -15,7 +15,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Tab fx:id="patientRecordTab" text="patientRecordTab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.patientRecordController">
+<Tab fx:id="patientRecordTab" text="patientRecordTab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.PatientRecordController">
     <content>
         <AnchorPane id="patientRecordPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <children>
@@ -23,8 +23,8 @@
                     <children>
                         <GridPane hgap="5.0" prefHeight="608.0" prefWidth="530.0" vgap="5.0">
                             <children>
-                                <Label text="Lastname" GridPane.rowIndex="1" />
-                                <Label text="Firstname" GridPane.rowIndex="2" />
+                                <Label text="Lastname*" GridPane.rowIndex="1" />
+                                <Label text="Firstname*" GridPane.rowIndex="2" />
                                 <AnchorPane>
                                     <children>
                                         <Label focusTraversable="false" layoutX="308.0" layoutY="30.0" text="Gender" />
@@ -37,8 +37,8 @@
                                 <Label text="Phone #" GridPane.rowIndex="8" />
                                 <Label text="E-mail" GridPane.rowIndex="9" />
                                 <Label text="Postal code" GridPane.rowIndex="6" />
-                                <Label text="Social Insurance #" GridPane.rowIndex="3" />
-                                <Label text="Birthday" GridPane.rowIndex="4" />
+                                <Label text="Social Insurance #*" GridPane.rowIndex="3" />
+                                <Label text="Birthday*" GridPane.rowIndex="4" />
                                 <Label text="Country Iso code" GridPane.rowIndex="7" />
                                 <TextField fx:id="patientRecordLastname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <TextField fx:id="patientRecordFirstname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />

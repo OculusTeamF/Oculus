@@ -34,16 +34,16 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu disable="true" mnemonicParsing="false" text="View">
+                        <Menu disable="false" mnemonicParsing="false" text="View">
                             <items>
-                                <Menu mnemonicParsing="false" text="Theme">
+                                <Menu disable="true" mnemonicParsing="false" text="Theme">
                                     <items>
                                         <CheckMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" selected="true" text="Default Theme" />
                                         <CheckMenuItem id="darkTheme" fx:id="DarkTheme" mnemonicParsing="false" text="Dark Theme" />
                                         <CheckMenuItem id="whiteTheme" fx:id="whiteTheme" mnemonicParsing="false" text="White Theme" />
                                     </items>
                                 </Menu>
-                                <Menu mnemonicParsing="false" text="Language">
+                                <Menu disable="true" mnemonicParsing="false" text="Language">
                                     <items>
                                         <CheckMenuItem id="languageEnglish" fx:id="languageEnglish" mnemonicParsing="false" selected="true" text="English" />
                                         <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />

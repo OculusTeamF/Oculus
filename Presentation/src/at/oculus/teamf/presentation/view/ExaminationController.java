@@ -10,12 +10,12 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.ReceivePatientController;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -35,7 +35,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Karo on 20.04.2015.
  */
-public class examinationController implements Initializable {
+public class ExaminationController implements Initializable {
 
     @FXML public Button saveButton;
     @FXML private Tab examinationTab;
