@@ -16,13 +16,14 @@ import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
+import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,13 +58,15 @@ public class MainController implements Initializable {
     @FXML private BorderPane borderPane;
     @FXML private Button buttonTest;
 
-    private StartupController _startupController = new StartupController();
-    private SearchPatientController _searchPatientController = new SearchPatientController();
+    private StartupController _startupController;
+    private SearchPatientController _searchPatientController;
 
-    private HashMap<Integer, ObservableList> _listMap;
+    private HashMap<IUser, ObservableList> _userListMap;
+    private HashMap<ObservableList, IUser> _listUserMap;
     private HashMap<Integer, ListView> _listViewMap;
-    public int userID;
 
+    private Collection<IDoctor> _doctors;
+    private Collection<IUser> _userlist;
 
     /**
      * Initialize the waiting queue
@@ -72,6 +75,21 @@ public class MainController implements Initializable {
      */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        _startupController = new StartupController();
+        _searchPatientController = new SearchPatientController();
+
+        try {
+            _doctors = _startupController.getAllDoctors();
+            _userlist = _startupController.getAllDoctorsAndOrthoptists();
+        } catch (NoBrokerMappedException e) {
+            //Todo: add DialogBox
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            //Todo: add DialogBox
+            e.printStackTrace();
+        }
+
         // search button & list init
         buttonTest.setVisible(false);
         Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
@@ -95,7 +113,7 @@ public class MainController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
+                    addPatientTab(null, (IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
         });
@@ -107,25 +125,17 @@ public class MainController implements Initializable {
 
     /*load and setup queuelist for all users (on application load)*/
     private void buildQueueLists() {
-        _listMap = new HashMap<>();
+        _userListMap = new HashMap<>();
+        _listUserMap = new HashMap<>();
         _listViewMap = new HashMap<>();
 
         TitledPane[] titledPanes;
-        LinkedList<IUser> userlist = null;
 
-        try {
-            userlist = (LinkedList) _startupController.getAllDoctorsAndOrthoptists();
-        } catch (BadConnectionException | NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
-
-        }
-
-        titledPanes = new TitledPane[userlist.size()];
+        titledPanes = new TitledPane[_userlist.size()];
 
         // setup listviews
         int i = 0;
-        for(IUser u : userlist) {
+        for(IUser u : _userlist) {
             ListView<IPatient>  listView = new ListView<>();
             listView = new ListView<>();
             listView.setPrefSize(200, 250);
@@ -140,10 +150,9 @@ public class MainController implements Initializable {
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-                        ObservableList<IPatient> ql = FXCollections.observableArrayList();
-                        ql = source.getItems();
-                        userID = getKeyByValue(_listMap, ql);
-                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
+                        ObservableList<IPatient> observableList = source.getItems();
+                        final IUser user = _listUserMap.get(observableList);
+                        addPatientTab(user, (IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
@@ -159,7 +168,7 @@ public class MainController implements Initializable {
             // needed get Queue From UserID
             IPatientQueue qe = null;
             try {
-                qe = _startupController.getQueueByUserId(u);
+                qe = _startupController.getQueueByUser(u);
             } catch (BadConnectionException | NoBrokerMappedException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
@@ -178,7 +187,9 @@ public class MainController implements Initializable {
 
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
-            _listMap.put(u.getUserId(), olist);
+
+            _userListMap.put(u, olist);
+            _listUserMap.put(olist, u);
             _listViewMap.put(u.getUserId(), listView);
 
             titledPanes[i] = new TitledPane(queuename, listView);
@@ -195,7 +206,7 @@ public class MainController implements Initializable {
 
     /*refresh queue after adding or removing patient*/
     public void refreshQueue(IPatientQueue queue, IUser user) {
-        ObservableList observableList = _listMap.get(user.getUserId());
+        ObservableList observableList = _userListMap.get(user);
         if(observableList != null){
             observableList.remove(0, observableList.size());
         }else{
@@ -279,9 +290,15 @@ public class MainController implements Initializable {
     }
 
     /*Tab: opens patient record for selected patient*/
-    public void addPatientTab(final IPatient patient){
+    public void addPatientTab(IUser user, IPatient patient){
         try {
-            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new SingleResourceBundle(patient));
+            HashMap<String, Object> resourceMap = new HashMap<>();
+            resourceMap.put("Doctors", _doctors);
+            resourceMap.put("Patient", patient);
+            resourceMap.put("User", user);
+            resourceMap.put("UserList", _userlist);
+
+            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new HashResourceBundle(resourceMap));
 
             displayPane.getTabs().addAll(tab);
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
@@ -297,7 +314,9 @@ public class MainController implements Initializable {
     @FXML
     public void newPatient(ActionEvent actionEvent) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
+            HashMap<String, Object> resourceMap = new HashMap<>();
+            resourceMap.put("Doctors", _doctors);
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml"), new HashResourceBundle(resourceMap)));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();

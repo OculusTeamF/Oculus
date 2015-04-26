@@ -13,12 +13,11 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.CreatePatientController;
-import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +32,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -56,12 +56,15 @@ public class NewPatientController implements Initializable{
     @FXML private Tab newPatientTab;
 
 
-    private CreatePatientController createPatientController = new CreatePatientController();
-    private StartupController startupController = new StartupController();
+    private CreatePatientController createPatientController;
     private ToggleGroup group = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        createPatientController = new CreatePatientController();
+
+        HashResourceBundle hashResourceBundle = (HashResourceBundle) resources;
 
         addTextLimiter(newPatientSVN, 10);
         addTextLimiter(newPatientLastname, 50);
@@ -74,12 +77,9 @@ public class NewPatientController implements Initializable{
         addTextLimiter(newPatientEmail, 255);
 
 
-        try {
-            newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-        }
+
+        newPatientDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
+
 
         newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override

@@ -77,7 +77,7 @@ public class StartupControllerTest {
 
         IUser user = docs.getFirst();
 
-        IPatientQueue queue = startupController.getQueueByUserId(user);
+        IPatientQueue queue = startupController.getQueueByUser(user);
 
         System.out.println(user.getFirstName());
         assert (queue.getEntries().size() == 3);

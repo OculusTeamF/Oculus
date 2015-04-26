@@ -48,7 +48,7 @@ public class Main extends Application implements ILocal, ILogger {
 
         //TODO create thread for loading
 
-        Logger4J.setLevel(log, Level.ERROR);
+        //Logger4J.setLevel(log, Level.ERROR);
 
         initLoadingScreen();        // create splashcreen
         initStage.show();           // show splashcreen
@@ -56,33 +56,6 @@ public class Main extends Application implements ILocal, ILogger {
         primaryStage.show();        // show main window
         initStage.close();          // close splashscreen
 
-
-        // run loading process as thread
-       /* Task<Void> task = new Task<Void>() {
-
-            @Override
-            protected Void call() throws Exception {
-                new Thread(new Runnable() {
-
-                    @Override public void run() {
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    showMainWindow();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                    }
-                }).start();
-                return null;
-            }
-        };
-
-        Thread th = new Thread(task);
-        th.start();*/
     }
 
     /*create main screen*/
