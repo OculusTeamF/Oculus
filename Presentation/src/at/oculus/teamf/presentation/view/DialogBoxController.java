@@ -23,6 +23,10 @@ import java.util.Optional;
 
 /**
  * Created by Fabian on 23.04.2015.
+ *
+ *  Class: DialogBoxController
+ *  Description: Collection of various dialogbox presets
+ *
  */
 public class DialogBoxController {
 
@@ -46,6 +50,7 @@ public class DialogBoxController {
         Alert dlg = createAlert(Alert.AlertType.INFORMATION);
         dlg.setTitle(title);
         dlg.setContentText(information);
+        dlg.setHeaderText("Information");
         //dlg.getDialogPane().setGraphic(new ImageView(new Image(getClass().getResource("../controlsfx-logo.png").toExternalForm())));
         dlg.show();
     }
@@ -71,7 +76,7 @@ public class DialogBoxController {
     }
 
     // *******************************************************************
-    // Progressbox
+    // Progressbox (not done yet)
     // *******************************************************************
     public void showLoadOculusDialog(){
         Task<Object> worker = new Task<Object>() {
@@ -86,8 +91,6 @@ public class DialogBoxController {
             }
         };
 
-
-
         ProgressDialog dlg = new ProgressDialog(worker);
         dlg.initModality(Modality.NONE);
         dlg.setHeaderText("Hallo");
@@ -99,7 +102,7 @@ public class DialogBoxController {
     }
 
     // *******************************************************************
-    // Loginbox
+    // Loginbox (not done yet)
     // *******************************************************************
     public void showLoginDialog(String title, String information){
         LoginDialog dlg = new LoginDialog(null, null);
@@ -112,7 +115,7 @@ public class DialogBoxController {
     public void showExceptionDialog(Exception e, String information){
         ExceptionDialog dlg = new ExceptionDialog(e);
         dlg.setContentText(information);
-        dlg.setHeaderText("Exception occured !");
+        dlg.setHeaderText("Oops, an error occured");
         dlg.setTitle("Oculus Error");
         dlg.show();
     }
