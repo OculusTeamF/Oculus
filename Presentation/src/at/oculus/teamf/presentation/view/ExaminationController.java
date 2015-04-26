@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view.exceptions;
+package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
