@@ -11,6 +11,8 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.presentation.view.exceptions.InitLoadingException;
 import at.oculus.teamf.technical.localization.ILocal;
+import at.oculus.teamf.technical.loggin.ILogger;
+import at.oculus.teamf.technical.loggin.Logger4J;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 
@@ -30,7 +33,7 @@ import java.io.IOException;
  * Description: Initializes GUI and does loading tasks
  *
  */
-public class Main extends Application implements ILocal {
+public class Main extends Application implements ILocal, ILogger {
     public FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
     public static MainController controller;
@@ -44,6 +47,9 @@ public class Main extends Application implements ILocal {
     public void start(Stage mStage) throws Exception {
 
         //TODO create thread for loading
+
+        Logger4J.setLevel(log, Level.ERROR);
+
         initLoadingScreen();        // create splashcreen
         initStage.show();           // show splashcreen
         initMainWindow();           // build main window (heavy queue load process)
