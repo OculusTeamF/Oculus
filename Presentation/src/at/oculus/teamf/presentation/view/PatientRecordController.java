@@ -536,18 +536,19 @@ public class PatientRecordController implements Initializable {
                 };
                 StatusBarController.getInstance().progressProperty().bind(task.progressProperty());*/
 
-                /*DialogBoxController.getInstance().showInformationDialog("Adding patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
+                DialogBoxController.getInstance().showInformationDialog("Adding patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
                         + patient.getFirstName() + " " + patient.getLastName() + System.getProperty("line.separator")
                         + "To queue:" + System.getProperty("line.separator")+ _user.getFirstName() + " " + _user.getLastName()  + System.getProperty("line.separator")
-                        + System.getProperty("line.separator") + "Please wait");*/
+                        + System.getProperty("line.separator") + "Please wait");
                 _user = addToQueueBox.getSelectionModel().getSelectedItem();
                 StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + _user.getLastName());
                 checkinController.insertPatientIntoQueue(patient, _user);
                 IPatientQueue queue = startupController.getQueueByUserId(_user);
                 Main.controller.refreshQueue(queue, _user);
+            //TODO saubere Exceptions!
             } catch (BadConnectionException e) {
                 e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+                //DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
                 DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
@@ -572,23 +573,51 @@ public class PatientRecordController implements Initializable {
         }else{
             patient.setGender("male");
         }
-        patient.setLastName(patientRecordLastname.getText());
-        patient.setFirstName(patientRecordFirstname.getText());
-        patient.setSocialInsuranceNr(patientRecordSVN.getText());
-        LocalDate localDate = patientRecordBday.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date bday = java.sql.Date.from(instant);
-        patient.setBirthDay(bday);
-        patient.setStreet(patientRecordStreet.getText());
-        patient.setPostalCode(patientRecordPLZ.getText());
-        patient.setCity(patientRecordCity.getText());
-        patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
-        patient.setPhone(patientRecordPhone.getText());
-        patient.setEmail(patientRecordEmail.getText());
-        patient.setIDoctor(patientRecordDoctor.getValue());
-        patient.setAllergy(patientRecordAllergies.getText());
-        patient.setMedicineIntolerance(patientRecordIntolerance.getText());
-        patient.setChildhoodAilments(patientRecordChildhood.getText());
+        if(patientRecordLastname.getText()!=null) {
+            patient.setLastName(patientRecordLastname.getText());
+        }
+        if(patientRecordFirstname.getText()!=null) {
+            patient.setFirstName(patientRecordFirstname.getText());
+        }
+        if(patientRecordSVN.getText()!=null) {
+            patient.setSocialInsuranceNr(patientRecordSVN.getText());
+        }
+        if(patientRecordBday.getValue()!=null) {
+            LocalDate localDate = patientRecordBday.getValue();
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+            Date bday = java.sql.Date.from(instant);
+            patient.setBirthDay(bday);
+        }
+        if(patientRecordStreet.getText()!=null) {
+            patient.setStreet(patientRecordStreet.getText());
+        }
+        if(patientRecordPLZ.getText()!=null) {
+            patient.setPostalCode(patientRecordPLZ.getText());
+        }
+        if(patientRecordCity.getText()!=null) {
+            patient.setCity(patientRecordCity.getText());
+        }
+        if(patientRecordCountryIsoCode.getText()!=null) {
+            patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
+        }
+        if(patientRecordPhone.getText()!=null){
+            patient.setPhone(patientRecordPhone.getText());
+        }
+        if(patientRecordEmail.getText()!=null) {
+            patient.setEmail(patientRecordEmail.getText());
+        }
+        if(patientRecordDoctor.getValue()!=null) {
+            patient.setIDoctor(patientRecordDoctor.getValue());
+        }
+        if(patientRecordAllergies.getText()!=null) {
+            patient.setAllergy(patientRecordAllergies.getText());
+        }
+        if(patientRecordIntolerance.getText()!=null) {
+            patient.setMedicineIntolerance(patientRecordIntolerance.getText());
+        }
+        if(patientRecordChildhood.getText()!=null) {
+            patient.setChildhoodAilments(patientRecordChildhood.getText());
+        }
 
         try {
             createPatientController.saveIPatient(patient);
