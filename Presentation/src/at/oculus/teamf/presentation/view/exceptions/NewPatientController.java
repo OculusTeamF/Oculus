@@ -64,6 +64,15 @@ public class NewPatientController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         addTextLimiter(newPatientSVN, 10);
+        addTextLimiter(newPatientLastname, 50);
+        addTextLimiter(newPatientFirstname, 50);
+        addTextLimiter(newPatientStreet, 255);
+        addTextLimiter(newPatientPLZ, 20);
+        addTextLimiter(newPatientCity, 50);
+        addTextLimiter(newPatientCountryIsoCode, 2);
+        addTextLimiter(newPatientPhone, 50);
+        addTextLimiter(newPatientEmail, 255);
+
 
         try {
             newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));

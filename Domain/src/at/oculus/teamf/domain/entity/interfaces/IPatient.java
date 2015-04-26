@@ -10,6 +10,7 @@
 package at.oculus.teamf.domain.entity.interfaces;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -77,5 +78,8 @@ public interface IPatient {
 
     String getMedicineIntolerance();
     void setMedicineIntolerance(String medicineIntolerance);
+
+    Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException;
+    void addExaminationProtocol(IExaminationProtocol examinationProtocol);
 
 }

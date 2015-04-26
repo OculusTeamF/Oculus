@@ -6,16 +6,16 @@
     -fx-background-color: white;
 }
 #waitingListBox{
-    -fx-background-color: powderblue;
+    -fx-background-color: lightgrey;
 }
 #newPatientPane{
-    -fx-background-color: powderblue;
+    -fx-background-color: lightgrey;
 }
 #patientRecordPane{
-    -fx-background-color: powderblue;
+    -fx-background-color: lightgrey;
 }
 #searchPatientPane{
-    -fx-background-color: powderblue;
+    -fx-background-color: lightgrey;
 }
 
 #loaderPane{

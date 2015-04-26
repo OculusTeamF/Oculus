@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -222,16 +223,19 @@ public class Patient implements IPatient, IDomain, ILogger {
 		_medicineIntolerance = medicineIntolerance;
 	}
 
-	public Collection<ExaminationProtocol> getExaminationProtocol()
+	public Collection<IExaminationProtocol> getExaminationProtocol()
 			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
 			       NoBrokerMappedException {
 
 		Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
 
-		return _examinationProtocol;
+		return (Collection<IExaminationProtocol>)(Collection<?>) _examinationProtocol;
 	}
 
-	public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
+    @Override
+    public void addExaminationProtocol(IExaminationProtocol examinationProtocol) {}
+
+    public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
 		_examinationProtocol = examinationProtocol;
 	}
 
@@ -239,7 +243,7 @@ public class Patient implements IPatient, IDomain, ILogger {
 
 	@Override
 	public String toString() {
-		return getFirstName() + " " + getLastName();
+		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
 	}
 
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol)
