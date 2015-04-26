@@ -18,23 +18,26 @@ import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedExcep
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import se.mbaeumer.fxmessagebox.MessageBox;
-import se.mbaeumer.fxmessagebox.MessageBoxType;
 
 import java.net.URL;
-import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 
-public class newPatientController implements Initializable{
+public class NewPatientController implements Initializable{
 
     @FXML public RadioButton radioGenderFemale;
     @FXML public RadioButton radioGenderMale;
@@ -50,6 +53,8 @@ public class newPatientController implements Initializable{
     @FXML public ChoiceBox newPatientDoctor;
     @FXML public Button newPatientSaveButton;
     @FXML public TextField newPatientCountryIsoCode;
+    @FXML private Tab newPatientTab;
+
 
     private CreatePatientController createPatientController = new CreatePatientController();
     private StartupController startupController = new StartupController();
@@ -58,20 +63,50 @@ public class newPatientController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        addTextLimiter(newPatientSVN, 10);
+        addTextLimiter(newPatientLastname, 50);
+        addTextLimiter(newPatientFirstname, 50);
+        addTextLimiter(newPatientStreet, 255);
+        addTextLimiter(newPatientPLZ, 20);
+        addTextLimiter(newPatientCity, 50);
+        addTextLimiter(newPatientCountryIsoCode, 2);
+        addTextLimiter(newPatientPhone, 50);
+        addTextLimiter(newPatientEmail, 255);
+
+
         try {
             newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
         } catch (FacadeException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
+
+        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
+            @Override
+            public void handle(Event t) {
+                if (DialogBoxController.getInstance().showYesNoDialog("Cancel new patient", "Do you want to cancel the new patient record ?") == false){
+                    t.consume();
+                }
+
+            }
+        });
 
         radioGenderFemale.setToggleGroup(group);
         radioGenderMale.setToggleGroup(group);
         radioGenderFemale.setSelected(true);
     }
 
-    /*Saves the form in a new Patient-Object*/
-    public void saveForm(ActionEvent actionEvent)
-    {
+    /*Triggers the savePatient() method when 'save' button is pressed*/
+    @FXML
+    public void saveForm(ActionEvent actionEvent) {
+        savePatient();
+    }
+
+    /**
+     * Saves the new Patient form in a new Patient-Object
+     * only if all fields are filled with data
+     */
+    private void savePatient(){
         String gender = null;
         String lastname = newPatientLastname.getText();
         String firstname = newPatientFirstname.getText();
@@ -79,8 +114,7 @@ public class newPatientController implements Initializable{
 
         LocalDate localDate = newPatientBday.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        java.util.Date utildate = Date.from(instant);
-        Date bday = new Date(utildate.getTime());
+        Date bday = Date.from(instant);
 
         String street = newPatientStreet.getText();
         String postalcode = newPatientPLZ.getText();
@@ -90,56 +124,59 @@ public class newPatientController implements Initializable{
         IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
         String countryIsoCode = newPatientCountryIsoCode.getText();
 
-
-
+        //check if every field is filled with data
         if(radioGenderFemale.isSelected()){
             gender = "female";
         }else if(radioGenderMale.isSelected()){
             gender = "male";
         }else{
-            MessageBox mb1 = new MessageBox("Please choose gender.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose gender.");
         }
         if(lastname.isEmpty()){
-            MessageBox mb1 = new MessageBox("Please enter Lastname.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Lastname.");
         }
         if(firstname.isEmpty()){
-            MessageBox mb1 = new MessageBox("Please enter Firstname.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Firstname.");
         }
         if(svn.isEmpty()){
-            MessageBox mb1 = new MessageBox("Please enter Social security number.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Social security number.");
         }
         if(bday.toString().isEmpty()) {
-            MessageBox mb1 = new MessageBox("Please enter Birthday.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Birthday.");
         }
+
         try {
             try {
                 createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
             } catch (FacadeException e) {
                 e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
             } catch (PatientCouldNotBeSavedException e) {
                 e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
             }
-            MessageBox mb1 = new MessageBox("New Patient saved.", MessageBoxType.OK_ONLY);
-            mb1.setHeight(150);
-            mb1.centerOnScreen();
-            mb1.showAndWait();
+            DialogBoxController.getInstance().showInformationDialog("Information", "New Patient saved");
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
         }
+    }
+
+    /**
+     * add textlimiter to textfield
+     *
+     * @param tf    set textfield
+     * @param maxLength max length of input chars
+     */
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
     }
 }

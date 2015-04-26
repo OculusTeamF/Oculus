@@ -12,7 +12,7 @@ package at.oculus.teamf.persistence.entity;
 import javax.persistence.*;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated receptionist class
  */
 @Entity
 @Table(name = "receptionist", schema = "", catalog = "oculus_f")
@@ -39,7 +39,7 @@ public class ReceptionistEntity implements IEntity {
     }
 
     public void setUserId(Integer userId) {
-        userId = userId;
+        _userId = userId;
     }
 
     @Override
@@ -62,13 +62,13 @@ public class ReceptionistEntity implements IEntity {
         return result;
     }
 
-    @OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;
     }
 
-    public void setUser(UserEntity userByUserId) {
-        userByUserId = userByUserId;
+    public void setUser(UserEntity user) {
+        _user = user;
     }
 }

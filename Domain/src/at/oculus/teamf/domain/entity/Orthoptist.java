@@ -11,9 +11,11 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 /**
- * Created by Norskan on 03.04.2015.
+ * domain orthoptist class
  */
 public class Orthoptist extends User implements IDomain, IOrthoptist {
 	//<editor-fold desc="Attributes">
@@ -45,9 +47,11 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
     }
 
     @Override
-    public PatientQueue getQueue() {
-	    _queue = new PatientQueue(this);
-	    return _queue;
+    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+        if(_queue == null) {
+            _queue = new PatientQueue(this);
+        }
+        return _queue;
     }
 
     @Override
@@ -55,9 +59,4 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
         _queue = queue;
     }
     //</editor-fold>
-
-	@Override
-	public String toString(){
-		return getTitle() + " " + getFirstName() + " " + getLastName();
-	}
 }

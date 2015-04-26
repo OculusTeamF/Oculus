@@ -13,6 +13,9 @@ package at.oculus.teamf.presentation.view;/*
  *
  * @author Fabian Salzgeber
  * @date 14.4.2015
+ *
+ * Description: Calendar control. Currently unused.
+ *
  */
 
 
@@ -25,7 +28,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class agenda2Controller implements Initializable{
+public class AgendaController implements Initializable{
     final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
 
     @FXML private Agenda agendaID;

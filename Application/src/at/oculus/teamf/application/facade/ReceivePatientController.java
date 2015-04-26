@@ -21,10 +21,17 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * <h2>$ReceivePatientController</h2>
@@ -48,7 +55,7 @@ public class ReceivePatientController implements ILogger {
      * @param iDoctor the doctor who does the examination
      * @param iOrthoptist the orthoptist who does the examination
      */
-    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) {
+    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws NoBrokerMappedException, BadConnectionException {
         Date endtime = new Timestamp(new Date().getTime());
 
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(
@@ -60,6 +67,35 @@ public class ReceivePatientController implements ILogger {
         log.info("New Examination Protocol has been created!");
 
         return examinationProtocol;
+    }
+
+    public Collection<IExaminationProtocol> getAllExaminationProtocols(IPatient iPatient) throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, BadConnectionException {
+        Patient patient = (Patient) iPatient;
+        Collection<IExaminationProtocol> protocols = null;
+        try {
+            protocols = patient.getExaminationProtocol();
+        } catch (InvalidReloadClassException invalidReloadClassException) {
+            log.warn("FacadeException caught! Invalid reload class!");
+            throw invalidReloadClassException;
+        } catch (ReloadInterfaceNotImplementedException reloadInterfaceNotImplementedException) {
+            log.warn("FacadeException caught! reload interface not implemented!");
+            throw reloadInterfaceNotImplementedException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("FacadeException caught! Bad Connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("FacadeException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        }
+
+        Collection<IExaminationProtocol> examinationProtocols = new LinkedList<IExaminationProtocol>();
+        if(protocols != null){
+            for(IExaminationProtocol examinationProtocol : protocols){
+                examinationProtocols.add(examinationProtocol);
+            }
+        }
+
+        return examinationProtocols;
     }
 
     /**
@@ -75,7 +111,7 @@ public class ReceivePatientController implements ILogger {
      * @param iqueue the interface of the queue from which the specified patient should be removed
      */
 
-    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue){
+    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
         Patient patient = (Patient) ipatient;
         PatientQueue queue = (PatientQueue) iqueue;
 

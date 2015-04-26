@@ -7,10 +7,26 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.exception.search;
+package at.oculus.teamf.presentation.view.resourcebundel;
 
-/**
- * Created by Simon Angerer on 20.04.2015.
- */
-public class InvalideSearchParameterException extends SearchException {
+import java.util.Enumeration;
+import java.util.ResourceBundle;
+
+public class SingleResourceBundle extends ResourceBundle {
+
+    private Object _obj;
+
+    public SingleResourceBundle(Object obj) {
+        _obj = obj;
+    }
+
+    @Override
+    protected Object handleGetObject(String key) {
+        return _obj;
+    }
+
+    @Override
+    public Enumeration<String> getKeys() {
+        return null;
+    }
 }

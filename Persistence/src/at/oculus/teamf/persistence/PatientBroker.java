@@ -9,33 +9,43 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
+import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Created by Norskan on 08.04.2015.
+ * patient broker translating domain objects to persistence entities
  */
-public class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload, ISearch<Patient> {
+public class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload, ISearch<Patient>, ILogger {
 
     public PatientBroker() {
         super(Patient.class, PatientEntity.class);
     }
 
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
     @Override
     protected Patient persistentToDomain(PatientEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = new Patient();
         patient.setId(entity.getId());
         patient.setFirstName(entity.getFirstName());
@@ -66,8 +76,14 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         return patient;
     }
 
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
     @Override
-    protected PatientEntity domainToPersistent(Patient obj) {
+    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         PatientEntity patientEntity = new PatientEntity();
         patientEntity.setId(obj.getId());
         patientEntity.setFirstName(obj.getFirstName());
@@ -81,7 +97,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         patientEntity.setCity(obj.getCity());
         patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
         if (obj.getDoctor() != null) {
-            patientEntity.setDoctorId(obj.getDoctor().getId());
+            patientEntity.setDoctor((DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(obj.getDoctor()));
         }
         patientEntity.setEmail(obj.getEmail());
         patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
@@ -93,34 +109,66 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         patientEntity.setPhone(obj.getPhone());
         patientEntity.setPostalCode(obj.getPostalCode());
         patientEntity.setStreet(obj.getStreet());
+        log.debug("converted " + _domainClass.getClass() + " to " + _entityClass.getClass());
         return patientEntity;
     }
 
-
+    /**
+     * reload the calendar events of a patient
+     * @param session to be used
+     * @param obj patient
+     * @return collection of calendar events
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
     private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
         ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
-
+        log.debug("reloading calendar events");
         return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
     }
 
+    /**
+     * reload the examination protocols of a patient
+     * @param session session to be used
+     * @param obj patient
+     * @return collection of examnation protocols
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
+    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws  BadConnectionException, NoBrokerMappedException {
+        log.debug("reloading examination protocols");
+        ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
+        return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
+    }
+
+    /**
+     * reload collections of a patient
+     * @param session session to be used
+     * @param obj patient
+     * @param clazz to be reloaded
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     * @throws InvalidReloadClassException
+     */
     @Override
     public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException {
         if (clazz == CalendarEvent.class) {
-            ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
+	        ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
+        } else if (clazz == ExaminationProtocol.class) {
+	        ((Patient) obj).setExaminationProtocol(reloadExaminationProtocol(session, obj));
         } else {
             throw new InvalidReloadClassException();
         }
     }
 
-
-
     /**
-     * @param session Session
-     * @param params  Parameter in der Reichenfolge (SVN, Firstname, Lastname, Suchstring)
-     * @return
+     * search patients
+     * @param session session to be used
+     * @param params  parameter in order (social insurance number, firstname, lastname | search string)
+     * @return collection of search results
      */
     @Override
-    public Collection<Patient> search(ISession session, String... params) throws InvalideSearchParameterException, BadConnectionException, NoBrokerMappedException {
+    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
         Collection<Object> patientsResult = null;
         Collection<Patient> patients = new LinkedList<Patient>();
 
@@ -133,7 +181,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         } else if (params.length == 3) {
             query = "getPatientBySingle";
         } else {
-            throw new InvalideSearchParameterException();
+            throw new InvalidSearchParameterException();
         }
 
         try {
@@ -158,18 +206,11 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         }
     }
 
-
-    private class ExaminationProtocol implements ICollectionLoader<ExaminationProtocolEntity> {
+    private class ExaminationProtocolLoader implements ICollectionLoader<ExaminationProtocolEntity> {
 
         @Override
         public Collection<ExaminationProtocolEntity> load(Object databaseEntity) {
             return ((PatientEntity) databaseEntity).getExaminationProtocol();
         }
-    }
-
-    private Collection<at.oculus.teamf.domain.entity.ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws  BadConnectionException, NoBrokerMappedException {
-        ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, at.oculus.teamf.domain.entity.ExaminationProtocol.class);
-
-        return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
     }
 }

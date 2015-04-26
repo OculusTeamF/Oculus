@@ -70,4 +70,17 @@ public class StartupControllerTest {
         Collection <ICalendarEvent> events = startupController.getEventsFromPatient(patients.getFirst());
         assert (events != null);
     }
+
+    @org.junit.Test
+    public void testGetQueueByUserId() throws Exception {
+        LinkedList<IDoctor> docs = (LinkedList<IDoctor>) startupController.getAllDoctors();
+
+        IUser user = docs.getFirst();
+
+        IPatientQueue queue = startupController.getQueueByUserId(user);
+
+        System.out.println(user.getFirstName());
+        assert (queue.getEntries().size() == 3);
+    }
+
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated calendar event class
  */
 @Entity
 @Table(name = "calendarevent", schema = "", catalog = "oculus_f")
@@ -29,7 +29,7 @@ public class CalendarEventEntity implements IEntity {
     private byte _isOpen;
     private CalendarEntity _calendar;
     private PatientEntity _patient;
-    private EventtypeEntity _eventtype;
+    //private EventtypeEntity _eventtype;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

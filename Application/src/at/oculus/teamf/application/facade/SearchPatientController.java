@@ -19,10 +19,13 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -54,16 +57,25 @@ public class SearchPatientController implements ILogger{
      * @param data this is all given information to search the patient (with full-text-search)
      */
 
-    public Collection <IPatient> searchPatients (String data) throws FacadeException {
+    public Collection <IPatient> searchPatients (String data) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
             patients = facade.search(Patient.class, data);
             log.info("Search has been successful.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Facade could not find patient!");
-            throw facadeException;
+        } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
+            log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");
+            throw searchInterfaceNotImplementedException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("NoBrokerMappedException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        } catch (InvalidSearchParameterException invalidSearchException) {
+            log.warn("InvalidSearchParameterException caught! Invalid search parameter!");
+            throw new at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException();
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
@@ -90,16 +102,25 @@ public class SearchPatientController implements ILogger{
      * @param lastName this is the last name of the searched patient
      */
 
-    public Collection <IPatient> searchPatients (String svn, String firstName, String lastName) throws FacadeException {
+    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
             patients = facade.search(Patient.class, svn, firstName, lastName);
             log.info("Search has been successful.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Facade could not find patient!");
-            throw facadeException;
+        } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
+            log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");
+            throw searchInterfaceNotImplementedException;
+        } catch (BadConnectionException badConnectionException) {
+            log.warn("BadConnectionException caught! Bad connection!");
+            throw badConnectionException;
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            log.warn("NoBrokerMappedException caught! No broker mapped!");
+            throw noBrokerMappedException;
+        } catch (InvalidSearchParameterException invalidSearchException) {
+            log.warn("InvalidSearchParameterException caught! Invalid search parameter!");
+            throw new InvalidSearchParameterException();
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();

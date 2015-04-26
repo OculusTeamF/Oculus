@@ -21,6 +21,10 @@ import java.util.ResourceBundle;
 
 public class OculusStrings {
 
+    /**
+     * returns a resource bundle instance for public use
+     * @return
+     */
     public static ResourceBundle getInstance() {
         ResourceBundle bundle = ResourceBundle.getBundle("OculusStrings", Locale.US);
 

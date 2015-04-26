@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Norskan on 07.04.2015.
+ * Hibernate annotated orthoptist class
  */
 @Entity
 @Table(name = "orthoptist", schema = "", catalog = "oculus_f")
@@ -77,7 +77,7 @@ public class OrthoptistEntity implements IEntity {
         return result;
     }
 
-    @ManyToOne
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     public UserEntity getUser() {
         return _user;

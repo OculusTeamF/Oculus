@@ -18,7 +18,6 @@ import java.util.Date;
  * Todo: add docs, implement equals
  *
  * @author Simon Angerer
- * @date 03.4.2015
  */
 public abstract class User implements IUser {
 
@@ -137,4 +136,14 @@ public abstract class User implements IUser {
 	}
 	//</editor-fold>
 
+    @Override
+    public String toString() {
+        String title = getTitle();
+        if (title == null) {
+            title = "";
+        } else {
+            title = title + " ";
+        }
+        return title + getFirstName() + " " + getLastName();
+    }
 }

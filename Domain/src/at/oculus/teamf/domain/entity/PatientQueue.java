@@ -9,346 +9,237 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.search.InvalideSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+// Todo: add docs, implement equals, logging
 
 /**
- * Todo: add docs, implement equals, logging
- *
  * @author Fabian Salzgeber
- * @date 03.4.2015
  */
 public class PatientQueue implements ILogger, IPatientQueue {
 
     //<editor-fold desc="Attributes">
     private int _userID;
+    private User _user;
     private LinkedList<QueueEntry> _entries;
     //</editor-fold>
 
-    public PatientQueue(){
-        // empty
-    }
-
-    public PatientQueue(Doctor doctor){
-        _entries = new LinkedList<QueueEntry>();
-
-        // get all queue entities of a doctor
-        HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
-        QueueEntry actEntry = null;
-
-
-        //Todo: Exception Handling
-        try {
-            for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
-                QueueEntry qe = (QueueEntry) obj;
-                if(qe.getDoctor() != null){
-                    if(qe.getDoctor().getId() == doctor.getId()){
-                        queueEntries.put(qe.getQueueIdParent(),qe);
-                        // set first entity
-                        if(qe.getQueueIdParent()== null){
-                            actEntry = qe;
-                        }
-                    }
-                }
-            }
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-
-        // set linked list
-        while(actEntry != null){
-            _entries.add(actEntry);
-            actEntry = queueEntries.get(actEntry.getId());
-        }
+    public PatientQueue(Doctor doctor) throws NoBrokerMappedException, BadConnectionException {
+        _user = doctor;
+        _userID = _user.getUserId();
+        getEntries();
 
         log.info("[CREATE PatientQueue for DOCTOR '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Queuesize: " + _entries.size());
     }
 
-    public PatientQueue(Orthoptist orthoptist){
-        _entries = new LinkedList<QueueEntry>();
+    public PatientQueue(Orthoptist orthoptist) throws NoBrokerMappedException, BadConnectionException {
+        _user = orthoptist;
+        _userID = _user.getUserId();
+        getEntries();
 
-        // get all queue entities of a orthoptist
-        HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
+        log.info("[CREATE PatientQueue for ORTHOPTIST '" + orthoptist.getFirstName() + " " + orthoptist.getLastName() + "' / Queuesize: " + _entries.size());
+    }
+
+    public PatientQueue() throws NoBrokerMappedException, BadConnectionException {
+        _user = null;
+        _userID = 0;
+        getEntries();
+
+        log.info("[CREATE PatientQueue for ORTHOPTISTS / Queuesize: " + _entries.size());
+    }
+
+    @Override
+    public int getUserID() {
+        return _userID;
+    }
+
+    /**
+     * rebuild the queue and return the entries
+     *
+     * @return linked list of queue entries
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
+    public LinkedList<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
+        Collection<QueueEntry> entries = Facade.getInstance().getAll(QueueEntry.class);
+        HashMap<Integer, QueueEntry> queueEntries = new HashMap<>();
         QueueEntry actEntry = null;
+        _entries = new LinkedList<>();
 
-        //Todo: Exception Handling
-        try {
-            for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+        if (_user instanceof Doctor) {
+            // get all queue entities of a doctor
+            for (Object obj : entries) {
                 QueueEntry qe = (QueueEntry) obj;
-                if(qe.getOrthoptist() != null){
-                    if(qe.getOrthoptist().getId() == orthoptist.getId()){
-                        queueEntries.put(qe.getQueueIdParent(),qe);
+                if (qe.getDoctor() != null) {
+                    if (qe.getDoctor().getId() == ((Doctor) _user).getId()) {
                         // set first entity
-                        if(qe.getQueueIdParent()==null){
+                        if (qe.getQueueIdParent() == null) {
                             actEntry = qe;
+                        } else {
+                            queueEntries.put(qe.getQueueIdParent(), qe);
                         }
                     }
                 }
             }
-        }  catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-
-        // set linked list
-        while(actEntry != null){
-            _entries.add(actEntry);
-            actEntry = queueEntries.get(actEntry.getId());
-        }
-
-        log.info("Retrieved queue from orthoptist '" + orthoptist.getLastName() + " / Queuesize: " + _entries.size());
-    }
-
-    public PatientQueue(Object unassigned){
-        _entries = new LinkedList<QueueEntry>();
-
-        // get all queue entities of unassigned patients
-        HashMap<Integer, QueueEntry> queueEntries = new HashMap<Integer, QueueEntry>();
-        QueueEntry actEntry = null;
-
-
-        //Todo: Exception Handling
-        try {
-            for(Object obj : Facade.getInstance().getAll(QueueEntry.class)){
+        } else if (_user instanceof Orthoptist) {
+            // get all queue entities of a orthoptist
+            for (Object obj : entries) {
                 QueueEntry qe = (QueueEntry) obj;
-                if(qe.getOrthoptist() == null && qe.getDoctor() == null){
-                    queueEntries.put(qe.getQueueIdParent(),qe);
+                if (qe.getOrthoptist() != null) {
+                    if (qe.getOrthoptist().getId() == ((Orthoptist) _user).getId()) {
+                        // set first entity
+                        if (qe.getQueueIdParent() == null) {
+                            actEntry = qe;
+                        } else {
+                            queueEntries.put(qe.getQueueIdParent(), qe);
+                        }
+                    }
+                    // get queue entries for all orthoptists
+                } else if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
+                    queueEntries.put(qe.getQueueIdParent(), qe);
+                }
+            }
+        } else {
+            // get all queue entities of a orthoptists
+            for (Object obj : entries) {
+                QueueEntry qe = (QueueEntry) obj;
+                if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
                     // set first entity
-                    if(qe.getQueueIdParent()== null){
+                    if (qe.getQueueIdParent() == null) {
                         actEntry = qe;
+                    } else {
+                        queueEntries.put(qe.getQueueIdParent(), qe);
                     }
                 }
             }
-        }  catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
+        }
+
+        // if no actual entry for orhoptist, use first entry for all orthoptists
+        if (actEntry == null && !queueEntries.isEmpty()) {
+            actEntry = queueEntries.remove(null);
         }
 
         // set linked list
-        while(actEntry != null){
+        while (actEntry != null) {
             _entries.add(actEntry);
-            actEntry = queueEntries.get(actEntry.getId());
+            actEntry = queueEntries.remove(actEntry.getId());
+            // if no actual entry for orhoptist, use first entry for all orthoptists
+            if (actEntry == null && !queueEntries.isEmpty()) {
+                actEntry = queueEntries.remove(null);
+            }
         }
 
-        log.info("Retrieved queue from unassigned patients -> Queuesize: " + _entries.size());
-    }
-
-    @Override
-    public int getUserID() { return _userID; }
-
-    @Override
-    public void setUserID(int userID) {
-        _userID = userID;
-    }
-
-    public Collection<QueueEntry> getEntries() {
         return _entries;
     }
 
-    public void setQueueEntry(LinkedList<QueueEntry> entries) {
-        _entries = entries;
+
+    //TODO Voruntersuchung static Methode
+
+    /**
+     * add patient to queue
+     *
+     * @param patient     patient to be added
+     * @param arrivaltime time of arrival
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
+    public void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException {
+        // id of last queue element
+        Integer parentId = null;
+        if (!_entries.isEmpty()) {
+            parentId = _entries.getLast().getId();
+        }
+
+        // new queue entry
+        QueueEntry queueEntryNew = null;
+        // TODO Umbau QueueEntry auf User statt Doc und Orth extra
+        if (_user instanceof Doctor) {
+            queueEntryNew = new QueueEntry(0, patient, (Doctor) _user, null, parentId, arrivaltime);
+        } else if (_user instanceof Orthoptist) {
+            queueEntryNew = new QueueEntry(0, patient, null, (Orthoptist) _user, parentId, arrivaltime);
+        } else {
+            queueEntryNew = new QueueEntry(0, patient, null, null, parentId, arrivaltime);
+        }
+
+        // save
+        // TODO in Persistenz?
+        if (queueEntryNew != null) {
+            Facade.getInstance().save(queueEntryNew);
+        }
+
+        // reload entries
+        getEntries();
     }
 
-    public void addPatient(Patient patient, Doctor doctor, Orthoptist orthoptist, Timestamp arrivaltime) {
-        // get queue from user
-        PatientQueue tempQueue = null;
-        if(doctor != null) { tempQueue = new PatientQueue(doctor); }
-        if(orthoptist != null) { tempQueue = new PatientQueue(orthoptist); }
-        if(orthoptist == null && doctor == null) { tempQueue = new PatientQueue(); }
-
-        // set queue id & Parent ID
-        Integer newParentID = tempQueue.getEntries().size();
-        if (newParentID == 0) {
-            newParentID = null;     // set null for first entry parentID
-        }
-
-        // set new queueEntry data
-        QueueEntry newEntry = new QueueEntry(0, patient, doctor, orthoptist, newParentID, arrivaltime);
-
-        // save new entry (send to persistence)
-
-        //Todo: Exception Handling
-        try {
-            Facade.getInstance().save(newEntry);
-        }  catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-
-        // logging
-        if (doctor != null) {
-            log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to '"
-                    + doctor.getLastName() + "' in queue position "
-                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() );
-        }
-        if (orthoptist != null) {
-            log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to '"
-                    + orthoptist.getLastName() + "' in queue position "
-                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId() );
-        }
-        if (orthoptist == null && doctor == null){
-            log.info("[ADDPatient] added Patient '" + patient.getLastName() + "' to 'no user' in queue position "
-                    + newEntry.getQueueIdParent() + " / queueID:" + newEntry.getId());
-        }
-
-    }
-
-    public void removePatient(Patient patient) {
-        LinkedList<QueueEntry> queue = new LinkedList();
-        LinkedList<QueueEntry> rebuildQueueEntries = new LinkedList();
-        LinkedList<QueueEntry> tempDoctorQueueEntries = new LinkedList();
-        LinkedList<QueueEntry> tempOrthoptistQueueEntries = new LinkedList();
-        LinkedList<QueueEntry> tempUnassignedQueueEntries = new LinkedList();
+    /**
+     * removes patient from queue
+     *
+     * @param patient patient to be removed
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     * @throws InvalidSearchParameterException
+     */
+    public void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
+        LinkedList<QueueEntry> queue = new LinkedList<>();
+        Collection<QueueEntry> entries = Facade.getInstance().getAll(QueueEntry.class);
+        QueueEntry queueEntryDel = null;
+        QueueEntry queueEntryChd = null;
 
         // getAll queueEntrys from queue table
-        // Todo: Exception Handling
-        try {
-            for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
-                QueueEntry qe = (QueueEntry) obj;
-                queue.add(qe);
-            }
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
+        for (Object obj : entries) {
+            QueueEntry qe = (QueueEntry) obj;
+            queue.add(qe);
         }
 
         // remove patient from queuelist
         for (QueueEntry qe : queue) {
             if (qe.getPatient().getId() == patient.getId()) {
-                queue.remove(qe);
+                queueEntryDel = qe;
+                break;
             }
         }
 
-        // create openlist from edited queuelist
-        ArrayList<Integer> openList = new ArrayList<Integer>();
-        for (QueueEntry qe : queue) { openList.add(qe.getId());}
-
-        // rebuild queueIDs and parentIDs
-        int newID = 0;
-
-        while (!openList.isEmpty()) {
-            for (QueueEntry qe : queue){
-                if (qe.getId() == openList.get(0)) {
-
-                    // new ID
-                    openList.remove(0);
-                    qe.setId(++newID);
-
-                    // new parentID
-                    if (qe.getQueueIdParent() != null) {
-
-                        // look for same doctors & orthoptists & unassigned patients
-                        for (QueueEntry qeRebuild : rebuildQueueEntries ){
-                            if (qeRebuild.getDoctor().getId() == qe.getDoctor().getId() && qeRebuild.getDoctor() != null){
-                                tempDoctorQueueEntries.add(qeRebuild);
-                            }
-                            if (qeRebuild.getOrthoptist().getId() == qe.getOrthoptist().getId() && qeRebuild.getOrthoptist() != null ){
-                                tempOrthoptistQueueEntries.add(qeRebuild);
-                            }
-                            if (qeRebuild.getDoctor().getId() == qe.getDoctor().getId() && qeRebuild.getOrthoptist().getId() == qe.getOrthoptist().getId()
-                                    && qeRebuild.getDoctor() == null && qeRebuild.getOrthoptist() == null){
-                                tempUnassignedQueueEntries.add(qeRebuild);
-                            }
-                        }
-
-                        // assign new doctor queue parentID & check for null values
-                        if (!tempDoctorQueueEntries.isEmpty()){
-                            qe.setQueueIdParent(tempDoctorQueueEntries.getLast().getId());
-                        } else {
-                            if (qe.getDoctor() != null){ qe.setQueueIdParent(null); }
-                        }
-
-                        // assign new orthoptist queue parentID & check for null values
-                        if (!tempOrthoptistQueueEntries.isEmpty()){
-                            qe.setQueueIdParent(tempOrthoptistQueueEntries.getLast().getId());
-                        } else {
-                            if (qe.getOrthoptist() != null){ qe.setQueueIdParent(null); }
-                        }
-
-                        // assign new unassigned patients queue parentID & check for null values
-                        if (!tempUnassignedQueueEntries.isEmpty()){
-                            qe.setQueueIdParent(tempUnassignedQueueEntries.getLast().getId());
-                        } else {
-                            if (qe.getDoctor() == null && qe.getOrthoptist() == null){ qe.setQueueIdParent(null); }
-                        }
-
-                        tempDoctorQueueEntries.clear();
-                        tempOrthoptistQueueEntries.clear();
-                        tempUnassignedQueueEntries.clear();
+        if (queueEntryDel != null) {
+            for (QueueEntry qe : queue) {
+                // child entry update
+                if (queueEntryDel.getQueueIdParent() == null) {
+                    if (qe.getOrthoptist() == queueEntryDel.getOrthoptist() && qe.getDoctor() == queueEntryDel.getDoctor()) {
+                        // update to null
+                        queueEntryChd = qe;
+                        queueEntryChd.setQueueIdParent(null);
+                        break;
                     }
-
-                    rebuildQueueEntries.add(qe);
+                } else {
+                    if (qe.getQueueIdParent() != null) {
+                        if (qe.getQueueIdParent() == queueEntryDel.getId()) {
+                            // update to parent id from entry to delete
+                            queueEntryChd = qe;
+                            queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
+                            break;
+                        }
+                    }
                 }
             }
         }
 
-        // delete whole queue and send rebuild queue to persistence layer
-        deleteAllQueueEntries();
-
-        for (QueueEntry queueRebuild : rebuildQueueEntries){
-            //Todo: Exception Handling
-            try {
-                Facade.getInstance().save(queueRebuild);
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-            }
+        if (queueEntryChd != null) {
+            Facade.getInstance().save(queueEntryChd);
         }
+        Facade.getInstance().delete(queueEntryDel);
 
+        // reload entries
+        getEntries();
 
-        log.info("[REMOVEPatient] Removed patient '" + patient.getFirstName() + " " + patient.getLastName() + "' from queue of " + patient.getDoctor().getLastName());
-    }
-
-    private void deleteAllQueueEntries(){
-        LinkedList<QueueEntry> queueAll = new LinkedList();
-
-        // getAll queueEntrys from queue table
-        //Todo: Exception Handling
-        try {
-            for (Object obj : Facade.getInstance().getAll(QueueEntry.class)) {
-                QueueEntry qe = (QueueEntry) obj;
-                queueAll.add(qe);
-            }
-        }  catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-
-        // deleteAll
-        //Todo: Exception Handling
-        for (QueueEntry queueDelete : queueAll) {
-            try {
-                Facade.getInstance().delete(queueDelete);
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-            } catch (InvalideSearchParameterException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public QueueEntry getNext() {
-        // get next waiting patient from line
-        log.info("[GETNEXT] Retrieve next patient from queue: '"  + _entries.getFirst().getPatient().getFirstName() + " "
-                + _entries.getFirst().getPatient().getLastName() + "' id: " + _entries.getFirst().getPatient().getId());
-        return _entries.getFirst();
+        //log.info("[REMOVEPatient] Removed patient '" + patient.getFirstName() + " " + patient.getLastName() + "' from queue of " + patient.getDoctor().getLastName());
     }
 }

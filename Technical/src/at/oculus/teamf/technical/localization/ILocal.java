@@ -12,8 +12,12 @@ package at.oculus.teamf.technical.localization;
 import java.util.ResourceBundle;
 
 /**
+ *
+ * Localization Interface. Reads strings from bundles
+ *
  * Created by Fabian on 17.04.2015.
  */
+
 public interface ILocal {
     ResourceBundle locstring = OculusStrings.getInstance();
 }

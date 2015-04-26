@@ -9,19 +9,17 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 import java.sql.Timestamp;
 
 /**
- * Created by Norskan on 10.04.2015.
+ * orthoptist broker translating domain objects to persistence entities
  */
 public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>{
 
@@ -30,10 +28,19 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		addClassMapping(UserEntity.class);
 	}
 
-	@Override
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
+    @Override
 	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException {
-		Orthoptist orthoptist = new Orthoptist();
-		orthoptist.setId(entity.getId());
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+        Orthoptist orthoptist = new Orthoptist();
+        orthoptist.setId(entity.getId());
 
 		orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(
 					entity.getCalendar()));
@@ -41,7 +48,8 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		orthoptist.setQueue(null); // reload when needed!
 		// user data
 		UserEntity userEntity = entity.getUser();
-		orthoptist.setUserGroupId(userEntity.getUserGroupId());
+        orthoptist.setUserId(entity.getUserId());
+        orthoptist.setUserGroupId(userEntity.getUserGroupId());
 		orthoptist.setUserName(userEntity.getUserName());
 		orthoptist.setPassword(userEntity.getPassword());
 		orthoptist.setTitle(userEntity.getTitle());
@@ -52,12 +60,18 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		orthoptist.setIdleDate(userEntity.getIdleDate());
 		//orthoptist.setUserGroup(userEntity.getUserGroup());
 		return orthoptist;
-	}
+    }
 
-	@Override
+    /**
+     * Converts a domain object to persitency entity
+     * @param entity that needs to be converted
+     * @return return a persitency entity
+     */
+    @Override
 	protected OrthoptistEntity domainToPersistent(Orthoptist entity) {
-		OrthoptistEntity orthoptistEntity = new OrthoptistEntity();
-		orthoptistEntity.setId(entity.getId());
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
+        OrthoptistEntity orthoptistEntity = new OrthoptistEntity();
+        orthoptistEntity.setId(entity.getId());
 		/*try {
 			orthoptistEntity.setCalendar((CalendarEntity) Facade.getInstance().getBroker(Calendar.class)
 			                                                    .persistentToDomain((IEntity) entity.getCalendar()));

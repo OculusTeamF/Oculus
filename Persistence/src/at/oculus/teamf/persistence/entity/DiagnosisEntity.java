@@ -12,7 +12,7 @@ package at.oculus.teamf.persistence.entity;
 import javax.persistence.*;
 
 /**
- * DiagnosisEntity.java Created by oculus on 16.04.15.
+ * Hibernate annotated diagnosis class
  */
 @Entity
 @Table(name = "diagnosis", schema = "", catalog = "oculus_f")

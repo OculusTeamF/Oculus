@@ -10,18 +10,18 @@
 package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
- * ExaminationProtocolEntity.java Created by oculus on 16.04.15.
+ * Hibernate annotated examination protocol class
  */
 @Entity
 @Table(name = "examinationprotocol", schema = "", catalog = "oculus_f")
 public class ExaminationProtocolEntity implements IEntity {
 	private int _id;
-	private Date _startTime;
-	private Date _endTime;
-	private String _description;
+    private Timestamp _startTime;
+    private Timestamp _endTime;
+    private String _description;
 	private Integer _patientId;
 	private Integer _userId;
 	private Integer _diagnosisId;
@@ -31,8 +31,8 @@ public class ExaminationProtocolEntity implements IEntity {
 
 	public ExaminationProtocolEntity() {}
 
-	public ExaminationProtocolEntity(int id, Date startTime, Date endTime, String description,
-	                                 PatientEntity patient, UserEntity user, DiagnosisEntity diagnosis) {
+    public ExaminationProtocolEntity(int id, Timestamp startTime, Timestamp endTime, String description,
+                                     PatientEntity patient, UserEntity user, DiagnosisEntity diagnosis) {
 		_id = id;
 		_startTime = startTime;
 		_endTime = endTime;
@@ -54,20 +54,22 @@ public class ExaminationProtocolEntity implements IEntity {
 
 	@Basic
 	@Column(name = "startProtocol", nullable = false, insertable = true, updatable = true)
-	public Date getStartTime() {
-		return _startTime;
+    public Timestamp getStartTime() {
+        return _startTime;
 	}
-	public void setStartTime(Date startTime) {
-		_startTime = startTime;
+
+    public void setStartTime(Timestamp startTime) {
+        _startTime = startTime;
 	}
 
 	@Basic
 	@Column(name = "endProtocol", nullable = false, insertable = true, updatable = true)
-	public Date getEndTime() {
-		return _endTime;
+    public Timestamp getEndTime() {
+        return _endTime;
 	}
-	public void setEndTime(Date endTime) {
-		_endTime = endTime;
+
+    public void setEndTime(Timestamp endTime) {
+        _endTime = endTime;
 	}
 
 	@Basic
@@ -115,8 +117,7 @@ public class ExaminationProtocolEntity implements IEntity {
 		_patient = patient;
 	}
 
-	//TODO Review cascade=CascadeType.ALL
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	public UserEntity getUser() {
 		return _user;

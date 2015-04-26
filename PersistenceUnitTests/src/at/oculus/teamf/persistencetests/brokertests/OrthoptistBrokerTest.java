@@ -42,6 +42,7 @@ public class OrthoptistBrokerTest extends BrokerTest {
             e.printStackTrace();
         }
         assertTrue(orthoptist != null);
+        assertTrue(orthoptist.getUserId() > 0);
     }
 
     @Test
