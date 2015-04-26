@@ -90,6 +90,9 @@ public class patientRecordController implements Initializable {
         patient =  (IPatient)resources.getObject(null);
         Integer userID = Main.controller.userID;
 
+        /**
+         * to get the IUser from userID
+         */
         try {
             Collection<IUser> users = startupController.getAllDoctorsAndOrthoptists();
             for(IUser user : users){
@@ -99,10 +102,15 @@ public class patientRecordController implements Initializable {
             }
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         }
 
+        /**
+         * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
+         * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
+         */
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
@@ -111,8 +119,6 @@ public class patientRecordController implements Initializable {
                         saveChanges();
                     } else{
                         isFormEdited = false;
-                        //t.consume();
-                        //TODO: close Tab;
                     }
                 }
             }
@@ -459,7 +465,6 @@ public class patientRecordController implements Initializable {
         }else{
             DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
         }
-
         //disables every field, radiobutton or choicebox
         patientRecordradioGenderMale.setDisable(true);
         patientRecordradioGenderFemale.setDisable(true);
@@ -514,7 +519,7 @@ public class patientRecordController implements Initializable {
             } catch (BadConnectionException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-                DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Queue.");
+                DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
@@ -523,7 +528,7 @@ public class patientRecordController implements Initializable {
                 DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
             }
         }else{
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Queue");
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Waitinglist");
         }
     }
 
@@ -551,7 +556,7 @@ public class patientRecordController implements Initializable {
         patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
         patient.setPhone(patientRecordPhone.getText());
         patient.setEmail(patientRecordEmail.getText());
-        patient.setIDoctor((IDoctor) patientRecordDoctor.getValue());
+        patient.setIDoctor(patientRecordDoctor.getValue());
         patient.setAllergy(patientRecordAllergies.getText());
         patient.setMedicineIntolerance(patientRecordIntolerance.getText());
         patient.setChildhoodAilments(patientRecordChildhood.getText());
@@ -628,7 +633,7 @@ public class patientRecordController implements Initializable {
             System.out.println(patientqueue.getEntries().size());
             receivePatientController.removePatientFromQueue(patient, patientqueue);
             Main.controller.refreshQueue(patientqueue, user);
-            DialogBoxController.getInstance().showInformationDialog("removed ", patient.getFirstName());
+            DialogBoxController.getInstance().showInformationDialog("Information", patient.getLastName()+", "+patient.getFirstName()+" removed from Waitinglist" );
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
