@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,6 +27,10 @@ import java.util.ResourceBundle;
 
 /**
  * Created by Fabian on 23.04.2015.
+ *
+ *  Class: InitController
+ *  Description: Handles the loading screen. Thread loading not yet implemented.
+ *
  */
 public class InitController implements Initializable, ILogger {
 
@@ -34,12 +39,13 @@ public class InitController implements Initializable, ILogger {
     @FXML Label loadLabel;
     @FXML Label labelQuote;
     @FXML Pane loaderPane;
+    @FXML Rectangle initRectangle;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-      /*  Task<Void> task = new Task<Void>() {
-
+       // run init as thread (unused currently)
+       /*  Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 new Thread(new Runnable() {
@@ -56,12 +62,17 @@ public class InitController implements Initializable, ILogger {
                 return null;
             }
         };
-
         Thread th = new Thread(task);
         th.start();*/
+
+        // set true when init window is set "undeocarted"
+        initRectangle.setVisible(false);
+
+        // comment this out if 'QuoteGenerator' create errors
         labelQuote.setText(getQuote());
     }
 
+    /* fetch quote from quote webpgae and print it on loading screen */
     private String getQuote(){
         String html = "http://ivyjoy.com/quote.shtml";
         try {
@@ -69,9 +80,7 @@ public class InitController implements Initializable, ILogger {
             Elements tableElements = doc.select("table");
 
             //Elements tableHeaderEles = tableElements.select("thead tr th");
-
             Elements tableRowElements = tableElements.select(":not(thead) tr");
-
             Element row = tableRowElements.get(0);
 
             Elements rowItems = row.select("td");

@@ -328,7 +328,7 @@ public class MainController implements Initializable {
     /*Menu item: opens help window*/
     @FXML
     public void showMenuHelp(ActionEvent actionEvent) {
-        DialogBoxController.getInstance().showInformationDialog("Oculus Help", "User manula for Oculus");
+        DialogBoxController.getInstance().showInformationDialog("Oculus Help", "User manual for Oculus");
     }
 
     /*Menu item: opens about dialog*/

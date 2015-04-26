@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.presentation.view.exceptions.InitLoadingException;
 import at.oculus.teamf.technical.localization.ILocal;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -25,9 +26,11 @@ import java.io.IOException;
 
 /**
  * Created by Karo on 09.04.2015.
+ *
+ * Description: Initializes GUI and does loading tasks
+ *
  */
 public class Main extends Application implements ILocal {
-
     public FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
     public static MainController controller;
@@ -47,6 +50,8 @@ public class Main extends Application implements ILocal {
         primaryStage.show();        // show main window
         initStage.close();          // close splashscreen
 
+
+        // run loading process as thread
        /* Task<Void> task = new Task<Void>() {
 
             @Override
@@ -105,8 +110,11 @@ public class Main extends Application implements ILocal {
     }
 
     /*create loading screen (splashcreen)*/
-    private void initLoadingScreen() {
+    private void initLoadingScreen() throws InitLoadingException {
+
+        // uncomment 'undecorated' code line when splashcreen is running as a thread
         //init = new Stage(StageStyle.UNDECORATED);
+
         Parent initroot = null;
         try {
             initroot = (Parent) initloader.load();

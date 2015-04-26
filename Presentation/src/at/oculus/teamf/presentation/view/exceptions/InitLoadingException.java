@@ -7,31 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
-
-import org.controlsfx.control.StatusBar;
+package at.oculus.teamf.presentation.view.exceptions;
 
 /**
- * Created by Fabian on 25.04.2015.
- *
- *  Class: StatusBarController
- *  Description: Returns instance for statebar for presenation module
- *               Add here custom statebar functions.
- *
+ * Created by Fabian on 26.04.2015.
  */
-public class StatusBarController {
-
-    private static StatusBar _stateBar = new StatusBar();
-
-    private StatusBarController() {
-        // singleton
-    };
-
-    public static StatusBar getInstance() {
-        if(_stateBar == null) {
-            _stateBar = new StatusBar();
-        }
-
-        return _stateBar;
-    }
+public class InitLoadingException extends Exception {
 }
