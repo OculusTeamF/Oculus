@@ -273,7 +273,7 @@ public class MainController implements Initializable {
     /*Tab: opens patient record for selected patient*/
     public void addPatientTab(final IPatient patient){
         try {
-            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/patientRecordTab.fxml"), new SingleResourceBundle(patient));
+            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new SingleResourceBundle(patient));
 
             displayPane.getTabs().addAll(tab);
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
