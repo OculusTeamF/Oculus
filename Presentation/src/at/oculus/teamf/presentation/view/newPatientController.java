@@ -18,6 +18,8 @@ import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedExcep
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -33,8 +35,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-//import se.mbaeumer.fxmessagebox.MessageBox;
-//import se.mbaeumer.fxmessagebox.MessageBoxType;
+
 
 
 public class newPatientController implements Initializable{
@@ -63,6 +64,8 @@ public class newPatientController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        addTextLimiter(newPatientSVN, 10);
+
         try {
             newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
         } catch (FacadeException e) {
@@ -85,11 +88,16 @@ public class newPatientController implements Initializable{
         radioGenderFemale.setSelected(true);
     }
 
-    /*Saves the form in a new Patient-Object*/
+    /*Triggers the savePatient() method when 'save' button is pressed*/
+    @FXML
     public void saveForm(ActionEvent actionEvent) {
         savePatient();
     }
 
+    /**
+     * Saves the new Patient form in a new Patient-Object
+     * only if all fields are filled with data
+     */
     private void savePatient(){
         String gender = null;
         String lastname = newPatientLastname.getText();
@@ -108,6 +116,7 @@ public class newPatientController implements Initializable{
         IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
         String countryIsoCode = newPatientCountryIsoCode.getText();
 
+        //check if every field is filled with data
         if(radioGenderFemale.isSelected()){
             gender = "female";
         }else if(radioGenderMale.isSelected()){
@@ -143,5 +152,23 @@ public class newPatientController implements Initializable{
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
         }
+    }
+
+    /**
+     * add textlimiter to textfield
+     *
+     * @param tf    set textfield
+     * @param maxLength max length of input chars
+     */
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
     }
 }
