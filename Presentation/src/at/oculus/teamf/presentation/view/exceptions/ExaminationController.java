@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
+package at.oculus.teamf.presentation.view.exceptions;
 
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -15,6 +15,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,7 +35,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Karo on 20.04.2015.
  */
-public class examinationController1 implements Initializable {
+public class ExaminationController implements Initializable {
 
     @FXML public Button saveButton;
     @FXML private Tab examinationTab;
