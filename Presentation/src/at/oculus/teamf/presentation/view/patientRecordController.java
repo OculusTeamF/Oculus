@@ -222,7 +222,6 @@ public class patientRecordController implements Initializable {
             addToQueueBox.setValue(patient.getIDoctor());
         }
 
-        //TODO: überall changelisteners einbauen
         //check if something has changed, if changes detected --> saveChanges()
         patientRecordLastname.textProperty().addListener(new ChangeListener<String>() {
             @Override

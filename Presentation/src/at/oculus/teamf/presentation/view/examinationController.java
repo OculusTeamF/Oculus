@@ -17,6 +17,8 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,50 +49,81 @@ public class examinationController implements Initializable {
     private IPatient patient;
     private Date date = new Date();
     private ReceivePatientController receivePatientController = new ReceivePatientController();
+    private Boolean isFormEdited = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         patient =  (IPatient)resources.getObject(null);
-        examinationTab.setText(patient.getLastName()+", "+patient.getFirstName()+", "+date.toString());
 
         examinationAllergies.setWrapText(true);
-        examinationAllergies.setWrapText(true);
         examinationDocumentation.setWrapText(true);
+
+        examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
-        examinationAllergies.setText(patient.getAllergy());
+
+        if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
+        {
+            examinationAllergies.setText("No Allergies known");
+        }else{
+            examinationAllergies.setText(patient.getAllergy());
+        }
+
         try {
 
             examinationList.setItems(FXCollections.observableArrayList(receivePatientController.getAllExaminationProtocols(patient)));
         } catch (InvalidReloadClassException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
         } catch (ReloadInterfaceNotImplementedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
         }
 
+        //checks if Allergies have changed
+        examinationAllergies.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (!oldValue.equals(newValue)) {
+                        isFormEdited = true;
+                        System.out.println("Allergies changed");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Allergies");
+                }
+            }
+        });
     }
 
+    /**
+     * Save the Protocoll, if allergies have changed the will saved too
+     * @param actionEvent
+     */
+    @FXML
     public void saveProtocol(ActionEvent actionEvent)
     {
         ReceivePatientController receivePatientController = new ReceivePatientController();
         try {
             receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
+            if(isFormEdited){
+                patient.setAllergy(examinationAllergies.getText());
+            }
             DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + patient.getLastName() + ", " + patient.getFirstName() + " saved.");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException");
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
         }
     }
 }
