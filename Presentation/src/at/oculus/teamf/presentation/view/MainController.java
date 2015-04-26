@@ -60,6 +60,7 @@ public class MainController implements Initializable {
     private SearchPatientController _searchPatientController = new SearchPatientController();
 
     private HashMap<Integer, ObservableList> _listMap;
+    private HashMap<Integer, ListView> _listViewMap;
     public int userID;
 
 
@@ -106,6 +107,7 @@ public class MainController implements Initializable {
     /*load and setup queuelist for all users (on application load)*/
     private void buildQueueLists() {
         _listMap = new HashMap<>();
+        _listViewMap = new HashMap<>();
 
         TitledPane[] titledPanes;
         LinkedList<IUser> userlist = null;
@@ -176,6 +178,7 @@ public class MainController implements Initializable {
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
             _listMap.put(u.getUserId(), olist);
+            _listViewMap.put(u.getUserId(), listView);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -208,6 +211,8 @@ public class MainController implements Initializable {
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
 
+        ListView list = _listViewMap.get(user.getUserId());
+        list.setPrefHeight(observableList.size() * 24);
         //StatusBarController.getInstance().progressProperty().unbind();
         //StatusBarController.getInstance().setText("Queue refreshed");
     }
@@ -250,6 +255,8 @@ public class MainController implements Initializable {
             searchResults.setExpanded(true);
             StatusBarController.getInstance().setText("Found patient...");
         } else {
+            listSearchResults.setItems(patientlist);
+            listSearchResults.setPrefHeight(patientlist.size() * 24);
             StatusBarController.getInstance().setText("No patients found");
         }
     }

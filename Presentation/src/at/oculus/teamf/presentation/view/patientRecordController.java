@@ -149,6 +149,8 @@ public class patientRecordController implements Initializable {
         patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(patient.getFirstName());
         patientRecordFirstname.setDisable(true);
+        addTextLimiter(patientRecordLastname, 50);
+        addTextLimiter(patientRecordFirstname, 50);
 
         if(patient.getGender().equals("female"))
         {
@@ -177,18 +179,27 @@ public class patientRecordController implements Initializable {
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(patient.getStreet());
         patientRecordStreet.setDisable(true);
+        addTextLimiter(patientRecordStreet, 255);
         patientRecordPLZ.setText(patient.getPostalCode());
         patientRecordPLZ.setDisable(true);
+        addTextLimiter(patientRecordPLZ, 20);
         patientRecordCity.setText(patient.getCity());
         patientRecordCity.setDisable(true);
+        addTextLimiter(patientRecordCity, 50);
         patientRecordCountryIsoCode.setText(patient.getCountryIsoCode());
         patientRecordCountryIsoCode.setDisable(true);
+        addTextLimiter(patientRecordCountryIsoCode, 2);
         patientRecordPhone.setText(patient.getPhone());
         patientRecordPhone.setDisable(true);
+        addTextLimiter(patientRecordPhone, 50);
         patientRecordEmail.setText(patient.getEmail());
         patientRecordEmail.setDisable(true);
+        addTextLimiter(patientRecordEmail, 255);
         patientRecordDoctor.setValue(patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
+
+        //patientRecordAppointmentList.setItems(patient.getAppoi);
+
         if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
         {
             patientRecordAllergies.setText("No Allergies known");
@@ -213,9 +224,14 @@ public class patientRecordController implements Initializable {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         }
-        patientRecordAllergies.setDisable(true);
-        patientRecordIntolerance.setDisable(true);
-        patientRecordChildhood.setDisable(true);
+        patientRecordAllergies.setDisable(false);
+        patientRecordIntolerance.setDisable(false);
+        patientRecordChildhood.setDisable(false);
+
+        patientRecordAllergies.setEditable(false);
+        patientRecordIntolerance.setEditable(false);
+        patientRecordChildhood.setEditable(false);
+
         if(_user != null){
             addToQueueBox.setValue(_user);
         }else if(patient.getIDoctor() != null){
@@ -507,7 +523,10 @@ public class patientRecordController implements Initializable {
                 };
                 StatusBarController.getInstance().progressProperty().bind(task.progressProperty());*/
 
-                DialogBoxController.getInstance().showInformationDialog("Adding patient '" + patient.getLastName() + "'. Please wait." , patient.getFirstName());
+                DialogBoxController.getInstance().showInformationDialog("Adding patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
+                        + patient.getFirstName() + " " + patient.getLastName() + System.getProperty("line.separator")
+                        + "To queue:" + System.getProperty("line.separator")+ _user.getFirstName() + " " + _user.getLastName()  + System.getProperty("line.separator")
+                        + System.getProperty("line.separator") + "Please wait");
                 _user = addToQueueBox.getSelectionModel().getSelectedItem();
                 StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + _user.getLastName());
                 checkinController.insertPatientIntoQueue(patient, _user);
