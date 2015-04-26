@@ -20,6 +20,8 @@ import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
+import java.sql.Timestamp;
+
 /**
  * examination protocol broker translating domain objects to persistence entities
  */
@@ -108,8 +110,8 @@ public class ExaminationProtocolBroker extends EntityBroker {
         }
 
         return new ExaminationProtocolEntity(examinationProtocol.getId(),
-                new java.sql.Date(examinationProtocol.getStartTime().getTime()),
-                new java.sql.Date(examinationProtocol.getEndTime().getTime()),
+                new Timestamp(examinationProtocol.getStartTime().getTime()),
+                new Timestamp(examinationProtocol.getEndTime().getTime()),
                 examinationProtocol.getDescription(), patientEntity, userEntity,
                 diagnosisEntity);
     }
