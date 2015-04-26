@@ -71,7 +71,7 @@ public class ReceivePatientController implements ILogger {
 
     public Collection<IExaminationProtocol> getAllExaminationProtocols(IPatient iPatient) throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, BadConnectionException {
         Patient patient = (Patient) iPatient;
-        Collection<ExaminationProtocol> protocols = null;
+        Collection<IExaminationProtocol> protocols = null;
         try {
             protocols = patient.getExaminationProtocol();
         } catch (InvalidReloadClassException invalidReloadClassException) {
@@ -90,7 +90,7 @@ public class ReceivePatientController implements ILogger {
 
         Collection<IExaminationProtocol> examinationProtocols = new LinkedList<IExaminationProtocol>();
         if(protocols != null){
-            for(ExaminationProtocol examinationProtocol : protocols){
+            for(IExaminationProtocol examinationProtocol : protocols){
                 examinationProtocols.add(examinationProtocol);
             }
         }
