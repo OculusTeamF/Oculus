@@ -54,11 +54,13 @@ public class examinationController implements Initializable {
         patient =  (IPatient)resources.getObject(null);
         examinationTab.setText(patient.getLastName()+", "+patient.getFirstName()+", "+date.toString());
 
+        examinationAllergies.setWrapText(true);
+        examinationAllergies.setWrapText(true);
+        examinationDocumentation.setWrapText(true);
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
         examinationAllergies.setText(patient.getAllergy());
         try {
-
 
             examinationList.setItems(FXCollections.observableArrayList(receivePatientController.getAllExaminationProtocols(patient)));
         } catch (InvalidReloadClassException e) {

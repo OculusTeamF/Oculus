@@ -111,6 +111,14 @@ public class patientRecordController implements Initializable {
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
          * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
          */
+        patientRecordAllergies.setWrapText(true);
+        patientRecordChildhood.setWrapText(true);
+        patientRecordIntolerance.setWrapText(true);
+
+        /**
+         * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
+         * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
+         */
         patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
@@ -455,7 +463,7 @@ public class patientRecordController implements Initializable {
     }
 
     /**
-     * saves the changes in the patient record after press Button save
+     * saves the changes in the patient record after press Button 'Save'
      */
     @FXML
     public void saveChangedForm(ActionEvent actionEvent)
