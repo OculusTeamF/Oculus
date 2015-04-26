@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view;
+package at.oculus.teamf.presentation.view.exceptions;
 /**
  * Created by Karo on 09.04.2015.
  */
@@ -27,6 +27,10 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.Main;
+import at.oculus.teamf.presentation.view.SingleResourceBundle;
+import at.oculus.teamf.presentation.view.StatusBarController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -48,7 +52,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class patientRecordController implements Initializable {
+public class PatientRecordController implements Initializable {
 
 
     @FXML public TextField patientRecordLastname;
