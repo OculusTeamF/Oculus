@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
+import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -81,7 +82,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return return a persitency entity
      */
     @Override
-    protected PatientEntity domainToPersistent(Patient obj) {
+    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         PatientEntity patientEntity = new PatientEntity();
         patientEntity.setId(obj.getId());
@@ -96,7 +97,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         patientEntity.setCity(obj.getCity());
         patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
         if (obj.getDoctor() != null) {
-            patientEntity.setDoctorId(obj.getDoctor().getId());
+            patientEntity.setDoctor((DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(obj.getDoctor()));
         }
         patientEntity.setEmail(obj.getEmail());
         patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
