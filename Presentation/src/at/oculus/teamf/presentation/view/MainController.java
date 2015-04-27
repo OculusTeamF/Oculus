@@ -16,10 +16,7 @@ import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.domain.entity.QueueEntry;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -47,29 +44,40 @@ import java.util.*;
 
 public class MainController implements Initializable {
 
-    @FXML public MenuItem openPatientsearch;
-    @FXML private VBox vboxQueues;
-    @FXML private TabPane displayPane;
-    @FXML private SplitPane splitter;
-    @FXML private Button searchButton;
-    @FXML private TextField textSearch;
-    @FXML private ListView listSearchResults;
-    @FXML private TitledPane searchResults;
-    @FXML private BorderPane borderPane;
-    @FXML private Button buttonTest;
+    @FXML
+    public MenuItem openPatientsearch;
+    @FXML
+    private VBox vboxQueues;
+    @FXML
+    private TabPane displayPane;
+    @FXML
+    private SplitPane splitter;
+    @FXML
+    private Button searchButton;
+    @FXML
+    private TextField textSearch;
+    @FXML
+    private ListView listSearchResults;
+    @FXML
+    private TitledPane searchResults;
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private Button buttonTest;
 
     private StartupController _startupController;
     private SearchPatientController _searchPatientController;
 
-    private HashMap<IUser, ObservableList> _userListMap;
-    private HashMap<ObservableList, IUser> _listUserMap;
-    private HashMap<Integer, ListView> _listViewMap;
+    private HashMap<IUser, ObservableList> _userOListMap;
+    private HashMap<ObservableList, IUser> _OListUserMap;
+    private HashMap<IUser, ListView> _listViewMap;
 
     private Collection<IDoctor> _doctors;
     private Collection<IUser> _userlist;
 
     /**
      * Initialize the waiting queue
+     *
      * @param location
      * @param resources
      */
@@ -113,7 +121,7 @@ public class MainController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    addPatientTab(null, (IPatient) listSearchResults.getSelectionModel().getSelectedItem());
+                    addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
         });
@@ -125,8 +133,8 @@ public class MainController implements Initializable {
 
     /*load and setup queuelist for all users (on application load)*/
     private void buildQueueLists() {
-        _userListMap = new HashMap<>();
-        _listUserMap = new HashMap<>();
+        _userOListMap = new HashMap<>();
+        _OListUserMap = new HashMap<>();
         _listViewMap = new HashMap<>();
 
         TitledPane[] titledPanes;
@@ -135,8 +143,8 @@ public class MainController implements Initializable {
 
         // setup listviews
         int i = 0;
-        for(IUser u : _userlist) {
-            ListView<IPatient>  listView = new ListView<>();
+        for (IUser u : _userlist) {
+            ListView<IPatient> listView = new ListView<>();
             listView = new ListView<>();
             listView.setPrefSize(200, 250);
             listView.minWidth(Region.USE_COMPUTED_SIZE);
@@ -151,17 +159,16 @@ public class MainController implements Initializable {
                         ListView source;
                         source = (ListView) event.getSource();
                         ObservableList<IPatient> observableList = source.getItems();
-                        final IUser user = _listUserMap.get(observableList);
-                        addPatientTab(user, (IPatient) source.getSelectionModel().getSelectedItem());
+                        final IUser user = _OListUserMap.get(observableList);
+                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
             String queuename = null;
-            if(u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals(""))
-            {
-                 queuename = u.getFirstName() + " " + u.getLastName();
-            }else{
-                 queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
+            if (u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals("")) {
+                queuename = u.getFirstName() + " " + u.getLastName();
+            } else {
+                queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
 
             }
 
@@ -177,7 +184,7 @@ public class MainController implements Initializable {
             ObservableList<IPatient> olist = FXCollections.observableArrayList();
 
             try {
-                for(QueueEntry entry : qe.getEntries()) {
+                for (QueueEntry entry : qe.getEntries()) {
                     olist.add(entry.getPatient());
                 }
             } catch (NoBrokerMappedException | BadConnectionException e) {
@@ -188,9 +195,9 @@ public class MainController implements Initializable {
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
 
-            _userListMap.put(u, olist);
-            _listUserMap.put(olist, u);
-            _listViewMap.put(u.getUserId(), listView);
+            _userOListMap.put(u, olist);
+            _OListUserMap.put(olist, u);
+            _listViewMap.put(u, listView);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -205,38 +212,41 @@ public class MainController implements Initializable {
     }
 
     /*refresh queue after adding or removing patient*/
-    public void refreshQueue(IPatientQueue queue, IUser user) {
-        ObservableList observableList = _userListMap.get(user);
-        if(observableList != null){
+    public void refreshQueue(IUser user) {
+        ObservableList observableList = _userOListMap.get(user);
+        if (observableList != null) {
             observableList.remove(0, observableList.size());
-        }else{
+        } else {
             DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
         }
 
+        IPatientQueue queue = null;
+        try {
+            if (user instanceof IDoctor) {
+                queue = ((IDoctor) user).getQueue();
+            } else {
+                queue = ((IOrthoptist) user).getQueue();
+            }
+
+        } catch (NoBrokerMappedException | BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
+        }
+
+        observableList.remove(0, observableList.size());
 
         try {
-            for(QueueEntry entry : queue.getEntries()) {
-                observableList.add(entry.getPatient());
+            for(IQueueEntry iQueueEntry : queue.getEntries()) {
+                observableList.add(iQueueEntry.getPatient());
             }
         } catch (NoBrokerMappedException | BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
 
-        ListView list = _listViewMap.get(user.getUserId());
-        list.setPrefHeight(observableList.size() * 24);
-        //StatusBarController.getInstance().progressProperty().unbind();
-        //StatusBarController.getInstance().setText("Queue refreshed");
-    }
 
-    /*get key by value for userlist hashmap*/
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        ListView list = _listViewMap.get(user);
+        list.setPrefHeight(observableList.size() * 24);
     }
 
     // *******************************************************************
@@ -253,7 +263,7 @@ public class MainController implements Initializable {
 
     /*search and list patients with used keywords*/
     @FXML
-    public void doSearch()  {
+    public void doSearch() {
         ObservableList<IPatient> patientlist = null;
         try {
             patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
@@ -261,7 +271,7 @@ public class MainController implements Initializable {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException, InvalidSearchParameterException - Please contact support");
         }
-        if(patientlist.size() > 0) {
+        if (patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
             listSearchResults.setPrefHeight(patientlist.size() * 24);
             searchResults.setExpanded(true);
@@ -290,12 +300,11 @@ public class MainController implements Initializable {
     }
 
     /*Tab: opens patient record for selected patient*/
-    public void addPatientTab(IUser user, IPatient patient){
+    public void addPatientTab(IPatient patient) {
         try {
             HashMap<String, Object> resourceMap = new HashMap<>();
             resourceMap.put("Doctors", _doctors);
             resourceMap.put("Patient", patient);
-            resourceMap.put("User", user);
             resourceMap.put("UserList", _userlist);
 
             Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new HashResourceBundle(resourceMap));
@@ -338,7 +347,7 @@ public class MainController implements Initializable {
 
     /*Tab: opens the patient property (unused)*/
     @FXML
-    public void openPatientProperty (ActionEvent event) {
+    public void openPatientProperty(ActionEvent event) {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientProperty.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
@@ -381,11 +390,11 @@ public class MainController implements Initializable {
     // Getter & Setter
     // *******************************************************************
 
-    public SplitPane getSplitter(){
+    public SplitPane getSplitter() {
         return this.splitter;
     }
 
-    public TabPane getTabPane(){
+    public TabPane getTabPane() {
         return this.displayPane;
     }
 }

@@ -183,8 +183,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
             Facade.getInstance().save(queueEntryNew);
         }
 
+        _entriesCache.add(queueEntryNew);
+        _entries.add(queueEntryNew);
         // reload entries
-        getEntries();
+        //getEntries();
     }
 
     /**

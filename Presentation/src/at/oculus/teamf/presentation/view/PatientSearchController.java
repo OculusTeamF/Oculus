@@ -69,7 +69,8 @@ public class PatientSearchController implements Initializable{
 
     private void openPatientRecord(IPatient currPatient)
     {
-        Main.controller.addPatientTab(null, currPatient);
+        //Todo: rework
+        Main.controller.addPatientTab(currPatient);
     }
 
     @FXML

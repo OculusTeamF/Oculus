@@ -104,5 +104,23 @@ public class Doctor extends User implements IDoctor {
     public void setPatients(Collection<Patient> patients) {
 		_patients = patients;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+
+        if(obj instanceof Doctor) {
+            if(((Doctor)obj).getId() == getId()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     //</editor-fold>
 }
