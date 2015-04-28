@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import org.jsoup.Jsoup;
@@ -70,6 +71,7 @@ public class InitController implements Initializable, ILogger {
 
         // comment this out if 'QuoteGenerator' create errors
         labelQuote.setText(getQuote());
+        labelQuote.setEffect(new DropShadow());
     }
 
     /* fetch quote from quote webpgae and print it on loading screen */
