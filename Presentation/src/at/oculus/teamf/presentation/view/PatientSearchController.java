@@ -69,6 +69,7 @@ public class PatientSearchController implements Initializable{
 
     private void openPatientRecord(IPatient currPatient)
     {
+        //Todo: rework
         Main.controller.addPatientTab(currPatient);
     }
 

@@ -28,6 +28,9 @@ import java.util.LinkedList;
  */
 public class PatientQueue implements ILogger, IPatientQueue {
 
+    //Todo: replace hack
+    private static Collection<QueueEntry> _entriesCache;
+
     //<editor-fold desc="Attributes">
     private int _userID;
     private User _user;
@@ -70,15 +73,18 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws NoBrokerMappedException
      * @throws BadConnectionException
      */
+    //Todo: Proxy
     public LinkedList<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
-        Collection<QueueEntry> entries = Facade.getInstance().getAll(QueueEntry.class);
+        if(_entriesCache == null) {
+            _entriesCache = Facade.getInstance().getAll(QueueEntry.class);
+        }
         HashMap<Integer, QueueEntry> queueEntries = new HashMap<>();
         QueueEntry actEntry = null;
         _entries = new LinkedList<>();
 
         if (_user instanceof Doctor) {
             // get all queue entities of a doctor
-            for (Object obj : entries) {
+            for (Object obj : _entriesCache) {
                 QueueEntry qe = (QueueEntry) obj;
                 if (qe.getDoctor() != null) {
                     if (qe.getDoctor().getId() == ((Doctor) _user).getId()) {
@@ -93,7 +99,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             }
         } else if (_user instanceof Orthoptist) {
             // get all queue entities of a orthoptist
-            for (Object obj : entries) {
+            for (Object obj : _entriesCache) {
                 QueueEntry qe = (QueueEntry) obj;
                 if (qe.getOrthoptist() != null) {
                     if (qe.getOrthoptist().getId() == ((Orthoptist) _user).getId()) {
@@ -111,7 +117,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             }
         } else {
             // get all queue entities of a orthoptists
-            for (Object obj : entries) {
+            for (Object obj : _entriesCache) {
                 QueueEntry qe = (QueueEntry) obj;
                 if (qe.getOrthoptist() == null && qe.getDoctor() == null) {
                     // set first entity
@@ -177,8 +183,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
             Facade.getInstance().save(queueEntryNew);
         }
 
+        _entriesCache.add(queueEntryNew);
+        _entries.add(queueEntryNew);
         // reload entries
-        getEntries();
+        //getEntries();
     }
 
     /**
@@ -191,12 +199,11 @@ public class PatientQueue implements ILogger, IPatientQueue {
      */
     public void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
         LinkedList<QueueEntry> queue = new LinkedList<>();
-        Collection<QueueEntry> entries = Facade.getInstance().getAll(QueueEntry.class);
         QueueEntry queueEntryDel = null;
         QueueEntry queueEntryChd = null;
 
         // getAll queueEntrys from queue table
-        for (Object obj : entries) {
+        for (Object obj : _entriesCache) {
             QueueEntry qe = (QueueEntry) obj;
             queue.add(qe);
         }
@@ -236,6 +243,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             Facade.getInstance().save(queueEntryChd);
         }
         Facade.getInstance().delete(queueEntryDel);
+        _entriesCache.remove(queueEntryDel);
 
         // reload entries
         getEntries();

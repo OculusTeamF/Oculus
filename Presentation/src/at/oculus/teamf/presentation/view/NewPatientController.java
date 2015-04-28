@@ -13,11 +13,11 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.CreatePatientController;
-import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -32,13 +32,12 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 
-
-
-public class newPatientController implements Initializable{
+public class NewPatientController implements Initializable{
 
     @FXML public RadioButton radioGenderFemale;
     @FXML public RadioButton radioGenderMale;
@@ -57,21 +56,30 @@ public class newPatientController implements Initializable{
     @FXML private Tab newPatientTab;
 
 
-    private CreatePatientController createPatientController = new CreatePatientController();
-    private StartupController startupController = new StartupController();
+    private CreatePatientController createPatientController;
     private ToggleGroup group = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        addTextLimiter(newPatientSVN, 10);
+        createPatientController = new CreatePatientController();
 
-        try {
-            newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-        }
+        HashResourceBundle hashResourceBundle = (HashResourceBundle) resources;
+
+        addTextLimiter(newPatientSVN, 10);
+        addTextLimiter(newPatientLastname, 50);
+        addTextLimiter(newPatientFirstname, 50);
+        addTextLimiter(newPatientStreet, 255);
+        addTextLimiter(newPatientPLZ, 20);
+        addTextLimiter(newPatientCity, 50);
+        addTextLimiter(newPatientCountryIsoCode, 2);
+        addTextLimiter(newPatientPhone, 50);
+        addTextLimiter(newPatientEmail, 255);
+
+
+
+        newPatientDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
+
 
         newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override

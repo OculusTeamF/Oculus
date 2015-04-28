@@ -19,14 +19,13 @@ import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -43,14 +42,11 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class patientRecordController implements Initializable {
+public class PatientRecordController implements Initializable {
 
-
+    //<editor-fold desc="FXML Fields">
     @FXML public TextField patientRecordLastname;
     @FXML public TextField patientRecordFirstname;
     @FXML public TextField patientRecordSVN;
@@ -74,10 +70,11 @@ public class patientRecordController implements Initializable {
     @FXML public ComboBox<IUser> addToQueueBox;
     @FXML public Button addPatientToQueueButton;
     @FXML public Button examinationProtocolButton;
+    //</editor-fold>
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
-    private IPatient patient;
+    private IPatient _patient;
     private StartupController startupController = new StartupController();
     private CreatePatientController createPatientController = new CreatePatientController();
     public CheckinController checkinController = new CheckinController();
@@ -87,22 +84,12 @@ public class patientRecordController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        patient =  (IPatient)resources.getObject(null);
-        Integer userID = Main.controller.userID;
+        _patient =  (IPatient)resources.getObject("Patient");
 
-        try {
-            Collection<IUser> users = startupController.getAllDoctorsAndOrthoptists();
-            for(IUser user : users){
-                if(user.getUserId() == userID) {
-                    _user = user;
-                }
-            }
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-
+        /**
+         * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
+         * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
+         */
         patientRecordAllergies.setWrapText(true);
         patientRecordChildhood.setWrapText(true);
         patientRecordIntolerance.setWrapText(true);
@@ -115,7 +102,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void handle(Event t) {
                 if (isFormEdited) {
-                    if (DialogBoxController.getInstance().showYesNoDialog("Save patient", "Do you want to save changes?") == true){
+                    if (DialogBoxController.getInstance().showYesNoDialog("Save _patient", "Do you want to save changes?") == true){
                         saveChanges();
                     } else{
                         isFormEdited = false;
@@ -124,25 +111,35 @@ public class patientRecordController implements Initializable {
             }
         });
 
+        patientRecordDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
+
         try {
-            patientRecordDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
-        } catch (FacadeException e) {
+            patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_patient.getCalendarEvents()));
+        } catch (InvalidReloadClassException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
+        //<editor-fold desc="Set Default Values">
         //disable all Patientfields and the save button, sets the text from IPatient into fields
         patientRecordSaveButton.setDisable(true);
 
         patientRecordradioGenderFemale.setToggleGroup(group);
         patientRecordradioGenderMale.setToggleGroup(group);
 
-        patientRecordLastname.setText(patient.getLastName());
+        patientRecordLastname.setText(_patient.getLastName());
         patientRecordLastname.setDisable(true);
-        patientRecordFirstname.setText(patient.getFirstName());
+        patientRecordFirstname.setText(_patient.getFirstName());
         patientRecordFirstname.setDisable(true);
+        addTextLimiter(patientRecordLastname, 50);
+        addTextLimiter(patientRecordFirstname, 50);
 
-        if(patient.getGender().equals("female"))
+        if(_patient.getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
             patientRecordradioGenderFemale.setDisable(true);
@@ -151,13 +148,13 @@ public class patientRecordController implements Initializable {
             patientRecordradioGenderMale.setDisable(true);
         }
 
-        patientRecordSVN.setText(patient.getSocialInsuranceNr());
+        patientRecordSVN.setText(_patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
         addTextLimiter(patientRecordSVN, 10);
 
-        if(patient.getBirthDay() != null)
+        if(_patient.getBirthDay() != null)
         {
-            Date input = patient.getBirthDay();
+            Date input = _patient.getBirthDay();
             Calendar cal = Calendar.getInstance();
             cal.setTime(input);
             LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
@@ -167,60 +164,67 @@ public class patientRecordController implements Initializable {
             patientRecordBday.setValue(date);
         }
         patientRecordBday.setDisable(true);
-        patientRecordStreet.setText(patient.getStreet());
+        patientRecordStreet.setText(_patient.getStreet());
         patientRecordStreet.setDisable(true);
-        patientRecordPLZ.setText(patient.getPostalCode());
+        addTextLimiter(patientRecordStreet, 255);
+        patientRecordPLZ.setText(_patient.getPostalCode());
         patientRecordPLZ.setDisable(true);
-        patientRecordCity.setText(patient.getCity());
+        addTextLimiter(patientRecordPLZ, 20);
+        patientRecordCity.setText(_patient.getCity());
         patientRecordCity.setDisable(true);
-        patientRecordCountryIsoCode.setText(patient.getCountryIsoCode());
+        addTextLimiter(patientRecordCity, 50);
+        patientRecordCountryIsoCode.setText(_patient.getCountryIsoCode());
         patientRecordCountryIsoCode.setDisable(true);
-        patientRecordPhone.setText(patient.getPhone());
+        addTextLimiter(patientRecordCountryIsoCode, 2);
+        patientRecordPhone.setText(_patient.getPhone());
         patientRecordPhone.setDisable(true);
-        patientRecordEmail.setText(patient.getEmail());
+        addTextLimiter(patientRecordPhone, 50);
+        patientRecordEmail.setText(_patient.getEmail());
         patientRecordEmail.setDisable(true);
-        patientRecordDoctor.setValue(patient.getIDoctor());
+        addTextLimiter(patientRecordEmail, 255);
+        patientRecordDoctor.setValue(_patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
-        if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
+
+        if(_patient.getAllergy() == null || _patient.getAllergy().length() < 1)
         {
             patientRecordAllergies.setText("No Allergies known");
         }else{
-            patientRecordAllergies.setText(patient.getAllergy());
+            patientRecordAllergies.setText(_patient.getAllergy());
         }
-        if(patient.getMedicineIntolerance() == null || patient.getMedicineIntolerance().length() < 1)
+        if(_patient.getMedicineIntolerance() == null || _patient.getMedicineIntolerance().length() < 1)
         {
             patientRecordIntolerance.setText("No Intolerance known");
         }else{
-            patientRecordIntolerance.setText(patient.getMedicineIntolerance());
+            patientRecordIntolerance.setText(_patient.getMedicineIntolerance());
         }
-        if(patient.getChildhoodAilments() == null || patient.getChildhoodAilments().length() < 1)
+        if(_patient.getChildhoodAilments() == null || _patient.getChildhoodAilments().length() < 1)
         {
             patientRecordChildhood.setText("No childhood Ailments");
         }else{
-            patientRecordChildhood.setText(patient.getChildhoodAilments());
-        }
-        try {
-            addToQueueBox.setItems(FXCollections.observableArrayList(startupController.getAllDoctorsAndOrthoptists()));
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-        }
-        patientRecordAllergies.setDisable(true);
-        patientRecordIntolerance.setDisable(true);
-        patientRecordChildhood.setDisable(true);
-        if(_user != null){
-            addToQueueBox.setValue(_user);
-        }else if(patient.getIDoctor() != null){
-            addToQueueBox.setValue(patient.getIDoctor());
+            patientRecordChildhood.setText(_patient.getChildhoodAilments());
         }
 
-        //TODO: überall changelisteners einbauen
+        addToQueueBox.setItems(FXCollections.observableArrayList((Collection<IUser>) resources.getObject("UserList")));
+
+        patientRecordAllergies.setDisable(false);
+        patientRecordIntolerance.setDisable(false);
+        patientRecordChildhood.setDisable(false);
+
+        patientRecordAllergies.setEditable(false);
+        patientRecordIntolerance.setEditable(false);
+        patientRecordChildhood.setEditable(false);
+
+        addToQueueBox.setValue(_patient.getIDoctor());
+
+        //</editor-fold>
+
+        //<editor-fold desc="Set Field Listener">
         //check if something has changed, if changes detected --> saveChanges()
         patientRecordLastname.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Lastname changed");
                     }
@@ -234,7 +238,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Firstname changed");
                     }
@@ -248,7 +252,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("SVN changed");
                     }
@@ -262,7 +266,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Bday changed");
                     }
@@ -276,7 +280,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Street changed");
                     }
@@ -290,7 +294,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("PLZ changed");
                     }
@@ -304,7 +308,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("City changed");
                     }
@@ -318,7 +322,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Countryisocode changed");
                     }
@@ -332,7 +336,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Phone changed");
                     }
@@ -346,7 +350,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Email changed");
                     }
@@ -359,24 +363,15 @@ public class patientRecordController implements Initializable {
         patientRecordDoctor.valueProperty().addListener(new ChangeListener<IDoctor>() {
             @Override
             public void changed(ObservableValue<? extends IDoctor> observable, IDoctor oldValue, IDoctor newValue) {
-                try {
-                    if (!oldValue.equals(newValue)) {
-                        isFormEdited = true;
-                        System.out.println("Doctor changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Combobox Doctor");
-                }
+                isFormEdited = true;
             }
         });
         patientRecordAllergies.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
-                        System.out.println("Allergies changed");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -388,7 +383,7 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
                         System.out.println("Intolerances changed");
                     }
@@ -402,9 +397,8 @@ public class patientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (!oldValue.equals(newValue)) {
+                    if (oldValue != newValue) {
                         isFormEdited = true;
-                        System.out.println("Childhood changed");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -412,16 +406,228 @@ public class patientRecordController implements Initializable {
                 }
             }
         });
+        //</editor-fold>
+
     }
 
+    //<editor-fold desc="Event Handler">
     /**
      * when press edit button all patientfield are disable(false) and editable
      * savebutton is disable(false)
      * @param actionEvent
      */
     @FXML
-    public void editForm(ActionEvent actionEvent)
+    public void editButtonHandler(ActionEvent actionEvent)
     {
+        enableFields();
+    }
+
+    /**
+     * saves the changes in the _patient record after press Button 'Save'
+     */
+    @FXML
+    public void saveButtonHandler(ActionEvent actionEvent) {
+
+        if (patientRecordFirstname.getLength() == 0 || patientRecordLastname.getLength() == 0 || patientRecordSVN.getLength() == 0 || patientRecordBday == null){
+            DialogBoxController.getInstance().showInformationDialog("Missing _patient data requirements", "Please fill the following fields: Firstname / Lastname / SVN / Birthdate");
+        } else {
+
+            if (isFormEdited) {
+                saveChanges();
+            } else {
+                DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
+            }
+            disableFields();
+        }
+    }
+
+    @FXML
+    public void addPatientToQueueButtonHandler(){
+
+        if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
+            try {
+                _user = addToQueueBox.getSelectionModel().getSelectedItem();
+
+                /*DialogBoxController.getInstance().showInformationDialog("Adding _patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
+                        + _patient.getFirstName() + " " + _patient.getLastName() + System.getProperty("line.separator")
+                        + "To queue:" + System.getProperty("line.separator")+ _user.getFirstName() + " " + _user.getLastName()  + System.getProperty("line.separator")
+                        + System.getProperty("line.separator") + "Please wait");*/
+
+                StatusBarController.getInstance().setText("Adding _patient '" + _patient.getFirstName() + " " + _patient.getLastName() + "' to queue for: " + _user.getLastName());
+
+                checkinController.insertPatientIntoQueue(_patient, _user);
+
+                //Todo: add event handler
+                Main.controller.refreshQueue(_user);
+            //TODO saubere Exceptions!
+            } catch (BadConnectionException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
+            } catch (NoBrokerMappedException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+            } catch (CheckinControllerException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
+            }
+        }else{
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Waitinglist");
+        }
+    }
+
+    /**
+     * opens a new Examination protocol
+     * @param actionEvent
+     */
+    @FXML
+    public void openExaminationButtonHandler(ActionEvent actionEvent) {
+
+            try {
+                //Todo: add central controller
+                Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
+                Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
+                StatusBarController.getInstance().setText("Open examination...");
+            } catch (IOException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
+            }
+    }
+    //</editor-fold>
+
+    /**
+     * save Changes in Patient Record Form if isFormEdited == true
+     */
+    private void saveChanges()
+    {
+        if(patientRecordradioGenderFemale.isSelected())
+        {
+            _patient.setGender("female");
+        }else{
+            _patient.setGender("male");
+        }
+        if(patientRecordLastname.getText()!=null) {
+            _patient.setLastName(patientRecordLastname.getText());
+        }
+        if(patientRecordFirstname.getText()!=null) {
+            _patient.setFirstName(patientRecordFirstname.getText());
+        }
+        if(patientRecordSVN.getText()!=null) {
+            _patient.setSocialInsuranceNr(patientRecordSVN.getText());
+        }
+        if(patientRecordBday.getValue()!=null) {
+            LocalDate localDate = patientRecordBday.getValue();
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+            Date bday = java.sql.Date.from(instant);
+            _patient.setBirthDay(bday);
+        }
+        if(patientRecordStreet.getText()!=null) {
+            _patient.setStreet(patientRecordStreet.getText());
+        }
+        if(patientRecordPLZ.getText()!=null) {
+            _patient.setPostalCode(patientRecordPLZ.getText());
+        }
+        if(patientRecordCity.getText()!=null) {
+            _patient.setCity(patientRecordCity.getText());
+        }
+        if(patientRecordCountryIsoCode.getText()!=null) {
+            _patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
+        }
+        if(patientRecordPhone.getText()!=null){
+            _patient.setPhone(patientRecordPhone.getText());
+        }
+        if(patientRecordEmail.getText()!=null) {
+            _patient.setEmail(patientRecordEmail.getText());
+        }
+        if(patientRecordDoctor.getValue()!=null) {
+            _patient.setIDoctor(patientRecordDoctor.getValue());
+        }
+        if(patientRecordAllergies.getText()!=null) {
+            _patient.setAllergy(patientRecordAllergies.getText());
+        }
+        if(patientRecordIntolerance.getText()!=null) {
+            _patient.setMedicineIntolerance(patientRecordIntolerance.getText());
+        }
+        if(patientRecordChildhood.getText()!=null) {
+            _patient.setChildhoodAilments(patientRecordChildhood.getText());
+        }
+
+        try {
+            createPatientController.saveIPatient(_patient);
+            StatusBarController.getInstance().setText("Changes saved...");
+            isFormEdited = false;
+        } catch (RequirementsNotMetException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
+        } catch (PatientCouldNotBeSavedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        }
+        disableFields();
+    }
+
+    /**
+     * add textlimiter to textfield
+     *
+     * @param tf    set textfield
+     * @param maxLength max length of input chars
+     */
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        try {
+            tf.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                    if (tf.getText().length() > maxLength) {
+                        String s = tf.getText().substring(0, maxLength);
+                        tf.setText(s);
+                    }
+                }
+            });
+        } catch(NullPointerException e) {
+            //eat up
+        }
+
+    }
+
+    private void disableFields() {
+        //disables every field, radiobutton or choicebox
+        patientRecordradioGenderMale.setDisable(true);
+        patientRecordradioGenderFemale.setDisable(true);
+        patientRecordLastname.setDisable(true);
+        patientRecordLastname.setEditable(false);
+        patientRecordFirstname.setDisable(true);
+        patientRecordFirstname.setEditable(false);
+        patientRecordSVN.setDisable(true);
+        patientRecordSVN.setEditable(false);
+        patientRecordBday.setDisable(true);
+        patientRecordBday.setEditable(false);
+        patientRecordStreet.setDisable(true);
+        patientRecordStreet.setEditable(false);
+        patientRecordPLZ.setDisable(true);
+        patientRecordPLZ.setEditable(false);
+        patientRecordCity.setDisable(true);
+        patientRecordCity.setEditable(false);
+        patientRecordCountryIsoCode.setDisable(true);
+        patientRecordCountryIsoCode.setEditable(false);
+        patientRecordPhone.setDisable(true);
+        patientRecordPhone.setEditable(false);
+        patientRecordEmail.setDisable(true);
+        patientRecordEmail.setEditable(false);
+        patientRecordDoctor.setDisable(true);
+        patientRecordAllergies.setDisable(true);
+        patientRecordAllergies.setEditable(false);
+        patientRecordIntolerance.setDisable(true);
+        patientRecordIntolerance.setEditable(false);
+        patientRecordChildhood.setDisable(true);
+        patientRecordChildhood.setEditable(false);
+    }
+
+    private void enableFields() {
         patientRecordradioGenderMale.setDisable(false);
         patientRecordradioGenderFemale.setDisable(false);
         patientRecordLastname.setDisable(false);
@@ -452,217 +658,5 @@ public class patientRecordController implements Initializable {
         patientRecordChildhood.setDisable(false);
         patientRecordChildhood.setEditable(true);
         patientRecordSaveButton.setDisable(false);
-    }
-
-    /**
-     * saves the changes in the patient record after press Button 'Save'
-     */
-    @FXML
-    public void saveChangedForm(ActionEvent actionEvent)
-    {
-        if(isFormEdited){
-            saveChanges();
-        }else{
-            DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
-        }
-
-        //disables every field, radiobutton or choicebox
-        patientRecordradioGenderMale.setDisable(true);
-        patientRecordradioGenderFemale.setDisable(true);
-        patientRecordLastname.setDisable(true);
-        patientRecordLastname.setEditable(false);
-        patientRecordFirstname.setDisable(true);
-        patientRecordFirstname.setEditable(false);
-        patientRecordSVN.setDisable(true);
-        patientRecordSVN.setEditable(false);
-        patientRecordBday.setDisable(true);
-        patientRecordBday.setEditable(false);
-        patientRecordStreet.setDisable(true);
-        patientRecordStreet.setEditable(false);
-        patientRecordPLZ.setDisable(true);
-        patientRecordPLZ.setEditable(false);
-        patientRecordCity.setDisable(true);
-        patientRecordCity.setEditable(false);
-        patientRecordCountryIsoCode.setDisable(true);
-        patientRecordCountryIsoCode.setEditable(false);
-        patientRecordPhone.setDisable(true);
-        patientRecordPhone.setEditable(false);
-        patientRecordEmail.setDisable(true);
-        patientRecordEmail.setEditable(false);
-        patientRecordDoctor.setDisable(true);
-        patientRecordAllergies.setDisable(true);
-        patientRecordAllergies.setEditable(false);
-        patientRecordIntolerance.setDisable(true);
-        patientRecordIntolerance.setEditable(false);
-        patientRecordChildhood.setDisable(true);
-        patientRecordChildhood.setEditable(false);
-    }
-
-    @FXML
-    public void addPatientToQueue(){
-
-        if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
-            try {
-                /*Task<Void> task = new Task<Void>() {
-                    @Override protected Void call() throws Exception {
-                        done();
-                        return null;
-                    }
-                };
-                StatusBarController.getInstance().progressProperty().bind(task.progressProperty());*/
-
-                DialogBoxController.getInstance().showInformationDialog("Adding patient '" + patient.getLastName() + "'. Please wait." , patient.getFirstName());
-                IUser user = (IUser) addToQueueBox.getSelectionModel().getSelectedItem();
-                StatusBarController.getInstance().setText("Adding patient '" + patient.getFirstName() + " " + patient.getLastName() + "' to queue for: " + user.getLastName());
-                checkinController.insertPatientIntoQueue(patient, user);
-                IPatientQueue queue = startupController.getQueueByUserId(user);
-                Main.controller.refreshQueue(queue, user);
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-                DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-            } catch (CheckinControllerException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
-            }
-        }else{
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Waitinglist");
-        }
-    }
-
-    /**
-     * save Changes in Patient Record Form if isFormEdited == true
-     */
-    private void saveChanges()
-    {
-        if(patientRecordradioGenderFemale.isSelected())
-        {
-            patient.setGender("female");
-        }else{
-            patient.setGender("male");
-        }
-        patient.setLastName(patientRecordLastname.getText());
-        patient.setFirstName(patientRecordFirstname.getText());
-        patient.setSocialInsuranceNr(patientRecordSVN.getText());
-        LocalDate localDate = patientRecordBday.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date bday = java.sql.Date.from(instant);
-        patient.setBirthDay(bday);
-        patient.setStreet(patientRecordStreet.getText());
-        patient.setPostalCode(patientRecordPLZ.getText());
-        patient.setCity(patientRecordCity.getText());
-        patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
-        patient.setPhone(patientRecordPhone.getText());
-        patient.setEmail(patientRecordEmail.getText());
-        patient.setIDoctor(patientRecordDoctor.getValue());
-        patient.setAllergy(patientRecordAllergies.getText());
-        patient.setMedicineIntolerance(patientRecordIntolerance.getText());
-        patient.setChildhoodAilments(patientRecordChildhood.getText());
-
-        try {
-            createPatientController.saveIPatient(patient);
-            //DialogBoxController.getInstance().showInformationDialog("Patient record edited", "Changes saved");
-            StatusBarController.getInstance().setText("Changes saved...");
-            isFormEdited = false;
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
-        } catch (PatientCouldNotBeSavedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        }
-
-        //disables every field, radiobutton or choicebox
-        patientRecordradioGenderMale.setDisable(true);
-        patientRecordradioGenderFemale.setDisable(true);
-        patientRecordLastname.setDisable(true);
-        patientRecordLastname.setEditable(false);
-        patientRecordFirstname.setDisable(true);
-        patientRecordFirstname.setEditable(false);
-        patientRecordSVN.setDisable(true);
-        patientRecordSVN.setEditable(false);
-        patientRecordBday.setDisable(true);
-        patientRecordBday.setEditable(false);
-        patientRecordStreet.setDisable(true);
-        patientRecordStreet.setEditable(false);
-        patientRecordPLZ.setDisable(true);
-        patientRecordPLZ.setEditable(false);
-        patientRecordCity.setDisable(true);
-        patientRecordCity.setEditable(false);
-        patientRecordCountryIsoCode.setDisable(true);
-        patientRecordCountryIsoCode.setEditable(false);
-        patientRecordPhone.setDisable(true);
-        patientRecordPhone.setEditable(false);
-        patientRecordEmail.setDisable(true);
-        patientRecordEmail.setEditable(false);
-        patientRecordDoctor.setDisable(true);
-        patientRecordAllergies.setDisable(true);
-        patientRecordAllergies.setEditable(false);
-        patientRecordIntolerance.setDisable(true);
-        patientRecordIntolerance.setEditable(false);
-        patientRecordChildhood.setDisable(true);
-        patientRecordChildhood.setEditable(false);
-    }
-
-    /**
-     * opens a new Examination protocol
-     * @param actionEvent
-     */
-    public void openExamination(ActionEvent actionEvent) {
-        try {
-            Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(patient)));
-            Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
-            StatusBarController.getInstance().setText("Open examination...");
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-        try {
-            IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
-            System.out.println(user.getLastName());
-            IPatientQueue patientqueue = startupController.getQueueByUserId(user);
-            System.out.println(patient.getFirstName());
-            System.out.println(patientqueue.getEntries().size());
-            receivePatientController.removePatientFromQueue(patient, patientqueue);
-            Main.controller.refreshQueue(patientqueue, user);
-            DialogBoxController.getInstance().showInformationDialog("Information", patient.getLastName()+", "+patient.getFirstName()+" removed from Waitinglist" );
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
-        }
-
-    }
-
-    /**
-     * add textlimiter to textfield
-     *
-     * @param tf    set textfield
-     * @param maxLength max length of input chars
-     */
-    public static void addTextLimiter(final TextField tf, final int maxLength) {
-        tf.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-                if (tf.getText().length() > maxLength) {
-                    String s = tf.getText().substring(0, maxLength);
-                    tf.setText(s);
-                }
-            }
-        });
     }
 }
