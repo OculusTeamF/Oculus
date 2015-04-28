@@ -1,20 +1,69 @@
 #displayPane{
-    -fx-background-image: url("/res/oculus.JPG");
+    -fx-background-image: url("/res/oculus_logo_reflect.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 379 108;
+    -fx-background-size: 416 175;
     -fx-background-position: center;
-    -fx-background-color: dimgray;
-}
-#waitingListBox{
-    -fx-background-color: dimgray;
-}
-#newPatientPane{
-    -fx-background-color: dimgray;
-}
-#patientRecordPane{
-    -fx-background-color: dimgray;
-}
-#searchPatientPane{
-    -fx-background-color: dimgray;
+    -fx-background-color: dimgrey;
 }
 
+#waitingListBox{
+    -fx-background-color: #F4F4F4;
+}
+#newPatientPane{
+    -fx-background-color: #F4F4F4;
+}
+#patientRecordPane{
+    -fx-background-color: #F4F4F4;
+}
+#searchPatientPane{
+    -fx-background-color: #F4F4F4;
+}
+
+#loaderPane{
+    -fx-background-color: white;
+    -fx-background-image: url("/res/oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 316 90;
+    -fx-background-position: center;
+}
+
+.background {
+    -fx-background-color: dimgrey;
+}
+
+.menu-bar {
+    -fx-background-color: derive(#1d1d1d,20%);
+    -fx-selection-bar: derive(-fx-background,-7%);
+}
+
+.menu-item  {
+    -fx-background-color: derive(#1d1d1d,20%);
+    -fx-selection-bar: derive(-fx-background,-7%);
+}
+
+.tool-bar {
+    -fx-background-color: dimgrey;
+}
+
+.menu-bar .label {
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.split-pane {
+    -fx-padding: 1 0 0 0;
+}
+
+.split-pane:horizontal > * > .split-pane-divider {
+    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
+    -fx-background-color: transparent, derive(#1d1d1d,20%);
+}
+
+.text-area:disabled, .text-field:disabled{
+    -fx-text-fill: #000000;
+    -fx-opacity: 0.5;
+}
+
+.text-area .scroll-pane:disabled{
+    -fx-opacity: 1.0;
+}

@@ -19,7 +19,7 @@
     <content>
         <AnchorPane id="patientRecordPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <children>
-                <GridPane id="patientRecordPane" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" vgap="10.0">
+                <GridPane id="patientRecordPane" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <GridPane hgap="5.0" prefHeight="608.0" prefWidth="530.0" vgap="5.0">
                             <children>
@@ -83,10 +83,10 @@
                         </GridPane>
                         <GridPane hgap="20.0" prefHeight="228.0" prefWidth="530.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
-                                <Button fx:id="examinationProtocolButton" onAction="#openExaminationButtonHandler" mnemonicParsing="false" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <Button fx:id="examinationProtocolButton" mnemonicParsing="false" onAction="#openExaminationButtonHandler" text="Examination Protocol" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                 <ComboBox fx:id="addToQueueBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="Add to Waitinglist" GridPane.columnIndex="1" />
-                                <Button fx:id="addPatientToQueueButton" onAction="#addPatientToQueueButtonHandler" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" text="Add to Waitinglist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Button fx:id="addPatientToQueueButton" mnemonicParsing="false" onAction="#addPatientToQueueButtonHandler" prefHeight="31.0" prefWidth="125.0" text="Add to Waitinglist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="105.0" />

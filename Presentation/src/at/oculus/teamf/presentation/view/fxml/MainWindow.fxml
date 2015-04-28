@@ -18,7 +18,7 @@
 
 <BorderPane id="pane" fx:id="borderPane" prefHeight="725.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
     <top>
-        <VBox prefHeight="71.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
+        <VBox prefHeight="94.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
             <children>
                 <MenuBar>
                     <menus>
@@ -26,7 +26,7 @@
                             <items>
                                 <MenuItem disable="true" mnemonicParsing="false" text="Logout" />
                                 <MenuItem disable="true" mnemonicParsing="false" text="Change User" />
-                                <MenuItem mnemonicParsing="false" onAction="#onClose" text="Exit" />
+                                <MenuItem mnemonicParsing="false" onAction="#clickMenuItemExit" text="Exit" />
                             </items>
                         </Menu>
                         <Menu disable="true" mnemonicParsing="false" text="Edit">
@@ -36,11 +36,11 @@
                         </Menu>
                         <Menu disable="false" mnemonicParsing="false" text="View">
                             <items>
-                                <Menu disable="true" mnemonicParsing="false" text="Theme">
+                                <Menu disable="false" mnemonicParsing="false" text="Theme">
                                     <items>
-                                        <CheckMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" selected="true" text="Default Theme" />
-                                        <CheckMenuItem id="darkTheme" fx:id="DarkTheme" mnemonicParsing="false" text="Dark Theme" />
-                                        <CheckMenuItem id="whiteTheme" fx:id="whiteTheme" mnemonicParsing="false" text="White Theme" />
+                                        <RadioMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="true" text="Default Theme" />
+                                        <RadioMenuItem id="darkTheme" fx:id="darkTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="false" text="Dark Theme" />
+                                        <RadioMenuItem id="customTheme" fx:id="customTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="false" text="Custom Theme" />
                                     </items>
                                 </Menu>
                                 <Menu disable="true" mnemonicParsing="false" text="Language">
@@ -81,22 +81,22 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
-                                <MenuItem fx:id="userManual" mnemonicParsing="false" onAction="#showMenuHelp" text="Oculus Help" />
-                                <MenuItem fx:id="aboutOculus" mnemonicParsing="false" onAction="#showMenuAbout" text="About Oculus" />
+                                <MenuItem fx:id="userManual" mnemonicParsing="false" onAction="#clickMenuItemShowHelp" text="Oculus Help" />
+                                <MenuItem fx:id="aboutOculus" mnemonicParsing="false" onAction="#clickMenuItemShowAbout" text="About Oculus" />
                             </items>
                         </Menu>
                     </menus>
                 </MenuBar>
-                <ToolBar fx:id="toolbar" prefHeight="57.0" prefWidth="1099.0">
+                <ToolBar fx:id="toolbar" prefHeight="76.0" prefWidth="1152.0">
                     <items>
-                        <Button fx:id="buttonTest" mnemonicParsing="false" onAction="#openPatient" prefHeight="25.0" prefWidth="68.0" text="Test" />
+                        <Button fx:id="buttonAddPatient" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#newPatient" prefHeight="35.0" prefWidth="50.0" text="Test" />
                         <ComboBox prefWidth="150.0" visible="false" />
                     </items></ToolBar>
             </children>
         </VBox>
     </top>
     <center>
-        <SplitPane fx:id="splitter" dividerPositions="0.2530434782608696" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="splitter" dividerPositions="0.2530434782608696" prefHeight="630.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="625.0" prefWidth="810.0">
                     <children>

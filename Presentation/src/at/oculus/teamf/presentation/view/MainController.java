@@ -47,6 +47,8 @@ public class MainController implements Initializable {
     @FXML
     public MenuItem openPatientsearch;
     @FXML
+    public RadioMenuItem defaultTheme, darkTheme, customTheme;
+    @FXML
     private VBox vboxQueues;
     @FXML
     private TabPane displayPane;
@@ -63,7 +65,7 @@ public class MainController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
-    private Button buttonTest;
+    private Button buttonAddPatient;
 
     private StartupController _startupController;
     private SearchPatientController _searchPatientController;
@@ -99,10 +101,14 @@ public class MainController implements Initializable {
         }
 
         // search button & list init
-        buttonTest.setVisible(false);
+        buttonAddPatient.setVisible(false);
         Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
+        Image imageAddPatientButton = new Image(getClass().getResourceAsStream("/res/icon_addpatient.png"));
         searchButton.setGraphic(new ImageView(imageDecline));
         listSearchResults.setPrefHeight(0);
+        searchResults.setDisable(true);
+        buttonAddPatient.setGraphic(new ImageView(imageAddPatientButton));
+        buttonAddPatient.setVisible(true);
 
         // statusbar setup
         borderPane.setBottom(StatusBarController.getInstance());
@@ -112,6 +118,12 @@ public class MainController implements Initializable {
         Tooltip tp = new Tooltip();
         tp.setText("Search for Firstname, Lastname or SVN number");
         textSearch.setTooltip(tp);
+
+        // menuitems init
+        ToggleGroup mGroup = new ToggleGroup();
+        defaultTheme.setToggleGroup(mGroup);
+        darkTheme.setToggleGroup(mGroup);
+        customTheme.setToggleGroup(mGroup);
 
         // build queuelist
         buildQueueLists();
@@ -274,9 +286,14 @@ public class MainController implements Initializable {
         if (patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
             listSearchResults.setPrefHeight(patientlist.size() * 24);
+            searchResults.setDisable(false);
             searchResults.setExpanded(true);
-            StatusBarController.getInstance().setText("Found patient...");
+            searchResults.setText("Search Results (" + patientlist.size() + "):");
+            StatusBarController.getInstance().setText("Found patients: " + patientlist.size());
         } else {
+            searchResults.setText("Search Results (None)");
+            searchResults.setExpanded(false);
+            searchResults.setDisable(true);
             listSearchResults.setItems(patientlist);
             listSearchResults.setPrefHeight(patientlist.size() * 24);
             StatusBarController.getInstance().setText("No patients found");
@@ -363,26 +380,42 @@ public class MainController implements Initializable {
 
     /*Menu item: opens help window*/
     @FXML
-    public void showMenuHelp(ActionEvent actionEvent) {
+    public void clickMenuItemShowHelp(ActionEvent actionEvent) {
         DialogBoxController.getInstance().showInformationDialog("Oculus Help", "User manual for Oculus");
     }
 
     /*Menu item: opens about dialog*/
     @FXML
-    public void showMenuAbout(ActionEvent actionEvent) {
+    public void clickMenuItemShowAbout(ActionEvent actionEvent) {
         DialogBoxController.getInstance().showAboutDialog();
     }
 
     /*Button: opens test action*/
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-
         System.out.println(DialogBoxController.getInstance().showYesNoDialog("Frage", "ist es OK?"));
+    }
+
+    @FXML
+    public void clickMenuItemThemeSelection(ActionEvent actionEvent) {
+        MenuItem src = (MenuItem) actionEvent.getSource();
+        switch(src.getId()) {
+            case "defaultTheme":
+                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
+                break;
+            case "darkTheme":
+                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_dark.css").toExternalForm());
+                break;
+            case "customTheme":
+                DialogBoxController.getInstance().showInformationDialog("theme","show custom theme");
+                break;
+        }
+
     }
 
     /*Close the application by clicking the Menuitem 'Exit'*/
     @FXML
-    public void onClose(ActionEvent actionEvent) {
+    public void clickMenuItemExit(ActionEvent actionEvent) {
         System.exit(0);
     }
 

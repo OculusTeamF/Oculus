@@ -12,7 +12,6 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.presentation.view.exceptions.InitLoadingException;
 import at.oculus.teamf.technical.localization.ILocal;
 import at.oculus.teamf.technical.loggin.ILogger;
-import at.oculus.teamf.technical.loggin.Logger4J;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 
@@ -34,11 +32,11 @@ import java.io.IOException;
  *
  */
 public class Main extends Application implements ILocal, ILogger {
-    public FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
+    public FXMLLoader mainloader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
     public static MainController controller;
 
-    private Scene scene;
+    public static Scene scene;
     final Stage initStage = new Stage(StageStyle.DECORATED);;
     final Stage primaryStage = new Stage(StageStyle.DECORATED);
 
@@ -47,7 +45,6 @@ public class Main extends Application implements ILocal, ILogger {
     public void start(Stage mStage) throws Exception {
 
         //TODO create thread for loading
-
         //Logger4J.setLevel(log, Level.ERROR);
 
         initLoadingScreen();        // create splashcreen
@@ -60,11 +57,11 @@ public class Main extends Application implements ILocal, ILogger {
 
     /*create main screen*/
     private void initMainWindow() throws IOException {
-        Parent root = (Parent) loader.load();
+        Parent root = (Parent) mainloader.load();
         primaryStage.setTitle(locstring.getString("MainWindowTitle"));      //localization example
         scene = new Scene(root, 900, 600);
-        scene.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
-        controller = loader.getController();
+        scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
+        controller = mainloader.getController();
 
         // setup components in MainWindow.fxml
         controller.getSplitter().setDividerPosition(0, 0.80);
@@ -102,7 +99,7 @@ public class Main extends Application implements ILocal, ILogger {
         }
 
         Scene sceneInit = new Scene(initroot, 472, 362);
-        sceneInit.getStylesheets().addAll(this.getClass().getResource("stylesheet.css").toExternalForm());
+        sceneInit.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
         initStage.setScene(sceneInit);
         initStage.setTitle("Oculus is loading...");
         initStage.setResizable(false);
