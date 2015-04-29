@@ -14,62 +14,60 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Tab fx:id="searchPatientTab" text="Search results" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.PatientSearchController">
-  <content>
-    <AnchorPane fx:id="searchAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+
+<AnchorPane fx:id="anchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.PatientSearchController">
+   <children>
+      <GridPane id="searchPatientPane" fx:id="searchPatientPane" layoutY="-42.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="713.0" prefWidth="1076.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane id="searchPatientPane" fx:id="searchPatientPane" prefHeight="0.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane alignment="CENTER" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <GridPane alignment="CENTER" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <Label text="Lastname" />
-                        <Label text="Firstname" GridPane.columnIndex="2" />
-                        <TextField fx:id="searchPatientLastname" GridPane.rowIndex="1" />
-                        <TextField fx:id="searchPatientFirstname" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Label prefHeight="21.0" prefWidth="298.0" text="Social security number" GridPane.rowIndex="2" />
-                        <TextField fx:id="searchPatientSVN" prefWidth="277.0" GridPane.rowIndex="3" />
-                        <Button fx:id="searchPatientButton" mnemonicParsing="false" onAction="#searchPatient" prefHeight="31.0" prefWidth="145.0" text="Search" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                     </children>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="463.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="112.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="452.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="304.0" />
-                     </columnConstraints>
-                     <padding>
-                        <Insets bottom="20.0" />
-                     </padding>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </GridPane>
-                  <ListView fx:id="searchPatientList" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <padding>
-                        <Insets top="10.0" />
-                     </padding>
-                  </ListView>
-                  <Label text="PATIENT SEARCH" GridPane.columnIndex="1" />
+                  <Label text="Lastname" />
+                  <Label text="Firstname" GridPane.columnIndex="2" />
+                  <TextField fx:id="searchPatientLastname" GridPane.rowIndex="1" />
+                  <TextField fx:id="searchPatientFirstname" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label prefHeight="21.0" prefWidth="298.0" text="Social security number" GridPane.rowIndex="2" />
+                  <TextField fx:id="searchPatientSVN" prefWidth="277.0" GridPane.rowIndex="3" />
+                  <Button fx:id="searchPatientButton" mnemonicParsing="false" onAction="#searchPatient" prefHeight="31.0" prefWidth="145.0" text="Search" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                </children>
                <columnConstraints>
-                  <ColumnConstraints maxWidth="161.0" minWidth="10.0" prefWidth="60.0" />
-                  <ColumnConstraints maxWidth="1243.0" minWidth="1013.0" prefWidth="1150.0" />
-                  <ColumnConstraints maxWidth="142.0" minWidth="4.0" prefWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="463.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="112.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="452.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1384.0" minWidth="10.0" prefWidth="304.0" />
                </columnConstraints>
                <padding>
-                  <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+                  <Insets bottom="20.0" />
                </padding>
                <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints maxHeight="186.0" minHeight="161.0" prefHeight="185.0" />
-                  <RowConstraints maxHeight="506.0" minHeight="481.0" prefHeight="482.0" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </GridPane>
-         </children></AnchorPane>
-  </content>
-</Tab>
+            <ListView fx:id="searchPatientList" prefHeight="457.0" prefWidth="934.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </ListView>
+            <Label text="PATIENT SEARCH" GridPane.columnIndex="1" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="161.0" minWidth="10.0" prefWidth="60.0" />
+            <ColumnConstraints maxWidth="1243.0" minWidth="876.0" prefWidth="974.0" />
+            <ColumnConstraints maxWidth="142.0" minWidth="0.0" prefWidth="43.0" />
+         </columnConstraints>
+         <padding>
+            <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+         </padding>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints maxHeight="186.0" minHeight="161.0" prefHeight="185.0" />
+            <RowConstraints maxHeight="506.0" minHeight="481.0" prefHeight="482.0" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>
