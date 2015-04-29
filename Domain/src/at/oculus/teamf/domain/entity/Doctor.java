@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -64,7 +65,7 @@ public class Doctor extends User implements IDoctor {
     }
 
     @Override
-    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         if(_queue == null) {
             _queue = new PatientQueue(this);
         }
@@ -92,7 +93,7 @@ public class Doctor extends User implements IDoctor {
     }
 
     @Override
-    public Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
+    public Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
         Facade facade = Facade.getInstance();
 
         facade.reloadCollection(this, Patient.class);

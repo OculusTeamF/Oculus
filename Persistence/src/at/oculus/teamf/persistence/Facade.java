@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -90,7 +91,7 @@ public class Facade {
      * @throws InvalidSearchParameterException
      * @throws InvalidReloadClassException
      */
-    private <T> T worker(Class clazz, Execute<T> execute) throws NoBrokerMappedException, SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, InvalidSearchParameterException, InvalidReloadClassException {
+    private <T> T worker(Class clazz, Execute<T> execute) throws NoBrokerMappedException, SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, InvalidSearchParameterException, InvalidReloadClassException, BadSessionException {
         EntityBroker broker = getBroker(clazz);
 
         ISession session = _sessionBroker.getSession();
@@ -112,7 +113,7 @@ public class Facade {
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    public <T> T getById(Class clazz, int id) throws BadConnectionException, NoBrokerMappedException {
+    public <T> T getById(Class clazz, int id) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         T object = null;
 
         try {
@@ -133,7 +134,7 @@ public class Facade {
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    public <T> Collection<T> getAll(Class clazz) throws BadConnectionException, NoBrokerMappedException {
+    public <T> Collection<T> getAll(Class clazz) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         Collection<T> objects = null;
 
         try {
@@ -155,7 +156,7 @@ public class Facade {
      * @throws ReloadInterfaceNotImplementedException
      * @throws InvalidReloadClassException
      */
-    public void reloadCollection(IDomain obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException, InvalidReloadClassException {
+    public void reloadCollection(IDomain obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadSessionException {
         try {
             worker(obj.getClass(), new ReloadCollection(obj, clazz));
         } catch (SearchException e) {
@@ -171,7 +172,7 @@ public class Facade {
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    public boolean save(IDomain obj) throws BadConnectionException, NoBrokerMappedException {
+    public boolean save(IDomain obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         boolean isSaved = false;
 
         try {
@@ -183,7 +184,7 @@ public class Facade {
         return isSaved;
     }
 
-    public boolean saveAll(Collection<IDomain> obj) throws BadConnectionException, NoBrokerMappedException {
+    public boolean saveAll(Collection<IDomain> obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         boolean isSaved = false;
 
         try {
@@ -204,7 +205,7 @@ public class Facade {
      * @throws NoBrokerMappedException
      * @throws InvalidSearchParameterException
      */
-    public boolean delete(IDomain obj) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
+    public boolean delete(IDomain obj) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
         boolean isDeleted = false;
 
         try {
@@ -223,7 +224,7 @@ public class Facade {
      * @return true = deleted / false = not deleted
      * @throws FacadeException
      */
-    public boolean deleteAll(Collection<IDomain> obj) throws FacadeException {
+    public boolean deleteAll(Collection<IDomain> obj) throws FacadeException, BadSessionException {
         return worker(obj.getClass(), new DeleteAll(obj));
     }
 
@@ -239,7 +240,7 @@ public class Facade {
      * @throws NoBrokerMappedException
      * @throws InvalidSearchParameterException
      */
-    public <T> Collection<T> search(Class clazz, String... search) throws SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
+    public <T> Collection<T> search(Class clazz, String... search) throws SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
         Collection<T> searchResult = null;
 
         try {
@@ -272,7 +273,7 @@ public class Facade {
      * A worker class can implement the interface to be used in {@code #worker()}
      */
     private abstract class Execute<T> {
-        abstract T execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, InvalidSearchParameterException, InvalidReloadClassException;
+        abstract T execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, BadConnectionException, ReloadInterfaceNotImplementedException, NoBrokerMappedException, InvalidSearchParameterException, InvalidReloadClassException, BadSessionException;
     }
 
     private class Get extends Execute<Object> {
@@ -284,7 +285,7 @@ public class Facade {
         }
 
         @Override
-        public Object execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+        public Object execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
             return broker.getEntity(session, _id);
         }
     }
@@ -292,7 +293,7 @@ public class Facade {
     private class GetAll extends Execute<Collection> {
 
         @Override
-        public Collection execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+        public Collection execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
             return broker.getAll(session);
         }
     }
@@ -308,7 +309,7 @@ public class Facade {
         }
 
         @Override
-        public Object execute(ISession session, EntityBroker broker) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
+        public Object execute(ISession session, EntityBroker broker) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, BadSessionException {
             if (!(broker instanceof ICollectionReload)) {
                 throw new ReloadInterfaceNotImplementedException();
             }
@@ -328,7 +329,7 @@ public class Facade {
         }
 
         @Override
-        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
             return broker.saveEntity(session, _toSave);
         }
     }
@@ -342,7 +343,7 @@ public class Facade {
         }
 
         @Override
-        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
             return broker.saveAll(session, _toSave);
         }
     }
@@ -356,7 +357,7 @@ public class Facade {
         }
 
         @Override
-        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
+        public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
             return broker.deleteEntity(session, _toDelete);
         }
     }
@@ -384,7 +385,7 @@ public class Facade {
         }
 
         @Override
-        public Collection<Object> execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
+        public Collection<Object> execute(ISession session, EntityBroker broker) throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, BadSessionException {
             if (!(broker instanceof ISearch)) {
                 throw new SearchInterfaceNotImplementedException();
             }

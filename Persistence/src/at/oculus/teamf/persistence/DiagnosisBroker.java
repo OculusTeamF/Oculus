@@ -40,7 +40,7 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
      * @throws BadConnectionException
      */
     @Override
-    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
 
@@ -59,7 +59,7 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
      * @return return a persitency entity
      */
     @Override
-    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Diagnosis diagnosis = (Diagnosis) obj;
 
@@ -76,7 +76,8 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
     @Override
     public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
         if (params.length == 1) {
-            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params);
+            System.out.println("Searching Diagnoses");
+            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
         } else {
             return null;
         }
