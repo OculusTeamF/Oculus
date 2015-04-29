@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
@@ -37,7 +38,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
      * @throws BadConnectionException
      */
     @Override
-	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException {
+	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Orthoptist orthoptist = new Orthoptist();
         orthoptist.setId(entity.getId());

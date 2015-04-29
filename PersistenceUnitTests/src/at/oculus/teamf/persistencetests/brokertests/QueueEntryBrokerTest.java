@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Patient;
@@ -45,8 +46,12 @@ public class QueueEntryBrokerTest extends BrokerTest {
 		patient.setLastName(firstName);
 		patient.setSocialInsuranceNr(svn);
 
-		Facade.getInstance().save(patient);
-	}
+        try {
+            Facade.getInstance().save(patient);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void setUp() {
@@ -58,17 +63,19 @@ public class QueueEntryBrokerTest extends BrokerTest {
 			generatePatient("UnitTestPatient2", "999999992");
 			generatePatient("UnitTestPatient3", "999999993");
 
-			Collection<Patient> patients = Facade.getInstance().getAll(Patient.class);
-			patientOne = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient1")).get(0);
-			patientTwo = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient2")).get(0);
-			patientThree = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient3")).get(0);
+                Collection<Patient> patients = Facade.getInstance().getAll(Patient.class);
+                patientOne = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient1")).get(0);
+                patientTwo = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient2")).get(0);
+                patientThree = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient3")).get(0);
+                doctor = Facade.getInstance().getById(Doctor.class, 1);
+                orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 
-			doctor = Facade.getInstance().getById(Doctor.class, 1);
-			orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
         assertTrue(patientOne!=null);
 		assertTrue(patientTwo!=null);
 		assertTrue(patientThree!=null);
@@ -86,8 +93,10 @@ public class QueueEntryBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void tearDown() {
@@ -102,8 +111,10 @@ public class QueueEntryBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Test
 	@Override
@@ -115,8 +126,10 @@ public class QueueEntryBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
-		assertTrue(queueEntry != null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(queueEntry != null);
 	}
 
 	@Test
@@ -129,9 +142,11 @@ public class QueueEntryBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
-		assertTrue(queueEntries != null);
+        assertTrue(queueEntries != null);
 		assertTrue(queueEntries.size() > 1);
 	}
 
@@ -147,6 +162,8 @@ public class QueueEntryBrokerTest extends BrokerTest {
 		} catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 }

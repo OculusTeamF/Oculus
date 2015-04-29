@@ -46,7 +46,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
      * @throws BadConnectionException
      */
     @Override
-    protected Doctor persistentToDomain(DoctorEntity entity) throws NoBrokerMappedException, BadConnectionException {
+    protected Doctor persistentToDomain(DoctorEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Doctor doctor = new Doctor();
         doctor.setId(entity.getId());
@@ -82,7 +82,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
      * @return return a persitency entity
      */
     @Override
-    protected DoctorEntity domainToPersistent(Doctor obj) throws NoBrokerMappedException, BadConnectionException {
+    protected DoctorEntity domainToPersistent(Doctor obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Doctor entity = obj;
         DoctorEntity doctorEntity = new DoctorEntity();
@@ -120,7 +120,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
      * @throws InvalidReloadClassException
      */
     @Override
-    public void reload(ISession session, Object obj, Class clazz) throws InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
+    public void reload(ISession session, Object obj, Class clazz) throws InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, BadSessionException {
         if (clazz == Patient.class) {
             ((Doctor) obj).setPatients(reloadPatients(session, obj));
         } else {
@@ -136,7 +136,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<Patient> reloadPatients(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
+    private Collection<Patient> reloadPatients(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         log.debug("reloading patients");
         ReloadComponent reloadComponent =
                 new ReloadComponent(DoctorEntity.class, Patient.class);
@@ -152,7 +152,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
      * @return {@code true} if the object was saved, {@code false} if the object could not be saved
      */
     @Override
-    public boolean saveEntity(ISession session, Doctor domainObj) throws BadConnectionException, NoBrokerMappedException {
+    public boolean saveEntity(ISession session, Doctor domainObj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
         DoctorEntity entity = domainToPersistent(domainObj);
         Boolean returnValue = true;

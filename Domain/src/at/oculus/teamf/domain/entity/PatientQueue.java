@@ -26,41 +26,35 @@ import java.util.LinkedList;
 /**
  * @author Fabian Salzgeber
  */
-public final class PatientQueue implements ILogger, IPatientQueue {
+public class PatientQueue implements ILogger, IPatientQueue {
 
     //Todo: replace hack
     private static Collection<QueueEntry> _entriesCache;
 
     //<editor-fold desc="Attributes">
+    private int _userID;
     private User _user;
     private LinkedList<QueueEntry> _entries;
     private QueueEntry _last;
     //</editor-fold>
 
-    public PatientQueue(User user, Collection<QueueEntry> entries) {
-        _user = user;
-        queueSetup(entries);
-    }
-
-    private void queueSetup(Collection<QueueEntry> entries) {
-        _entries.addAll(entries);
-    }
-
     public PatientQueue(Doctor doctor) throws NoBrokerMappedException, BadConnectionException {
         _user = doctor;
+        _userID = _user.getUserId();
         getEntries();
 
         log.info("[CREATE PatientQueue for DOCTOR '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Queuesize: " + _entries.size());
     }
 
-    public PatientQueue(Orthoptist orthoptist) throws NoBrokerMappedException, BadConnectionException {
+    public PatientQueue(Orthoptist orthoptist) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         _user = orthoptist;
+        _userID = _user.getUserId();
         getEntries();
 
         log.info("[CREATE PatientQueue for ORTHOPTIST '" + orthoptist.getFirstName() + " " + orthoptist.getLastName() + "' / Queuesize: " + _entries.size());
     }
 
-    public PatientQueue() throws NoBrokerMappedException, BadConnectionException {
+    public PatientQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         _user = null;
         getEntries();
 
@@ -87,7 +81,7 @@ public final class PatientQueue implements ILogger, IPatientQueue {
      * @throws NoBrokerMappedException
      * @throws BadConnectionException
      */
-    public void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException {
+    public void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         // id of last queue element
         Integer parentId = null;
         if (!_entries.isEmpty()) {
@@ -125,7 +119,7 @@ public final class PatientQueue implements ILogger, IPatientQueue {
      * @throws BadConnectionException
      * @throws InvalidSearchParameterException
      */
-    public void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
+    public void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException, BadSessionException {
         LinkedList<QueueEntry> queue = new LinkedList<>();
         QueueEntry queueEntryDel = null;
         QueueEntry queueEntryChd = null;
