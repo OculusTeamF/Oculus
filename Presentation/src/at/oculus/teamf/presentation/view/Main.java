@@ -80,11 +80,11 @@ public class Main extends Application implements ILocal, ILogger {
 
         service.start(); // starts Thread
 
-        //initLoadingScreen();        // create splashcreen
-        //initStage.show();           // show splashcreen
-        //initMainWindow();           // build main window (heavy queue load process)
-        //primaryStage.show();        // show main window
-        //initStage.close();          // close splashscreen
+       /* initLoadingScreen();        // create splashcreen
+        initStage.show();           // show splashcreen
+        initMainWindow();           // build main window (heavy queue load process)
+        primaryStage.show();        // show main window
+        initStage.close();          // close splashscreen*/
 
     }
 

@@ -17,6 +17,7 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -201,6 +202,13 @@ public class QueueController implements Initializable {
             } catch (BadConnectionException | NoBrokerMappedException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
+            } catch (final NullPointerException e) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        DialogBoxController.getInstance().showExceptionDialog(e, "NullPointerException (Userqueue) - Please contact support");
+                    }
+                });
             }
 
             ObservableList<IPatient> olist = FXCollections.observableArrayList();
