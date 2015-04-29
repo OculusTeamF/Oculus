@@ -1,3 +1,5 @@
+
+
 /*
  * Copyright (c) 2015 Team F
  *
@@ -201,6 +203,8 @@ public class QueueController implements Initializable {
             } catch (BadConnectionException | NoBrokerMappedException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
+            } catch (final NullPointerException e) {
+                // todo
             }
 
             ObservableList<IPatient> olist = FXCollections.observableArrayList();
@@ -212,6 +216,8 @@ public class QueueController implements Initializable {
             } catch (NoBrokerMappedException | BadConnectionException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
+            } catch (final NullPointerException e) {
+                // todo
             }
 
             listView.setItems(olist);

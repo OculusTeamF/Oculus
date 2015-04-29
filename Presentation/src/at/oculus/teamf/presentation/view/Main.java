@@ -16,7 +16,6 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -44,7 +43,9 @@ public class Main extends Application implements ILocal, ILogger {
     public static Service<Void> service;
 
     public static Scene scene;
-    final Stage initStage = new Stage(StageStyle.UNDECORATED);;
+    // uncomment 'undecorated' code line when splashcreen is running as a thread
+    //final Stage initStage = new Stage(StageStyle.UNDECORATED);
+    final Stage initStage = new Stage(StageStyle.DECORATED);
     final Stage primaryStage = new Stage(StageStyle.DECORATED);
 
     /*start (init and build) application*/
@@ -53,7 +54,7 @@ public class Main extends Application implements ILocal, ILogger {
 
         //TODO create thread for loading
         //Logger4J.setLevel(log, Level.ERROR);
-        initLoadingScreen();        // create splashcreen
+      /*  initLoadingScreen();        // create splashcreen
         initStage.show();           // show splashcreen
 
         // cheap thread workaround (can be replaced later)
@@ -78,13 +79,15 @@ public class Main extends Application implements ILocal, ILogger {
             }
         };
 
-        service.start(); // starts Thread
+        service.start(); // starts Thread*/
 
-        //initLoadingScreen();        // create splashcreen
-        //initStage.show();           // show splashcreen
-        //initMainWindow();           // build main window (heavy queue load process)
-        //primaryStage.show();        // show main window
-        //initStage.close();          // close splashscreen
+        initLoadingScreen();        // create splashcreen
+        initStage.show();           // show splashcreen
+        initMainWindow();           // build main window (heavy queue load process)
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+        initStage.close();          // close splashscreen
 
     }
 
@@ -113,17 +116,10 @@ public class Main extends Application implements ILocal, ILogger {
 
         // add app icon
         primaryStage.getIcons().add(new Image("/res/32x32.png"));
-        //primaryStage.setScene(scene);
-        //primaryStage.setMaximized(true);
-        //primaryStage.show();
     }
 
     /*create loading screen (splashcreen)*/
     private void initLoadingScreen() throws InitLoadingException {
-
-        // uncomment 'undecorated' code line when splashcreen is running as a thread
-        //init = new Stage(StageStyle.UNDECORATED);
-
         Parent initroot = null;
         try {
             initroot = (Parent) initloader.load();
