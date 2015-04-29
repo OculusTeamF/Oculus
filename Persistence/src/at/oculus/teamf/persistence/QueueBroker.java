@@ -9,23 +9,25 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.entity.QueueEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
+import javax.print.Doc;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * queue broker translating domain objects to persistence entities
  */
-public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
+public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
 
     public QueueBroker() {
         super(QueueEntry.class, QueueEntity.class);
@@ -57,6 +59,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
 
     /**
      * Converts a domain object to persitency entity
+     *
      * @param queueEntry that needs to be converted
      * @return return a persitency entity
      */
@@ -98,5 +101,53 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> {
         }
 
         return new QueueEntity(queueEntry.getId(), doctorEntity, orthoptistEntity, patientEntity, queueEntityParent, queueEntry.getArrivalTime());
+    }
+
+    @Override
+    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
+        if (params.length == 0) {
+            return null;
+        }
+
+        String[] queryParam = new String[1];
+        String query = "";
+        Collection<Object> result = null;
+        switch (params[0]) {
+            case("Doctor"): {
+                query = "getDocotorQueueEntries";
+                try {
+                    result =  session.search(query, params[1]);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case("Orthopist"): {
+                query = "getOrthoptistQueueEntries";
+                try {
+                    result =  session.search(query, params[1]);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case("General"): {
+                query = "getGeneralQueueEntries";
+                try {
+                    result =  session.search(query);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            default: {
+                return new LinkedList<>();
+            }
+        }
+
+
+
+
+        return (Collection<QueueEntry>)(Collection<?>)result;
     }
 }

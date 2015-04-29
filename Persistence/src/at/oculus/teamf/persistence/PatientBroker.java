@@ -23,8 +23,10 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * patient broker translating domain objects to persistence entities
@@ -169,8 +171,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      */
     @Override
     public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
-        Collection<Object> patientsResult = null;
-        Collection<Patient> patients = new LinkedList<Patient>();
+        Collection<Object> searchResult = null;
 
         // create query
         String query = null;
@@ -185,17 +186,18 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         }
 
         try {
-            patientsResult = session.search(query, params);
+            searchResult = session.search(query, params);
         } catch (BadSessionException e) {
             log.catching(e);
         }
 
-        for (Object obj : patientsResult) {
-            PatientEntity patientEntity = (PatientEntity) obj;
-            patients.add(persistentToDomain(patientEntity));
+        Collection<Patient> result = new LinkedList<>();
+        for(Object o : searchResult) {
+            result.add(persistentToDomain((PatientEntity)o));
         }
 
-        return patients;
+
+        return (Collection<Patient>)(Collection<?>) result;
     }
 
     private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {

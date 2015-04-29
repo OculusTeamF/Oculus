@@ -98,5 +98,5 @@ public interface ISession {
      * @return collection of objects or null if no matches were found
      * @throws BadSessionException if an error occurred in the sessdion
      */
-    Collection<Object> search(String queryName, String[] parameters) throws BadSessionException;
+    Collection<Object> search(String queryName, String... parameters) throws BadSessionException;
 }

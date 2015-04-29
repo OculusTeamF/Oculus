@@ -30,6 +30,7 @@
       <element id="library" level="project" name="hibernate-entitymanager-4.2.2.Final" />
       <element id="module-output" name="Technical" />
       <element id="library" level="project" name="Presentation" />
+      <element id="file-copy" path="$PROJECT_DIR$/Ressource/config.properties" />
     </root>
   </artifact>
 </component>

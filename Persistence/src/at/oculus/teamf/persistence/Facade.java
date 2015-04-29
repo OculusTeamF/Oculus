@@ -389,13 +389,7 @@ public class Facade {
                 throw new SearchInterfaceNotImplementedException();
             }
 
-            Collection<Object> collection = new LinkedList<>();
-
-            for (Object obj : ((ISearch) broker).search(session, _params)) {
-                collection.add(obj);
-            }
-
-            return collection;
+            return ((ISearch) broker).search(session, _params);
         }
     }
 }
