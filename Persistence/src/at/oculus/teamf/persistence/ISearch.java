@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
@@ -20,5 +21,5 @@ import java.util.Collection;
  * ISearch.java Created by oculus on 17.04.15.
  */
 interface ISearch<T> {
-	public Collection<T> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException;
+	public Collection<T> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException;
 }
