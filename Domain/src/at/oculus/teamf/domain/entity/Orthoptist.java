@@ -49,7 +49,7 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
     }
 
     @Override
-    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         if(_queue == null) {
             _queue = QueueFactory.getInstance().getUserQueue(this);
         }

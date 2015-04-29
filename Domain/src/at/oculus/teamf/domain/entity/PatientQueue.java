@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -38,23 +39,25 @@ public class PatientQueue implements ILogger, IPatientQueue {
     private QueueEntry _last;
     //</editor-fold>
 
+    public PatientQueue(User user, Collection<QueueEntry> entries) {
+        _entries.addAll(entries);
+    }
+
     public PatientQueue(Doctor doctor) throws NoBrokerMappedException, BadConnectionException {
         _user = doctor;
-        _userID = _user.getUserId();
         getEntries();
 
         log.info("[CREATE PatientQueue for DOCTOR '" + doctor.getFirstName() + " " + doctor.getLastName() + "' / Queuesize: " + _entries.size());
     }
 
-    public PatientQueue(Orthoptist orthoptist) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    public PatientQueue(Orthoptist orthoptist) throws NoBrokerMappedException, BadConnectionException {
         _user = orthoptist;
-        _userID = _user.getUserId();
         getEntries();
 
         log.info("[CREATE PatientQueue for ORTHOPTIST '" + orthoptist.getFirstName() + " " + orthoptist.getLastName() + "' / Queuesize: " + _entries.size());
     }
 
-    public PatientQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    public PatientQueue() throws NoBrokerMappedException, BadConnectionException {
         _user = null;
         getEntries();
 
