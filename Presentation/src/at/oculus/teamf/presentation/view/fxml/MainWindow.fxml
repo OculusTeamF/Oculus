@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Team F
+  ~
+  ~ This file is part of Oculus.
+  ~ Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~ Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane id="pane" fx:id="borderPane" prefHeight="725.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.MainController">
+    <top>
+        <VBox prefHeight="71.0" prefWidth="1152.0" BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu mnemonicParsing="false" text="File">
+                            <items>
+                                <MenuItem disable="true" mnemonicParsing="false" text="Logout" />
+                                <MenuItem disable="true" mnemonicParsing="false" text="Change User" />
+                                <MenuItem mnemonicParsing="false" onAction="#onClose" text="Exit" />
+                            </items>
+                        </Menu>
+                        <Menu disable="true" mnemonicParsing="false" text="Edit">
+                            <items>
+                                <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
+                            </items>
+                        </Menu>
+                        <Menu disable="false" mnemonicParsing="false" text="View">
+                            <items>
+                                <Menu disable="true" mnemonicParsing="false" text="Theme">
+                                    <items>
+                                        <CheckMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" selected="true" text="Default Theme" />
+                                        <CheckMenuItem id="darkTheme" fx:id="DarkTheme" mnemonicParsing="false" text="Dark Theme" />
+                                        <CheckMenuItem id="whiteTheme" fx:id="whiteTheme" mnemonicParsing="false" text="White Theme" />
+                                    </items>
+                                </Menu>
+                                <Menu disable="true" mnemonicParsing="false" text="Language">
+                                    <items>
+                                        <CheckMenuItem id="languageEnglish" fx:id="languageEnglish" mnemonicParsing="false" selected="true" text="English" />
+                                        <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />
+                                    </items>
+                                </Menu>
+                                <MenuItem mnemonicParsing="false" onAction="#openPatientProperty" text="Patient Property (Test)" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Patient">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#newPatient" text="New Patient" />
+                                <MenuItem fx:id="openPatientsearch" mnemonicParsing="false" onAction="#searchPatient" text="Search patient record" />
+                            </items>
+                        </Menu>
+                        <Menu disable="true" mnemonicParsing="false" text="Forms">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Medical prescription" />
+                                <MenuItem mnemonicParsing="false" text="Visual aid" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Calendar">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#openCal" text="Calendar " />
+                            </items>
+                        </Menu>
+                        <Menu disable="true" mnemonicParsing="false" text="ICD-10 Codes">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="open list" />
+                            </items>
+                        </Menu>
+                        <Menu disable="true" mnemonicParsing="false" text="Medicament">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="open medical list" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem fx:id="userManual" mnemonicParsing="false" onAction="#showMenuHelp" text="Oculus Help" />
+                                <MenuItem fx:id="aboutOculus" mnemonicParsing="false" onAction="#showMenuAbout" text="About Oculus" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <ToolBar fx:id="toolbar" prefHeight="57.0" prefWidth="1099.0">
+                    <items>
+                        <Button fx:id="buttonTest" mnemonicParsing="false" onAction="#openPatient" prefHeight="25.0" prefWidth="68.0" text="Test" />
+                        <ComboBox prefWidth="150.0" visible="false" />
+                    </items></ToolBar>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <SplitPane fx:id="splitter" dividerPositions="0.2530434782608696" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="625.0" prefWidth="810.0">
+                    <children>
+                        <VBox fx:id="vboxQueues" prefHeight="623.0" prefWidth="376.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="284.0">
+                                    <children>
+                                        <TextField fx:id="textSearch" onKeyPressed="#handleEnterPressed" prefHeight="32.0" prefWidth="257.0" promptText="Search Patient" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="searchButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#doSearch" prefHeight="29.0" prefWidth="27.0" />
+                                    </children>
+                                </HBox>
+                                <TitledPane fx:id="searchResults" expanded="false" text="Search results">
+                                    <content>
+                                        <AnchorPane>
+                                            <children>
+                                                <ListView fx:id="listSearchResults" layoutX="46.0" layoutY="-10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </TitledPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <TabPane fx:id="displayPane" prefHeight="625.0" prefWidth="860.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

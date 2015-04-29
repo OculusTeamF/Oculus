@@ -16,8 +16,14 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../Ressource">
+      <sourceFolder url="file://$MODULE_DIR$/../Ressource" type="java-resource" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Hibernate 4.2.2-4.2.2" level="project" />
+    <orderEntry type="module" module-name="Technical" exported="" />
+    <orderEntry type="library" exported="" name="Technical" level="project" />
+    <orderEntry type="library" exported="" name="hibernate-entitymanager-4.2.2.Final" level="project" />
   </component>
 </module>
