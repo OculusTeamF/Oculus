@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
@@ -33,7 +32,7 @@ class CalendarEventBroker extends EntityBroker<CalendarEvent, CalendarEventEntit
      * @throws BadConnectionException
      */
     @Override
-	protected CalendarEvent persistentToDomain(CalendarEventEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+	protected CalendarEvent persistentToDomain(CalendarEventEntity entity) throws NoBrokerMappedException, BadConnectionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         CalendarEvent event = new CalendarEvent();
         event.setDescription(entity.getDescription());

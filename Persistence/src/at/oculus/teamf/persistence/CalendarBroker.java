@@ -10,7 +10,6 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
@@ -69,7 +68,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
      * @throws InvalidReloadClassException
      */
     @Override
-	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException {
+	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException{
 		if (clazz == CalendarEvent.class) {
 			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
 		} else {
@@ -86,7 +85,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
         log.debug("reloading calendar events");
         ReloadComponent reloadComponent =
                 new ReloadComponent(CalendarEntity.class, CalendarEvent.class);

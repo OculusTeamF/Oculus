@@ -78,9 +78,4 @@ public class Diagnosis implements IDiagnosis {
 			_doctorId = doctor.getId();
 		}
 	}
-
-    @Override
-    public String toString(){
-        return _title + " " + _description.substring(0,50) + "...";
-    }
 }

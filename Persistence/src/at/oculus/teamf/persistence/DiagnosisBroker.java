@@ -9,8 +9,6 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
@@ -19,14 +17,11 @@ import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
-
-import java.util.Collection;
 
 /**
  * diagnosis broker translating domain objects to persistence entities
  */
-public class DiagnosisBroker extends EntityBroker implements ISearch {
+public class DiagnosisBroker extends EntityBroker {
     public DiagnosisBroker() {
         super(Diagnosis.class, DiagnosisEntity.class);
     }
@@ -40,7 +35,7 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
      * @throws BadConnectionException
      */
     @Override
-    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
 
@@ -54,12 +49,11 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
 
     /**
      * Converts a domain object to persitency entity
-     *
      * @param obj that needs to be converted
      * @return return a persitency entity
      */
     @Override
-    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Diagnosis diagnosis = (Diagnosis) obj;
 
@@ -71,15 +65,5 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
         }
 
         return new DiagnosisEntity(diagnosis.getId(), diagnosis.getTitle(), diagnosis.getDescription(), doctorEntity);
-    }
-
-    @Override
-    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
-        if (params.length == 1) {
-            System.out.println("Searching Diagnoses");
-            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
-        } else {
-            return null;
-        }
     }
 }
