@@ -30,7 +30,7 @@ import java.util.LinkedList;
 
 import static junit.framework.Assert.assertTrue;
 
-public class QueueBrokerTest extends BrokerTest {
+public class QueueEntryBrokerTest extends BrokerTest {
 	private QueueEntry _newDoctorEntry;
 	private QueueEntry _newOrthoptistEntry;
 	private QueueEntry _newEntry;
@@ -119,6 +119,7 @@ public class QueueBrokerTest extends BrokerTest {
 		assertTrue(queueEntry != null);
 	}
 
+
 	@Test
 	@Override
 	public void testGetAll() {
@@ -142,7 +143,7 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(result.size() > 0);
 			result = Facade.getInstance().search(QueueEntry.class, "General");
 			assertTrue(result.size() > 0);
-			result = Facade.getInstance().search(QueueEntry.class, "Orthopist", "1");
+			result = Facade.getInstance().search(QueueEntry.class, "Orthoptist", "1");
 			assertTrue(result.size() > 0);
 		} catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException e) {
 			e.printStackTrace();

@@ -22,21 +22,24 @@ import java.sql.Timestamp;
                 name = "getDocotorQueueEntries",
                 query = "SELECT * " +
                         "FROM queue " +
-                        "WHERE doctorId = ?0",
+                        "WHERE UPPER(doctorId) like UPPER(?0) " +
+                        "Order By queueId DESC",
                 resultClass = QueueEntity.class),
 
         @NamedNativeQuery(
                 name = "getOrthoptistQueueEntries",
                 query = "SELECT * " +
                         "FROM queue " +
-                        "WHERE orthoptistId = ?0",
+                        "WHERE UPPER(orthoptistId) like UPPER(?0)" +
+                        "Order By queueId DESC",
                 resultClass = QueueEntity.class),
 
         @NamedNativeQuery(
                 name = "getGeneralQueueEntries",
                 query = "SELECT * " +
                         "FROM queue " +
-                        "WHERE doctorId is null AND orthoptistId is null",
+                        "WHERE doctorId is null AND orthoptistId is null " +
+                        "Order By queueId DESC",
                 resultClass = QueueEntity.class)
 })
 
