@@ -23,7 +23,7 @@ import java.util.Collection;
 		name = "getQueue",
 		query = "SELECT * " +
 		        "FROM patient " +
-		        "WHERE UPPER(socialInsuranceNr) like UPPER(?0) " +
+		        "WHERE (UPPER(socialInsuranceNr) like UPPER(?0) OR  socialInsuranceNr is null) " +
 		        "AND UPPER(firstName) like UPPER(?1) " +
 		        "AND UPPER(lastName) like UPPER(?2)",
 		resultClass = PatientEntity.class),
