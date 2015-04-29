@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
@@ -17,11 +19,14 @@ import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+
+import java.util.Collection;
 
 /**
  * diagnosis broker translating domain objects to persistence entities
  */
-public class DiagnosisBroker extends EntityBroker {
+public class DiagnosisBroker extends EntityBroker implements ISearch {
     public DiagnosisBroker() {
         super(Diagnosis.class, DiagnosisEntity.class);
     }
@@ -49,6 +54,7 @@ public class DiagnosisBroker extends EntityBroker {
 
     /**
      * Converts a domain object to persitency entity
+     *
      * @param obj that needs to be converted
      * @return return a persitency entity
      */
@@ -65,5 +71,14 @@ public class DiagnosisBroker extends EntityBroker {
         }
 
         return new DiagnosisEntity(diagnosis.getId(), diagnosis.getTitle(), diagnosis.getDescription(), doctorEntity);
+    }
+
+    @Override
+    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+        if (params.length == 1) {
+            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params);
+        } else {
+            return null;
+        }
     }
 }
