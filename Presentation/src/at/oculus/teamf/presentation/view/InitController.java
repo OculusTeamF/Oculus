@@ -67,7 +67,7 @@ public class InitController implements Initializable, ILogger {
         th.start();*/
 
         // set true when init window is set "undeocarted"
-        initRectangle.setVisible(false);
+        initRectangle.setVisible(true);
 
         // comment this out if 'QuoteGenerator' create errors
         labelQuote.setText(getQuote());

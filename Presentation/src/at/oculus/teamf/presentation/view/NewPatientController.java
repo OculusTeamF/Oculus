@@ -22,8 +22,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -81,7 +79,7 @@ public class NewPatientController implements Initializable{
         newPatientDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
 
 
-        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
+/*        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (DialogBoxController.getInstance().showYesNoDialog("Cancel new patient", "Do you want to cancel the new patient record ?") == false){
@@ -89,7 +87,7 @@ public class NewPatientController implements Initializable{
                 }
 
             }
-        });
+        });*/
 
         radioGenderFemale.setToggleGroup(group);
         radioGenderMale.setToggleGroup(group);
