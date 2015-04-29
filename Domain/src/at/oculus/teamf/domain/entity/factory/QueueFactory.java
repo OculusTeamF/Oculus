@@ -1,4 +1,4 @@
-package at.oculus.teamf.domain.entity;/*
+package at.oculus.teamf.domain.entity.factory;/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,23 +7,27 @@ package at.oculus.teamf.domain.entity;/*
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
  * Created by Simon Angerer on 29.04.2015.
  */
-class QueueFactory {
+public class QueueFactory implements ILogger{
     private static QueueFactory _selfe = new QueueFactory();
 
-    private HashMap<Orthoptist, PatientQueue> _orthoptistPatientQueues;
-    private HashMap<Doctor, PatientQueue> _doctorPatientQueues;
+    private HashMap<User, PatientQueue> _userQueues;
     private PatientQueue _generalQueue;
+
+    private HashMap<Class, String> _keyWordMap;
 
     private boolean _updating;
 
@@ -36,10 +40,14 @@ class QueueFactory {
     }
 
     private QueueFactory() {
-        _orthoptistPatientQueues = new HashMap<>();
-        _doctorPatientQueues = new HashMap<>();
+        _userQueues = new HashMap<>();
 
-        _updating = true;
+        _keyWordMap = new HashMap<>();
+        _keyWordMap.put(Orthoptist.class, "Orthoptist");
+        _keyWordMap.put(Doctor.class, "Doctor");
+
+
+        /*_updating = true;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -51,35 +59,36 @@ class QueueFactory {
                     //update general queue
                 }
             }
-        }).run();
+        }).run();*/
     }
 
-    private PatientQueue searchForQueue(String key, String id) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
-       return (PatientQueue) Facade.getInstance().search(PatientQueue.class, key, id);
-    }
+    private Collection<QueueEntry> searchForQueueEntries(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
+        int id;
 
-    public PatientQueue getOrtoptistQueue(Orthoptist orthoptist) throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
-        if(_doctorPatientQueues.get(orthoptist) == null) {
-            loadOrtoptistQueue(orthoptist);
+        if(user instanceof Doctor) {
+            id = ((Doctor) user).getId();
+        } else {
+            id = ((Orthoptist)user).getId();
         }
-        return _orthoptistPatientQueues.get(orthoptist);
+        return  Facade.getInstance().search(QueueEntry.class, _keyWordMap.get(user), Integer.toString(id));
     }
 
-    private void loadOrtoptistQueue(Orthoptist orthoptist) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
-        PatientQueue queue = searchForQueue("Orthoptist", Integer.toString(orthoptist.getId()));
-        _orthoptistPatientQueues.put(orthoptist, queue);
-    }
 
-    public PatientQueue getDoctorQueue(Doctor doctor) throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
-        if(_doctorPatientQueues.get(doctor) == null) {
-            loadDoctorQueue(doctor);
+    public PatientQueue getUserQueue(User user) {
+        if(_userQueues.get(user) == null) {
+            try {
+                loadUserQueue(user);
+            } catch (InvalidSearchParameterException | BadConnectionException | SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
+                log.error("Could not load queue from database! Original Message " + e.getMessage());
+                return null;
+            }
         }
-        return _orthoptistPatientQueues.get(doctor);
+        return _userQueues.get(user);
     }
 
-    private void loadDoctorQueue(Doctor doctor) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
-        PatientQueue queue = searchForQueue("Doctor", Integer.toString(doctor.getId()));
-        _doctorPatientQueues.put(doctor, queue);
+    private void loadUserQueue(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
+        PatientQueue queue = createQueue(user, searchForQueueEntries(user));
+        _userQueues.put(user, queue);
     }
 
     public PatientQueue getGeneralQueue() throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
@@ -90,11 +99,11 @@ class QueueFactory {
     }
 
     private void loadGeneralQueue() throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
-        _generalQueue = (PatientQueue) Facade.getInstance().search(PatientQueue.class, "General");
+        _generalQueue = createQueue(null, (Collection<QueueEntry>)(Collection<?>)Facade.getInstance().search(QueueEntry.class, "General"));
     }
 
-    private void createQueue(QueueEntry entry) {
-
+    private PatientQueue createQueue(User user, Collection<QueueEntry> entries) {
+        return new PatientQueue(user, entries);
     }
 
 
