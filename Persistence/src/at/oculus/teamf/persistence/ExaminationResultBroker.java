@@ -49,12 +49,10 @@ public class ExaminationResultBroker extends EntityBroker {
 		User user = null;
 		Doctor doctor = null;
 		Orthoptist orthoptist = null;
-		if (examinationResultEntity.getUserEntity() != null) {
+		if (examinationResultEntity.getUserId() != null) {
             try {
 
-                if(user==null){
 	                for(Doctor d : ((LinkedList<Doctor>) (LinkedList<?>) Facade.getInstance().search(Doctor.class, examinationResultEntity.getUserId()+""))){
-		                System.out.println("Uhhh Doctor");
 		                doctor = d;
 	                }
 	                if(doctor!=null){
@@ -62,13 +60,11 @@ public class ExaminationResultBroker extends EntityBroker {
 	                }
 	                for(Orthoptist o : ((LinkedList<Orthoptist>) (LinkedList<?>) Facade.getInstance().search(
 			                Orthoptist.class, examinationResultEntity.getUserId() + ""))){
-		                System.out.println("Uhhh Orthoptist");
 		                orthoptist = o;
 	                }
 	                if(orthoptist!=null){
 		                user = orthoptist;
 	                }
-                }
             } catch (InvalidSearchParameterException e) {
                 e.printStackTrace();
             } catch (SearchInterfaceNotImplementedException e) {
@@ -101,7 +97,7 @@ public class ExaminationResultBroker extends EntityBroker {
 		if (examinationResult.getUser() != null) {
             try {
                 if(examinationResult.getDoctor()!=null){
-	                DoctorEntity doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+                    DoctorEntity doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
 	                                                     .domainToPersistent(examinationResult.getDoctor());
 	                if(doctorEntity!=null) {
 		                userEntity = doctorEntity.getUser();
