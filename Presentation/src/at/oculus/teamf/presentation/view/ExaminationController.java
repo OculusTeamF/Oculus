@@ -15,7 +15,6 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.presentation.view.DialogBoxController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,6 +25,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -58,7 +59,10 @@ public class ExaminationController implements Initializable {
         examinationAllergies.setWrapText(true);
         examinationDocumentation.setWrapText(true);
 
-        examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        saveButton.setGraphic(new ImageView(imageSaveIcon));
+
+        //examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
 

@@ -19,30 +19,32 @@ import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 public class PatientRecordController implements Initializable {
 
@@ -94,11 +96,17 @@ public class PatientRecordController implements Initializable {
         patientRecordChildhood.setWrapText(true);
         patientRecordIntolerance.setWrapText(true);
 
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        patientRecordSaveButton.setGraphic(new ImageView(imageSaveIcon));
+
+        Image imageEditIcon = new Image(getClass().getResourceAsStream("/res/icon_edit.png"));
+        patientRecordEditButton.setGraphic(new ImageView(imageEditIcon));
+
         /**
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
          * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
          */
-        patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
+ /*       patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (isFormEdited) {
@@ -109,7 +117,7 @@ public class PatientRecordController implements Initializable {
                     }
                 }
             }
-        });
+        });*/
 
         patientRecordDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
 
@@ -458,8 +466,9 @@ public class PatientRecordController implements Initializable {
                 checkinController.insertPatientIntoQueue(_patient, _user);
 
                 //Todo: add event handler
-                Main.controller.refreshQueue(_user);
-            //TODO saubere Exceptions!
+                Main.controlQueue.refreshQueue(_user);
+                //Main.controller.refreshQueue(_user);
+                //TODO saubere Exceptions!
             } catch (BadConnectionException e) {
                 e.printStackTrace();
                 DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
@@ -481,16 +490,12 @@ public class PatientRecordController implements Initializable {
      */
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
-
-            try {
-                //Todo: add central controller
-                Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
-                Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1);
-                StatusBarController.getInstance().setText("Open examination...");
-            } catch (IOException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-            }
+        //Todo: add central controller
+        Date date = new Date();
+        Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
+        //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
+        //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
+        StatusBarController.getInstance().setText("Open examination...");
     }
     //</editor-fold>
 
