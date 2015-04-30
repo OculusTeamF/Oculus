@@ -47,7 +47,7 @@ public interface IPatient {
 
     Collection<CalendarEvent> getCalendarEvents()
             throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-            NoBrokerMappedException, BadSessionException;
+            NoBrokerMappedException;
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
 
     Date getBirthDay();
@@ -80,7 +80,7 @@ public interface IPatient {
     String getMedicineIntolerance();
     void setMedicineIntolerance(String medicineIntolerance);
 
-    Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException;
+    Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException;
     void addExaminationProtocol(IExaminationProtocol examinationProtocol);
 
 }

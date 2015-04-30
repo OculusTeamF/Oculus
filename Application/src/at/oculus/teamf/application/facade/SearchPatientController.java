@@ -58,7 +58,7 @@ public class SearchPatientController implements ILogger{
      * @param data this is all given information to search the patient (with full-text-search)
      */
 
-    public Collection <IPatient> searchPatients (String data) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection <IPatient> searchPatients (String data) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
@@ -103,7 +103,7 @@ public class SearchPatientController implements ILogger{
      * @param lastName this is the last name of the searched patient
      */
 
-    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();

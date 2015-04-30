@@ -44,7 +44,7 @@ public class Calendar implements ICalendar {
         _id = calendarID;
     }
 
-    public Collection<CalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection<CalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
         facade.reloadCollection(this, CalendarEvent.class);

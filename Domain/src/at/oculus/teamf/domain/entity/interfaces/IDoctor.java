@@ -31,7 +31,7 @@ public interface IDoctor extends IUser, IDomain {
 
     void setCalendar(Calendar _calendar);
 
-    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException;
+    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
 
     void setQueue(PatientQueue _queue);
 
@@ -41,7 +41,7 @@ public interface IDoctor extends IUser, IDomain {
 
     void addPatient(Patient patient);
 
-    Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException;
+    Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException;
 
     void setPatients(Collection<Patient> patients);
 

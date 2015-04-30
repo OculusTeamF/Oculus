@@ -28,7 +28,7 @@ public interface IOrthoptist extends IUser {
 
     void setCalendar(Calendar calendar);
 
-    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException;
+    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
 
     void setQueue(PatientQueue queue);
 }

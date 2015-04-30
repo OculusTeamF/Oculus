@@ -56,9 +56,7 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().save(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(_patient.getId()>0);
 	}
 
@@ -68,9 +66,7 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
     }
 
 	@Override
@@ -81,8 +77,6 @@ public class PatientBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
 
         assertTrue(patient != null);
@@ -108,8 +102,6 @@ public class PatientBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
 
         assertTrue(patients != null);
@@ -223,9 +215,7 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         // create examination protocol
 		ExaminationProtocol examinationProtocol = new ExaminationProtocol();
@@ -243,9 +233,7 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         // delete
 		try {
@@ -261,8 +249,6 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
     }
 }

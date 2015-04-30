@@ -115,7 +115,7 @@ public class Patient implements IPatient, IDomain, ILogger {
 
 	public Collection<CalendarEvent> getCalendarEvents()
             throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-            NoBrokerMappedException, BadSessionException {
+            NoBrokerMappedException {
 
 		Facade.getInstance().reloadCollection(this, CalendarEvent.class);
 
@@ -226,7 +226,7 @@ public class Patient implements IPatient, IDomain, ILogger {
 
 	public Collection<IExaminationProtocol> getExaminationProtocol()
             throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-            NoBrokerMappedException, BadSessionException {
+            NoBrokerMappedException {
 
 		Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
 
@@ -248,7 +248,7 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol)
-            throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+            throws NoBrokerMappedException, BadConnectionException {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		_examinationProtocol.add(examinationProtocol);

@@ -78,7 +78,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param description this is the description of the diagnosis
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
-    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws BadConnectionException, NoBrokerMappedException, RequirementsUnfulfilledException, BadSessionException {
+    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws BadConnectionException, NoBrokerMappedException, RequirementsUnfulfilledException {
 
         //check parameters
         if(!checkRequirements(title, description, iDoctor)){
@@ -104,9 +104,6 @@ public class CreateDiagnosisController implements ILogger {
         } catch (NoBrokerMappedException noBrokerMappedException) {
             log.warn("NoBrokerMappedException caught! Diagnosis can not be saved!");
             throw noBrokerMappedException;
-        } catch (BadSessionException badSessionException) {
-            log.warn("BadSessionException caught! Diagnosis can not be saved!");
-            throw badSessionException;
         }
 
         //return an interface of the new diagnosis

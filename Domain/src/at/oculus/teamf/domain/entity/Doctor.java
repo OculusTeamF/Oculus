@@ -65,7 +65,7 @@ public class Doctor extends User implements IDoctor {
     }
 
     @Override
-    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
         if(_queue == null) {
             _queue = new PatientQueue(this);
         }
@@ -93,7 +93,7 @@ public class Doctor extends User implements IDoctor {
     }
 
     @Override
-    public Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
         facade.reloadCollection(this, Patient.class);
