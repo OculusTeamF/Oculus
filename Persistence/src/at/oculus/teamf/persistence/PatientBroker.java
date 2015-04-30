@@ -180,7 +180,6 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
             if(params[i].length() > 0) {
                 params[i] = new String("%"+ params[i].replace(' ', '%') + "%");
             }
-            System.out.println(params[i]);
         }
 
 
