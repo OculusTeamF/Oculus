@@ -111,12 +111,12 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
 
         String[] queryParam = new String[1];
         String query = "";
-        Collection<Object> result = null;
+        Collection<QueueEntity> result = null;
         switch (params[0]) {
             case("Doctor"): {
                 query = "getDocotorQueueEntries";
                 try {
-                    result =  session.search(query, params[1]);
+                    result = (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
                 } catch (BadSessionException e) {
                     e.printStackTrace();
                 }
@@ -125,7 +125,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
             case("Orthopist"): {
                 query = "getOrthoptistQueueEntries";
                 try {
-                    result =  session.search(query, params[1]);
+                    result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
                 } catch (BadSessionException e) {
                     e.printStackTrace();
                 }
@@ -134,7 +134,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
             case("General"): {
                 query = "getGeneralQueueEntries";
                 try {
-                    result =  session.search(query);
+                    result =  (Collection<QueueEntity>)(Collection<?>)session.search(query);
                 } catch (BadSessionException e) {
                     e.printStackTrace();
                 }
@@ -145,9 +145,14 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
             }
         }
 
-
-
-
-        return (Collection<QueueEntry>)(Collection<?>)result;
+        Collection<QueueEntry> domainEntries = new LinkedList<>();
+        for(QueueEntity qw : result) {
+            try {
+                domainEntries.add(persistentToDomain(qw));
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+            }
+        }
+        return domainEntries;
     }
 }

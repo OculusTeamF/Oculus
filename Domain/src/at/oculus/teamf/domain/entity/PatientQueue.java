@@ -38,6 +38,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
     private LinkedList<QueueEntry> _entries;
     //</editor-fold>
 
+    public PatientQueue(User user, Collection<QueueEntry> entries) {
+
+    }
+
     public PatientQueue(Doctor doctor) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         _user = doctor;
         _userID = _user.getUserId();

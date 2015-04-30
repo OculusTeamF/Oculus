@@ -24,9 +24,6 @@ public class QueueEntry implements IQueueEntry {
     private Timestamp _arrivalTime;
     private Patient _patient;
 
-    public QueueEntry() {
-    }
-
     /**
      *
      * adds new queueEntry to PatientQueue for doctor, orthopthist or unassigned queue
