@@ -19,7 +19,6 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
@@ -58,12 +57,12 @@ public class SearchPatientController implements ILogger{
      * @param data this is all given information to search the patient (with full-text-search)
      */
 
-    public Collection <IPatient> searchPatients (String data) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection <IPatient> searchPatients (String data) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
-            patients = facade.search(Patient.class, "%" + data.replace(" ", "%") + "%");
+            patients = facade.search(Patient.class, data);
             log.info("Search has been successful.");
         } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
             log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");
@@ -103,12 +102,12 @@ public class SearchPatientController implements ILogger{
      * @param lastName this is the last name of the searched patient
      */
 
-    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
-            patients = facade.search(Patient.class, "%" + svn + "%", "%" + firstName + "%", "%" + lastName + "%");
+            patients = facade.search(Patient.class, svn, firstName, lastName);
             log.info("Search has been successful.");
         } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
             log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");

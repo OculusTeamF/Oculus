@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -24,9 +23,9 @@ import java.util.Collection;
  */
 public interface IPatientQueue {
 
-    Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException, BadSessionException;
+    Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException;
 
-    void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException, BadSessionException;
+    void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException;
 
-    void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException, BadSessionException;
+    void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException;
 }

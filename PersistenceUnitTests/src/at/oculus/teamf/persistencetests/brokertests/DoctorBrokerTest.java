@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
@@ -48,8 +47,6 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(doctor != null);
     }
@@ -64,11 +61,9 @@ public class DoctorBrokerTest extends BrokerTest {
 	    } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-	    } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+	    }
 
-        assertTrue(doctors != null);
+	    assertTrue(doctors != null);
 	    assertTrue(doctors.size() > 1);
     }
 
@@ -81,8 +76,6 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(doctor != null);
 		assertTrue(doctor.getCalendar()!=null);
@@ -93,8 +86,6 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
 
         try {
@@ -103,8 +94,6 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -42,8 +42,8 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
      * @throws BadConnectionException
      */
     @Override
-    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
-        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException {
+        log.debug("converting persistence entity " + _entityClass + " to domain object " + _domainClass);
         Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
         Doctor doctor = null;
         if (entity.getDoctorId() != null) {
@@ -64,7 +64,7 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
      * @return return a persitency entity
      */
     @Override
-    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Doctor doctor = queueEntry.getDoctor();
         Orthoptist orthoptist = queueEntry.getOrthoptist();

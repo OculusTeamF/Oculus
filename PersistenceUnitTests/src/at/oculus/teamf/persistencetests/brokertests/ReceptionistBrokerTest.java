@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Receptionist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -41,8 +40,6 @@ public class ReceptionistBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(receptionist != null);
     }
@@ -57,11 +54,9 @@ public class ReceptionistBrokerTest extends BrokerTest {
 	    } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-	    } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+	    }
 
-        Assert.assertTrue(receptionists != null);
+	    Assert.assertTrue(receptionists != null);
 	    Assert.assertTrue(receptionists.size() > 0);
     }
 }
