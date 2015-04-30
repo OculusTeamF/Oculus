@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
@@ -55,8 +56,10 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().save(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
-		}
-		assertTrue(_patient.getId()>0);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(_patient.getId()>0);
 	}
 
 	@Override
@@ -65,8 +68,10 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
     public void testGetById() {
@@ -76,6 +81,8 @@ public class PatientBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
         }
 
         assertTrue(patient != null);
@@ -101,6 +108,8 @@ public class PatientBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
         }
 
         assertTrue(patients != null);
@@ -109,7 +118,6 @@ public class PatientBrokerTest extends BrokerTest {
     }
 
 	@Test
-	//Todo: rework
 	public void testReload() {
         Patient patient = null;
         try {
@@ -119,13 +127,15 @@ public class PatientBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
         }
 
-		try {
+        try {
 			assertTrue(patient.getCalendarEvents() != null);
-			assertTrue(patient.getCalendarEvents().size() == 2);
+			assertTrue(patient.getCalendarEvents().size() == 3);
 			assertTrue(patient.getExaminationProtocol() != null);
-			assertTrue(patient.getExaminationProtocol().size() > 0);
+			assertTrue(patient.getExaminationProtocol().size()==5);
 		} catch (InvalidReloadClassException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -138,7 +148,9 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
     }
 
 	@Test
@@ -146,36 +158,44 @@ public class PatientBrokerTest extends BrokerTest {
 		Collection<Patient> patients = null;
 		// SVN only
 		try {
-			patients = Facade.getInstance().search(Patient.class,Integer.toString(_patient.getId()));
+			patients = Facade.getInstance().search(Patient.class,"5947053957", "", "");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-		assertTrue(patients.size() > 0);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(patients.size()==1);
 		// Firstname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"JaNe");
+			patients = Facade.getInstance().search(Patient.class,"","JaNe","");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-		assertTrue(patients.size() == 3);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(patients.size() == 3);
 		// Lastname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"sOn");
+			patients = Facade.getInstance().search(Patient.class,"","","sOn");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-		assertTrue(patients.size()==6);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(patients.size()==6);
 		// Fulltext
 		try {
 			patients = Facade.getInstance().search(Patient.class,"son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-		assertTrue(patients.size()==6);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(patients.size()==6);
 	}
 
 	@Test
@@ -198,9 +218,11 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
-		// create diagnosis
+        // create diagnosis
 		Diagnosis diagnosis = new Diagnosis();
 		diagnosis.setDoctor(patient.getDoctor());
 		diagnosis.setTitle("Test Diagnosis");
@@ -213,9 +235,11 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
-		// create examination protocol
+        // create examination protocol
 		ExaminationProtocol examinationProtocol = new ExaminationProtocol();
 		examinationProtocol.setDoctor(patient.getDoctor());
 		examinationProtocol.setOrthoptist(null);
@@ -231,9 +255,11 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
-		// delete
+        // delete
 		try {
 			assertTrue(Facade.getInstance().save(examinationProtocol.getDoctor()));
 			assertTrue(Facade.getInstance().delete(examinationProtocol));
@@ -247,6 +273,8 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 }

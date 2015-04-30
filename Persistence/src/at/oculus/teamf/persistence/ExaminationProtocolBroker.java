@@ -39,7 +39,7 @@ public class ExaminationProtocolBroker extends EntityBroker {
      * @throws BadConnectionException
      */
     @Override
-    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         Doctor doctor = null;
@@ -80,7 +80,7 @@ public class ExaminationProtocolBroker extends EntityBroker {
      * @return return a persitency entity
      */
     @Override
-    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         ExaminationProtocol examinationProtocol = (ExaminationProtocol) obj;
 
@@ -125,7 +125,7 @@ public class ExaminationProtocolBroker extends EntityBroker {
 	 * @throws NoBrokerMappedException
 	 */
 	@Override
-	public boolean saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException {
+	public boolean saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
 		log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
 
 		ExaminationProtocolEntity entity = (ExaminationProtocolEntity) domainToPersistent(domainObj);

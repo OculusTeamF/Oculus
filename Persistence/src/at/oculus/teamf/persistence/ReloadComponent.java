@@ -53,7 +53,7 @@ public class ReloadComponent implements ILogger{
      * @return collection of domain objects
      * @throws FacadeException gets thrown if an error occures
      */
-    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException {
+    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         Facade facade = Facade.getInstance();
 
         //load database CalendarEventEntity that has the collection that needs to be reloaded

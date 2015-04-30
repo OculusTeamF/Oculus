@@ -27,9 +27,9 @@ import java.util.LinkedList;
 /**
  * queue broker translating domain objects to persistence entities
  */
-public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
+public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
 
-    public QueueEntryBroker() {
+    public QueueBroker() {
         super(QueueEntry.class, QueueEntity.class);
     }
 
@@ -42,8 +42,8 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
      * @throws BadConnectionException
      */
     @Override
-    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException {
-        log.debug("converting persistence entity " + _entityClass + " to domain object " + _domainClass);
+    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
         Doctor doctor = null;
         if (entity.getDoctorId() != null) {
@@ -64,7 +64,7 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
      * @return return a persitency entity
      */
     @Override
-    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException {
+    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Doctor doctor = queueEntry.getDoctor();
         Orthoptist orthoptist = queueEntry.getOrthoptist();
@@ -104,7 +104,7 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
     }
 
     @Override
-    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
         if (params.length == 0) {
             return null;
         }
@@ -115,24 +115,38 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
         switch (params[0]) {
             case("Doctor"): {
                 query = "getDocotorQueueEntries";
-                result =  session.search(query, params[1]);
+                try {
+                    result =  session.search(query, params[1]);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
-            case("Orthoptist"): {
+            case("Orthopist"): {
                 query = "getOrthoptistQueueEntries";
-                result =  session.search(query, params[1]);
-
+                try {
+                    result =  session.search(query, params[1]);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             case("General"): {
                 query = "getGeneralQueueEntries";
-                result =  session.search(query);
+                try {
+                    result =  session.search(query);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             default: {
                 return new LinkedList<>();
             }
         }
+
+
+
 
         return (Collection<QueueEntry>)(Collection<?>)result;
     }

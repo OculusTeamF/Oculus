@@ -126,7 +126,6 @@ public class DialogBoxController {
     public boolean showYesNoDialog(String title, String information){
         Alert dlg = createAlert(Alert.AlertType.CONFIRMATION);
         dlg.setTitle(title);
-        dlg.setHeaderText("Confirmation");
         dlg.getDialogPane().setContentText(information);
         //dlg.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
         //dlg.show();
