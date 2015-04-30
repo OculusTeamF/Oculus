@@ -17,7 +17,7 @@ package at.oculus.teamf.application.facade;
  *
  * <b>Description:</b>
  * This File contains the CreateDiagnosisController class,
- * which is responsible for the creation of a new diagnosis object, to save it into an examinationprotocol
+ * which is responsible for the creation of a new diagnosis object, to save it into an examination protocol
  * and to save it into the database.
  **/
 
@@ -45,10 +45,21 @@ public class CreateDiagnosisController implements ILogger {
 
     private ExaminationProtocol examinationProtocol;
 
+    /**
+     *<h3>$CreateDiagnosisController</h3>
+     *
+     * <b>Description:</b>
+     *this is the constructor of the CreateDiagnosisController. To get an instance of this controller,
+     * an examination protocol has to be set at the beginning (because a diagnosis depends on an examination
+     * protocol)
+     *
+     *<b>Parameter</b>
+     * @param iExaminationProtocol this parameter shows the interface of the examination protocol,
+     *                             into which the new diagnosis should be saved
+     */
     public CreateDiagnosisController(IExaminationProtocol iExaminationProtocol){
         examinationProtocol = (ExaminationProtocol) iExaminationProtocol;
     }
-
 
     /**
      *<h3>$createDiagnosis</h3>
