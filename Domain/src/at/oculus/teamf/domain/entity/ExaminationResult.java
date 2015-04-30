@@ -43,6 +43,11 @@ public class ExaminationResult implements IDomain {
 		if(user!=null){
 			_user = user;
 			_userId = user.getUserId();
+            if(user instanceof Doctor){
+                _doctor = (Doctor) user;
+            } else if (user instanceof Orthoptist) {
+                _orthoptist = (Orthoptist) user;
+            }
 		}
 
 		_result = result;

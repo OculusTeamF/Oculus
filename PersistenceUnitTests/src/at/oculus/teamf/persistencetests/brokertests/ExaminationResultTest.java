@@ -87,12 +87,9 @@ public class ExaminationResultTest extends BrokerTest {
         }
         assertTrue(_examinationResult.getId() == examinationResult.getId());
 		assertTrue(_examinationResult.getExaminationProtocol().equals(examinationResult.getExaminationProtocol()));
-		System.out.println(_examinationResult.getUser());
-		System.out.println(examinationResult.getUser());
 		assertTrue(_examinationResult.getUser().equals(examinationResult.getUser()));
-		assertTrue(_examinationResult.getResult() == examinationResult.getResult());
-		assertTrue(_examinationResult.getCreateDate() == examinationResult.getCreateDate());
-		assertTrue(_examinationResult.getDevice() == examinationResult.getDevice());
+        assertTrue(_examinationResult.getResult().equals(examinationResult.getResult()));
+		assertTrue(_examinationResult.getDevice().equals(examinationResult.getDevice()));
 		assertTrue(_examinationResult.getDeviceData() == examinationResult.getDeviceData());
 	}
 
