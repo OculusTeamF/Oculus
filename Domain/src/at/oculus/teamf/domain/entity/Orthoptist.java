@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.factory.QueueFactory;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -50,7 +50,7 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
     @Override
     public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
         if(_queue == null) {
-            _queue = QueueFactory.getInstance().getUserQueue(this);
+            _queue = new PatientQueue(this);
         }
         return _queue;
     }

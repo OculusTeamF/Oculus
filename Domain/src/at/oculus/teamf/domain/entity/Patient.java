@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
@@ -113,8 +114,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public Collection<CalendarEvent> getCalendarEvents()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException {
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException {
 
 		Facade.getInstance().reloadCollection(this, CalendarEvent.class);
 
@@ -224,8 +225,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public Collection<IExaminationProtocol> getExaminationProtocol()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException {
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException {
 
 		Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
 
@@ -247,10 +248,88 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol)
-			throws NoBrokerMappedException, BadConnectionException {
+            throws NoBrokerMappedException, BadConnectionException {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		_examinationProtocol.add(examinationProtocol);
 		Facade.getInstance().save(examinationProtocol);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Patient))
+			return false;
+
+		Patient patient = (Patient) o;
+
+		if (_id != patient._id)
+			return false;
+		if (_allergy != null ? !_allergy.equals(patient._allergy) : patient._allergy != null)
+			return false;
+		if (_birthDay != null ? !_birthDay.equals(patient._birthDay) : patient._birthDay != null)
+			return false;
+		if (_calendarEvents != null ? !_calendarEvents.equals(patient._calendarEvents) :
+		    patient._calendarEvents != null)
+			return false;
+		if (_childhoodAilments != null ? !_childhoodAilments.equals(patient._childhoodAilments) :
+		    patient._childhoodAilments != null)
+			return false;
+		if (_city != null ? !_city.equals(patient._city) : patient._city != null)
+			return false;
+		if (_countryIsoCode != null ? !_countryIsoCode.equals(patient._countryIsoCode) :
+		    patient._countryIsoCode != null)
+			return false;
+		if (_doctor != null ? !_doctor.equals(patient._doctor) : patient._doctor != null)
+			return false;
+		if (_email != null ? !_email.equals(patient._email) : patient._email != null)
+			return false;
+		if (_examinationProtocol != null ? !_examinationProtocol.equals(patient._examinationProtocol) :
+		    patient._examinationProtocol != null)
+			return false;
+		if (_firstName != null ? !_firstName.equals(patient._firstName) : patient._firstName != null)
+			return false;
+		if (_gender != patient._gender)
+			return false;
+		if (_lastName != null ? !_lastName.equals(patient._lastName) : patient._lastName != null)
+			return false;
+		if (_medicineIntolerance != null ? !_medicineIntolerance.equals(patient._medicineIntolerance) :
+		    patient._medicineIntolerance != null)
+			return false;
+		if (_phone != null ? !_phone.equals(patient._phone) : patient._phone != null)
+			return false;
+		if (_postalCode != null ? !_postalCode.equals(patient._postalCode) : patient._postalCode != null)
+			return false;
+		if (_socialInsuranceNr != null ? !_socialInsuranceNr.equals(patient._socialInsuranceNr) :
+		    patient._socialInsuranceNr != null)
+			return false;
+		if (_street != null ? !_street.equals(patient._street) : patient._street != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
+		result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
+		result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
+		result = 31 * result + (_socialInsuranceNr != null ? _socialInsuranceNr.hashCode() : 0);
+		result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+		result = 31 * result + (_calendarEvents != null ? _calendarEvents.hashCode() : 0);
+		result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
+		result = 31 * result + (_street != null ? _street.hashCode() : 0);
+		result = 31 * result + (_postalCode != null ? _postalCode.hashCode() : 0);
+		result = 31 * result + (_city != null ? _city.hashCode() : 0);
+		result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
+		result = 31 * result + (_phone != null ? _phone.hashCode() : 0);
+		result = 31 * result + (_email != null ? _email.hashCode() : 0);
+		result = 31 * result + (_allergy != null ? _allergy.hashCode() : 0);
+		result = 31 * result + (_childhoodAilments != null ? _childhoodAilments.hashCode() : 0);
+		result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
+		result = 31 * result + (_examinationProtocol != null ? _examinationProtocol.hashCode() : 0);
+		return result;
 	}
 }

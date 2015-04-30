@@ -17,6 +17,14 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "doctor", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "getDoctorByUserId",
+                query = "SELECT * " +
+                        "FROM doctor " +
+                        "WHERE userId = ?0",
+                resultClass = DoctorEntity.class)
+})
 public class DoctorEntity implements IEntity {
     private int _id;
     private Integer _userId;

@@ -15,7 +15,6 @@ import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Service;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,17 +34,10 @@ import java.io.IOException;
 public class Main extends Application implements ILocal, ILogger {
     public FXMLLoader mainloader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
-
-    // TODO dispatcher
     public static MainController controller;
-    public static QueueController controlQueue;
-
-    public static Service<Void> service;
 
     public static Scene scene;
-    // uncomment 'undecorated' code line when splashcreen is running as a thread
-    //final Stage initStage = new Stage(StageStyle.UNDECORATED);
-    final Stage initStage = new Stage(StageStyle.DECORATED);
+    final Stage initStage = new Stage(StageStyle.DECORATED);;
     final Stage primaryStage = new Stage(StageStyle.DECORATED);
 
     /*start (init and build) application*/
@@ -54,39 +46,11 @@ public class Main extends Application implements ILocal, ILogger {
 
         //TODO create thread for loading
         //Logger4J.setLevel(log, Level.ERROR);
-      /*  initLoadingScreen();        // create splashcreen
-        initStage.show();           // show splashcreen
-
-        // cheap thread workaround (can be replaced later)
-        service = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        initMainWindow();  // build main window & queuelist)
-                        return null;
-                    }
-                };
-            }
-            @Override
-            protected void succeeded() {
-                // Called when finished without exception
-                primaryStage.setScene(scene);
-                primaryStage.setMaximized(true);
-                primaryStage.show();
-                initStage.close();
-            }
-        };
-
-        service.start(); // starts Thread*/
 
         initLoadingScreen();        // create splashcreen
         initStage.show();           // show splashcreen
         initMainWindow();           // build main window (heavy queue load process)
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+        primaryStage.show();        // show main window
         initStage.close();          // close splashscreen
 
     }
@@ -116,10 +80,17 @@ public class Main extends Application implements ILocal, ILogger {
 
         // add app icon
         primaryStage.getIcons().add(new Image("/res/32x32.png"));
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
     /*create loading screen (splashcreen)*/
     private void initLoadingScreen() throws InitLoadingException {
+
+        // uncomment 'undecorated' code line when splashcreen is running as a thread
+        //init = new Stage(StageStyle.UNDECORATED);
+
         Parent initroot = null;
         try {
             initroot = (Parent) initloader.load();
@@ -127,7 +98,7 @@ public class Main extends Application implements ILocal, ILogger {
             e.printStackTrace();
         }
 
-        Scene sceneInit = new Scene(initroot, 553, 362);
+        Scene sceneInit = new Scene(initroot, 472, 362);
         sceneInit.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
         initStage.setScene(sceneInit);
         initStage.setTitle("Oculus is loading...");

@@ -11,6 +11,7 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
@@ -35,15 +36,6 @@ import java.util.Date;
  * which is responsible for the creation of a new patient object and to save it into the database.
  **/
 
-/**
- * <h2>$CreatePatientController</h2>
- *
- * <b>Description:</b>
- * With this controller a new patient can be created.
- * All the information given in the method createPatient is used to set up a new patient object,
- * but before the object ist created or saved, some important fields get checked if they are not empty,
- * afterwards this object is saved in the database
- **/
 public class CreatePatientController implements ILogger{
 
     /**

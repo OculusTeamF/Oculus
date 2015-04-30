@@ -16,6 +16,15 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "diagnosis", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "getAllDiagnosisOfPatient",
+                query = "SELECT d.* " +
+                        "FROM diagnosis d, examinationProtocol e " +
+                        "WHERE d.diagnosisId = e.diagnosisId " +
+                        "AND e.patientId = ?0",
+                resultClass = DiagnosisEntity.class)
+})
 public class DiagnosisEntity implements IEntity {
 	private int _id;
 	private String _title;

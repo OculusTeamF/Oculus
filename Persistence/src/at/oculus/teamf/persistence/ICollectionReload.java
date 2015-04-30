@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -18,5 +19,5 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
  * Created by Norskan on 07.04.2015.
  */
 interface ICollectionReload {
-    void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException;
+    void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException;
 }

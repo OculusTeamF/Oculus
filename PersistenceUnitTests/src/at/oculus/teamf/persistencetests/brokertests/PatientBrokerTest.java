@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
@@ -56,7 +57,7 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-		assertTrue(_patient.getId()>0);
+        assertTrue(_patient.getId()>0);
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	@Override
     public void testGetById() {
@@ -109,7 +110,6 @@ public class PatientBrokerTest extends BrokerTest {
     }
 
 	@Test
-	//Todo: rework
 	public void testReload() {
         Patient patient = null;
         try {
@@ -121,11 +121,11 @@ public class PatientBrokerTest extends BrokerTest {
             assertTrue(false);
         }
 
-		try {
+        try {
 			assertTrue(patient.getCalendarEvents() != null);
-			assertTrue(patient.getCalendarEvents().size() == 2);
+			assertTrue(patient.getCalendarEvents().size() > 0);
 			assertTrue(patient.getExaminationProtocol() != null);
-			assertTrue(patient.getExaminationProtocol().size() > 0);
+			assertTrue(patient.getExaminationProtocol().size()==5);
 		} catch (InvalidReloadClassException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -138,7 +138,9 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
     }
 
 	@Test
@@ -146,12 +148,12 @@ public class PatientBrokerTest extends BrokerTest {
 		Collection<Patient> patients = null;
 		// SVN only
 		try {
-			patients = Facade.getInstance().search(Patient.class,Integer.toString(_patient.getId()));
+			patients = Facade.getInstance().search(Patient.class,"5947053957");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		assertTrue(patients.size() > 0);
+        assertTrue(patients.size()==1);
 		// Firstname only
 		try {
 			patients = Facade.getInstance().search(Patient.class,"JaNe");
@@ -159,7 +161,7 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		assertTrue(patients.size() == 3);
+        assertTrue(patients.size() == 3);
 		// Lastname only
 		try {
 			patients = Facade.getInstance().search(Patient.class,"sOn");
@@ -167,7 +169,7 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		assertTrue(patients.size()==6);
+        assertTrue(patients.size()==6);
 		// Fulltext
 		try {
 			patients = Facade.getInstance().search(Patient.class,"son");
@@ -175,7 +177,7 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		assertTrue(patients.size()==6);
+        assertTrue(patients.size()==6);
 	}
 
 	@Test
@@ -200,7 +202,7 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-		// create diagnosis
+        // create diagnosis
 		Diagnosis diagnosis = new Diagnosis();
 		diagnosis.setDoctor(patient.getDoctor());
 		diagnosis.setTitle("Test Diagnosis");
@@ -215,7 +217,7 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-		// create examination protocol
+        // create examination protocol
 		ExaminationProtocol examinationProtocol = new ExaminationProtocol();
 		examinationProtocol.setDoctor(patient.getDoctor());
 		examinationProtocol.setOrthoptist(null);
@@ -233,7 +235,7 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-		// delete
+        // delete
 		try {
 			assertTrue(Facade.getInstance().save(examinationProtocol.getDoctor()));
 			assertTrue(Facade.getInstance().delete(examinationProtocol));
@@ -248,5 +250,5 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-	}
+    }
 }

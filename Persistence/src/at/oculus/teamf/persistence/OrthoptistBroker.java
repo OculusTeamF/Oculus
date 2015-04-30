@@ -9,19 +9,24 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * orthoptist broker translating domain objects to persistence entities
  */
-public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>{
+public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implements ISearch{
 
 	public OrthoptistBroker() {
 		super(Orthoptist.class, OrthoptistEntity.class);
@@ -37,7 +42,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
      * @throws BadConnectionException
      */
     @Override
-	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException {
+	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Orthoptist orthoptist = new Orthoptist();
         orthoptist.setId(entity.getId());
@@ -95,4 +100,20 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		orthoptistEntity.setUser(userEntity);
 		return orthoptistEntity;
 	}
+
+    @Override
+    public Collection<Orthoptist> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+        if (params.length == 1) {
+            Collection<OrthoptistEntity> result = (Collection<OrthoptistEntity>)(Collection<?>)session.search("getOrthoptistByUserId", params[0]);
+
+	        Collection<Orthoptist> domainResult = new LinkedList<>();
+	        for(OrthoptistEntity ort : result) {
+		        domainResult.add(persistentToDomain(ort));
+	        }
+
+	        return domainResult;
+        } else {
+            return null;
+        }
+    }
 }

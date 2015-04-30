@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.Facade;
@@ -42,8 +43,10 @@ public class CalendarBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
-		assertTrue(cal != null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(cal != null);
 	}
 
 	@Test
@@ -61,20 +64,26 @@ public class CalendarBrokerTest extends BrokerTest{
         } catch (FacadeException e) {
             assertTrue(false);
 			e.printStackTrace();
-		}
-		assertTrue(cal != null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(cal != null);
 
 		try {
 			facade.reloadCollection(cal, CalendarEvent.class);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
         try {
             assertTrue(cal.getEvents() != null);
             assertTrue(cal.getEvents().size() > 1);
         } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (BadSessionException e) {
             e.printStackTrace();
         }
     }

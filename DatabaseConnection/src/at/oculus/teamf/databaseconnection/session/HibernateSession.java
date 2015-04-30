@@ -293,7 +293,7 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
 		Query query = _entityManager.createNamedQuery(queryName);
 		for(Integer i = 0; i < parameters.length; i++){
             try{
-                query.setParameter(i.toString(), "%"+parameters[i].replace(" ","%")+"%");
+                query.setParameter(i.toString(), parameters[i]);
             } catch (Exception e) {
                 log.error("A error occurred when trying to search for an object through named queries! OriginalMessage: " + e.getMessage());
                 //Todo: add exception

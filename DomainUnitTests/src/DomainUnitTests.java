@@ -31,7 +31,7 @@ public class DomainUnitTests implements ILogger {
         Doctor doc = Facade.getInstance().getById(Doctor.class, 1);
         log.debug("Queue bound to doctor: '" + doc.getFirstName() + " " + doc.getLastName() + "' / UserID: " + doc.getId());
 
-        PatientQueue pqDoctor = doc.getQueue();
+        PatientQueue pqDoctor = new PatientQueue(doc);
         Collection<QueueEntry> entriesDoctor = pqDoctor.getEntries();
 
         assertTrue(entriesDoctor != null);
@@ -43,7 +43,7 @@ public class DomainUnitTests implements ILogger {
         Orthoptist ortho = Facade.getInstance().getById(Orthoptist.class, 1);
         log.debug("Queue bound to orthoptist: '" + ortho.getFirstName() + " " + ortho.getLastName() + "' / UserID: " + ortho.getId());
 
-        PatientQueue pqOrthoptist = ortho.getQueue();
+        PatientQueue pqOrthoptist = new PatientQueue(ortho);
         Collection<QueueEntry> entriesOrthoptist = pqOrthoptist.getEntries();
 
         assertTrue(entriesOrthoptist != null);

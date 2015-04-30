@@ -7,6 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
@@ -41,14 +42,15 @@ public class PatientQueueTest implements ILogger {
                 _doctor = (Doctor) d;
                 break;
             }
-        } catch (FacadeException e) {
+        } catch (FacadeException | BadSessionException e) {
             e.printStackTrace();
             assertTrue(false);
         }
+        assertTrue(_patient != null);
         assertTrue(_doctor != null);
         try {
             _patientQueue = _doctor.getQueue();
-        } catch (FacadeException e) {
+        } catch (FacadeException | BadSessionException e) {
             e.printStackTrace();
             assertTrue(false);
         }
@@ -60,7 +62,7 @@ public class PatientQueueTest implements ILogger {
         }
         try {
             _patientQueue.addPatient(_patient, _timestamp);
-        } catch (FacadeException e) {
+        } catch (FacadeException | BadSessionException e) {
             e.printStackTrace();
             assertTrue(false);
         }
@@ -74,7 +76,7 @@ public class PatientQueueTest implements ILogger {
             _patientQueue.removePatient(_patient);
 
             assertTrue(_patientQueue.getEntries().size() == _size);
-        } catch (FacadeException e) {
+        } catch (FacadeException | BadSessionException e) {
             e.printStackTrace();
             assertTrue(false);
         }
