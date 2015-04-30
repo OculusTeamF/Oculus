@@ -109,6 +109,8 @@ public class QueueController implements Initializable {
 
         // build queue
         buildQueueLists();
+
+        Main.controlQueue = this;
     }
 
     // *******************************************************************

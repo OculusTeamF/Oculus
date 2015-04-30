@@ -7,14 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.factory;/*
- * Copyright (c) 2015 Team F
- *
- * This file is part of Oculus.
- * Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
- */
+package at.oculus.teamf.domain.entity.factory;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
@@ -57,22 +50,42 @@ public class QueueFactory implements ILogger{
         _keyWordMap.put(Doctor.class, "Doctor");
 
 
-        /*_updating = true;
+        //currently no automatic updating needed!
+        _updating = false;
         new Thread(new Runnable() {
             @Override
             public void run() {
+                log.info("Start updater thread!");
                 while(_updating) {
-                    //update orthoptistQueues
-
-                    //update doctoreQueues
+                    //update user queue
+                    Collection<User> users = _userQueues.keySet();
+                    for(User user : users) {
+                        PatientQueue queue = _userQueues.get(user);
+                        try {
+                            queue.getEntries().removeAll(queue.getEntries());
+                            queue.getEntries().addAll(searchForQueueEntries(user));
+                        } catch (NoBrokerMappedException | BadConnectionException | SearchInterfaceNotImplementedException | InvalidSearchParameterException e) {
+                            log.error("Error when trying to automaticaly update queue! Orignial message" + e.getMessage());
+                        }
+                    }
+                    log.info("Updated all user queues");
 
                     //update general queue
                 }
             }
-        }).run();*/
+        }).run();
     }
 
-    private Collection<QueueEntry> searchForQueueEntries(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, BadSessionException {
+    /**
+     * Uses the Facade to search for all {@QueueEntry} that belong to one user
+     * @param user
+     * @return list of {@QueueEntry}
+     * @throws InvalidSearchParameterException
+     * @throws BadConnectionException
+     * @throws SearchInterfaceNotImplementedException
+     * @throws NoBrokerMappedException
+     */
+    private Collection<QueueEntry> searchForQueueEntries(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
         int id;
 
         if(user instanceof Doctor) {
@@ -83,8 +96,12 @@ public class QueueFactory implements ILogger{
         return  Facade.getInstance().search(QueueEntry.class, _keyWordMap.get(user.getClass()), Integer.toString(id));
     }
 
-
-    public PatientQueue getUserQueue(User user) throws BadSessionException {
+    /**
+     * Creates a PatientQueue for a given User or extracts it from cache
+     * @param user that needs a queue
+     * @return PatientQueue
+     */
+    public PatientQueue getUserQueue(User user) {
         if(_userQueues.get(user) == null) {
             try {
                 loadUserQueue(user);
@@ -96,22 +113,51 @@ public class QueueFactory implements ILogger{
         return _userQueues.get(user);
     }
 
-    private void loadUserQueue(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, BadSessionException {
+    /**
+     * Loads a queue form the database
+     * @param user which queue needs to be loaded
+     * @throws InvalidSearchParameterException
+     * @throws BadConnectionException
+     * @throws SearchInterfaceNotImplementedException
+     * @throws NoBrokerMappedException
+     */
+    private void loadUserQueue(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
         PatientQueue queue = createQueue(user, searchForQueueEntries(user));
         _userQueues.put(user, queue);
     }
 
-    public PatientQueue getGeneralQueue() throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    /**
+     * Creates a general patient queue or loads it from cache
+     * @return
+     * @throws SearchInterfaceNotImplementedException
+     * @throws InvalidSearchParameterException
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
+    public PatientQueue getGeneralQueue() throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
         if(_generalQueue == null) {
             loadGeneralQueue();
         }
         return _generalQueue;
     }
 
-    private void loadGeneralQueue() throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, BadSessionException {
+    /**
+     * Loads  the general queue from the facade
+     * @throws InvalidSearchParameterException
+     * @throws BadConnectionException
+     * @throws SearchInterfaceNotImplementedException
+     * @throws NoBrokerMappedException
+     */
+    private void loadGeneralQueue() throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
         _generalQueue = createQueue(null, (Collection<QueueEntry>)(Collection<?>)Facade.getInstance().search(QueueEntry.class, "General"));
     }
 
+    /**
+     * Creates new PatientQueue from a User and entries
+     * @param user
+     * @param entries
+     * @return
+     */
     private PatientQueue createQueue(User user, Collection<QueueEntry> entries) {
         return new PatientQueue(user, entries);
     }
