@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Orthoptist;
@@ -37,9 +38,11 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
-		_examinationProtocolDoctor = new ExaminationProtocol();
+        _examinationProtocolDoctor = new ExaminationProtocol();
 		_examinationProtocolDoctor.setStartTime(new Date());
 		_examinationProtocolDoctor.setEndTime(new Date());
 		_examinationProtocolDoctor.setDescription("Untersuchungsprotokoll Unit Test");
@@ -59,8 +62,10 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void tearDown() {
@@ -70,8 +75,10 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void testGetById() {
@@ -83,8 +90,10 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
-		assertTrue(examinationProtocolDoctor!=null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(examinationProtocolDoctor!=null);
 //		assertTrue(examinationProtocolDoctor.getDoctor().getId()==1);
 		assertTrue(examinationProtocolDoctor.getPatient().getId()==1);
 		assertTrue(examinationProtocolDoctor.getDescription().equals("Untersuchungsprotokoll Unit Test"));

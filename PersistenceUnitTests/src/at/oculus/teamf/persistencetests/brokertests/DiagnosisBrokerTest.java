@@ -9,11 +9,17 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import org.junit.Test;
 
 import java.util.Collection;
 
@@ -32,9 +38,12 @@ public class DiagnosisBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
 
-		_diagnosis = new Diagnosis();
+        _diagnosis = new Diagnosis();
 		_diagnosis.setDoctor(_doctor);
 		_diagnosis.setTitle("Diagnose Test");
 		_diagnosis.setDescription("Testbeschreibung");
@@ -43,9 +52,12 @@ public class DiagnosisBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
 
-		assertTrue(_doctor.getId()>0);
+        assertTrue(_doctor.getId()>0);
 		assertTrue(_diagnosis.getId()>0);
 	}
 
@@ -56,8 +68,11 @@ public class DiagnosisBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
 
 	@Override
 	public void testGetById() {
@@ -67,8 +82,11 @@ public class DiagnosisBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-		assertTrue(diagnosis!=null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(diagnosis!=null);
 		assertTrue(diagnosis.getId()>0);
 		assertTrue(diagnosis.getTitle().equals("Diagnose Test"));
 		assertTrue(diagnosis.getDescription().equals("Testbeschreibung"));
@@ -83,8 +101,26 @@ public class DiagnosisBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-		assertTrue(diagnoses!=null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(diagnoses!=null);
 		assertTrue(diagnoses.size()>1);
 	}
+
+    @Test
+    public void testSearchByPatient() throws NoBrokerMappedException {
+        Collection<Diagnosis> diagnoses = null;
+        try {
+            diagnoses = Facade.getInstance().search(Diagnosis.class, "59");
+        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        } catch (BadSessionException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(diagnoses.size() == 3);
+    }
 }

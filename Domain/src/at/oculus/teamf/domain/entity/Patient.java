@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
@@ -113,8 +114,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public Collection<CalendarEvent> getCalendarEvents()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException {
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException, BadSessionException {
 
 		Facade.getInstance().reloadCollection(this, CalendarEvent.class);
 
@@ -224,8 +225,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public Collection<IExaminationProtocol> getExaminationProtocol()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException {
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException, BadSessionException {
 
 		Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
 
@@ -247,7 +248,7 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol)
-			throws NoBrokerMappedException, BadConnectionException {
+            throws NoBrokerMappedException, BadConnectionException, BadSessionException {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		_examinationProtocol.add(examinationProtocol);

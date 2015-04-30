@@ -19,11 +19,11 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<Pane fx:id="loaderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.InitController">
+<Pane fx:id="loaderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.InitController">
    <children>
-      <Rectangle fx:id="initRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="362.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" visible="true" width="553.0" />
-      <ProgressIndicator fx:id="loader" layoutY="14.0" opacity="0.11" prefHeight="333.0" prefWidth="553.0" />
-      <Label fx:id="loadLabel" layoutX="236.0" layoutY="226.0" text="Loading Oculus..." />
-      <Label fx:id="labelQuote" alignment="CENTER" layoutX="16.0" layoutY="299.0" opacity="0.71" prefHeight="50.0" prefWidth="517.0" textAlignment="CENTER" wrapText="true" />
+      <Rectangle fx:id="initRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="314.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" visible="false" width="472.0" />
+      <ProgressIndicator fx:id="loader" layoutY="14.0" opacity="0.11" prefHeight="333.0" prefWidth="472.0" />
+      <Label fx:id="loadLabel" layoutX="199.0" layoutY="235.0" text="Loading Oculus..." />
+      <Label fx:id="labelQuote" alignment="CENTER" layoutX="16.0" layoutY="299.0" opacity="0.71" prefHeight="50.0" prefWidth="440.0" textAlignment="CENTER" wrapText="true" />
    </children>
 </Pane>

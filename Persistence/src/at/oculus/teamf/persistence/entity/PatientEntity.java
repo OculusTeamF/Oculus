@@ -20,7 +20,7 @@ import java.util.Collection;
 @Table(name = "patient", schema = "", catalog = "oculus_f")
 @NamedNativeQueries({
 		@NamedNativeQuery(
-		name = "getPatientBySingle",
+		name = "getQueue",
 		query = "SELECT * " +
 		        "FROM patient " +
 		        "WHERE (UPPER(socialInsuranceNr) like UPPER(?0) OR  socialInsuranceNr is null) " +

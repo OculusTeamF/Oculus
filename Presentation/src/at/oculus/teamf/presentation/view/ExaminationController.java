@@ -15,6 +15,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -57,7 +58,7 @@ public class ExaminationController implements Initializable {
         examinationAllergies.setWrapText(true);
         examinationDocumentation.setWrapText(true);
 
-        //examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
+        examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
 
