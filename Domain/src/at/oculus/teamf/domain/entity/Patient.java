@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
@@ -18,6 +19,8 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
@@ -113,8 +116,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public Collection<CalendarEvent> getCalendarEvents()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException {
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException, BadSessionException {
 
 		Facade.getInstance().reloadCollection(this, CalendarEvent.class);
 
@@ -224,8 +227,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public Collection<IExaminationProtocol> getExaminationProtocol()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException {
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException, BadSessionException {
 
 		Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
 
@@ -247,10 +250,16 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol)
-			throws NoBrokerMappedException, BadConnectionException {
+            throws NoBrokerMappedException, BadConnectionException, BadSessionException {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		_examinationProtocol.add(examinationProtocol);
 		Facade.getInstance().save(examinationProtocol);
 	}
+
+    public Collection<Diagnosis> getDiagnoses() throws InvalidSearchParameterException, BadSessionException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
+        Collection<Diagnosis> diagnoses = null;
+        diagnoses = Facade.getInstance().search(Diagnosis.class,_id+"");
+        return diagnoses;
+    }
 }

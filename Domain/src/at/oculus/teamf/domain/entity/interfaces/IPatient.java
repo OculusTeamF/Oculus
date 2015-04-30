@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
@@ -45,8 +46,8 @@ public interface IPatient {
     void setIDoctor(IDoctor idoctor);
 
     Collection<CalendarEvent> getCalendarEvents()
-		    throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-		           NoBrokerMappedException;
+            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+            NoBrokerMappedException, BadSessionException;
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
 
     Date getBirthDay();
@@ -79,7 +80,7 @@ public interface IPatient {
     String getMedicineIntolerance();
     void setMedicineIntolerance(String medicineIntolerance);
 
-    Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException;
+    Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, BadSessionException;
     void addExaminationProtocol(IExaminationProtocol examinationProtocol);
 
 }

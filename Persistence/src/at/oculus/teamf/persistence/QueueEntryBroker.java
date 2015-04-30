@@ -42,8 +42,8 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
      * @throws BadConnectionException
      */
     @Override
-    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException {
-        log.debug("converting persistence entity " + _entityClass + " to domain object " + _domainClass);
+    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
         Doctor doctor = null;
         if (entity.getDoctorId() != null) {
@@ -64,7 +64,7 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
      * @return return a persitency entity
      */
     @Override
-    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException {
+    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Doctor doctor = queueEntry.getDoctor();
         Orthoptist orthoptist = queueEntry.getOrthoptist();
@@ -111,22 +111,22 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
 
         String[] queryParam = new String[1];
         String query = "";
-        Collection<Object> result = null;
+        Collection<QueueEntity> result = null;
         switch (params[0]) {
             case("Doctor"): {
                 query = "getDocotorQueueEntries";
-                result =  session.search(query, params[1]);
+                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
                 break;
             }
             case("Orthoptist"): {
                 query = "getOrthoptistQueueEntries";
-                result =  session.search(query, params[1]);
+                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
 
                 break;
             }
             case("General"): {
                 query = "getGeneralQueueEntries";
-                result =  session.search(query);
+                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query);
                 break;
             }
             default: {
@@ -134,6 +134,11 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
             }
         }
 
-        return (Collection<QueueEntry>)(Collection<?>)result;
+        Collection<QueueEntry> queueEntries = new LinkedList<>();
+        for(QueueEntity qe : result) {
+            queueEntries.add(persistentToDomain(qe));
+        }
+
+        return queueEntries;
     }
 }

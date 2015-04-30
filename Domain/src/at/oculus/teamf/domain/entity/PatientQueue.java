@@ -33,13 +33,12 @@ public class PatientQueue implements ILogger, IPatientQueue {
     private static Collection<QueueEntry> _entriesCache;
 
     //<editor-fold desc="Attributes">
-    private int _userID;
     private User _user;
     private LinkedList<QueueEntry> _entries;
-    private QueueEntry _last;
     //</editor-fold>
 
     public PatientQueue(User user, Collection<QueueEntry> entries) {
+        _entries = new LinkedList<>();
         _entries.addAll(entries);
     }
 

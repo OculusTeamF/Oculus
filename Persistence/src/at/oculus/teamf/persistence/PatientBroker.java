@@ -46,7 +46,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws BadConnectionException
      */
     @Override
-    protected Patient persistentToDomain(PatientEntity entity) throws NoBrokerMappedException, BadConnectionException {
+    protected Patient persistentToDomain(PatientEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = new Patient();
         patient.setId(entity.getId());
@@ -84,7 +84,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return return a persitency entity
      */
     @Override
-    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException {
+    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         PatientEntity patientEntity = new PatientEntity();
         patientEntity.setId(obj.getId());
@@ -123,7 +123,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException {
+    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
         log.debug("reloading calendar events");
         return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
@@ -137,7 +137,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws  BadConnectionException, NoBrokerMappedException {
+    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
         log.debug("reloading examination protocols");
         ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
         return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
@@ -153,7 +153,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws InvalidReloadClassException
      */
     @Override
-    public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException {
+    public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException {
         if (clazz == CalendarEvent.class) {
 	        ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
         } else if (clazz == ExaminationProtocol.class) {
@@ -170,8 +170,8 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return collection of search results
      */
     @Override
-    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
-        Collection<Object> searchResult = null;
+    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+        Collection<PatientEntity> searchResult = new LinkedList<>();
 
         // create query
         String query = null;
@@ -186,18 +186,18 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         }
 
         try {
-            searchResult = session.search(query, params);
+            searchResult.addAll((Collection<PatientEntity>) (Collection<?>) session.search(query, params));
         } catch (BadSessionException e) {
             log.catching(e);
         }
 
         Collection<Patient> result = new LinkedList<>();
-        for(Object o : searchResult) {
-            result.add(persistentToDomain((PatientEntity)o));
+        for(PatientEntity pe : searchResult) {
+            result.add(persistentToDomain((pe)));
         }
 
 
-        return (Collection<Patient>)(Collection<?>) result;
+        return result;
     }
 
     private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {
