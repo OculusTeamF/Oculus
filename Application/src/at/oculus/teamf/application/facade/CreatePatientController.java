@@ -11,6 +11,7 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
@@ -68,7 +69,7 @@ public class CreatePatientController implements ILogger{
      * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
 
-    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
         Patient patient = new Patient();
         log.info("New patient object has been created.");
         if(gender.equals("female")){
@@ -97,6 +98,9 @@ public class CreatePatientController implements ILogger{
         } catch (NoBrokerMappedException noBrokerMappedException) {
             log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
             throw noBrokerMappedException;
+        } catch (BadSessionException badSessionException) {
+            log.warn("BadSessionException caught! Patient cannot be saved!");
+            throw badSessionException;
         }
     }
 
@@ -111,7 +115,7 @@ public class CreatePatientController implements ILogger{
      *<b>Parameter</b>
      * @param iPatient this is the interface of Patient-object, which should be saved in the database
      */
-    public void saveIPatient(IPatient iPatient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+    public void saveIPatient(IPatient iPatient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
         Patient patient = (Patient) iPatient;
         try {
             savePatient(patient);
@@ -128,6 +132,9 @@ public class CreatePatientController implements ILogger{
         } catch (NoBrokerMappedException noBrokerMappedException) {
             log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
             throw noBrokerMappedException;
+        } catch (BadSessionException badSessionException) {
+            log.warn("BadSessionException caught! Patient cannot be saved!");
+            throw badSessionException;
         }
     }
 
@@ -142,7 +149,7 @@ public class CreatePatientController implements ILogger{
      *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be saved in the database
      */
-    private void savePatient(Patient patient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+    private void savePatient(Patient patient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException, BadSessionException {
 
         if(checkRequirements(patient)){
             log.info("Requirements are fulfilled!");
@@ -160,6 +167,9 @@ public class CreatePatientController implements ILogger{
             } catch (NoBrokerMappedException noBrokerMappedException) {
                 log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
                 throw noBrokerMappedException;
+            } catch (BadSessionException badSessionException) {
+                log.warn("BadSessionException caught! Patient cannot be saved!");
+                throw badSessionException;
             }
         }else{
             log.warn("Requirements unfulfilled!");
