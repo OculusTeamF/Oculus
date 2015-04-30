@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -132,5 +133,39 @@ public class ExaminationResultEntity implements IEntity {
 		_userEntity = userEntity;
 	}
 
-	// TODO toString, hashCode, equals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExaminationResultEntity)) return false;
+
+        ExaminationResultEntity that = (ExaminationResultEntity) o;
+
+        if (_id != that._id) return false;
+        if (_createDate != null ? !_createDate.equals(that._createDate) : that._createDate != null) return false;
+        if (_device != null ? !_device.equals(that._device) : that._device != null) return false;
+        if (!Arrays.equals(_deviceData, that._deviceData)) return false;
+        if (_examinationProtocolEntity != null ? !_examinationProtocolEntity.equals(that._examinationProtocolEntity) : that._examinationProtocolEntity != null)
+            return false;
+        if (_examinationProtocolId != null ? !_examinationProtocolId.equals(that._examinationProtocolId) : that._examinationProtocolId != null)
+            return false;
+        if (_result != null ? !_result.equals(that._result) : that._result != null) return false;
+        if (_userEntity != null ? !_userEntity.equals(that._userEntity) : that._userEntity != null) return false;
+        if (_userId != null ? !_userId.equals(that._userId) : that._userId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _id;
+        result = 31 * result + (_examinationProtocolEntity != null ? _examinationProtocolEntity.hashCode() : 0);
+        result = 31 * result + (_examinationProtocolId != null ? _examinationProtocolId.hashCode() : 0);
+        result = 31 * result + (_userEntity != null ? _userEntity.hashCode() : 0);
+        result = 31 * result + (_userId != null ? _userId.hashCode() : 0);
+        result = 31 * result + (_result != null ? _result.hashCode() : 0);
+        result = 31 * result + (_createDate != null ? _createDate.hashCode() : 0);
+        result = 31 * result + (_device != null ? _device.hashCode() : 0);
+        result = 31 * result + (_deviceData != null ? Arrays.hashCode(_deviceData) : 0);
+        return result;
+    }
 }

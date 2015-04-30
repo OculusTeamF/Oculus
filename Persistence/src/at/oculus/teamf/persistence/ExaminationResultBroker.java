@@ -9,18 +9,18 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.ExaminationResult;
-import at.oculus.teamf.domain.entity.User;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
-import at.oculus.teamf.persistence.entity.ExaminationResultEntity;
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.entity.UserEntity;
+import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * ExaminationResultBroker.java Created by oculus on 30.04.15.
@@ -37,16 +37,44 @@ public class ExaminationResultBroker extends EntityBroker {
 
 		ExaminationProtocol examinationProtocol = null;
 		if ((examinationResultEntity.getExaminationProtocolEntity() != null)) {
-			examinationProtocol = (ExaminationProtocol) Facade.getInstance().getBroker(ExaminationProtocol.class)
-			                                                  .persistentToDomain(examinationResultEntity
-					                                                                      .getExaminationProtocolEntity());
-		}
+            try {
+                examinationProtocol = (ExaminationProtocol) Facade.getInstance().getBroker(ExaminationProtocol.class)
+                                                                  .persistentToDomain(examinationResultEntity
+                                                                          .getExaminationProtocolEntity());
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+            }
+        }
 
 		User user = null;
+		Doctor doctor = null;
+		Orthoptist orthoptist = null;
 		if (examinationResultEntity.getUserEntity() != null) {
-			user = (User) Facade.getInstance().getBroker(User.class)
-			                    .persistentToDomain(examinationResultEntity.getUserEntity());
-		}
+            try {
+
+                if(user==null){
+	                for(Doctor d : ((LinkedList<Doctor>) (LinkedList<?>) Facade.getInstance().search(Doctor.class, examinationResultEntity.getUserId()+""))){
+		                System.out.println("Uhhh Doctor");
+		                doctor = d;
+	                }
+	                if(doctor!=null){
+		                user = doctor;
+	                }
+	                for(Orthoptist o : ((LinkedList<Orthoptist>) (LinkedList<?>) Facade.getInstance().search(
+			                Orthoptist.class, examinationResultEntity.getUserId() + ""))){
+		                System.out.println("Uhhh Orthoptist");
+		                orthoptist = o;
+	                }
+	                if(orthoptist!=null){
+		                user = orthoptist;
+	                }
+                }
+            } catch (InvalidSearchParameterException e) {
+                e.printStackTrace();
+            } catch (SearchInterfaceNotImplementedException e) {
+                e.printStackTrace();
+            }
+        }
 
 		return new ExaminationResult(examinationResultEntity.getId(), examinationProtocol, user,
 		                             examinationResultEntity.getResult(), examinationResultEntity.getCreateDate(),
@@ -60,16 +88,36 @@ public class ExaminationResultBroker extends EntityBroker {
 
 		ExaminationProtocolEntity examinationProtocolEntity = null;
 		if (examinationResult.getExaminationProtocol() != null) {
-			examinationProtocolEntity =
-					(ExaminationProtocolEntity) Facade.getInstance().getBroker(ExaminationProtocol.class)
-					                                  .domainToPersistent(examinationResult.getExaminationProtocol());
-		}
+            try {
+                examinationProtocolEntity =
+                        (ExaminationProtocolEntity) Facade.getInstance().getBroker(ExaminationProtocol.class)
+                                                          .domainToPersistent(examinationResult.getExaminationProtocol());
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+            }
+        }
 
 		UserEntity userEntity = null;
 		if (examinationResult.getUser() != null) {
-			userEntity = (UserEntity) Facade.getInstance().getBroker(User.class)
-			                                .domainToPersistent(examinationResult.getExaminationProtocol());
-		}
+            try {
+                if(examinationResult.getDoctor()!=null){
+	                DoctorEntity doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+	                                                     .domainToPersistent(examinationResult.getDoctor());
+	                if(doctorEntity!=null) {
+		                userEntity = doctorEntity.getUser();
+	                }
+                } else if (examinationResult.getOrthoptist()!=null) {
+	                OrthoptistEntity orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
+	                                                                              .domainToPersistent(examinationResult.getOrthoptist());
+	                if(orthoptistEntity!=null) {
+		                userEntity = orthoptistEntity.getUser();
+	                }
+                }
+
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+            }
+        }
 
 		return new ExaminationResultEntity(examinationResult.getId(), examinationProtocolEntity, userEntity,
 		                                   examinationResult.getResult(), new Timestamp(examinationResult.getCreateDate().getTime()),

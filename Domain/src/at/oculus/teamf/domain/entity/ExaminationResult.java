@@ -22,6 +22,8 @@ public class ExaminationResult implements IDomain {
 	private Integer _examinationProtocolId;
 	private User _user;
 	private Integer _userId;
+    private Doctor _doctor;
+    private Orthoptist _orthoptist;
 	private String _result;
 	private Date _createDate;
 	private String _device;
@@ -114,5 +116,17 @@ public class ExaminationResult implements IDomain {
 		_deviceData = deviceData;
 	}
 
-	// TODO toString, hashCode, equals
+	public Doctor getDoctor() {
+		return _doctor;
+	}
+	public void setDoctor(Doctor doctor) {
+		_doctor = doctor;
+	}
+
+	public Orthoptist getOrthoptist() {
+		return _orthoptist;
+	}
+	public void setOrthoptist(Orthoptist orthoptist) {
+		_orthoptist = orthoptist;
+	}
 }

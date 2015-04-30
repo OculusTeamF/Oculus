@@ -44,6 +44,7 @@ public class ExaminationProtocolBroker extends EntityBroker {
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         Doctor doctor = null;
         Orthoptist orthoptist = null;
+        // TODO named query doctor und orthoptist
         if (examinationProtocolEntity.getUserId() > 0) {
             for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
                 if (((Doctor) obj).getUserId() == examinationProtocolEntity.getUserId()) {

@@ -162,8 +162,6 @@ public class QueueBrokerTest extends BrokerTest {
 		} catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
     }
 }
