@@ -44,26 +44,26 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Rectangle fill="#cbe6ff" height="26.0" opacity="0.77" stroke="TRANSPARENT" strokeType="INSIDE" width="485.0" GridPane.columnIndex="3" GridPane.rowIndex="10">
+            <Pane fx:id="colorPane7" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="10">
                <GridPane.margin>
-                  <Insets top="30.0" />
+                  <Insets top="28.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fill="#cbe6ff" height="26.0" opacity="0.77" stroke="TRANSPARENT" strokeType="INSIDE" width="485.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+            </Pane>
+            <Pane fx:id="colorPane6" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
                <GridPane.margin>
-                  <Insets top="30.0" />
+                  <Insets top="28.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fill="#cbe6ff" height="26.0" opacity="0.77" stroke="TRANSPARENT" strokeType="INSIDE" width="485.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            </Pane>
+            <Pane fx:id="colorPane5" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <GridPane.margin>
-                  <Insets top="30.0" />
+                  <Insets top="28.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fill="#cbe6ff" height="26.0" opacity="0.77" stroke="TRANSPARENT" strokeType="INSIDE" width="485.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            </Pane>
+            <Pane fx:id="colorPane4" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets top="30.0" />
+                  <Insets top="28.0" />
                </GridPane.margin>
-            </Rectangle>
+            </Pane>
             <Label text="Lastname" GridPane.rowIndex="1" />
             <Label text="Firstname" GridPane.rowIndex="2" />
             <Label text="Social Insurance #" GridPane.rowIndex="3" />
@@ -78,9 +78,14 @@
                <items>
                   <Button fx:id="patientRecordSaveButton" mnemonicParsing="false" onAction="#saveButtonHandler" prefHeight="31.0" prefWidth="80.0" text="Save" />
                   <Button fx:id="patientRecordEditButton" mnemonicParsing="false" onAction="#editButtonHandler" prefHeight="31.0" prefWidth="80.0" text="Edit" />
-                  <Button fx:id="examinationProtocolButton" mnemonicParsing="false" onAction="#openExaminationButtonHandler" prefHeight="31.0" prefWidth="130.0" text="Examination Protocol" />
-                  <Button fx:id="addPatientToQueueButton" mnemonicParsing="false" onAction="#addPatientToQueueButtonHandler" prefHeight="31.0" prefWidth="130.0" text="Add to Waiting List" />
-                  <ComboBox fx:id="addToQueueBox" prefHeight="31.0" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" text="Button" visible="false" />
+                  <Button fx:id="examinationProtocolButton" mnemonicParsing="false" onAction="#openExaminationButtonHandler" prefHeight="31.0" prefWidth="180.0" text="Examination Protocol" />
+                  <Button mnemonicParsing="false" text="Button" visible="false" />
+                  <Button fx:id="addPatientToQueueButton" mnemonicParsing="false" onAction="#addPatientToQueueButtonHandler" prefHeight="31.0" prefWidth="180.0" text="Add to Waiting List:">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></Button>
+                  <ComboBox fx:id="addToQueueBox" prefHeight="31.0" prefWidth="172.0" />
                </items>
             </ToolBar>
             <Label focusTraversable="false" text="Gender" GridPane.rowIndex="11" />

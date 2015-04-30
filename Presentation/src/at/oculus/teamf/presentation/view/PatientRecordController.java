@@ -96,11 +96,17 @@ public class PatientRecordController implements Initializable {
         patientRecordChildhood.setWrapText(true);
         patientRecordIntolerance.setWrapText(true);
 
+
+        // button images
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         patientRecordSaveButton.setGraphic(new ImageView(imageSaveIcon));
-
         Image imageEditIcon = new Image(getClass().getResourceAsStream("/res/icon_edit.png"));
         patientRecordEditButton.setGraphic(new ImageView(imageEditIcon));
+        Image imageQueueIcon = new Image(getClass().getResourceAsStream("/res/icon_enqueue.png"));
+        addPatientToQueueButton.setGraphic(new ImageView(imageQueueIcon));
+        Image imageExaminationIcon = new Image(getClass().getResourceAsStream("/res/icon_examination.png"));
+        examinationProtocolButton.setGraphic(new ImageView(imageExaminationIcon));
+
 
         /**
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
@@ -144,8 +150,7 @@ public class PatientRecordController implements Initializable {
         patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(_patient.getFirstName());
         patientRecordFirstname.setDisable(true);
-        addTextLimiter(patientRecordLastname, 50);
-        addTextLimiter(patientRecordFirstname, 50);
+
 
         if(_patient.getGender().equals("female"))
         {
@@ -158,7 +163,7 @@ public class PatientRecordController implements Initializable {
 
         patientRecordSVN.setText(_patient.getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
-        addTextLimiter(patientRecordSVN, 10);
+
 
         if(_patient.getBirthDay() != null)
         {
@@ -174,22 +179,16 @@ public class PatientRecordController implements Initializable {
         patientRecordBday.setDisable(true);
         patientRecordStreet.setText(_patient.getStreet());
         patientRecordStreet.setDisable(true);
-        addTextLimiter(patientRecordStreet, 255);
         patientRecordPLZ.setText(_patient.getPostalCode());
         patientRecordPLZ.setDisable(true);
-        addTextLimiter(patientRecordPLZ, 20);
         patientRecordCity.setText(_patient.getCity());
         patientRecordCity.setDisable(true);
-        addTextLimiter(patientRecordCity, 50);
         patientRecordCountryIsoCode.setText(_patient.getCountryIsoCode());
         patientRecordCountryIsoCode.setDisable(true);
-        addTextLimiter(patientRecordCountryIsoCode, 2);
         patientRecordPhone.setText(_patient.getPhone());
         patientRecordPhone.setDisable(true);
-        addTextLimiter(patientRecordPhone, 50);
         patientRecordEmail.setText(_patient.getEmail());
         patientRecordEmail.setDisable(true);
-        addTextLimiter(patientRecordEmail, 255);
         patientRecordDoctor.setValue(_patient.getIDoctor());
         patientRecordDoctor.setDisable(true);
 
@@ -415,6 +414,17 @@ public class PatientRecordController implements Initializable {
             }
         });
         //</editor-fold>
+
+        // textfield limiter
+        addTextLimiter(patientRecordLastname, 50);
+        addTextLimiter(patientRecordFirstname, 50);
+        addTextLimiter(patientRecordSVN, 10);
+        addTextLimiter(patientRecordStreet, 255);
+        addTextLimiter(patientRecordPLZ, 20);
+        addTextLimiter(patientRecordCity, 50);
+        addTextLimiter(patientRecordCountryIsoCode, 2);
+        addTextLimiter(patientRecordPhone, 50);
+        addTextLimiter(patientRecordEmail, 255);
 
     }
 
