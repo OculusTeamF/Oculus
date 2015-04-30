@@ -45,7 +45,7 @@ public class InitController implements Initializable, ILogger {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-       // run init as thread (unused currently)
+        // run init as thread (unused currently)
        /*  Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -67,7 +67,7 @@ public class InitController implements Initializable, ILogger {
         th.start();*/
 
         // set true when init window is set "undeocarted"
-        initRectangle.setVisible(false);
+        initRectangle.setVisible(true);
 
         // comment this out if 'QuoteGenerator' create errors
         labelQuote.setText(getQuote());
