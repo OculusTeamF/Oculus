@@ -117,9 +117,6 @@ public class DiagnosisBrokerTest extends BrokerTest {
         } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
-            assertTrue(false);
         }
         assertTrue(diagnoses.size() == 3);
     }

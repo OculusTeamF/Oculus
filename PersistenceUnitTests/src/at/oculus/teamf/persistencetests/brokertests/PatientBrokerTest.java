@@ -118,7 +118,6 @@ public class PatientBrokerTest extends BrokerTest {
     }
 
 	@Test
-	//Todo: rework
 	public void testReload() {
         Patient patient = null;
         try {
@@ -128,15 +127,13 @@ public class PatientBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
 
         try {
 			assertTrue(patient.getCalendarEvents() != null);
-			assertTrue(patient.getCalendarEvents().size() == 0);
+			assertTrue(patient.getCalendarEvents().size() == 3);
 			assertTrue(patient.getExaminationProtocol() != null);
-			assertTrue(patient.getExaminationProtocol().size() > 0);
+			assertTrue(patient.getExaminationProtocol().size()==5);
 		} catch (InvalidReloadClassException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -159,33 +156,27 @@ public class PatientBrokerTest extends BrokerTest {
 		Collection<Patient> patients = null;
 		// SVN only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"1234567890");
+			patients = Facade.getInstance().search(Patient.class,"5947053957", "", "");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-        assertTrue(patients.size() > 0);
+		}
+        assertTrue(patients.size()==1);
 		// Firstname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"JaNe");
+			patients = Facade.getInstance().search(Patient.class,"","JaNe","");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(patients.size() == 3);
 		// Lastname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"sOn");
+			patients = Facade.getInstance().search(Patient.class,"","","sOn");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(patients.size()==6);
 		// Fulltext
 		try {
@@ -193,9 +184,7 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(patients.size()==6);
 	}
 
@@ -219,9 +208,7 @@ public class PatientBrokerTest extends BrokerTest {
 		} catch (InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         // create diagnosis
 		Diagnosis diagnosis = new Diagnosis();

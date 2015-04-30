@@ -24,14 +24,17 @@ import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * doctor broker translating domain objects to persistence entities
  */
-public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload {
+public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload, ISearch {
     public DoctorBroker() {
         super(Doctor.class, DoctorEntity.class);
         addClassMapping(UserEntity.class);
@@ -191,6 +194,24 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         @Override
         public Collection<PatientEntity> load(Object databaseEntity) {
             return ((DoctorEntity) databaseEntity).getPatients();
+        }
+    }
+
+    @Override
+    public Collection<Doctor> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+        if (params.length == 1) {
+            Collection<DoctorEntity> result = (Collection<DoctorEntity>)(Collection<?>)session.search("getDoctorByUserId", params[0]);
+
+	        LinkedList<Doctor> domainDoctors = new LinkedList<>();
+
+	        for(DoctorEntity de : result) {
+		        domainDoctors.add(persistentToDomain(de));
+	        }
+
+	        return domainDoctors;
+
+        } else {
+            return null;
         }
     }
 }

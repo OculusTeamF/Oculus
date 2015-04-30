@@ -76,7 +76,6 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
     @Override
     public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
         if (params.length == 1) {
-            System.out.println("Searching Diagnoses");
             return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
         } else {
             return null;

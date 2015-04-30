@@ -118,4 +118,46 @@ public class ExaminationProtocol implements IExaminationProtocol {
     public String toString(){
         return (new SimpleDateFormat("dd.MM.yyyy").format(_startTime));
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof ExaminationProtocol))
+			return false;
+
+		ExaminationProtocol that = (ExaminationProtocol) o;
+
+		if (_id != that._id)
+			return false;
+		if (_description != null ? !_description.equals(that._description) : that._description != null)
+			return false;
+		if (_diagnosis != null ? !_diagnosis.equals(that._diagnosis) : that._diagnosis != null)
+			return false;
+		if (_doctor != null ? !_doctor.equals(that._doctor) : that._doctor != null)
+			return false;
+		if (_endTime != null ? !_endTime.equals(that._endTime) : that._endTime != null)
+			return false;
+		if (_orthoptist != null ? !_orthoptist.equals(that._orthoptist) : that._orthoptist != null)
+			return false;
+		if (_patient != null ? !_patient.equals(that._patient) : that._patient != null)
+			return false;
+		if (_startTime != null ? !_startTime.equals(that._startTime) : that._startTime != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_startTime != null ? _startTime.hashCode() : 0);
+		result = 31 * result + (_endTime != null ? _endTime.hashCode() : 0);
+		result = 31 * result + (_description != null ? _description.hashCode() : 0);
+		result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+		result = 31 * result + (_orthoptist != null ? _orthoptist.hashCode() : 0);
+		result = 31 * result + (_diagnosis != null ? _diagnosis.hashCode() : 0);
+		result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
+		return result;
+	}
 }

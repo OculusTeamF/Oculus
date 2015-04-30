@@ -27,9 +27,9 @@ import java.util.LinkedList;
 /**
  * queue broker translating domain objects to persistence entities
  */
-public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
+public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
 
-    public QueueEntryBroker() {
+    public QueueBroker() {
         super(QueueEntry.class, QueueEntity.class);
     }
 
@@ -104,29 +104,40 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
     }
 
     @Override
-    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
         if (params.length == 0) {
             return null;
         }
 
         String[] queryParam = new String[1];
         String query = "";
-        Collection<QueueEntity> result = null;
+        Collection<Object> result = null;
         switch (params[0]) {
             case("Doctor"): {
                 query = "getDocotorQueueEntries";
-                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
+                try {
+                    result =  session.search(query, params[1]);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
-            case("Orthoptist"): {
+            case("Orthopist"): {
                 query = "getOrthoptistQueueEntries";
-                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
-
+                try {
+                    result =  session.search(query, params[1]);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             case("General"): {
                 query = "getGeneralQueueEntries";
-                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query);
+                try {
+                    result =  session.search(query);
+                } catch (BadSessionException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             default: {
@@ -134,11 +145,9 @@ public class QueueEntryBroker extends EntityBroker<QueueEntry, QueueEntity> impl
             }
         }
 
-        Collection<QueueEntry> queueEntries = new LinkedList<>();
-        for(QueueEntity qe : result) {
-            queueEntries.add(persistentToDomain(qe));
-        }
 
-        return queueEntries;
+
+
+        return (Collection<QueueEntry>)(Collection<?>)result;
     }
 }

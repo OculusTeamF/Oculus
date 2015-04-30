@@ -134,4 +134,6 @@ public class ExaminationProtocolEntity implements IEntity {
 	public void setDiagnosis(DiagnosisEntity diagnosis) {
 		_diagnosis = diagnosis;
 	}
+
+	// TODO toString, hashCode, equals
 }

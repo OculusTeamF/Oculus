@@ -23,6 +23,7 @@ import java.util.Collection;
  * interface patient queue for presentation layer
  */
 public interface IPatientQueue {
+    int getUserID();
 
     Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException, BadSessionException;
 

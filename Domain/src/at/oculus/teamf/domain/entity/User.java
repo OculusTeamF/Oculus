@@ -146,4 +146,55 @@ public abstract class User implements IUser {
         }
         return title + getFirstName() + " " + getLastName();
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof User))
+			return false;
+
+		User user = (User) o;
+
+		if (_id != user._id)
+			return false;
+		if (_createDate != null ? !_createDate.equals(user._createDate) : user._createDate != null)
+			return false;
+		if (_email != null ? !_email.equals(user._email) : user._email != null)
+			return false;
+		if (_firstName != null ? !_firstName.equals(user._firstName) : user._firstName != null)
+			return false;
+		if (_idleDate != null ? !_idleDate.equals(user._idleDate) : user._idleDate != null)
+			return false;
+		if (_lastName != null ? !_lastName.equals(user._lastName) : user._lastName != null)
+			return false;
+		if (_password != null ? !_password.equals(user._password) : user._password != null)
+			return false;
+		if (_title != null ? !_title.equals(user._title) : user._title != null)
+			return false;
+		if (_userGroupId != null ? !_userGroupId.equals(user._userGroupId) : user._userGroupId != null)
+			return false;
+		if (_userName != null ? !_userName.equals(user._userName) : user._userName != null)
+			return false;
+		if (_usergroup != null ? !_usergroup.equals(user._usergroup) : user._usergroup != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_userGroupId != null ? _userGroupId.hashCode() : 0);
+		result = 31 * result + (_userName != null ? _userName.hashCode() : 0);
+		result = 31 * result + (_password != null ? _password.hashCode() : 0);
+		result = 31 * result + (_title != null ? _title.hashCode() : 0);
+		result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
+		result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
+		result = 31 * result + (_email != null ? _email.hashCode() : 0);
+		result = 31 * result + (_createDate != null ? _createDate.hashCode() : 0);
+		result = 31 * result + (_idleDate != null ? _idleDate.hashCode() : 0);
+		result = 31 * result + (_usergroup != null ? _usergroup.hashCode() : 0);
+		return result;
+	}
 }

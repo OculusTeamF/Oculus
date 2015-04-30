@@ -171,7 +171,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      */
     @Override
     public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, BadSessionException {
-        Collection<PatientEntity> searchResult = new LinkedList<>();
+        Collection<Object> searchResult = null;
 
         // create query
         String query = null;
@@ -186,18 +186,18 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         }
 
         try {
-            searchResult.addAll((Collection<PatientEntity>) (Collection<?>) session.search(query, params));
+            searchResult = session.search(query, params);
         } catch (BadSessionException e) {
             log.catching(e);
         }
 
         Collection<Patient> result = new LinkedList<>();
-        for(PatientEntity pe : searchResult) {
-            result.add(persistentToDomain((pe)));
+        for(Object o : searchResult) {
+            result.add(persistentToDomain((PatientEntity)o));
         }
 
 
-        return result;
+        return (Collection<Patient>)(Collection<?>) result;
     }
 
     private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {

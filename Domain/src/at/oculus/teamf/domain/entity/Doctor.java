@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.Facade;
@@ -68,7 +67,7 @@ public class Doctor extends User implements IDoctor {
     @Override
     public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         if(_queue == null) {
-            _queue = QueueFactory.getInstance().getUserQueue(this);
+            _queue = new PatientQueue(this);
         }
         return _queue;
     }
