@@ -22,6 +22,18 @@
 #searchPatientPane{
     -fx-background-color: #F4F4F4;
 }
+#examinationPane{
+    -fx-background-color: #F4F4F4;
+}
+#colorPane1{
+     -fx-background-color: #cbe6ff;
+ }
+#colorPane2{
+    -fx-background-color: #cbe6ff;
+}
+#colorPane3{
+    -fx-background-color: #cbe6ff;
+}
 
 #loaderPane{
     -fx-background-color: white;

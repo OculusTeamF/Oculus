@@ -25,6 +25,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.time.Instant;
@@ -74,6 +76,8 @@ public class NewPatientController implements Initializable{
         addTextLimiter(newPatientPhone, 50);
         addTextLimiter(newPatientEmail, 255);
 
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        newPatientSaveButton.setGraphic(new ImageView(imageSaveIcon));
 
 
         newPatientDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));

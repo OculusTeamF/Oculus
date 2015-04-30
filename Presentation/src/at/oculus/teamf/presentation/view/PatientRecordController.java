@@ -34,6 +34,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.time.Instant;
@@ -93,6 +95,12 @@ public class PatientRecordController implements Initializable {
         patientRecordAllergies.setWrapText(true);
         patientRecordChildhood.setWrapText(true);
         patientRecordIntolerance.setWrapText(true);
+
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        patientRecordSaveButton.setGraphic(new ImageView(imageSaveIcon));
+
+        Image imageEditIcon = new Image(getClass().getResourceAsStream("/res/icon_edit.png"));
+        patientRecordEditButton.setGraphic(new ImageView(imageEditIcon));
 
         /**
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox

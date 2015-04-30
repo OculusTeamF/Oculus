@@ -31,6 +31,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -81,6 +83,8 @@ public class PatientSearchController implements Initializable{
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
 
+        Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
+        searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
 
         ObservableList<IPatient> patientlist = null;
         try {
