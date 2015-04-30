@@ -22,6 +22,7 @@ package at.oculus.teamf.application.facade;
  **/
 
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
@@ -77,7 +78,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param description this is the description of the diagnosis
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
-    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws BadConnectionException, NoBrokerMappedException, RequirementsUnfulfilledException {
+    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws BadConnectionException, NoBrokerMappedException, RequirementsUnfulfilledException, BadSessionException {
 
         //check parameters
         if(!checkRequirements(title, description, iDoctor)){
@@ -98,11 +99,14 @@ public class CreateDiagnosisController implements ILogger {
             facade.save(examinationProtocol);
             log.info("Diagnosis and Examinationprotocol saved");
         } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Patient cannot be saved!");
+            log.warn("BadConnectionException caught! Diagnosis can not be saved!");
             throw badConnectionException;
         } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
+            log.warn("NoBrokerMappedException caught! Diagnosis can not be saved!");
             throw noBrokerMappedException;
+        } catch (BadSessionException badSessionException) {
+            log.warn("BadSessionException caught! Diagnosis can not be saved!");
+            throw badSessionException;
         }
 
         //return an interface of the new diagnosis
