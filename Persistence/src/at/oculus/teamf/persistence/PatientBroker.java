@@ -176,6 +176,14 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         // create query
         String query = null;
 
+        for(int i = 0; i < params.length; ++i) {
+            if(params[i].length() > 0) {
+                params[i] = new String("%"+ params[i].replace(' ', '%') + "%");
+            }
+            System.out.println(params[i]);
+        }
+
+
         //decide on query
         if (params.length == 1) {
             query = "getPatientByAll";
