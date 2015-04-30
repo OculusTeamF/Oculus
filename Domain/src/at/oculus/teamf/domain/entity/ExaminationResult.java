@@ -18,9 +18,9 @@ import java.util.Date;
  */
 public class ExaminationResult implements IDomain {
 	private int _id;
-	private ExaminationProtocol _examinationProtocolEntity;
+	private ExaminationProtocol _examinationProtocol;
 	private Integer _examinationProtocolId;
-	private User _userEntity;
+	private User _user;
 	private Integer _userId;
 	private String _result;
 	private Date _createDate;
@@ -35,11 +35,11 @@ public class ExaminationResult implements IDomain {
 	                         byte[] deviceData) {
 		_id = id;
 		if(examinationProtocol!=null){
-			_examinationProtocolEntity = examinationProtocol;
+			_examinationProtocol = examinationProtocol;
 			_examinationProtocolId = examinationProtocol.getId();
 		}
 		if(user!=null){
-			_userEntity = user;
+			_user = user;
 			_userId = user.getUserId();
 		}
 
@@ -58,11 +58,11 @@ public class ExaminationResult implements IDomain {
 		_id = id;
 	}
 
-	public ExaminationProtocol getExaminationProtocolEntity() {
-		return _examinationProtocolEntity;
+	public ExaminationProtocol getExaminationProtocol() {
+		return _examinationProtocol;
 	}
-	public void setExaminationProtocolEntity(ExaminationProtocol examinationProtocolEntity) {
-		_examinationProtocolEntity = examinationProtocolEntity;
+	public void setExaminationProtocol(ExaminationProtocol examinationProtocolEntity) {
+		_examinationProtocol = examinationProtocolEntity;
 	}
 
 	public Integer getExaminationProtocolId() {
@@ -72,11 +72,11 @@ public class ExaminationResult implements IDomain {
 		_examinationProtocolId = examinationProtocolId;
 	}
 
-	public User getUserEntity() {
-		return _userEntity;
+	public User getUser() {
+		return _user;
 	}
-	public void setUserEntity(User userEntity) {
-		_userEntity = userEntity;
+	public void setUser(User userEntity) {
+		_user = userEntity;
 	}
 
 	public Integer getUserId() {

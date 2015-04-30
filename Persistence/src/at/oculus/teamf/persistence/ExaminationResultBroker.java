@@ -13,10 +13,14 @@ import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.ExaminationResult;
 import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
 import at.oculus.teamf.persistence.entity.ExaminationResultEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+
+import java.sql.Timestamp;
 
 /**
  * ExaminationResultBroker.java Created by oculus on 30.04.15.
@@ -34,13 +38,14 @@ public class ExaminationResultBroker extends EntityBroker {
 		ExaminationProtocol examinationProtocol = null;
 		if ((examinationResultEntity.getExaminationProtocolEntity() != null)) {
 			examinationProtocol = (ExaminationProtocol) Facade.getInstance().getBroker(ExaminationProtocol.class)
-			                              .persistentToDomain(examinationResultEntity.getExaminationProtocolEntity());
+			                                                  .persistentToDomain(examinationResultEntity
+					                                                                      .getExaminationProtocolEntity());
 		}
 
 		User user = null;
 		if (examinationResultEntity.getUserEntity() != null) {
 			user = (User) Facade.getInstance().getBroker(User.class)
-			                                                  .persistentToDomain(examinationResultEntity.getUserEntity());
+			                    .persistentToDomain(examinationResultEntity.getUserEntity());
 		}
 
 		return new ExaminationResult(examinationResultEntity.getId(), examinationProtocol, user,
@@ -49,7 +54,25 @@ public class ExaminationResultBroker extends EntityBroker {
 	}
 
 	@Override
-	protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
-		return null;
+	protected ExaminationResultEntity domainToPersistent(IDomain obj)
+			throws NoBrokerMappedException, BadConnectionException {
+		ExaminationResult examinationResult = (ExaminationResult) obj;
+
+		ExaminationProtocolEntity examinationProtocolEntity = null;
+		if (examinationResult.getExaminationProtocol() != null) {
+			examinationProtocolEntity =
+					(ExaminationProtocolEntity) Facade.getInstance().getBroker(ExaminationProtocol.class)
+					                                  .domainToPersistent(examinationResult.getExaminationProtocol());
+		}
+
+		UserEntity userEntity = null;
+		if (examinationResult.getUser() != null) {
+			userEntity = (UserEntity) Facade.getInstance().getBroker(User.class)
+			                                .domainToPersistent(examinationResult.getExaminationProtocol());
+		}
+
+		return new ExaminationResultEntity(examinationResult.getId(), examinationProtocolEntity, userEntity,
+		                                   examinationResult.getResult(), new Timestamp(examinationResult.getCreateDate().getTime()),
+		                                   examinationResult.getDevice(), examinationResult.getDeviceData());
 	}
 }
