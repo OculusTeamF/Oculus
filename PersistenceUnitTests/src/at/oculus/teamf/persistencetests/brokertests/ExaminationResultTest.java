@@ -18,6 +18,8 @@ import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Date;
@@ -106,5 +108,24 @@ public class ExaminationResultTest extends BrokerTest {
             e.printStackTrace();
         }
         assertTrue(examinationResults.size()>0);*/
+    }
+
+    @Test
+    public void testSearch(){
+        Collection<ExaminationResult> examinationResults = null;
+
+        try {
+            examinationResults = Facade.getInstance().search(ExaminationResult.class, "1");
+        } catch (SearchInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (InvalidSearchParameterException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(examinationResults.size()==21);
     }
 }

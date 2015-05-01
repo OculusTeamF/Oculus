@@ -9,9 +9,16 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -27,6 +34,7 @@ public class ExaminationProtocol implements IExaminationProtocol {
 	private Orthoptist _orthoptist;
 	private Diagnosis _diagnosis;
 	private Patient _patient;
+	private Collection<ExaminationResult> _results;
 
 	public ExaminationProtocol() {}
 
@@ -114,7 +122,20 @@ public class ExaminationProtocol implements IExaminationProtocol {
 		_patient = patient;
 	}
 
-    @Override
+	public Collection<ExaminationResult> getExaminationResults()
+			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
+			       NoBrokerMappedException, BadSessionException {
+
+		Facade.getInstance().reloadCollection(this, ExaminationResult.class);
+
+		return (Collection<ExaminationResult>)(Collection<?>) _results;
+	}
+
+	public void setResults(Collection<ExaminationResult> results) {
+		_results = results;
+	}
+
+	@Override
     public String toString(){
         return (new SimpleDateFormat("dd.MM.yyyy").format(_startTime));
     }

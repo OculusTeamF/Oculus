@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * Hibernate annotated examination protocol class
@@ -28,6 +29,7 @@ public class ExaminationProtocolEntity implements IEntity {
 	private PatientEntity _patient;
 	private UserEntity _user;
 	private DiagnosisEntity _diagnosis;
+    private Collection<ExaminationResultEntity> _results;
 
 	public ExaminationProtocolEntity() {}
 
@@ -133,6 +135,15 @@ public class ExaminationProtocolEntity implements IEntity {
 	}
 	public void setDiagnosis(DiagnosisEntity diagnosis) {
 		_diagnosis = diagnosis;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "examinationProtocolId", referencedColumnName = "examinationProtocolId")
+	public Collection<ExaminationResultEntity> getResults() {
+		return _results;
+	}
+	public void setResults(Collection<ExaminationResultEntity> results) {
+		_results = results;
 	}
 
 	// TODO toString, hashCode, equals
