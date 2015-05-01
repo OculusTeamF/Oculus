@@ -128,6 +128,6 @@ public class NewExaminationController implements Initializable {
     @FXML
     public void addDiagnosisButtonHandler (ActionEvent actionEvent){
         // add diagnosis for patient
-        Main.controller.loadTab("NEW DIAGNOSIS" ,"fxml/DiagnosisTab.fxml", new SingleResourceBundle(patient));
+        Main.controller.loadTab("NEW DIAGNOSIS: " + patient.getLastName() ,"fxml/DiagnosisTab.fxml", new SingleResourceBundle(patient));
     }
 }
