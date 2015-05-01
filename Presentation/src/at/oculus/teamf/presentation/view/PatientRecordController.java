@@ -31,6 +31,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -76,22 +78,15 @@ public class PatientRecordController implements Initializable {
 
 
     private Model _model = Model.getInstance();
-    private MainController _selfe;
+
 
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
-    //private IPatient _patient;
-    //private StartupController startupController = new StartupController();
-    //private CreatePatientController createPatientController = new CreatePatientController();
-    //public CheckinController checkinController = new CheckinController();
-    //private ReceivePatientController receivePatientController = new ReceivePatientController();
-    //private IUser _user = null;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        //_patient =  (IPatient)resources.getObject("Patient");
-
         /**
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
          * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
@@ -112,11 +107,12 @@ public class PatientRecordController implements Initializable {
         examinationProtocolButton.setGraphic(new ImageView(imageExaminationIcon));
 
 
+        //TODO: warum gibt es da einen Nullpointer????
         /**
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
          * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
          */
- /*       patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
+       /* patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (isFormEdited) {
@@ -132,17 +128,6 @@ public class PatientRecordController implements Initializable {
         patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
         patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
 
-       /* try {
-            patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_patient.getCalendarEvents()));
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }*/
 
         //<editor-fold desc="Set Default Values">
         //disable all Patientfields and the save button, sets the text from IPatient into fields
@@ -152,21 +137,16 @@ public class PatientRecordController implements Initializable {
         patientRecordradioGenderMale.setToggleGroup(group);
 
         patientRecordLastname.setText(_model.getPatient().getLastName());
-        patientRecordLastname.setDisable(true);
         patientRecordFirstname.setText(_model.getPatient().getFirstName());
-        patientRecordFirstname.setDisable(true);
 
         if(_model.getPatient().getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
-            patientRecordradioGenderFemale.setDisable(true);
         }else{
             patientRecordradioGenderMale.setSelected(true);
-            patientRecordradioGenderMale.setDisable(true);
         }
 
         patientRecordSVN.setText(_model.getPatient().getSocialInsuranceNr());
-        patientRecordSVN.setDisable(true);
 
 
         if(_model.getPatient().getBirthDay() != null)
@@ -180,21 +160,16 @@ public class PatientRecordController implements Initializable {
 
             patientRecordBday.setValue(date);
         }
-        patientRecordBday.setDisable(true);
         patientRecordStreet.setText(_model.getPatient().getStreet());
-        patientRecordStreet.setDisable(true);
         patientRecordPLZ.setText(_model.getPatient().getPostalCode());
-        patientRecordPLZ.setDisable(true);
         patientRecordCity.setText(_model.getPatient().getCity());
-        patientRecordCity.setDisable(true);
         patientRecordCountryIsoCode.setText(_model.getPatient().getCountryIsoCode());
-        patientRecordCountryIsoCode.setDisable(true);
         patientRecordPhone.setText(_model.getPatient().getPhone());
-        patientRecordPhone.setDisable(true);
         patientRecordEmail.setText(_model.getPatient().getEmail());
-        patientRecordEmail.setDisable(true);
         patientRecordDoctor.setValue(_model.getPatient().getIDoctor());
-        patientRecordDoctor.setDisable(true);
+
+
+        disableFields();
 
         if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
         {
@@ -476,6 +451,7 @@ public class PatientRecordController implements Initializable {
                 StatusBarController.getInstance().setText("Adding _patient '" + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName() + "' to queue for: " + user.getLastName());
 
                // checkinController.insertPatientIntoQueue(_patient, _user);
+            System.out.println("Patient in Queue !!!!!!!!!!!!!!!!!");
                 _model.insertPatientIntoQueue(user);
 
                 //Todo: add event handler
@@ -496,7 +472,7 @@ public class PatientRecordController implements Initializable {
         //Todo: add central controller
         Date date = new Date();
         //Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
-        _model.loadTab(_model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + date.toString(), "fxml/ExaminationTab.fxml");
+        _model.loadTab(_model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + date.toString(), "fxml/NewExaminationTab.fxml");
         //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
         //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
         StatusBarController.getInstance().setText("Open examination...");

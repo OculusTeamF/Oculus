@@ -54,34 +54,10 @@ public class QueueController implements Initializable {
     @FXML
     private VBox vboxQueues;
 
-    //private SearchPatientController _searchPatientController;
-    //private StartupController _startupController;
-    //private Collection<IDoctor> _doctors;
-    //private Collection<IUser> _userlist;
-
-    private HashMap<IUser, ObservableList> _userOListMap;
-    private HashMap<ObservableList, IUser> _OListUserMap;
-    private HashMap<IUser, ListView> _listViewMap;
-
     private Model _model = Model.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // controller connection
-        //_searchPatientController = new SearchPatientController();
-        //_startupController = new StartupController();
-
-        /*try {
-            _doctors = _startupController.getAllDoctors();
-            _userlist = _startupController.getAllDoctorsAndOrthoptists();
-        } catch (NoBrokerMappedException e) {
-            //Todo: add DialogBox
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            //Todo: add DialogBox
-            e.printStackTrace();
-        }*/
-
 
         // search button & searchresultslist init
         Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
@@ -100,7 +76,6 @@ public class QueueController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    //Main.controller.addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                     _model.addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
@@ -111,9 +86,11 @@ public class QueueController implements Initializable {
         vboxQueues.getChildren().add(tbQueue);
 
         // build queue
-        buildQueueLists();
+        //buildQueueLists();
+        _model.setVboxQueues(vboxQueues);
+        _model.buildQueueLists();
 
-        Main.controlQueue = this;
+        //Main.controlQueue = this;
     }
 
     // *******************************************************************
@@ -130,15 +107,13 @@ public class QueueController implements Initializable {
 
     /*search and list patients with used keywords*/
     @FXML
-    public void doPatientSearch() {
+    public void doPatientSearch()
+    {
         ObservableList<IPatient>patientlist = FXCollections.observableList((List)_model.searchPatients(textSearch.getText()));
-
-        //patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
-
 
         if (patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight((patientlist.size() * 24)+10);
+            listSearchResults.setPrefHeight(patientlist.size() * 30);
             searchResults.setDisable(false);
             searchResults.setExpanded(true);
             searchResults.setText("Search Results (" + patientlist.size() + "):");
@@ -148,7 +123,7 @@ public class QueueController implements Initializable {
             searchResults.setExpanded(false);
             searchResults.setDisable(true);
             listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight(patientlist.size() * 24);
+            listSearchResults.setPrefHeight(patientlist.size() * 30);
             StatusBarController.getInstance().setText("No patients found");
         }
     }
@@ -160,9 +135,11 @@ public class QueueController implements Initializable {
     /*load and setup queuelist for all users (on application load)*/
     public void buildQueueLists() {
 
-        TitledPane[] titledPanes = new TitledPane[_model.getAllDoctorsAndOrhtoptists().size()];
+       // TitledPane[] titledPanes = _model.buildQueueLists();
 
-        // setup listviews
+        //TitledPane[] titledPanes = new TitledPane[_model.getAllDoctorsAndOrhtoptists().size()];
+
+       /* // setup listviews
         int i = 0;
         for (IUser u : _model.getAllDoctorsAndOrhtoptists()) {
             ListView<IPatient> listView = new ListView<>();
@@ -178,18 +155,10 @@ public class QueueController implements Initializable {
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-                        //ObservableList<IPatient> observableList = source.getItems();
-                        //final IUser user = _OListUserMap.get(observableList);
-                        //IPatient patient = (IPatient) source.getSelectionModel().getSelectedItem(); //cannot cast from QueueEntity to IPatient
-                        //_model.addPatientTab(patient);
                         _model.addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
-
-
-            // needed get Queue From UserID, PatientQueue is a Collection of QueueEntries
-            IPatientQueue qe = _model.getQueueFromUser(u);
 
             //put the entries of the Queue from User u into the List
             ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List)_model.getEntriesFromQueue(u));
@@ -199,8 +168,8 @@ public class QueueController implements Initializable {
                 olist.add(entry.getPatient());
             }
 
-            // Queue titlepane string
-            String queuename = null;
+            // Queue titlepane string - Header of the Titled panel
+            String queuename;
             if (u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals("")) {
                 queuename = u.getFirstName() + " " + u.getLastName();
             } else {
@@ -210,7 +179,7 @@ public class QueueController implements Initializable {
 
             // bind listview to titledpanes
             listView.setItems(olist);
-            listView.setPrefHeight(olist.size() * 24);
+            listView.setPrefHeight(olist.size() * 30);
 
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
@@ -218,10 +187,10 @@ public class QueueController implements Initializable {
             titledPanes[i].setVisible(true);
 
             i++;
-        }
+        }*/
         //titledPanes[0].setExpanded(true);
-        vboxQueues.getChildren().addAll(titledPanes);
-        //_model.setQueueTitledPanes(titlePanes);
+       // vboxQueues.getChildren().addAll(titledPanes);
+
     }
 
 

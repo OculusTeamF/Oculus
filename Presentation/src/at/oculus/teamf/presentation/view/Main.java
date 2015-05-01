@@ -39,7 +39,7 @@ public class Main extends Application implements ILocal, ILogger {
 
    /// TODO dispatcher
     public static MainController controller;
-    public static QueueController controlQueue;
+    //public static QueueController controlQueue;
     private Model _model = Model.getInstance();
 
     public static Service<Void> service;

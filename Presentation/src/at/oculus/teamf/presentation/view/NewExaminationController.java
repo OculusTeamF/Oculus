@@ -46,18 +46,19 @@ public class NewExaminationController implements Initializable {
 
     private Timeline timeline;
     private Integer timeSeconds = 0;
-    private IPatient patient;
-    private ReceivePatientController receivePatientController = new ReceivePatientController();
+    //private IPatient patient;
+    //private ReceivePatientController receivePatientController = new ReceivePatientController();
+    private Model _model = Model.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Date date = new Date();
 
         // get patient object
-        patient =  (IPatient)resources.getObject(null);
+        //patient =  (IPatient)resources.getObject(null);
 
         // setup controls
-        examinationLnameFnameSvn.setText("NEW PROTOCOL: " + patient.getFirstName() + " " + patient.getLastName());
+        examinationLnameFnameSvn.setText("NEW PROTOCOL: " + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName());
         examinationCurrDate.setText("START: " + date.toString());
         examinationCurrTime.setText("TIMECOUNTER: 00:00:00");
         diagnosisIdentity.setText("Diagnosis details: [docname] - [start] - [end]");
@@ -128,6 +129,6 @@ public class NewExaminationController implements Initializable {
     @FXML
     public void addDiagnosisButtonHandler (ActionEvent actionEvent){
         // add diagnosis for patient
-        Main.controller.loadTab("NEW DIAGNOSIS: " + patient.getLastName() ,"fxml/DiagnosisTab.fxml", new SingleResourceBundle(patient));
+        _model.addDiagnosisTab(_model.getPatient());
     }
 }

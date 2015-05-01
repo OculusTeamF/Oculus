@@ -58,17 +58,7 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane splitLeftSide;
 
-    //private StartupController _startupController;
-    //private SearchPatientController _searchPatientController;
-
     private Model _model = Model.getInstance();
-
-    //private HashMap<IUser, ObservableList> _userOListMap;
-    //private HashMap<ObservableList, IUser> _OListUserMap;
-    //private HashMap<IUser, ListView> _listViewMap;
-
-    //private Collection<IDoctor> _doctors;
- //   private Collection<IUser> _userlist;
 
     /**
      * Initialize the waiting queue
@@ -79,15 +69,9 @@ public class MainController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-       // _startupController = new StartupController();
-       // _searchPatientController = new SearchPatientController();
         _model.setTabPanel(displayPane);
-
-       // _doctors = _startupController.getAllDoctors();
         _model.getAllDoctors();
-        //_userlist = _startupController.getAllDoctorsAndOrthoptists();
         _model.getAllDoctorsAndOrhtoptists();
-
 
         // search button & list init
         buttonAddPatient.setVisible(false);

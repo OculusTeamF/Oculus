@@ -26,11 +26,17 @@ import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplemente
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -53,25 +59,35 @@ public class Model implements Serializable{
     private CreatePatientController _createPatientController = new CreatePatientController();
     private CheckinController _checkinController = new CheckinController();
     private ReceivePatientController _recievePatientController = new ReceivePatientController();
-
     private Collection<IDoctor > _doctors;
     private Collection<IUser> _userlist;
     private IPatient _patient;
     private IPatientQueue _queue = null;
     private TabPane _tabPanel = null;
-
+    private TitledPane _queueTitledPane[];
+    private VBox _vBoxQueues;
 
 
     /**
      * Singelton of Model
+     * The Collection of Doctors and Orthoptist is fetched from DB only once
      */
-    private Model(){}
+    private Model(){
+        try {
+            _doctors = _startupController.getAllDoctors();
+            _userlist = _startupController.getAllDoctorsAndOrthoptists();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Model getInstance(){
-        if(_modelInstance == null) {
+        if(_modelInstance == null)
+        {
             _modelInstance = new Model();
         }
-
         return _modelInstance;
     }
 
@@ -110,12 +126,21 @@ public class Model implements Serializable{
     }
 
     /**
-     * Tab: opens patient record for selected patient
+     * Tab: opens DiagnosisTab for selected patient
      */
     public void addPatientTab(IPatient patient){
 
         this._patient = patient;
         loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
+    }
+
+    /**
+     * Tab: opens patient record for selected patient
+     */
+    public void addDiagnosisTab(IPatient patient){
+
+        this._patient = patient;
+        loadTab("NEW DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml");
     }
 
 
@@ -129,13 +154,6 @@ public class Model implements Serializable{
      */
     public Collection<IDoctor> getAllDoctors(){
 
-        try {
-            _doctors =  _startupController.getAllDoctors();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        }
         return _doctors;
     }
 
@@ -144,14 +162,6 @@ public class Model implements Serializable{
      * @return
      */
     public Collection<IUser> getAllDoctorsAndOrhtoptists(){
-
-        try {
-            _userlist = _startupController.getAllDoctorsAndOrthoptists();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
 
         return _userlist;
     }
@@ -166,7 +176,6 @@ public class Model implements Serializable{
     public IPatient getPatient(){
         return this._patient;
     }
-
 
     /**
      * Returns Calendar Events of a specific patient
@@ -231,7 +240,8 @@ public class Model implements Serializable{
     }
 
     /**
-     * saves changes in Patient
+     * save changes in the PatientRecord of the Patient
+     * @param patient
      */
     public void savePatient(IPatient patient){
 
@@ -252,12 +262,95 @@ public class Model implements Serializable{
         }
     }
 
+    public boolean saveNewPatient(String gender, String lastname, String firstname, String svn, Date bday, String street, String postalcode, String city, String phone, String email, IDoctor doctor, String countryIsoCode){
+
+        try {
+            _createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+            return true;
+        } catch (RequirementsNotMetException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
+        } catch (PatientCouldNotBeSavedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        }
+        return false;
+    }
+
 
     // *******************************************************************
     // Queue methods
     // *******************************************************************
+
+
+    public void buildQueueLists(){
+
+        _queueTitledPane = new TitledPane[_userlist.size()];
+
+        // setup listviews
+        int i = 0;
+        for (IUser u : _userlist) {
+            ListView<IPatient> listView = new ListView<>();
+            listView.setPrefSize(200, 250);
+            listView.minWidth(Region.USE_COMPUTED_SIZE);
+            listView.minHeight(Region.USE_COMPUTED_SIZE);
+            listView.maxWidth(Region.USE_COMPUTED_SIZE);
+            listView.maxHeight(Region.USE_COMPUTED_SIZE);
+            listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getClickCount() == 2) {
+                        ListView source;
+                        source = (ListView) event.getSource();
+                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
+                    }
+                }
+            });
+
+            //put the entries of the Queue from User u into the List
+            ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) getEntriesFromQueue(u));
+            ObservableList<IPatient> olist = FXCollections.observableArrayList();
+
+            for(QueueEntry entry : entries){
+                olist.add(entry.getPatient());
+            }
+
+            // Queue titlepane string - Header of the Titled panel
+            String queuename;
+            if (u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals("")) {
+                queuename = u.getFirstName() + " " + u.getLastName();
+            } else {
+                queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
+            }
+            queuename = queuename + " (" + olist.size()+")";
+
+            // bind listview to titledpanes
+            listView.setItems(olist);
+            listView.setPrefHeight(olist.size() * 30);
+
+            _queueTitledPane[i] = new TitledPane(queuename, listView);
+            _queueTitledPane[i].setExpanded(false);
+            _queueTitledPane[i].setAnimated(true);
+            _queueTitledPane[i].setVisible(true);
+
+            i++;
+        }
+        //_queueTitledPane[0].setExpanded(true);
+
+        _vBoxQueues.getChildren().addAll(_queueTitledPane);
+    }
+
     /**
-     * gets the Queue from the given User
+     * returns the Queue from the given User
+     * @param user
+     * @return IPatientQueue
      */
     public IPatientQueue getQueueFromUser(IUser user){
 
@@ -278,7 +371,9 @@ public class Model implements Serializable{
     }
 
     /**
-     * returns a Collection of QueueEntries of the Queue from the given User
+     * returns a Collection of the QueueEntries of the UserQueue
+     * @param user
+     * @return Collection<QueueEntry>
      */
     public Collection<QueueEntry> getEntriesFromQueue(IUser user) {
 
@@ -295,7 +390,8 @@ public class Model implements Serializable{
     }
 
     /**
-     * insert Patient into Queue
+     * insert the Patient into the right Queue from given User
+     * @param user
      */
     public void insertPatientIntoQueue(IUser user){
 
@@ -311,16 +407,23 @@ public class Model implements Serializable{
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
         }
+        System.out.println("Before refresh !!!!!!!!!!!!!!!!!");
+        refreshQueue();
     }
 
     /**
      *
-     * @param user, which queue should be updated
      * @return
      */
-    public ObservableList refreshQueue(IUser user) {
+    public void refreshQueue() {
 
-        //the entries of the Queue from the given user
+       _queueTitledPane = null;
+
+        buildQueueLists();
+
+        System.out.println("after refresh !!!!!!!!!!!!!!!!!");
+
+        /*//the entries of the Queue from the given user
         ObservableList observableList = FXCollections.observableList((List) getQueueFromUser(user));
 
         if (observableList != null) {
@@ -329,7 +432,7 @@ public class Model implements Serializable{
             DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
         }
 
-        IPatientQueue  queue = getQueueFromUser(user);
+        IPatientQueue queue = getQueueFromUser(user);
 
         observableList.remove(0, observableList.size());
 
@@ -341,8 +444,17 @@ public class Model implements Serializable{
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
+        return observableList;*/
+    }
 
-        return observableList;
+    public void setQueueTitledPane(TitledPane[] pane)
+    {
+        _queueTitledPane = new TitledPane[_userlist.size()];
+        this._queueTitledPane = pane;
+    }
+
+    public void setVboxQueues(VBox vboxQueues){
+        this._vBoxQueues = vboxQueues;
     }
 
     // *******************************************************************

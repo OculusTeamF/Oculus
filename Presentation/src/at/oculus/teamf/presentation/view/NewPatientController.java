@@ -53,18 +53,12 @@ public class NewPatientController implements Initializable{
     @FXML public ChoiceBox newPatientDoctor;
     @FXML public Button newPatientSaveButton;
     @FXML public TextField newPatientCountryIsoCode;
-    @FXML private Tab newPatientTab;
 
-
-    private CreatePatientController createPatientController;
+    private Model _model = Model.getInstance();
     private ToggleGroup group = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        createPatientController = new CreatePatientController();
-
-        HashResourceBundle hashResourceBundle = (HashResourceBundle) resources;
 
         addTextLimiter(newPatientSVN, 10);
         addTextLimiter(newPatientLastname, 50);
@@ -79,9 +73,7 @@ public class NewPatientController implements Initializable{
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         newPatientSaveButton.setGraphic(new ImageView(imageSaveIcon));
 
-
-        newPatientDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
-
+        newPatientDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
 
 /*        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
@@ -98,17 +90,10 @@ public class NewPatientController implements Initializable{
         radioGenderFemale.setSelected(true);
     }
 
-    /*Triggers the savePatient() method when 'save' button is pressed*/
+    /*Triggers the saveNewPatient() method from Model when 'save' button is pressed*/
     @FXML
     public void saveForm(ActionEvent actionEvent) {
-        savePatient();
-    }
 
-    /**
-     * Saves the new Patient form in a new Patient-Object
-     * only if all fields are filled with data
-     */
-    private void savePatient(){
         String gender = null;
         String lastname = newPatientLastname.getText();
         String firstname = newPatientFirstname.getText();
@@ -147,22 +132,13 @@ public class NewPatientController implements Initializable{
             DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Birthday.");
         }
 
-        try {
-            try {
-                createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
-            } catch (FacadeException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-            } catch (PatientCouldNotBeSavedException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
-            }
-            DialogBoxController.getInstance().showInformationDialog("Information", "New Patient saved");
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
+        boolean isSaved = _model.saveNewPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+
+        if(isSaved){
+            DialogBoxController.getInstance().showInformationDialog("Information", "Patient: " +lastname+", "+firstname+" is saved.");
         }
     }
+
 
     /**
      * add textlimiter to textfield

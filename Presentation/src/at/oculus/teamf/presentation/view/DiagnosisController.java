@@ -26,16 +26,18 @@ import java.util.ResourceBundle;
  * Created by Fabian on 01.05.2015.
  */
 public class DiagnosisController implements Initializable {
-    private IPatient patient;
+    //private IPatient patient;
 
     @FXML private Button saveDiagnosisButton;
     @FXML private TextField textDiagnosisTitle;
     @FXML private TextArea textDiagnosisDescription;
 
+    private Model _model = Model.getInstance();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // get patient object
-        patient =  (IPatient)resources.getObject(null);
+        //patient =  (IPatient)resources.getObject(null);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
