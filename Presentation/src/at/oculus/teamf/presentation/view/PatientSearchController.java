@@ -67,6 +67,9 @@ public class PatientSearchController implements Initializable{
                 searchPatientLastname.requestFocus();
             }
         });
+
+        Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
+        searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
     }
 
     private void openPatientRecord(IPatient currPatient)
@@ -82,9 +85,6 @@ public class PatientSearchController implements Initializable{
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
-
-        Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
-        searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
 
         ObservableList<IPatient> patientlist = null;
         try {

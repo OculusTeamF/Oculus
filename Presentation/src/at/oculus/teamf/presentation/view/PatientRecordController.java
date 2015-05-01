@@ -72,6 +72,8 @@ public class PatientRecordController implements Initializable {
     @FXML public ComboBox<IUser> addToQueueBox;
     @FXML public Button addPatientToQueueButton;
     @FXML public Button examinationProtocolButton;
+    @FXML public TitledPane mh4;
+    @FXML private Accordion medicalHistory;
     //</editor-fold>
 
     private boolean isFormEdited = false;
@@ -426,6 +428,9 @@ public class PatientRecordController implements Initializable {
         addTextLimiter(patientRecordPhone, 50);
         addTextLimiter(patientRecordEmail, 255);
 
+        //mh4.setExpanded(true);
+        medicalHistory.setExpandedPane(mh4);
+
     }
 
     //<editor-fold desc="Event Handler">
@@ -501,10 +506,7 @@ public class PatientRecordController implements Initializable {
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
         //Todo: add central controller
-        Date date = new Date();
-        Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
-        //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
-        //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
+        Main.controller.loadTab("EXAMINATION LISTS: " + _patient.getLastName(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
         StatusBarController.getInstance().setText("Open examination...");
     }
     //</editor-fold>
