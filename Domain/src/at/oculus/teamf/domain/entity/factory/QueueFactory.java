@@ -46,7 +46,7 @@ public class QueueFactory implements ILogger{
         _userQueues = new HashMap<>();
 
         _keyWordMap = new HashMap<>();
-        _keyWordMap.put(Orthoptist.class, "Orthoptist");
+        _keyWordMap.put(Orthoptist.class, "Orthopist");
         _keyWordMap.put(Doctor.class, "Doctor");
 
 
