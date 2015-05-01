@@ -10,12 +10,14 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Date;
@@ -118,5 +120,39 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		}
 		assertTrue(examinationProtocolCollection!=null);
 		assertTrue(examinationProtocolCollection.size()>1);*/
+	}
+
+	@Test
+	public void reloadExaminationResults() {
+		ExaminationProtocol examinationProtocol = null;
+
+		try {
+			examinationProtocol = Facade.getInstance().getById(ExaminationProtocol.class, 1);
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+		}
+
+		Collection<ExaminationResult> examinationResults = null;
+
+		try {
+			examinationResults = examinationProtocol.getExaminationResults();
+		} catch (InvalidReloadClassException e) {
+			e.printStackTrace();
+		} catch (ReloadInterfaceNotImplementedException e) {
+			e.printStackTrace();
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(examinationResults.size());
+		assertTrue(examinationResults.size()==1);
 	}
 }

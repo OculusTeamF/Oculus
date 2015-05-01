@@ -40,15 +40,7 @@ public class ExaminationResult implements IDomain {
 			_examinationProtocol = examinationProtocol;
 			_examinationProtocolId = examinationProtocol.getId();
 		}
-		if(user!=null){
-			_user = user;
-			_userId = user.getUserId();
-            if(user instanceof Doctor){
-                _doctor = (Doctor) user;
-            } else if (user instanceof Orthoptist) {
-                _orthoptist = (Orthoptist) user;
-            }
-		}
+		setUser(user);
 
 		_result = result;
 		_createDate = createDate;
@@ -82,8 +74,16 @@ public class ExaminationResult implements IDomain {
 	public User getUser() {
 		return _user;
 	}
-	public void setUser(User userEntity) {
-		_user = userEntity;
+	public void setUser(User user) {
+        if(user!=null){
+            _user = user;
+            _userId = user.getUserId();
+            if(user instanceof Doctor){
+                _doctor = (Doctor) user;
+            } else if (user instanceof Orthoptist) {
+                _orthoptist = (Orthoptist) user;
+            }
+        }
 	}
 
 	public Integer getUserId() {
@@ -124,14 +124,8 @@ public class ExaminationResult implements IDomain {
 	public Doctor getDoctor() {
 		return _doctor;
 	}
-	public void setDoctor(Doctor doctor) {
-		_doctor = doctor;
-	}
 
 	public Orthoptist getOrthoptist() {
 		return _orthoptist;
-	}
-	public void setOrthoptist(Orthoptist orthoptist) {
-		_orthoptist = orthoptist;
 	}
 }

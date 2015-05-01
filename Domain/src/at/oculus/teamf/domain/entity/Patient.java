@@ -19,6 +19,8 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
@@ -241,6 +243,42 @@ public class Patient implements IPatient, IDomain, ILogger {
 	}
 
 	//</editor-fold>
+
+	public Collection<ExaminationResult> getExaminationResults() {
+		Collection<ExaminationResult> examinationResults = null;
+
+		try {
+			examinationResults = Facade.getInstance().search(ExaminationResult.class, this.getId()+"");
+		} catch (SearchInterfaceNotImplementedException e) {
+			e.printStackTrace();
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (InvalidSearchParameterException e) {
+			e.printStackTrace();
+		}
+
+		return examinationResults;
+	}
+
+	public Collection<Diagnosis> getDiagnoses() {
+		Collection<Diagnosis> diagnoses = null;
+
+		try {
+			diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId()+"");
+		} catch (SearchInterfaceNotImplementedException e) {
+			e.printStackTrace();
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (InvalidSearchParameterException e) {
+			e.printStackTrace();
+		}
+
+		return diagnoses;
+	}
 
 	@Override
 	public String toString() {

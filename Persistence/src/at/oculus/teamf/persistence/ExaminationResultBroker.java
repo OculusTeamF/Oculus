@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
@@ -20,12 +21,13 @@ import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplemente
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 
 /**
  * ExaminationResultBroker.java Created by oculus on 30.04.15.
  */
-public class ExaminationResultBroker extends EntityBroker {
+public class ExaminationResultBroker extends EntityBroker implements ISearch {
 	public ExaminationResultBroker() {
 		super(ExaminationResult.class, ExaminationResultEntity.class);
 	}
@@ -119,4 +121,13 @@ public class ExaminationResultBroker extends EntityBroker {
 		                                   examinationResult.getResult(), new Timestamp(examinationResult.getCreateDate().getTime()),
 		                                   examinationResult.getDevice(), examinationResult.getDeviceData());
 	}
+
+    @Override
+    public Collection<ExaminationResult> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+        if (params.length == 1) {
+            return (Collection<ExaminationResult>) (Collection<?>) session.search("getExaminationResultsByPatientId", params[0]);
+        } else {
+            return null;
+        }
+    }
 }

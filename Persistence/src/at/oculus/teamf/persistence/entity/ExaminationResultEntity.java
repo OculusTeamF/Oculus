@@ -20,6 +20,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "examinationresult", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "getExaminationResultsByPatientId",
+                query = "select er.* " +
+                        "from examinationResult er, examinationProtocol ep " +
+                        "where er.examinationProtocolId = ep.examinationProtocolId " +
+                        "and ep.patientId = ?0",
+                resultClass = ExaminationResultEntity.class)})
 public class ExaminationResultEntity implements IEntity {
     private int _id;
     private ExaminationProtocolEntity _examinationProtocolEntity;
