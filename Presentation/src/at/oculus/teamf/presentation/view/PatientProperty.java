@@ -79,6 +79,9 @@ public class PatientProperty implements Initializable{
         vBox.setStyle("-fx-background-color: #F4F4F4;");
 
 
+        //ObservableList<Node> nodes = Main.scene.getRoot().getChildrenUnmodifiable();
+
+
 /*        propertySheet.setPropertyEditorFactory(new Callback<PropertySheet.Item, PropertyEditor<?>>() {
             @Override
             public PropertyEditor<?> call(PropertySheet.Item param) {

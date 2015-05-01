@@ -42,7 +42,9 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     @FXML
-    public MenuItem openPatientsearch;
+    private Menu menuChangeUser;
+    @FXML
+    public MenuItem openPatientsearch, menuUser;
     @FXML
     public RadioMenuItem defaultTheme, darkTheme, customTheme;
     @FXML
@@ -98,19 +100,35 @@ public class MainController implements Initializable {
         StatusBarController.getInstance().setText("Welcome to Oculus");
 
         // menuitems init
-        ToggleGroup mGroup = new ToggleGroup();
-        defaultTheme.setToggleGroup(mGroup);
-        darkTheme.setToggleGroup(mGroup);
-        customTheme.setToggleGroup(mGroup);
+        ToggleGroup menuThemeGroup = new ToggleGroup();
+        defaultTheme.setToggleGroup(menuThemeGroup);
+        darkTheme.setToggleGroup(menuThemeGroup);
+        customTheme.setToggleGroup(menuThemeGroup);
+        menuUser.setText("Current User: [user]" );
+
+        // menuitems add user
+        ToggleGroup userMenuGroup = new ToggleGroup();
+        /*for (IUser u : _userlist){
+            RadioMenuItem x1 = new RadioMenuItem(u.getLastName());
+            x1.setToggleGroup(userMenuGroup);
+            menuChangeUser.getItems().add(x1);
+        }*/
+        RadioMenuItem x1 = new RadioMenuItem("Doctor");
+        x1.setToggleGroup(userMenuGroup);
+        RadioMenuItem x2 = new RadioMenuItem("Orthoptist");
+        x2.setToggleGroup(userMenuGroup);
+        RadioMenuItem x3 = new RadioMenuItem("Receptionist");
+        x3.setToggleGroup(userMenuGroup);
+        menuChangeUser.getItems().addAll(x1, x2, x3);
+        x1.setSelected(true);
 
 
+        // add queuefxml to mainwindow
         try {
             splitLeftSide.getChildren().addAll((VBox) FXMLLoader.load(this.getClass().getResource("fxml/QueueSide.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Main.service.cancel();
     }
 
     // *******************************************************************

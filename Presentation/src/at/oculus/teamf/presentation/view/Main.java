@@ -122,10 +122,6 @@ public class Main extends Application implements ILocal, ILogger {
 
     /*create loading screen (splashcreen)*/
     private void initLoadingScreen() throws InitLoadingException {
-
-        // uncomment 'undecorated' code line when splashcreen is running as a thread
-        //init = new Stage(StageStyle.UNDECORATED);
-
         Parent initroot = null;
         try {
             initroot = (Parent) initloader.load();
