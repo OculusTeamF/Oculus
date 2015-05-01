@@ -55,7 +55,7 @@
             <Label text=" Documentation:" GridPane.rowIndex="3" />
             <TextArea fx:id="examinationDocumentation" prefHeight="2.0" prefWidth="302.0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="3" />
             <Label text=" Protocols: " GridPane.rowIndex="7" />
-            <ListView fx:id="examinationList" prefHeight="45.0" prefWidth="302.0" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.rowSpan="2" />
+            <ListView fx:id="examinationProtocollList" prefHeight="45.0" prefWidth="302.0" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.rowSpan="2" />
             <Label text=" Allergies:" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <TextArea fx:id="examinationAllergies" prefHeight="52.0" prefWidth="344.0" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.rowSpan="2" />
          </children>

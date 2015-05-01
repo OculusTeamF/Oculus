@@ -54,22 +54,24 @@ public class QueueController implements Initializable {
     @FXML
     private VBox vboxQueues;
 
-    private SearchPatientController _searchPatientController;
-    private StartupController _startupController;
-    private Collection<IDoctor> _doctors;
-    private Collection<IUser> _userlist;
+    //private SearchPatientController _searchPatientController;
+    //private StartupController _startupController;
+    //private Collection<IDoctor> _doctors;
+    //private Collection<IUser> _userlist;
 
     private HashMap<IUser, ObservableList> _userOListMap;
     private HashMap<ObservableList, IUser> _OListUserMap;
     private HashMap<IUser, ListView> _listViewMap;
 
+    private Model _model = Model.getInstance();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // controller connection
-        _searchPatientController = new SearchPatientController();
-        _startupController = new StartupController();
+        //_searchPatientController = new SearchPatientController();
+        //_startupController = new StartupController();
 
-        try {
+        /*try {
             _doctors = _startupController.getAllDoctors();
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
         } catch (NoBrokerMappedException e) {
@@ -78,7 +80,7 @@ public class QueueController implements Initializable {
         } catch (BadConnectionException e) {
             //Todo: add DialogBox
             e.printStackTrace();
-        }
+        }*/
 
 
         // search button & searchresultslist init
@@ -98,7 +100,8 @@ public class QueueController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    Main.controller.addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
+                    //Main.controller.addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
+                    _model.addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
         });
@@ -128,13 +131,11 @@ public class QueueController implements Initializable {
     /*search and list patients with used keywords*/
     @FXML
     public void doPatientSearch() {
-        ObservableList<IPatient> patientlist = null;
-        try {
-            patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
-        } catch (FacadeException | InvalidSearchParameterException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException, InvalidSearchParameterException - Please contact support");
-        }
+        ObservableList<IPatient>patientlist = FXCollections.observableList((List)_model.searchPatients(textSearch.getText()));
+
+        //patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
+
+
         if (patientlist.size() > 0) {
             listSearchResults.setItems(patientlist);
             listSearchResults.setPrefHeight((patientlist.size() * 24)+10);
@@ -158,19 +159,13 @@ public class QueueController implements Initializable {
 
     /*load and setup queuelist for all users (on application load)*/
     public void buildQueueLists() {
-        _userOListMap = new HashMap<>();
-        _OListUserMap = new HashMap<>();
-        _listViewMap = new HashMap<>();
 
-        TitledPane[] titledPanes;
-
-        titledPanes = new TitledPane[_userlist.size()];
+        TitledPane[] titledPanes = new TitledPane[_model.getAllDoctorsAndOrhtoptists().size()];
 
         // setup listviews
         int i = 0;
-        for (IUser u : _userlist) {
+        for (IUser u : _model.getAllDoctorsAndOrhtoptists()) {
             ListView<IPatient> listView = new ListView<>();
-            listView = new ListView<>();
             listView.setPrefSize(200, 250);
             listView.minWidth(Region.USE_COMPUTED_SIZE);
             listView.minHeight(Region.USE_COMPUTED_SIZE);
@@ -183,41 +178,26 @@ public class QueueController implements Initializable {
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-                        ObservableList<IPatient> observableList = source.getItems();
-                        final IUser user = _OListUserMap.get(observableList);
-                        Main.controller.addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
+                        //ObservableList<IPatient> observableList = source.getItems();
+                        //final IUser user = _OListUserMap.get(observableList);
+                        //IPatient patient = (IPatient) source.getSelectionModel().getSelectedItem(); //cannot cast from QueueEntity to IPatient
+                        //_model.addPatientTab(patient);
+                        _model.addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
 
 
-            // needed get Queue From UserID
-            IPatientQueue qe = null;
-            try {
-                qe = _startupController.getQueueByUser(u);
-            } catch (BadConnectionException | NoBrokerMappedException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
-            } catch (final NullPointerException e) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        DialogBoxController.getInstance().showExceptionDialog(e, "NullPointerException (Userqueue) - Please contact support");
-                    }
-                });
-            }
+            // needed get Queue From UserID, PatientQueue is a Collection of QueueEntries
+            IPatientQueue qe = _model.getQueueFromUser(u);
 
+            //put the entries of the Queue from User u into the List
+            ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List)_model.getEntriesFromQueue(u));
             ObservableList<IPatient> olist = FXCollections.observableArrayList();
 
-            try {
-                for (QueueEntry entry : qe.getEntries()) {
-                    olist.add(entry.getPatient());
-                }
-            } catch (NoBrokerMappedException | BadConnectionException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
+            for(QueueEntry entry : entries){
+                olist.add(entry.getPatient());
             }
-
 
             // Queue titlepane string
             String queuename = null;
@@ -232,34 +212,35 @@ public class QueueController implements Initializable {
             listView.setItems(olist);
             listView.setPrefHeight(olist.size() * 24);
 
-            _userOListMap.put(u, olist);
-            _OListUserMap.put(olist, u);
-            _listViewMap.put(u, listView);
-
             titledPanes[i] = new TitledPane(queuename, listView);
             titledPanes[i].setExpanded(false);
             titledPanes[i].setAnimated(true);
             titledPanes[i].setVisible(true);
 
-
             i++;
         }
-
         //titledPanes[0].setExpanded(true);
         vboxQueues.getChildren().addAll(titledPanes);
+        //_model.setQueueTitledPanes(titlePanes);
     }
 
+
+
     /*refresh queue after adding or removing patient*/
-    public void refreshQueue(IUser user) {
-        ObservableList observableList = _userOListMap.get(user);
+   /* public void refreshQueue(IUser user) {
+        //ObservableList observableList = _userOListMap.get(user);
+        //the entries of the Queue from the given user
+        ObservableList observableList = FXCollections.observableList((List) _model.getQueueFromUser(user));
+
         if (observableList != null) {
             observableList.remove(0, observableList.size());
         } else {
             DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
         }
 
-        IPatientQueue queue = null;
-        try {
+        IPatientQueue  queue = _model.getQueueFromUser(user);
+
+        /*try {
             if (user instanceof IDoctor) {
                 queue = ((IDoctor) user).getQueue();
             } else {
@@ -269,9 +250,10 @@ public class QueueController implements Initializable {
         } catch (NoBrokerMappedException | BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
+        }*/
 
-        observableList.remove(0, observableList.size());
+        //warum doppelt?
+       /* observableList.remove(0, observableList.size());
 
         try {
             for(IQueueEntry iQueueEntry : queue.getEntries()) {
@@ -280,10 +262,13 @@ public class QueueController implements Initializable {
         } catch (NoBrokerMappedException | BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
+        }*/
+
+    /*    _model.refreshQueue(user);
 
 
-        ListView list = _listViewMap.get(user);
+        //ListView list = _listViewMap.get(user);
+        ListView list = (ListView) FXCollections.observableList((List) _model.getEntriesFromQueue(user));
         list.setPrefHeight(observableList.size() * 24);
-    }
+    }*/
 }

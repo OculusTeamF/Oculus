@@ -37,9 +37,10 @@ public class Main extends Application implements ILocal, ILogger {
     public FXMLLoader mainloader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
 
-    // TODO dispatcher
+   /// TODO dispatcher
     public static MainController controller;
     public static QueueController controlQueue;
+    private Model _model = Model.getInstance();
 
     public static Service<Void> service;
 
@@ -51,6 +52,7 @@ public class Main extends Application implements ILocal, ILogger {
     @Override
     public void start(Stage mStage) throws Exception {
 
+        _model.setPrimaryStage(mStage);
         //TODO create thread for loading
         //Logger4J.setLevel(log, Level.ERROR);
         initLoadingScreen();        // create splashcreen

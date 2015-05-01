@@ -74,19 +74,23 @@ public class PatientRecordController implements Initializable {
     @FXML public Button examinationProtocolButton;
     //</editor-fold>
 
+
+    private Model _model = Model.getInstance();
+    private MainController _selfe;
+
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
-    private IPatient _patient;
-    private StartupController startupController = new StartupController();
-    private CreatePatientController createPatientController = new CreatePatientController();
-    public CheckinController checkinController = new CheckinController();
-    private ReceivePatientController receivePatientController = new ReceivePatientController();
-    private IUser _user = null;
+    //private IPatient _patient;
+    //private StartupController startupController = new StartupController();
+    //private CreatePatientController createPatientController = new CreatePatientController();
+    //public CheckinController checkinController = new CheckinController();
+    //private ReceivePatientController receivePatientController = new ReceivePatientController();
+    //private IUser _user = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        _patient =  (IPatient)resources.getObject("Patient");
+        //_patient =  (IPatient)resources.getObject("Patient");
 
         /**
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
@@ -125,9 +129,10 @@ public class PatientRecordController implements Initializable {
             }
         });*/
 
-        patientRecordDoctor.setItems(FXCollections.observableArrayList((Collection<IDoctor>)resources.getObject("Doctors")));
+        patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
+        patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
 
-        try {
+       /* try {
             patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_patient.getCalendarEvents()));
         } catch (InvalidReloadClassException e) {
             e.printStackTrace();
@@ -137,7 +142,7 @@ public class PatientRecordController implements Initializable {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
-        }
+        }*/
 
         //<editor-fold desc="Set Default Values">
         //disable all Patientfields and the save button, sets the text from IPatient into fields
@@ -146,13 +151,12 @@ public class PatientRecordController implements Initializable {
         patientRecordradioGenderFemale.setToggleGroup(group);
         patientRecordradioGenderMale.setToggleGroup(group);
 
-        patientRecordLastname.setText(_patient.getLastName());
+        patientRecordLastname.setText(_model.getPatient().getLastName());
         patientRecordLastname.setDisable(true);
-        patientRecordFirstname.setText(_patient.getFirstName());
+        patientRecordFirstname.setText(_model.getPatient().getFirstName());
         patientRecordFirstname.setDisable(true);
 
-
-        if(_patient.getGender().equals("female"))
+        if(_model.getPatient().getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
             patientRecordradioGenderFemale.setDisable(true);
@@ -161,13 +165,13 @@ public class PatientRecordController implements Initializable {
             patientRecordradioGenderMale.setDisable(true);
         }
 
-        patientRecordSVN.setText(_patient.getSocialInsuranceNr());
+        patientRecordSVN.setText(_model.getPatient().getSocialInsuranceNr());
         patientRecordSVN.setDisable(true);
 
 
-        if(_patient.getBirthDay() != null)
+        if(_model.getPatient().getBirthDay() != null)
         {
-            Date input = _patient.getBirthDay();
+            Date input = _model.getPatient().getBirthDay();
             Calendar cal = Calendar.getInstance();
             cal.setTime(input);
             LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
@@ -177,51 +181,50 @@ public class PatientRecordController implements Initializable {
             patientRecordBday.setValue(date);
         }
         patientRecordBday.setDisable(true);
-        patientRecordStreet.setText(_patient.getStreet());
+        patientRecordStreet.setText(_model.getPatient().getStreet());
         patientRecordStreet.setDisable(true);
-        patientRecordPLZ.setText(_patient.getPostalCode());
+        patientRecordPLZ.setText(_model.getPatient().getPostalCode());
         patientRecordPLZ.setDisable(true);
-        patientRecordCity.setText(_patient.getCity());
+        patientRecordCity.setText(_model.getPatient().getCity());
         patientRecordCity.setDisable(true);
-        patientRecordCountryIsoCode.setText(_patient.getCountryIsoCode());
+        patientRecordCountryIsoCode.setText(_model.getPatient().getCountryIsoCode());
         patientRecordCountryIsoCode.setDisable(true);
-        patientRecordPhone.setText(_patient.getPhone());
+        patientRecordPhone.setText(_model.getPatient().getPhone());
         patientRecordPhone.setDisable(true);
-        patientRecordEmail.setText(_patient.getEmail());
+        patientRecordEmail.setText(_model.getPatient().getEmail());
         patientRecordEmail.setDisable(true);
-        patientRecordDoctor.setValue(_patient.getIDoctor());
+        patientRecordDoctor.setValue(_model.getPatient().getIDoctor());
         patientRecordDoctor.setDisable(true);
 
-        if(_patient.getAllergy() == null || _patient.getAllergy().length() < 1)
+        if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
         {
             patientRecordAllergies.setText("No Allergies known");
         }else{
-            patientRecordAllergies.setText(_patient.getAllergy());
+            patientRecordAllergies.setText(_model.getPatient().getAllergy());
         }
-        if(_patient.getMedicineIntolerance() == null || _patient.getMedicineIntolerance().length() < 1)
+        if(_model.getPatient().getMedicineIntolerance() == null || _model.getPatient().getMedicineIntolerance().length() < 1)
         {
             patientRecordIntolerance.setText("No Intolerance known");
         }else{
-            patientRecordIntolerance.setText(_patient.getMedicineIntolerance());
+            patientRecordIntolerance.setText(_model.getPatient().getMedicineIntolerance());
         }
-        if(_patient.getChildhoodAilments() == null || _patient.getChildhoodAilments().length() < 1)
+        if(_model.getPatient().getChildhoodAilments() == null || _model.getPatient().getChildhoodAilments().length() < 1)
         {
             patientRecordChildhood.setText("No childhood Ailments");
         }else{
-            patientRecordChildhood.setText(_patient.getChildhoodAilments());
+            patientRecordChildhood.setText(_model.getPatient().getChildhoodAilments());
         }
 
-        addToQueueBox.setItems(FXCollections.observableArrayList((Collection<IUser>) resources.getObject("UserList")));
+        addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrhtoptists()));
 
         patientRecordAllergies.setDisable(false);
         patientRecordIntolerance.setDisable(false);
         patientRecordChildhood.setDisable(false);
-
         patientRecordAllergies.setEditable(false);
         patientRecordIntolerance.setEditable(false);
         patientRecordChildhood.setEditable(false);
 
-        addToQueueBox.setValue(_patient.getIDoctor());
+        addToQueueBox.setValue(_model.getPatient().getIDoctor());
 
         //</editor-fold>
 
@@ -449,7 +452,6 @@ public class PatientRecordController implements Initializable {
         if (patientRecordFirstname.getLength() == 0 || patientRecordLastname.getLength() == 0 || patientRecordSVN.getLength() == 0 || patientRecordBday == null){
             DialogBoxController.getInstance().showInformationDialog("Missing _patient data requirements", "Please fill the following fields: Firstname / Lastname / SVN / Birthdate");
         } else {
-
             if (isFormEdited) {
                 saveChanges();
             } else {
@@ -463,34 +465,25 @@ public class PatientRecordController implements Initializable {
     public void addPatientToQueueButtonHandler(){
 
         if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
-            try {
-                _user = addToQueueBox.getSelectionModel().getSelectedItem();
+
+                IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
 
                 /*DialogBoxController.getInstance().showInformationDialog("Adding _patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
                         + _patient.getFirstName() + " " + _patient.getLastName() + System.getProperty("line.separator")
                         + "To queue:" + System.getProperty("line.separator")+ _user.getFirstName() + " " + _user.getLastName()  + System.getProperty("line.separator")
                         + System.getProperty("line.separator") + "Please wait");*/
 
-                StatusBarController.getInstance().setText("Adding _patient '" + _patient.getFirstName() + " " + _patient.getLastName() + "' to queue for: " + _user.getLastName());
+                StatusBarController.getInstance().setText("Adding _patient '" + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName() + "' to queue for: " + user.getLastName());
 
-                checkinController.insertPatientIntoQueue(_patient, _user);
+               // checkinController.insertPatientIntoQueue(_patient, _user);
+                _model.insertPatientIntoQueue(user);
 
                 //Todo: add event handler
-                Main.controlQueue.refreshQueue(_user);
+               //_model.refreshQueue(user);
                 //Main.controller.refreshQueue(_user);
-                //TODO saubere Exceptions!
-            } catch (BadConnectionException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-            } catch (CheckinControllerException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
-            }
+
         }else{
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Waitinglist");
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Waiting List");
         }
     }
 
@@ -502,7 +495,8 @@ public class PatientRecordController implements Initializable {
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
         //Todo: add central controller
         Date date = new Date();
-        Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
+        //Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
+        _model.loadTab(_model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + date.toString(), "fxml/ExaminationTab.fxml");
         //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
         //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
         StatusBarController.getInstance().setText("Open examination...");
@@ -516,73 +510,62 @@ public class PatientRecordController implements Initializable {
     {
         if(patientRecordradioGenderFemale.isSelected())
         {
-            _patient.setGender("female");
+            _model.getPatient().setGender("female");
         }else{
-            _patient.setGender("male");
+            _model.getPatient().setGender("male");
         }
         if(patientRecordLastname.getText()!=null) {
-            _patient.setLastName(patientRecordLastname.getText());
+            _model.getPatient().setLastName(patientRecordLastname.getText());
         }
         if(patientRecordFirstname.getText()!=null) {
-            _patient.setFirstName(patientRecordFirstname.getText());
+            _model.getPatient().setFirstName(patientRecordFirstname.getText());
         }
         if(patientRecordSVN.getText()!=null) {
-            _patient.setSocialInsuranceNr(patientRecordSVN.getText());
+            _model.getPatient().setSocialInsuranceNr(patientRecordSVN.getText());
         }
         if(patientRecordBday.getValue()!=null) {
             LocalDate localDate = patientRecordBday.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date bday = java.sql.Date.from(instant);
-            _patient.setBirthDay(bday);
+            _model.getPatient().setBirthDay(bday);
         }
         if(patientRecordStreet.getText()!=null) {
-            _patient.setStreet(patientRecordStreet.getText());
+            _model.getPatient().setStreet(patientRecordStreet.getText());
         }
         if(patientRecordPLZ.getText()!=null) {
-            _patient.setPostalCode(patientRecordPLZ.getText());
+            _model.getPatient().setPostalCode(patientRecordPLZ.getText());
         }
         if(patientRecordCity.getText()!=null) {
-            _patient.setCity(patientRecordCity.getText());
+            _model.getPatient().setCity(patientRecordCity.getText());
         }
         if(patientRecordCountryIsoCode.getText()!=null) {
-            _patient.setCountryIsoCode(patientRecordCountryIsoCode.getText());
+            _model.getPatient().setCountryIsoCode(patientRecordCountryIsoCode.getText());
         }
         if(patientRecordPhone.getText()!=null){
-            _patient.setPhone(patientRecordPhone.getText());
+            _model.getPatient().setPhone(patientRecordPhone.getText());
         }
         if(patientRecordEmail.getText()!=null) {
-            _patient.setEmail(patientRecordEmail.getText());
+            _model.getPatient().setEmail(patientRecordEmail.getText());
         }
         if(patientRecordDoctor.getValue()!=null) {
-            _patient.setIDoctor(patientRecordDoctor.getValue());
+            _model.getPatient().setIDoctor(patientRecordDoctor.getValue());
         }
         if(patientRecordAllergies.getText()!=null) {
-            _patient.setAllergy(patientRecordAllergies.getText());
+            _model.getPatient().setAllergy(patientRecordAllergies.getText());
         }
         if(patientRecordIntolerance.getText()!=null) {
-            _patient.setMedicineIntolerance(patientRecordIntolerance.getText());
+            _model.getPatient().setMedicineIntolerance(patientRecordIntolerance.getText());
         }
         if(patientRecordChildhood.getText()!=null) {
-            _patient.setChildhoodAilments(patientRecordChildhood.getText());
+            _model.getPatient().setChildhoodAilments(patientRecordChildhood.getText());
         }
 
-        try {
-            createPatientController.saveIPatient(_patient);
-            StatusBarController.getInstance().setText("Changes saved...");
-            isFormEdited = false;
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
-        } catch (PatientCouldNotBeSavedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        }
+
+        //createPatientController.saveIPatient(_model.getPatient());
+        _model.savePatient(_model.getPatient());
+        StatusBarController.getInstance().setText("Changes saved...");
+        isFormEdited = false;
+
         disableFields();
     }
 

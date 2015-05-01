@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -55,15 +56,17 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane splitLeftSide;
 
-    private StartupController _startupController;
-    private SearchPatientController _searchPatientController;
+    //private StartupController _startupController;
+    //private SearchPatientController _searchPatientController;
 
-    private HashMap<IUser, ObservableList> _userOListMap;
-    private HashMap<ObservableList, IUser> _OListUserMap;
-    private HashMap<IUser, ListView> _listViewMap;
+    private Model _model = Model.getInstance();
 
-    private Collection<IDoctor> _doctors;
-    private Collection<IUser> _userlist;
+    //private HashMap<IUser, ObservableList> _userOListMap;
+    //private HashMap<ObservableList, IUser> _OListUserMap;
+    //private HashMap<IUser, ListView> _listViewMap;
+
+    //private Collection<IDoctor> _doctors;
+ //   private Collection<IUser> _userlist;
 
     /**
      * Initialize the waiting queue
@@ -74,19 +77,15 @@ public class MainController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        _startupController = new StartupController();
-        _searchPatientController = new SearchPatientController();
+       // _startupController = new StartupController();
+       // _searchPatientController = new SearchPatientController();
+        _model.setTabPanel(displayPane);
 
-        try {
-            _doctors = _startupController.getAllDoctors();
-            _userlist = _startupController.getAllDoctorsAndOrthoptists();
-        } catch (NoBrokerMappedException e) {
-            //Todo: add DialogBox
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            //Todo: add DialogBox
-            e.printStackTrace();
-        }
+       // _doctors = _startupController.getAllDoctors();
+        _model.getAllDoctors();
+        //_userlist = _startupController.getAllDoctorsAndOrthoptists();
+        _model.getAllDoctorsAndOrhtoptists();
+
 
         // search button & list init
         buttonAddPatient.setVisible(false);
@@ -119,7 +118,7 @@ public class MainController implements Initializable {
     // *******************************************************************
 
     /*Tabhandler*/
-    public void loadTab(String tabTitle, String tabFXML, ResourceBundle resourceMap){
+    /*public void loadTab(String tabTitle, String tabFXML, ResourceBundle resourceMap){
         try {
             Tab tab = new Tab(tabTitle);
             AnchorPane ap = (AnchorPane) FXMLLoader.load(this.getClass().getResource(tabFXML),resourceMap);
@@ -130,37 +129,42 @@ public class MainController implements Initializable {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
         }
-    }
+    }*/
 
     /*Tab: opens new tab for patient search (detailled search)*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
-        HashMap<String, Object> resourceMap = new HashMap<>();
-        loadTab("Search patient", "fxml/SearchPatientTab.fxml",new HashResourceBundle(resourceMap));
+        //HashMap<String, Object> resourceMap = new HashMap<>();
+        //_model.loadTab("Search patient", "fxml/SearchPatientTab.fxml",new HashResourceBundle(resourceMap));
+
+        _model.loadTab( "Search patient", "fxml/SearchPatientTab.fxml");
     }
 
     /*Tab: opens patient record for selected patient*/
-    public void addPatientTab(IPatient patient) {
-        HashMap<String, Object> resourceMap = new HashMap<>();
-        resourceMap.put("Doctors", _doctors);
-        resourceMap.put("Patient", patient);
-        resourceMap.put("UserList", _userlist);
+    /*public void addPatientTab(IPatient patient) {
+        //HashMap<String, Object> resourceMap = new HashMap<>();
+        //resourceMap.put("Doctors", _doctors);
+        //resourceMap.put("Doctors", _model.getAllDoctors());
+        //resourceMap.put("Patient", patient);
+        //resourceMap.put("UserList", _userlist);
+        //resourceMap.put("UserList", _model.getAllDoctorsAndOrhtoptists());
 
-        loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml",new HashResourceBundle(resourceMap));
+        _model.loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
 
         //Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new HashResourceBundle(resourceMap));
         //displayPane.getTabs().addAll(tab);
         //displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         //displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
         StatusBarController.getInstance().setText("Opened Patient Record: " + patient.getFirstName() + " " + patient.getLastName());
-    }
+    }*/
 
     /*Tab: opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
-        HashMap<String, Object> resourceMap = new HashMap<>();
-        resourceMap.put("Doctors", _doctors);
-        loadTab("Add new patient", "fxml/NewPatientTab.fxml",new HashResourceBundle(resourceMap));
+        //HashMap<String, Object> resourceMap = new HashMap<>();
+        //resourceMap.put("Doctors", _doctors);
+        //resourceMap.put("Doctors", _model.getAllDoctors());
+        _model.loadTab("Add new patient", "fxml/NewPatientTab.fxml");
     }
 
     /*Tab: Opens the agenda calendar (unused)*/
@@ -209,6 +213,7 @@ public class MainController implements Initializable {
         System.out.println(DialogBoxController.getInstance().showYesNoDialog("Frage", "ist es OK?"));
     }
 
+    /* MenuItem for the selection of the Theme*/
     @FXML
     public void clickMenuItemThemeSelection(ActionEvent actionEvent) {
         MenuItem src = (MenuItem) actionEvent.getSource();
@@ -240,8 +245,8 @@ public class MainController implements Initializable {
         return this.splitter;
     }
 
-    public TabPane getTabPane() {
+   /* public TabPane getTabPane() {
         return this.displayPane;
-    }
+    }*/
 }
 
