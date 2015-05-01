@@ -39,18 +39,18 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Lastname" GridPane.rowIndex="1" />
-            <Label text="Firstname" GridPane.rowIndex="2" />
-            <Label text="Social Insurance #" GridPane.rowIndex="3" />
-            <Label text="Birthday" GridPane.rowIndex="4" />
-            <Label text="Street" GridPane.rowIndex="5" />
-            <Label text="Postal code" GridPane.rowIndex="6" />
+            <Label text="Last Name" GridPane.rowIndex="1" />
+            <Label text="First Name" GridPane.rowIndex="2" />
+            <Label text="Social Insurance number" GridPane.rowIndex="3" />
+            <Label text="Date of Birth" GridPane.rowIndex="4" />
+            <Label text="Street address" GridPane.rowIndex="5" />
+            <Label text="Zip" GridPane.rowIndex="6" />
             <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
-            <Label text="Country Iso code" GridPane.rowIndex="8" />
-            <Label text="Phone #" GridPane.rowIndex="9" />
-            <Label text="E-mail" GridPane.rowIndex="10" />
+            <Label text="State" GridPane.rowIndex="8" />
+            <Label text="Phone number" GridPane.rowIndex="9" />
+            <Label text="E-Mail" GridPane.rowIndex="10" />
             <Label focusTraversable="false" text="Gender" GridPane.rowIndex="11" />
-            <Label text="Doctor:" GridPane.rowIndex="12" />
+            <Label text="Primary Doctor" GridPane.rowIndex="12" />
             <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="3" />
             <Button fx:id="newPatientSaveButton" mnemonicParsing="false" onAction="#saveForm" prefHeight="31.0" prefWidth="101.0" text="Save" />
             <TextField fx:id="newPatientLastname" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="1" />

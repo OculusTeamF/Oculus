@@ -24,8 +24,8 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem disable="true" mnemonicParsing="false" text="Logout" />
-                                <MenuItem disable="true" mnemonicParsing="false" text="Change User" />
+                                <MenuItem fx:id="menuUser" disable="true" mnemonicParsing="false" text="Logout" />
+                        <Menu fx:id="menuChangeUser" mnemonicParsing="false" text="Change User" />
                                 <MenuItem mnemonicParsing="false" onAction="#clickMenuItemExit" text="Exit" />
                             </items>
                         </Menu>

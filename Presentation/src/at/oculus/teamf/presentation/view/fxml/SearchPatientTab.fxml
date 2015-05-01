@@ -29,13 +29,13 @@
             <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="275.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <Label text="Lastname" />
-            <Label text="Firstname" GridPane.rowIndex="1" />
+            <Label text="Last Name" />
+            <Label text="First Name" GridPane.rowIndex="1" />
             <Label text="Social security number" GridPane.rowIndex="2" />
             <TextField fx:id="searchPatientLastname" GridPane.columnIndex="1" />
             <TextField fx:id="searchPatientFirstname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="searchPatientSVN" prefWidth="277.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="searchPatientButton" mnemonicParsing="false" onAction="#searchPatient" prefHeight="33.0" prefWidth="244.0" text="Search" GridPane.rowIndex="3" />
+            <Button fx:id="searchPatientButton" mnemonicParsing="false" onAction="#searchPatient" prefHeight="33.0" prefWidth="244.0" text="Search patient" GridPane.rowIndex="3" />
             <ListView fx:id="searchPatientList" prefHeight="224.0" prefWidth="640.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <padding>
                   <Insets top="10.0" />
