@@ -124,13 +124,13 @@ public class ExaminationController implements Initializable {
             result.append("ORTHOPTIST: " + exp.getOrthoptist().getLastName());
             result.append(System.getProperty("line.separator"));
         }
-        if (exp.getDiagnosis() != null) {
+       /* if (exp.getDiagnosis() != null) {
             result.append("DIAGNOSIS: " + exp.getDiagnosis().toString());
             result.append(System.getProperty("line.separator"));
         } else {
             result.append("DIAGNOSIS: none");
             result.append(System.getProperty("line.separator"));
-        }
+        }*/
 
         textExaminationDetails.setText(result.toString());
     }
