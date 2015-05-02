@@ -455,7 +455,6 @@ public class PatientRecordController implements Initializable {
      */
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
-        //_model.showStatusBarloader();
         //Todo: add central controller
         Date date = new Date();
         //Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));

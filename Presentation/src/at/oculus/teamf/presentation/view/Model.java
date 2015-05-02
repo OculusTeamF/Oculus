@@ -28,10 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -289,6 +286,7 @@ public class Model implements Serializable{
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getClickCount() == 2) {
+
                         ListView source;
                         source = (ListView) event.getSource();
                         setPatient((IPatient) source.getSelectionModel().getSelectedItem());
@@ -483,5 +481,15 @@ public class Model implements Serializable{
         } catch (BadConnectionException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void showStatusBarProgressBarIdle(String loadingtext){
+        ProgressBar pb = new ProgressBar();
+        StatusBarController.getInstance().getRightItems().add(pb);
+    }
+
+    public void hideStatusBarProgressBarIdle(){
+        StatusBarController.getInstance().getRightItems().remove(0, StatusBarController.getInstance().getRightItems().size());
     }
 }

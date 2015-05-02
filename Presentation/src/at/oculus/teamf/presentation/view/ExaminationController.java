@@ -55,27 +55,12 @@ public class ExaminationController implements Initializable {
 
         // fetch data (loading & setup)
         getExaminationList();
-        //_model.hideStatusBarloader();
     }
 
     private void getExaminationList(){
         // loads all examination protocols for selected patient
         //TODO reduce loading times
-        //try {
-            examinationList.setItems(FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient())));
-       /* } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
-        }*/
+        examinationList.setItems(FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient())));
 
         //TODO sort list
         /*java.util.Collections.sort(examinationList.getItems(), new java.util.Comparator<TYPE>() {
@@ -136,6 +121,5 @@ public class ExaminationController implements Initializable {
         Date date = new Date();
         //_model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), _model.getPatient().getIDoctor(), null);
         _model.loadTab("NEW EXAMINATION: " + _model.getPatient().getLastName() + " [" + date.toString()+"]" ,"fxml/NewExaminationTab.fxml");
-        //DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + " saved.");
     }
 }
