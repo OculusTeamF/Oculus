@@ -21,6 +21,7 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -70,19 +72,45 @@ public class PatientSearchController implements Initializable{
         _model.addPatientTab(currPatient);
     }
 
+    // thread for search
+    public Task<Void> doSearch() {
+        return new Task<Void>() {
+            @Override
+            protected Void call() {
+
+                return null;
+            }
+        };
+    }
+
+    public Task<ObservableList<IPatient>> doSearchPatient() {
+        return new Task<ObservableList<IPatient>>() {
+            @Override
+            protected ObservableList<IPatient> call() {
+                String lastName = searchPatientLastname.getText();
+                String firstName = searchPatientFirstname.getText();
+                String svn = searchPatientSVN.getText();
+                ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
+                return patientlist;
+            }
+        };
+    }
+
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
+        _model.showStatusBarProgressBarIdle("Searching patients");
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
 
-        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
+        //ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
+
+        ObservableList<IPatient> patientlist = doSearchPatient().getValue();
 
         if (patientlist.size() > 0) {
             searchPatientList.setItems(patientlist);
         } else {
             DialogBoxController.getInstance().showInformationDialog("Information", "No matches found");
-
             searchPatientLastname.clear();
             searchPatientFirstname.clear();
             searchPatientSVN.clear();
@@ -95,7 +123,6 @@ public class PatientSearchController implements Initializable{
 
                 if (event.getClickCount() == 2) {
                     IPatient currPatientItem = (IPatient) searchPatientList.getSelectionModel().getSelectedItem();
-
                     //open Patient record
                     openPatientRecord(currPatientItem);
                 }

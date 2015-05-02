@@ -152,6 +152,7 @@ public class PatientRecordController implements Initializable {
         patientRecordEmail.setText(_model.getPatient().getEmail());
         patientRecordDoctor.setValue(_model.getPatient().getIDoctor());
 
+
         disableFields();
 
         if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
@@ -455,9 +456,12 @@ public class PatientRecordController implements Initializable {
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
         //_model.showStatusBarloader();
-
+        //Todo: add central controller
         Date date = new Date();
+        //Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
         _model.loadTab("PATIENT: " + _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml");
+        //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
+        //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
         StatusBarController.getInstance().setText("Open examination...");
     }
     //</editor-fold>
@@ -519,14 +523,13 @@ public class PatientRecordController implements Initializable {
             _model.getPatient().setChildhoodAilments(patientRecordChildhood.getText());
         }
 
-        disableFields();
 
         //createPatientController.saveIPatient(_model.getPatient());
         _model.savePatient(_model.getPatient());
         StatusBarController.getInstance().setText("Changes saved...");
         isFormEdited = false;
 
-
+        disableFields();
     }
 
     /**
