@@ -14,251 +14,104 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
-import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
-import javafx.collections.FXCollections;
+import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    @FXML public MenuItem openPatientsearch;
-    @FXML private VBox vboxQueues;
-    @FXML private TabPane displayPane;
-    @FXML private SplitPane splitter;
-    @FXML private Button searchButton;
-    @FXML private TextField textSearch;
-    @FXML private ListView listSearchResults;
-    @FXML private TitledPane searchResults;
-    @FXML private BorderPane borderPane;
-    @FXML private Button buttonTest;
+    @FXML
+    private Menu menuChangeUser;
+    @FXML
+    public MenuItem openPatientsearch, menuUser;
+    @FXML
+    public RadioMenuItem defaultTheme, darkTheme, customTheme;
+    @FXML
+    public TabPane displayPane;
+    @FXML
+    private SplitPane splitter;
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private Button buttonAddPatient;
+    @FXML
+    private AnchorPane splitLeftSide;
 
-    private StartupController _startupController = new StartupController();
-    private SearchPatientController _searchPatientController = new SearchPatientController();
-
-    private HashMap<Integer, ObservableList> _listMap;
-    private HashMap<Integer, ListView> _listViewMap;
-    public int userID;
-
+    private Model _model = Model.getInstance();
 
     /**
      * Initialize the waiting queue
+     *
      * @param location
      * @param resources
      */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        _model.setTabPanel(displayPane);
+        _model.getAllDoctors();
+        _model.getAllDoctorsAndOrhtoptists();
+
         // search button & list init
-        buttonTest.setVisible(false);
-        Image imageDecline = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
-        searchButton.setGraphic(new ImageView(imageDecline));
-        listSearchResults.setPrefHeight(0);
+        buttonAddPatient.setVisible(false);
+        Image imageAddPatientButton = new Image(getClass().getResourceAsStream("/res/icon_addpatient.png"));
+        buttonAddPatient.setGraphic(new ImageView(imageAddPatientButton));
+        buttonAddPatient.setVisible(true);
 
         // statusbar setup
         borderPane.setBottom(StatusBarController.getInstance());
         StatusBarController.getInstance().setText("Welcome to Oculus");
 
-        // tooltip test
-        Tooltip tp = new Tooltip();
-        tp.setText("Search for Firstname, Lastname or SVN number");
-        textSearch.setTooltip(tp);
+        // menuitems init
+        ToggleGroup menuThemeGroup = new ToggleGroup();
+        defaultTheme.setToggleGroup(menuThemeGroup);
+        darkTheme.setToggleGroup(menuThemeGroup);
+        customTheme.setToggleGroup(menuThemeGroup);
+        menuUser.setText("Current User: [user]" );
 
-        // build queuelist
-        buildQueueLists();
+        // menuitems add user
+        ToggleGroup userMenuGroup = new ToggleGroup();
+        /*for (IUser u : _userlist){
+            RadioMenuItem x1 = new RadioMenuItem(u.getLastName());
+            x1.setToggleGroup(userMenuGroup);
+            menuChangeUser.getItems().add(x1);
+        }*/
+        RadioMenuItem x1 = new RadioMenuItem("Doctor");
+        x1.setToggleGroup(userMenuGroup);
+        RadioMenuItem x2 = new RadioMenuItem("Orthoptist");
+        x2.setToggleGroup(userMenuGroup);
+        RadioMenuItem x3 = new RadioMenuItem("Receptionist");
+        x3.setToggleGroup(userMenuGroup);
+        menuChangeUser.getItems().addAll(x1, x2, x3);
+        x1.setSelected(true);
 
-        // search results listview event (opens selected patient)
-        listSearchResults.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-                    addPatientTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
-                }
-            }
-        });
-    }
 
-    // *******************************************************************
-    // Queuelist
-    // *******************************************************************
-
-    /*load and setup queuelist for all users (on application load)*/
-    private void buildQueueLists() {
-        _listMap = new HashMap<>();
-        _listViewMap = new HashMap<>();
-
-        TitledPane[] titledPanes;
-        LinkedList<IUser> userlist = null;
-
+        // add queuefxml to mainwindow
         try {
-            userlist = (LinkedList) _startupController.getAllDoctorsAndOrthoptists();
-        } catch (BadConnectionException | NoBrokerMappedException e) {
+            splitLeftSide.getChildren().addAll((VBox) FXMLLoader.load(this.getClass().getResource("fxml/QueueSide.fxml")));
+        } catch (IOException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
-
-        }
-
-        titledPanes = new TitledPane[userlist.size()];
-
-        // setup listviews
-        int i = 0;
-        for(IUser u : userlist) {
-            ListView<IPatient>  listView = new ListView<>();
-            listView = new ListView<>();
-            listView.setPrefSize(200, 250);
-            listView.minWidth(Region.USE_COMPUTED_SIZE);
-            listView.minHeight(Region.USE_COMPUTED_SIZE);
-            listView.maxWidth(Region.USE_COMPUTED_SIZE);
-            listView.maxHeight(Region.USE_COMPUTED_SIZE);
-            listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getClickCount() == 2) {
-                        ListView source;
-                        source = (ListView) event.getSource();
-                        ObservableList<IPatient> ql = FXCollections.observableArrayList();
-                        ql = source.getItems();
-                        userID = getKeyByValue(_listMap, ql);
-                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
-                    }
-                }
-            });
-            String queuename = null;
-            if(u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals(""))
-            {
-                 queuename = u.getFirstName() + " " + u.getLastName();
-            }else{
-                 queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
-
-            }
-
-            // needed get Queue From UserID
-            IPatientQueue qe = null;
-            try {
-                qe = _startupController.getQueueByUserId(u);
-            } catch (BadConnectionException | NoBrokerMappedException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
-            }
-
-            ObservableList<IPatient> olist = FXCollections.observableArrayList();
-
-            try {
-                for(QueueEntry entry : qe.getEntries()) {
-                    olist.add(entry.getPatient());
-                }
-            } catch (NoBrokerMappedException | BadConnectionException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-            }
-
-            listView.setItems(olist);
-            listView.setPrefHeight(olist.size() * 24);
-            _listMap.put(u.getUserId(), olist);
-            _listViewMap.put(u.getUserId(), listView);
-
-            titledPanes[i] = new TitledPane(queuename, listView);
-            titledPanes[i].setExpanded(false);
-            titledPanes[i].setAnimated(true);
-            titledPanes[i].setVisible(true);
-
-            i++;
-        }
-
-        //titledPanes[0].setExpanded(true);
-        vboxQueues.getChildren().addAll(titledPanes);
-    }
-
-    /*refresh queue after adding or removing patient*/
-    public void refreshQueue(IPatientQueue queue, IUser user) {
-        ObservableList observableList = _listMap.get(user.getUserId());
-        if(observableList != null){
-            observableList.remove(0, observableList.size());
-        }else{
-            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
-        }
-
-
-        try {
-            for(QueueEntry entry : queue.getEntries()) {
-                observableList.add(entry.getPatient());
-            }
-        } catch (NoBrokerMappedException | BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
-
-        ListView list = _listViewMap.get(user.getUserId());
-        list.setPrefHeight(observableList.size() * 24);
-        //StatusBarController.getInstance().progressProperty().unbind();
-        //StatusBarController.getInstance().setText("Queue refreshed");
-    }
-
-    /*get key by value for userlist hashmap*/
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
-    // *******************************************************************
-    // Searchbox
-    // *******************************************************************
-
-    /*Key pressed: do search for patients*/
-    @FXML
-    public void handleEnterPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            doSearch();
-        }
-    }
-
-    /*search and list patients with used keywords*/
-    @FXML
-    public void doSearch()  {
-        ObservableList<IPatient> patientlist = null;
-        try {
-            patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(textSearch.getText()));
-        } catch (FacadeException | InvalidSearchParameterException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException, InvalidSearchParameterException - Please contact support");
-        }
-        if(patientlist.size() > 0) {
-            listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight(patientlist.size() * 24);
-            searchResults.setExpanded(true);
-            StatusBarController.getInstance().setText("Found patient...");
-        } else {
-            listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight(patientlist.size() * 24);
-            StatusBarController.getInstance().setText("No patients found");
         }
     }
 
@@ -266,43 +119,54 @@ public class MainController implements Initializable {
     // New Tabs Methods
     // *******************************************************************
 
+    /*Tabhandler*/
+    /*public void loadTab(String tabTitle, String tabFXML, ResourceBundle resourceMap){
+        try {
+            Tab tab = new Tab(tabTitle);
+            AnchorPane ap = (AnchorPane) FXMLLoader.load(this.getClass().getResource(tabFXML),resourceMap);
+            tab.setContent(ap);
+            displayPane.getTabs().add(tab);
+            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
+        }
+    }*/
+
     /*Tab: opens new tab for patient search (detailled search)*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/SearchPatientTab.fxml")));
+        //HashMap<String, Object> resourceMap = new HashMap<>();
+        //_model.loadTab("Search patient", "fxml/SearchPatientTab.fxml",new HashResourceBundle(resourceMap));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
+        _model.loadTab( "Search patient", "fxml/SearchPatientTab.fxml");
     }
 
     /*Tab: opens patient record for selected patient*/
-    public void addPatientTab(final IPatient patient){
-        try {
-            Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new SingleResourceBundle(patient));
+    /*public void addPatientTab(IPatient patient) {
+        //HashMap<String, Object> resourceMap = new HashMap<>();
+        //resourceMap.put("Doctors", _doctors);
+        //resourceMap.put("Doctors", _model.getAllDoctors());
+        //resourceMap.put("Patient", patient);
+        //resourceMap.put("UserList", _userlist);
+        //resourceMap.put("UserList", _model.getAllDoctorsAndOrhtoptists());
 
-            displayPane.getTabs().addAll(tab);
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-            displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
-            StatusBarController.getInstance().setText("Opened Patient Record: " + patient.getFirstName() + " " + patient.getLastName());
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
-    }
+        _model.loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
+
+        //Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new HashResourceBundle(resourceMap));
+        //displayPane.getTabs().addAll(tab);
+        //displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
+        //displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
+        StatusBarController.getInstance().setText("Opened Patient Record: " + patient.getFirstName() + " " + patient.getLastName());
+    }*/
 
     /*Tab: opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/NewPatientTab.fxml")));
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
+        //HashMap<String, Object> resourceMap = new HashMap<>();
+        //resourceMap.put("Doctors", _doctors);
+        //resourceMap.put("Doctors", _model.getAllDoctors());
+        _model.loadTab("Add new patient", "fxml/NewPatientTab.fxml");
     }
 
     /*Tab: Opens the agenda calendar (unused)*/
@@ -319,7 +183,7 @@ public class MainController implements Initializable {
 
     /*Tab: opens the patient property (unused)*/
     @FXML
-    public void openPatientProperty (ActionEvent event) {
+    public void openPatientProperty(ActionEvent event) {
         try {
             displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientProperty.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
@@ -335,26 +199,43 @@ public class MainController implements Initializable {
 
     /*Menu item: opens help window*/
     @FXML
-    public void showMenuHelp(ActionEvent actionEvent) {
+    public void clickMenuItemShowHelp(ActionEvent actionEvent) {
         DialogBoxController.getInstance().showInformationDialog("Oculus Help", "User manual for Oculus");
     }
 
     /*Menu item: opens about dialog*/
     @FXML
-    public void showMenuAbout(ActionEvent actionEvent) {
+    public void clickMenuItemShowAbout(ActionEvent actionEvent) {
         DialogBoxController.getInstance().showAboutDialog();
     }
 
     /*Button: opens test action*/
     @FXML
     public void openPatient(ActionEvent actionEvent) {
-
         System.out.println(DialogBoxController.getInstance().showYesNoDialog("Frage", "ist es OK?"));
+    }
+
+    /* MenuItem for the selection of the Theme*/
+    @FXML
+    public void clickMenuItemThemeSelection(ActionEvent actionEvent) {
+        MenuItem src = (MenuItem) actionEvent.getSource();
+        switch(src.getId()) {
+            case "defaultTheme":
+                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
+                break;
+            case "darkTheme":
+                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_dark.css").toExternalForm());
+                break;
+            case "customTheme":
+                DialogBoxController.getInstance().showInformationDialog("theme","show custom theme");
+                break;
+        }
+
     }
 
     /*Close the application by clicking the Menuitem 'Exit'*/
     @FXML
-    public void onClose(ActionEvent actionEvent) {
+    public void clickMenuItemExit(ActionEvent actionEvent) {
         System.exit(0);
     }
 
@@ -362,12 +243,12 @@ public class MainController implements Initializable {
     // Getter & Setter
     // *******************************************************************
 
-    public SplitPane getSplitter(){
+    public SplitPane getSplitter() {
         return this.splitter;
     }
 
-    public TabPane getTabPane(){
+   /* public TabPane getTabPane() {
         return this.displayPane;
-    }
+    }*/
 }
 

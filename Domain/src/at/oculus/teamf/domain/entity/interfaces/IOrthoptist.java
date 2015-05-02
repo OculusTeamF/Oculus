@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

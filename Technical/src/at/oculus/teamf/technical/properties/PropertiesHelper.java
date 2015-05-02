@@ -11,6 +11,7 @@ package at.oculus.teamf.technical.properties;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 /**

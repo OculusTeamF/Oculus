@@ -19,13 +19,15 @@ import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * examination protocol broker translating domain objects to persistence entities
  */
-public class ExaminationProtocolBroker extends EntityBroker {
+public class ExaminationProtocolBroker extends EntityBroker implements ICollectionReload {
     public ExaminationProtocolBroker() {
         super(ExaminationProtocol.class, ExaminationProtocolEntity.class);
     }
@@ -39,11 +41,12 @@ public class ExaminationProtocolBroker extends EntityBroker {
      * @throws BadConnectionException
      */
     @Override
-    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException {
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         Doctor doctor = null;
         Orthoptist orthoptist = null;
+        // TODO named query doctor und orthoptist
         if (examinationProtocolEntity.getUserId() > 0) {
             for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
                 if (((Doctor) obj).getUserId() == examinationProtocolEntity.getUserId()) {
@@ -80,7 +83,7 @@ public class ExaminationProtocolBroker extends EntityBroker {
      * @return return a persitency entity
      */
     @Override
-    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException {
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         ExaminationProtocol examinationProtocol = (ExaminationProtocol) obj;
 
@@ -125,7 +128,7 @@ public class ExaminationProtocolBroker extends EntityBroker {
 	 * @throws NoBrokerMappedException
 	 */
 	@Override
-	public boolean saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException {
+	public boolean saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
 		log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
 
 		ExaminationProtocolEntity entity = (ExaminationProtocolEntity) domainToPersistent(domainObj);
@@ -155,5 +158,29 @@ public class ExaminationProtocolBroker extends EntityBroker {
 		log.info(_domainClass.toString() + " with ID " + domainObj.getId() + " saved");
 
 		return returnValue;
+	}
+
+	private class ExaminationResultsLoader implements ICollectionLoader<ExaminationResultEntity> {
+
+		@Override
+		public Collection<ExaminationResultEntity> load(Object databaseEntity) {
+			return ((ExaminationProtocolEntity) databaseEntity).getResults();
+		}
+	}
+
+	@Override
+	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException,
+	                                                                     InvalidReloadClassException, BadSessionException {
+		if (clazz == ExaminationResult.class) {
+			((ExaminationProtocol) obj).setResults(reloadExaminationResults(session, obj));
+		} else {
+			throw new InvalidReloadClassException();
+		}
+	}
+
+	private Collection<ExaminationResult> reloadExaminationResults (ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+		ReloadComponent reloadComponent = new ReloadComponent(ExaminationProtocolEntity.class, ExaminationResult.class);
+		log.debug("reloading examination results");
+		return reloadComponent.reloadCollection(session, ((ExaminationProtocol) obj).getId(), new ExaminationResultsLoader());
 	}
 }

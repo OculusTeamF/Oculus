@@ -9,12 +9,15 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Date;
@@ -37,9 +40,11 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
 
-		_examinationProtocolDoctor = new ExaminationProtocol();
+        _examinationProtocolDoctor = new ExaminationProtocol();
 		_examinationProtocolDoctor.setStartTime(new Date());
 		_examinationProtocolDoctor.setEndTime(new Date());
 		_examinationProtocolDoctor.setDescription("Untersuchungsprotokoll Unit Test");
@@ -59,8 +64,10 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void tearDown() {
@@ -70,8 +77,10 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		}
-	}
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void testGetById() {
@@ -83,8 +92,10 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		}
-		assertTrue(examinationProtocolDoctor!=null);
+		} catch (BadSessionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(examinationProtocolDoctor!=null);
 //		assertTrue(examinationProtocolDoctor.getDoctor().getId()==1);
 		assertTrue(examinationProtocolDoctor.getPatient().getId()==1);
 		assertTrue(examinationProtocolDoctor.getDescription().equals("Untersuchungsprotokoll Unit Test"));
@@ -109,5 +120,39 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		}
 		assertTrue(examinationProtocolCollection!=null);
 		assertTrue(examinationProtocolCollection.size()>1);*/
+	}
+
+	@Test
+	public void reloadExaminationResults() {
+		ExaminationProtocol examinationProtocol = null;
+
+		try {
+			examinationProtocol = Facade.getInstance().getById(ExaminationProtocol.class, 1);
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+		}
+
+		Collection<ExaminationResult> examinationResults = null;
+
+		try {
+			examinationResults = examinationProtocol.getExaminationResults();
+		} catch (InvalidReloadClassException e) {
+			e.printStackTrace();
+		} catch (ReloadInterfaceNotImplementedException e) {
+			e.printStackTrace();
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (BadSessionException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(examinationResults.size());
+		assertTrue(examinationResults.size()==1);
 	}
 }

@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.HibernateSessionBroker;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.ISessionBroker;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -51,6 +52,7 @@ public class Facade {
         entityBrokers.add(new CalendarEventTypeBroker());
         entityBrokers.add(new DiagnosisBroker());
         entityBrokers.add(new ExaminationProtocolBroker());
+        entityBrokers.add(new ExaminationResultBroker());
 
         init(entityBrokers);
     }
@@ -75,6 +77,7 @@ public class Facade {
             entityClazzes.addAll(broker.getEntityClasses());
         }
 
+        //Todo: catch exceptions
         _sessionBroker = new HibernateSessionBroker(entityClazzes);
     }
 
@@ -244,8 +247,8 @@ public class Facade {
 
         try {
             searchResult = (Collection<T>) worker(clazz, new Search(search));
-        } catch (ReloadException e) {
-            //eat up
+        } catch (ReloadException  e) {
+            e.printStackTrace();
         }
 
         return searchResult;
@@ -285,7 +288,14 @@ public class Facade {
 
         @Override
         public Object execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
-            return broker.getEntity(session, _id);
+
+            try {
+                return broker.getEntity(session, _id);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+                return null;
+            }
+
         }
     }
 
@@ -293,7 +303,12 @@ public class Facade {
 
         @Override
         public Collection execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
-            return broker.getAll(session);
+            try {
+                return broker.getAll(session);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -313,7 +328,11 @@ public class Facade {
                 throw new ReloadInterfaceNotImplementedException();
             }
 
-            ((ICollectionReload) broker).reload(session, _obj, _reloadClass);
+            try {
+                ((ICollectionReload) broker).reload(session, _obj, _reloadClass);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -329,7 +348,12 @@ public class Facade {
 
         @Override
         public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
-            return broker.saveEntity(session, _toSave);
+            try {
+                return broker.saveEntity(session, _toSave);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -343,7 +367,12 @@ public class Facade {
 
         @Override
         public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
-            return broker.saveAll(session, _toSave);
+            try {
+                return broker.saveAll(session, _toSave);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -357,7 +386,12 @@ public class Facade {
 
         @Override
         public Boolean execute(ISession session, EntityBroker broker) throws BadConnectionException, NoBrokerMappedException {
-            return broker.deleteEntity(session, _toDelete);
+            try {
+                return broker.deleteEntity(session, _toDelete);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -389,13 +423,12 @@ public class Facade {
                 throw new SearchInterfaceNotImplementedException();
             }
 
-            Collection<Object> collection = new LinkedList<>();
-
-            for (Object obj : ((ISearch) broker).search(session, _params)) {
-                collection.add(obj);
+            try {
+                return ((ISearch) broker).search(session, _params);
+            } catch (BadSessionException e) {
+                e.printStackTrace();
+                return null;
             }
-
-            return collection;
         }
     }
 }

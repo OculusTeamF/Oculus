@@ -19,6 +19,7 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
@@ -62,7 +63,7 @@ public class SearchPatientController implements ILogger{
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
-            patients = facade.search(Patient.class, data);
+            patients = facade.search(Patient.class, "%" + data.replace(" ", "%") + "%");
             log.info("Search has been successful.");
         } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
             log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");
@@ -107,7 +108,7 @@ public class SearchPatientController implements ILogger{
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
         try {
-            patients = facade.search(Patient.class, svn, firstName, lastName);
+            patients = facade.search(Patient.class, "%" + svn + "%", "%" + firstName + "%", "%" + lastName + "%");
             log.info("Search has been successful.");
         } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
             log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");

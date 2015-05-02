@@ -20,6 +20,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.PropertySheet;
 
 import java.net.URL;
@@ -35,6 +37,7 @@ public class PatientProperty implements Initializable{
     @FXML Tab patientPropertyTab;
 
     private static Map<String, Object> customDataMap = new LinkedHashMap<>();
+    public enum Gender {Male, Female};
 
     static {
         customDataMap.put("1. Patient#First Name", "Jonathan");
@@ -45,9 +48,11 @@ public class PatientProperty implements Initializable{
         customDataMap.put("2. Address#City", "");
         customDataMap.put("2. Address#Country ISO Code", "");
         customDataMap.put("2. Adress#Postal Code", "");
+        customDataMap.put("2. Adress#Gender", Gender.Male);
         customDataMap.put("3. Contact#Phone", "123-123-1234");
         customDataMap.put("3. Contact#E-Mail", "jon@jon.com");
-        customDataMap.put("4. User#Doctor", "jon@jon.com");
+        customDataMap.put("4. User#Boolena", true);
+        customDataMap.put("4. User#NumberOnly", 10);
     }
 
     @Override
@@ -59,11 +64,39 @@ public class PatientProperty implements Initializable{
         }
 
         PropertySheet propertySheet = new PropertySheet(list);
-        patientPropertyTab.setContent(propertySheet);
+        VBox vBox = new VBox();
+        ToolBar tBar = new ToolBar();
+        //patientPropertyTab.setContent(propertySheet);
+        patientPropertyTab.setContent(vBox);
+        vBox.getChildren().add(tBar);
+        vBox.getChildren().add(propertySheet);
+        tBar.setMinHeight(60);
 
         propertySheet.modeSwitcherVisibleProperty().set(false);
         propertySheet.searchBoxVisibleProperty().set(false);
         propertySheet.setStyle("-fx-background-color: white;");
+        propertySheet.setMaxWidth(800);
+        vBox.setStyle("-fx-background-color: #F4F4F4;");
+
+
+        //ObservableList<Node> nodes = Main.scene.getRoot().getChildrenUnmodifiable();
+
+
+/*        propertySheet.setPropertyEditorFactory(new Callback<PropertySheet.Item, PropertyEditor<?>>() {
+            @Override
+            public PropertyEditor<?> call(PropertySheet.Item param) {
+                if(param.getValue() instanceof String[]) {
+                    return Editors.createChoiceEditor(param, choices);
+                } else if (param.getValue() instanceof Boolean) {
+                    return Editors.createCheckEditor(param);
+                } else if (param.getValue() instanceof Integer) {
+                    return Editors.createNumericEditor(param);
+                } else {
+                    return Editors.createTextEditor(param);
+                    Editors.createCustomEditor(param);
+                }
+            }
+        });*/
     }
 
     class CustomPropertyItem implements PropertySheet.Item {

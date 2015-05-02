@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -22,7 +23,6 @@ import java.util.Collection;
  * interface patient queue for presentation layer
  */
 public interface IPatientQueue {
-    int getUserID();
 
     Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException;
 

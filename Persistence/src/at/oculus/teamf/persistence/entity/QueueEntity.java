@@ -17,6 +17,29 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "queue", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "getDocotorQueueEntries",
+                query = "SELECT * " +
+                        "FROM queue " +
+                        "WHERE doctorId = ?0",
+                resultClass = QueueEntity.class),
+
+        @NamedNativeQuery(
+                name = "getOrthoptistQueueEntries",
+                query = "SELECT * " +
+                        "FROM queue " +
+                        "WHERE orthoptistId = ?0",
+                resultClass = QueueEntity.class),
+
+        @NamedNativeQuery(
+                name = "getGeneralQueueEntries",
+                query = "SELECT * " +
+                        "FROM queue " +
+                        "WHERE doctorId is null AND orthoptistId is null",
+                resultClass = QueueEntity.class)
+})
+
 public class QueueEntity implements IEntity {
 	private int _id;
     private Integer _doctorId;

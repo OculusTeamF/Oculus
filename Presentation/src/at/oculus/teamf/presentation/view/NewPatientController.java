@@ -13,26 +13,26 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.CreatePatientController;
-import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -53,11 +53,8 @@ public class NewPatientController implements Initializable{
     @FXML public ChoiceBox newPatientDoctor;
     @FXML public Button newPatientSaveButton;
     @FXML public TextField newPatientCountryIsoCode;
-    @FXML private Tab newPatientTab;
 
-
-    private CreatePatientController createPatientController = new CreatePatientController();
-    private StartupController startupController = new StartupController();
+    private Model _model = Model.getInstance();
     private ToggleGroup group = new ToggleGroup();
 
     @Override
@@ -73,15 +70,12 @@ public class NewPatientController implements Initializable{
         addTextLimiter(newPatientPhone, 50);
         addTextLimiter(newPatientEmail, 255);
 
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        newPatientSaveButton.setGraphic(new ImageView(imageSaveIcon));
 
-        try {
-            newPatientDoctor.setItems(FXCollections.observableArrayList(startupController.getAllDoctors()));
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-        }
+        newPatientDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
 
-        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
+/*        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (DialogBoxController.getInstance().showYesNoDialog("Cancel new patient", "Do you want to cancel the new patient record ?") == false){
@@ -89,24 +83,17 @@ public class NewPatientController implements Initializable{
                 }
 
             }
-        });
+        });*/
 
         radioGenderFemale.setToggleGroup(group);
         radioGenderMale.setToggleGroup(group);
         radioGenderFemale.setSelected(true);
     }
 
-    /*Triggers the savePatient() method when 'save' button is pressed*/
+    /*Triggers the saveNewPatient() method from Model when 'save' button is pressed*/
     @FXML
     public void saveForm(ActionEvent actionEvent) {
-        savePatient();
-    }
 
-    /**
-     * Saves the new Patient form in a new Patient-Object
-     * only if all fields are filled with data
-     */
-    private void savePatient(){
         String gender = null;
         String lastname = newPatientLastname.getText();
         String firstname = newPatientFirstname.getText();
@@ -145,22 +132,13 @@ public class NewPatientController implements Initializable{
             DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Birthday.");
         }
 
-        try {
-            try {
-                createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
-            } catch (FacadeException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-            } catch (PatientCouldNotBeSavedException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
-            }
-            DialogBoxController.getInstance().showInformationDialog("Information", "New Patient saved");
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
+        boolean isSaved = _model.saveNewPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+
+        if(isSaved){
+            DialogBoxController.getInstance().showInformationDialog("Information", "Patient: " +lastname+", "+firstname+" is saved.");
         }
     }
+
 
     /**
      * add textlimiter to textfield

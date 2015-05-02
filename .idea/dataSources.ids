@@ -884,7 +884,7 @@
       <column name="street" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="postalCode" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
       <column name="city" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
-      <column name="countryIsoCode" sqlType="VARCHAR" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="countryIsoCode" sqlType="VARCHAR" precision="3" scale="0" nullable="true" jdbcType="12"/>
       <column name="phone" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
       <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="allergy" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>

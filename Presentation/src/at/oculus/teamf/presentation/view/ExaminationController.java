@@ -10,12 +10,10 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.ReceivePatientController;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.presentation.view.DialogBoxController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,6 +24,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -42,48 +42,40 @@ public class ExaminationController implements Initializable {
     @FXML public Text examinationCurrDate;
     @FXML public Text examinationLnameFnameSvn;
     @FXML public TextArea examinationAllergies;
-    @FXML public ListView examinationList;
+    @FXML public ListView examinationProtocollList;
     @FXML public TextArea examinationDocumentation;
 
-    private IPatient patient;
+    private Model _model = Model.getInstance();
+    //private IPatient patient;
     private Date date = new Date();
-    private ReceivePatientController receivePatientController = new ReceivePatientController();
+    //private ReceivePatientController receivePatientController = new ReceivePatientController();
     private Boolean isFormEdited = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        patient =  (IPatient)resources.getObject(null);
+        //patient =  (IPatient)resources.getObject(null);
 
         examinationAllergies.setWrapText(true);
         examinationDocumentation.setWrapText(true);
 
-        examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
-        examinationCurrDate.setText(date.toString());
-        examinationLnameFnameSvn.setText(patient.getLastName()+", "+patient.getFirstName()+", "+patient.getSocialInsuranceNr());
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        saveButton.setGraphic(new ImageView(imageSaveIcon));
 
-        if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
+        //examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
+        examinationCurrDate.setText(date.toString());
+        examinationLnameFnameSvn.setText(_model.getPatient().getLastName()+", "+_model.getPatient().getFirstName()+", "+_model.getPatient().getSocialInsuranceNr());
+
+        if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
         {
             examinationAllergies.setText("No Allergies known");
         }else{
-            examinationAllergies.setText(patient.getAllergy());
+            examinationAllergies.setText(_model.getPatient().getAllergy());
         }
 
-        try {
-            examinationList.setItems(FXCollections.observableArrayList(receivePatientController.getAllExaminationProtocols(patient)));
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
-        }
+
+        examinationProtocollList.setItems(FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient())));
+
 
         //checks if Allergies have changed
         examinationAllergies.textProperty().addListener(new ChangeListener<String>() {
@@ -103,26 +95,18 @@ public class ExaminationController implements Initializable {
     }
 
     /**
-     * Save the Protocoll, if allergies have changed the will saved too
+     * Save the Protocoll, if allergies have changed they will saved too
      * @param actionEvent
      */
     @FXML
     public void saveProtocol(ActionEvent actionEvent)
     {
-        ReceivePatientController receivePatientController = new ReceivePatientController();
-        try {
-            receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
-            DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + patient.getLastName() + ", " + patient.getFirstName() + " saved.");
+        _model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), _model.getPatient().getIDoctor(), null);
+        DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + " saved.");
 
-            if(isFormEdited){
-                patient.setAllergy(examinationAllergies.getText());
-            }
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
+        if(isFormEdited){
+            _model.getPatient().setAllergy(examinationAllergies.getText());
         }
+
     }
 }

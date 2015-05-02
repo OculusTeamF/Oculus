@@ -31,6 +31,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -52,10 +54,10 @@ public class PatientSearchController implements Initializable{
     @FXML public TextField searchPatientSVN;
     @FXML public ListView searchPatientList;
     @FXML public Button searchPatientButton;
-    @FXML public Tab searchPatientTab;
-    @FXML public AnchorPane searchAnchor;
 
-    private SearchPatientController _searchPatientController = new SearchPatientController();
+
+    //private SearchPatientController _searchPatientController = new SearchPatientController();
+    private Model _model = Model.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,7 +71,8 @@ public class PatientSearchController implements Initializable{
 
     private void openPatientRecord(IPatient currPatient)
     {
-        Main.controller.addPatientTab(currPatient);
+        //Todo: rework
+        _model.addPatientTab(currPatient);
     }
 
     @FXML
@@ -80,14 +83,10 @@ public class PatientSearchController implements Initializable{
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
 
+        Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
+        searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
 
-        ObservableList<IPatient> patientlist = null;
-        try {
-            patientlist = FXCollections.observableList((List) _searchPatientController.searchPatients(svn, firstName, lastName));
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
-        }
+        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
 
         if (patientlist.size() > 0) {
             searchPatientList.setItems(patientlist);

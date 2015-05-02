@@ -288,14 +288,15 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
      * @return a collection of objects or null if no entry was found
      */
 	@Override
-	public Collection<Object> search(String queryName, String[] parameters) throws BadSessionException {
+	public Collection<Object> search(String queryName, String... parameters) throws BadSessionException {
 		validateSession();
 		Query query = _entityManager.createNamedQuery(queryName);
 		for(Integer i = 0; i < parameters.length; i++){
             try{
-                query.setParameter(i.toString(), "%"+parameters[i].replace(" ","%")+"%");
+                query.setParameter(i.toString(), parameters[i]);
             } catch (Exception e) {
                 log.error("A error occurred when trying to search for an object through named queries! OriginalMessage: " + e.getMessage());
+                //Todo: add exception
             }
 		}
 		return query.getResultList();

@@ -1,10 +1,15 @@
-#displayPane{
-    -fx-background-image: url("/res/oculus.JPG");
+.tab-pane{
+    -fx-background-image: url("/res/oculus_logo_reflect.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 379 108;
+    -fx-background-size: 416 175;
     -fx-background-position: center;
     -fx-background-color: dimgray;
 }
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: dimgray;
+}
+
 #waitingListBox{
     -fx-background-color: dimgray;
 }
@@ -17,4 +22,83 @@
 #searchPatientPane{
     -fx-background-color: dimgray;
 }
+#examinationPane{
+    -fx-background-color: dimgray;
+}
+#colorPane1{
+    -fx-background-color: #cbe6ff;
+}
+#colorPane2{
+    -fx-background-color: #cbe6ff;
+}
+#colorPane3{
+    -fx-background-color: #cbe6ff;
+}
 
+#loaderPane{
+    -fx-background-color: dimgray;
+    -fx-background-image: url("/res/oculus.JPG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 316 90;
+    -fx-background-position: center;
+}
+
+#searchResults > .title{
+    -fx-background-color: dimgray;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-border-color: transparent;
+    -fx-border-style: none;
+}
+
+#searchButton{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-border-style: none;
+}
+
+#searchButton:hover {
+    -fx-opacity: 1;
+}
+
+#textSearch{
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-border-style: outset;
+}
+
+.split-pane {
+    -fx-border-color: transparent;
+    -fx-border-style: solid;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 1 0 0;
+    -fx-background-color: transparent, darkgrey;
+    -fx-background-insets: 0 -3 0 -3, 0;
+    -fx-border-color: null;
+}
+
+.titled-pane > .title {
+    -fx-background-color: linear-gradient(gainsboro, dimgray);
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+    -fx-font-size: 15px;
+
+}
+
+.text-area:disabled, .text-field:disabled{
+
+}
+
+.text-area .scroll-pane:disabled{
+    -fx-opacity: 1.0;
+}
+
+.button:focused {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5, 4, 3;
+}

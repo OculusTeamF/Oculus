@@ -24,9 +24,17 @@ public class QueueEntry implements IQueueEntry {
     private Timestamp _arrivalTime;
     private Patient _patient;
 
-    public QueueEntry() {
-    }
-
+    /**
+     *
+     * adds new queueEntry to PatientQueue for doctor, orthopthist or unassigned queue
+     *
+     * @param id  queue id, set by database. if queue id is 0 then new entry else update entry of given id
+     * @param patient set patient which shoul dbe added to queue
+     * @param doctor add to doctor user, use 'null' if not assigned to a doctor
+     * @param orthoptist add to orthoptist user, use 'null' if not assigned to a orthoptist
+     * @param queueIdParent  parentid for queueupart for a user
+     * @param arrivalTime set timestamp
+     */
     public QueueEntry(int id, Patient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
                       Timestamp arrivalTime) {
         _id = id;

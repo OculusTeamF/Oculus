@@ -72,12 +72,12 @@ public class StartupControllerTest {
     }
 
     @org.junit.Test
-    public void testGetQueueByUserId() throws Exception {
+    public void testGetQueueByUser() throws Exception {
         LinkedList<IDoctor> docs = (LinkedList<IDoctor>) startupController.getAllDoctors();
 
         IUser user = docs.getFirst();
 
-        IPatientQueue queue = startupController.getQueueByUserId(user);
+        IPatientQueue queue = startupController.getQueueByUser(user);
 
         System.out.println(user.getFirstName());
         assert (queue.getEntries().size() == 3);
