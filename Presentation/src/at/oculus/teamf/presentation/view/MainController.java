@@ -12,15 +12,6 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,44 +25,31 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    @FXML
-    private Menu menuChangeUser;
-    @FXML
-    public MenuItem openPatientsearch, menuUser;
-    @FXML
-    public RadioMenuItem defaultTheme, darkTheme, customTheme;
-    @FXML
-    public TabPane displayPane;
-    @FXML
-    private SplitPane splitter;
-    @FXML
-    private BorderPane borderPane;
-    @FXML
-    private Button buttonAddPatient;
-    @FXML
-    private AnchorPane splitLeftSide;
+    @FXML private Menu menuChangeUser;
+    @FXML private MenuItem openPatientsearch, menuUser;
+    @FXML private RadioMenuItem defaultTheme, darkTheme, customTheme;
+    @FXML private TabPane displayPane;
+    @FXML private SplitPane splitter;
+    @FXML private BorderPane borderPane;
+    @FXML private Button buttonAddPatient;
+    @FXML private AnchorPane splitLeftSide;
 
     private Model _model = Model.getInstance();
 
     /**
      * Initialize the waiting queue
      *
-     * @param location
-     * @param resources
      */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
         _model.setTabPanel(displayPane);
-        _model.getAllDoctors();
-        _model.getAllDoctorsAndOrhtoptists();
+        //_model.getAllDoctors();
+        //_model.getAllDoctorsAndOrthoptists();
 
         // search button & list init
         buttonAddPatient.setVisible(false);

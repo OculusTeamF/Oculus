@@ -37,10 +37,8 @@ public class Main extends Application implements ILocal, ILogger {
     public FXMLLoader mainloader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
 
-   /// TODO dispatcher
     public static MainController controller;
-    //public static QueueController controlQueue;
-    private Model _model = Model.getInstance();
+    private Model _model;
 
     public static Service<Void> service;
 
@@ -52,8 +50,6 @@ public class Main extends Application implements ILocal, ILogger {
     @Override
     public void start(Stage mStage) throws Exception {
 
-        _model.setPrimaryStage(mStage);
-        //TODO create thread for loading
         //Logger4J.setLevel(log, Level.ERROR);
         initLoadingScreen();        // create splashcreen
         initStage.show();           // show splashcreen
@@ -65,7 +61,9 @@ public class Main extends Application implements ILocal, ILogger {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
+                        _model = Model.getInstance();
                         initMainWindow();  // build main window & queuelist)
+                        _model.setPrimaryStage(primaryStage);
                         return null;
                     }
                 };
@@ -81,25 +79,19 @@ public class Main extends Application implements ILocal, ILogger {
         };
 
         service.start(); // starts Thread
-
-       /* initLoadingScreen();        // create splashcreen
-        initStage.show();           // show splashcreen
-        initMainWindow();           // build main window (heavy queue load process)
-        primaryStage.show();        // show main window
-        initStage.close();          // close splashscreen*/
-
     }
 
     /*create main screen*/
     private void initMainWindow() throws IOException {
         Parent root = (Parent) mainloader.load();
-        primaryStage.setTitle(locstring.getString("MainWindowTitle"));      //localization example
+        primaryStage.setTitle(locstring.getString("MainWindowTitle"));   //localization example
         scene = new Scene(root, 900, 600);
         scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
         controller = mainloader.getController();
 
         // setup components in MainWindow.fxml
         controller.getSplitter().setDividerPosition(0, 0.80);
+
 
         // update splitter position
         scene.widthProperty().addListener(new ChangeListener<Number>() {
@@ -115,9 +107,6 @@ public class Main extends Application implements ILocal, ILogger {
 
         // add app icon
         primaryStage.getIcons().add(new Image("/res/32x32.png"));
-        //primaryStage.setScene(scene);
-        //primaryStage.setMaximized(true);
-        //primaryStage.show();
     }
 
     /*create loading screen (splashcreen)*/
@@ -137,7 +126,6 @@ public class Main extends Application implements ILocal, ILogger {
         initStage.centerOnScreen();
         initStage.getIcons().add(new Image("/res/32x32.png"));
     }
-
 
     public static void main(String[] args) {
         launch(args);

@@ -34,4 +34,12 @@ public class StatusBarController {
 
         return _stateBar;
     }
+
+    public void showProgressIdle(){
+
+    }
+
+    public void showProgressHide(){
+
+    }
 }
