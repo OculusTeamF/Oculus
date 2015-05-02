@@ -64,7 +64,6 @@ public class Facade {
         return _self;
     }
 
-    //determine where to call
     private void init(Collection<EntityBroker> brokers) {
         _entityBrokers = new HashMap<>();
         Collection<Class> entityClazzes = new LinkedList<>();
