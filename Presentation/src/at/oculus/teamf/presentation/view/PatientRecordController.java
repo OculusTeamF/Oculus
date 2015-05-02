@@ -189,7 +189,10 @@ public class PatientRecordController implements Initializable {
 
         //<editor-fold desc="Set Field Listener">
         //check if something has changed, if changes detected --> saveChanges()
-        patientRecordLastname.textProperty().addListener(new ChangeListener<String>() {
+
+        addListener(patientRecordLastname);
+        addListener(patientRecordFirstname);
+        /*patientRecordLastname.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
@@ -216,7 +219,7 @@ public class PatientRecordController implements Initializable {
                     DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Firstname");
                 }
             }
-        });
+        });*/
         patientRecordSVN.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -392,6 +395,23 @@ public class PatientRecordController implements Initializable {
         //_model.hideStatusBarloader();
     }
 
+    /* add change listener to inputfields */
+    private void addListener(TextField textfield){
+        textfield.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (oldValue != newValue) {
+                        isFormEdited = true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Lastname");
+                }
+            }
+        });
+    }
+
     //<editor-fold desc="Event Handler">
     /**
      * when press edit button all patientfield are disable(false) and editable
@@ -449,21 +469,12 @@ public class PatientRecordController implements Initializable {
         }
     }
 
-    /**
-     * opens a new Examination protocol
-     * @param actionEvent
-     */
+
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
-        //Todo: add central controller
-        Date date = new Date();
-        //Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
         _model.loadTab("PATIENT: " + _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml");
-        //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
-        //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
-        StatusBarController.getInstance().setText("Open examination...");
     }
-    //</editor-fold>
+
 
     /**
      * save Changes in Patient Record Form if isFormEdited == true

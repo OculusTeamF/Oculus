@@ -20,16 +20,12 @@
          </children>
       </HBox>
       <TitledPane fx:id="searchResults" expanded="false" text="Search results">
-         <content>
-            <AnchorPane>
-               <children>
-                  <ListView fx:id="listSearchResults" layoutX="46.0" layoutY="-10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-         </content>
          <font>
             <Font size="15.0" />
          </font>
+         <content>
+            <ListView fx:id="listSearchResults" />
+         </content>
       </TitledPane>
    </children>
 </VBox>

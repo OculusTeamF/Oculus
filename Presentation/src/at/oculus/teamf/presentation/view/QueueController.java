@@ -9,9 +9,12 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +28,7 @@ import javafx.scene.layout.VBox;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -32,22 +36,17 @@ import java.util.ResourceBundle;
  * Created by Fabian on 29.04.2015.
  */
 public class QueueController implements Initializable {
-    @FXML
-    private Button searchButton;
-    @FXML
-    private CustomTextField textSearch;
-    @FXML
-    private ListView listSearchResults;
-    @FXML
-    private TitledPane searchResults;
-    @FXML
-    private VBox vboxQueues;
+    @FXML private Button searchButton;
+    @FXML private CustomTextField textSearch;
+    @FXML private ListView listSearchResults;
+    @FXML private TitledPane searchResults;
+    @FXML private VBox vboxQueues;
 
     private Model _model = Model.getInstance();
+    private ObservableList<IPatient> patientlist;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // search button & searchresultslist init
         Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
         searchButton.setGraphic(new ImageView(imageSearchIcon));
@@ -55,7 +54,7 @@ public class QueueController implements Initializable {
         searchResults.setDisable(true);
         textSearch.setRight(searchButton);
 
-        // tooltip test
+        // tooltip
         Tooltip tp = new Tooltip();
         tp.setText("Search for Firstname, Lastname or SVN number");
         textSearch.setTooltip(tp);
@@ -65,7 +64,6 @@ public class QueueController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    //_model.showStatusBarloader();
                     _model.setPatient((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                     _model.loadTab("PATIENT RECORD: " + _model.getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
 
@@ -73,6 +71,7 @@ public class QueueController implements Initializable {
             }
         });
 
+        // add toolbar as seperator: searchlist <-> queuelists
         ToolBar tbQueue = new ToolBar();
         tbQueue.setMinHeight(30);
         vboxQueues.getChildren().add(tbQueue);
@@ -80,6 +79,10 @@ public class QueueController implements Initializable {
         // build queue
         _model.setVboxQueues(vboxQueues);
         _model.buildQueueLists();
+
+        // setup logged in User
+        ArrayList<IDoctor> docs = (ArrayList) _model.getAllDoctors();
+        _model.setLoggedInUser(docs.get(0));
     }
 
     // *******************************************************************
@@ -94,25 +97,55 @@ public class QueueController implements Initializable {
         }
     }
 
-    /*search and list patients with used keywords*/
+    /* search and list patients with used keywords */
     @FXML
     public void doPatientSearch() {
-        ObservableList<IPatient>patientlist = FXCollections.observableList((List)_model.searchPatients(textSearch.getText()));
 
-        if (patientlist.size() > 0) {
-            listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight((patientlist.size() * 24) + 8);
-            searchResults.setDisable(false);
-            searchResults.setExpanded(true);
-            searchResults.setText("Search Results (" + patientlist.size() + "):");
-            StatusBarController.getInstance().setText("Found patients: " + patientlist.size());
-        } else {
-            searchResults.setText("Search Results (None)");
-            searchResults.setExpanded(false);
-            searchResults.setDisable(true);
-            listSearchResults.setItems(patientlist);
-            listSearchResults.setPrefHeight(0);
-            StatusBarController.getInstance().setText("No patients found");
-        }
+        final Task<Void> search = doSearchPatients();
+        _model.showStatusBarProgressBarIdle("Searching patients");
+        search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                // end of search thread
+                _model.hideStatusBarProgressBarIdle();
+                textSearch.setDisable(false);
+
+                // list results and setup controls
+                if (patientlist.size() > 0) {
+                    listSearchResults.setItems(patientlist);
+                    listSearchResults.setPrefHeight((patientlist.size() * 24) + 8);
+                    searchResults.setDisable(false);
+                    searchResults.setExpanded(true);
+                    searchResults.setText("Search Results (" + patientlist.size() + "):");
+                    StatusBarController.getInstance().setText("Found patients: " + patientlist.size());
+                } else {
+                    searchResults.setText("Search Results (None)");
+                    searchResults.setExpanded(false);
+                    searchResults.setDisable(true);
+                    listSearchResults.setItems(patientlist);
+                    listSearchResults.setPrefHeight(0);
+                    StatusBarController.getInstance().setText("No patients found");
+                }
+            }
+        });
+        new Thread(search).start();
+    }
+
+    // *******************************************************************
+    // Search Thread
+    // *******************************************************************
+
+    /* thread for search */
+    public Task<Void> doSearchPatients() {return new Task<Void>() {
+            @Override
+            protected Void call() {
+                // disable texfield while searching
+                textSearch.setDisable(true);
+
+                // application layer acces for search
+                patientlist = FXCollections.observableList((List)_model.searchPatients(textSearch.getText()));
+                return null;
+            }
+        };
     }
 }

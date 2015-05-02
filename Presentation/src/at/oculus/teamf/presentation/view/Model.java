@@ -10,10 +10,7 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.*;
-import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
-import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
-import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.*;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.*;
@@ -53,16 +50,21 @@ public class Model implements Serializable{
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private CreatePatientController _createPatientController = new CreatePatientController();
+    private CreateDiagnosisController _createDiagnosisController;
     private CheckinController _checkinController = new CheckinController();
     private ReceivePatientController _recievePatientController = new ReceivePatientController();
-    private Collection<IDoctor > _doctors;
+    private Collection<IDoctor> _doctors;
     private Collection<IUser> _userlist;
     private IPatient _patient;
+    private IExaminationProtocol _eximationprotocol;
     private IPatientQueue _queue = null;
     private TabPane _tabPanel = null;
     private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
     private Task<Void> task;
+
+    // user management
+    private IUser _loggedInUser;
 
 
     /**
@@ -483,13 +485,59 @@ public class Model implements Serializable{
         }
     }
 
+    /**
+     * creates a new examinationprotocol
+     */
+    public void addNewPatientDiagnosis(String title, String description, IDoctor doc){
+        //TODO IExaminationProtocol getter setter
+        _createDiagnosisController = new CreateDiagnosisController(_eximationprotocol);
+
+        try {
+            _createDiagnosisController.createDiagnosis(title,description, doc);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (RequirementsUnfulfilledException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public IExaminationProtocol getCurrentExaminationProtocol(){
+        return _eximationprotocol;
+    }
+
+    public void setCurrentExaminationProtocol(IExaminationProtocol ep){
+        _eximationprotocol = ep;
+    }
+
+
+    // *******************************************************************
+    // statusbar stuff
+    // *******************************************************************
 
     public void showStatusBarProgressBarIdle(String loadingtext){
         ProgressBar pb = new ProgressBar();
+        Label lb = new Label(loadingtext + "  ");
+        StatusBarController.getInstance().getRightItems().add(lb);
         StatusBarController.getInstance().getRightItems().add(pb);
     }
 
     public void hideStatusBarProgressBarIdle(){
         StatusBarController.getInstance().getRightItems().remove(0, StatusBarController.getInstance().getRightItems().size());
     }
+
+
+    // *******************************************************************
+    // user management
+    // *******************************************************************
+
+    public void setLoggedInUser(IUser user){
+        _loggedInUser = user;
+    }
+
+    public IUser getLoggedInUser(){
+        return _loggedInUser;
+    }
+
 }
