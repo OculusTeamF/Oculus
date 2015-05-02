@@ -10,9 +10,11 @@
 package at.oculus.teamf.domain.entity.factory;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
@@ -64,8 +66,9 @@ public class QueueFactory implements ILogger{
                         try {
                             queue.getEntries().removeAll(queue.getEntries());
                             queue.getEntries().addAll(searchForQueueEntries(user));
-                        } catch (NoBrokerMappedException | BadConnectionException | SearchInterfaceNotImplementedException | InvalidSearchParameterException e) {
+                        } catch (DatabaseOperationException | ClassNotMappedException | NoBrokerMappedException | BadConnectionException | SearchInterfaceNotImplementedException | InvalidSearchParameterException e) {
                             log.error("Error when trying to automaticaly update queue! Orignial message" + e.getMessage());
+                            //eat up
                         }
                     }
                     log.info("Updated all user queues");
@@ -85,7 +88,7 @@ public class QueueFactory implements ILogger{
      * @throws SearchInterfaceNotImplementedException
      * @throws NoBrokerMappedException
      */
-    private Collection<QueueEntry> searchForQueueEntries(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
+    private Collection<QueueEntry> searchForQueueEntries(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
         int id;
 
         if(user instanceof Doctor) {
@@ -105,7 +108,7 @@ public class QueueFactory implements ILogger{
         if(_userQueues.get(user) == null) {
             try {
                 loadUserQueue(user);
-            } catch (InvalidSearchParameterException | BadConnectionException | SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
+            } catch (DatabaseOperationException | ClassNotMappedException | InvalidSearchParameterException | BadConnectionException | SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
                 log.error("Could not load queue from database! Original Message " + e.getMessage());
                 return null;
             }
@@ -121,7 +124,7 @@ public class QueueFactory implements ILogger{
      * @throws SearchInterfaceNotImplementedException
      * @throws NoBrokerMappedException
      */
-    private void loadUserQueue(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
+    private void loadUserQueue(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
         PatientQueue queue = createQueue(user, searchForQueueEntries(user));
         _userQueues.put(user, queue);
     }
@@ -129,14 +132,15 @@ public class QueueFactory implements ILogger{
     /**
      * Creates a general patient queue or loads it from cache
      * @return
-     * @throws SearchInterfaceNotImplementedException
-     * @throws InvalidSearchParameterException
-     * @throws BadConnectionException
-     * @throws NoBrokerMappedException
      */
-    public PatientQueue getGeneralQueue() throws SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException {
+    public PatientQueue getGeneralQueue(){
         if(_generalQueue == null) {
-            loadGeneralQueue();
+            try {
+                loadGeneralQueue();
+            } catch (InvalidSearchParameterException | BadConnectionException | NoBrokerMappedException | SearchInterfaceNotImplementedException | DatabaseOperationException | ClassNotMappedException e) {
+                log.error("Could not load queue from database! Original Message " + e.getMessage());
+                return null;
+            }
         }
         return _generalQueue;
     }
@@ -148,7 +152,7 @@ public class QueueFactory implements ILogger{
      * @throws SearchInterfaceNotImplementedException
      * @throws NoBrokerMappedException
      */
-    private void loadGeneralQueue() throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException {
+    private void loadGeneralQueue() throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
         _generalQueue = createQueue(null, (Collection<QueueEntry>)(Collection<?>)Facade.getInstance().search(QueueEntry.class, "General"));
     }
 

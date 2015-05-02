@@ -7,27 +7,35 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**<h1>$StartupController.java</h1>
+/**
+ * <h1>$StartupController.java</h1>
+ *
  * @author $jpo2433
  * @author $sha9939
  * @since $08.04.15
- *
+ * <p/>
  * Description:
  * This file contains the main class StartupController for the startup of the program. It contains methods to get
  * objects the program needs when started to begin the UseCases.
  * At the moment this file contains a method to get a user, a method to get all Queues and a method to get all
  * Calendars.
- **/
+ */
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -35,79 +43,76 @@ import java.util.LinkedList;
 
 /**
  * <h2>$StartupController</h2>
- *
+ * <p/>
  * <b>Description:</b>
  * This class is being used for loading the data the programs needs when it is started. It contains the method to get
  * the user and methods to get all the necessary things for startup like queues and calendars.
- **/
-public class StartupController implements ILogger{
+ */
+public class StartupController implements ILogger {
 
     /**
-     *<h3>$StartupController</h3>
-     *
+     * <h3>$StartupController</h3>
+     * <p/>
      * <b>Description:</b>
      * This is the contructor of the StartupController class. It gets a instance of a facade, so that the facade
      * is loaded at the start up.
-     *
-     **/
-    public StartupController(){
+     */
+    public StartupController() {
         Facade facade = Facade.getInstance();
     }
 
     /**
-     *<h3>$getUser</h3>
-     *
+     * <h3>$getUser</h3>
+     * <p/>
      * <b>Description:</b>
      * This method returns a User-Interface (at the moment a receptionist) to try and test the first UseCase (where only a
      * receptionist is needed)
-     *
-     **/
-    public IUser getUser () throws BadConnectionException, NoBrokerMappedException {
+     */
+    public IUser getUser() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Facade facade = Facade.getInstance();
         User user = null;
 
         try {
             user = facade.getById(Receptionist.class, 1);
-            log.info("Got receptionist.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            throw new CriticalDatabaseException();
         }
+
         return user;
     }
 
     /**
-     *<h3>$getAllQueues</h3>
-     *
+     * <h3>$getAllQueues</h3>
+     * <p/>
      * <b>Description:</b>
      * This method returns all available queues. We get a list of all queues from the persistence layer and return  a list of interfaces.
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
-     *
-     **/
-    public Collection<IPatientQueue> getAllQueues() throws BadConnectionException, NoBrokerMappedException {
+     */
+    public Collection<IPatientQueue> getAllQueues() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
 
-        Collection <Doctor> doctors = null;
+        Collection<Doctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
             doctors = facade.getAll(Doctor.class);
             log.info("All doctors have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            throw new CriticalDatabaseException();
         }
 
         Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
-        if (doctors != null){
-            for (Doctor doctor : doctors){
-                queues.add(doctor.getQueue());
+        if (doctors != null) {
+            for (Doctor doctor : doctors) {
+                try {
+                    queues.add(doctor.getQueue());
+                } catch (NoBrokerMappedException e) {
+                    throw new CriticalClassException();
+                }
             }
         }
         log.info("All queues have been acquired.");
@@ -116,103 +121,108 @@ public class StartupController implements ILogger{
     }
 
     /**
-     *<h3>$getAllDoctors</h3>
-     *
+     * <h3>$getAllDoctors</h3>
+     * <p/>
      * <b>Description:</b>
-     *
+     * <p/>
      * This method returns all available doctors. We get a list of all doctors from the persistence layer,
      * convert it into Interfaces and return it.
-     *
-     **/
-    public Collection<IDoctor> getAllDoctors() throws NoBrokerMappedException, BadConnectionException {
+     */
+    public Collection<IDoctor> getAllDoctors() throws NoBrokerMappedException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Collection<Doctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
             doctors = facade.getAll(Doctor.class);
             log.info("All doctors have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
 
         log.info("All doctors have been added to the IDoctor collection.");
-        return (Collection<IDoctor>)(Collection<?>)doctors;
+        return (Collection<IDoctor>) (Collection<?>) doctors;
     }
 
     /**
-     *<h3>$getAllOrthoptists</h3>
-     *
+     * <h3>$getAllOrthoptists</h3>
+     * <p/>
      * <b>Description:</b>
-     *
+     * <p/>
      * This method returns all available orthoptists. We get a list of all orthoptists from the persistence layer,
      * convert it into Interfaces and return it.
-     **/
-    public Collection<IOrthoptist> getAllOrthoptists() throws BadConnectionException, NoBrokerMappedException {
+     */
+    public Collection<IOrthoptist> getAllOrthoptists() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Collection<Orthoptist> orthoptists = null;
         Facade facade = Facade.getInstance();
 
         try {
             orthoptists = facade.getAll(Orthoptist.class);
-            log.info("All orthoptists have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
 
+
         log.info("All doctors have been added to the IOrthoptist collection.");
-        return (Collection<IOrthoptist>)(Collection<?>)orthoptists;
+        return (Collection<IOrthoptist>) (Collection<?>) orthoptists;
     }
 
     /**
-     *<h3>$getAllCalendars</h3>
-     *
+     * <h3>$getAllCalendars</h3>
+     * <p/>
      * <b>Description:</b>
      * This method returns all available calendars. We get a list of all calendars from the persistence layer
      * and return a list of interfaces.
      * Later on, we are going to choose and return only the queues which the specified user is allowed to see.
-     *
-     **/
-    public Collection<ICalendar> getAllCalendars() throws BadConnectionException, NoBrokerMappedException {
+     */
+    public Collection<ICalendar> getAllCalendars() throws CriticalClassException, CriticalDatabaseException, BadConnectionException {
         Facade facade = Facade.getInstance();
 
         Collection<Calendar> calendars = null;
         try {
             calendars = facade.getAll(Calendar.class);
             log.info("All calendars have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
 
         log.info("All doctors have been added to the ICalendar collection.");
-        return (Collection<ICalendar>)(Collection<?>)calendars;
+        return (Collection<ICalendar>) (Collection<?>) calendars;
     }
 
     /**
-     *<h3>$getAllEntries</h3>
-     *
+     * <h3>$getAllEntries</h3>
+     * <p/>
      * <b>Description:</b>
      * This method returns all available calendar entries. We get a list of all calendar events from the persistence
      * layer and return a list of interfaces.
-     *
-     **/
-    public Collection<ICalendarEvent> getAllEntries(ICalendar iCalendar) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
+     */
+    public Collection<ICalendarEvent> getAllEntries(ICalendar iCalendar) throws CriticalClassException, BadConnectionException, CriticalDatabaseException {
         Calendar calendar = (Calendar) iCalendar;
-        Collection <CalendarEvent> calendarEvents = calendar.getEvents();
-        Collection <ICalendarEvent> iCalendarEvents = new LinkedList <ICalendarEvent>();
+        Collection<CalendarEvent> calendarEvents = null;
+        try {
+            calendarEvents = calendar.getEvents();
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
+        }
+        Collection<ICalendarEvent> iCalendarEvents = new LinkedList<ICalendarEvent>();
 
-        if (calendarEvents != null){
-            for (CalendarEvent event : calendarEvents){
+        if (calendarEvents != null) {
+            for (CalendarEvent event : calendarEvents) {
                 iCalendarEvents.add(event);
             }
         }
@@ -222,19 +232,21 @@ public class StartupController implements ILogger{
     }
 
     /**
-     *<h3>$getAllEntries</h3>
-     *
+     * <h3>$getAllEntries</h3>
+     * <p/>
      * <b>Description:</b>
      * This method returns all available calendar entries for a single patient.
-     *
-     **/
-    public Collection<ICalendarEvent> getEventsFromPatient(IPatient iPatient) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException {
+     */
+    public Collection<ICalendarEvent> getEventsFromPatient(IPatient iPatient) throws CouldNotGetCalendarEventsException {
         Patient patient = (Patient) iPatient;
-        Collection <CalendarEvent> events = patient.getCalendarEvents();
-        Collection <ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();
+        Collection<CalendarEvent> events = null;
 
-        if (events != null){
-            for (CalendarEvent event : events){
+        events = patient.getCalendarEvents();
+
+        Collection<ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();
+
+        if (events != null) {
+            for (CalendarEvent event : events) {
                 iEvents.add(event);
             }
         }
@@ -243,40 +255,42 @@ public class StartupController implements ILogger{
     }
 
     /**
-    * <h3>$getAllDoctorsAndOrthoptists</h3>
-    *
-    * <b>Description:</b>
-    *
-    * This method returns all available orthoptists and doctors in one collection. We get a list of all
-    * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
-    **/
+     * <h3>$getAllDoctorsAndOrthoptists</h3>
+     * <p/>
+     * <b>Description:</b>
+     * <p/>
+     * This method returns all available orthoptists and doctors in one collection. We get a list of all
+     * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
+     */
     //Todo: add getAllDoctors, getAllOrthoptists
-    public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, NoBrokerMappedException {
+    public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Collection<Orthoptist> orthoptists;
         Facade facade = Facade.getInstance();
 
+
         try {
             orthoptists = facade.getAll(Orthoptist.class);
-            log.info("All orthoptists have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
+        log.info("All orthoptists have been acquired.");
+
 
         Collection<Doctor> doctors;
 
         try {
             doctors = facade.getAll(Doctor.class);
             log.info("All doctors have been acquired.");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("FacadeException caught! No broker mapped!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
 
         Collection<IUser> iUsers = new LinkedList<>();
@@ -298,28 +312,29 @@ public class StartupController implements ILogger{
 
     /**
      * <h3>$getQueueByUser</h3>
-     *
+     * <p/>
      * <b>Description:</b>
-     *
+     * <p/>
      * This method gets a user-id from the presentation-layer, fetches the correct queue from the given user
      * and returns an interface of the chosen queue.
-     *
+     * <p/>
      * <b>Parameter</b>
+     *
      * @param iUser this parameter shows the interface of the user, who's queue should be returned
-     **/
+     */
     public IPatientQueue getQueueByUser(IUser iUser) throws BadConnectionException, NoBrokerMappedException {
         Facade facade = Facade.getInstance();
 
-        User user =  (User) iUser;
+        User user = (User) iUser;
         Doctor doctor;
         Orthoptist orthoptist;
         PatientQueue queue = null;
 
-        if(user != null){
-            if(user instanceof Doctor){
+        if (user != null) {
+            if (user instanceof Doctor) {
                 doctor = (Doctor) user;
                 queue = doctor.getQueue();
-            }else if(user instanceof Orthoptist){
+            } else if (user instanceof Orthoptist) {
                 orthoptist = (Orthoptist) user;
                 queue = orthoptist.getQueue();
             }

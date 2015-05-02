@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class CreateDiagnosisControllerTest {
@@ -22,7 +23,7 @@ public class CreateDiagnosisControllerTest {
     @org.junit.Test
     public void testCreateDiagnosis() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
-        LinkedList <IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
+        LinkedList<IPatient> patients = searchPatientController.searchPatients("duck");
 
         ReceivePatientController receivePatientController = new ReceivePatientController();
         LinkedList<IExaminationProtocol> examinationProtocols = (LinkedList<IExaminationProtocol>) receivePatientController.getAllExaminationProtocols(patients.getFirst());

@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
@@ -46,12 +47,15 @@ public class QueueBrokerTest extends BrokerTest {
 		patient.setLastName(firstName);
 		patient.setSocialInsuranceNr(svn);
 
-        try {
-            Facade.getInstance().save(patient);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+
+		try {
+			Facade.getInstance().save(patient);
+		} catch (DatabaseOperationException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+
+	}
 
 	@Override
 	public void setUp() {
@@ -73,9 +77,7 @@ public class QueueBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(patientOne!=null);
 		assertTrue(patientTwo!=null);
 		assertTrue(patientThree!=null);
@@ -93,9 +95,7 @@ public class QueueBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
     }
 
 	@Override
@@ -111,9 +111,7 @@ public class QueueBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
     }
 
 	@Test
@@ -126,9 +124,7 @@ public class QueueBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(queueEntry != null);
 	}
 
@@ -142,9 +138,7 @@ public class QueueBrokerTest extends BrokerTest {
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         assertTrue(queueEntries != null);
 		assertTrue(queueEntries.size() > 1);
@@ -159,9 +153,9 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(result.size() > 0);
 			result = Facade.getInstance().search(QueueEntry.class, "Orthopist", "1");
 			assertTrue(result.size() > 0);
-		} catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException e) {
+		} catch (SearchInterfaceNotImplementedException | DatabaseOperationException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-    }
+	}
 }

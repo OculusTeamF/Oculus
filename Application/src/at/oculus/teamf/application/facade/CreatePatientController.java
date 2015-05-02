@@ -11,7 +11,10 @@ package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
@@ -19,53 +22,59 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
 
 
-/**<h1>$CreatePatientController.java</h1>
+/**
+ * <h1>$CreatePatientController.java</h1>
+ *
  * @author $jpo2433
  * @author $sha9939
  * @since $02.04.15
- *
+ * <p/>
  * <b>Description:</b>
  * This File contains the CreatePatientController class,
  * which is responsible for the creation of a new patient object and to save it into the database.
- **/
+ */
 
-public class CreatePatientController implements ILogger{
+public class CreatePatientController implements ILogger {
 
     /**
-     *<h3>$createPatient</h3>
-     *
+     * <h3>$createPatient</h3>
+     * <p/>
      * <b>Description:</b>
-     *  This method creates a new patient-object, sets all given data und saves the new Patient in the database.
-     *  If some Information is missing, then an exception is thrown.
+     * This method creates a new patient-object, sets all given data und saves the new Patient in the database.
+     * If some Information is missing, then an exception is thrown.
+     * <p/>
+     * <b>Parameter</b>
      *
-     *<b>Parameter</b>
-     * @param gender the gender of the patient which should be created
-     * @param svn the social insurance number of the patient which should be created
-     * @param lastName the last name of the patient which should be created
-     * @param firstName the first name of the patient which should be created
-     * @param bday the birthday of the patient which should be created
-     * @param street the street of the new patients address
-     * @param postalCode the postal code of the new patients address
-     * @param city the city of the new patients address
-     * @param email the email address of the patient which should be created
-     * @param phone the phone-number of the patient which should be created
-     * @param doctor this is the doctor, who is referred to the new patient
+     * @param gender         the gender of the patient which should be created
+     * @param svn            the social insurance number of the patient which should be created
+     * @param lastName       the last name of the patient which should be created
+     * @param firstName      the first name of the patient which should be created
+     * @param bday           the birthday of the patient which should be created
+     * @param street         the street of the new patients address
+     * @param postalCode     the postal code of the new patients address
+     * @param city           the city of the new patients address
+     * @param email          the email address of the patient which should be created
+     * @param phone          the phone-number of the patient which should be created
+     * @param doctor         this is the doctor, who is referred to the new patient
      * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
 
-    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday , String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+    public void createPatient(String gender, String lastName, String firstName, String svn, Date bday, String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws CriticalDatabaseException, RequirementsNotMetException, CriticalClassException, PatientCouldNotBeSavedException, BadConnectionException {
+
         Patient patient = new Patient();
         log.info("New patient object has been created.");
-        if(gender.equals("female")){
+        if (gender.equals("female")) {
             patient.setGender(Gender.Female);
-        }else if(gender.equals("male")){
+        } else if (gender.equals("male")) {
             patient.setGender(Gender.Male);
         }
         patient.setLastName(lastName);
@@ -80,80 +89,66 @@ public class CreatePatientController implements ILogger{
         patient.setCountryIsoCode(countryIsoCode);
         patient.setDoctor((Doctor) doctor);
         log.info("Patient attributes have been assigned.");
-        try {
-            savePatient(patient);
-            log.info("Patient object has been saved!");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Patient cannot be saved!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
-            throw noBrokerMappedException;
-        }
+
+        savePatient(patient);
+        log.info("Patient object has been saved!");
+
     }
 
     /**
-     *<h3>$saveIPatient</h3>
-     *
+     * <h3>$saveIPatient</h3>
+     * <p/>
      * <b>Description:</b>
      * This method gets the interface of the patient object which should be saved. The requirements were checked with another method
      * and if everything is alright, the object is given to the facade to save it into the database. Afterwards
      * the patient collection in the database should be up to date again.
+     * <p/>
+     * <b>Parameter</b>
      *
-     *<b>Parameter</b>
      * @param iPatient this is the interface of Patient-object, which should be saved in the database
      */
-    public void saveIPatient(IPatient iPatient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+    public void saveIPatient(IPatient iPatient) throws CriticalClassException, CriticalDatabaseException, RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException {
         Patient patient = (Patient) iPatient;
-        try {
-            savePatient(patient);
-            log.info("Patient object has been saved!");
-        } catch (RequirementsNotMetException requirementsNotMetException) {
-            log.warn("Requirements are unfulfilled");
-            throw requirementsNotMetException;
-        } catch (PatientCouldNotBeSavedException patientCouldNotBeSavedException) {
-            log.warn("Patient could not be saved!");
-            throw patientCouldNotBeSavedException;
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Patient cannot be saved!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
-            throw noBrokerMappedException;
-        }
+
+        savePatient(patient);
+        log.info("Patient object has been saved!");
+
     }
 
     /**
-     *<h3>$savePatient</h3>
-     *
+     * <h3>$savePatient</h3>
+     * <p/>
      * <b>Description:</b>
      * This method gets the patient object which should be saved. The requirements were checked with another method
      * and if everything is alright, the object is given to the facade to save it into the database. Afterwards
      * the patient collection in the database should be up to date again.
+     * <p/>
+     * <b>Parameter</b>
      *
-     *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be saved in the database
      */
-    private void savePatient(Patient patient) throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, NoBrokerMappedException {
+    private void savePatient(Patient patient) throws PatientCouldNotBeSavedException, BadConnectionException, CriticalClassException, CriticalDatabaseException, RequirementsNotMetException {
 
-        if(checkRequirements(patient)){
+        if (checkRequirements(patient)) {
             log.info("Requirements are fulfilled!");
             Facade facade = Facade.getInstance();
             try {
-                if (facade.save(patient)){
+
+                if (facade.save(patient)) {
                     log.info("Patient has been saved!");
                 } else {
                     log.warn("Patient could not be saved!");
                     throw new PatientCouldNotBeSavedException();
                 }
-            } catch (BadConnectionException badConnectionException) {
-                log.warn("BadConnectionException caught! Patient cannot be saved!");
-                throw badConnectionException;
-            } catch (NoBrokerMappedException noBrokerMappedException) {
-                log.warn("NoBrokerMappedException caught! Patient cannot be saved!");
-                throw noBrokerMappedException;
+
+            } catch (NoBrokerMappedException e) {
+                log.error("Major implementation error was found! " + e.getMessage());
+                throw new CriticalClassException();
+            } catch (DatabaseOperationException e) {
+                log.error("Major database error was found! " + e.getMessage());
+                throw new CriticalDatabaseException();
             }
-        }else{
+        } else {
             log.warn("Requirements unfulfilled!");
             throw new RequirementsNotMetException();
         }
@@ -161,20 +156,21 @@ public class CreatePatientController implements ILogger{
     }
 
     /**
-     *<h3>$checkRequirements</h3>
-     *
+     * <h3>$checkRequirements</h3>
+     * <p/>
      * <b>Description:</b>
      * In this method the data gets checked. If all fields are complete - everything is alright and the method returns true.
      * If some required data is missing the method returns false.
+     * <p/>
+     * <b>Parameter</b>
      *
-     *<b>Parameter</b>
      * @param patient this is the Patient-object, which should be checked before it is saved
      */
     private boolean checkRequirements(Patient patient) {
-        if(patient.getSocialInsuranceNr().equals("") || patient.getLastName().equals("") || patient.getFirstName().equals("") ||
-                patient.getBirthDay().equals(null)){
+        if (patient.getSocialInsuranceNr().equals("") || patient.getLastName().equals("") || patient.getFirstName().equals("") ||
+                patient.getBirthDay().equals(null)) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }

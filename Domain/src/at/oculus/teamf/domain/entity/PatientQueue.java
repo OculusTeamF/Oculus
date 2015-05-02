@@ -9,17 +9,19 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 // Todo: add docs, implement equals, logging
@@ -63,7 +65,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws NoBrokerMappedException
      * @throws BadConnectionException
      */
-    public void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException {
+    public void addPatient(Patient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
         // id of last queue element
         Integer parentId = null;
         if (!_entries.isEmpty()) {
@@ -83,7 +85,12 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
         // save
         if (queueEntryNew != null) {
-            Facade.getInstance().save(queueEntryNew);
+            try {
+                Facade.getInstance().save(queueEntryNew);
+            } catch (DatabaseOperationException  | NoBrokerMappedException | BadConnectionException e) {
+                log.error(e.getMessage());
+                throw new CouldNotAddPatientToQueueException();
+            }
         }
 
         _entries.add(queueEntryNew);
@@ -97,7 +104,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws BadConnectionException
      * @throws InvalidSearchParameterException
      */
-    public void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException {
+    //Todo: optimize
+    public void removePatient(Patient patient) throws CouldNotRemovePatientFromQueue {
         QueueEntry queueEntryDel = null;
         QueueEntry queueEntryChd = null;
 
@@ -132,14 +140,15 @@ public class PatientQueue implements ILogger, IPatientQueue {
             }
         }
 
-        if (queueEntryChd != null) {
-            Facade.getInstance().save(queueEntryChd);
+        try {
+            if (queueEntryChd != null) {
+                Facade.getInstance().save(queueEntryChd);
+            }
+            Facade.getInstance().delete(queueEntryDel);
+        } catch (BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
+            log.error(e.getMessage());
+            throw new CouldNotRemovePatientFromQueue();
         }
-        Facade.getInstance().delete(queueEntryDel);
 
-        // reload entries
-        getEntries();
-
-        //log.info("[REMOVEPatient] Removed patient '" + patient.getFirstName() + " " + patient.getLastName() + "' from queue of " + patient.getDoctor().getLastName());
     }
 }

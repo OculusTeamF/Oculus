@@ -9,15 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
-import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -29,13 +21,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 

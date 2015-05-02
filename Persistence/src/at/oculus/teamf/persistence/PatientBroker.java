@@ -11,15 +11,18 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Date;
@@ -46,7 +49,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws BadConnectionException
      */
     @Override
-    protected Patient persistentToDomain(PatientEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected Patient persistentToDomain(PatientEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = new Patient();
         patient.setId(entity.getId());
@@ -84,7 +87,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return return a persitency entity
      */
     @Override
-    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         PatientEntity patientEntity = new PatientEntity();
         patientEntity.setId(obj.getId());
@@ -123,7 +126,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
         log.debug("reloading calendar events");
         return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
@@ -137,7 +140,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         log.debug("reloading examination protocols");
         ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
         return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
@@ -153,7 +156,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @throws InvalidReloadClassException
      */
     @Override
-    public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException {
+    public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadSessionException {
         if (clazz == CalendarEvent.class) {
 	        ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
         } else if (clazz == ExaminationProtocol.class) {
@@ -170,7 +173,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return collection of search results
      */
     @Override
-    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, BadSessionException {
         Collection<Object> searchResult = null;
 
         // create query
@@ -192,11 +195,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
             throw new InvalidSearchParameterException();
         }
 
-        try {
-            searchResult = session.search(query, params);
-        } catch (BadSessionException e) {
-            log.catching(e);
-        }
+        searchResult = session.search(query, params);
 
         Collection<Patient> result = new LinkedList<>();
         for(Object o : searchResult) {

@@ -10,17 +10,18 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -41,7 +42,7 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
      * @throws BadConnectionException
      */
     @Override
-    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         Doctor doctor = null;
@@ -83,7 +84,7 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
      * @return return a persitency entity
      */
     @Override
-    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         ExaminationProtocol examinationProtocol = (ExaminationProtocol) obj;
 
@@ -128,24 +129,24 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
 	 * @throws NoBrokerMappedException
 	 */
 	@Override
-	public boolean saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+	public void saveEntity(ISession session, IDomain domainObj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
 		log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
 
 		ExaminationProtocolEntity entity = (ExaminationProtocolEntity) domainToPersistent(domainObj);
 
-		Boolean returnValue = true;
+        Serializable id = null;
 
-		try {
+        try {
 			session.beginTransaction();
 
 			session.saveOrUpdate(entity.getUser());
 			session.saveOrUpdate(entity);
 
-			returnValue = session.commit();
+            session.commit();
 
 			// update IDs when commit was successful
-			if(returnValue){
-				domainObj.setId(entity.getId());
+			if(id != null){
+				domainObj.setId((Integer)id);
 			}
 		} catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
 			log.error(e.getMessage());
@@ -153,11 +154,12 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
 		} catch (ClassNotMappedException e) {
 			log.error(e.getMessage());
 			throw new NoBrokerMappedException();
-		}
+		} catch (CanNotStartTransactionException | CanNotCommitTransactionException e) {
+            log.error(e.getMessage());
+            throw new DatabaseOperationException(e);
+        }
 
-		log.info(_domainClass.toString() + " with ID " + domainObj.getId() + " saved");
-
-		return returnValue;
+        log.info(_domainClass.toString() + " with ID " + domainObj.getId() + " saved");
 	}
 
 	private class ExaminationResultsLoader implements ICollectionLoader<ExaminationResultEntity> {
@@ -170,7 +172,7 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
 
 	@Override
 	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException,
-	                                                                     InvalidReloadClassException, BadSessionException {
+            InvalidReloadClassException, BadSessionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		if (clazz == ExaminationResult.class) {
 			((ExaminationProtocol) obj).setResults(reloadExaminationResults(session, obj));
 		} else {
@@ -178,7 +180,7 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
 		}
 	}
 
-	private Collection<ExaminationResult> reloadExaminationResults (ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+	private Collection<ExaminationResult> reloadExaminationResults (ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		ReloadComponent reloadComponent = new ReloadComponent(ExaminationProtocolEntity.class, ExaminationResult.class);
 		log.debug("reloading examination results");
 		return reloadComponent.reloadCollection(session, ((ExaminationProtocol) obj).getId(), new ExaminationResultsLoader());

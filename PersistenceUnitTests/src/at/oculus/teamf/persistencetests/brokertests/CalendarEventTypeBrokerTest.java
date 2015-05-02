@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.EventType;
 import at.oculus.teamf.domain.entity.RegularAppointment;
 import at.oculus.teamf.persistence.Facade;
@@ -30,10 +31,8 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+		}
+	}
 
 	@Override
 	public void tearDown() {
@@ -42,10 +41,8 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+		}
+	}
 
 	@Override
 	public void testGetById() {
@@ -56,9 +53,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         assertTrue(eventType != null);
 	}
@@ -72,9 +67,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         assertTrue(eventTypes != null);
 		assertTrue(eventTypes.size() > 0);
