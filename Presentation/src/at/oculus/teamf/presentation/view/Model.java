@@ -30,6 +30,7 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
@@ -69,6 +70,7 @@ public class Model implements Serializable{
     private TabPane _tabPanel = null;
     private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
+    private Task<Void> task;
 
 
     /**
@@ -103,7 +105,6 @@ public class Model implements Serializable{
      */
     public void setPrimaryStage(Stage primaryStage){
         this._primaryStage = primaryStage;
-
     }
 
     // *******************************************************************
@@ -155,34 +156,17 @@ public class Model implements Serializable{
     // User methods
     // *******************************************************************
 
-    /**
-     * Returns the List of all Doctors in a Collection of IDoctors
-     * @return
-     */
-    public Collection<IDoctor> getAllDoctors(){
-
-        return _doctors;
-    }
-
-    /**
-     * Returns a Collection of all IDoctors and IOrthoptists
-     * @return
-     */
-    public Collection<IUser> getAllDoctorsAndOrhtoptists(){
-
-        return _userlist;
-    }
+    public Collection<IDoctor> getAllDoctors(){ return _doctors; }
+    public Collection<IUser> getAllDoctorsAndOrthoptists(){ return _userlist; }
 
     // *******************************************************************
     // Patient methods
     // *******************************************************************
 
-    /**
-     * Returns an Object of the Patient
-     */
     public IPatient getPatient(){
         return this._patient;
     }
+    public void setPatient(IPatient setPatient) { this._patient = setPatient; }
 
     /**
      * Returns Calendar Events of a specific patient
@@ -319,7 +303,9 @@ public class Model implements Serializable{
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
+                        setPatient((IPatient) source.getSelectionModel().getSelectedItem());
+                        loadTab("PATIENT RECORD: " + getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
+                        //addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
@@ -343,7 +329,7 @@ public class Model implements Serializable{
 
             // bind listview to titledpanes
             listView.setItems(olist);
-            listView.setPrefHeight(olist.size() * 30);
+            listView.setPrefHeight((olist.size() * 24) + 8);
 
             _queueTitledPane[i] = new TitledPane(queuename, listView);
             _queueTitledPane[i].setExpanded(false);
@@ -499,5 +485,4 @@ public class Model implements Serializable{
             couldNotAddExaminationProtocol.printStackTrace();
         }
     }
-
 }

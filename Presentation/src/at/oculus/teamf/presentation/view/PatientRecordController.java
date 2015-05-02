@@ -12,27 +12,12 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.application.facade.CheckinController;
-import at.oculus.teamf.application.facade.CreatePatientController;
-import at.oculus.teamf.application.facade.ReceivePatientController;
-import at.oculus.teamf.application.facade.StartupController;
-import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
-import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -44,7 +29,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -74,12 +58,12 @@ public class PatientRecordController implements Initializable {
     @FXML public ComboBox<IUser> addToQueueBox;
     @FXML public Button addPatientToQueueButton;
     @FXML public Button examinationProtocolButton;
+    @FXML private Accordion medicalHistory;
+    @FXML private TitledPane mh4, mh3, mh2, mh1;
     //</editor-fold>
 
 
     private Model _model = Model.getInstance();
-
-
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
 
@@ -190,7 +174,7 @@ public class PatientRecordController implements Initializable {
             patientRecordChildhood.setText(_model.getPatient().getChildhoodAilments());
         }
 
-        addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrhtoptists()));
+        addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrthoptists()));
 
         patientRecordAllergies.setDisable(false);
         patientRecordIntolerance.setDisable(false);
@@ -404,6 +388,8 @@ public class PatientRecordController implements Initializable {
         addTextLimiter(patientRecordPhone, 50);
         addTextLimiter(patientRecordEmail, 255);
 
+        medicalHistory.setExpandedPane(mh4);
+        //_model.hideStatusBarloader();
     }
 
     //<editor-fold desc="Event Handler">
@@ -469,10 +455,11 @@ public class PatientRecordController implements Initializable {
      */
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
+        //_model.showStatusBarloader();
         //Todo: add central controller
         Date date = new Date();
         //Main.controller.loadTab(_patient.getLastName() + ", " + _patient.getFirstName() + ", " + date.toString(),"fxml/ExaminationTab.fxml", new SingleResourceBundle(_patient));
-        _model.loadTab(_model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + date.toString(), "fxml/NewExaminationTab.fxml");
+        _model.loadTab("PATIENT: " + _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml");
         //Main.controller.getTabPane().getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/ExaminationTab.fxml"), new SingleResourceBundle(_patient)));
         //Main.controller.getTabPane().getSelectionModel().select(Main.controller.getTabPane().getTabs().size() - 1)
         StatusBarController.getInstance().setText("Open examination...");

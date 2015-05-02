@@ -9,23 +9,18 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.application.facade.ReceivePatientController;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -37,61 +32,99 @@ import java.util.ResourceBundle;
  */
 public class ExaminationController implements Initializable {
 
-    @FXML public Button saveButton;
-    @FXML private Tab examinationTab;
-    @FXML public Text examinationCurrDate;
-    @FXML public Text examinationLnameFnameSvn;
-    @FXML public TextArea examinationAllergies;
-    @FXML public ListView examinationProtocollList;
-    @FXML public TextArea examinationDocumentation;
+    @FXML private Button newExaminationButton;
+    @FXML private Text examinationCurrDate;
+    @FXML private Text examinationLnameFnameSvn;
+    @FXML private TextArea textExaminationDetails;
+    @FXML private ListView examinationList;
+    @FXML private TextArea examinationDocumentation;
 
     private Model _model = Model.getInstance();
-    //private IPatient patient;
     private Date date = new Date();
-    //private ReceivePatientController receivePatientController = new ReceivePatientController();
     private Boolean isFormEdited = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        //patient =  (IPatient)resources.getObject(null);
-
-        examinationAllergies.setWrapText(true);
-        examinationDocumentation.setWrapText(true);
-
-        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
-        saveButton.setGraphic(new ImageView(imageSaveIcon));
-
-        //examinationTab.setText(patient.getLastName() + ", " + patient.getFirstName() + ", " + date.toString());
+        // setup controls
         examinationCurrDate.setText(date.toString());
-        examinationLnameFnameSvn.setText(_model.getPatient().getLastName()+", "+_model.getPatient().getFirstName()+", "+_model.getPatient().getSocialInsuranceNr());
+        examinationLnameFnameSvn.setText("PATIENT: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + _model.getPatient().getSocialInsuranceNr());
 
-        if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
-        {
-            examinationAllergies.setText("No Allergies known");
-        }else{
-            examinationAllergies.setText(_model.getPatient().getAllergy());
-        }
+        // load image resources for buttons
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_newexamination.png"));
+        newExaminationButton.setGraphic(new ImageView(imageSaveIcon));
 
+        // fetch data (loading & setup)
+        getExaminationList();
+        //_model.hideStatusBarloader();
+    }
 
-        examinationProtocollList.setItems(FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient())));
+    private void getExaminationList(){
+        // loads all examination protocols for selected patient
+        //TODO reduce loading times
+        //try {
+            examinationList.setItems(FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient())));
+       /* } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
+        }*/
 
-
-        //checks if Allergies have changed
-        examinationAllergies.textProperty().addListener(new ChangeListener<String>() {
+        //TODO sort list
+        /*java.util.Collections.sort(examinationList.getItems(), new java.util.Comparator<TYPE>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (!oldValue.equals(newValue)) {
-                        isFormEdited = true;
-                        System.out.println("Allergies changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Allergies");
+            public int compare(TYPE o1, TYPE o2) {
+                // Implement your comparator here.
+            }
+        });*/
+
+        // add mouse event handler
+        examinationList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() == 1) {
+                    // TODO load examination details
+                    loadSelectedExaminationData((IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem());
                 }
             }
         });
+    }
+
+    /* load selected examination data and set data to forms */
+    private void loadSelectedExaminationData (IExaminationProtocol exp){
+        examinationDocumentation.setText(exp.getDescription());
+
+        // TODO fill into controls
+        textExaminationDetails.setText("");
+        StringBuilder result = new StringBuilder();
+        result.append("START TIME: " + exp.getStartTime());
+        result.append(System.getProperty("line.separator"));
+        result.append("END TIME: " + exp.getEndTime());
+        result.append(System.getProperty("line.separator"));
+        if (exp.getDoctor() != null) {
+            result.append("DOCTOR: " + exp.getDoctor().getLastName());
+            result.append(System.getProperty("line.separator"));
+        }
+        if (exp.getOrthoptist() != null) {
+            result.append("ORTHOPTIST: " + exp.getOrthoptist().getLastName());
+            result.append(System.getProperty("line.separator"));
+        }
+        if (exp.getDiagnosis() != null) {
+            result.append("DIAGNOSIS: " + exp.getDiagnosis().toString());
+            result.append(System.getProperty("line.separator"));
+        } else {
+            result.append("DIAGNOSIS: none");
+            result.append(System.getProperty("line.separator"));
+        }
+
+        textExaminationDetails.setText(result.toString());
     }
 
     /**
@@ -99,14 +132,10 @@ public class ExaminationController implements Initializable {
      * @param actionEvent
      */
     @FXML
-    public void saveProtocol(ActionEvent actionEvent)
-    {
-        _model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), _model.getPatient().getIDoctor(), null);
-        DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + " saved.");
-
-        if(isFormEdited){
-            _model.getPatient().setAllergy(examinationAllergies.getText());
-        }
-
+    public void addNewExaminationProtocol(ActionEvent actionEvent) {
+        Date date = new Date();
+        //_model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), _model.getPatient().getIDoctor(), null);
+        _model.loadTab("NEW EXAMINATION: " + _model.getPatient().getLastName() + " [" + date.toString()+"]" ,"fxml/NewExaminationTab.fxml");
+        //DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + " saved.");
     }
 }
