@@ -90,14 +90,14 @@ public class CreateDiagnosisController implements ILogger {
         Diagnosis diagnosis = new Diagnosis(0, title, description, (Doctor)iDoctor);
         log.info("New diagnosis created.");
         examinationProtocol.setDiagnosis(diagnosis);
-        log.info("Diagnosis added to Examinationprotocol");
+        log.info("Diagnosis added to examination protocol");
 
         //save diagnosis and examinationprotocol
         Facade facade = Facade.getInstance();
         try {
             facade.save(diagnosis); //braucht es das?
             facade.save(examinationProtocol);
-            log.info("Diagnosis and Examinationprotocol saved");
+            log.info("Diagnosis and examination protocol saved");
         } catch (BadConnectionException badConnectionException) {
             log.warn("BadConnectionException caught! Diagnosis can not be saved!");
             throw badConnectionException;
@@ -123,10 +123,10 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the doctor, which created the diagnosis - it is not allowed to be null
      */
     private boolean checkRequirements(String title, String description, IDoctor iDoctor) {
-        if(title == ""){
+        if(title.equals("")){
             log.info("Title is empty");
             return false;
-        }else if(description == ""){
+        }else if(description.equals("")){
             log.info("Description is empty");
             return false;
         }else if(iDoctor == null){

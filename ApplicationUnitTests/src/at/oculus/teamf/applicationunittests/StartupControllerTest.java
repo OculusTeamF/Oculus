@@ -72,7 +72,7 @@ public class StartupControllerTest {
     }
 
     @org.junit.Test
-    public void testGetQueueByUserId() throws Exception {
+    public void testGetQueueByUser() throws Exception {
         LinkedList<IDoctor> docs = (LinkedList<IDoctor>) startupController.getAllDoctors();
 
         IUser user = docs.getFirst();
