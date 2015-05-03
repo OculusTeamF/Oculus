@@ -445,6 +445,7 @@ public class Model implements Serializable{
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
         return observableList;*/
+
     }
 
     public void setQueueTitledPane(TitledPane[] pane)

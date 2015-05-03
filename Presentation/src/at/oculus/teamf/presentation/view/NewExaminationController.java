@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -37,6 +38,7 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable {
 
+    @FXML public TextArea examinationDocumentation;
     @FXML private Button saveProtocolButton;
     @FXML private Button addDiagnosisButton;
     @FXML private Text examinationLnameFnameSvn;
@@ -58,7 +60,7 @@ public class NewExaminationController implements Initializable {
         //patient =  (IPatient)resources.getObject(null);
 
         // setup controls
-        examinationLnameFnameSvn.setText("NEW PROTOCOL: " + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName());
+        examinationLnameFnameSvn.setText("NEW PROTOCOL: " + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName()+ ", "+_model.getPatient().getBirthDay().toString());
         examinationCurrDate.setText("START: " + date.toString());
         examinationCurrTime.setText("TIMECOUNTER: 00:00:00");
         diagnosisIdentity.setText("Diagnosis details: [docname] - [start] - [end]");
@@ -84,7 +86,7 @@ public class NewExaminationController implements Initializable {
         //examinationCurrTime.setText("TIMECOUNTER: " + timeSeconds.toString());
 
         // load data
-        /*if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
+       /* if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
         {
             examinationAllergies.setText("No Allergies known");
         }else{
