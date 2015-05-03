@@ -10,10 +10,10 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.*;
-import at.oculus.teamf.application.facade.exceptions.*;
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
@@ -27,9 +27,8 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
-import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +36,10 @@ import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -379,7 +381,7 @@ public class Model implements Serializable, ILogger{
             queueTitledPane.setAnimated(true);
             queueTitledPane.setVisible(true);
 
-            _queueTitledPaneFromUser.put(u,queueTitledPane);
+            _queueTitledPaneFromUser.put(u, queueTitledPane);
 
             i++;
 
@@ -547,17 +549,12 @@ public class Model implements Serializable, ILogger{
     /**
      * creates a new examinationprotocol
      */
-    public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist){
+    public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
 
         try {
             _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
         }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
             couldNotAddExaminationProtocol.printStackTrace();
-            setCurrentExaminationProtocol(_recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist));
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
         }
     }
 
@@ -572,9 +569,11 @@ public class Model implements Serializable, ILogger{
             _createDiagnosisController.createDiagnosis(title,description, doc);
         } catch (BadConnectionException e) {
             e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
         } catch (RequirementsUnfulfilledException e) {
+            e.printStackTrace();
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
             e.printStackTrace();
         }
     }

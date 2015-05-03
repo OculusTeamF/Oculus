@@ -120,5 +120,6 @@ public class PatientSearchController implements Initializable{
                 searchPatientButton.setDisable(false);
             }
         });
+        new Thread(search).start();
     }
 }

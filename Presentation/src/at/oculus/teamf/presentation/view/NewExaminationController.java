@@ -76,7 +76,7 @@ public class NewExaminationController implements Initializable {
                 // update timerLabel
                 examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds));
             }
-            }));
+        }));
         timeline.playFromStart();
 
         // load data
