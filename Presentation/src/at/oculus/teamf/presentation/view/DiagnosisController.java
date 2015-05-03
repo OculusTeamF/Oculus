@@ -45,5 +45,6 @@ public class DiagnosisController implements Initializable {
     public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
         //TODO save new examination entry / get correct logged in user
         _model.addNewPatientDiagnosis(textDiagnosisTitle.getText(),textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser());
+        _model.closeSelectedTab();
     }
 }

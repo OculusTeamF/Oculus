@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -47,7 +47,6 @@ public class NewExaminationController implements Initializable {
     private Timeline timeline;
     private Integer timeSeconds = 0;
     private Model _model = Model.getInstance();
-    private IExaminationProtocol _tempProtocol;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,8 +63,8 @@ public class NewExaminationController implements Initializable {
         Image imageAddIcon = new Image(getClass().getResourceAsStream("/res/icon_enqueue.png"));
         addDiagnosisButton.setGraphic(new ImageView(imageAddIcon));
 
-        // setup temp protocol
-        _model.setCurrentExaminationProtocol(_tempProtocol);
+        // enable addDiagnosis only ig protocol is created
+        addDiagnosisButton.setDisable(true);
 
         // start stopwatch
         timeline = new Timeline();
@@ -119,8 +118,9 @@ public class NewExaminationController implements Initializable {
         //TODO startdate & enddate missing !
         timeline.stop();
         Date date = new Date();
-        //DialogBoxController.getInstance().showInformationDialog("saving", "saving not added yet");
-        _model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), _model.getPatient().getIDoctor(), null);
+        //TODO check if orthoptist or doctor
+        _model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), (IDoctor) _model.getLoggedInUser(), null);
+        addDiagnosisButton.setDisable(false);
     }
 
     @FXML

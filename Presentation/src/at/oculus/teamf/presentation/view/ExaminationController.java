@@ -79,12 +79,12 @@ public class ExaminationController implements Initializable {
         //TODO reduce loading times
         // loads all examination protocols for selected patient
         final Task<Void> search = loadExaminationListsThread();
-        _model.showStatusBarProgressBarIdle("Loading examination protocols");
+        StatusBarController.showProgressBarIdle("Loading examination protocols");
         search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
                 // end of search thread
-                _model.hideStatusBarProgressBarIdle();
+                StatusBarController.hideStatusBarProgressBarIdle();
                 examinationList.setDisable(false);
                 examinationDocumentation.setDisable(false);
                 textExaminationDetails.setDisable(false);

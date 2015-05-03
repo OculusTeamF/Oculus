@@ -19,13 +19,18 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -36,15 +41,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Karo on 01.05.2015.
  */
-public class Model implements Serializable{
+public class Model implements Serializable, ILogger{
 
     private Stage _primaryStage = null;
-
 
     private static Model _modelInstance;
     private StartupController _startupController = new StartupController();
@@ -65,7 +70,8 @@ public class Model implements Serializable{
 
     // user management
     private IUser _loggedInUser;
-
+    private Tab _selectedTab;
+    private HashMap<Tab, IPatient> _tabmap;
 
     /**
      * Singelton of Model
@@ -75,6 +81,7 @@ public class Model implements Serializable{
         try {
             _doctors = _startupController.getAllDoctors();
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
+            _tabmap = new HashMap();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
@@ -115,28 +122,60 @@ public class Model implements Serializable{
             Tab tab = new Tab(tabTitle);
             AnchorPane ap = FXMLLoader.load(this.getClass().getResource(tabFXML));
             tab.setContent(ap);
-            _tabPanel.getTabs().add(tab);
-            _tabPanel.getSelectionModel().select(_tabPanel.getTabs().size() - 1);
+
+            // setup tab hashmap
+            _selectedTab = tab;
+            //Main.controller.updateStatusbar();
+            setTabMapEntry(tab, _patient);
+
+            tab.setOnCloseRequest(new EventHandler<Event>() {
+                @Override
+                public void handle(Event t) {
+                    removeTabMapEntry(_selectedTab);
+                }
+            });
+
+            _tabPanel.getTabs().add(tab);               // add tab to pane
+            _tabPanel.getSelectionModel().select(tab);  // switch to new tab
+            log.debug("New Tab added: " + getSelectedTab().getText());
         } catch (IOException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
         }
     }
 
+    public void closeSelectedTab(){
+        _tabPanel.getTabs().removeAll(_selectedTab);
+        removeTabMapEntry(_selectedTab);
+    }
+
+    public void setSelectedTab(Tab tab){
+        _selectedTab = tab;
+        log.debug("Switched Tab to: " + getSelectedTab().getText());
+    }
+    public Tab getSelectedTab(){ return _selectedTab; }
+
+    public void setTabMapEntry(Tab tab, IPatient pat){ _tabmap.put(tab,pat); }
+
+    public void removeTabMapEntry(Tab tab){ _tabmap.remove(tab); }
+
+    public IPatient getPatientFromSelectedTab(Tab tab){
+        IPatient pat = _tabmap.get(tab);
+        return pat;
+    }
+
     /**
      * Tab: opens DiagnosisTab for selected patient
      */
     public void addPatientTab(IPatient patient){
-
         this._patient = patient;
-        loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
+        loadTab("PATIENT: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
     }
 
     /**
      * Tab: opens patient record for selected patient
      */
     public void addDiagnosisTab(IPatient patient){
-
         this._patient = patient;
         loadTab("NEW DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml");
     }
@@ -477,7 +516,7 @@ public class Model implements Serializable{
     public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist){
 
         try {
-            _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
+            setCurrentExaminationProtocol(_recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist));
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
@@ -509,22 +548,6 @@ public class Model implements Serializable{
 
     public void setCurrentExaminationProtocol(IExaminationProtocol ep){
         _eximationprotocol = ep;
-    }
-
-
-    // *******************************************************************
-    // statusbar stuff
-    // *******************************************************************
-
-    public void showStatusBarProgressBarIdle(String loadingtext){
-        ProgressBar pb = new ProgressBar();
-        Label lb = new Label(loadingtext + "  ");
-        StatusBarController.getInstance().getRightItems().add(lb);
-        StatusBarController.getInstance().getRightItems().add(pb);
-    }
-
-    public void hideStatusBarProgressBarIdle(){
-        StatusBarController.getInstance().getRightItems().remove(0, StatusBarController.getInstance().getRightItems().size());
     }
 
 

@@ -60,6 +60,7 @@ public class PatientRecordController implements Initializable {
     @FXML public Button examinationProtocolButton;
     @FXML private Accordion medicalHistory;
     @FXML private TitledPane mh4, mh3, mh2, mh1;
+    @FXML private ListView listDiagnoses;
     //</editor-fold>
 
 
@@ -112,8 +113,9 @@ public class PatientRecordController implements Initializable {
         patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
         patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
 
+        //listDiagnoses.setItems(FXCollections.observableArrayList(_model.getPatient().);
 
-        //<editor-fold desc="Set Default Values">
+
         //disable all Patientfields and the save button, sets the text from IPatient into fields
         patientRecordSaveButton.setDisable(true);
 
@@ -185,55 +187,19 @@ public class PatientRecordController implements Initializable {
 
         addToQueueBox.setValue(_model.getPatient().getIDoctor());
 
-        //</editor-fold>
 
-        //<editor-fold desc="Set Field Listener">
         //check if something has changed, if changes detected --> saveChanges()
-
         addListener(patientRecordLastname);
         addListener(patientRecordFirstname);
-        /*patientRecordLastname.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("Lastname changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Lastname");
-                }
-            }
-        });
-        patientRecordFirstname.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("Firstname changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Firstname");
-                }
-            }
-        });*/
-        patientRecordSVN.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("SVN changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield SVN");
-                }
-            }
-        });
+        addListener(patientRecordSVN);
+        addListener(patientRecordStreet);
+        addListener(patientRecordPLZ);
+        addListener(patientRecordCity);
+        addListener(patientRecordCountryIsoCode);
+        addListener(patientRecordPhone);
+        addListener(patientRecordEmail);
+
+
         patientRecordBday.accessibleTextProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -245,90 +211,6 @@ public class PatientRecordController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                     DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Birthday");
-                }
-            }
-        });
-        patientRecordStreet.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("Street changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Street");
-                }
-            }
-        });
-        patientRecordPLZ.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("PLZ changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Postal code");
-                }
-            }
-        });
-        patientRecordCity.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("City changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield City");
-                }
-            }
-        });
-        patientRecordCountryIsoCode.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("Countryisocode changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield country iso code");
-                }
-            }
-        });
-        patientRecordPhone.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("Phone changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Phone");
-                }
-            }
-        });
-        patientRecordEmail.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
-                        System.out.println("Email changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Email");
                 }
             }
         });
@@ -378,7 +260,6 @@ public class PatientRecordController implements Initializable {
                 }
             }
         });
-        //</editor-fold>
 
         // textfield limiter
         addTextLimiter(patientRecordLastname, 50);
@@ -392,7 +273,6 @@ public class PatientRecordController implements Initializable {
         addTextLimiter(patientRecordEmail, 255);
 
         medicalHistory.setExpandedPane(mh4);
-        //_model.hideStatusBarloader();
     }
 
     /* add change listener to inputfields */

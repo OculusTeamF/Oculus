@@ -111,11 +111,12 @@ public class PatientSearchController implements Initializable{
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
         final Task<Void> search = doSearchPatients();
-        _model.showStatusBarProgressBarIdle("Searching patients");
+        StatusBarController.showProgressBarIdle("Seraching patients");
+
         search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                _model.hideStatusBarProgressBarIdle();
+                StatusBarController.hideStatusBarProgressBarIdle();
                 searchPatientButton.setDisable(false);
             }
         });

@@ -12,7 +12,12 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
+import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.technical.loggin.ILogger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,12 +30,13 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable, ILogger {
 
-    @FXML private Menu menuChangeUser;
-    @FXML private MenuItem openPatientsearch, menuUser;
+    @FXML public Menu menuChangeUser;
+    @FXML public MenuItem openPatientsearch, menuUser;
     @FXML private RadioMenuItem defaultTheme, darkTheme, customTheme;
     @FXML private TabPane displayPane;
     @FXML private SplitPane splitter;
@@ -63,35 +69,68 @@ public class MainController implements Initializable {
         buttonAddPatient.setGraphic(new ImageView(imageAddPatientButton));
         buttonAddPatient.setVisible(true);
 
-        // statusbar setup
-        borderPane.setBottom(StatusBarController.getInstance());
-        StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: " + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]");
-
         // menuitems init
         ToggleGroup menuThemeGroup = new ToggleGroup();
         defaultTheme.setToggleGroup(menuThemeGroup);
         darkTheme.setToggleGroup(menuThemeGroup);
         customTheme.setToggleGroup(menuThemeGroup);
-        menuUser.setText("Current User: " + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName());
 
         // menuitems add user
-        ToggleGroup userMenuGroup = new ToggleGroup();
-        ComboBox cboUser = new ComboBox();
-        cboUser.getItems().addAll("Paul Tavolato","Mister X");
-        cboUser.setPromptText("Choose User");
+        LinkedList<IUser> users = (LinkedList<IUser>) _model.getAllDoctorsAndOrthoptists();
+        final ComboBox<IUser> cboUser = new ComboBox<>();
+        for (IUser doc : users){
+            cboUser.getItems().add(doc);
+        }
+        cboUser.setEditable(false);
+        cboUser.setValue(users.get(2));
         CustomMenuItem menuUserList = new CustomMenuItem(cboUser);
         menuUserList.setHideOnClick(false);
+        menuChangeUser.getItems().add(menuUserList);
+        cboUser.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                if (cboUser.getValue() != null){
+                    _model.setLoggedInUser(cboUser.getSelectionModel().getSelectedItem());
+                    updateStatusbar();
+                }
+            }
+        });
 
-        RadioMenuItem x1 = new RadioMenuItem("Doctor");
-        x1.setToggleGroup(userMenuGroup);
-        RadioMenuItem x2 = new RadioMenuItem("Orthoptist");
-        x2.setToggleGroup(userMenuGroup);
-        RadioMenuItem x3 = new RadioMenuItem("Receptionist");
-        x3.setToggleGroup(userMenuGroup);
-        menuChangeUser.getItems().addAll(x1, x2, x3,menuUserList);
-        x1.setSelected(true);
+        // statusbar setup
+        borderPane.setBottom(StatusBarController.getInstance());
+
+        // setup logged in User
+        _model.setLoggedInUser(cboUser.getSelectionModel().getSelectedItem());
+        updateStatusbar();
+
+        // tab change listener
+        displayPane.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<Tab>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+                        if (t1 != null) {
+                            _model.setSelectedTab(t1);
+                            updateStatusbar();
+                        }
+                    }
+
+                }
+        );
+
     }
 
+    public void updateStatusbar(){
+        menuUser.setText("Current User: " + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName());
+
+        if (_model.getPatient() == null) {
+            StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: "
+                    + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Active Patient: none] ");
+        } else {
+            StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: "
+                    + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Active Patient: "
+                    +_model.getPatientFromSelectedTab(_model.getSelectedTab()).getLastName() + "]");
+        }
+    }
 
     /*Tab: opens new tab for patient search (detailled search)*/
     @FXML

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +27,6 @@ import javafx.scene.layout.VBox;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -66,7 +64,6 @@ public class QueueController implements Initializable {
                 if (event.getClickCount() == 2) {
                     _model.setPatient((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                     _model.loadTab("PATIENT RECORD: " + _model.getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
-
                 }
             }
         });
@@ -81,8 +78,8 @@ public class QueueController implements Initializable {
         _model.buildQueueLists();
 
         // setup logged in User
-        ArrayList<IDoctor> docs = (ArrayList) _model.getAllDoctors();
-        _model.setLoggedInUser(docs.get(0));
+        //ArrayList<IDoctor> docs = (ArrayList) _model.getAllDoctors();
+        //_model.setLoggedInUser(docs.get(0));
     }
 
     // *******************************************************************
@@ -102,12 +99,12 @@ public class QueueController implements Initializable {
     public void doPatientSearch() {
 
         final Task<Void> search = doSearchPatients();
-        _model.showStatusBarProgressBarIdle("Searching patients");
+        StatusBarController.showProgressBarIdle("Searching patients");
         search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
                 // end of search thread
-                _model.hideStatusBarProgressBarIdle();
+                StatusBarController.hideStatusBarProgressBarIdle();
                 textSearch.setDisable(false);
 
                 // list results and setup controls
