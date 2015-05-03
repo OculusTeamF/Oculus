@@ -9,13 +9,16 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -25,7 +28,8 @@ import java.util.Date;
  * ExaminationProtocol.java
  * Created by oculus on 16.04.15.
  */
-public class ExaminationProtocol implements IExaminationProtocol {
+//Todo: Prox<
+public class ExaminationProtocol implements IExaminationProtocol, ILogger {
     private int _id;
 	private Date _startTime;
 	private Date _endTime;
@@ -122,11 +126,15 @@ public class ExaminationProtocol implements IExaminationProtocol {
 		_patient = patient;
 	}
 
-	public Collection<ExaminationResult> getExaminationResults()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException, BadSessionException {
+	public Collection<ExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
 
-		Facade.getInstance().reloadCollection(this, ExaminationResult.class);
+		try {
+			Facade.getInstance().reloadCollection(this, ExaminationResult.class);
+		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException  | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetExaminationResultException();
+
+		}
 
 		return (Collection<ExaminationResult>)(Collection<?>) _results;
 	}

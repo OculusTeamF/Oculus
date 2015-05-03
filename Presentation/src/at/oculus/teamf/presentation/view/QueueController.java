@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

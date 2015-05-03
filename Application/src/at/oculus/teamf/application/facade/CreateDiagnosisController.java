@@ -10,19 +10,24 @@
 package at.oculus.teamf.application.facade;
 
 
-/**<h1>$CreateDiagnosisController.java</h1>
+/**
+ * <h1>$CreateDiagnosisController.java</h1>
+ *
  * @author $jpo2433
  * @author $sha9939
  * @since $30.04.2015
- *
+ * <p/>
  * <b>Description:</b>
  * This File contains the CreateDiagnosisController class,
  * which is responsible for the creation of a new diagnosis object, to save it into an examination protocol
  * and to save it into the database.
- **/
+ */
 
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
@@ -31,7 +36,9 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 /**
@@ -58,7 +65,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param iExaminationProtocol this parameter shows the interface of the examination protocol,
      *                             into which the new diagnosis should be saved
      */
-    public CreateDiagnosisController(IExaminationProtocol iExaminationProtocol){
+    public CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
         examinationProtocol = (ExaminationProtocol) iExaminationProtocol;
     }
 
@@ -78,16 +85,16 @@ public class CreateDiagnosisController implements ILogger {
      * @param description this is the description of the diagnosis
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
-    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws BadConnectionException, NoBrokerMappedException, RequirementsUnfulfilledException {
+    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
 
         //check parameters
-        if(!checkRequirements(title, description, iDoctor)){
+        if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");
             throw new RequirementsUnfulfilledException();
         }
 
         //create new diagnosis
-        Diagnosis diagnosis = new Diagnosis(0, title, description, (Doctor)iDoctor);
+        Diagnosis diagnosis = new Diagnosis(0, title, description, (Doctor) iDoctor);
         log.info("New diagnosis created.");
         examinationProtocol.setDiagnosis(diagnosis);
         log.info("Diagnosis added to examination protocol");
@@ -98,14 +105,13 @@ public class CreateDiagnosisController implements ILogger {
             facade.save(diagnosis); //braucht es das?
             facade.save(examinationProtocol);
             log.info("Diagnosis and examination protocol saved");
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Diagnosis can not be saved!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("NoBrokerMappedException caught! Diagnosis can not be saved!");
-            throw noBrokerMappedException;
+        } catch (NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
-
         //return an interface of the new diagnosis
         return diagnosis;
     }
@@ -123,13 +129,13 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the doctor, which created the diagnosis - it is not allowed to be null
      */
     private boolean checkRequirements(String title, String description, IDoctor iDoctor) {
-        if(title.equals("")){
+        if (title.equals("")) {
             log.info("Title is empty");
             return false;
-        }else if(description.equals("")){
+        } else if (description.equals("")) {
             log.info("Description is empty");
             return false;
-        }else if(iDoctor == null){
+        } else if (iDoctor == null) {
             log.info("Doctor is not set");
             return false;
         }

@@ -11,10 +11,12 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
@@ -34,26 +36,21 @@ public class ExaminationResultBroker extends EntityBroker implements ISearch {
 
 	@Override
 	protected ExaminationResult persistentToDomain(IEntity entity)
-			throws NoBrokerMappedException, BadConnectionException {
+			throws NoBrokerMappedException, BadConnectionException, ClassNotMappedException, DatabaseOperationException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		ExaminationResultEntity examinationResultEntity = (ExaminationResultEntity) entity;
 
 		ExaminationProtocol examinationProtocol = null;
 		if ((examinationResultEntity.getExaminationProtocolEntity() != null)) {
-            try {
-                examinationProtocol = (ExaminationProtocol) Facade.getInstance().getBroker(ExaminationProtocol.class)
+			examinationProtocol = (ExaminationProtocol) Facade.getInstance().getBroker(ExaminationProtocol.class)
                                                                   .persistentToDomain(examinationResultEntity
                                                                           .getExaminationProtocolEntity());
-            } catch (BadSessionException e) {
-                e.printStackTrace();
-            }
+
         }
 
 		User user = null;
 		Doctor doctor = null;
 		Orthoptist orthoptist = null;
 		if (examinationResultEntity.getUserId() != null) {
-            try {
-
 	                for(Doctor d : ((LinkedList<Doctor>) (LinkedList<?>) Facade.getInstance().search(Doctor.class, examinationResultEntity.getUserId()+""))){
 		                doctor = d;
 	                }
@@ -67,11 +64,6 @@ public class ExaminationResultBroker extends EntityBroker implements ISearch {
 	                if(orthoptist!=null){
 		                user = orthoptist;
 	                }
-            } catch (InvalidSearchParameterException e) {
-                e.printStackTrace();
-            } catch (SearchInterfaceNotImplementedException e) {
-                e.printStackTrace();
-            }
         }
 
 		return new ExaminationResult(examinationResultEntity.getId(), examinationProtocol, user,
@@ -81,23 +73,18 @@ public class ExaminationResultBroker extends EntityBroker implements ISearch {
 
 	@Override
 	protected ExaminationResultEntity domainToPersistent(IDomain obj)
-			throws NoBrokerMappedException, BadConnectionException {
+			throws NoBrokerMappedException, BadConnectionException, ClassNotMappedException, DatabaseOperationException {
 		ExaminationResult examinationResult = (ExaminationResult) obj;
 
 		ExaminationProtocolEntity examinationProtocolEntity = null;
 		if (examinationResult.getExaminationProtocol() != null) {
-            try {
-                examinationProtocolEntity =
+			examinationProtocolEntity =
                         (ExaminationProtocolEntity) Facade.getInstance().getBroker(ExaminationProtocol.class)
                                                           .domainToPersistent(examinationResult.getExaminationProtocol());
-            } catch (BadSessionException e) {
-                e.printStackTrace();
-            }
         }
 
 		UserEntity userEntity = null;
 		if (examinationResult.getUser() != null) {
-            try {
                 if(examinationResult.getDoctor()!=null){
                     DoctorEntity doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
 	                                                     .domainToPersistent(examinationResult.getDoctor());
@@ -112,9 +99,7 @@ public class ExaminationResultBroker extends EntityBroker implements ISearch {
 	                }
                 }
 
-            } catch (BadSessionException e) {
-                e.printStackTrace();
-            }
+
         }
 
 		return new ExaminationResultEntity(examinationResult.getId(), examinationProtocolEntity, userEntity,

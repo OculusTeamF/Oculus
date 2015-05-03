@@ -41,8 +41,6 @@ public class ReceptionistBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(receptionist != null);
     }
@@ -57,9 +55,7 @@ public class ReceptionistBrokerTest extends BrokerTest {
 	    } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-	    } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+	    }
 
         Assert.assertTrue(receptionists != null);
 	    Assert.assertTrue(receptionists.size() > 0);

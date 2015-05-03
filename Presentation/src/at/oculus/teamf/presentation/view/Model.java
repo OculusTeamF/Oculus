@@ -11,8 +11,17 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.*;
 import at.oculus.teamf.application.facade.exceptions.*;
+import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -20,6 +29,7 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,10 +37,7 @@ import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -67,6 +74,9 @@ public class Model implements Serializable, ILogger{
     private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
     private Task<Void> task;
+    private HashMap<IUser, ObservableList> _userWaitingList;
+    private HashMap<IUser, ListView> _listViewMap;
+    private HashMap<IUser, TitledPane> _queueTitledPaneFromUser = new HashMap<>();
 
     // user management
     private IUser _loggedInUser;
@@ -85,6 +95,10 @@ public class Model implements Serializable, ILogger{
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
             e.printStackTrace();
         }
     }
@@ -213,6 +227,8 @@ public class Model implements Serializable, ILogger{
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
+        } catch (CouldNotGetCalendarEventsException e) {
+            e.printStackTrace();
         }
         return events;
     }
@@ -225,13 +241,13 @@ public class Model implements Serializable, ILogger{
         Collection<IPatient> searchresults = null;
         try {
             searchresults = _searchPatientController.searchPatients(text);
+        }  catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-        } catch (SearchInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         }
 
@@ -243,17 +259,16 @@ public class Model implements Serializable, ILogger{
 
         try {
             searchresults = _searchPatientController.searchPatients(svn, fname, lname);
-        } catch (SearchInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
+        }  catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         }
 
         return searchresults;
@@ -276,9 +291,10 @@ public class Model implements Serializable, ILogger{
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
+        } catch (CriticalDatabaseException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         }
     }
 
@@ -296,9 +312,10 @@ public class Model implements Serializable, ILogger{
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
+        } catch (CriticalDatabaseException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -311,7 +328,9 @@ public class Model implements Serializable, ILogger{
 
     public void buildQueueLists(){
 
-        _queueTitledPane = new TitledPane[_userlist.size()];
+       // _queueTitledPane = new TitledPane[_userlist.size()];
+        _userWaitingList = new HashMap<>();
+        _listViewMap = new HashMap<>();
 
         // setup listviews
         int i = 0;
@@ -346,30 +365,88 @@ public class Model implements Serializable, ILogger{
             }
 
             // Queue titlepane string - Header of the Titled panel
-            String queuename;
-            if (u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals("")) {
-                queuename = u.getFirstName() + " " + u.getLastName();
-            } else {
-                queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
-            }
-            queuename = queuename + " (" + olist.size()+")";
+            String queuename = buildTitledPaneHeader(u, olist.size());
 
             // bind listview to titledpanes
             listView.setItems(olist);
             listView.setPrefHeight((olist.size() * 24) + 8);
 
-            _queueTitledPane[i] = new TitledPane(queuename, listView);
-            _queueTitledPane[i].setExpanded(false);
-            _queueTitledPane[i].setAnimated(true);
-            _queueTitledPane[i].setVisible(true);
+            _userWaitingList.put(u, olist);
+            _listViewMap.put(u, listView);
+
+            TitledPane queueTitledPane = new TitledPane(queuename, listView);
+            queueTitledPane.setExpanded(false);
+            queueTitledPane.setAnimated(true);
+            queueTitledPane.setVisible(true);
+
+            _queueTitledPaneFromUser.put(u,queueTitledPane);
 
             i++;
-        }
-        //_queueTitledPane[0].setExpanded(true);
 
-        _vBoxQueues.getChildren().addAll(_queueTitledPane);
+            //adds the titledPanes to the Vbox, index 3 in params means that the titledPanes will be added
+            //after the search elements
+            _vBoxQueues.getChildren().add(3, queueTitledPane);
+        }
     }
 
+    /**
+     *
+     * @return
+     */
+    public void refreshQueue(IUser user) {
+
+        //the entries of the Queue from the given user with is not actual
+        ObservableList<IPatient> observableList = _userWaitingList.get(user);
+
+        if (observableList != null) {
+            observableList.remove(0, observableList.size());
+        } else {
+            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
+        }
+
+        //the new, actual Queue from the given user
+        IPatientQueue queue = getQueueFromUser(user);
+
+        observableList.remove(0, observableList.size());
+
+        //fill Waitinglist with the actual data
+        try {
+            for(IQueueEntry iQueueEntry : queue.getEntries()) {
+                observableList.add(iQueueEntry.getPatient());
+            }
+        } catch (NoBrokerMappedException | BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
+        }
+
+        ListView list = _listViewMap.get(user);
+        list.setPrefHeight(observableList.size() * 24);
+
+        //New Header of Titledpane
+        TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
+        String header = buildTitledPaneHeader(user, observableList.size());
+        userTitledPane.setText(header);
+        userTitledPane.setExpanded(true);
+    }
+
+    /**
+     * returns the title of the TitledPanes in the Waiting List
+     * @param user
+     * @param sizeOfQueue
+     * @return String titleOfTitledPanes
+     */
+    private String buildTitledPaneHeader(IUser user, int sizeOfQueue)
+    {
+        String queuename;
+        if (user.getTitle() == null || user.getTitle().equals("null") || user.getTitle().equals("")) {
+            queuename = user.getFirstName() + " " + user.getLastName();
+        } else {
+            queuename = user.getTitle() + " " + user.getFirstName() + " " + user.getLastName();
+        }
+        queuename = queuename + " (" + sizeOfQueue+")";
+
+        return queuename;
+    }
     /**
      * returns the Queue from the given User
      * @param user
@@ -423,52 +500,19 @@ public class Model implements Serializable, ILogger{
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (CheckinControllerException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
+        } catch (CouldNotAddPatientToQueueException e) {
+            e.printStackTrace();
         }
         System.out.println("Before refresh !!!!!!!!!!!!!!!!!");
-        refreshQueue();
+        refreshQueue(user);
     }
 
-    /**
-     *
-     * @return
-     */
-    public void refreshQueue() {
 
-       _queueTitledPane = null;
-
-        buildQueueLists();
-
-        System.out.println("after refresh !!!!!!!!!!!!!!!!!");
-
-        /*//the entries of the Queue from the given user
-        ObservableList observableList = FXCollections.observableList((List) getQueueFromUser(user));
-
-        if (observableList != null) {
-            observableList.remove(0, observableList.size());
-        } else {
-            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
-        }
-
-        IPatientQueue queue = getQueueFromUser(user);
-
-        observableList.remove(0, observableList.size());
-
-        try {
-            for(IQueueEntry iQueueEntry : queue.getEntries()) {
-                observableList.add(iQueueEntry.getPatient());
-            }
-        } catch (NoBrokerMappedException | BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
-        return observableList;*/
-    }
 
     public void setQueueTitledPane(TitledPane[] pane)
     {
@@ -493,18 +537,8 @@ public class Model implements Serializable, ILogger{
 
         try {
             protocols = _recievePatientController.getAllExaminationProtocols(patient);
-        } catch (InvalidReloadClassException e) {
+        } catch (CouldNotGetExaminationProtolException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
         }
 
         return protocols;
@@ -516,6 +550,9 @@ public class Model implements Serializable, ILogger{
     public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist){
 
         try {
+            _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
+        }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
+            couldNotAddExaminationProtocol.printStackTrace();
             setCurrentExaminationProtocol(_recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist));
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();

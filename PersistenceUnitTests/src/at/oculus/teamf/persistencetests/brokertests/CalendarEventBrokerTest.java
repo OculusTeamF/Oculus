@@ -42,8 +42,6 @@ public class CalendarEventBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
 
         assertTrue(calendarEvent != null);
@@ -57,8 +55,6 @@ public class CalendarEventBrokerTest extends BrokerTest {
             calendarEvents = Facade.getInstance().getAll(CalendarEvent.class);
         } catch (FacadeException e) {
             assertTrue(false);
-            e.printStackTrace();
-        } catch (BadSessionException e) {
             e.printStackTrace();
         }
 

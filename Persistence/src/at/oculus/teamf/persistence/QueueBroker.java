@@ -11,12 +11,14 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.entity.QueueEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
@@ -42,7 +44,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
      * @throws BadConnectionException
      */
     @Override
-    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
         Doctor doctor = null;
@@ -64,7 +66,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
      * @return return a persitency entity
      */
     @Override
-    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Doctor doctor = queueEntry.getDoctor();
         Orthoptist orthoptist = queueEntry.getOrthoptist();
@@ -79,21 +81,17 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
         }
         OrthoptistEntity orthoptistEntity = null;
         if (orthoptist != null) {
-            try {
-                orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersistent(
+
+            orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersistent(
                         orthoptist);
-            } catch (NoBrokerMappedException e) {
-                e.printStackTrace();
-            }
+
         }
 
         PatientEntity patientEntity = null;
-        try {
-            patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class).domainToPersistent(
+
+        patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class).domainToPersistent(
                     queueEntry.getPatient());
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
+
 
         QueueEntity queueEntityParent = null;
         if (queueEntry.getQueueIdParent() != null && !queueEntry.getQueueIdParent().equals(0)) {
@@ -104,7 +102,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
     }
 
     @Override
-    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException {
+    public Collection<QueueEntry> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, ClassNotMappedException, DatabaseOperationException {
         if (params.length == 0) {
             return null;
         }
@@ -115,29 +113,17 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
         switch (params[0]) {
             case("Doctor"): {
                 query = "getDocotorQueueEntries";
-                try {
-                    result = (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
-                } catch (BadSessionException e) {
-                    e.printStackTrace();
-                }
+                result = (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
                 break;
             }
             case("Orthopist"): {
                 query = "getOrthoptistQueueEntries";
-                try {
-                    result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
-                } catch (BadSessionException e) {
-                    e.printStackTrace();
-                }
+                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query, params[1]);
                 break;
             }
             case("General"): {
                 query = "getGeneralQueueEntries";
-                try {
-                    result =  (Collection<QueueEntity>)(Collection<?>)session.search(query);
-                } catch (BadSessionException e) {
-                    e.printStackTrace();
-                }
+                result =  (Collection<QueueEntity>)(Collection<?>)session.search(query);
                 break;
             }
             default: {
@@ -147,11 +133,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
 
         Collection<QueueEntry> domainEntries = new LinkedList<>();
         for(QueueEntity qw : result) {
-            try {
-                domainEntries.add(persistentToDomain(qw));
-            } catch (BadSessionException e) {
-                e.printStackTrace();
-            }
+            domainEntries.add(persistentToDomain(qw));
         }
         return domainEntries;
     }

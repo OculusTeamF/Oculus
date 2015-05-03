@@ -96,7 +96,7 @@ public class HibernateSessionTest extends TestCase {
 		ISession session = hsb.getSession();
 
 		//2.
-		assertTrue(session.beginTransaction());
+		session.beginTransaction();
 
 		//3.
 		PatientEntity patient = new PatientEntity();
@@ -107,16 +107,16 @@ public class HibernateSessionTest extends TestCase {
 		Serializable id = session.save(patient);
 
 		//4.
-		assertTrue(session.commit());
+		session.commit();
 
 		//5.
-		assertTrue(session.beginTransaction());
+		session.beginTransaction();
 
 		//6.
-		assertTrue(session.delete(patient));
+		session.delete(patient);
 
 		//7.
-		assertTrue(session.commit());
+		session.commit();
 
 		//8.
 		hsb.releaseSession(session);
@@ -147,8 +147,7 @@ public class HibernateSessionTest extends TestCase {
 		ISession session = hsb.getSession();
 
 		//2.
-		boolean started = session.beginTransaction();
-		assertTrue(started);
+		session.beginTransaction();
 
 		//3.
 		PatientEntity patient = new PatientEntity();
@@ -159,25 +158,25 @@ public class HibernateSessionTest extends TestCase {
 		Serializable id = session.save(patient);
 
 		//4.
-		assertTrue(session.commit());
+		session.commit();
 
 		//5.
-		assertTrue(session.beginTransaction());
+		session.beginTransaction();
 
 		//6.
 		session.delete(patient);
 
 		//7.
-		assertTrue(session.rollback());
+		session.rollback();
 
 		//8.
-		assertTrue(session.beginTransaction());
+		session.beginTransaction();
 
 		//9.
-		assertTrue(session.delete(patient));
+		session.delete(patient);
 
 		//10.
-		assertTrue(session.commit());
+		session.commit();
 
 		//11.
 		hsb.releaseSession(session);

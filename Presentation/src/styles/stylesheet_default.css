@@ -121,7 +121,7 @@
 }
 
 .text-area:disabled, .text-field:disabled{
-    -fx-opacity: 1.0;
+    -fx-opacity: 0.5;
 }
 
 .text-area .scroll-pane:disabled{

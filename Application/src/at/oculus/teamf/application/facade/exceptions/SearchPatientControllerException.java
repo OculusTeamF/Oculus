@@ -12,5 +12,5 @@ package at.oculus.teamf.application.facade.exceptions;
 /**
  * Created by oculus on 23.04.15.
  */
-public class SearchPatientControllerException extends Exception {
+public class SearchPatientControllerException extends ApplicationException {
 }

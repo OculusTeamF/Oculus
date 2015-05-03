@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
@@ -18,6 +19,7 @@ import at.oculus.teamf.persistence.entity.DiagnosisEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
@@ -40,7 +42,7 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
      * @throws BadConnectionException
      */
     @Override
-    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
 
@@ -59,7 +61,7 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
      * @return return a persitency entity
      */
     @Override
-    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, BadSessionException {
+    protected IEntity domainToPersistent(IDomain obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         Diagnosis diagnosis = (Diagnosis) obj;
 

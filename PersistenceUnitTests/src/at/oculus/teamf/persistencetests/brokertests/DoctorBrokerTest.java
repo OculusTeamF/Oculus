@@ -10,10 +10,12 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -48,8 +50,6 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(doctor != null);
     }
@@ -64,9 +64,7 @@ public class DoctorBrokerTest extends BrokerTest {
 	    } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-	    } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+	    }
 
         assertTrue(doctors != null);
 	    assertTrue(doctors.size() > 1);
@@ -81,8 +79,6 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(doctor != null);
 		assertTrue(doctor.getCalendar()!=null);
@@ -93,18 +89,14 @@ public class DoctorBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
 
         try {
             assertTrue(doctor.getPatients() != null);
             assertTrue(doctor.getPatients().size() > 0);
-        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | ClassNotMappedException | DatabaseOperationException e) {
             e.printStackTrace();
             assertTrue(false);
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
     }
 }

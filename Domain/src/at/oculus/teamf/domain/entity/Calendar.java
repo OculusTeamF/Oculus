@@ -10,9 +10,11 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
@@ -44,7 +46,7 @@ public class Calendar implements ICalendar {
         _id = calendarID;
     }
 
-    public Collection<CalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
+    public Collection<CalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         Facade facade = Facade.getInstance();
 
         facade.reloadCollection(this, CalendarEvent.class);

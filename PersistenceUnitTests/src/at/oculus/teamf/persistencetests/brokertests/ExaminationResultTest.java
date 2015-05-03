@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
@@ -39,55 +40,41 @@ public class ExaminationResultTest extends BrokerTest {
 		try {
 			user = Facade.getInstance().getById(Orthoptist.class, 1);
 			examinationProtocol = Facade.getInstance().getById(ExaminationProtocol.class, 46);
-		} catch (BadConnectionException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-        _examinationResult =
+			assertTrue(false);
+		}
+		_examinationResult =
 				new ExaminationResult(0, examinationProtocol, user, "Ergebnis der Untersuchung", new Date(),
 				                      "Device 001-2015", null);
 		try {
 			assertTrue(Facade.getInstance().save(_examinationResult));
-		} catch (BadConnectionException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+			assertTrue(false);
+		}
+	}
 
 	@Override
 	public void tearDown() {
 		try {
 			assertTrue(Facade.getInstance().delete(_examinationResult));
-		} catch (BadConnectionException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidSearchParameterException e) {
 			e.printStackTrace();
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-		} catch (InvalidSearchParameterException e) {
-			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+			assertTrue(false);
+		}
+	}
 
 	@Override
 	public void testGetById() {
 		ExaminationResult examinationResult = null;
 		try {
 			examinationResult = Facade.getInstance().getById(ExaminationResult.class,_examinationResult.getId());
-		} catch (BadConnectionException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-        assertTrue(_examinationResult.getId() == examinationResult.getId());
+			assertTrue(false);
+		}
+		assertTrue(_examinationResult.getId() == examinationResult.getId());
 		assertTrue(_examinationResult.getExaminationProtocol().equals(examinationResult.getExaminationProtocol()));
 		assertTrue(_examinationResult.getUser().equals(examinationResult.getUser()));
         assertTrue(_examinationResult.getResult().equals(examinationResult.getResult()));
@@ -116,16 +103,11 @@ public class ExaminationResultTest extends BrokerTest {
 
         try {
             examinationResults = Facade.getInstance().search(ExaminationResult.class, "1");
-        } catch (SearchInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
+        } catch (SearchInterfaceNotImplementedException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException | BadConnectionException e) {
+			e.printStackTrace();
+			assertTrue(false);
         }
 
-        assertTrue(examinationResults.size()==21);
+		assertTrue(examinationResults.size()==21);
     }
 }

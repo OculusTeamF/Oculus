@@ -19,11 +19,14 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
@@ -58,26 +61,21 @@ public class SearchPatientController implements ILogger{
      * @param data this is all given information to search the patient (with full-text-search)
      */
 
-    public Collection <IPatient> searchPatients (String data) throws at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
+    public Collection <IPatient> searchPatients (String data) throws BadConnectionException, CriticalClassException, InvalidSearchParameterException, CriticalDatabaseException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
+
         try {
             patients = facade.search(Patient.class, "%" + data.replace(" ", "%") + "%");
-            log.info("Search has been successful.");
-        } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
-            log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");
-            throw searchInterfaceNotImplementedException;
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("NoBrokerMappedException caught! No broker mapped!");
-            throw noBrokerMappedException;
-        } catch (InvalidSearchParameterException invalidSearchException) {
-            log.warn("InvalidSearchParameterException caught! Invalid search parameter!");
-            throw new at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException();
+        } catch (SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
+
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
         for(Patient patient : patients){
@@ -103,26 +101,21 @@ public class SearchPatientController implements ILogger{
      * @param lastName this is the last name of the searched patient
      */
 
-    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException {
+    public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
 
         Facade facade = Facade.getInstance();
         Collection<Patient> patients = new LinkedList<Patient>();
+
         try {
-            patients = facade.search(Patient.class, "%" + svn + "%", "%" + firstName + "%", "%" + lastName + "%");
-            log.info("Search has been successful.");
-        } catch (SearchInterfaceNotImplementedException searchInterfaceNotImplementedException) {
-            log.warn("SearchInterfaceNotImplementedException caught! Search interface is not implemented!");
-            throw searchInterfaceNotImplementedException;
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("BadConnectionException caught! Bad connection!");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("NoBrokerMappedException caught! No broker mapped!");
-            throw noBrokerMappedException;
-        } catch (InvalidSearchParameterException invalidSearchException) {
-            log.warn("InvalidSearchParameterException caught! Invalid search parameter!");
-            throw new InvalidSearchParameterException();
+            patients = facade.search(Patient.class, "%" + svn + "%", "%" + firstName + "%", "%" + lastName + "%"); //Todo: remove %
+        } catch (SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
+
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
         for(Patient patient : patients){
