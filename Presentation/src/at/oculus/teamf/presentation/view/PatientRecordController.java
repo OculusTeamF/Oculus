@@ -358,7 +358,7 @@ public class PatientRecordController implements Initializable {
         //_model.showStatusBarloader();
 
         Date date = new Date();
-        _model.loadTab("PATIENT: " + _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml");
+        _model.addExaminationTab(_model.getPatient());
         StatusBarController.getInstance().setText("Open examination...");
     }
     //</editor-fold>

@@ -17,6 +17,8 @@ import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledExce
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
@@ -33,6 +35,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -55,7 +58,6 @@ public class Model implements Serializable, ILogger{
 
     private Stage _primaryStage = null;
 
-
     private static Model _modelInstance;
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
@@ -69,13 +71,14 @@ public class Model implements Serializable, ILogger{
     private IExaminationProtocol _eximationprotocol;
     private IPatientQueue _queue = null;
     private TabPane _tabPanel = null;
-    private TitledPane _queueTitledPane[];
+    //private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
     private Task<Void> task;
+
     private HashMap<IUser, ObservableList> _userWaitingList;
     private HashMap<IUser, ListView> _listViewMap;
-    private HashMap<IUser, TitledPane> _queueTitledPaneFromUser = new HashMap<>();
-    private HashMap<String, IPatient> _patientsInQueue = new HashMap<>();
+    private HashMap<IUser, TitledPane> _queueTitledPaneFromUser;
+    private HashMap<String, IPatient> _patientsInQueue;
 
     // user management
     private IUser _loggedInUser;
@@ -91,6 +94,8 @@ public class Model implements Serializable, ILogger{
             _doctors = _startupController.getAllDoctors();
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
             _tabmap = new HashMap();
+            _queueTitledPaneFromUser = new HashMap<>();
+            _patientsInQueue = new HashMap<>();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
@@ -178,20 +183,27 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     * Tab: opens DiagnosisTab for selected patient
+     * Tab: opens PatientRecordTab for selected patient
      */
     public void addPatientTab(IPatient patient){
+
         this._patient = patient;
         loadTab("PATIENT: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
     }
 
     /**
-     * Tab: opens patient record for selected patient
+     * Tab: opens DiagnosisTab for selected patient
      */
     public void addDiagnosisTab(IPatient patient){
 
         this._patient = patient;
         loadTab("NEW DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml");
+    }
+
+    public void addExaminationTab(IPatient patient){
+
+        this._patient = patient;
+        loadTab("PATIENT: " + getPatient().getLastName(), "fxml/ExaminationTab.fxml");
     }
 
 
@@ -262,6 +274,14 @@ public class Model implements Serializable, ILogger{
 
         return searchresults;
     }
+
+    /**
+     * search Patients by lastname, firstname or svn, detailed search
+     * @param svn
+     * @param fname
+     * @param lname
+     * @return Collection<IPatient>
+     */
     public Collection<IPatient> searchPatients(String svn, String fname, String lname){
 
         Collection<IPatient> searchresults = null;
@@ -376,7 +396,6 @@ public class Model implements Serializable, ILogger{
 
     public void buildQueueLists(){
 
-       // _queueTitledPane = new TitledPane[_userlist.size()];
         _userWaitingList = new HashMap<>();
         _listViewMap = new HashMap<>();
 
@@ -396,16 +415,15 @@ public class Model implements Serializable, ILogger{
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-                        setPatient((IPatient) source.getSelectionModel().getSelectedItem());
-                        loadTab("PATIENT RECORD: " + getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
-                        //addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
+                        HBoxCell cell = (HBoxCell) source.getSelectionModel().getSelectedItem();
+                        setPatient(cell.getQueueEntry().getPatient());
+                        loadTab("PATIENT RECORD: " + _patient.getLastName(), "fxml/PatientRecordTab.fxml");
                     }
                 }
             });
 
             //put the entries of the Queue from User u into the List
             ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) getEntriesFromQueue(u));
-            //ObservableList<IPatient> olist = FXCollections.observableArrayList();
 
             ObservableList<HBoxCell> olist = FXCollections.observableArrayList();
             for(QueueEntry entry : entries){
@@ -414,14 +432,11 @@ public class Model implements Serializable, ILogger{
                 olist.add(new HBoxCell(entry));
             }
 
-            // Queue titlepane string - Header of the Titled panel
-            String queuename = buildTitledPaneHeader(u, olist.size());
-
             // bind listview to titledpanes
             listView.setItems(olist);
             listView.setPrefHeight((olist.size() * 24) + 8);
 
-            _userWaitingList.put(u, olist);
+            //_userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);
 
             // Queue titlepane string - Header of the Titled panel
@@ -564,13 +579,20 @@ public class Model implements Serializable, ILogger{
         refreshQueue(user);
     }
 
+    /**
+     * removes the patient from the queue and opens a new examinationTab
+     * @param patient
+     */
+    public void removePatientFromQueue(IPatient patient){
 
+        addExaminationTab(patient);
+    }
 
-    public void setQueueTitledPane(TitledPane[] pane)
+    /*public void setQueueTitledPane(TitledPane[] pane)
     {
         _queueTitledPane = new TitledPane[_userlist.size()];
         this._queueTitledPane = pane;
-    }
+    }*/
 
     public void setVboxQueues(VBox vboxQueues){
         this._vBoxQueues = vboxQueues;
@@ -651,26 +673,47 @@ public class Model implements Serializable, ILogger{
 
 
     /**
-     * produces the content of the ListView items
+     * produces the content of the ListView items for Waiting List
      */
     public static class HBoxCell extends HBox{
 
-        QueueEntry entry = null;
+        QueueEntry _entry = null;
         Button _button = new Button();
         Label _label;
 
         HBoxCell(QueueEntry entry ){
             super();
+
+            _entry = entry;
             Image imageEnqueue = new Image(getClass().getResourceAsStream("/res/arrow1_klein.png"));
+
             _button.setGraphic(new ImageView(imageEnqueue));
             _button.setTooltip(new Tooltip("remove Patient from Waiting List"));
+
+            /**
+             * removes the patient from the Waiting List
+             */
+            _button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Model.getInstance().removePatientFromQueue(_entry.getPatient());
+                }
+            });
+
             _label = new Label(entry.getPatient().toString());
             _label.setMaxWidth(Double.MAX_VALUE);
+
             HBox.setHgrow(_label, Priority.ALWAYS);
             this.getChildren().addAll(_label, _button);
         }
 
-
+        /**
+         * saves the QueueEntry to the HBoxCell
+         * @return the QueueEntry of the HBoxCell which is doubleclicked in WaitingList
+         */
+        public QueueEntry getQueueEntry(){
+            return _entry;
+        }
     }
 }
 
