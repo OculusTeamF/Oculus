@@ -11,6 +11,9 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,13 +44,18 @@ public class ExaminationController implements Initializable {
 
     private Model _model = Model.getInstance();
     private Date date = new Date();
-    private Boolean isFormEdited = false;
+    private ObservableList<IExaminationProtocol> protocolist;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // setup controls
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText("PATIENT: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + _model.getPatient().getSocialInsuranceNr());
+        examinationList.setDisable(true);
+        examinationDocumentation.setDisable(true);
+        textExaminationDetails.setDisable(true);
+        String loadtext = "Loading examinations protocols....";
+        examinationList.getItems().add(loadtext);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_newexamination.png"));
@@ -55,46 +63,44 @@ public class ExaminationController implements Initializable {
 
         // fetch data (loading & setup)
         getExaminationList();
-        //_model.hideStatusBarloader();
-    }
-
-    private void getExaminationList(){
-        // loads all examination protocols for selected patient
-        //TODO reduce loading times
-        //try {
-            examinationList.setItems(FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient())));
-       /* } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
-        }*/
-
-        //TODO sort list
-        /*java.util.Collections.sort(examinationList.getItems(), new java.util.Comparator<TYPE>() {
-            @Override
-            public int compare(TYPE o1, TYPE o2) {
-                // Implement your comparator here.
-            }
-        });*/
 
         // add mouse event handler
         examinationList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 1) {
-                    // TODO load examination details
                     loadSelectedExaminationData((IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem());
                 }
             }
         });
+    }
+
+    private void getExaminationList(){
+        //TODO reduce loading times
+        // loads all examination protocols for selected patient
+        final Task<Void> search = loadExaminationListsThread();
+        StatusBarController.showProgressBarIdle("Loading examination protocols");
+        search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                // end of search thread
+                StatusBarController.hideStatusBarProgressBarIdle();
+                examinationList.setDisable(false);
+                examinationDocumentation.setDisable(false);
+                textExaminationDetails.setDisable(false);
+                examinationList.setItems(protocolist);
+                //TODO sort list
+                /*java.util.Collections.sort(examinationList.getItems(), new java.util.Comparator<TYPE>() {
+                    @Override
+                    public int compare(TYPE o1, TYPE o2) {
+                    // implement date comparator
+                    }
+                });*/
+            }
+        });
+
+        new Thread(search).start();
+
     }
 
     /* load selected examination data and set data to forms */
@@ -117,7 +123,7 @@ public class ExaminationController implements Initializable {
             result.append(System.getProperty("line.separator"));
         }
         if (exp.getDiagnosis() != null) {
-            result.append("DIAGNOSIS: " + exp.getDiagnosis().toString());
+            result.append("DIAGNOSIS: " + exp.getDiagnosis().getTitle());
             result.append(System.getProperty("line.separator"));
         } else {
             result.append("DIAGNOSIS: none");
@@ -127,15 +133,24 @@ public class ExaminationController implements Initializable {
         textExaminationDetails.setText(result.toString());
     }
 
-    /**
-     * Save the Protocoll, if allergies have changed they will saved too
-     * @param actionEvent
-     */
     @FXML
     public void addNewExaminationProtocol(ActionEvent actionEvent) {
         Date date = new Date();
-        //_model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), _model.getPatient().getIDoctor(), null);
         _model.loadTab("NEW EXAMINATION: " + _model.getPatient().getLastName() + " [" + date.toString()+"]" ,"fxml/NewExaminationTab.fxml");
-        //DialogBoxController.getInstance().showInformationDialog("Save examination protocol", "Examination Protocol: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + " saved.");
+    }
+
+    // *******************************************************************
+    // Loading Thread
+    // *******************************************************************
+
+    /* thread for loading*/
+    public Task<Void> loadExaminationListsThread() {return new Task<Void>() {
+        @Override
+        protected Void call() {
+            // application layer acces for examination protocols loading
+            protocolist = FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient()));
+            return null;
+        }
+    };
     }
 }

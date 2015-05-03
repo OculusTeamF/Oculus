@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.presentation.view;
 
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import org.controlsfx.control.StatusBar;
 
 /**
@@ -35,11 +37,19 @@ public class StatusBarController {
         return _stateBar;
     }
 
-    public void showProgressIdle(){
+    // *******************************************************************
+    // Some additional functions (progressbar)
+    // *******************************************************************
 
+    public static void showProgressBarIdle(String loadingtext) {
+        ProgressBar pb = new ProgressBar();
+        Label lb = new Label(loadingtext + "  ");
+        _stateBar.getRightItems().add(lb);
+        _stateBar.getRightItems().add(pb);
     }
 
-    public void showProgressHide(){
-
+    public static void hideStatusBarProgressBarIdle(){
+        _stateBar.getRightItems().remove(0, StatusBarController.getInstance().getRightItems().size());
     }
+
 }

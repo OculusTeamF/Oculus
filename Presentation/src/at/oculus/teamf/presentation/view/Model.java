@@ -13,11 +13,10 @@ import at.oculus.teamf.application.facade.*;
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
@@ -29,10 +28,12 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -50,19 +51,22 @@ import java.util.*;
 /**
  * Created by Karo on 01.05.2015.
  */
-public class Model implements Serializable{
+public class Model implements Serializable, ILogger{
 
     private Stage _primaryStage = null;
+
 
     private static Model _modelInstance;
     private StartupController _startupController = new StartupController();
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private CreatePatientController _createPatientController = new CreatePatientController();
+    private CreateDiagnosisController _createDiagnosisController;
     private CheckinController _checkinController = new CheckinController();
     private ReceivePatientController _recievePatientController = new ReceivePatientController();
-    private Collection<IDoctor > _doctors;
+    private Collection<IDoctor> _doctors;
     private Collection<IUser> _userlist;
     private IPatient _patient;
+    private IExaminationProtocol _eximationprotocol;
     private IPatientQueue _queue = null;
     private TabPane _tabPanel = null;
     private TitledPane _queueTitledPane[];
@@ -73,6 +77,10 @@ public class Model implements Serializable{
     private HashMap<IUser, TitledPane> _queueTitledPaneFromUser = new HashMap<>();
     private HashMap<String, IPatient> _patientsInQueue = new HashMap<>();
 
+    // user management
+    private IUser _loggedInUser;
+    private Tab _selectedTab;
+    private HashMap<Tab, IPatient> _tabmap;
 
     /**
      * Singelton of Model
@@ -82,6 +90,7 @@ public class Model implements Serializable{
         try {
             _doctors = _startupController.getAllDoctors();
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
+            _tabmap = new HashMap();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
@@ -126,21 +135,54 @@ public class Model implements Serializable{
             Tab tab = new Tab(tabTitle);
             AnchorPane ap = FXMLLoader.load(this.getClass().getResource(tabFXML));
             tab.setContent(ap);
-            _tabPanel.getTabs().add(tab);
-            _tabPanel.getSelectionModel().select(_tabPanel.getTabs().size() - 1);
+
+            // setup tab hashmap
+            _selectedTab = tab;
+            //Main.controller.updateStatusbar();
+            setTabMapEntry(tab, _patient);
+
+            tab.setOnCloseRequest(new EventHandler<Event>() {
+                @Override
+                public void handle(Event t) {
+                    removeTabMapEntry(_selectedTab);
+                }
+            });
+
+            _tabPanel.getTabs().add(tab);               // add tab to pane
+            _tabPanel.getSelectionModel().select(tab);  // switch to new tab
+            log.debug("New Tab added: " + getSelectedTab().getText());
         } catch (IOException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
         }
     }
 
+    public void closeSelectedTab(){
+        _tabPanel.getTabs().removeAll(_selectedTab);
+        removeTabMapEntry(_selectedTab);
+    }
+
+    public void setSelectedTab(Tab tab){
+        _selectedTab = tab;
+        log.debug("Switched Tab to: " + getSelectedTab().getText());
+    }
+    public Tab getSelectedTab(){ return _selectedTab; }
+
+    public void setTabMapEntry(Tab tab, IPatient pat){ _tabmap.put(tab,pat); }
+
+    public void removeTabMapEntry(Tab tab){ _tabmap.remove(tab); }
+
+    public IPatient getPatientFromSelectedTab(Tab tab){
+        IPatient pat = _tabmap.get(tab);
+        return pat;
+    }
+
     /**
      * Tab: opens DiagnosisTab for selected patient
      */
     public void addPatientTab(IPatient patient){
-
         this._patient = patient;
-        loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
+        loadTab("PATIENT: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
     }
 
     /**
@@ -372,6 +414,9 @@ public class Model implements Serializable{
                 olist.add(new HBoxCell(entry));
             }
 
+            // Queue titlepane string - Header of the Titled panel
+            String queuename = buildTitledPaneHeader(u, olist.size());
+
             // bind listview to titledpanes
             listView.setItems(olist);
             listView.setPrefHeight((olist.size() * 24) + 8);
@@ -554,7 +599,7 @@ public class Model implements Serializable{
     /**
      * creates a new examinationprotocol
      */
-    public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist){
+    public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
 
         try {
             _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
@@ -562,6 +607,48 @@ public class Model implements Serializable{
             couldNotAddExaminationProtocol.printStackTrace();
         }
     }
+
+    /**
+     * creates a new examinationprotocol
+     */
+    public void addNewPatientDiagnosis(String title, String description, IDoctor doc){
+        //TODO IExaminationProtocol getter setter
+        _createDiagnosisController = new CreateDiagnosisController(_eximationprotocol);
+
+        try {
+            _createDiagnosisController.createDiagnosis(title,description, doc);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (RequirementsUnfulfilledException e) {
+            e.printStackTrace();
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public IExaminationProtocol getCurrentExaminationProtocol(){
+        return _eximationprotocol;
+    }
+
+    public void setCurrentExaminationProtocol(IExaminationProtocol ep){
+        _eximationprotocol = ep;
+    }
+
+
+    // *******************************************************************
+    // user management
+    // *******************************************************************
+
+    public void setLoggedInUser(IUser user){
+        _loggedInUser = user;
+    }
+
+    public IUser getLoggedInUser(){
+        return _loggedInUser;
+    }
+
 
     /**
      * produces the content of the ListView items

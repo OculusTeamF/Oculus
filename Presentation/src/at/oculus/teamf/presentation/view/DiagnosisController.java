@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,9 +36,6 @@ public class DiagnosisController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // get patient object
-        //patient =  (IPatient)resources.getObject(null);
-
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveDiagnosisButton.setGraphic(new ImageView(imageSaveIcon));
@@ -46,9 +43,8 @@ public class DiagnosisController implements Initializable {
 
     @FXML
     public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
-        //TODO save new examination entry
-        //ReceivePatientController receivePatientController = new ReceivePatientController();
-        //receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
-        DialogBoxController.getInstance().showInformationDialog("saving","saving not added yet");
+        //TODO save new examination entry / get correct logged in user
+        _model.addNewPatientDiagnosis(textDiagnosisTitle.getText(),textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser());
+        _model.closeSelectedTab();
     }
 }

@@ -9,9 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.application.facade.ReceivePatientController;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.presentation.view.resourcebundel.SingleResourceBundle;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -38,29 +36,23 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable {
 
-    @FXML public TextArea examinationDocumentation;
     @FXML private Button saveProtocolButton;
     @FXML private Button addDiagnosisButton;
     @FXML private Text examinationLnameFnameSvn;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationCurrTime;
     @FXML private Label diagnosisIdentity;
+    @FXML private TextArea examinationDocumentation;
 
     private Timeline timeline;
     private Integer timeSeconds = 0;
-    //private IPatient patient;
-    //private ReceivePatientController receivePatientController = new ReceivePatientController();
     private Model _model = Model.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Date date = new Date();
-
-        // get patient object
-        //patient =  (IPatient)resources.getObject(null);
-
         // setup controls
-        examinationLnameFnameSvn.setText("NEW PROTOCOL: " + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName()+ ", "+_model.getPatient().getBirthDay().toString());
+        Date date = new Date();
+        examinationLnameFnameSvn.setText("NEW PROTOCOL: " + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName());
         examinationCurrDate.setText("START: " + date.toString());
         examinationCurrTime.setText("TIMECOUNTER: 00:00:00");
         diagnosisIdentity.setText("Diagnosis details: [docname] - [start] - [end]");
@@ -70,6 +62,9 @@ public class NewExaminationController implements Initializable {
         saveProtocolButton.setGraphic(new ImageView(imageSaveIcon));
         Image imageAddIcon = new Image(getClass().getResourceAsStream("/res/icon_enqueue.png"));
         addDiagnosisButton.setGraphic(new ImageView(imageAddIcon));
+
+        // enable addDiagnosis only ig protocol is created
+        addDiagnosisButton.setDisable(true);
 
         // start stopwatch
         timeline = new Timeline();
@@ -81,12 +76,11 @@ public class NewExaminationController implements Initializable {
                 // update timerLabel
                 examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds));
             }
-            }));
+        }));
         timeline.playFromStart();
-        //examinationCurrTime.setText("TIMECOUNTER: " + timeSeconds.toString());
 
         // load data
-       /* if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
+        /*if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
         {
             examinationAllergies.setText("No Allergies known");
         }else{
@@ -121,11 +115,12 @@ public class NewExaminationController implements Initializable {
 
     @FXML
     public void saveExaminationButtonHandler (ActionEvent actionEvent){
-        //TODO save new examination entry
-        //ReceivePatientController receivePatientController = new ReceivePatientController();
-        //receivePatientController.createNewExaminationProtocol(date, examinationDocumentation.getText(), patient, patient.getIDoctor(), null);
+        //TODO startdate & enddate missing !
         timeline.stop();
-        DialogBoxController.getInstance().showInformationDialog("saving","saving not added yet");
+        Date date = new Date();
+        //TODO check if orthoptist or doctor
+        _model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), (IDoctor) _model.getLoggedInUser(), null);
+        addDiagnosisButton.setDisable(false);
     }
 
     @FXML

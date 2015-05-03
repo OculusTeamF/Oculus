@@ -21,6 +21,8 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -42,14 +45,12 @@ import java.util.ResourceBundle;
 public class PatientSearchController implements Initializable{
 
 
-    @FXML public TextField searchPatientLastname;
-    @FXML public TextField searchPatientFirstname;;
-    @FXML public TextField searchPatientSVN;
-    @FXML public ListView searchPatientList;
-    @FXML public Button searchPatientButton;
+    @FXML private TextField searchPatientLastname;
+    @FXML private TextField searchPatientFirstname;;
+    @FXML private TextField searchPatientSVN;
+    @FXML private ListView searchPatientList;
+    @FXML private Button searchPatientButton;
 
-
-    //private SearchPatientController _searchPatientController = new SearchPatientController();
     private Model _model = Model.getInstance();
 
     @Override
@@ -61,45 +62,64 @@ public class PatientSearchController implements Initializable{
             }
         });
 
+        // load search button image
         Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
         searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
-    }
 
-    private void openPatientRecord(IPatient currPatient) {
-        //Todo: rework
-        _model.addPatientTab(currPatient);
-    }
-
-    @FXML
-    public void searchPatient(ActionEvent actionEvent) {
-        String lastName = searchPatientLastname.getText();
-        String firstName = searchPatientFirstname.getText();
-        String svn = searchPatientSVN.getText();
-
-        ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
-
-        if (patientlist.size() > 0) {
-            searchPatientList.setItems(patientlist);
-        } else {
-            DialogBoxController.getInstance().showInformationDialog("Information", "No matches found");
-
-            searchPatientLastname.clear();
-            searchPatientFirstname.clear();
-            searchPatientSVN.clear();
-            searchPatientLastname.requestFocus();
-        }
-
+        // add click handler for searchresult list (opens selected patient)
         searchPatientList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
 
                 if (event.getClickCount() == 2) {
-                    IPatient currPatientItem = (IPatient) searchPatientList.getSelectionModel().getSelectedItem();
-
-                    //open Patient record
-                    openPatientRecord(currPatientItem);
+                    _model.setPatient((IPatient) searchPatientList.getSelectionModel().getSelectedItem());
+                    _model.loadTab("PATIENT RECORD: " + _model.getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
                 }
             }
         });
+    }
+
+    // thread for search
+    public Task<Void> doSearchPatients() {
+        return new Task<Void>() {
+            @Override
+            protected Void call() {
+
+                searchPatientButton.setDisable(true);
+
+                String lastName = searchPatientLastname.getText();
+                String firstName = searchPatientFirstname.getText();
+                String svn = searchPatientSVN.getText();
+
+                ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
+
+                if (patientlist.size() > 0) {
+                    searchPatientList.setItems(patientlist);
+                } else {
+                    DialogBoxController.getInstance().showInformationDialog("Information", "No matches found");
+                    searchPatientLastname.clear();
+                    searchPatientFirstname.clear();
+                    searchPatientSVN.clear();
+                    searchPatientLastname.requestFocus();
+                }
+
+                return null;
+            }
+        };
+    }
+
+    @FXML
+    public void searchPatient(ActionEvent actionEvent) {
+        final Task<Void> search = doSearchPatients();
+        StatusBarController.showProgressBarIdle("Seraching patients");
+
+        search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                StatusBarController.hideStatusBarProgressBarIdle();
+                searchPatientButton.setDisable(false);
+            }
+        });
+        new Thread(search).start();
     }
 }
