@@ -17,9 +17,7 @@ package at.oculus.teamf.presentation.view;
  ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.persistence.exception.FacadeException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,19 +27,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-//import se.mbaeumer.fxmessagebox.MessageBox;
-//import se.mbaeumer.fxmessagebox.MessageBoxType;
 /**
  * Created by Karo on 11.04.2015.
  */
@@ -67,24 +60,21 @@ public class PatientSearchController implements Initializable{
                 searchPatientLastname.requestFocus();
             }
         });
+
+        Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
+        searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
     }
 
-    private void openPatientRecord(IPatient currPatient)
-    {
+    private void openPatientRecord(IPatient currPatient) {
         //Todo: rework
         _model.addPatientTab(currPatient);
     }
 
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
-
-
         String lastName = searchPatientLastname.getText();
         String firstName = searchPatientFirstname.getText();
         String svn = searchPatientSVN.getText();
-
-        Image imageSearchIcon = new Image(getClass().getResourceAsStream("/res/icon_search.png"));
-        searchPatientButton.setGraphic(new ImageView(imageSearchIcon));
 
         ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
 

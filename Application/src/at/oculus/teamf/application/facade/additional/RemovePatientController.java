@@ -19,10 +19,19 @@ package at.oculus.teamf.application.facade.additional;
  **/
 
 
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 /**
@@ -44,14 +53,17 @@ public class RemovePatientController implements ILogger{
      * @param iPatient this parameter shows the interface of the patient which should be removed from the database
      *
      */
-    public void removePatientFromDatabase (IPatient iPatient) throws FacadeException {
+    public void removePatientFromDatabase (IPatient iPatient) throws CriticalClassException, CriticalDatabaseException, InvalidSearchParameterException, BadConnectionException {
         Facade facade = Facade.getInstance();
         try {
             facade.delete((Patient) iPatient);
             log.info("Patient has been deleted.");
-        } catch (FacadeException facadeException) {
-            log.warn("FacadeException caught! Facade could not delete patient!");
-            throw facadeException;
+        } catch (NoBrokerMappedException e) {
+            log.error("Major implementation error was found! " + e.getMessage());
+            throw new CriticalClassException();
+        } catch (DatabaseOperationException e) {
+            log.error("Major database error was found! " + e.getMessage());
+            throw new CriticalDatabaseException();
         }
     }
 }

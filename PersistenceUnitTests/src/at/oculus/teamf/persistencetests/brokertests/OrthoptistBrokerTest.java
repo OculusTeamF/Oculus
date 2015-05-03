@@ -41,8 +41,6 @@ public class OrthoptistBrokerTest extends BrokerTest {
         } catch (FacadeException e) {
             assertTrue(false);
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
         }
         assertTrue(orthoptist != null);
         assertTrue(orthoptist.getUserId() > 0);
@@ -58,9 +56,7 @@ public class OrthoptistBrokerTest extends BrokerTest {
 	    } catch (FacadeException e) {
 		    assertTrue(false);
             e.printStackTrace();
-	    } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+	    }
 
         Assert.assertTrue(orthoptists != null);
 	    Assert.assertTrue(orthoptists.size() > 1);

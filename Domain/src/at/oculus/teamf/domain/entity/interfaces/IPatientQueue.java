@@ -12,6 +12,8 @@ package at.oculus.teamf.domain.entity.interfaces;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
@@ -26,7 +28,7 @@ public interface IPatientQueue {
 
     Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException;
 
-    void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException;
+    void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException, CouldNotAddPatientToQueueException;
 
-    void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException;
+    void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException, CouldNotRemovePatientFromQueue;
 }

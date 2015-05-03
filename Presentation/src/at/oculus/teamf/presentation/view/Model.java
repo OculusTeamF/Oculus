@@ -11,24 +11,28 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.*;
 import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
-import at.oculus.teamf.application.facade.exceptions.InvalidSearchParameterException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.PatientQueue;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -66,6 +70,7 @@ public class Model implements Serializable{
     private TabPane _tabPanel = null;
     private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
+    private Task<Void> task;
 
 
     /**
@@ -79,6 +84,10 @@ public class Model implements Serializable{
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
             e.printStackTrace();
         }
     }
@@ -96,7 +105,6 @@ public class Model implements Serializable{
      */
     public void setPrimaryStage(Stage primaryStage){
         this._primaryStage = primaryStage;
-
     }
 
     // *******************************************************************
@@ -148,34 +156,17 @@ public class Model implements Serializable{
     // User methods
     // *******************************************************************
 
-    /**
-     * Returns the List of all Doctors in a Collection of IDoctors
-     * @return
-     */
-    public Collection<IDoctor> getAllDoctors(){
-
-        return _doctors;
-    }
-
-    /**
-     * Returns a Collection of all IDoctors and IOrthoptists
-     * @return
-     */
-    public Collection<IUser> getAllDoctorsAndOrhtoptists(){
-
-        return _userlist;
-    }
+    public Collection<IDoctor> getAllDoctors(){ return _doctors; }
+    public Collection<IUser> getAllDoctorsAndOrthoptists(){ return _userlist; }
 
     // *******************************************************************
     // Patient methods
     // *******************************************************************
 
-    /**
-     * Returns an Object of the Patient
-     */
     public IPatient getPatient(){
         return this._patient;
     }
+    public void setPatient(IPatient setPatient) { this._patient = setPatient; }
 
     /**
      * Returns Calendar Events of a specific patient
@@ -193,6 +184,8 @@ public class Model implements Serializable{
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
+        } catch (CouldNotGetCalendarEventsException e) {
+            e.printStackTrace();
         }
         return events;
     }
@@ -205,13 +198,13 @@ public class Model implements Serializable{
         Collection<IPatient> searchresults = null;
         try {
             searchresults = _searchPatientController.searchPatients(text);
+        }  catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-        } catch (SearchInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         }
 
@@ -223,17 +216,16 @@ public class Model implements Serializable{
 
         try {
             searchresults = _searchPatientController.searchPatients(svn, fname, lname);
-        } catch (SearchInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
+        }  catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
+        } catch (CriticalDatabaseException e) {
+            e.printStackTrace();
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         }
 
         return searchresults;
@@ -256,9 +248,10 @@ public class Model implements Serializable{
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
+        } catch (CriticalDatabaseException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         }
     }
 
@@ -276,9 +269,10 @@ public class Model implements Serializable{
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
+        } catch (CriticalDatabaseException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -309,7 +303,9 @@ public class Model implements Serializable{
                     if (event.getClickCount() == 2) {
                         ListView source;
                         source = (ListView) event.getSource();
-                        addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
+                        setPatient((IPatient) source.getSelectionModel().getSelectedItem());
+                        loadTab("PATIENT RECORD: " + getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
+                        //addPatientTab((IPatient) source.getSelectionModel().getSelectedItem());
                     }
                 }
             });
@@ -333,7 +329,7 @@ public class Model implements Serializable{
 
             // bind listview to titledpanes
             listView.setItems(olist);
-            listView.setPrefHeight(olist.size() * 30);
+            listView.setPrefHeight((olist.size() * 24) + 8);
 
             _queueTitledPane[i] = new TitledPane(queuename, listView);
             _queueTitledPane[i].setExpanded(false);
@@ -400,12 +396,13 @@ public class Model implements Serializable{
         } catch (BadConnectionException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (CheckinControllerException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
+        } catch (CriticalClassException e) {
+            e.printStackTrace();
+        } catch (CouldNotAddPatientToQueueException e) {
+            e.printStackTrace();
         }
         System.out.println("Before refresh !!!!!!!!!!!!!!!!!");
         refreshQueue();
@@ -471,18 +468,8 @@ public class Model implements Serializable{
 
         try {
             protocols = _recievePatientController.getAllExaminationProtocols(patient);
-        } catch (InvalidReloadClassException e) {
+        } catch (CouldNotGetExaminationProtolException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact your support");
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact your support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact your support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact your support");
         }
 
         return protocols;
@@ -495,11 +482,8 @@ public class Model implements Serializable{
 
         try {
             _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
+        }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
+            couldNotAddExaminationProtocol.printStackTrace();
         }
     }
-
 }

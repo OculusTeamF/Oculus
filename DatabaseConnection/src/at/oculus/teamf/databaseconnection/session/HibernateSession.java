@@ -9,16 +9,12 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
-import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.hibernate.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,6 +27,7 @@ import java.util.HashSet;
  * @date 30.03.2015
  * @version 1.0
  */
+
 class HibernateSession implements ISession, ISessionClosable, ILogger {
 
     //hibernate session
@@ -62,12 +59,12 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
      * Use {@link #rollback()} to rollback the current transaction and {@link #commit()}
      * to commit the current session to the database.
      *
-     * @return {@code true} if the connection was started, else {@code false}
-     * @throws BadSessionException           if the session is corrupted
+     * @throws CanNotStartTransactionException if the transaction was not started
      * @throws AlreadyInTransactionException if a transaction is already running
+     * @throws BadSessionException if the session is corrupted or no longer valide
      */
     @Override
-    public boolean beginTransaction() throws BadSessionException, AlreadyInTransactionException {
+    public void beginTransaction() throws AlreadyInTransactionException, CanNotStartTransactionException, BadSessionException {
         validateSession();
 
         if (_transaction != null) {
@@ -79,10 +76,8 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
             _transaction.begin();
         } catch (HibernateException e) {
             log.error("Can not start transaction! OriginalMessage: " + e.getMessage());
-            return false;
+            throw new CanNotStartTransactionException();
         }
-
-        return true;
     }
 
 
@@ -100,12 +95,11 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
      * Commits a transaction to the database that was started before by calling {@code #beginTransaction()}.
      * The method will rollback the transaction if an error occurs.
      *
-     * @return {@code true} if the commit was successful and {@code false} if an error occurred
-     * @throws BadSessionException           if the session is corrupted
-     * @throws AlreadyInTransactionException if no transaction is runnning
+     * @throws BadSessionException if the session is corrupted or no longer valide
+     * @throws CanNotCommitTransactionException if an error occured while trying to commit the transaction
      */
     @Override
-    public boolean commit() throws BadSessionException, NoTransactionException {
+    public void commit() throws NoTransactionException, BadSessionException, CanNotCommitTransactionException {
         validateSession();
 
         if (_transaction == null) {
@@ -116,23 +110,25 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
             _transaction.commit();
         } catch (HibernateException e) {
             log.error("Can not commit the transaction! OriginalMessage: " + e.getMessage());
-            rollback();
-            return false;
+            try {
+                rollback();
+            } catch (CanNotRollbackTheTransaction ex) {
+                //eat up
+            }
+            throw new CanNotCommitTransactionException();
         }
-
         _transaction = null;
-        return true;
     }
 
     /**
      * Will rollback the database to the state before the transaction was started, when calling {@code #beginTransaction()}
      *
-     * @return {@code true} if the transaction was rolled back successfully, false if something went wrong
-     * @throws BadSessionException           if the session is corrupted
-     * @throws AlreadyInTransactionException if no transaction is runnning
+     * @throws BadSessionException if the session is corrupted or no longer valide
+     * @throws NoTransactionException if there is no transaction to rollback
+     * @throws CanNotRollbackTheTransaction if an error occured when trying to rollback the transaction
      */
     @Override
-    public boolean rollback() throws BadSessionException, NoTransactionException {
+    public void rollback() throws NoTransactionException, BadSessionException, CanNotRollbackTheTransaction {
         validateSession();
 
         if (_transaction == null) {
@@ -143,23 +139,22 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
             _transaction.rollback();
         } catch (HibernateException e) {
             log.error("A error occurred when rolling back the transaction! OriginalMessage: " + e.getMessage());
-            return false;
+            throw new CanNotRollbackTheTransaction();
         }
 
         _transaction = null;
-        return true;
     }
 
     /**
      * Deletes a object from the database during a transaction
      *
      * @param obj object to delete from the database
-     * @return {@code true} if obj was delete sucessfully from the database. {@code }
-     * @throws BadSessionException           if the session is corrupted
-     * @throws AlreadyInTransactionException if no transaction is runnning
+     * @throws BadSessionException if the session is corrupted or no longer valide
+     * @throws NoTransactionException if no transaction is running
+     * @throws ClassNotMappedException if the class of obj was not mapped for matirialization
      */
     @Override
-    public boolean delete(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException {
+    public void delete(Object obj) throws NoTransactionException, ClassNotMappedException, BadSessionException {
         validateSession();
 
         if (_transaction == null) {
@@ -172,11 +167,12 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
             _session.delete(obj);
         } catch (HibernateException e) {
             log.error("A error ocured during the deletion process!: " + e.getMessage());
-            rollback();
-            return false;
+            try {
+                rollback();
+            } catch (CanNotRollbackTheTransaction ex) {
+                //eat up
+            }
         }
-
-        return true;
     }
 
     /**
@@ -196,10 +192,10 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
      * @param clazz the class of the object that is needed from the database
      * @param id    identifier of the object in the database
      * @return a object form the clazz, or null if the id was not found
-     * @throws BadSessionException if the session is corrupted
+     * @throws BadSessionException if the session is corrupted or no longer valide
      */
     @Override
-    public Object getByID(Class clazz, Serializable id) throws BadSessionException, ClassNotMappedException {
+    public Object getByID(Class clazz, Serializable id) throws ClassNotMappedException, BadSessionException {
         validateSession();
 
         validateClass(clazz);
@@ -212,10 +208,10 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
      *
      * @param clazz class of the objects that are needed from the database
      * @return a collection of objects from type clazz
-     * @throws BadSessionException if the session is corrupted
+     * @throws BadSessionException if the session is corrupted or no longer valide
      */
     @Override
-    public Collection<Object> getAll(Class clazz) throws BadSessionException, ClassNotMappedException {
+    public Collection<Object> getAll(Class clazz) throws ClassNotMappedException, BadSessionException {
         validateSession();
 
         validateClass(clazz);
@@ -226,12 +222,13 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
     /**
      * Saves a object in the database
      *
-     * @return the unique id of the object in the database
-     * @throws BadSessionException           if there is an Connection error
-     * @throws AlreadyInTransactionException if no transaction is runnning
+     * @return the unique id of the object in the database, or -1 if something went wrong
+     * @throws BadSessionException if the session is corrupted or no longer valide
+     * @throws NoTransactionException if no transaction is running
+     * @throws ClassNotMappedException if the class of obj was not mapped for dematiralizing
      */
     @Override
-    public Serializable save(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException  {
+    public Serializable save(Object obj) throws NoTransactionException, ClassNotMappedException, BadSessionException {
         validateSession();
 
         validateClass(obj.getClass());
@@ -241,26 +238,30 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
         }
 
         try {
-            _session.save(obj);
+            return _session.save(obj);
         } catch (HibernateException e) {
             log.error("A error occurred when trying to save " + obj + "! OriginalMessage: " + e.getMessage());
 
-            rollback();
-            return false;
+            try {
+                rollback();
+            } catch (CanNotRollbackTheTransaction ex) {
+                //eat up
+            }
         }
 
-        return false;
+        return -1;
     }
 
 	/**
 	 * Saves or updates a object in the database
 	 *
 	 * @return the unique id of the object in the database
-	 * @throws BadSessionException           if there is an Connection error
-	 * @throws AlreadyInTransactionException if no transaction is runnning
+	 * @throws BadSessionException if the session is corrupted or no longer valide
+     * @throws NoTransactionException if no transaction is running
+     * @throws ClassNotMappedException if the class of obj was not mapped for dematiralizing
 	 */
 	@Override
-	public Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException  {
+	public void saveOrUpdate(Object obj) throws NoTransactionException, ClassNotMappedException, BadSessionException {
 		validateSession();
 
 		validateClass(obj.getClass());
@@ -273,11 +274,12 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
 			_session.saveOrUpdate(obj);
 		} catch (HibernateException e) {
             log.error("A error occurred when trying to save " + obj +"! OriginalMessage: " + e.getMessage());
-			rollback();
-			return false;
+            try {
+                rollback();
+            } catch (CanNotRollbackTheTransaction ex) {
+                //eat up
+            }
 		}
-
-		return false;
 	}
 
     /**
@@ -286,6 +288,7 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
      * @param queryName namedquery name that is spezivied in the entity
      * @param parameters to use in the query if needed
      * @return a collection of objects or null if no entry was found
+     * @throws BadSessionException if the session is corrupted or no longer valide
      */
 	@Override
 	public Collection<Object> search(String queryName, String... parameters) throws BadSessionException {

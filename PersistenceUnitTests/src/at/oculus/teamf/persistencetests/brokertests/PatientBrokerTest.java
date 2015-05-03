@@ -14,8 +14,11 @@ import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -126,22 +129,11 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(patient.getCalendarEvents().size() > 0);
 			assertTrue(patient.getExaminationProtocol() != null);
 			assertTrue(patient.getExaminationProtocol().size()==5);
-		} catch (InvalidReloadClassException e) {
+		} catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (ReloadInterfaceNotImplementedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+		}
+	}
 
 	@Test
 	public void testSearchPatient(){
@@ -188,36 +180,24 @@ public class PatientBrokerTest extends BrokerTest {
 			for(Object p : Facade.getInstance().search(Patient.class, "5678151082")){
 				patient = (Patient) p;
 			}
-		} catch (SearchInterfaceNotImplementedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (InvalidSearchParameterException e) {
+		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 
-        // create diagnosis
+		// create diagnosis
 		Diagnosis diagnosis = new Diagnosis();
 		diagnosis.setDoctor(patient.getDoctor());
 		diagnosis.setTitle("Test Diagnosis");
 		diagnosis.setDescription("Test Text einer Diagnose.");
 		try {
 			assertTrue(Facade.getInstance().save(diagnosis));
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 
-        // create examination protocol
+		// create examination protocol
 		ExaminationProtocol examinationProtocol = new ExaminationProtocol();
 		examinationProtocol.setDoctor(patient.getDoctor());
 		examinationProtocol.setOrthoptist(null);
@@ -227,28 +207,19 @@ public class PatientBrokerTest extends BrokerTest {
 		examinationProtocol.setDiagnosis(diagnosis);
 		try {
 			assertTrue(Facade.getInstance().save(examinationProtocol));
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 
-        // delete
+		// delete
 		try {
 			assertTrue(Facade.getInstance().save(examinationProtocol.getDoctor()));
 			assertTrue(Facade.getInstance().delete(examinationProtocol));
 			assertTrue(Facade.getInstance().delete(diagnosis));
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (InvalidSearchParameterException e) {
+		} catch (BadConnectionException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-    }
+	}
 }

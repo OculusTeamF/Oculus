@@ -16,5 +16,5 @@ package at.oculus.teamf.databaseconnection.session.exception;
  * @date 30.03.2015
  * @version 1.0
  */
-public class NoTransactionException extends Exception {
+public class NoTransactionException extends SessionException {
 }

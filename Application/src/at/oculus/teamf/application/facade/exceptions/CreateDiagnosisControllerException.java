@@ -12,6 +12,6 @@ package at.oculus.teamf.application.facade.exceptions;
 /**
  * Created by jpo2433 on 30.04.15.
  */
-public class CreateDiagnosisControllerException extends Exception {
+public class CreateDiagnosisControllerException extends ApplicationException {
 
 }

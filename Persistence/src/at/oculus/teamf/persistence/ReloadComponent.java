@@ -14,8 +14,11 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ public class ReloadComponent implements ILogger{
      * @return collection of domain objects
      * @throws FacadeException gets thrown if an error occures
      */
-    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException, BadSessionException {
+    public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         Facade facade = Facade.getInstance();
 
         //load database CalendarEventEntity that has the collection that needs to be reloaded

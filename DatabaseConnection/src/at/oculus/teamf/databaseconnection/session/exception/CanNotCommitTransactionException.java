@@ -7,10 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.facade.exceptions;
+package at.oculus.teamf.databaseconnection.session.exception;
 
 /**
- * Created by oculus on 23.04.15.
+ * Created by Simon Angerer on 02.05.2015.
  */
-public class InvalidSearchParameterException extends SearchPatientControllerException{
+public class CanNotCommitTransactionException extends SessionException {
 }

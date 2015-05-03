@@ -9,14 +9,10 @@
 
 package at.oculus.teamf.databaseconnection.session;
 
-import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.*;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Session interface to abstract sessions dealt by broker that implement the at.oculus.teamf.databaseconnection.session.ISessionBroker
@@ -34,21 +30,21 @@ public interface ISession {
      *
      * @return true if the transaction was successfully started
      */
-    boolean beginTransaction() throws BadSessionException, AlreadyInTransactionException;
+    void beginTransaction() throws AlreadyInTransactionException, CanNotStartTransactionException, BadSessionException;
 
     /**
      * Commits the current session to the database.
      *
      * @return true if the current session was sucessfully commited
      */
-    boolean commit() throws BadSessionException, NoTransactionException;
+    void commit() throws NoTransactionException, BadSessionException, CanNotCommitTransactionException;
 
     /**
      * Resets the current transaction to the state before the transaction was started.
      *
      * @return true if the rollback was successful
      */
-    boolean rollback() throws BadSessionException, NoTransactionException;
+    void rollback() throws NoTransactionException, BadSessionException, CanNotRollbackTheTransaction;
 
     /**
      * Deletes a object from the database
@@ -56,7 +52,7 @@ public interface ISession {
      * @param obj object to delete
      * @return true if the delete was sucsessful
      */
-    boolean delete(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
+    void delete(Object obj) throws NoTransactionException, ClassNotMappedException, BadSessionException, CanNotRollbackTheTransaction;
 
     /**
      * Loads an object form the database from type clazz and with the specified id
@@ -65,7 +61,7 @@ public interface ISession {
      * @param id    of the object in the database
      * @return a object
      */
-    Object getByID(Class clazz, Serializable id) throws BadSessionException, ClassNotMappedException;
+    Object getByID(Class clazz, Serializable id) throws ClassNotMappedException, BadSessionException;
 
     /**
      * Loads a collection object form the database from type clazz
@@ -73,7 +69,7 @@ public interface ISession {
      * @param clazz of the object in the collection that needs to be loaded
      * @return a collection of objects from type clazz
      */
-    Collection<Object> getAll(Class clazz) throws BadSessionException, ClassNotMappedException;
+    Collection<Object> getAll(Class clazz) throws ClassNotMappedException, BadSessionException;
 
     /**
      * Saves a object in the database, can also override an entry
@@ -82,15 +78,14 @@ public interface ISession {
      *            void search(Class<P> , String[] );
      * @return the new id of the object in the database
      */
-    Serializable save(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
+    Serializable save(Object obj) throws NoTransactionException, ClassNotMappedException, BadSessionException;
 
     /**
      * Saves a object in the database if a object would be overriden it will update the object instead
      *
      * @param obj that needs to be saved
-     * @return the new id of the object in the database if it was saved an not updated
      */
-    Serializable saveOrUpdate(Object obj) throws BadSessionException, NoTransactionException, ClassNotMappedException;
+    void saveOrUpdate(Object obj) throws NoTransactionException, ClassNotMappedException, BadSessionException;
 
     /**
      * @param queryName name of the named query

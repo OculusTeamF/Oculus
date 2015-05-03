@@ -14,6 +14,7 @@ import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -43,9 +44,7 @@ public class CalendarBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(cal != null);
 	}
 
@@ -64,9 +63,7 @@ public class CalendarBrokerTest extends BrokerTest{
         } catch (FacadeException e) {
             assertTrue(false);
 			e.printStackTrace();
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
         assertTrue(cal != null);
 
 		try {
@@ -74,17 +71,16 @@ public class CalendarBrokerTest extends BrokerTest{
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
-		} catch (BadSessionException e) {
-            e.printStackTrace();
-        }
+		}
 
         try {
             assertTrue(cal.getEvents() != null);
             assertTrue(cal.getEvents().size() > 1);
         } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
-        } catch (BadSessionException e) {
-            e.printStackTrace();
-        }
-    }
+        } catch (DatabaseOperationException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+	}
 }
