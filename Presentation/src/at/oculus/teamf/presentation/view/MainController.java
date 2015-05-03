@@ -48,14 +48,13 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         _model.setTabPanel(displayPane);
-        //_model.getAllDoctors();
-        //_model.getAllDoctorsAndOrthoptists();
 
         // search button & list init
         buttonAddPatient.setVisible(false);
         Image imageAddPatientButton = new Image(getClass().getResourceAsStream("/res/icon_addpatient.png"));
         buttonAddPatient.setGraphic(new ImageView(imageAddPatientButton));
         buttonAddPatient.setVisible(true);
+        buttonAddPatient.setTooltip(new Tooltip("New patient"));
 
         // statusbar setup
         borderPane.setBottom(StatusBarController.getInstance());
@@ -93,57 +92,22 @@ public class MainController implements Initializable {
         }
     }
 
-    // *******************************************************************
-    // New Tabs Methods
-    // *******************************************************************
-
-    /*Tabhandler*/
-    /*public void loadTab(String tabTitle, String tabFXML, ResourceBundle resourceMap){
-        try {
-            Tab tab = new Tab(tabTitle);
-            AnchorPane ap = (AnchorPane) FXMLLoader.load(this.getClass().getResource(tabFXML),resourceMap);
-            tab.setContent(ap);
-            displayPane.getTabs().add(tab);
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
-        }
-    }*/
 
     /*Tab: opens new tab for patient search (detailled search)*/
     @FXML
     public void searchPatient(ActionEvent actionEvent) {
-        //HashMap<String, Object> resourceMap = new HashMap<>();
-        //_model.loadTab("Search patient", "fxml/SearchPatientTab.fxml",new HashResourceBundle(resourceMap));
 
-        _model.loadTab( "Search patient", "fxml/SearchPatientTab.fxml");
+        StatusBarController.getInstance().setText("Open Patient Search...");
+        _model.loadTab("Search patient", "fxml/SearchPatientTab.fxml");
     }
 
-    /*Tab: opens patient record for selected patient*/
-    /*public void addPatientTab(IPatient patient) {
-        //HashMap<String, Object> resourceMap = new HashMap<>();
-        //resourceMap.put("Doctors", _doctors);
-        //resourceMap.put("Doctors", _model.getAllDoctors());
-        //resourceMap.put("Patient", patient);
-        //resourceMap.put("UserList", _userlist);
-        //resourceMap.put("UserList", _model.getAllDoctorsAndOrhtoptists());
 
-        _model.loadTab("Patient: " + patient.getFirstName() + " " + patient.getLastName(), "fxml/PatientRecordTab.fxml");
-
-        //Tab tab = (Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientRecordTab.fxml"), new HashResourceBundle(resourceMap));
-        //displayPane.getTabs().addAll(tab);
-        //displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        //displayPane.getTabs().get(displayPane.getTabs().size() - 1).setText("Patient: " + patient.getFirstName() + " " + patient.getLastName());
-        StatusBarController.getInstance().setText("Opened Patient Record: " + patient.getFirstName() + " " + patient.getLastName());
-    }*/
 
     /*Tab: opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
-        //HashMap<String, Object> resourceMap = new HashMap<>();
-        //resourceMap.put("Doctors", _doctors);
-        //resourceMap.put("Doctors", _model.getAllDoctors());
+
+        StatusBarController.getInstance().setText("Open New Patient...");
         _model.loadTab("Add new patient", "fxml/NewPatientTab.fxml");
     }
 

@@ -27,11 +27,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -98,11 +101,6 @@ public class NewPatientController implements Initializable{
         String lastname = newPatientLastname.getText();
         String firstname = newPatientFirstname.getText();
         String svn = newPatientSVN.getText();
-
-        LocalDate localDate = newPatientBday.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date bday = Date.from(instant);
-
         String street = newPatientStreet.getText();
         String postalcode = newPatientPLZ.getText();
         String city = newPatientCity.getText();
@@ -112,29 +110,51 @@ public class NewPatientController implements Initializable{
         String countryIsoCode = newPatientCountryIsoCode.getText();
 
         //check if every field is filled with data
+        boolean filled = true;
         if(radioGenderFemale.isSelected()){
             gender = "female";
         }else if(radioGenderMale.isSelected()){
             gender = "male";
         }else{
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose gender.");
+            filled = false;
+            //DialogBoxController.getInstance().showInformationDialog("Information", "Please choose gender.");
         }
         if(lastname.isEmpty()){
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Lastname.");
+            filled = false;
+           newPatientLastname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            //DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Lastname.");
         }
         if(firstname.isEmpty()){
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Firstname.");
+            filled = false;
+            newPatientFirstname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            //DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Firstname.");
         }
         if(svn.isEmpty()){
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Social security number.");
+            filled = false;
+            newPatientSVN.setStyle("-fx-control-inner-background: #fafad2");
+            //DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Social security number.");
         }
-        if(bday.toString().isEmpty()) {
-            DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Birthday.");
+        if(newPatientBday.getValue() == null) {
+            filled = false;
+            newPatientBday.requestFocus();
         }
 
-        boolean isSaved = _model.saveNewPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+
+        boolean isSaved = false;
+
+        if(!filled){
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please fill in the mandatory fields.");
+        }else{
+
+            LocalDate localDate = newPatientBday.getValue();
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+            Date bday = Date.from(instant);
+            StatusBarController.getInstance().setText("Save New Patient...");
+            isSaved = _model.saveNewPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+        }
 
         if(isSaved){
+            StatusBarController.getInstance().setText("Patient " + newPatientLastname + ", " +newPatientFirstname+ "is saved.");
             DialogBoxController.getInstance().showInformationDialog("Information", "Patient: " +lastname+", "+firstname+" is saved.");
         }
     }

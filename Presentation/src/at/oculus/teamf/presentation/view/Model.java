@@ -16,6 +16,8 @@ import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
@@ -33,22 +35,17 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Karo on 01.05.2015.
@@ -56,7 +53,6 @@ import java.util.List;
 public class Model implements Serializable{
 
     private Stage _primaryStage = null;
-
 
     private static Model _modelInstance;
     private StartupController _startupController = new StartupController();
@@ -75,6 +71,7 @@ public class Model implements Serializable{
     private HashMap<IUser, ObservableList> _userWaitingList;
     private HashMap<IUser, ListView> _listViewMap;
     private HashMap<IUser, TitledPane> _queueTitledPaneFromUser = new HashMap<>();
+    private HashMap<String, IPatient> _patientsInQueue = new HashMap<>();
 
 
     /**
@@ -157,7 +154,7 @@ public class Model implements Serializable{
 
 
     // *******************************************************************
-    // User methods
+    // User methods - should not be used by the controllers
     // *******************************************************************
 
     public Collection<IDoctor> getAllDoctors(){ return _doctors; }
@@ -182,14 +179,19 @@ public class Model implements Serializable{
             events = _patient.getCalendarEvents();
         } catch (InvalidReloadClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact support");
         } catch (ReloadInterfaceNotImplementedException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (CouldNotGetCalendarEventsException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetCalendarEventsException - Please contact support");
         }
         return events;
     }
@@ -204,12 +206,16 @@ public class Model implements Serializable{
             searchresults = _searchPatientController.searchPatients(text);
         }  catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (CriticalDatabaseException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         } catch (InvalidSearchParameterException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
         }
 
         return searchresults;
@@ -228,8 +234,10 @@ public class Model implements Serializable{
             DialogBoxController.getInstance().showExceptionDialog(e, "FacadeException - Please contact support");
         } catch (CriticalDatabaseException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         }
 
         return searchresults;
@@ -254,15 +262,33 @@ public class Model implements Serializable{
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (CriticalDatabaseException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         }
     }
 
+    /**
+     * saves a new Patient object
+     * @param gender
+     * @param lastname
+     * @param firstname
+     * @param svn
+     * @param bday
+     * @param street
+     * @param postalcode
+     * @param city
+     * @param phone
+     * @param email
+     * @param doctor
+     * @param countryIsoCode
+     * @return
+     */
     public boolean saveNewPatient(String gender, String lastname, String firstname, String svn, Date bday, String street, String postalcode, String city, String phone, String email, IDoctor doctor, String countryIsoCode){
 
         try {
-            _createPatientController.createPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+            _createPatientController.createPatient(gender, lastname, firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
             return true;
         } catch (RequirementsNotMetException e) {
             e.printStackTrace();
@@ -275,12 +301,31 @@ public class Model implements Serializable{
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (CriticalDatabaseException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         }
         return false;
     }
 
+    /**
+     * returns all Diagnoses Titles from a given Patient
+     * @return
+     */
+    public Collection getDiagnoses(){
+
+        //TODO: Method from application
+        Collection allDiagnoses = null;
+
+        /*try {
+           allDiagnoses = _recievePatientController.getAllDiagnoses(_patient);
+        } catch (CouldNotGetExaminationProtolException e) {
+            e.printStackTrace();
+        }*/
+
+        return allDiagnoses;
+    }
 
     // *******************************************************************
     // Queue methods
@@ -296,7 +341,7 @@ public class Model implements Serializable{
         // setup listviews
         int i = 0;
         for (IUser u : _userlist) {
-            ListView<IPatient> listView = new ListView<>();
+            ListView<HBoxCell> listView = new ListView<>();
             listView.setPrefSize(200, 250);
             listView.minWidth(Region.USE_COMPUTED_SIZE);
             listView.minHeight(Region.USE_COMPUTED_SIZE);
@@ -318,14 +363,14 @@ public class Model implements Serializable{
 
             //put the entries of the Queue from User u into the List
             ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) getEntriesFromQueue(u));
-            ObservableList<IPatient> olist = FXCollections.observableArrayList();
+            //ObservableList<IPatient> olist = FXCollections.observableArrayList();
 
+            ObservableList<HBoxCell> olist = FXCollections.observableArrayList();
             for(QueueEntry entry : entries){
-                olist.add(entry.getPatient());
-            }
 
-            // Queue titlepane string - Header of the Titled panel
-            String queuename = buildTitledPaneHeader(u, olist.size());
+                _patientsInQueue.put(entry.getPatient().toString(), entry.getPatient());
+                olist.add(new HBoxCell(entry));
+            }
 
             // bind listview to titledpanes
             listView.setItems(olist);
@@ -333,6 +378,9 @@ public class Model implements Serializable{
 
             _userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);
+
+            // Queue titlepane string - Header of the Titled panel
+            String queuename = buildTitledPaneHeader(u, olist.size());
 
             TitledPane queueTitledPane = new TitledPane(queuename, listView);
             queueTitledPane.setExpanded(false);
@@ -468,7 +516,6 @@ public class Model implements Serializable{
         } catch (CouldNotAddPatientToQueueException e) {
             e.printStackTrace();
         }
-        System.out.println("Before refresh !!!!!!!!!!!!!!!!!");
         refreshQueue(user);
     }
 
@@ -515,4 +562,28 @@ public class Model implements Serializable{
             couldNotAddExaminationProtocol.printStackTrace();
         }
     }
+
+    /**
+     * produces the content of the ListView items
+     */
+    public static class HBoxCell extends HBox{
+
+        QueueEntry entry = null;
+        Button _button = new Button();
+        Label _label;
+
+        HBoxCell(QueueEntry entry ){
+            super();
+            Image imageEnqueue = new Image(getClass().getResourceAsStream("/res/arrow1_klein.png"));
+            _button.setGraphic(new ImageView(imageEnqueue));
+            _button.setTooltip(new Tooltip("remove Patient from Waiting List"));
+            _label = new Label(entry.getPatient().toString());
+            _label.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(_label, Priority.ALWAYS);
+            this.getChildren().addAll(_label, _button);
+        }
+
+
+    }
 }
+

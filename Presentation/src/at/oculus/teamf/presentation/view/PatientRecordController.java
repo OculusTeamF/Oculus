@@ -58,6 +58,7 @@ public class PatientRecordController implements Initializable {
     @FXML public ComboBox<IUser> addToQueueBox;
     @FXML public Button addPatientToQueueButton;
     @FXML public Button examinationProtocolButton;
+    @FXML public ListView patientRecordListDiagnoses;
     @FXML private Accordion medicalHistory;
     @FXML private TitledPane mh4, mh3, mh2, mh1;
     //</editor-fold>
@@ -111,7 +112,7 @@ public class PatientRecordController implements Initializable {
 
         patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
         patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
-
+        //TODO: patientRecordListDiagnoses.setItems(FXCollections.observableList(_model.getDiagnoses()));
 
         //<editor-fold desc="Set Default Values">
         //disable all Patientfields and the save button, sets the text from IPatient into fields
