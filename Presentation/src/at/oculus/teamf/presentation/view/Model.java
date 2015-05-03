@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -71,6 +72,9 @@ public class Model implements Serializable{
     private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
     private Task<Void> task;
+    private HashMap<IUser, ObservableList> _userWaitingList;
+    private HashMap<IUser, ListView> _listViewMap;
+    private HashMap<IUser, TitledPane> _queueTitledPaneFromUser = new HashMap<>();
 
 
     /**
@@ -285,7 +289,9 @@ public class Model implements Serializable{
 
     public void buildQueueLists(){
 
-        _queueTitledPane = new TitledPane[_userlist.size()];
+       // _queueTitledPane = new TitledPane[_userlist.size()];
+        _userWaitingList = new HashMap<>();
+        _listViewMap = new HashMap<>();
 
         // setup listviews
         int i = 0;
@@ -319,30 +325,88 @@ public class Model implements Serializable{
             }
 
             // Queue titlepane string - Header of the Titled panel
-            String queuename;
-            if (u.getTitle() == null || u.getTitle().equals("null") || u.getTitle().equals("")) {
-                queuename = u.getFirstName() + " " + u.getLastName();
-            } else {
-                queuename = u.getTitle() + " " + u.getFirstName() + " " + u.getLastName();
-            }
-            queuename = queuename + " (" + olist.size()+")";
+            String queuename = buildTitledPaneHeader(u, olist.size());
 
             // bind listview to titledpanes
             listView.setItems(olist);
             listView.setPrefHeight((olist.size() * 24) + 8);
 
-            _queueTitledPane[i] = new TitledPane(queuename, listView);
-            _queueTitledPane[i].setExpanded(false);
-            _queueTitledPane[i].setAnimated(true);
-            _queueTitledPane[i].setVisible(true);
+            _userWaitingList.put(u, olist);
+            _listViewMap.put(u, listView);
+
+            TitledPane queueTitledPane = new TitledPane(queuename, listView);
+            queueTitledPane.setExpanded(false);
+            queueTitledPane.setAnimated(true);
+            queueTitledPane.setVisible(true);
+
+            _queueTitledPaneFromUser.put(u,queueTitledPane);
 
             i++;
-        }
-        //_queueTitledPane[0].setExpanded(true);
 
-        _vBoxQueues.getChildren().addAll(_queueTitledPane);
+            //adds the titledPanes to the Vbox, index 3 in params means that the titledPanes will be added
+            //after the search elements
+            _vBoxQueues.getChildren().add(3, queueTitledPane);
+        }
     }
 
+    /**
+     *
+     * @return
+     */
+    public void refreshQueue(IUser user) {
+
+        //the entries of the Queue from the given user with is not actual
+        ObservableList<IPatient> observableList = _userWaitingList.get(user);
+
+        if (observableList != null) {
+            observableList.remove(0, observableList.size());
+        } else {
+            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
+        }
+
+        //the new, actual Queue from the given user
+        IPatientQueue queue = getQueueFromUser(user);
+
+        observableList.remove(0, observableList.size());
+
+        //fill Waitinglist with the actual data
+        try {
+            for(IQueueEntry iQueueEntry : queue.getEntries()) {
+                observableList.add(iQueueEntry.getPatient());
+            }
+        } catch (NoBrokerMappedException | BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
+        }
+
+        ListView list = _listViewMap.get(user);
+        list.setPrefHeight(observableList.size() * 24);
+
+        //New Header of Titledpane
+        TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
+        String header = buildTitledPaneHeader(user, observableList.size());
+        userTitledPane.setText(header);
+        userTitledPane.setExpanded(true);
+    }
+
+    /**
+     * returns the title of the TitledPanes in the Waiting List
+     * @param user
+     * @param sizeOfQueue
+     * @return String titleOfTitledPanes
+     */
+    private String buildTitledPaneHeader(IUser user, int sizeOfQueue)
+    {
+        String queuename;
+        if (user.getTitle() == null || user.getTitle().equals("null") || user.getTitle().equals("")) {
+            queuename = user.getFirstName() + " " + user.getLastName();
+        } else {
+            queuename = user.getTitle() + " " + user.getFirstName() + " " + user.getLastName();
+        }
+        queuename = queuename + " (" + sizeOfQueue+")";
+
+        return queuename;
+    }
     /**
      * returns the Queue from the given User
      * @param user
@@ -405,45 +469,10 @@ public class Model implements Serializable{
             e.printStackTrace();
         }
         System.out.println("Before refresh !!!!!!!!!!!!!!!!!");
-        refreshQueue();
+        refreshQueue(user);
     }
 
-    /**
-     *
-     * @return
-     */
-    public void refreshQueue() {
 
-       _queueTitledPane = null;
-
-        buildQueueLists();
-
-        System.out.println("after refresh !!!!!!!!!!!!!!!!!");
-
-        /*//the entries of the Queue from the given user
-        ObservableList observableList = FXCollections.observableList((List) getQueueFromUser(user));
-
-        if (observableList != null) {
-            observableList.remove(0, observableList.size());
-        } else {
-            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
-        }
-
-        IPatientQueue queue = getQueueFromUser(user);
-
-        observableList.remove(0, observableList.size());
-
-        try {
-            for(IQueueEntry iQueueEntry : queue.getEntries()) {
-                observableList.add(iQueueEntry.getPatient());
-            }
-        } catch (NoBrokerMappedException | BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
-        return observableList;*/
-
-    }
 
     public void setQueueTitledPane(TitledPane[] pane)
     {
