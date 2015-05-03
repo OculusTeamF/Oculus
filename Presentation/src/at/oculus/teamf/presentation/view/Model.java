@@ -24,6 +24,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -213,6 +214,8 @@ public class Model implements Serializable, ILogger{
 
     public Collection<IDoctor> getAllDoctors(){ return _doctors; }
     public Collection<IUser> getAllDoctorsAndOrthoptists(){ return _userlist; }
+
+
 
     // *******************************************************************
     // Patient methods
@@ -429,20 +432,20 @@ public class Model implements Serializable, ILogger{
             for(QueueEntry entry : entries){
 
                 _patientsInQueue.put(entry.getPatient().toString(), entry.getPatient());
-                olist.add(new HBoxCell(entry));
+                olist.add(new HBoxCell(entry, u));
             }
 
             // bind listview to titledpanes
             listView.setItems(olist);
             listView.setPrefHeight((olist.size() * 24) + 8);
 
-            //_userWaitingList.put(u, olist);
+            _userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);
 
             // Queue titlepane string - Header of the Titled panel
-            String queuename = buildTitledPaneHeader(u, olist.size());
+             String queueName = buildTitledPaneHeader(u, olist.size());
 
-            TitledPane queueTitledPane = new TitledPane(queuename, listView);
+            TitledPane queueTitledPane = new TitledPane(queueName, listView);
             queueTitledPane.setExpanded(false);
             queueTitledPane.setAnimated(true);
             queueTitledPane.setVisible(true);
@@ -464,6 +467,44 @@ public class Model implements Serializable, ILogger{
     public void refreshQueue(IUser user) {
 
         //the entries of the Queue from the given user with is not actual
+        ListView<HBoxCell> list = _listViewMap.get(user);
+        ObservableList<HBoxCell> entryList = list.getItems();
+
+
+        if (entryList != null) {
+            entryList.remove(0, entryList.size());
+        } else {
+            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
+        }
+
+        _patientsInQueue.clear();
+        _userWaitingList.clear();
+        //_queueTitledPaneFromUser.remove(user);
+
+        //actual list from the given user
+        ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) getEntriesFromQueue(user));
+
+        //ObservableList<HBoxCell> olist = FXCollections.observableArrayList();
+        for(QueueEntry entry : entries){
+
+            _patientsInQueue.put(entry.getPatient().toString(), entry.getPatient());
+            entryList.add(new HBoxCell(entry, user));
+        }
+
+        ListView newList = _listViewMap.get(user);
+        newList.setPrefHeight(entries.size() * 24);
+
+        _userWaitingList.put(user, entryList);
+        _listViewMap.put(user, newList);
+
+        //New Header of Titledpane
+        TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
+        String header = buildTitledPaneHeader(user, entries.size());
+        userTitledPane.setText(header);
+        userTitledPane.setExpanded(true);
+
+
+        /*//the entries of the Queue from the given user with is not actual
         ObservableList<IPatient> observableList = _userWaitingList.get(user);
 
         if (observableList != null) {
@@ -487,6 +528,7 @@ public class Model implements Serializable, ILogger{
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
         }
 
+
         ListView list = _listViewMap.get(user);
         list.setPrefHeight(observableList.size() * 24);
 
@@ -494,7 +536,7 @@ public class Model implements Serializable, ILogger{
         TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
         String header = buildTitledPaneHeader(user, observableList.size());
         userTitledPane.setText(header);
-        userTitledPane.setExpanded(true);
+        userTitledPane.setExpanded(true);*/
     }
 
     /**
@@ -515,6 +557,7 @@ public class Model implements Serializable, ILogger{
 
         return queuename;
     }
+
     /**
      * returns the Queue from the given User
      * @param user
@@ -522,8 +565,10 @@ public class Model implements Serializable, ILogger{
      */
     public IPatientQueue getQueueFromUser(IUser user){
 
+        IPatientQueue queue = null;
+
         try {
-            _queue = _startupController.getQueueByUser(user);
+            queue = _startupController.getQueueByUser(user);
         } catch (BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
@@ -535,7 +580,7 @@ public class Model implements Serializable, ILogger{
                 }
             });
         }
-        return _queue;
+        return queue;
     }
 
     /**
@@ -583,11 +628,19 @@ public class Model implements Serializable, ILogger{
      * removes the patient from the queue and opens a new examinationTab
      * @param patient
      */
-    public void removePatientFromQueue(IPatient patient){
+    public void removePatientFromQueue(IPatient patient, IUser user) {
 
         addExaminationTab(patient);
-    }
 
+        IPatientQueue queue = getQueueFromUser(user);
+
+        try {
+            _recievePatientController.removePatientFromQueue(patient, queue);
+        } catch (CouldNotRemovePatientFromQueue couldNotRemovePatientFromQueue) {
+            couldNotRemovePatientFromQueue.printStackTrace();
+        }
+
+    }
     /*public void setQueueTitledPane(TitledPane[] pane)
     {
         _queueTitledPane = new TitledPane[_userlist.size()];
@@ -677,14 +730,16 @@ public class Model implements Serializable, ILogger{
      */
     public static class HBoxCell extends HBox{
 
-        QueueEntry _entry = null;
+        IQueueEntry _entry = null;
         Button _button = new Button();
         Label _label;
+        IUser _user;
 
-        HBoxCell(QueueEntry entry ){
+        HBoxCell(IQueueEntry entry, IUser user ){
             super();
 
             _entry = entry;
+            _user = user;
             Image imageEnqueue = new Image(getClass().getResourceAsStream("/res/arrow1_klein.png"));
 
             _button.setGraphic(new ImageView(imageEnqueue));
@@ -696,7 +751,7 @@ public class Model implements Serializable, ILogger{
             _button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    Model.getInstance().removePatientFromQueue(_entry.getPatient());
+                    Model.getInstance().removePatientFromQueue(_entry.getPatient(), _user);
                 }
             });
 
@@ -711,8 +766,12 @@ public class Model implements Serializable, ILogger{
          * saves the QueueEntry to the HBoxCell
          * @return the QueueEntry of the HBoxCell which is doubleclicked in WaitingList
          */
-        public QueueEntry getQueueEntry(){
-            return _entry;
+        public IQueueEntry getQueueEntry(){
+            return this._entry;
+        }
+
+        public IUser getUserFromQueueEntry(){
+            return this._user;
         }
     }
 }
