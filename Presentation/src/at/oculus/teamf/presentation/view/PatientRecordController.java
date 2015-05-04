@@ -112,7 +112,14 @@ public class PatientRecordController implements Initializable {
 
         patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
         patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
-        //TODO: patientRecordListDiagnoses.setItems(FXCollections.observableList(_model.getDiagnoses()));
+
+        if (_model.getAllDiagnoses() != null) {
+            patientRecordListDiagnoses.setDisable(false);
+            patientRecordListDiagnoses.setItems(FXCollections.observableArrayList(_model.getAllDiagnoses()));
+        } else {
+            patientRecordListDiagnoses.setDisable(true);
+        }
+
 
         //<editor-fold desc="Set Default Values">
         //disable all Patientfields and the save button, sets the text from IPatient into fields

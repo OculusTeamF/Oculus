@@ -378,16 +378,21 @@ public class Model implements Serializable, ILogger{
      * returns all Diagnoses Titles from a given Patient
      * @return
      */
-    public Collection getDiagnoses(){
-
-        //TODO: Method from application
-        Collection allDiagnoses = null;
-
-        /*try {
-           allDiagnoses = _recievePatientController.getAllDiagnoses(_patient);
+    public Collection<IDiagnosis> getAllDiagnoses(){
+        Collection<IDiagnosis> allDiagnoses = null;
+        try {
+            allDiagnoses = _createDiagnosisController.getAllDiagnoses(getPatient());
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         } catch (CouldNotGetExaminationProtolException e) {
             e.printStackTrace();
-        }*/
+        }
 
         return allDiagnoses;
     }
@@ -677,18 +682,17 @@ public class Model implements Serializable, ILogger{
      */
     public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
 
-        try {
+     /*   try {
             _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
         }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
             couldNotAddExaminationProtocol.printStackTrace();
-        }
+        }*/
     }
 
     /**
      * creates a new examinationprotocol
      */
     public void addNewPatientDiagnosis(String title, String description, IDoctor doc){
-        //TODO IExaminationProtocol getter setter
         _createDiagnosisController = new CreateDiagnosisController(_eximationprotocol);
 
         try {

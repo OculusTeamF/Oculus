@@ -61,9 +61,8 @@
     -fx-background-color: #cbe6ff;
 }
 
-
 #colorPane4:hover{
-    -fx-opacity: 0.5;
+    /*-fx-opacity: 0.5;*/
 }
 
 #loaderPane{
@@ -136,5 +135,9 @@
 
 .list-cell:hover{
     -fx-background-color: blanchedalmond;
+}
+
+.list-cell {
+    -fx-text-alignment: center;
 }
 
