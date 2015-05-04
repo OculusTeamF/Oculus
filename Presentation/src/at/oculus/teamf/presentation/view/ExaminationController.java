@@ -9,7 +9,9 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -46,6 +48,7 @@ public class ExaminationController implements Initializable {
     private Model _model = Model.getInstance();
     private Date date = new Date();
     private ObservableList<IExaminationProtocol> _protocolist;
+    private ObservableList<IExaminationResult> _results;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,7 +61,7 @@ public class ExaminationController implements Initializable {
         textExaminationDetails.setDisable(true);
         String loadtext = "Loading examinations protocols....";
         examinationList.getItems().add(loadtext);
-        String loadtext2 = "Loading examination results....";
+        String loadtext2 = "Choose an examination protocol....";
         examinationResults.getItems().add(loadtext2);
 
         // load image resources for buttons
@@ -74,6 +77,15 @@ public class ExaminationController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 1) {
                     loadSelectedExaminationData((IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem());
+
+
+                    IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
+                    try {
+                        _results = FXCollections.observableArrayList((IExaminationResult)protocol.getExaminationResults());
+                    } catch (CouldNotGetExaminationResultException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         });
