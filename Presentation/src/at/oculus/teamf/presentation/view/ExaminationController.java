@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
  */
 public class ExaminationController implements Initializable {
 
+    @FXML public ListView examinationResults;
     @FXML private Button newExaminationButton;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationLnameFnameSvn;
@@ -44,7 +45,7 @@ public class ExaminationController implements Initializable {
 
     private Model _model = Model.getInstance();
     private Date date = new Date();
-    private ObservableList<IExaminationProtocol> protocolist;
+    private ObservableList<IExaminationProtocol> _protocolist;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,10 +53,13 @@ public class ExaminationController implements Initializable {
         examinationCurrDate.setText(date.toString());
         examinationLnameFnameSvn.setText("PATIENT: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + _model.getPatient().getSocialInsuranceNr());
         examinationList.setDisable(true);
+        examinationResults.setDisable(true);
         examinationDocumentation.setDisable(true);
         textExaminationDetails.setDisable(true);
         String loadtext = "Loading examinations protocols....";
         examinationList.getItems().add(loadtext);
+        String loadtext2 = "Loading examination results....";
+        examinationResults.getItems().add(loadtext2);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_newexamination.png"));
@@ -88,7 +92,7 @@ public class ExaminationController implements Initializable {
                 examinationList.setDisable(false);
                 examinationDocumentation.setDisable(false);
                 textExaminationDetails.setDisable(false);
-                examinationList.setItems(protocolist);
+                examinationList.setItems(_protocolist);
                 //TODO sort list
                 /*java.util.Collections.sort(examinationList.getItems(), new java.util.Comparator<TYPE>() {
                     @Override
@@ -106,6 +110,9 @@ public class ExaminationController implements Initializable {
     /* load selected examination data and set data to forms */
     private void loadSelectedExaminationData (IExaminationProtocol exp){
         examinationDocumentation.setText(exp.getDescription());
+
+        //ObservableList<> results = FXCollections.observableArrayList(exp.getExaminationResults());
+       // examinationResults.setItems(results);
 
         // TODO fill into controls
         textExaminationDetails.setText("");
@@ -148,7 +155,7 @@ public class ExaminationController implements Initializable {
         @Override
         protected Void call() {
             // application layer acces for examination protocols loading
-            protocolist = FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient()));
+            _protocolist = FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient()));
             return null;
         }
     };

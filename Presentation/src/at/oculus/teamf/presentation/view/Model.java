@@ -61,7 +61,7 @@ public class Model implements Serializable, ILogger{
     private Stage _primaryStage = null;
 
     private static Model _modelInstance;
-    private StartupController _startupController = new StartupController();
+    private StartupController _startupController;
     private SearchPatientController _searchPatientController = new SearchPatientController();
     private CreatePatientController _createPatientController = new CreatePatientController();
     private CreateDiagnosisController _createDiagnosisController;
@@ -71,7 +71,7 @@ public class Model implements Serializable, ILogger{
     private Collection<IUser> _userlist;
     private IPatient _patient;
     private IExaminationProtocol _eximationprotocol;
-    private IPatientQueue _queue = null;
+    //private IPatientQueue _queue = null;
     private TabPane _tabPanel = null;
     //private TitledPane _queueTitledPane[];
     private VBox _vBoxQueues;
@@ -92,6 +92,9 @@ public class Model implements Serializable, ILogger{
      * The Collection of Doctors and Orthoptist is fetched from DB only once
      */
     private Model(){
+
+        _startupController = new StartupController();
+
         try {
             _doctors = _startupController.getAllDoctors();
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
@@ -100,12 +103,16 @@ public class Model implements Serializable, ILogger{
             _patientsInQueue = new HashMap<>();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - (Tab loading error) Please contact support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - (Tab loading error) Please contact support");
         } catch (CriticalDatabaseException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - (Tab loading error) Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - (Tab loading error) Please contact support");
         }
     }
 
@@ -185,7 +192,8 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     * Tab: opens PatientRecordTab for selected patient
+     * Tab: opensPatientRecordTab for selected patient
+     * @param patient
      */
     public void addPatientTab(IPatient patient){
 
@@ -195,6 +203,7 @@ public class Model implements Serializable, ILogger{
 
     /**
      * Tab: opens DiagnosisTab for selected patient
+     * @param patient
      */
     public void addDiagnosisTab(IPatient patient){
 
@@ -202,12 +211,24 @@ public class Model implements Serializable, ILogger{
         loadTab("NEW DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml");
     }
 
+    /**
+     * Tab: opens ExaminationTab for selected patient
+     * @param patient
+     */
     public void addExaminationTab(IPatient patient){
 
         this._patient = patient;
         loadTab("PATIENT: " + getPatient().getLastName(), "fxml/ExaminationTab.fxml");
     }
 
+    /**
+     * Tab: opens PrescriptionTab for selected patient
+     * @return
+     */
+    public void addPrescriptionTab(IPatient patient){
+        this._patient = patient;
+        loadTab("PATIENT: " + getPatient().getLastName(), "fxml/PrescriptionTab.fxml");
+    }
 
     // *******************************************************************
     // User methods - should not be used by the controllers
@@ -617,8 +638,10 @@ public class Model implements Serializable, ILogger{
             DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         } catch (CouldNotAddPatientToQueueException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPatientToQueueException - Please contact support");
         }
         refreshQueue(user);
     }
@@ -629,33 +652,49 @@ public class Model implements Serializable, ILogger{
      */
     public void removePatientFromQueue(IPatient patient, IUser user) {
 
-        addExaminationTab(patient);
-
         IPatientQueue queue = getQueueFromUser(user);
 
         try {
             _recievePatientController.removePatientFromQueue(patient, queue);
         } catch (CouldNotRemovePatientFromQueue couldNotRemovePatientFromQueue) {
             couldNotRemovePatientFromQueue.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(couldNotRemovePatientFromQueue, "CouldNotAddPatientToQueueException - Please contact support");
+        } catch (CouldNotRemovePatientFromQueueException couldNotRemovePatientFromQueueException) {
+            couldNotRemovePatientFromQueueException.printStackTrace();
         }
 
+        addExaminationTab(patient);
     }
+
+    /**
+     * unused
+     * @param
+     */
     /*public void setQueueTitledPane(TitledPane[] pane)
     {
         _queueTitledPane = new TitledPane[_userlist.size()];
         this._queueTitledPane = pane;
     }*/
 
+    /**
+     * is used by QueueController to set the vBoxes. VBoxes are nessecary for the buildQueueLists method
+     * @param vboxQueues
+     */
     public void setVboxQueues(VBox vboxQueues){
         this._vBoxQueues = vboxQueues;
     }
+
+
 
     // *******************************************************************
     // Examinationprotocol methods
     // *******************************************************************
 
+
     /**
      * returns a List with all Examinationprotcols from the given patient
+     * @param patient
+     * @return Collection<IExaminationProtocol>
      */
     public Collection<IExaminationProtocol> getAllExaminationProtcols(IPatient patient){
 
@@ -692,12 +731,16 @@ public class Model implements Serializable, ILogger{
             _createDiagnosisController.createDiagnosis(title,description, doc);
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (RequirementsUnfulfilledException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsUnfulfilledException - Please contact support");
         } catch (CriticalDatabaseException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
         } catch (CriticalClassException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         }
     }
 
@@ -723,9 +766,11 @@ public class Model implements Serializable, ILogger{
     }
 
 
-    /**
-     * produces the content of the ListView items for Waiting List
-     */
+
+    // *******************************************************************
+    // produces the content of the ListView items for Waiting List
+    // *******************************************************************
+
     public static class HBoxCell extends HBox{
 
         IQueueEntry _entry = null;
