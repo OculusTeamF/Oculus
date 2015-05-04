@@ -12,11 +12,16 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +33,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -115,7 +121,14 @@ public class PatientRecordController implements Initializable {
 
         if (_model.getAllDiagnoses() != null) {
             patientRecordListDiagnoses.setDisable(false);
-            patientRecordListDiagnoses.setItems(FXCollections.observableArrayList(_model.getAllDiagnoses()));
+            try {
+                ObservableList<IDiagnosis> diagnosislist = FXCollections.observableArrayList(_model.getPatient().getDiagnoses());
+                ArrayList<IDiagnosis> dl = (ArrayList) _model.getPatient().getDiagnoses();
+                System.out.println(dl.get(0).toString());
+                patientRecordListDiagnoses.setItems(diagnosislist);
+            } catch (CouldNotGetDiagnoseException e) {
+                e.printStackTrace();
+            }
         } else {
             patientRecordListDiagnoses.setDisable(true);
         }
@@ -207,13 +220,12 @@ public class PatientRecordController implements Initializable {
         addListener(patientRecordEmail);
 
 
-        patientRecordBday.accessibleTextProperty().addListener(new ChangeListener<String>() {
+        patientRecordBday.valueProperty().addListener(new ChangeListener<LocalDate>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
                 try {
                     if (oldValue != newValue) {
                         isFormEdited = true;
-                        System.out.println("Bday changed");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -221,6 +233,7 @@ public class PatientRecordController implements Initializable {
                 }
             }
         });
+
         patientRecordDoctor.valueProperty().addListener(new ChangeListener<IDoctor>() {
             @Override
             public void changed(ObservableValue<? extends IDoctor> observable, IDoctor oldValue, IDoctor newValue) {

@@ -81,6 +81,6 @@ public class Diagnosis implements IDiagnosis {
 
     @Override
     public String toString(){
-        return _title + " " + _description.substring(0,50) + "...";
+        return  _title + " " + _description.substring(0,50) + "...";
     }
 }

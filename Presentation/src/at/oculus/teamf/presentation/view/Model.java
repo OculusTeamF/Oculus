@@ -22,6 +22,7 @@ import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
@@ -381,16 +382,8 @@ public class Model implements Serializable, ILogger{
     public Collection<IDiagnosis> getAllDiagnoses(){
         Collection<IDiagnosis> allDiagnoses = null;
         try {
-            allDiagnoses = _createDiagnosisController.getAllDiagnoses(getPatient());
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (CouldNotGetExaminationProtolException e) {
+            allDiagnoses = getPatient().getDiagnoses();
+        } catch (CouldNotGetDiagnoseException e) {
             e.printStackTrace();
         }
 
@@ -594,9 +587,9 @@ public class Model implements Serializable, ILogger{
      * @param user
      * @return Collection<QueueEntry>
      */
-    public Collection<QueueEntry> getEntriesFromQueue(IUser user) {
+    public Collection<IQueueEntry> getEntriesFromQueue(IUser user) {
 
-        Collection<QueueEntry> entries = null;
+        Collection<IQueueEntry> entries = null;
 
         IPatientQueue queue = getQueueFromUser(user);
         try {
