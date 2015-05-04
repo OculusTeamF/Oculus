@@ -265,7 +265,7 @@ public class Patient implements IPatient, IDomain, ILogger {
     }
 
     public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
-        Collection<IDiagnosis> diagnoses = null;
+        Collection<Diagnosis> diagnoses = null;
         try {
             diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
         } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
@@ -273,7 +273,7 @@ public class Patient implements IPatient, IDomain, ILogger {
             throw new CouldNotGetDiagnoseException();
         }
 
-        return diagnoses;
+        return (Collection<IDiagnosis>)(Collection<?>)diagnoses;
     }
 
     @Override
