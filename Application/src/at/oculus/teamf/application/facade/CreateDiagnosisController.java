@@ -28,18 +28,16 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseEx
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.ExaminationResult;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -184,5 +182,25 @@ public class CreateDiagnosisController implements ILogger {
             diagnoses.add(e.getDiagnosis());
         }
         return diagnoses;
+    }
+
+    /**
+     *<h3>$getAllDiagnoses</h3>
+     *
+     * <b>Description:</b>
+     * This method returns all examination results from the examination protocol attribute.
+     */
+    public Collection<IExaminationResult> getAllExaminationResults () throws CouldNotGetExaminationResultException {
+        Collection <ExaminationResult> examinationResults = new LinkedList<>();
+        try {
+             examinationResults = examinationProtocol.getExaminationResults();
+        } catch (CouldNotGetExaminationResultException couldNotGetExaminationResultException) {
+            log.warn("Could Not Get Examination Results Exception caught! Can not load examination results");
+            throw couldNotGetExaminationResultException;
+        }
+        Collection <IExaminationResult> iExaminationResults = new LinkedList<>();
+
+        iExaminationResults.addAll((Collection<? extends IExaminationResult>) examinationResults);
+        return iExaminationResults;
     }
 }

@@ -9,14 +9,15 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
 
 /**
  * ExaminationResult.java Created by oculus on 30.04.15.
  */
-public class ExaminationResult implements IDomain {
+public class ExaminationResult implements IExaminationResult, ILogger {
 	private int _id;
 	private ExaminationProtocol _examinationProtocol;
 	private Integer _examinationProtocolId;
@@ -57,24 +58,30 @@ public class ExaminationResult implements IDomain {
 		_id = id;
 	}
 
-	public ExaminationProtocol getExaminationProtocol() {
+	@Override
+    public ExaminationProtocol getExaminationProtocol() {
 		return _examinationProtocol;
 	}
-	public void setExaminationProtocol(ExaminationProtocol examinationProtocolEntity) {
+	@Override
+    public void setExaminationProtocol(ExaminationProtocol examinationProtocolEntity) {
 		_examinationProtocol = examinationProtocolEntity;
 	}
 
-	public Integer getExaminationProtocolId() {
+	@Override
+    public Integer getExaminationProtocolId() {
 		return _examinationProtocolId;
 	}
-	public void setExaminationProtocolId(Integer examinationProtocolId) {
+	@Override
+    public void setExaminationProtocolId(Integer examinationProtocolId) {
 		_examinationProtocolId = examinationProtocolId;
 	}
 
-	public User getUser() {
+	@Override
+    public User getUser() {
 		return _user;
 	}
-	public void setUser(User user) {
+	@Override
+    public void setUser(User user) {
         if(user!=null){
             _user = user;
             _userId = user.getUserId();
@@ -86,46 +93,58 @@ public class ExaminationResult implements IDomain {
         }
 	}
 
-	public Integer getUserId() {
+	@Override
+    public Integer getUserId() {
 		return _userId;
 	}
-	public void setUserId(Integer userId) {
+	@Override
+    public void setUserId(Integer userId) {
 		_userId = userId;
 	}
 
-	public String getResult() {
+	@Override
+    public String getResult() {
 		return _result;
 	}
-	public void setResult(String result) {
+	@Override
+    public void setResult(String result) {
 		_result = result;
 	}
 
-	public Date getCreateDate() {
+	@Override
+    public Date getCreateDate() {
 		return _createDate;
 	}
-	public void setCreateDate(Date createDate) {
+	@Override
+    public void setCreateDate(Date createDate) {
 		_createDate = createDate;
 	}
 
-	public String getDevice() {
+	@Override
+    public String getDevice() {
 		return _device;
 	}
-	public void setDevice(String device) {
+	@Override
+    public void setDevice(String device) {
 		_device = device;
 	}
 
-	public byte[] getDeviceData() {
+	@Override
+    public byte[] getDeviceData() {
 		return _deviceData;
 	}
-	public void setDeviceData(byte[] deviceData) {
+	@Override
+    public void setDeviceData(byte[] deviceData) {
 		_deviceData = deviceData;
 	}
 
-	public Doctor getDoctor() {
+	@Override
+    public Doctor getDoctor() {
 		return _doctor;
 	}
 
-	public Orthoptist getOrthoptist() {
+	@Override
+    public Orthoptist getOrthoptist() {
 		return _orthoptist;
 	}
 }
