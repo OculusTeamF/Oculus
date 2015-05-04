@@ -12,5 +12,5 @@ package at.oculus.teamf.domain.entity.exception.patientqueue;
 /**
  * Created by Simon Angerer on 02.05.2015.
  */
-public class CouldNotRemovePatientFromQueue extends PatientQueueException  {
+public class CouldNotRemovePatientFromQueueException extends PatientQueueException  {
 }

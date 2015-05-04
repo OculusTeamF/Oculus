@@ -17,14 +17,12 @@ import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledExce
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
-import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -40,7 +38,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -636,8 +633,8 @@ public class Model implements Serializable, ILogger{
 
         try {
             _recievePatientController.removePatientFromQueue(patient, queue);
-        } catch (CouldNotRemovePatientFromQueue couldNotRemovePatientFromQueue) {
-            couldNotRemovePatientFromQueue.printStackTrace();
+        } catch (CouldNotRemovePatientFromQueueException couldNotRemovePatientFromQueueException) {
+            couldNotRemovePatientFromQueueException.printStackTrace();
         }
 
     }
