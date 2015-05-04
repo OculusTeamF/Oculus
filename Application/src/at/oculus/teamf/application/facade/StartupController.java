@@ -279,7 +279,6 @@ public class StartupController implements ILogger {
         }
         log.info("All orthoptists have been acquired.");
 
-
         Collection<Doctor> doctors;
 
         try {
