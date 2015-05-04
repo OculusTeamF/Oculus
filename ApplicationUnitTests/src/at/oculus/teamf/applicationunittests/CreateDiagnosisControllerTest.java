@@ -9,31 +9,38 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.facade.*;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.application.facade.CreateDiagnosisController;
+import at.oculus.teamf.application.facade.ReceivePatientController;
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 
-import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
+
+import static org.junit.Assert.*;
 
 public class CreateDiagnosisControllerTest {
 
     @org.junit.Test
     public void testCreateDiagnosis() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
-        LinkedList<IPatient> patients = new LinkedList<>();
-        patients.addAll(searchPatientController.searchPatients("duck"));
+        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
+
+        IPatient iPatient = patients.getFirst();
+        IDoctor iDoctor = iPatient.getIDoctor();
 
         ReceivePatientController receivePatientController = new ReceivePatientController();
-        LinkedList<IExaminationProtocol> examinationProtocols = (LinkedList<IExaminationProtocol>) receivePatientController.getAllExaminationProtocols(patients.getFirst());
 
-        CreateDiagnosisController createDiagnosisController = new CreateDiagnosisController(examinationProtocols.getFirst());
-        StartupController startupController = new StartupController();
-        LinkedList<IDoctor> docs = new LinkedList<>();
-        docs.addAll(startupController.getAllDoctors());
-        IDiagnosis diagnosis = createDiagnosisController.createDiagnosis("test123", "description123", docs.getFirst());
-        assert (diagnosis.getTitle().equals("test123"));
+        IExaminationProtocol iExaminationProtocol = receivePatientController.createNewExaminationProtocol(new Date(), new Date(), "description", iPatient, iDoctor, null);
+
+        CreateDiagnosisController createDiagnosisController = new CreateDiagnosisController(iExaminationProtocol);
+        createDiagnosisController.createDiagnosis("title", "description", iDoctor);
+
+        assert (iExaminationProtocol.getDiagnosis().getTitle().equals("title"));
+        assert (iExaminationProtocol.getDiagnosis().getDescription().equals("description"));
+        assert (iExaminationProtocol.getDiagnosis().getDoctor().equals(iDoctor));
     }
 }

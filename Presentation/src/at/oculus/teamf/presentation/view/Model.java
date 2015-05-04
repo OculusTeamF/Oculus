@@ -140,7 +140,6 @@ public class Model implements Serializable, ILogger{
     public void setTabPanel(TabPane tabpanel){
         this._tabPanel = tabpanel;
     }
-
     /**
      * Controlls the Tabs of the panels
      */
@@ -625,7 +624,7 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     * insert the Patient into the right Queue from given User, and refreshes the QueueView
+     * insert the Patient into the right Queue from given User
      * @param user
      */
     public void insertPatientIntoQueue(IUser user){
@@ -661,6 +660,8 @@ public class Model implements Serializable, ILogger{
         } catch (CouldNotRemovePatientFromQueue couldNotRemovePatientFromQueue) {
             couldNotRemovePatientFromQueue.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(couldNotRemovePatientFromQueue, "CouldNotAddPatientToQueueException - Please contact support");
+        } catch (CouldNotRemovePatientFromQueueException couldNotRemovePatientFromQueueException) {
+            couldNotRemovePatientFromQueueException.printStackTrace();
         }
 
         addExaminationTab(patient);
@@ -714,12 +715,11 @@ public class Model implements Serializable, ILogger{
      */
     public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
 
-        /*try {
+        try {
             _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
         }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
             couldNotAddExaminationProtocol.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(couldNotAddExaminationProtocol, "CouldNotAddExaminationProtocol - Please contact support");
-        }*/
+        }
     }
 
     /**

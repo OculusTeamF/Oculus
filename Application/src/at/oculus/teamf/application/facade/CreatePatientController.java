@@ -16,6 +16,7 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseEx
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.Patient;
@@ -29,6 +30,7 @@ import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplemente
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
+import java.util.LinkedList;
 
 
 /**
@@ -87,6 +89,7 @@ public class CreatePatientController implements ILogger {
         patient.setEmail(email);
         patient.setCountryIsoCode(countryIsoCode);
         patient.setDoctor((Doctor) doctor);
+        patient.setExaminationProtocol(new LinkedList<ExaminationProtocol>());
         log.info("Patient attributes have been assigned.");
 
         savePatient(patient);
@@ -132,14 +135,12 @@ public class CreatePatientController implements ILogger {
             log.info("Requirements are fulfilled!");
             Facade facade = Facade.getInstance();
             try {
-
                 if (facade.save(patient)) {
                     log.info("Patient has been saved!");
                 } else {
                     log.warn("Patient could not be saved!");
                     throw new PatientCouldNotBeSavedException();
                 }
-
             } catch (NoBrokerMappedException e) {
                 log.error("Major implementation error was found! " + e.getMessage());
                 throw new CriticalClassException();
@@ -151,7 +152,6 @@ public class CreatePatientController implements ILogger {
             log.warn("Requirements unfulfilled!");
             throw new RequirementsNotMetException();
         }
-
     }
 
     /**

@@ -21,24 +21,13 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
-import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -114,7 +103,7 @@ public class ReceivePatientController implements ILogger {
      * @param iqueue the interface of the queue from which the specified patient should be removed
      */
 
-    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws CouldNotRemovePatientFromQueue {
+    public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws CouldNotRemovePatientFromQueueException {
         Patient patient = (Patient) ipatient;
         PatientQueue queue = (PatientQueue) iqueue;
 
