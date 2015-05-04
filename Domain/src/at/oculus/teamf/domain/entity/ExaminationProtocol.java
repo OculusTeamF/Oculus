@@ -12,6 +12,7 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -126,7 +127,7 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
 		_patient = patient;
 	}
 
-	public Collection<ExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
+	public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
 
 		try {
 			Facade.getInstance().reloadCollection(this, ExaminationResult.class);
@@ -136,7 +137,7 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
 
 		}
 
-		return (Collection<ExaminationResult>)(Collection<?>) _results;
+		return (Collection<IExaminationResult>)(Collection<?>) _results;
 	}
 
 	public void setResults(Collection<ExaminationResult> results) {
