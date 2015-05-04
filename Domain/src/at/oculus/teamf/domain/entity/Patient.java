@@ -11,10 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.*;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -253,8 +250,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 
     //</editor-fold>
 
-    public Collection<ExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
-        Collection<ExaminationResult> examinationResults = null;
+    public Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
+        Collection<IExaminationResult> examinationResults = null;
 
         try {
             examinationResults = Facade.getInstance().search(ExaminationResult.class, this.getId() + "");
@@ -266,9 +263,8 @@ public class Patient implements IPatient, IDomain, ILogger {
         return examinationResults;
     }
 
-    public Collection<Diagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
-        Collection<Diagnosis> diagnoses = null;
-
+    public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
+        Collection<IDiagnosis> diagnoses = null;
         try {
             diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
         } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {

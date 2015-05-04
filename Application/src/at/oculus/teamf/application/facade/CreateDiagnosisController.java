@@ -53,7 +53,7 @@ import java.util.LinkedList;
  **/
 public class CreateDiagnosisController implements ILogger {
 
-    private ExaminationProtocol examinationProtocol;
+    private IExaminationProtocol examinationProtocol;
 
     /**
      *<h3>$CreateDiagnosisController</h3>
@@ -88,7 +88,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
     public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
-
+        //TODO change to interfaces
         //check parameters
         if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");
@@ -144,63 +144,4 @@ public class CreateDiagnosisController implements ILogger {
         return true;
     }
 
-    /**
-     *<h3>$getAllDiagnoses</h3>
-     *
-     * <b>Description:</b>
-     * this method returns all diagnoses from the specified patient. with the interface of the patient, we get all examinationprotocols
-     * which exist from this patient and afterwards we fetch all diagnoses out of the examinationprotocols and return them as a collection
-     * of diagnoses interfaces
-     *
-     *<b>Parameter</b>
-     * @param iPatient this is the patient, whos diagnoses should be returned
-     */
-    public Collection<IDiagnosis> getAllDiagnoses(IPatient iPatient) throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, CouldNotGetExaminationProtolException {
-
-        Collection<IExaminationProtocol> protocols;
-        try {
-            protocols = iPatient.getExaminationProtocol();
-        } catch (InvalidReloadClassException invalidReloadClassException) {
-           log.warn("Invalid Reload Class Exception caught! Can not load Examinationprotocols");
-            throw invalidReloadClassException;
-        } catch (ReloadInterfaceNotImplementedException reloadInterfaceNotImplementedException) {
-            log.warn("Reload Interface Not Implemented Exception caught! Can not load Examinationprotocols");
-            throw reloadInterfaceNotImplementedException;
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("Bad Connection Exception caught! Can not load Examinationprotocols");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("No Broker Mapped Exception caught! Can not load Examinationprotocols");
-            throw noBrokerMappedException;
-        } catch (CouldNotGetExaminationProtolException couldNotGetExaminationProtocolException) {
-            log.warn("Could Not Get Examinationprotocol Exception caught! Can not load Examinationprotocols");
-            throw couldNotGetExaminationProtocolException;
-        }
-
-        Collection<IDiagnosis> diagnoses = new LinkedList<IDiagnosis>();
-        for(IExaminationProtocol e : protocols){
-            diagnoses.add(e.getDiagnosis());
-        }
-        return diagnoses;
-    }
-
-    /**
-     *<h3>$getAllDiagnoses</h3>
-     *
-     * <b>Description:</b>
-     * This method returns all examination results from the examination protocol attribute.
-     */
-    public Collection<IExaminationResult> getAllExaminationResults () throws CouldNotGetExaminationResultException {
-        Collection <ExaminationResult> examinationResults = new LinkedList<>();
-        try {
-             examinationResults = examinationProtocol.getExaminationResults();
-        } catch (CouldNotGetExaminationResultException couldNotGetExaminationResultException) {
-            log.warn("Could Not Get Examination Results Exception caught! Can not load examination results");
-            throw couldNotGetExaminationResultException;
-        }
-        Collection <IExaminationResult> iExaminationResults = new LinkedList<>();
-
-        iExaminationResults.addAll((Collection<? extends IExaminationResult>) examinationResults);
-        return iExaminationResults;
-    }
 }

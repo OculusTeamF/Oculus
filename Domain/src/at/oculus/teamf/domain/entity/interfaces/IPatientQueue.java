@@ -26,9 +26,9 @@ import java.util.Collection;
  */
 public interface IPatientQueue {
 
-    Collection<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException;
+    Collection<IQueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException;
 
-    void addPatient(Patient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException, CouldNotAddPatientToQueueException;
+    void addPatient(IPatient patient, Timestamp arrivaltime) throws NoBrokerMappedException, BadConnectionException, CouldNotAddPatientToQueueException;
 
-    void removePatient(Patient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException, CouldNotRemovePatientFromQueue;
+    void removePatient(IPatient patient) throws NoBrokerMappedException, BadConnectionException, InvalidSearchParameterException, CouldNotRemovePatientFromQueue;
 }
