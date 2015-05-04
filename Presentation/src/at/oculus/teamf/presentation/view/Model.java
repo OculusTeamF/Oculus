@@ -24,7 +24,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
-import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -657,9 +657,6 @@ public class Model implements Serializable, ILogger{
 
         try {
             _recievePatientController.removePatientFromQueue(patient, queue);
-        } catch (CouldNotRemovePatientFromQueue couldNotRemovePatientFromQueue) {
-            couldNotRemovePatientFromQueue.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(couldNotRemovePatientFromQueue, "CouldNotAddPatientToQueueException - Please contact support");
         } catch (CouldNotRemovePatientFromQueueException couldNotRemovePatientFromQueueException) {
             couldNotRemovePatientFromQueueException.printStackTrace();
         }
@@ -715,11 +712,11 @@ public class Model implements Serializable, ILogger{
      */
     public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
 
-        try {
+       /* try {
             _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
         }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
             couldNotAddExaminationProtocol.printStackTrace();
-        }
+        }*/
     }
 
     /**
