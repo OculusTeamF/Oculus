@@ -323,8 +323,6 @@ public class StartupController implements ILogger {
      * @param iUser this parameter shows the interface of the user, who's queue should be returned
      */
     public IPatientQueue getQueueByUser(IUser iUser) throws BadConnectionException, NoBrokerMappedException {
-        Facade facade = Facade.getInstance();
-
         User user = (User) iUser;
         Doctor doctor;
         Orthoptist orthoptist;

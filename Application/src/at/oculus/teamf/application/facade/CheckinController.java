@@ -71,7 +71,6 @@ public class CheckinController implements ILogger {
             throw new PatientNotFoundException();
         }
 
-
         Timestamp tstamp = new Timestamp(new Date().getTime());
         PatientQueue queue = null;
         Doctor doctor = null;

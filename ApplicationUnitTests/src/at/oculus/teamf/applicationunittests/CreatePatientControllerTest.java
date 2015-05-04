@@ -27,11 +27,11 @@ import static org.junit.Assert.*;
 public class CreatePatientControllerTest {
 
 //TESTS CREATE PATIENT AND REMOVE PATIENT
-
     @org.junit.Test
     public void testCreatePatient() throws Exception {
         StartupController startupController = new StartupController();
-        LinkedList<IDoctor> iDoctors = (LinkedList<IDoctor>) startupController.getAllDoctors();
+        LinkedList<IDoctor> iDoctors = new LinkedList<>();
+        iDoctors.addAll(startupController.getAllDoctors());
         CreatePatientController createPatientController = new CreatePatientController();
         createPatientController.createPatient("male", "Gruber", "Hans", "1234567890", new Date(), "Schlumpfweg", "6830", "Muntlix", "0987654321", "hans.gruber@email.com", iDoctors.getFirst(), "at");
 

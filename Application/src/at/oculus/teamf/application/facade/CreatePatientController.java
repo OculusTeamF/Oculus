@@ -67,7 +67,6 @@ public class CreatePatientController implements ILogger {
      * @param doctor         this is the doctor, who is referred to the new patient
      * @param countryIsoCode this is the country iso code of the patient, like AT, DE ...
      */
-
     public void createPatient(String gender, String lastName, String firstName, String svn, Date bday, String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws CriticalDatabaseException, RequirementsNotMetException, CriticalClassException, PatientCouldNotBeSavedException, BadConnectionException {
 
         Patient patient = new Patient();
