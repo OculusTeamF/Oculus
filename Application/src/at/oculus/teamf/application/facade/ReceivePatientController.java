@@ -65,9 +65,7 @@ public class ReceivePatientController implements ILogger {
      * @param iDoctor the doctor who does the examination
      * @param iOrthoptist the orthoptist who does the examination
      */
-    public IExaminationProtocol createNewExaminationProtocol(Date starttime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws CouldNotAddExaminationProtocol {
-        Date endtime = new Timestamp(new Date().getTime());
-
+    public IExaminationProtocol createNewExaminationProtocol(Date starttime, Date endtime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws CouldNotAddExaminationProtocol {
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(
                 0, starttime, endtime, description, (Patient) iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
         );
