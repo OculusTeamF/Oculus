@@ -30,18 +30,23 @@ public class CheckinControllerTest implements ILogger {
     @Before
     public void setUp() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
-        patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Hanson");
+        patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
 
         iPatient = patients.getFirst();
         iDoctor = iPatient.getIDoctor();
         iQueue = iDoctor.getQueue();
+        System.out.println(iPatient.getFirstName() + " " + iPatient.getLastName());
+        System.out.println(iDoctor.getFirstName() + " " + iPatient.getLastName());
+        System.out.println(iQueue.getEntries());
+
+        System.out.println(iQueue.getEntries().size());
 
         CheckinController checkinController = new CheckinController();
         checkinController.insertPatientIntoQueue(iPatient, iDoctor);
 
-        System.out.println(iQueue.getEntries().size());
         size = iQueue.getEntries().size();
         assert(iQueue != null);
+        assert(iQueue.getEntries().size() == size);
         System.out.println(iQueue.getEntries().size());
     }
 
@@ -49,8 +54,10 @@ public class CheckinControllerTest implements ILogger {
     public void tearDown() throws Exception{
         ReceivePatientController receivePatientController = new ReceivePatientController();
         receivePatientController.removePatientFromQueue(iPatient, iQueue);
-        size = size -1;
+        size = size - 1;
         System.out.println(iQueue.getEntries().size());
+        System.out.println(size);
+        System.out.println(iQueue.getEntries());
         assert(iQueue.getEntries().size() == size);
     }
 
