@@ -437,7 +437,8 @@ public class Model implements Serializable, ILogger{
 
             // bind listview to titledpanes
             listView.setItems(olist);
-            listView.setPrefHeight((olist.size() * 24) + 8);
+            listView.setPrefHeight((olist.size() * 35));
+
 
             _userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);

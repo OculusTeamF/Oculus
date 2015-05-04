@@ -273,6 +273,7 @@ public class PatientRecordController implements Initializable {
         addTextLimiter(patientRecordEmail, 255);
 
         medicalHistory.setExpandedPane(mh4);
+
     }
 
     /* add change listener to inputfields */

@@ -111,7 +111,7 @@ public class QueueController implements Initializable {
                 // list results and setup controls
                 if (patientlist.size() > 0) {
                     listSearchResults.setItems(patientlist);
-                    listSearchResults.setPrefHeight((patientlist.size() * 24) + 8);
+                    listSearchResults.setPrefHeight((patientlist.size() * 30) + 8);
                     searchResults.setDisable(false);
                     searchResults.setExpanded(true);
                     searchResults.setText("Search Results (" + patientlist.size() + "):");
