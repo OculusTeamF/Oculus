@@ -17,11 +17,10 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -36,6 +35,8 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable {
 
+    @FXML public Button prescriptionButton;
+    @FXML public ListView diagnosesList;
     @FXML private Button saveProtocolButton;
     @FXML private Button addDiagnosisButton;
     @FXML private Text examinationLnameFnameSvn;
@@ -127,5 +128,11 @@ public class NewExaminationController implements Initializable {
     public void addDiagnosisButtonHandler (ActionEvent actionEvent){
         // add diagnosis for patient
         _model.addDiagnosisTab(_model.getPatient());
+    }
+
+    @FXML
+    public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
+        //opens a new PrescriptionTab
+        _model.addPrescriptionTab(_model.getPatient());
     }
 }

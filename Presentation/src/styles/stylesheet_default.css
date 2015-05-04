@@ -32,6 +32,13 @@
 #diagnosisPane{
     -fx-background-color: #F4F4F4;
 }
+#prescriptionPane{
+    -fx-background-color: #F4F4F4;
+}
+#prescriptionTabPane{
+    -fx-background-color: #F4F4F4;
+}
+
 
 #colorPane1{
      -fx-background-color: #cbe6ff;
