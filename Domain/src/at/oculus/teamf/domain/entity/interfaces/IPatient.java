@@ -9,11 +9,11 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
@@ -82,5 +82,9 @@ public interface IPatient {
 
     Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, CouldNotGetExaminationProtolException;
     void addExaminationProtocol(IExaminationProtocol examinationProtocol);
+
+    Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException;
+    Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException;
+
 
 }

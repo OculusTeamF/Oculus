@@ -132,14 +132,12 @@ public class CreatePatientController implements ILogger {
             log.info("Requirements are fulfilled!");
             Facade facade = Facade.getInstance();
             try {
-
                 if (facade.save(patient)) {
                     log.info("Patient has been saved!");
                 } else {
                     log.warn("Patient could not be saved!");
                     throw new PatientCouldNotBeSavedException();
                 }
-
             } catch (NoBrokerMappedException e) {
                 log.error("Major implementation error was found! " + e.getMessage());
                 throw new CriticalClassException();
@@ -151,7 +149,6 @@ public class CreatePatientController implements ILogger {
             log.warn("Requirements unfulfilled!");
             throw new RequirementsNotMetException();
         }
-
     }
 
     /**

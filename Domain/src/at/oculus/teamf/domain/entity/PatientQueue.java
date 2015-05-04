@@ -12,7 +12,9 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -50,8 +52,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws BadConnectionException
      */
     //Todo: Proxy
-    public LinkedList<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
-        return _entries;
+    public LinkedList<IQueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
+        return (LinkedList<IQueueEntry>)(LinkedList<?>) _entries;
     }
 
 
@@ -65,7 +67,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws NoBrokerMappedException
      * @throws BadConnectionException
      */
-    public void addPatient(Patient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
+    public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
         // id of last queue element
         Integer parentId = null;
         if (!_entries.isEmpty()) {
@@ -76,11 +78,11 @@ public class PatientQueue implements ILogger, IPatientQueue {
         QueueEntry queueEntryNew = null;
         // TODO Umbau QueueEntry auf User statt Doc und Orth extra
         if (_user instanceof Doctor) {
-            queueEntryNew = new QueueEntry(0, patient, (Doctor) _user, null, parentId, arrivaltime);
+            queueEntryNew = new QueueEntry(0, (Patient)patient, (Doctor) _user, null, parentId, arrivaltime);
         } else if (_user instanceof Orthoptist) {
-            queueEntryNew = new QueueEntry(0, patient, null, (Orthoptist) _user, parentId, arrivaltime);
+            queueEntryNew = new QueueEntry(0,(Patient) patient, null, (Orthoptist) _user, parentId, arrivaltime);
         } else {
-            queueEntryNew = new QueueEntry(0, patient, null, null, parentId, arrivaltime);
+            queueEntryNew = new QueueEntry(0, (Patient)patient, null, null, parentId, arrivaltime);
         }
 
         // save
@@ -105,7 +107,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws InvalidSearchParameterException
      */
     //Todo: optimize
-    public void removePatient(Patient patient) throws CouldNotRemovePatientFromQueue {
+    public void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueue {
         QueueEntry queueEntryDel = null;
         QueueEntry queueEntryChd = null;
 

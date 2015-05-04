@@ -28,18 +28,16 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseEx
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.ExaminationResult;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -55,7 +53,7 @@ import java.util.LinkedList;
  **/
 public class CreateDiagnosisController implements ILogger {
 
-    private ExaminationProtocol examinationProtocol;
+    private IExaminationProtocol examinationProtocol;
 
     /**
      *<h3>$CreateDiagnosisController</h3>
@@ -90,7 +88,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
     public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
-
+        //TODO change to interfaces
         //check parameters
         if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");
@@ -146,43 +144,4 @@ public class CreateDiagnosisController implements ILogger {
         return true;
     }
 
-    /**
-     *<h3>$getAllDiagnoses</h3>
-     *
-     * <b>Description:</b>
-     * this method returns all diagnoses from the specified patient. with the interface of the patient, we get all examinationprotocols
-     * which exist from this patient and afterwards we fetch all diagnoses out of the examinationprotocols and return them as a collection
-     * of diagnoses interfaces
-     *
-     *<b>Parameter</b>
-     * @param iPatient this is the patient, whos diagnoses should be returned
-     */
-    public Collection<IDiagnosis> getAllDiagnoses(IPatient iPatient) throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, CouldNotGetExaminationProtolException {
-
-        Collection<IExaminationProtocol> protocols;
-        try {
-            protocols = iPatient.getExaminationProtocol();
-        } catch (InvalidReloadClassException invalidReloadClassException) {
-           log.warn("Invalid Reload Class Exception caught! Can not load Examinationprotocols");
-            throw invalidReloadClassException;
-        } catch (ReloadInterfaceNotImplementedException reloadInterfaceNotImplementedException) {
-            log.warn("Reload Interface Not Implemented Exception caught! Can not load Examinationprotocols");
-            throw reloadInterfaceNotImplementedException;
-        } catch (BadConnectionException badConnectionException) {
-            log.warn("Bad Connection Exception caught! Can not load Examinationprotocols");
-            throw badConnectionException;
-        } catch (NoBrokerMappedException noBrokerMappedException) {
-            log.warn("No Broker Mapped Exception caught! Can not load Examinationprotocols");
-            throw noBrokerMappedException;
-        } catch (CouldNotGetExaminationProtolException couldNotGetExaminationProtocolException) {
-            log.warn("Could Not Get Examinationprotocol Exception caught! Can not load Examinationprotocols");
-            throw couldNotGetExaminationProtocolException;
-        }
-
-        Collection<IDiagnosis> diagnoses = new LinkedList<IDiagnosis>();
-        for(IExaminationProtocol e : protocols){
-            diagnoses.add(e.getDiagnosis());
-        }
-        return diagnoses;
-    }
 }
