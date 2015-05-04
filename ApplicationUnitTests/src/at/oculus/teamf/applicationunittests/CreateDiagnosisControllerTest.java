@@ -23,14 +23,16 @@ public class CreateDiagnosisControllerTest {
     @org.junit.Test
     public void testCreateDiagnosis() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
-        LinkedList<IPatient> patients = searchPatientController.searchPatients("duck");
+        LinkedList<IPatient> patients = new LinkedList<>();
+        patients.addAll(searchPatientController.searchPatients("duck"));
 
         ReceivePatientController receivePatientController = new ReceivePatientController();
         LinkedList<IExaminationProtocol> examinationProtocols = (LinkedList<IExaminationProtocol>) receivePatientController.getAllExaminationProtocols(patients.getFirst());
 
         CreateDiagnosisController createDiagnosisController = new CreateDiagnosisController(examinationProtocols.getFirst());
         StartupController startupController = new StartupController();
-        LinkedList<IDoctor> docs = (LinkedList<IDoctor>) startupController.getAllDoctors();
+        LinkedList<IDoctor> docs = new LinkedList<>();
+        docs.addAll(startupController.getAllDoctors());
         IDiagnosis diagnosis = createDiagnosisController.createDiagnosis("test123", "description123", docs.getFirst());
         assert (diagnosis.getTitle().equals("test123"));
     }

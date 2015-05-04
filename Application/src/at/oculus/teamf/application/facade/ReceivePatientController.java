@@ -79,12 +79,19 @@ public class ReceivePatientController implements ILogger {
         return examinationProtocol;
     }
 
+    /**
+     *<h3>$getAllExaminationProtocol</h3>
+     *
+     * <b>Description:</b>
+     * This method will fetch all examination protocols from a given patient.
+     * <b>Parameter</b>
+     * @param iPatient the patient who is being examined
+     */
     public Collection<IExaminationProtocol> getAllExaminationProtocols(IPatient iPatient) throws CouldNotGetExaminationProtolException {
         Patient patient = (Patient) iPatient;
         Collection<IExaminationProtocol> protocols = null;
 
         protocols = patient.getExaminationProtocol();
-
 
         Collection<IExaminationProtocol> examinationProtocols = new LinkedList<IExaminationProtocol>();
         if (protocols != null) {

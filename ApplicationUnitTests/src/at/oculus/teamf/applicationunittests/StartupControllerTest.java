@@ -57,7 +57,8 @@ public class StartupControllerTest {
 
     @org.junit.Test
     public void testGetAllEntries() throws Exception {
-        LinkedList<ICalendar> calendars = (LinkedList<ICalendar>) startupController.getAllCalendars();
+        LinkedList<ICalendar> calendars = new LinkedList<>();
+        calendars.addAll(startupController.getAllCalendars());
         Collection <ICalendarEvent> events= startupController.getAllEntries(calendars.getFirst());
         assert (events != null);
         System.out.println(events.size());
@@ -73,7 +74,8 @@ public class StartupControllerTest {
 
     @org.junit.Test
     public void testGetQueueByUser() throws Exception {
-        LinkedList<IDoctor> docs = (LinkedList<IDoctor>) startupController.getAllDoctors();
+        LinkedList<IDoctor> docs = new LinkedList<>();
+        docs.addAll(startupController.getAllDoctors());
 
         IUser user = docs.getFirst();
 

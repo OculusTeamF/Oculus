@@ -27,8 +27,6 @@ public class CheckinControllerTest implements ILogger {
     private IPatientQueue iQueue;
     private int size;
 
-
-
     @Before
     public void setUp() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.application.facade;
 
-
 /**
  * <h1>$CreateDiagnosisController.java</h1>
  *
@@ -26,8 +25,6 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;

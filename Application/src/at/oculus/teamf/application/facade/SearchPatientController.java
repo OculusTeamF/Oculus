@@ -76,7 +76,6 @@ public class SearchPatientController implements ILogger{
             throw new CriticalDatabaseException();
         }
 
-
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
         for(Patient patient : patients){
             selectedPatients.add(patient);
@@ -115,7 +114,6 @@ public class SearchPatientController implements ILogger{
             log.error("Major database error was found! " + e.getMessage());
             throw new CriticalDatabaseException();
         }
-
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
         for(Patient patient : patients){
