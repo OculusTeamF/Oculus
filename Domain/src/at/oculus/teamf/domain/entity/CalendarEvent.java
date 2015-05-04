@@ -74,7 +74,7 @@ public class CalendarEvent implements ICalendarEvent {
 
     public Patient getPatient(){return _patient; }
 
-    public void addPatient(Patient patient) {
+    public void setPatient(Patient patient) {
         _patient = patient;
     }
 

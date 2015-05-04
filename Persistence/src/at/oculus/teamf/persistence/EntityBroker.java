@@ -137,7 +137,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
             session.beginTransaction();
 
             session.saveOrUpdate(entity);
-
+            domainObj.setId(entity.getId());
 	        session.commit();
 
         } catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
@@ -182,9 +182,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
             throw new NoBrokerMappedException();
-        } catch (CanNotStartTransactionException e) {
-            e.printStackTrace();
-        } catch (CanNotCommitTransactionException e) {
+        } catch (CanNotStartTransactionException | CanNotCommitTransactionException e) {
             log.error(e.getMessage());
             throw new DatabaseOperationException(e);
         }

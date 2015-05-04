@@ -9,10 +9,13 @@
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.entity.QueueEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
@@ -43,7 +46,7 @@ public class QueueFactoryTest {
         patient.setSocialInsuranceNr(name);
         try {
             Facade.getInstance().save(patient);
-        } catch (BadConnectionException | NoBrokerMappedException e) {
+        } catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
             assertTrue(false);
         }
@@ -56,7 +59,7 @@ public class QueueFactoryTest {
         try {
             _doctor = (Doctor) Facade.getInstance().getAll(Doctor.class).toArray()[0];
             _queue = QueueFactory.getInstance().getUserQueue(_doctor);
-        } catch (BadConnectionException | NoBrokerMappedException e) {
+        } catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
             assertTrue(false);
         }
@@ -69,9 +72,8 @@ public class QueueFactoryTest {
             _queue.addPatient(_patient1, new Timestamp(new Date().getTime()));
             _queue.addPatient(_patient2, new Timestamp(new Date().getTime()));
             _queue.addPatient(_patient3, new Timestamp(new Date().getTime()));
-        } catch (NoBrokerMappedException | BadConnectionException e) {
+        } catch (CouldNotAddPatientToQueueException e) {
             e.printStackTrace();
-            assertTrue(false);
         }
     }
 
@@ -80,7 +82,7 @@ public class QueueFactoryTest {
         try {
             Patient patient = (Patient) Facade.getInstance().search(Patient.class, name).toArray()[0];
             Facade.getInstance().delete(patient);
-        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
+        } catch (DatabaseOperationException| SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
             e.printStackTrace();
             assertTrue(false);
         }
@@ -93,9 +95,8 @@ public class QueueFactoryTest {
             _queue.removePatient(_patient1);
             _queue.removePatient(_patient2);
             _queue.removePatient(_patient3);
-        } catch (NoBrokerMappedException | BadConnectionException | InvalidSearchParameterException e) {
+        } catch (CouldNotRemovePatientFromQueueException e) {
             e.printStackTrace();
-            assertTrue(false);
         }
 
         deletePatient("Test1");

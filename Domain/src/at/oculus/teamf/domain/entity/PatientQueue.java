@@ -108,36 +108,31 @@ public class PatientQueue implements ILogger, IPatientQueue {
         QueueEntry queueEntryDel = null;
         QueueEntry queueEntryChd = null;
 
-        // remove patient from queuelist
         for (QueueEntry qe : _entries) {
+            //finde entry to remove
             if (qe.getPatient().getId() == patient.getId()) {
                 queueEntryDel = qe;
                 break;
             }
         }
 
-        if (queueEntryDel != null) {
-            for (QueueEntry qe : _entries) {
-                // child entry update
-                if (queueEntryDel.getQueueIdParent() == null) {
-                    if (qe.getOrthoptist() == queueEntryDel.getOrthoptist() && qe.getDoctor() == queueEntryDel.getDoctor()) {
-                        // update to null
-                        queueEntryChd = qe;
-                        queueEntryChd.setQueueIdParent(null);
-                        break;
-                    }
-                } else {
-                    if (qe.getQueueIdParent() != null) {
-                        if (qe.getQueueIdParent() == queueEntryDel.getId()) {
-                            // update to parent id from entry to delete
-                            queueEntryChd = qe;
-                            queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
-                            break;
-                        }
-                    }
-                }
+        if(queueEntryDel == null) {
+            throw  new CouldNotRemovePatientFromQueueException();
+        }
+
+        for (QueueEntry qe : _entries) {
+            //finde child of entry to remove
+            if ((qe.getQueueIdParent()) != null && (qe.getQueueIdParent().equals(queueEntryDel.getId()))) {
+                queueEntryChd = qe;
+                break;
             }
         }
+
+        if(queueEntryChd != null) {
+           queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
+        }
+
+        queueEntryDel.setQueueIdParent(null);
 
         try {
             if (queueEntryChd != null) {

@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.entity.UsergroupEntity;
 
@@ -19,7 +20,7 @@ import java.util.Date;
  *
  * @author Simon Angerer
  */
-public abstract class User implements IUser {
+public abstract class User implements IUser, IDomain {
 
     //<editor-fold desc="Attributes">
     protected int _id;
