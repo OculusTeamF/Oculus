@@ -9,9 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
-import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueue;
+import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -105,7 +104,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws InvalidSearchParameterException
      */
     //Todo: optimize
-    public void removePatient(Patient patient) throws CouldNotRemovePatientFromQueue {
+    public void removePatient(Patient patient) throws CouldNotRemovePatientFromQueueException {
         QueueEntry queueEntryDel = null;
         QueueEntry queueEntryChd = null;
 
@@ -147,7 +146,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             Facade.getInstance().delete(queueEntryDel);
         } catch (BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
             log.error(e.getMessage());
-            throw new CouldNotRemovePatientFromQueue();
+            throw new CouldNotRemovePatientFromQueueException();
         }
 
     }

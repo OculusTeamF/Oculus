@@ -27,6 +27,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
@@ -287,6 +288,9 @@ public class Patient implements IPatient, IDomain, ILogger {
     public void addExaminationProtocol(ExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
         log.debug("adding examination protocol to patient " + this);
         examinationProtocol.setPatient(this);
+        if (_examinationProtocol == null){
+            _examinationProtocol = new LinkedList<ExaminationProtocol>();
+        }
         _examinationProtocol.add(examinationProtocol);
         try {
             Facade.getInstance().save(examinationProtocol);
