@@ -12,11 +12,9 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,7 +31,6 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -123,8 +120,8 @@ public class PatientRecordController implements Initializable {
             patientRecordListDiagnoses.setDisable(false);
             try {
                 ObservableList<IDiagnosis> diagnosislist = FXCollections.observableArrayList(_model.getPatient().getDiagnoses());
-                ArrayList<IDiagnosis> dl = (ArrayList) _model.getPatient().getDiagnoses();
-                System.out.println(dl.get(0).toString());
+                //ArrayList<IDiagnosis> dl = (ArrayList) _model.getPatient().getDiagnoses();
+                //System.out.println(dl.get(0).toString());
                 patientRecordListDiagnoses.setItems(diagnosislist);
             } catch (CouldNotGetDiagnoseException e) {
                 e.printStackTrace();

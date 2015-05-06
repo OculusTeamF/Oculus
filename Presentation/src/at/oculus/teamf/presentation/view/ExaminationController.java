@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import javafx.collections.FXCollections;
@@ -79,12 +78,12 @@ public class ExaminationController implements Initializable {
                     loadSelectedExaminationData((IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem());
 
 
-                    IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
+                    /*IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
                     try {
                         _results = FXCollections.observableArrayList((IExaminationResult)protocol.getExaminationResults());
                     } catch (CouldNotGetExaminationResultException e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
                 }
             }
