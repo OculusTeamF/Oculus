@@ -147,4 +147,9 @@ public class ExaminationResult implements IExaminationResult, ILogger {
     public Orthoptist getOrthoptist() {
 		return _orthoptist;
 	}
+
+    @Override
+    public String toString(){
+        return _result;
+    }
 }

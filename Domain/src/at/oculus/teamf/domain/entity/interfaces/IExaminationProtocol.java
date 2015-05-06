@@ -53,5 +53,5 @@ public interface IExaminationProtocol extends IDomain {
 
     void setPatient(Patient patient);
 
-    Collection<ExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
+    Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
 }
