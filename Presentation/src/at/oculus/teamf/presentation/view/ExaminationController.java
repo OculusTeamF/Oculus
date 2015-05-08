@@ -124,8 +124,12 @@ public class ExaminationController implements Initializable {
     private void loadSelectedExaminationData (IExaminationProtocol exp){
         examinationDocumentation.setText(exp.getDescription());
 
-        //ObservableList<> results = FXCollections.observableArrayList(exp.getExaminationResults());
-       // examinationResults.setItems(results);
+        ObservableList<IExaminationResult> results = null; try {
+            results = FXCollections.observableArrayList(exp.getExaminationResults());
+        } catch (CouldNotGetExaminationResultException e) {
+            e.printStackTrace();
+        }
+        examinationResults.setItems(results);
 
         // TODO fill into controls
         textExaminationDetails.setText("");
