@@ -127,7 +127,7 @@ public class PatientBrokerTest extends BrokerTest {
 
         try {
 			assertTrue(patient.getCalendarEvents() != null);
-			assertTrue(patient.getCalendarEvents().size() == 0);
+			assertTrue(patient.getCalendarEvents().size() > 0);
 			assertTrue(patient.getExaminationProtocol() != null);
 			assertTrue(patient.getExaminationProtocol().size()==5);
 		} catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException e) {
