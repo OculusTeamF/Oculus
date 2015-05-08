@@ -13,17 +13,22 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * PrescriptionEntity.java
- * Created by oculus on 08.05.15.
+ * PrescriptionEntity.java Created by oculus on 08.05.15.
  */
 @Entity
 @Table(name = "prescription", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({@NamedNativeQuery(
+		name = "getPrescriptionsByPatientId",
+		query = "SELECT * " +
+		        "FROM prescription " +
+		        "WHERE patientId = ?0",
+		resultClass = PrescriptionEntity.class)})
 public class PrescriptionEntity {
-    private int _id;
-    private Integer _patientId;
-    private Timestamp _issueDate;
-    private Timestamp _lastPrint;
-    private PatientEntity _patient;
+	private int _id;
+	private Integer _patientId;
+	private Timestamp _issueDate;
+	private Timestamp _lastPrint;
+	private PatientEntity _patient;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +36,7 @@ public class PrescriptionEntity {
 	public int getId() {
 		return _id;
 	}
+
 	public void setId(int id) {
 		_id = id;
 	}
@@ -40,6 +46,7 @@ public class PrescriptionEntity {
 	public Integer getPatientId() {
 		return _patientId;
 	}
+
 	public void setPatientId(Integer patientId) {
 		_patientId = patientId;
 	}
@@ -49,6 +56,7 @@ public class PrescriptionEntity {
 	public Timestamp getIssueDate() {
 		return _issueDate;
 	}
+
 	public void setIssueDate(Timestamp issueDate) {
 		_issueDate = issueDate;
 	}
@@ -58,6 +66,7 @@ public class PrescriptionEntity {
 	public Timestamp getLastPrint() {
 		return _lastPrint;
 	}
+
 	public void setLastPrint(Timestamp lastPrint) {
 		_lastPrint = lastPrint;
 	}
@@ -67,6 +76,7 @@ public class PrescriptionEntity {
 	public PatientEntity getPatient() {
 		return _patient;
 	}
+
 	public void setPatient(PatientEntity patient) {
 		_patient = patient;
 	}

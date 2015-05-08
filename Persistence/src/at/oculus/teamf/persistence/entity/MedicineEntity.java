@@ -17,6 +17,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "medicine", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({@NamedNativeQuery(
+		name = "getMedicineByPatientId",
+		query = "SELECT m.* " +
+		        "FROM medicine m, examinationprotocol e " +
+		        "WHERE m.diagnosisId = e.diagnosisId " +
+		        "AND e.patientId = ?0",
+		resultClass = MedicineEntity.class)})
 public class MedicineEntity {
 	private int _id;
 	private Integer _diagnosisId;
@@ -40,6 +47,7 @@ public class MedicineEntity {
 	public Integer getDiagnosisId() {
 		return _diagnosisId;
 	}
+
 	public void setDiagnosisId(Integer _diagnosisId) {
 		this._diagnosisId = _diagnosisId;
 	}
@@ -49,6 +57,7 @@ public class MedicineEntity {
 	public String getName() {
 		return _name;
 	}
+
 	public void setName(String name) {
 		_name = name;
 	}
@@ -58,6 +67,7 @@ public class MedicineEntity {
 	public String getDose() {
 		return _dose;
 	}
+
 	public void setDose(String dose) {
 		_dose = dose;
 	}
@@ -67,6 +77,7 @@ public class MedicineEntity {
 	public DiagnosisEntity getDiagnosis() {
 		return _diagnosis;
 	}
+
 	public void setDiagnosis(DiagnosisEntity diagnosis) {
 		_diagnosis = diagnosis;
 	}
