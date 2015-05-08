@@ -62,8 +62,14 @@ public class CreateDiagnosisController implements ILogger {
      * @param iExaminationProtocol this parameter shows the interface of the examination protocol,
      *                             into which the new diagnosis should be saved
      */
-    public CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
-        examinationProtocol = (ExaminationProtocol) iExaminationProtocol;
+    private CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
+
+        examinationProtocol = iExaminationProtocol;
+    }
+
+    static CreateDiagnosisController CreateController(IExaminationProtocol iExaminationProtocol) {
+        // überprüfung sonst exception
+        return new CreateDiagnosisController(iExaminationProtocol);
     }
 
     /**
@@ -126,7 +132,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the doctor, which created the diagnosis - it is not allowed to be null
      */
     private boolean checkRequirements(String title, String description, IDoctor iDoctor) {
-        if (title.equals("")) {
+        if (title == null || title.equals("")) {
             log.info("Title is empty");
             return false;
         } else if (description.equals("")) {
