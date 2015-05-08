@@ -9,38 +9,21 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.PrescriptionEntry;
 
 import java.util.Collection;
 
 /**
- * Created by oculus on 20.04.15.
+ * Created by Simon Angerer on 08.05.2015.
  */
-public interface IDiagnosis extends IDomain {
-    @Override
-    int getId();
+public interface IMedicine{
 
-    @Override
-    void setId(int id);
+    Diagnosis getDiagnosis();
 
-    String getTitle();
+    Collection<IPrescriptionEntry> getPrecriptionEntries();
 
-    void setTitle(String title);
+    void addPrecriptionEntry(IPrescriptionEntry precriptionEntry);
 
-    String getDescription();
 
-    void setDescription(String description);
-
-    Integer getDoctorId();
-
-    void setDoctorId(Integer doctorId);
-
-    Doctor getDoctor();
-
-    void setDoctor(Doctor doctor);
-
-    Collection<Medicine> getAllMedicines();
-
-    void addMedicine(Medicine medicine);
 }

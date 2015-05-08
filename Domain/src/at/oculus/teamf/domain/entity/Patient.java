@@ -263,6 +263,12 @@ public class Patient implements IPatient, IDomain, ILogger {
         return examinationResults;
     }
 
+    @Override
+    public Collection<IPrescription> getPrescriptions() {
+        //Todo: implement
+        return null;
+    }
+
     public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
         Collection<Diagnosis> diagnoses = null;
         try {
