@@ -31,6 +31,9 @@ public class MedicineEntity implements IEntity {
 	private String _name;
 	private String _dose;
 
+	public MedicineEntity() {
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "medicineId", nullable = false, insertable = false, updatable = false)

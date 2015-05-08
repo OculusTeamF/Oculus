@@ -9,16 +9,18 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+
 import java.util.Collection;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
  */
-public interface IPrescription {
+public interface IPrescription extends IDomain {
 
     IPatient getPatient();
 
-    Collection<IPrescriptionEntry> getAllPrescriptionEntries();
+	Collection<IPrescriptionEntry> getPrescriptionEntries();
 
-    void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry);
+	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
 }

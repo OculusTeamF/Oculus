@@ -16,21 +16,34 @@ import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
  * Created by Simon Angerer on 08.05.2015.
  */
 public class PrescriptionEntry implements IPrescriptionEntry {
+	private int _id;
+	private Prescription _prescription;
+	private Medicine _medicine;
 
-    @Override
-    public Prescription getPrescription() {
-        //Todo: implement
-        return null;
-    }
+	public PrescriptionEntry() {
+	}
 
-    @Override
-    public void setMedicine() {
-        //Todo: implement
-    }
+	public int getId() {
+		return _id;
+	}
 
-    @Override
+	public void setId(int id) {
+		_id = id;
+	}
+
+	public Prescription getPrescription() {
+		return _prescription;
+	}
+
+	public void setPrescription(Prescription prescription) {
+		_prescription = prescription;
+	}
+
     public IMedicine getMedicine() {
-        //Todo: implement
-        return null;
+	    return _medicine;
     }
+
+	public void setMedicine(IMedicine medicine) {
+		_medicine = (Medicine) medicine;
+	}
 }

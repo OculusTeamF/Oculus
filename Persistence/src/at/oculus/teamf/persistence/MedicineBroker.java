@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Medicine;
@@ -22,13 +24,33 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * MedicineBroker.java Created by oculus on 08.05.15.
  */
-public class MedicineBroker extends EntityBroker {
+public class MedicineBroker extends EntityBroker implements ISearch {
 	public MedicineBroker(Class domainClass, Class entityClass) {
 		super(Medicine.class, MedicineBroker.class);
 		addDomainClass(IMedicine.class);
+	}
+
+	@Override
+	public Collection search(ISession session, String... params)
+			throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException,
+			       BadSessionException, ClassNotMappedException, DatabaseOperationException,
+			       SearchInterfaceNotImplementedException {
+		Collection<Object> searchResult = null;
+
+		searchResult = session.search("getMedicineByPatientId", params);
+
+		Collection<Medicine> result = new LinkedList<>();
+		for (Object o : searchResult) {
+			result.add((Medicine) persistentToDomain((MedicineEntity) o));
+		}
+
+		return result;
 	}
 
 	@Override

@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Hibernate annotated diagnosis class
@@ -31,6 +32,7 @@ public class DiagnosisEntity implements IEntity {
 	private String _description;
 	private Integer _doctorId;
 	private DoctorEntity _doctor;
+	private Collection<MedicineEntity> _medicine;
 
 	public DiagnosisEntity() {	}
 
@@ -86,6 +88,16 @@ public class DiagnosisEntity implements IEntity {
 	public void setDoctor(DoctorEntity doctor) {
 		_doctor = doctor;
 	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagnosis")
+	public Collection<MedicineEntity> getMedicine() {
+		return _medicine;
+	}
+
+	public void setMedicine(Collection<MedicineEntity> medicine) {
+		_medicine = medicine;
+	}
+
 
 	@Override
 	public int hashCode() {

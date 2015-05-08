@@ -10,10 +10,14 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.entity.MedicineEntity;
+import at.oculus.teamf.persistence.entity.PrescriptionEntity;
 import at.oculus.teamf.persistence.entity.PrescriptionEntryEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -34,13 +38,32 @@ public class PrescriptionEntryBroker extends EntityBroker {
 	protected IDomain persistentToDomain(IEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-		return null;
+		PrescriptionEntryEntity prescriptionEntryEntity = (PrescriptionEntryEntity) entity;
+		PrescriptionEntry prescriptionEntry = new PrescriptionEntry();
+		prescriptionEntry.setId(prescriptionEntryEntity.getId());
+		prescriptionEntry.setMedicine((Medicine) Facade.getInstance().getBroker(Medicine.class)
+		                                               .persistentToDomain(prescriptionEntryEntity.getMedicine()));
+		prescriptionEntry.setPrescription((Prescription) Facade.getInstance().getBroker(Prescription.class)
+		                                                       .persistentToDomain(
+				                                                       prescriptionEntryEntity.getPrescription()));
+		return prescriptionEntry;
 	}
 
 	@Override
 	protected IEntity domainToPersistent(IDomain obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
 			       ClassNotMappedException {
-		return null;
+		PrescriptionEntry prescriptionEntry = (PrescriptionEntry) obj;
+		PrescriptionEntryEntity prescriptionEntryEntity = new PrescriptionEntryEntity();
+		prescriptionEntryEntity.setId(prescriptionEntry.getId());
+		prescriptionEntryEntity.setMedicine((MedicineEntity) Facade.getInstance().getBroker(Medicine.class)
+		                                                           .domainToPersistent(
+				                                                           prescriptionEntry.getMedicine()));
+		prescriptionEntryEntity.setMedicineId(prescriptionEntry.getMedicine().getId());
+		prescriptionEntryEntity.setPrescription((PrescriptionEntity) Facade.getInstance().getBroker(Prescription.class)
+		                                                                   .domainToPersistent(prescriptionEntry
+				                                                                                       .getPrescription()));
+		prescriptionEntryEntity.setPrescriptionId(prescriptionEntry.getPrescription().getId());
+		return prescriptionEntryEntity;
 	}
 }

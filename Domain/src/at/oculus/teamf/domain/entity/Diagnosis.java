@@ -9,7 +9,16 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 
@@ -17,12 +26,13 @@ import java.util.Collection;
  * Diagnosis.java
  * Created by oculus on 16.04.15.
  */
-public class Diagnosis implements IDiagnosis {
+public class Diagnosis implements IDiagnosis, IDomain, ILogger {
     private int _id;
     private String _title;
     private String _description;
 	private Integer _doctorId;
 	private Doctor _doctor;
+	private Collection<Medicine> _medicine;
 
 	public Diagnosis() {}
 
@@ -42,38 +52,30 @@ public class Diagnosis implements IDiagnosis {
 		_id = id;
 	}
 
-	@Override
     public String getTitle() {
 		return _title;
 	}
-	@Override
     public void setTitle(String title) {
 		_title = title;
 	}
 
-	@Override
     public String getDescription() {
 		return _description;
 	}
-	@Override
     public void setDescription(String description) {
 		_description = description;
 	}
 
-	@Override
     public Integer getDoctorId() {
 		return _doctorId;
 	}
-	@Override
     public void setDoctorId(Integer doctorId) {
 		_doctorId = doctorId;
 	}
 
-	@Override
     public Doctor getDoctor() {
 		return _doctor;
 	}
-	@Override
     public void setDoctor(Doctor doctor) {
 		_doctor = doctor;
 		if(doctor!=null) {
@@ -81,14 +83,25 @@ public class Diagnosis implements IDiagnosis {
 		}
 	}
 
-	@Override
-	public Collection<Medicine> getAllMedicines() {
-		//Todo: implement
-		return null;
+	public Collection<Medicine> getMedicine() throws CouldNotGetMedicineException {
+		try {
+			Facade.getInstance().reloadCollection(this, Medicine.class);
+		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetMedicineException();
+		}
+		return _medicine;
 	}
 
-	@Override
-	public void addMedicine(Medicine medicine) {
+	public void setMedicine(Collection<Medicine> medicine) {
+		_medicine = medicine;
+	}
+
+	public void addMedicine(Medicine medicine)
+			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
+		medicine.setDiagnosis(this);
+		_medicine.add(medicine);
+		Facade.getInstance().save(medicine);
 		//Todo: implement
 	}
 

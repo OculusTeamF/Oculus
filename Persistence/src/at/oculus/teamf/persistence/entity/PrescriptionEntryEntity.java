@@ -21,7 +21,10 @@ public class PrescriptionEntryEntity implements IEntity {
 	private Integer _prescriptionId;
 	private Integer _medicineId;
 	private PrescriptionEntity _prescription;
-	private MedicineEntity _medicineEntity;
+	private MedicineEntity _medicine;
+
+	public PrescriptionEntryEntity() {
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,10 +65,11 @@ public class PrescriptionEntryEntity implements IEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "medicineId", referencedColumnName = "medicineId")
-	public MedicineEntity getMedicineEntity() {
-		return _medicineEntity;
+	public MedicineEntity getMedicine() {
+		return _medicine;
 	}
-	public void setMedicineEntity(MedicineEntity medicineEntity) {
-		_medicineEntity = medicineEntity;
+
+	public void setMedicine(MedicineEntity medicine) {
+		_medicine = medicine;
 	}
 }

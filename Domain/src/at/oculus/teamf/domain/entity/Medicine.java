@@ -9,16 +9,12 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
-import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-
-import java.util.Collection;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
  */
-public class Medicine implements IDomain, IMedicine {
+public class Medicine implements IMedicine {
 	private int _id;
 	private Diagnosis _diagnosis;
 	private String _name;
@@ -41,6 +37,7 @@ public class Medicine implements IDomain, IMedicine {
 	public String getName() {
 		return _name;
 	}
+
 	public void setName(String name) {
 		_name = name;
 	}
@@ -48,17 +45,8 @@ public class Medicine implements IDomain, IMedicine {
 	public String getDose() {
 		return _dose;
 	}
+
 	public void setDose(String dose) {
 		_dose = dose;
 	}
-
-    public Collection<IPrescriptionEntry> getPrecriptionEntries() {
-        //Todo: implement
-        return null;
-    }
-
-    public void addPrecriptionEntry(IPrescriptionEntry precriptionEntry) {
-        //Todo: implement
-
-    }
 }

@@ -11,24 +11,23 @@ package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * PrescriptionEntity.java Created by oculus on 08.05.15.
  */
 @Entity
 @Table(name = "prescription", schema = "", catalog = "oculus_f")
-@NamedNativeQueries({@NamedNativeQuery(
-		name = "getPrescriptionsByPatientId",
-		query = "SELECT * " +
-		        "FROM prescription " +
-		        "WHERE patientId = ?0",
-		resultClass = PrescriptionEntity.class)})
 public class PrescriptionEntity implements IEntity {
 	private int _id;
 	private Integer _patientId;
 	private Timestamp _issueDate;
 	private Timestamp _lastPrint;
 	private PatientEntity _patient;
+	private Collection<PrescriptionEntryEntity> _prescriptionEntries;
+
+	public PrescriptionEntity() {
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +35,6 @@ public class PrescriptionEntity implements IEntity {
 	public int getId() {
 		return _id;
 	}
-
 	public void setId(int id) {
 		_id = id;
 	}
@@ -46,7 +44,6 @@ public class PrescriptionEntity implements IEntity {
 	public Integer getPatientId() {
 		return _patientId;
 	}
-
 	public void setPatientId(Integer patientId) {
 		_patientId = patientId;
 	}
@@ -56,7 +53,6 @@ public class PrescriptionEntity implements IEntity {
 	public Timestamp getIssueDate() {
 		return _issueDate;
 	}
-
 	public void setIssueDate(Timestamp issueDate) {
 		_issueDate = issueDate;
 	}
@@ -66,7 +62,6 @@ public class PrescriptionEntity implements IEntity {
 	public Timestamp getLastPrint() {
 		return _lastPrint;
 	}
-
 	public void setLastPrint(Timestamp lastPrint) {
 		_lastPrint = lastPrint;
 	}
@@ -76,8 +71,17 @@ public class PrescriptionEntity implements IEntity {
 	public PatientEntity getPatient() {
 		return _patient;
 	}
-
 	public void setPatient(PatientEntity patient) {
 		_patient = patient;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "prescriptionId", referencedColumnName = "prescriptionId")
+	public Collection<PrescriptionEntryEntity> getPrescriptionEntries() {
+		return _prescriptionEntries;
+	}
+
+	public void setPrescriptionEntries(Collection<PrescriptionEntryEntity> prescriptionEntries) {
+		_prescriptionEntries = prescriptionEntries;
 	}
 }
