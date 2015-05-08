@@ -81,11 +81,12 @@ public class ExaminationController implements Initializable {
 
                     IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
                     try {
-                        _results = FXCollections.observableArrayList((IExaminationResult)protocol.getExaminationResults());
+                        _results = FXCollections.observableArrayList(protocol.getExaminationResults());
                     } catch (CouldNotGetExaminationResultException e) {
                         e.printStackTrace();
+                        DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetExaminationResultException - Please contact support");
                     }
-
+                    examinationResults.setItems(_results);
                 }
             }
         });

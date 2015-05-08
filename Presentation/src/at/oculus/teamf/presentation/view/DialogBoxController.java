@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
