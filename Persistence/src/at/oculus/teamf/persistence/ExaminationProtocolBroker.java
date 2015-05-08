@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -31,6 +32,7 @@ import java.util.Collection;
 public class ExaminationProtocolBroker extends EntityBroker implements ICollectionReload {
     public ExaminationProtocolBroker() {
         super(ExaminationProtocol.class, ExaminationProtocolEntity.class);
+        addDomainClass(IExaminationProtocol.class);
     }
 
     /**
