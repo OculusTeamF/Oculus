@@ -36,7 +36,7 @@ public class CreateDiagnosisControllerTest {
 
         IExaminationProtocol iExaminationProtocol = receivePatientController.createNewExaminationProtocol(new Date(), new Date(), "description", iPatient, iDoctor, null);
 
-        CreateDiagnosisController createDiagnosisController = new CreateDiagnosisController(iExaminationProtocol);
+        CreateDiagnosisController createDiagnosisController =  CreateDiagnosisController.CreateController(iExaminationProtocol);
         createDiagnosisController.createDiagnosis("title", "description", iDoctor);
 
         assert (iExaminationProtocol.getDiagnosis().getTitle().equals("title"));

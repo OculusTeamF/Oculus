@@ -270,7 +270,7 @@ public class Patient implements IPatient, IDomain, ILogger {
     }
 
     public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
-        Collection<Diagnosis> diagnoses = null;
+        Collection<IDiagnosis> diagnoses = null;
         try {
             diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
         } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
