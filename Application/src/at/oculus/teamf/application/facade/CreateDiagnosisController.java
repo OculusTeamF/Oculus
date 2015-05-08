@@ -30,6 +30,7 @@ import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -45,7 +46,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
  **/
 public class CreateDiagnosisController implements ILogger {
 
-    private IExaminationProtocol examinationProtocol;
+    private IExaminationProtocol iExaminationProtocol;
 
     /**
      *<h3>$CreateDiagnosisController</h3>
@@ -60,7 +61,7 @@ public class CreateDiagnosisController implements ILogger {
      *                             into which the new diagnosis should be saved
      */
     private CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
-        examinationProtocol = iExaminationProtocol;
+        this.iExaminationProtocol = iExaminationProtocol;
     }
 
     public static CreateDiagnosisController CreateController(IExaminationProtocol iExaminationProtocol) throws NoExaminationProtocolException {
@@ -87,7 +88,6 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
     public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
-        //TODO change to interfaces
         //check parameters
         if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");
@@ -97,14 +97,14 @@ public class CreateDiagnosisController implements ILogger {
         //create new diagnosis
         IDiagnosis diagnosis = new Diagnosis(0, title, description, (Doctor) iDoctor);
         log.info("New diagnosis created.");
-        examinationProtocol.setDiagnosis(diagnosis);
+        iExaminationProtocol.setDiagnosis(diagnosis);
         log.info("Diagnosis added to examination protocol");
 
         //save diagnosis and examinationprotocol
-        Facade facade = Facade.getInstance();
+        IFacade iFacade = Facade.getInstance();
         try {
-            facade.save(diagnosis);
-            facade.save(examinationProtocol);
+            iFacade.save(diagnosis);
+            iFacade.save(iExaminationProtocol);
             log.info("Diagnosis and examination protocol saved");
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
