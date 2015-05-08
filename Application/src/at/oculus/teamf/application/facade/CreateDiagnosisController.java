@@ -62,8 +62,14 @@ public class CreateDiagnosisController implements ILogger {
      * @param iExaminationProtocol this parameter shows the interface of the examination protocol,
      *                             into which the new diagnosis should be saved
      */
-    public CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
-        examinationProtocol = (ExaminationProtocol) iExaminationProtocol;
+    private CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
+
+        examinationProtocol = iExaminationProtocol;
+    }
+
+    public static CreateDiagnosisController CreateController(IExaminationProtocol iExaminationProtocol) {
+        // überprüfung sonst exception
+        return new CreateDiagnosisController(iExaminationProtocol);
     }
 
     /**
@@ -91,7 +97,7 @@ public class CreateDiagnosisController implements ILogger {
         }
 
         //create new diagnosis
-        Diagnosis diagnosis = new Diagnosis(0, title, description, (Doctor) iDoctor);
+        IDiagnosis diagnosis = new Diagnosis(0, title, description, (Doctor) iDoctor);
         log.info("New diagnosis created.");
         examinationProtocol.setDiagnosis(diagnosis);
         log.info("Diagnosis added to examination protocol");
@@ -99,7 +105,7 @@ public class CreateDiagnosisController implements ILogger {
         //save diagnosis and examinationprotocol
         Facade facade = Facade.getInstance();
         try {
-            facade.save(diagnosis); //braucht es das?
+            facade.save(diagnosis);
             facade.save(examinationProtocol);
             log.info("Diagnosis and examination protocol saved");
         } catch (NoBrokerMappedException e) {
@@ -126,7 +132,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the doctor, which created the diagnosis - it is not allowed to be null
      */
     private boolean checkRequirements(String title, String description, IDoctor iDoctor) {
-        if (title.equals("")) {
+        if (title == null || title.equals("")) {
             log.info("Title is empty");
             return false;
         } else if (description.equals("")) {
