@@ -132,8 +132,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
            queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
         }
 
+
         queueEntryDel.setQueueIdParent(null);
 
+        _entries.remove(queueEntryDel);
         try {
             if (queueEntryChd != null) {
                 Facade.getInstance().save(queueEntryChd);
