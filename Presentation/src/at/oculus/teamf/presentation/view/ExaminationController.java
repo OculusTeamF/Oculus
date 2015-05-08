@@ -81,11 +81,12 @@ public class ExaminationController implements Initializable {
 
                     IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
                     try {
-                        _results = FXCollections.observableArrayList((IExaminationResult)protocol.getExaminationResults());
+                        _results = FXCollections.observableArrayList(protocol.getExaminationResults());
                     } catch (CouldNotGetExaminationResultException e) {
                         e.printStackTrace();
+                        DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetExaminationResultException - Please contact support");
                     }
-
+                    examinationResults.setItems(_results);
                 }
             }
         });
@@ -123,8 +124,12 @@ public class ExaminationController implements Initializable {
     private void loadSelectedExaminationData (IExaminationProtocol exp){
         examinationDocumentation.setText(exp.getDescription());
 
-        //ObservableList<> results = FXCollections.observableArrayList(exp.getExaminationResults());
-       // examinationResults.setItems(results);
+        ObservableList<IExaminationResult> results = null; try {
+            results = FXCollections.observableArrayList(exp.getExaminationResults());
+        } catch (CouldNotGetExaminationResultException e) {
+            e.printStackTrace();
+        }
+        examinationResults.setItems(results);
 
         // TODO fill into controls
         textExaminationDetails.setText("");

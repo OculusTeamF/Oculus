@@ -11,6 +11,8 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 
+import java.util.Collection;
+
 /**
  * Diagnosis.java
  * Created by oculus on 16.04.15.
@@ -79,7 +81,18 @@ public class Diagnosis implements IDiagnosis {
 		}
 	}
 
-    @Override
+	@Override
+	public Collection<Medicine> getAllMedicines() {
+		//Todo: implement
+		return null;
+	}
+
+	@Override
+	public void addMedicine(Medicine medicine) {
+		//Todo: implement
+	}
+
+	@Override
     public String toString(){
         return _title + " " + _description.substring(0,50) + "...";
     }

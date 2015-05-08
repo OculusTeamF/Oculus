@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.DiagnosisEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
@@ -31,6 +32,7 @@ import java.util.Collection;
 public class DiagnosisBroker extends EntityBroker implements ISearch {
     public DiagnosisBroker() {
         super(Diagnosis.class, DiagnosisEntity.class);
+        addDomainClass(IDiagnosis.class);
     }
 
     /**

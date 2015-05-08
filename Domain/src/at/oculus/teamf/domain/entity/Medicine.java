@@ -7,40 +7,31 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 
 import java.util.Collection;
 
 /**
- * Created by oculus on 20.04.15.
+ * Created by Simon Angerer on 08.05.2015.
  */
-public interface IDiagnosis extends IDomain {
+public class Medicine implements IMedicine {
     @Override
-    int getId();
+    public Diagnosis getDiagnosis() {
+        return null;
+    }
 
     @Override
-    void setId(int id);
+    public Collection<IPrescriptionEntry> getPrecriptionEntries() {
+        //Todo: implement
+        return null;
+    }
 
-    String getTitle();
+    @Override
+    public void addPrecriptionEntry(IPrescriptionEntry precriptionEntry) {
+        //Todo: implement
 
-    void setTitle(String title);
-
-    String getDescription();
-
-    void setDescription(String description);
-
-    Integer getDoctorId();
-
-    void setDoctorId(Integer doctorId);
-
-    Doctor getDoctor();
-
-    void setDoctor(Doctor doctor);
-
-    Collection<Medicine> getAllMedicines();
-
-    void addMedicine(Medicine medicine);
+    }
 }
