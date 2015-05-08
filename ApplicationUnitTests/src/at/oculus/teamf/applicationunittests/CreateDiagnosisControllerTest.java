@@ -12,17 +12,26 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.facade.CreateDiagnosisController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import org.junit.After;
+import org.junit.Before;
 
 import java.util.Date;
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
-
 public class CreateDiagnosisControllerTest {
+
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
+    @After
+    public void tearDown() throws Exception{
+
+    }
 
     @org.junit.Test
     public void testCreateDiagnosis() throws Exception {

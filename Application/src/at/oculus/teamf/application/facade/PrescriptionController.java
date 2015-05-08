@@ -9,10 +9,28 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.technical.loggin.ILogger;
+
 /**
- * Created by oculus on 08.05.15.
+ * Created by jpo2433 on 08.05.15.
  */
-public class PrescriptionController {
+public class PrescriptionController implements ILogger {
+
+    private IPatient _iPatient;
+
+
+    private PrescriptionController(IPatient iPatient){
+        _iPatient = iPatient;
+    }
+
+    public static PrescriptionController createController(IPatient iPatient) throws NoPatientException {
+        if(iPatient == null){
+            throw new NoPatientException();
+        }
+        return new PrescriptionController(iPatient);
+    }
 
 
 
