@@ -11,7 +11,6 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-import at.oculus.teamf.domain.entity.interfaces.Prescription;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
@@ -25,7 +24,7 @@ public class PrescriptionEntry implements IPrescriptionEntry {
     }
 
     @Override
-    public void setMedince() {
+    public void setMedicine() {
         //Todo: implement
     }
 
