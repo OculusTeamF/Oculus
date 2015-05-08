@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "prescriptionEntry", schema = "", catalog = "oculus_f")
-public class PrescriptionEntryEntity {
+public class PrescriptionEntryEntity implements IEntity {
 	private int _id;
 	private Integer _prescriptionId;
 	private Integer _medicineId;

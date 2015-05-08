@@ -24,7 +24,7 @@ import javax.persistence.*;
 		        "WHERE m.diagnosisId = e.diagnosisId " +
 		        "AND e.patientId = ?0",
 		resultClass = MedicineEntity.class)})
-public class MedicineEntity {
+public class MedicineEntity implements IEntity {
 	private int _id;
 	private Integer _diagnosisId;
 	private DiagnosisEntity _diagnosis;

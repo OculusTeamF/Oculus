@@ -10,10 +10,12 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.entity.MedicineEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -33,7 +35,13 @@ public class MedicineBroker extends EntityBroker {
 	protected IDomain persistentToDomain(IEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-		return null;
+		MedicineEntity medicineEntity = (MedicineEntity) entity;
+		Medicine medicine = new Medicine();
+		medicine.setId(medicineEntity.getId());
+		medicine.setDiagnosis((Diagnosis) Facade.getInstance().getBroker(Diagnosis.class).persistentToDomain(medicineEntity.getDiagnosis()));
+		medicine.setDose(medicineEntity.getDose());
+		medicine.setName(medicineEntity.getName());
+		return medicine;
 	}
 
 	@Override

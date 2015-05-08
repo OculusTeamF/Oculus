@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 		        "FROM prescription " +
 		        "WHERE patientId = ?0",
 		resultClass = PrescriptionEntity.class)})
-public class PrescriptionEntity {
+public class PrescriptionEntity implements IEntity {
 	private int _id;
 	private Integer _patientId;
 	private Timestamp _issueDate;
