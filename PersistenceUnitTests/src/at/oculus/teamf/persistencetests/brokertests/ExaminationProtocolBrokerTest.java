@@ -12,6 +12,7 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -104,6 +105,8 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 		assertTrue(examinationProtocolOrthoptist.getEndTime()!=null);
 	}
 
+
+
 	@Override
 	public void testGetAll() {
 		// too much records in database
@@ -114,7 +117,7 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			e.printStackTrace();
 		}
 		assertTrue(examinationProtocolCollection!=null);
-		assertTrue(examinationProtocolCollection.size()>1);*/
+		assertTrue(examinationProtocolCollection.size()>0);*/
 	}
 
 	@Test
@@ -128,7 +131,7 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			Assert.assertTrue(false);
 		}
 
-		Collection<ExaminationResult> examinationResults = null;
+		Collection<IExaminationResult> examinationResults = null;
 
 		try {
 			examinationResults = examinationProtocol.getExaminationResults();
@@ -137,7 +140,6 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			Assert.assertTrue(false);
 		}
 
-		System.out.println(examinationResults.size());
 		assertTrue(examinationResults.size()==1);
 	}
 }

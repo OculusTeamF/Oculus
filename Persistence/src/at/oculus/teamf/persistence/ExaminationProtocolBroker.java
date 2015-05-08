@@ -134,8 +134,6 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
 
 		ExaminationProtocolEntity entity = (ExaminationProtocolEntity) domainToPersistent(domainObj);
 
-        Serializable id = null;
-
         try {
 			session.beginTransaction();
 
@@ -145,9 +143,7 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
             session.commit();
 
 			// update IDs when commit was successful
-			if(id != null){
-				domainObj.setId((Integer)id);
-			}
+            domainObj.setId(entity.getId());
 		} catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
 			log.error(e.getMessage());
 			throw new BadConnectionException();

@@ -34,5 +34,5 @@ public interface ICalendarEvent extends IDomain {
 
     //Patient getPatient();
 
-    //void addPatient(Patient patient);
+    //void setPatient(Patient patient);
 }

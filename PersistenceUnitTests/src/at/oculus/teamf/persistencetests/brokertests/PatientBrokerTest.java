@@ -10,10 +10,7 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.persistence.Facade;
@@ -54,21 +51,25 @@ public class PatientBrokerTest extends BrokerTest {
 		_patient.setMedicineIntolerance("Medizin Unverträglichkeiten");
 		_patient.setPhone("+43 664 987356 34");
 		_patient.setPostalCode("4633");
-        _patient.setBirthDay(new Date());
+		_patient.setBirthDay(new Date());
 		try {
 			assertTrue(Facade.getInstance().save(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
         assertTrue(_patient.getId()>0);
 	}
 
 	@Override
 	public void tearDown() {
+
+
 		try {
 			assertTrue(Facade.getInstance().delete(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
     }
 
@@ -126,7 +127,7 @@ public class PatientBrokerTest extends BrokerTest {
 
         try {
 			assertTrue(patient.getCalendarEvents() != null);
-			assertTrue(patient.getCalendarEvents().size() > 0);
+			assertTrue(patient.getCalendarEvents().size() == 0);
 			assertTrue(patient.getExaminationProtocol() != null);
 			assertTrue(patient.getExaminationProtocol().size()==5);
 		} catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException e) {
