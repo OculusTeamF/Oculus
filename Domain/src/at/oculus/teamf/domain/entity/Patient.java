@@ -230,7 +230,6 @@ public class Patient implements IPatient, IDomain, ILogger {
     }
 
     public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
-
         try {
             Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
         } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException  e) {
