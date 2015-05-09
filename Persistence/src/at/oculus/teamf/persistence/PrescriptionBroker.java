@@ -47,7 +47,7 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		PrescriptionEntity prescriptionEntity = (PrescriptionEntity) entity;
 		Prescription prescription = new Prescription();
 		prescription.setId(prescriptionEntity.getId());
-		prescription.setPatient((Patient) Facade.getInstance().getBroker(Prescription.class)
+		prescription.setPatient((Patient) Facade.getInstance().getBroker(Patient.class)
 		                                        .persistentToDomain(prescriptionEntity.getPatient()));
 		prescription.setIssueDate(prescriptionEntity.getIssueDate());
 		prescription.setLastPrint(prescriptionEntity.getLastPrint());
@@ -63,8 +63,12 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		prescriptionEntity.setId(prescription.getId());
 		prescriptionEntity.setPatient((PatientEntity) Facade.getInstance().getBroker(Patient.class)
 		                                                    .domainToPersistent((Patient) prescription.getPatient()));
-		prescriptionEntity.setIssueDate(new Timestamp(prescription.getIssueDate().getTime()));
-		prescriptionEntity.setLastPrint(new Timestamp(prescription.getLastPrint().getTime()));
+		if (prescription.getIssueDate() != null) {
+			prescriptionEntity.setIssueDate(new Timestamp(prescription.getIssueDate().getTime()));
+		}
+		if (prescription.getLastPrint() != null) {
+			prescriptionEntity.setLastPrint(new Timestamp(prescription.getLastPrint().getTime()));
+		}
 		return prescriptionEntity;
 	}
 

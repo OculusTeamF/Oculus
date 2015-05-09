@@ -37,7 +37,7 @@ public class PrescriptionEntryEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "prescriptionId", nullable = true, insertable = false, updatable = false)
+	@Column(name = "prescriptionId", nullable = false, insertable = false, updatable = false)
 	public Integer getPrescriptionId() {
 		return _prescriptionId;
 	}
@@ -46,7 +46,7 @@ public class PrescriptionEntryEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "medicineId", nullable = true, insertable = false, updatable = false)
+	@Column(name = "medicineId", nullable = false, insertable = false, updatable = false)
 	public Integer getMedicineId() {
 		return _medicineId;
 	}

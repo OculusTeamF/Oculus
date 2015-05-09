@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.persistence.entity.DiagnosisEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.MedicineEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -70,6 +71,13 @@ public class MedicineBroker extends EntityBroker implements ISearch {
 	protected IEntity domainToPersistent(IDomain obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
 			       ClassNotMappedException {
-		return null;
+		Medicine medicine = (Medicine) obj;
+		MedicineEntity medicineEntity = new MedicineEntity();
+		medicineEntity.setId(medicine.getId());
+		medicineEntity.setDiagnosis((DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
+		                                                    .domainToPersistent(medicine.getDiagnosis()));
+		medicineEntity.setDose(medicine.getDose());
+		medicineEntity.setName(medicine.getName());
+		return medicineEntity;
 	}
 }
