@@ -54,6 +54,7 @@ public class PatientEntity implements IEntity {
 	private DoctorEntity _doctor;
 	private QueueEntity _queue;
     private Collection<ExaminationProtocolEntity> _examinationProtocol;
+	private Collection<PrescriptionEntity> _prescriptions;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -217,6 +218,27 @@ public class PatientEntity implements IEntity {
 	}
 
 	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_doctorId != null ? _doctorId.hashCode() : 0);
+		result = 31 * result + (_socialInsuranceNr != null ? _socialInsuranceNr.hashCode() : 0);
+		result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
+		result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
+		result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
+		result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
+		result = 31 * result + (_street != null ? _street.hashCode() : 0);
+		result = 31 * result + (_postalCode != null ? _postalCode.hashCode() : 0);
+		result = 31 * result + (_city != null ? _city.hashCode() : 0);
+		result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
+		result = 31 * result + (_phone != null ? _phone.hashCode() : 0);
+		result = 31 * result + (_email != null ? _email.hashCode() : 0);
+		result = 31 * result + (_allergy != null ? _allergy.hashCode() : 0);
+		result = 31 * result + (_childhoodAilments != null ? _childhoodAilments.hashCode() : 0);
+		result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
@@ -264,27 +286,6 @@ public class PatientEntity implements IEntity {
 		return true;
 	}
 
-	@Override
-	public int hashCode() {
-		int result = _id;
-		result = 31 * result + (_doctorId != null ? _doctorId.hashCode() : 0);
-		result = 31 * result + (_socialInsuranceNr != null ? _socialInsuranceNr.hashCode() : 0);
-		result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
-		result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
-		result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
-		result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
-		result = 31 * result + (_street != null ? _street.hashCode() : 0);
-		result = 31 * result + (_postalCode != null ? _postalCode.hashCode() : 0);
-		result = 31 * result + (_city != null ? _city.hashCode() : 0);
-		result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
-		result = 31 * result + (_phone != null ? _phone.hashCode() : 0);
-		result = 31 * result + (_email != null ? _email.hashCode() : 0);
-		result = 31 * result + (_allergy != null ? _allergy.hashCode() : 0);
-		result = 31 * result + (_childhoodAilments != null ? _childhoodAilments.hashCode() : 0);
-		result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
-		return result;
-	}
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
 	public Collection<CalendarEventEntity> getCalendarevents() {
 		return _calendarevents;
@@ -320,5 +321,14 @@ public class PatientEntity implements IEntity {
 
 	public void setQueue(QueueEntity queue) {
 		_queue = queue;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
+	public Collection<PrescriptionEntity> getPrescriptions() {
+		return _prescriptions;
+	}
+
+	public void setPrescriptions(Collection<PrescriptionEntity> prescriptions) {
+		_prescriptions = prescriptions;
 	}
 }

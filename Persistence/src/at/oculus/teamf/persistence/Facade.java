@@ -37,7 +37,7 @@ import java.util.LinkedList;
  * @author Simon Angerer
  * @version 0.1
  */
-public class Facade implements ILogger{
+public class Facade implements ILogger, IFacade{
     private static Facade _self;
     private HashMap<Class, EntityBroker> _entityBrokers;
     private ISessionBroker _sessionBroker;
@@ -56,15 +56,11 @@ public class Facade implements ILogger{
         entityBrokers.add(new DiagnosisBroker());
         entityBrokers.add(new ExaminationProtocolBroker());
         entityBrokers.add(new ExaminationResultBroker());
+	    entityBrokers.add(new MedicineBroker());
+	    entityBrokers.add(new PrescriptionEntryBroker());
+	    entityBrokers.add(new PrescriptionBroker());
 
-        init(entityBrokers);
-    }
-
-    public static Facade getInstance() {
-        if (_self == null) {
-            _self = new Facade();
-        }
-        return _self;
+	    init(entityBrokers);
     }
 
     private void init(Collection<EntityBroker> brokers) {
@@ -83,7 +79,37 @@ public class Facade implements ILogger{
         _sessionBroker = new HibernateSessionBroker(entityClazzes);
     }
 
+	public static Facade getInstance() {
+		if (_self == null) {
+			_self = new Facade();
+		}
+		return _self;
+	}
+
     /**
+     * get an entity of a specific domain class by id
+     *
+     * @param clazz domain class
+     * @param id    id of the entity
+     * @param <T>   type of the return value
+     * @return requested domain class
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
+    public <T> T getById(Class clazz, int id)
+		    throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+	    T object = null;
+
+	    try {
+		    object = (T) worker(clazz, new Get(id));
+	    } catch (SearchException | ReloadException e) {
+		    //eat up
+	    }
+
+	    return object;
+    }
+
+	/**
      * @param clazz   class to load
      * @param execute individual implementation
      * @param <T>     type of the return value
@@ -117,25 +143,20 @@ public class Facade implements ILogger{
     }
 
     /**
-     * get an entity of a specific domain class by id
+     * get broker of a specific domain class
      *
-     * @param clazz domain class
-     * @param id    id of the entity
-     * @param <T>   type of the return value
-     * @return requested domain class
-     * @throws BadConnectionException
+     * @param clazz domain class of broker
+     * @return requested broker
      * @throws NoBrokerMappedException
      */
-    public <T> T getById(Class clazz, int id) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
-        T object = null;
+    protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
+	    EntityBroker broker = _entityBrokers.get(clazz);
 
-        try {
-            object = (T) worker(clazz, new Get(id));
-        } catch (SearchException | ReloadException e) {
-            //eat up
-        }
+	    if (broker == null) {
+		    throw new NoBrokerMappedException();
+	    }
 
-        return object;
+	    return broker;
     }
 
     /**
@@ -157,24 +178,6 @@ public class Facade implements ILogger{
         }
 
         return objects;
-    }
-
-    /**
-     * reload a collection in a domain object
-     *
-     * @param obj   domain object
-     * @param clazz class of collection to be reloaded
-     * @throws BadConnectionException
-     * @throws NoBrokerMappedException
-     * @throws ReloadInterfaceNotImplementedException
-     * @throws InvalidReloadClassException
-     */
-    public void reloadCollection(IDomain obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, DatabaseOperationException {
-        try {
-            worker(obj.getClass(), new ReloadCollection(obj, clazz));
-        } catch (SearchException e) {
-            //eat up
-        }
     }
 
     /**
@@ -266,20 +269,23 @@ public class Facade implements ILogger{
     }
 
     /**
-     * get broker of a specific domain class
+     * reload a collection in a domain object
      *
-     * @param clazz domain class of broker
-     * @return requested broker
+     * @param obj   domain object
+     * @param clazz class of collection to be reloaded
+     * @throws BadConnectionException
      * @throws NoBrokerMappedException
+     * @throws ReloadInterfaceNotImplementedException
+     * @throws InvalidReloadClassException
      */
-    protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
-        EntityBroker broker = _entityBrokers.get(clazz);
-
-        if (broker == null) {
-            throw new NoBrokerMappedException();
+    public void reloadCollection(IDomain obj, Class clazz)
+		    throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException,
+		           InvalidReloadClassException, DatabaseOperationException {
+	    try {
+		    worker(obj.getClass(), new ReloadCollection(obj, clazz));
+	    } catch (SearchException e) {
+		    //eat up
         }
-
-        return broker;
     }
 
     /**

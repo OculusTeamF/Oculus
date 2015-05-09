@@ -11,8 +11,10 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -110,12 +112,12 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
 	}
 
 	@Override
-    public Diagnosis getDiagnosis() {
+    public IDiagnosis getDiagnosis() {
 		return _diagnosis;
 	}
 	@Override
-    public void setDiagnosis(Diagnosis diagnosis) {
-		_diagnosis = diagnosis;
+    public void setDiagnosis(IDiagnosis diagnosis) {
+		_diagnosis = (Diagnosis) diagnosis;
 	}
 
 	@Override

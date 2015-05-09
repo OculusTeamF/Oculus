@@ -500,7 +500,7 @@ public class Model implements Serializable, ILogger{
         _userWaitingList.clear();
         //_queueTitledPaneFromUser.remove(user);
 
-        //actual list from the given user
+        //actual list from the given user //hier ist problem!!!
         ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) getEntriesFromQueue(user));
 
         //ObservableList<HBoxCell> olist = FXCollections.observableArrayList();
@@ -523,39 +523,16 @@ public class Model implements Serializable, ILogger{
         userTitledPane.setExpanded(true);
 
 
-        /*//the entries of the Queue from the given user with is not actual
+        /*//the entries of the Queue from the given user which is not actual
         ObservableList<IPatient> observableList = _userWaitingList.get(user);
 
         if (observableList != null) {
             observableList.remove(0, observableList.size());
         } else {
             DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
-        }
-
-        //the new, actual Queue from the given user
-        IPatientQueue queue = getQueueFromUser(user);
-
-        observableList.remove(0, observableList.size());
-
-        //fill Waitinglist with the actual data
-        try {
-            for(IQueueEntry iQueueEntry : queue.getEntries()) {
-                observableList.add(iQueueEntry.getPatient());
-            }
-        } catch (NoBrokerMappedException | BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
+        }*/
 
 
-        ListView list = _listViewMap.get(user);
-        list.setPrefHeight(observableList.size() * 24);
-
-        //New Header of Titledpane
-        TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
-        String header = buildTitledPaneHeader(user, observableList.size());
-        userTitledPane.setText(header);
-        userTitledPane.setExpanded(true);*/
     }
 
     /**
@@ -660,6 +637,7 @@ public class Model implements Serializable, ILogger{
         }
 
         addExaminationTab(patient);
+        refreshQueue(user);
     }
 
     /**

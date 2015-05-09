@@ -86,5 +86,5 @@ public interface IPatient {
     Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException;
     Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException;
 
-
+    Collection<IPrescription> getPrescriptions();
 }
