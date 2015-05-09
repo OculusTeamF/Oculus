@@ -73,26 +73,6 @@ public class Patient implements IPatient, ILogger {
 		_doctor = doctor;
 	}
 
-	public void addExaminationProtocol(ExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
-		log.debug("adding examination protocol to patient " + this);
-		examinationProtocol.setPatient(this);
-		if (_examinationProtocol == null) {
-			_examinationProtocol = new LinkedList<ExaminationProtocol>();
-		}
-		_examinationProtocol.add(examinationProtocol);
-		try {
-			Facade.getInstance().save(examinationProtocol);
-		} catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
-			log.error(e.getMessage());
-			throw new CouldNotAddExaminationProtocol();
-		}
-	}
-
-	public int getId() {
-
-        return _id;
-    }
-
 	@Override
 	public int hashCode() {
 		int result = _id;
@@ -114,6 +94,21 @@ public class Patient implements IPatient, ILogger {
 		result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
 		result = 31 * result + (_examinationProtocol != null ? _examinationProtocol.hashCode() : 0);
 		return result;
+	}
+
+	public void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
+		log.debug("adding examination protocol to patient " + this);
+		examinationProtocol.setPatient(this);
+		if (_examinationProtocol == null) {
+			_examinationProtocol = new LinkedList<ExaminationProtocol>();
+		}
+		_examinationProtocol.add((ExaminationProtocol) examinationProtocol);
+		try {
+			Facade.getInstance().save(examinationProtocol);
+		} catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotAddExaminationProtocol();
+		}
 	}
 
 	@Override
@@ -171,14 +166,15 @@ public class Patient implements IPatient, ILogger {
 		return true;
 	}
 
+	public int getId() {
+
+		return _id;
+	}
+
 	@Override
 	public String toString() {
 		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
 	}
-
-	public void setId(int id) {
-		_id = id;
-    }
 
 	public void addPrescription(IPrescription prescription) throws CouldNotAddPrescriptionException {
 		Prescription p = (Prescription) prescription;
@@ -191,6 +187,13 @@ public class Patient implements IPatient, ILogger {
 		}
 		_prescriptions.add(p);
 	}
+
+
+	public void setId(int id) {
+		_id = id;
+	}
+
+
 
 
 
@@ -357,25 +360,21 @@ public class Patient implements IPatient, ILogger {
         return (Collection<IExaminationProtocol>) (Collection<?>) _examinationProtocol;
     }
 
-    @Override
-    public void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
-	    examinationProtocol.setPatient(this);
-	    try {
-		    Facade.getInstance().save(examinationProtocol);
-	    } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
-		    log.error(e.getMessage());
-		    throw new CouldNotAddExaminationProtocol();
-	    }
-	    _examinationProtocol.add((ExaminationProtocol) examinationProtocol);
-    }
-
     public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
         _examinationProtocol = examinationProtocol;
     }
 
     //</editor-fold>
 
-    public Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
+	/**
+	 * get all examination results
+	 *
+	 * @return ExaminationResult Collection
+	 *
+	 * @throws NoBrokerMappedException
+	 * @throws CouldNotGetExaminationResultException
+	 */
+	public Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
         Collection<IExaminationResult> examinationResults = null;
 
         try {
@@ -388,6 +387,11 @@ public class Patient implements IPatient, ILogger {
         return examinationResults;
     }
 
+	/**
+	 * get all prescriptions
+	 * @return Prescription Collection
+	 * @throws CouldNotGetPrescriptionException
+	 */
 	public Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException {
 		try {
 			Facade.getInstance().reloadCollection(this, Prescription.class);
@@ -399,7 +403,12 @@ public class Patient implements IPatient, ILogger {
 		return (Collection<IPrescription>) (Collection<?>) _prescriptions;
 	}
 
-    public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
+	/**
+	 * get all diagnoses
+	 * @return Diagnose Collection
+	 * @throws CouldNotGetDiagnoseException
+	 */
+	public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
         Collection<IDiagnosis> diagnoses = null;
         try {
             diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
@@ -411,6 +420,11 @@ public class Patient implements IPatient, ILogger {
 	    return diagnoses;
     }
 
+	/**
+	 * get all medicine
+	 * @return Medicine Collection
+	 * @throws CouldNotGetMedicineException
+	 */
 	public Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException {
 		Collection<IMedicine> medicine = null;
 

@@ -34,6 +34,21 @@ public class PrescriptionEntryBroker extends EntityBroker {
 		addDomainClass(IPrescriptionEntry.class);
 	}
 
+	/**
+	 * converts a persitency entity to a domain object
+	 *
+	 * @param entity
+	 * 		that needs to be converted
+	 *
+	 * @return domain object that is created from entity
+	 *
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	@Override
 	protected IDomain persistentToDomain(IEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
@@ -49,6 +64,16 @@ public class PrescriptionEntryBroker extends EntityBroker {
 		return prescriptionEntry;
 	}
 
+	/**
+	 * Converts a domain object to persitency entity
+	 *
+	 * @param obj that needs to be converted
+	 * @return return a persitency entity
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 */
 	@Override
 	protected IEntity domainToPersistent(IDomain obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,

@@ -81,15 +81,44 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
         return new DiagnosisEntity(diagnosis.getId(), diagnosis.getTitle(), diagnosis.getDescription(), doctorEntity);
     }
 
-    @Override
+	/**
+	 * search diagnoses
+	 *
+	 * @param session
+	 * 		to be used
+	 * @param params
+	 * 		in order (patientId)
+	 *
+	 * @return
+	 *
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidSearchParameterException
+	 * @throws BadSessionException
+	 */
+	@Override
     public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
         if (params.length == 1) {
             return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
         } else {
-            return null;
+	        return null;
         }
     }
 
+	/**
+	 * reload collection of diagnosis
+	 * @param session to be used
+	 * @param obj diagnosis
+	 * @param clazz to be reloaded
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidReloadClassException
+	 * @throws BadSessionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	@Override
 	public void reload(ISession session, Object obj, Class clazz)
 			throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException,
@@ -102,6 +131,18 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 		}
 	}
 
+	/**
+	 * reload medicine of diagnosis
+	 * @param session to be used
+	 * @param obj diagnosis
+	 * @return medicine collection
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	private Collection<Medicine> reloadMedicine(ISession session, Object obj)
 			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {

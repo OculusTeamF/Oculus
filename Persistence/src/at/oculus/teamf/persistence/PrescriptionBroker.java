@@ -40,6 +40,21 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		addDomainClass(IPrescription.class);
 	}
 
+	/**
+	 * converts a persitency entity to a domain object
+	 *
+	 * @param entity
+	 * 		that needs to be converted
+	 *
+	 * @return domain object that is created from entity
+	 *
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	@Override
 	protected IDomain persistentToDomain(IEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
@@ -54,6 +69,16 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		return prescription;
 	}
 
+	/**
+	 * Converts a domain object to persitency entity
+	 *
+	 * @param obj that needs to be converted
+	 * @return return a persitency entity
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 */
 	@Override
 	protected IEntity domainToPersistent(IDomain obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
@@ -62,7 +87,7 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		PrescriptionEntity prescriptionEntity = new PrescriptionEntity();
 		prescriptionEntity.setId(prescription.getId());
 		prescriptionEntity.setPatient((PatientEntity) Facade.getInstance().getBroker(Patient.class)
-		                                                    .domainToPersistent((Patient) prescription.getPatient()));
+		                                                    .domainToPersistent(prescription.getPatient()));
 		if (prescription.getIssueDate() != null) {
 			prescriptionEntity.setIssueDate(new Timestamp(prescription.getIssueDate().getTime()));
 		}
@@ -72,6 +97,20 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		return prescriptionEntity;
 	}
 
+	/**
+	 * reload a collection of prescription
+	 * @param session to be used
+	 * @param obj prescription
+	 * @param clazz to be reloaded
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidReloadClassException
+	 * @throws BadSessionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	public void reload(ISession session, Object obj, Class clazz)
 			throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException,
 			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
@@ -83,6 +122,18 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		}
 	}
 
+	/**
+	 * reload entries of prescription
+	 * @param session to be used
+	 * @param obj prescription
+	 * @return entry collection
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	private Collection<PrescriptionEntry> reloadPrescriptionEntries(ISession session, Object obj)
 			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {

@@ -72,6 +72,14 @@ public class Prescription implements IPrescription, ILogger {
 		_prescriptionEntries = prescriptionEntries;
 	}
 
+	/**
+	 * add a entry to the prescription
+	 *
+	 * @param prescriptionEntry
+	 * 		entry to add
+	 *
+	 * @throws CouldNotAddPrescriptionEntryException
+	 */
 	public void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry)
 			throws CouldNotAddPrescriptionEntryException {
 		PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
