@@ -31,7 +31,7 @@ import java.util.LinkedList;
  * @date 03.4.2015
  */
 //Todo: Proxy, Remove Facade calls and extend broker
-public class Patient implements IPatient, IDomain, ILogger {
+public class Patient implements IPatient, ILogger {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -69,17 +69,13 @@ public class Patient implements IPatient, IDomain, ILogger {
 		return _doctor;
 	}
 
-	public int getId() {
-
-        return _id;
-    }
-
 	public void setDoctor(Doctor doctor) {
 		_doctor = doctor;
 	}
 
-	public void setId(int id) {
-		_id = id;
+	public int getId() {
+
+        return _id;
     }
 
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
@@ -96,10 +92,6 @@ public class Patient implements IPatient, IDomain, ILogger {
 			throw new CouldNotAddExaminationProtocol();
 		}
 	}
-
-	public String getFirstName() {
-		return _firstName;
-    }
 
 	@Override
 	public int hashCode() {
@@ -124,8 +116,8 @@ public class Patient implements IPatient, IDomain, ILogger {
 		return result;
 	}
 
-	public void setFirstName(String firstName) {
-		_firstName = firstName;
+	public void setId(int id) {
+		_id = id;
     }
 
 	@Override
@@ -183,14 +175,22 @@ public class Patient implements IPatient, IDomain, ILogger {
 		return true;
 	}
 
-	public String getLastName() {
-		return _lastName;
-    }
-
 	@Override
 	public String toString() {
 		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
 	}
+
+	public String getFirstName() {
+		return _firstName;
+    }
+
+	public void setFirstName(String firstName) {
+		_firstName = firstName;
+    }
+
+	public String getLastName() {
+		return _lastName;
+    }
 
 	public Patient setLastName(String lastName) {
 		_lastName = lastName;
@@ -366,11 +366,16 @@ public class Patient implements IPatient, IDomain, ILogger {
         return examinationResults;
     }
 
-    @Override
-    public Collection<IPrescription> getPrescriptions() {
-        //Todo: implement
-        return null;
-    }
+	public Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException {
+		try {
+			Facade.getInstance().reloadCollection(this, Prescription.class);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidReloadClassException | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetPrescriptionException();
+		}
+
+		return (Collection<IPrescription>) (Collection<?>) _prescriptions;
+	}
 
     public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
         Collection<IDiagnosis> diagnoses = null;
@@ -381,8 +386,26 @@ public class Patient implements IPatient, IDomain, ILogger {
             throw new CouldNotGetDiagnoseException();
         }
 
-	    return (Collection<IDiagnosis>) diagnoses;
+	    return diagnoses;
     }
+
+	public Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException {
+		Collection<IMedicine> medicine = null;
+
+		try {
+			medicine = Facade.getInstance().search(Medicine.class, this.getId() + "");
+		} catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetMedicineException();
+		}
+
+		return medicine;
+	}
+
+
+
+
+
 
 
 }

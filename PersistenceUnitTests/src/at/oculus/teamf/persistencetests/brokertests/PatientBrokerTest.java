@@ -9,17 +9,16 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import org.junit.Test;
@@ -63,8 +62,6 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Override
 	public void tearDown() {
-
-
 		try {
 			assertTrue(Facade.getInstance().delete(_patient));
 		} catch (FacadeException e) {
@@ -129,8 +126,14 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(patient.getCalendarEvents() != null);
 			assertTrue(patient.getCalendarEvents().size() > 0);
 			assertTrue(patient.getExaminationProtocol() != null);
-			assertTrue(patient.getExaminationProtocol().size()==5);
-		} catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException e) {
+	        assertTrue(patient.getExaminationProtocol().size() > 0);
+	        assertTrue(patient.getPrescriptions() != null);
+	        assertTrue(patient.getPrescriptions().size() > 0);
+	        assertTrue(patient.getDiagnoses() != null);
+	        assertTrue(patient.getDiagnoses().size() > 0);
+	        assertTrue(patient.getMedicine() != null);
+	        assertTrue(patient.getMedicine().size() > 0);
+        } catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException | CouldNotGetPrescriptionException | CouldNotGetMedicineException | CouldNotGetDiagnoseException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}

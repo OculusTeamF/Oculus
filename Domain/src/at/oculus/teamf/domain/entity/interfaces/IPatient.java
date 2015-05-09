@@ -9,23 +9,22 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
+import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
-import java.util.Date;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by FabianLaptop on 07.04.2015.
  */
-public interface IPatient {
+public interface IPatient extends IDomain {
     //<editor-fold desc="Getter/Setter">
     int getId();
     void setId(int patientID);
@@ -84,7 +83,10 @@ public interface IPatient {
     void addExaminationProtocol(IExaminationProtocol examinationProtocol);
 
     Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException;
+
+	Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException;
+
     Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException;
 
-    Collection<IPrescription> getPrescriptions();
+	Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException;
 }
