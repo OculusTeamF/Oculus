@@ -102,7 +102,42 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 		medicine.setDiagnosis(this);
 		_medicine.add(medicine);
 		Facade.getInstance().save(medicine);
-		//Todo: implement
+	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_title != null ? _title.hashCode() : 0);
+		result = 31 * result + (_description != null ? _description.hashCode() : 0);
+		result = 31 * result + (_doctorId != null ? _doctorId.hashCode() : 0);
+		result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+		result = 31 * result + (_medicine != null ? _medicine.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Diagnosis))
+			return false;
+
+		Diagnosis diagnosis = (Diagnosis) o;
+
+		if (_id != diagnosis._id)
+			return false;
+		if (_description != null ? !_description.equals(diagnosis._description) : diagnosis._description != null)
+			return false;
+		if (_doctor != null ? !_doctor.equals(diagnosis._doctor) : diagnosis._doctor != null)
+			return false;
+		if (_doctorId != null ? !_doctorId.equals(diagnosis._doctorId) : diagnosis._doctorId != null)
+			return false;
+		if (_medicine != null ? !_medicine.equals(diagnosis._medicine) : diagnosis._medicine != null)
+			return false;
+		if (_title != null ? !_title.equals(diagnosis._title) : diagnosis._title != null)
+			return false;
+
+		return true;
 	}
 
 	@Override

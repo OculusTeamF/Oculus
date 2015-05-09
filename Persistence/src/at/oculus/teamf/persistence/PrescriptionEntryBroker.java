@@ -29,7 +29,7 @@ import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplemente
  * PrescriptionEntryBroker.java Created by oculus on 08.05.15.
  */
 public class PrescriptionEntryBroker extends EntityBroker {
-	public PrescriptionEntryBroker(Class domainClass, Class entityClass) {
+	public PrescriptionEntryBroker() {
 		super(PrescriptionEntry.class, PrescriptionEntryEntity.class);
 		addDomainClass(IPrescriptionEntry.class);
 	}

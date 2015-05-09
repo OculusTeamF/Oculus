@@ -31,8 +31,8 @@ import java.util.LinkedList;
  * MedicineBroker.java Created by oculus on 08.05.15.
  */
 public class MedicineBroker extends EntityBroker implements ISearch {
-	public MedicineBroker(Class domainClass, Class entityClass) {
-		super(Medicine.class, MedicineBroker.class);
+	public MedicineBroker() {
+		super(Medicine.class, MedicineEntity.class);
 		addDomainClass(IMedicine.class);
 	}
 

@@ -68,7 +68,6 @@ public class PrescriptionEntryEntity implements IEntity {
 	public MedicineEntity getMedicine() {
 		return _medicine;
 	}
-
 	public void setMedicine(MedicineEntity medicine) {
 		_medicine = medicine;
 	}

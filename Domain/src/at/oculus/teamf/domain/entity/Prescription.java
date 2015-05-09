@@ -84,4 +84,43 @@ public class Prescription implements IPrescription, ILogger {
 			throw new CouldNotAddPrescriptionEntryException();
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_issueDate != null ? _issueDate.hashCode() : 0);
+		result = 31 * result + (_lastPrint != null ? _lastPrint.hashCode() : 0);
+		result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
+		result = 31 * result + (_prescriptionEntries != null ? _prescriptionEntries.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Prescription))
+			return false;
+
+		Prescription that = (Prescription) o;
+
+		if (_id != that._id)
+			return false;
+		if (_issueDate != null ? !_issueDate.equals(that._issueDate) : that._issueDate != null)
+			return false;
+		if (_lastPrint != null ? !_lastPrint.equals(that._lastPrint) : that._lastPrint != null)
+			return false;
+		if (_patient != null ? !_patient.equals(that._patient) : that._patient != null)
+			return false;
+		if (_prescriptionEntries != null ? !_prescriptionEntries.equals(that._prescriptionEntries) :
+		    that._prescriptionEntries != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return _issueDate.toString();
+	}
 }

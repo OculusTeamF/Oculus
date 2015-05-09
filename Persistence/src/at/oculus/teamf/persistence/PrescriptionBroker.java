@@ -35,7 +35,7 @@ import java.util.Collection;
  * PrescriptionBroker.java Created by oculus on 08.05.15.
  */
 public class PrescriptionBroker extends EntityBroker implements ICollectionReload {
-	public PrescriptionBroker(Class domainClass, Class entityClass) {
+	public PrescriptionBroker() {
 		super(Prescription.class, PrescriptionEntity.class);
 		addDomainClass(IPrescription.class);
 	}

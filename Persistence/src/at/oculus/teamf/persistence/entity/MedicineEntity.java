@@ -46,7 +46,7 @@ public class MedicineEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "diagnosisId", nullable = true, insertable = true, updatable = true)
+	@Column(name = "diagnosisId", nullable = true, insertable = false, updatable = false)
 	public Integer getDiagnosisId() {
 		return _diagnosisId;
 	}
