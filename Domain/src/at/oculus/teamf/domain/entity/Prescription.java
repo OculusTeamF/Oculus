@@ -104,11 +104,16 @@ public class Prescription implements IPrescription, ILogger {
 
 		Prescription that = (Prescription) o;
 
+		System.out.println(_issueDate.getTime() - that._issueDate.getTime());
+		System.out.println(_lastPrint.getTime() - that._lastPrint.getTime());
+
 		if (_id != that._id)
 			return false;
-		if (_issueDate != null ? !_issueDate.equals(that._issueDate) : that._issueDate != null)
+		if (_issueDate != null ? !((_issueDate.getTime() - that._issueDate.getTime()) > -1000 &&
+		                           (_issueDate.getTime() - that._issueDate.getTime()) < 1000) : that._issueDate != null)
 			return false;
-		if (_lastPrint != null ? !_lastPrint.equals(that._lastPrint) : that._lastPrint != null)
+		if (_lastPrint != null ? !((_lastPrint.getTime() - that._lastPrint.getTime()) > -1000 &&
+		                           (_lastPrint.getTime() - that._lastPrint.getTime()) < 1000) : that._lastPrint != null)
 			return false;
 		if (_patient != null ? !_patient.equals(that._patient) : that._patient != null)
 			return false;
