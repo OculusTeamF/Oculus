@@ -73,11 +73,6 @@ public class Patient implements IPatient, ILogger {
 		_doctor = doctor;
 	}
 
-	public int getId() {
-
-        return _id;
-    }
-
 	public void addExaminationProtocol(ExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
@@ -92,6 +87,11 @@ public class Patient implements IPatient, ILogger {
 			throw new CouldNotAddExaminationProtocol();
 		}
 	}
+
+	public int getId() {
+
+        return _id;
+    }
 
 	@Override
 	public int hashCode() {
@@ -115,10 +115,6 @@ public class Patient implements IPatient, ILogger {
 		result = 31 * result + (_examinationProtocol != null ? _examinationProtocol.hashCode() : 0);
 		return result;
 	}
-
-	public void setId(int id) {
-		_id = id;
-    }
 
 	@Override
 	public boolean equals(Object o) {
@@ -179,6 +175,24 @@ public class Patient implements IPatient, ILogger {
 	public String toString() {
 		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
 	}
+
+	public void setId(int id) {
+		_id = id;
+    }
+
+	public void addPrescription(IPrescription prescription) throws CouldNotAddPrescriptionException {
+		Prescription p = (Prescription) prescription;
+		p.setPatient(this);
+		try {
+			Facade.getInstance().save(p);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			log.error(e.getMessage());
+			throw new CouldNotAddPrescriptionException();
+		}
+		_prescriptions.add(p);
+	}
+
+
 
 	public String getFirstName() {
 		return _firstName;
@@ -344,7 +358,15 @@ public class Patient implements IPatient, ILogger {
     }
 
     @Override
-    public void addExaminationProtocol(IExaminationProtocol examinationProtocol) {
+    public void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
+	    examinationProtocol.setPatient(this);
+	    try {
+		    Facade.getInstance().save(examinationProtocol);
+	    } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+		    log.error(e.getMessage());
+		    throw new CouldNotAddExaminationProtocol();
+	    }
+	    _examinationProtocol.add((ExaminationProtocol) examinationProtocol);
     }
 
     public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
@@ -401,11 +423,6 @@ public class Patient implements IPatient, ILogger {
 
 		return medicine;
 	}
-
-
-
-
-
 
 
 }

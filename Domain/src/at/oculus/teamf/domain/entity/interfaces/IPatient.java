@@ -80,7 +80,8 @@ public interface IPatient extends IDomain {
     void setMedicineIntolerance(String medicineIntolerance);
 
     Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, CouldNotGetExaminationProtolException;
-    void addExaminationProtocol(IExaminationProtocol examinationProtocol);
+
+	void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol;
 
     Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException;
 

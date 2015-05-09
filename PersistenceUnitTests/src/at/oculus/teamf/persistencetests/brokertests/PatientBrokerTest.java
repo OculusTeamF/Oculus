@@ -57,7 +57,7 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(_patient.getId()>0);
+		assertTrue(_patient.getId() > 0);
 	}
 
 	@Override
@@ -68,120 +68,121 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-    }
+	}
 
 	@Override
-    public void testGetById() {
-        Patient patient = null;
-        try {
-            patient = Facade.getInstance().getById(Patient.class, _patient.getId());
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+	public void testGetById() {
+		Patient patient = null;
+		try {
+			patient = Facade.getInstance().getById(Patient.class, _patient.getId());
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 
-        assertTrue(patient != null);
-        assertTrue(patient.getFirstName().equals(_patient.getFirstName()));
-        assertTrue(patient.getLastName().equals(_patient.getLastName()));
-        assertTrue(patient.getSocialInsuranceNr().equals(_patient.getSocialInsuranceNr()));
-        assertTrue(patient.getStreet().equals(_patient.getStreet()));
-        assertTrue(patient.getCity().equals(_patient.getCity()));
-        assertTrue(patient.getPostalCode().equals(_patient.getPostalCode()));
-        assertTrue(patient.getEmail().equals(_patient.getEmail()));
-        assertTrue(patient.getPhone().equals(_patient.getPhone()));
-        assertTrue(patient.getGender() == _patient.getGender());
-        assertTrue(patient.getAllergy().equals(_patient.getAllergy()));
-        assertTrue(patient.getChildhoodAilments().equals(_patient.getChildhoodAilments()));
-        assertTrue(patient.getMedicineIntolerance().equals(_patient.getMedicineIntolerance()));
-    }
+		assertTrue(patient != null);
+		assertTrue(patient.getFirstName().equals(_patient.getFirstName()));
+		assertTrue(patient.getLastName().equals(_patient.getLastName()));
+		assertTrue(patient.getSocialInsuranceNr().equals(_patient.getSocialInsuranceNr()));
+		assertTrue(patient.getStreet().equals(_patient.getStreet()));
+		assertTrue(patient.getCity().equals(_patient.getCity()));
+		assertTrue(patient.getPostalCode().equals(_patient.getPostalCode()));
+		assertTrue(patient.getEmail().equals(_patient.getEmail()));
+		assertTrue(patient.getPhone().equals(_patient.getPhone()));
+		assertTrue(patient.getGender() == _patient.getGender());
+		assertTrue(patient.getAllergy().equals(_patient.getAllergy()));
+		assertTrue(patient.getChildhoodAilments().equals(_patient.getChildhoodAilments()));
+		assertTrue(patient.getMedicineIntolerance().equals(_patient.getMedicineIntolerance()));
+	}
 
-    @Override
-    public void testGetAll() {
-        Collection<Patient> patients = null;
-        try {
-            patients = Facade.getInstance().getAll(Patient.class);
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+	@Override
+	public void testGetAll() {
+		Collection<Patient> patients = null;
+		try {
+			patients = Facade.getInstance().getAll(Patient.class);
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 
-        assertTrue(patients != null);
-        assertTrue(patients.size() > 1);
+		assertTrue(patients != null);
+		assertTrue(patients.size() > 1);
 
-    }
+	}
 
 	@Test
 	public void testReload() {
-        Patient patient = null;
-        try {
-	        for(Object p : Facade.getInstance().search(Patient.class, "5678151082")){
-		        patient = (Patient) p;
-	        }
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+		Patient patient = null;
+		try {
+			for (Object p : Facade.getInstance().search(Patient.class, "5678151082")) {
+				patient = (Patient) p;
+			}
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 
-        try {
+		try {
 			assertTrue(patient.getCalendarEvents() != null);
 			assertTrue(patient.getCalendarEvents().size() > 0);
 			assertTrue(patient.getExaminationProtocol() != null);
-	        assertTrue(patient.getExaminationProtocol().size() > 0);
-	        assertTrue(patient.getPrescriptions() != null);
-	        assertTrue(patient.getPrescriptions().size() > 0);
-	        assertTrue(patient.getDiagnoses() != null);
-	        assertTrue(patient.getDiagnoses().size() > 0);
-	        assertTrue(patient.getMedicine() != null);
-	        assertTrue(patient.getMedicine().size() > 0);
-        } catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException | CouldNotGetPrescriptionException | CouldNotGetMedicineException | CouldNotGetDiagnoseException e) {
+			assertTrue(patient.getExaminationProtocol().size() > 0);
+			assertTrue(patient.getPrescriptions() != null);
+			assertTrue(patient.getPrescriptions().size() > 0);
+			assertTrue(patient.getDiagnoses() != null);
+			assertTrue(patient.getDiagnoses().size() > 0);
+			assertTrue(patient.getMedicine() != null);
+			assertTrue(patient.getMedicine().size() > 0);
+		} catch (CouldNotGetExaminationProtolException | CouldNotGetCalendarEventsException |
+				CouldNotGetPrescriptionException | CouldNotGetMedicineException | CouldNotGetDiagnoseException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
 
 	@Test
-	public void testSearchPatient(){
+	public void testSearchPatient() {
 		Collection<Patient> patients = null;
 		// SVN only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"5947053957");
+			patients = Facade.getInstance().search(Patient.class, "5947053957");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(patients.size()==1);
+		assertTrue(patients.size() == 1);
 		// Firstname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"JaNe");
+			patients = Facade.getInstance().search(Patient.class, "JaNe");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(patients.size() == 3);
+		assertTrue(patients.size() == 3);
 		// Lastname only
 		try {
-			patients = Facade.getInstance().search(Patient.class,"sOn");
+			patients = Facade.getInstance().search(Patient.class, "sOn");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(patients.size()==6);
+		assertTrue(patients.size() == 6);
 		// Fulltext
 		try {
-			patients = Facade.getInstance().search(Patient.class,"son");
+			patients = Facade.getInstance().search(Patient.class, "son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(patients.size()==6);
+		assertTrue(patients.size() == 6);
 	}
 
 	@Test
-	public void testAddExaminationProtocol(){
+	public void testAddExaminationProtocol() {
 		// load patient and doctor
 		Patient patient = null;
 		try {
-			for(Object p : Facade.getInstance().search(Patient.class, "5678151082")){
+			for (Object p : Facade.getInstance().search(Patient.class, "5678151082")) {
 				patient = (Patient) p;
 			}
 		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
