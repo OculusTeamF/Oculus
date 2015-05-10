@@ -382,6 +382,7 @@ public class Model implements Serializable, ILogger{
         IQueueEntry _entry = null;
         Button _button = new Button();
         Button _deletebutton = new Button();
+        Button _openbutton = new Button();
         Label _label;
         IUser _user;
 
@@ -392,6 +393,7 @@ public class Model implements Serializable, ILogger{
             _user = user;
             Image imageEnqueue = new Image(getClass().getResourceAsStream("/res/icon_start.png"));
             Image imageDelete = new Image(getClass().getResourceAsStream("/res/icon_delete.png"));
+            Image imageOpen = new Image(getClass().getResourceAsStream("/res/icon_open.png"));
 
             _button.setGraphic(new ImageView(imageEnqueue));
             _button.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
@@ -400,6 +402,10 @@ public class Model implements Serializable, ILogger{
             _deletebutton.setGraphic(new ImageView(imageDelete));
             _deletebutton.setTooltip(new Tooltip("Delete patient from queue without examination"));
             _deletebutton.setId("queueDeleteButton");
+
+            _openbutton.setGraphic(new ImageView(imageOpen));
+            _openbutton.setTooltip(new Tooltip("Open and view patient record"));
+            _openbutton.setId("queueOpenButton");
 
             /**
              * removes the patient from the Waiting List
@@ -420,7 +426,14 @@ public class Model implements Serializable, ILogger{
                 }
             });
 
-            // button test
+            _openbutton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    TabModel.getInstance().addPatientRecordTab(_entry.getPatient());
+                }
+            });
+
+            // button hover
             _button.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -451,12 +464,27 @@ public class Model implements Serializable, ILogger{
                 }
             });
 
+            _openbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    _openbutton.setText("Open patient record");
+                    _openbutton.setContentDisplay(ContentDisplay.RIGHT);
+                    _openbutton.setTextAlignment(TextAlignment.LEFT);
+                }
+            });
+            _openbutton.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    _openbutton.setText("");
+                }
+            });
+
             _label = new Label(entry.getPatient().toString());
             _label.setMaxWidth(Double.MAX_VALUE);
             _label.setMinHeight(30);
 
             HBox.setHgrow(_label, Priority.ALWAYS);
-            this.getChildren().addAll(_label, _deletebutton ,_button);
+            this.getChildren().addAll(_label,_openbutton, _deletebutton ,_button);
         }
 
         /**
