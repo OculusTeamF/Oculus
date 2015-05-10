@@ -97,6 +97,16 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 		_medicine = medicine;
 	}
 
+	/**
+	 * add medicine to diagnosis
+	 *
+	 * @param medicine
+	 * 		medicine to add
+	 *
+	 * @throws DatabaseOperationException
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 */
 	public void addMedicine(Medicine medicine)
 			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
 		medicine.setDiagnosis(this);

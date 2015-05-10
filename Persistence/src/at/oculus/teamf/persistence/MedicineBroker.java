@@ -37,6 +37,24 @@ public class MedicineBroker extends EntityBroker implements ISearch {
 		addDomainClass(IMedicine.class);
 	}
 
+	/**
+	 * search for medicine
+	 *
+	 * @param session
+	 * 		to be used
+	 * @param params
+	 * 		in order (patientId)
+	 *
+	 * @return medicine collection
+	 *
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidSearchParameterException
+	 * @throws BadSessionException
+	 * @throws ClassNotMappedException
+	 * @throws DatabaseOperationException
+	 * @throws SearchInterfaceNotImplementedException
+	 */
 	@Override
 	public Collection search(ISession session, String... params)
 			throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException,
@@ -54,6 +72,18 @@ public class MedicineBroker extends EntityBroker implements ISearch {
 		return result;
 	}
 
+	/**
+	 * converts a persitency entity to a domain object
+	 *
+	 * @param entity that needs to be converted
+	 * @return domain object that is created from entity
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
 	@Override
 	protected IDomain persistentToDomain(IEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
@@ -67,6 +97,16 @@ public class MedicineBroker extends EntityBroker implements ISearch {
 		return medicine;
 	}
 
+	/**
+	 * Converts a domain object to persitency entity
+	 *
+	 * @param obj that needs to be converted
+	 * @return return a persitency entity
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 */
 	@Override
 	protected IEntity domainToPersistent(IDomain obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
