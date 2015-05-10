@@ -9,6 +9,7 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -52,10 +53,7 @@
             <Pane fx:id="colorPane2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets top="15.0" />
-               </GridPane.margin>
-               <children>
-                  <Label layoutY="2.0" text=" Protocol description:" />
-               </children></Pane>
+               </GridPane.margin></Pane>
             <Pane fx:id="colorPane1" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
@@ -69,7 +67,10 @@
                </items></ToolBar>
             <Text fx:id="examinationLnameFnameSvn" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname, Firstname, svn" GridPane.rowIndex="1" />
             <Text fx:id="examinationCurrDate" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextArea fx:id="examinationDocumentation" editable="false" prefHeight="2.0" prefWidth="302.0" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="2" />
+            <TextArea fx:id="examinationDocumentation" editable="false" prefHeight="2.0" prefWidth="302.0" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="2">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor></TextArea>
             <Label text=" Examination protocols: " GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
@@ -79,16 +80,26 @@
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin></Label>
-            <TextArea fx:id="textExaminationDetails" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+            <TextArea fx:id="textExaminationDetails" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor></TextArea>
             <ListView fx:id="examinationResults" prefHeight="45.0" prefWidth="302.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="2" />
             <Pane fx:id="colorPane21" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
-               <children>
-                  <Label layoutY="2.0" text="Examination results:" />
-               </children>
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
             </Pane>
+            <Label text=" Examination results:" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets top="15.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text=" Protocol description:" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets top="15.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </children>

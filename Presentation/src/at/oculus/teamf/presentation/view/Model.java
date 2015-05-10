@@ -18,6 +18,7 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassExcep
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
@@ -686,20 +687,20 @@ public class Model implements Serializable, ILogger{
     /**
      * creates a new examinationprotocol
      */
-    public void newExaminationProtocol(Date date, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
-
-       /* try {
-            _recievePatientController.createNewExaminationProtocol(date, examinationDocumentation, patient, doctor, orthoptist);
-        }  catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
+    public void newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
+        try {
+            _recievePatientController.createNewExaminationProtocol(startdate, enddate, examinationDocumentation,patient,doctor,orthoptist);
+        } catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
             couldNotAddExaminationProtocol.printStackTrace();
-        }*/
+        }
     }
+
 
     /**
      * creates a new examinationprotocol
      */
     public void addNewPatientDiagnosis(String title, String description, IDoctor doc){
-        _createDiagnosisController = new CreateDiagnosisController(_eximationprotocol);
+        _createDiagnosisController = CreateDiagnosisController.CreateController(_eximationprotocol);
 
         try {
             _createDiagnosisController.createDiagnosis(title,description, doc);
