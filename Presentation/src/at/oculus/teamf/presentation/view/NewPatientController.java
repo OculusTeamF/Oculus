@@ -12,12 +12,8 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.application.facade.CreatePatientController;
-import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.persistence.exception.FacadeException;
-import at.oculus.teamf.presentation.view.resourcebundel.HashResourceBundle;
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,35 +23,31 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 
 public class NewPatientController implements Initializable{
 
-    @FXML public RadioButton radioGenderFemale;
-    @FXML public RadioButton radioGenderMale;
-    @FXML public TextField newPatientLastname;
-    @FXML public TextField newPatientFirstname;
-    @FXML public TextField newPatientStreet;
-    @FXML public TextField newPatientPhone;
-    @FXML public TextField newPatientEmail;
-    @FXML public TextField newPatientSVN;
-    @FXML public DatePicker newPatientBday;
-    @FXML public TextField newPatientPLZ;
-    @FXML public TextField newPatientCity;
-    @FXML public ChoiceBox newPatientDoctor;
-    @FXML public Button newPatientSaveButton;
-    @FXML public TextField newPatientCountryIsoCode;
+    @FXML private RadioButton radioGenderFemale;
+    @FXML private RadioButton radioGenderMale;
+    @FXML private TextField newPatientLastname;
+    @FXML private TextField newPatientFirstname;
+    @FXML private TextField newPatientStreet;
+    @FXML private TextField newPatientPhone;
+    @FXML private TextField newPatientEmail;
+    @FXML private TextField newPatientSVN;
+    @FXML private DatePicker newPatientBday;
+    @FXML private TextField newPatientPLZ;
+    @FXML private TextField newPatientCity;
+    @FXML private ChoiceBox newPatientDoctor;
+    @FXML private Button newPatientSaveButton;
+    @FXML private TextField newPatientCountryIsoCode;
 
     private Model _model = Model.getInstance();
     private ToggleGroup group = new ToggleGroup();
@@ -78,16 +70,6 @@ public class NewPatientController implements Initializable{
 
         newPatientDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
 
-/*        newPatientTab.setOnCloseRequest(new EventHandler<Event>() {
-            @Override
-            public void handle(Event t) {
-                if (DialogBoxController.getInstance().showYesNoDialog("Cancel new patient", "Do you want to cancel the new patient record ?") == false){
-                    t.consume();
-                }
-
-            }
-        });*/
-
         radioGenderFemale.setToggleGroup(group);
         radioGenderMale.setToggleGroup(group);
         radioGenderFemale.setSelected(true);
@@ -109,7 +91,7 @@ public class NewPatientController implements Initializable{
         IDoctor doctor = (IDoctor)newPatientDoctor.getValue();
         String countryIsoCode = newPatientCountryIsoCode.getText();
 
-        //check if every field is filled with data
+        //check if mandatory fields are filled with data
         boolean filled = true;
         if(radioGenderFemale.isSelected()){
             gender = "female";
@@ -117,26 +99,26 @@ public class NewPatientController implements Initializable{
             gender = "male";
         }else{
             filled = false;
-            //DialogBoxController.getInstance().showInformationDialog("Information", "Please choose gender.");
         }
         if(lastname.isEmpty()){
             filled = false;
-           newPatientLastname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
-            //DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Lastname.");
+            newPatientLastname.requestFocus();
+            newPatientLastname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
         }
         if(firstname.isEmpty()){
             filled = false;
+            newPatientFirstname.requestFocus();
             newPatientFirstname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
-            //DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Firstname.");
         }
         if(svn.isEmpty()){
             filled = false;
-            newPatientSVN.setStyle("-fx-control-inner-background: #fafad2");
-            //DialogBoxController.getInstance().showInformationDialog("Information", "Please enter Social security number.");
+            newPatientSVN.requestFocus();
+            newPatientSVN.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
         }
         if(newPatientBday.getValue() == null) {
             filled = false;
             newPatientBday.requestFocus();
+            newPatientBday.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
         }
 
 
@@ -150,12 +132,12 @@ public class NewPatientController implements Initializable{
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date bday = Date.from(instant);
             StatusBarController.getInstance().setText("Save New Patient...");
-            isSaved = _model.saveNewPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
+            isSaved = _model.getPatientModel().saveNewPatient(gender, lastname,firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
         }
 
         if(isSaved){
-            StatusBarController.getInstance().setText("Patient " + newPatientLastname + ", " +newPatientFirstname+ "is saved.");
-            DialogBoxController.getInstance().showInformationDialog("Information", "Patient: " +lastname+", "+firstname+" is saved.");
+            StatusBarController.getInstance().setText("Patient " + newPatientLastname.getText() + ", " + newPatientFirstname.getText() + " added");
+            _model.getTabModel().closeSelectedTab();
         }
     }
 

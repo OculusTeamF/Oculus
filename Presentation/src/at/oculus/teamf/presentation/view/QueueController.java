@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -64,7 +64,7 @@ public class QueueController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
                     _model.setPatient((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
-                    _model.loadTab("PATIENT RECORD: " + _model.getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
+                    _model.getTabModel().addPatientRecordTab(_model.getPatient());
                 }
             }
         });
@@ -111,7 +111,7 @@ public class QueueController implements Initializable {
                 // list results and setup controls
                 if (patientlist.size() > 0) {
                     listSearchResults.setItems(patientlist);
-                    listSearchResults.setPrefHeight((patientlist.size() * 30) + 8);
+                    listSearchResults.setPrefHeight((patientlist.size() * 25));
                     searchResults.setDisable(false);
                     searchResults.setExpanded(true);
                     searchResults.setText("Search Results (" + patientlist.size() + "):");
@@ -129,6 +129,12 @@ public class QueueController implements Initializable {
         new Thread(search).start();
     }
 
+
+    // *******************************************************************
+    // Queuelist build & refresh
+    // *******************************************************************
+
+
     // *******************************************************************
     // Search Thread
     // *******************************************************************
@@ -141,7 +147,7 @@ public class QueueController implements Initializable {
                 textSearch.setDisable(true);
 
                 // application layer acces for search
-                patientlist = FXCollections.observableList((List)_model.searchPatients(textSearch.getText()));
+                patientlist = FXCollections.observableList((List)_model.getSearchModel().searchPatients(textSearch.getText()));
                 return null;
             }
         };

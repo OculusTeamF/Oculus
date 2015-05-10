@@ -13,6 +13,7 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -44,7 +45,7 @@ public class MainController implements Initializable, ILogger {
     @FXML private Button buttonAddPatient;
     @FXML private AnchorPane splitLeftSide;
 
-    private Model _model = Model.getInstance();
+    private Model _model;
 
     /**
      * Initialize the waiting queue
@@ -54,7 +55,8 @@ public class MainController implements Initializable, ILogger {
     public void initialize(URL location, ResourceBundle resources) {
 
         // setup model controller
-        _model.setTabPanel(displayPane);
+        _model = Model.getInstance();
+        _model.getTabModel().setTabPanel(displayPane);
 
         // add queuefxml to mainwindow
         try {
@@ -111,8 +113,10 @@ public class MainController implements Initializable, ILogger {
                     @Override
                     public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
                         if (t1 != null) {
-                            _model.setSelectedTab(t1);
-                            updateStatusbar();
+                            _model.getTabModel().setSelectedTab(t1);
+                            if(_model.getTabModel().getSelectedTab() != null) {
+                                updateStatusbar();
+                            }
                         }
                     }
 
@@ -126,11 +130,11 @@ public class MainController implements Initializable, ILogger {
 
         if (_model.getPatient() == null) {
             StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: "
-                    + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Active Patient: none] ");
+                    + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Selected Patient: none] ");
         } else {
             StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: "
-                    + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Active Patient: "
-                    +_model.getPatientFromSelectedTab(_model.getSelectedTab()).getLastName() + "]");
+                    + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Selected Patient: "
+                    + _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getLastName() + "]");
         }
     }
 
@@ -139,7 +143,7 @@ public class MainController implements Initializable, ILogger {
     public void searchPatient(ActionEvent actionEvent) {
 
         StatusBarController.getInstance().setText("Open Patient Search...");
-        _model.loadTab("Search patient", "fxml/SearchPatientTab.fxml");
+        _model.getTabModel().addSearchTab();
     }
 
 
@@ -147,9 +151,8 @@ public class MainController implements Initializable, ILogger {
     /*Tab: opens a new Patient record to add a patient*/
     @FXML
     public void newPatient(ActionEvent actionEvent) {
-
         StatusBarController.getInstance().setText("Open New Patient...");
-        _model.loadTab("Add new patient", "fxml/NewPatientTab.fxml");
+        _model.getTabModel().addNewPatientTab();
     }
 
     /*Tab: Opens the agenda calendar (unused)*/
@@ -168,7 +171,7 @@ public class MainController implements Initializable, ILogger {
     @FXML
     public void openPatientProperty(ActionEvent event) {
         try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("fxml/PatientProperty.fxml")));
+            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("../fxml/PatientProperty.fxml")));
             displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
         } catch (IOException e) {
             e.printStackTrace();

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -127,6 +126,7 @@ public class DialogBoxController {
     public boolean showYesNoDialog(String title, String information){
         Alert dlg = createAlert(Alert.AlertType.CONFIRMATION);
         dlg.setTitle(title);
+        dlg.setHeaderText("Confirmation");
         dlg.getDialogPane().setContentText(information);
         //dlg.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
         //dlg.show();

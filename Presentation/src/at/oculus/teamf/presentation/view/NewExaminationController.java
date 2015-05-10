@@ -9,7 +9,10 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -36,7 +39,7 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable {
 
-    @FXML public Button prescriptionButton;
+    @FXML private Button prescriptionButton;
     @FXML private Button saveProtocolButton;
     @FXML private Button addDiagnosisButton;
     @FXML private Text examinationLnameFnameSvn;
@@ -64,9 +67,11 @@ public class NewExaminationController implements Initializable {
         saveProtocolButton.setGraphic(new ImageView(imageSaveIcon));
         Image imageAddIcon = new Image(getClass().getResourceAsStream("/res/icon_enqueue.png"));
         addDiagnosisButton.setGraphic(new ImageView(imageAddIcon));
+        Image imageAddForm = new Image(getClass().getResourceAsStream("/res/icon_forms.png"));
+        prescriptionButton.setGraphic(new ImageView(imageAddForm));
 
         // enable addDiagnosis only ig protocol is created
-        addDiagnosisButton.setDisable(true);
+        addDiagnosisButton.setDisable(false);
 
         // start stopwatch
         timeline = new Timeline();
@@ -80,31 +85,6 @@ public class NewExaminationController implements Initializable {
             }
         }));
         timeline.playFromStart();
-
-        // load data
-        /*if(patient.getAllergy() == null || patient.getAllergy().length() < 1)
-        {
-            examinationAllergies.setText("No Allergies known");
-        }else{
-            examinationAllergies.setText(patient.getAllergy());
-        }
-
-
-        //checks if Allergies have changed
-        examinationAllergies.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                try {
-                    if (!oldValue.equals(newValue)) {
-                        isFormEdited = true;
-                        System.out.println("Allergies changed");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Allergies");
-                }
-            }
-        });*/
     }
 
     private String convertSecondToHHMMString(int secondtTime) {
@@ -117,23 +97,32 @@ public class NewExaminationController implements Initializable {
 
     @FXML
     public void saveExaminationButtonHandler (ActionEvent actionEvent){
-        //TODO startdate & enddate missing !
-        timeline.stop();
-        Date date = new Date();
-        //TODO check if orthoptist or doctor
-        _model.newExaminationProtocol(date, examinationDocumentation.getText(), _model.getPatient(), (IDoctor) _model.getLoggedInUser(), null);
-        addDiagnosisButton.setDisable(false);
+        if (examinationDocumentation.getText().length() != 0){
+            timeline.stop();
+            Date enddate = new Date();
+
+            if (_model.getLoggedInUser() instanceof Doctor) {
+                _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), _model.getPatient(), (IDoctor) _model.getLoggedInUser(), null);
+            } else{
+                _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), _model.getPatient(), null, (IOrthoptist) _model.getLoggedInUser());
+            }
+
+            saveProtocolButton.setDisable(true);
+            _model.getTabModel().closeSelectedTab();
+        }
     }
 
     @FXML
     public void addDiagnosisButtonHandler (ActionEvent actionEvent){
         // add diagnosis for patient
-        _model.addDiagnosisTab(_model.getPatient());
+        //saveProtocolButton.setDisable(true);
+        //TODO Problem: description ändernunge nach diagnose...updat examination benötigt
+        _model.getTabModel().addDiagnosisTab(_model.getPatient());
     }
 
     @FXML
     public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
-        _model.addPrescriptionTab(_model.getPatient());
+        _model.getTabModel().addPrescriptionTab(_model.getPatient());
     }
 }

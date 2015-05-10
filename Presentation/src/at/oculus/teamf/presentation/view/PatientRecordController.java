@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.time.Instant;
@@ -46,24 +48,24 @@ public class PatientRecordController implements Initializable {
     @FXML public TextField patientRecordEmail;
     @FXML public TextField patientRecordPLZ;
     @FXML public TextField patientRecordStreet;
+    @FXML public TextField patientRecordCity;
     @FXML public ComboBox<IDoctor> patientRecordDoctor;
     @FXML public RadioButton patientRecordradioGenderFemale;
     @FXML public RadioButton patientRecordradioGenderMale;
-    @FXML public ListView patientRecordAppointmentList;
-    @FXML public Button patientRecordSaveButton;
-    @FXML public Button patientRecordEditButton;
-    @FXML public TextField patientRecordCity;
     @FXML public TextArea patientRecordAllergies;
-    @FXML public Tab patientRecordTab;
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
-    @FXML public ComboBox<IUser> addToQueueBox;
-    @FXML public Button addPatientToQueueButton;
-    @FXML public Button examinationProtocolButton;
-    @FXML public ListView patientRecordListDiagnoses;
+    @FXML private ComboBox<IUser> addToQueueBox;
+    @FXML private Button addPatientToQueueButton;
+    @FXML private Button examinationProtocolButton;
+    @FXML private Button patientRecordSaveButton;
+    @FXML private Button patientRecordEditButton;
+    @FXML private ListView patientRecordListDiagnoses;
+    @FXML private ListView patientRecordAppointmentList;
     @FXML private Accordion medicalHistory;
     @FXML private TitledPane mh4, mh3, mh2, mh1;
+    @FXML private AnchorPane patientRecordPane;
     //</editor-fold>
 
 
@@ -94,34 +96,14 @@ public class PatientRecordController implements Initializable {
         Image imageExaminationIcon = new Image(getClass().getResourceAsStream("/res/icon_examination.png"));
         examinationProtocolButton.setGraphic(new ImageView(imageExaminationIcon));
 
-
-        //TODO: warum gibt es da einen Nullpointer????
-        /**
-         * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
-         * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
-         */
-       /* patientRecordTab.setOnCloseRequest(new EventHandler<Event>() {
-            @Override
-            public void handle(Event t) {
-                if (isFormEdited) {
-                    if (DialogBoxController.getInstance().showYesNoDialog("Save _patient", "Do you want to save changes?") == true){
-                        saveChanges();
-                    } else{
-                        isFormEdited = false;
-                    }
-                }
-            }
-        });*/
-
         patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
         patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
 
         if (_model.getAllDiagnoses() != null) {
             patientRecordListDiagnoses.setDisable(false);
             try {
+                //TODO diagnoses not shown with toString
                 ObservableList<IDiagnosis> diagnosislist = FXCollections.observableArrayList(_model.getPatient().getDiagnoses());
-                //ArrayList<IDiagnosis> dl = (ArrayList) _model.getPatient().getDiagnoses();
-                //System.out.println(dl.get(0).toString());
                 patientRecordListDiagnoses.setItems(diagnosislist);
             } catch (CouldNotGetDiagnoseException e) {
                 e.printStackTrace();
@@ -342,26 +324,12 @@ public class PatientRecordController implements Initializable {
 
     @FXML
     public void addPatientToQueueButtonHandler(){
-
         if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
-
-                IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
-
-                /*DialogBoxController.getInstance().showInformationDialog("Adding _patient...." , "Adding to waiting list: " + System.getProperty("line.separator")
-                        + _patient.getFirstName() + " " + _patient.getLastName() + System.getProperty("line.separator")
-                        + "To queue:" + System.getProperty("line.separator")+ _user.getFirstName() + " " + _user.getLastName()  + System.getProperty("line.separator")
-                        + System.getProperty("line.separator") + "Please wait");*/
-
-                StatusBarController.getInstance().setText("Adding _patient '" + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName() + "' to queue for: " + user.getLastName());
-
-               // checkinController.insertPatientIntoQueue(_patient, _user);
-            System.out.println("Patient in Queue !!!!!!!!!!!!!!!!!");
-                _model.insertPatientIntoQueue(user);
-
-                //Todo: add event handler
-               //_model.refreshQueue(user);
-                //Main.controller.refreshQueue(_user);
-
+            IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
+            _model.getQueueModel().insertPatientIntoQueue(user);
+            StatusBarController.getInstance().setText("Added _patient '" + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName() + "' to queue for: " + user.getLastName());
+            addPatientToQueueButton.setDisable(true);
+            addToQueueBox.setDisable(true);
         }else{
             DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Waiting List");
         }
@@ -373,13 +341,8 @@ public class PatientRecordController implements Initializable {
      */
     @FXML
     public void openExaminationButtonHandler(ActionEvent actionEvent) {
-        //_model.showStatusBarloader();
-
-        Date date = new Date();
-        _model.addExaminationTab(_model.getPatient());
-        StatusBarController.getInstance().setText("Open examination...");
+        _model.getTabModel().addExaminationTab(_model.getPatient());
     }
-    //</editor-fold>
 
     /**
      * save Changes in Patient Record Form if isFormEdited == true
@@ -441,7 +404,7 @@ public class PatientRecordController implements Initializable {
         disableFields();
 
         //createPatientController.saveIPatient(_model.getPatient());
-        _model.savePatient(_model.getPatient());
+        _model.getPatientModel().savePatient(_model.getPatient());
         StatusBarController.getInstance().setText("Changes saved...");
         isFormEdited = false;
 
@@ -472,6 +435,13 @@ public class PatientRecordController implements Initializable {
     }
 
     private void disableFields() {
+        /*for (Node node : patientRecordPane.getChildren()) {
+            if (node instanceof TextField) {
+                node.setDisable(true);
+                ((TextField)node).setEditable(false);
+            }
+        }*/
+
         //disables every field, radiobutton or choicebox
         patientRecordradioGenderMale.setDisable(true);
         patientRecordradioGenderFemale.setDisable(true);
