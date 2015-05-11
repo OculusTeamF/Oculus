@@ -34,7 +34,7 @@ public interface IDoctor extends IUser, IDomain {
 
     void setCalendar(Calendar _calendar);
 
-    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
+    PatientQueue getQueue();
 
     void setQueue(PatientQueue _queue);
 
