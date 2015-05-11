@@ -34,7 +34,8 @@ public class PrescriptionController implements ILogger {
 
     private PrescriptionController(IPatient iPatient){
         _iPatient = iPatient;
-        iPrescription = new Prescription(iPatient);
+        iPrescription = new Prescription();
+        iPrescription.setPatient(iPatient);
 
     }
 
