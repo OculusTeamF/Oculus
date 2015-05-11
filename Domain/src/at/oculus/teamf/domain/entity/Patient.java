@@ -350,12 +350,15 @@ public class Patient implements IPatient, ILogger {
 	}
 
 	public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
-		try {
-            Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
-        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException  e) {
-            log.error(e.getMessage());
-            throw new CouldNotGetExaminationProtolException();
-        }
+
+		if(_examinationProtocol == null) {
+			try {
+				Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
+			} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+				log.error(e.getMessage());
+				throw new CouldNotGetExaminationProtolException();
+			}
+		}
 
         return (Collection<IExaminationProtocol>) (Collection<?>) _examinationProtocol;
     }
