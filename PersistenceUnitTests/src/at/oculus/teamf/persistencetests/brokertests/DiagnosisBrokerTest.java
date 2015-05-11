@@ -9,9 +9,13 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.Calendar;
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -117,9 +121,9 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-		Collection<Medicine> medicine = null;
-		Collection<VisualAid> visualAid = null;
-		try {
+        Collection<IMedicine> medicine = null;
+        Collection<IVisualAid> visualAid = null;
+        try {
 			medicine = diagnosis.getMedicine();
 			visualAid = diagnosis.getVisualAid();
 		} catch (CouldNotGetVisualAidException | CouldNotGetMedicineException e) {

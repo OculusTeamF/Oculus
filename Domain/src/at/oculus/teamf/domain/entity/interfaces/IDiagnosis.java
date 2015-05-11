@@ -9,13 +9,9 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 import java.util.Collection;
 
@@ -45,7 +41,11 @@ public interface IDiagnosis extends IDomain {
 
     void setDoctor(Doctor doctor);
 
-	Collection<Medicine> getMedicine() throws CouldNotGetMedicineException;
+    Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException;
 
-	void addMedicine(Medicine medicine) throws CouldNotGetMedicineException, CouldNotAddMedicineException;
+    void addMedicine(IMedicine medicine)
+            throws at.oculus.teamf.domain.entity.CouldNotAddMedicineException;
+
+    void addVisualAid(IVisualAid visualAid)
+            throws CouldNotAddVisualAidException;
 }

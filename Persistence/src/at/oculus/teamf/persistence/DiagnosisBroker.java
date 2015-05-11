@@ -18,6 +18,7 @@ import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -178,8 +179,8 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 	 * @throws SearchInterfaceNotImplementedException
 	 * @throws InvalidSearchParameterException
 	 */
-	private Collection<VisualAid> reloadVisualAid(ISession session, Object obj)
-			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+    private Collection<IVisualAid> reloadVisualAid(ISession session, Object obj)
+            throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("reloading visual aid");
 		ReloadComponent reloadComponent = new ReloadComponent(DiagnosisEntity.class, VisualAid.class);

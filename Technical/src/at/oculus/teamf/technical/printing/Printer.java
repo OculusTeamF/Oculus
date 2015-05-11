@@ -20,9 +20,14 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -35,15 +40,15 @@ public class Printer {
     private static final int MAX_CHARACTERS_PER_LINE = 75;
     private static final int SPACING_LEFT = 80;
 
-    private Printer (){
+    private Printer() {
 
     }
 
-    public static Printer getInstance (){
+    public static Printer getInstance() {
         return printerInstance;
     }
 
-    public void print (String title, String text){
+    public void print(String title, String text) {
 
         PDDocument document = new PDDocument();
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
@@ -66,11 +71,11 @@ public class Printer {
 
             int start = 0;
             int end = text.length();
-            while (start < end){
+            while (start < end) {
                 String tobePrinted;
-                if ((end - start) > MAX_CHARACTERS_PER_LINE){
+                if ((end - start) > MAX_CHARACTERS_PER_LINE) {
                     int tempEnd = start + MAX_CHARACTERS_PER_LINE;
-                    while (text.charAt(tempEnd) != ' '){
+                    while (text.charAt(tempEnd) != ' ') {
                         ++tempEnd;
                     }
                     tobePrinted = text.substring(start, start = ++tempEnd);
@@ -84,6 +89,12 @@ public class Printer {
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
                 stream.drawString(tobePrinted);
                 stream.endText();
+
+                BufferedImage awtImage = ImageIO.read(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/res/oculus.JPG"));
+                PDXObjectImage ximage = new PDPixelMap(document, awtImage);
+                float scale = 0.3f; // alter this value to set the image size
+                stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
+
             }
             stream.close();
 
@@ -95,7 +106,7 @@ public class Printer {
         }
     }
 
-    public void printPrescription (IPrescription iPrescription){
+    public void printPrescription(IPrescription iPrescription) {
         PDDocument document = new PDDocument();
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
         PDRectangle rectangle = page1.getMediaBox();
@@ -121,29 +132,46 @@ public class Printer {
             stream.setFont(fontPlain, 12);
             stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
             stream.drawString(iPatient.getFirstName() + " " + iPatient.getLastName());
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-            stream.drawString(iPatient.getBirthDay().toString());
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-            stream.drawString(iPatient.getStreet());
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-            stream.drawString(iPatient.getPostalCode() + ", " + iPatient.getCity());
             stream.endText();
 
-            for (IPrescriptionEntry entry : iPrescription.getPrescriptionEntries()){
+            stream.beginText();
+            stream.setFont(fontPlain, 12);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.drawString(iPatient.getBirthDay().toString());
+            stream.endText();
+
+
+            if (iPrescription.getPrescriptionEntries().size() > 0) {
                 stream.beginText();
-                stream.setFont(fontPlain, 12);
+                stream.setFont(fontBold, 14);
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-                stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                stream.drawString("Prescription Entries:");
                 stream.endText();
+                for (IPrescriptionEntry entry : iPrescription.getPrescriptionEntries()) {
+                    stream.beginText();
+                    stream.setFont(fontPlain, 12);
+                    stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                    stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                    stream.endText();
+                }
             }
+
+            BufferedImage awtImage = ImageIO.read(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/res/oculus.JPG"));
+            PDXObjectImage ximage = new PDPixelMap(document, awtImage);
+            float scale = 0.3f; // alter this value to set the image size
+            stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
+
             stream.close();
 
             document.save("prescription.pdf");
             document.close();
             Desktop.getDesktop().open(new File("prescription.pdf"));
-        } catch (IOException | COSVisitorException | CantGetPresciptionEntriesException e) {
-            //TODO
+        } catch (COSVisitorException e) {
+            e.printStackTrace();
+        } catch (CantGetPresciptionEntriesException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 }
