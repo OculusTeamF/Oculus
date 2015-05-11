@@ -22,21 +22,19 @@ package at.oculus.teamf.application.facade;
  * and to save it into the database.
  */
 
+import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
-
-import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * <h2>$CreateDiagnosisController</h2>
@@ -48,7 +46,7 @@ import java.util.LinkedList;
  **/
 public class CreateDiagnosisController implements ILogger {
 
-    private IExaminationProtocol examinationProtocol;
+    private IExaminationProtocol iExaminationProtocol;
 
     /**
      *<h3>$CreateDiagnosisController</h3>
@@ -63,12 +61,13 @@ public class CreateDiagnosisController implements ILogger {
      *                             into which the new diagnosis should be saved
      */
     private CreateDiagnosisController(IExaminationProtocol iExaminationProtocol) {
-
-        examinationProtocol = iExaminationProtocol;
+        this.iExaminationProtocol = iExaminationProtocol;
     }
 
-    public static CreateDiagnosisController CreateController(IExaminationProtocol iExaminationProtocol) {
-        // überprüfung sonst exception
+    public static CreateDiagnosisController CreateController(IExaminationProtocol iExaminationProtocol) throws NoExaminationProtocolException {
+        if(iExaminationProtocol == null){
+            throw new NoExaminationProtocolException();
+        }
         return new CreateDiagnosisController(iExaminationProtocol);
     }
 
@@ -89,7 +88,6 @@ public class CreateDiagnosisController implements ILogger {
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
     public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
-        //TODO change to interfaces
         //check parameters
         if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");
@@ -99,14 +97,14 @@ public class CreateDiagnosisController implements ILogger {
         //create new diagnosis
         IDiagnosis diagnosis = new Diagnosis(0, title, description, (Doctor) iDoctor);
         log.info("New diagnosis created.");
-        examinationProtocol.setDiagnosis(diagnosis);
+        iExaminationProtocol.setDiagnosis(diagnosis);
         log.info("Diagnosis added to examination protocol");
 
         //save diagnosis and examinationprotocol
-        Facade facade = Facade.getInstance();
+        IFacade iFacade = Facade.getInstance();
         try {
-            facade.save(diagnosis);
-            facade.save(examinationProtocol);
+            iFacade.save(diagnosis);
+            iFacade.save(iExaminationProtocol);
             log.info("Diagnosis and examination protocol saved");
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
@@ -127,16 +125,16 @@ public class CreateDiagnosisController implements ILogger {
      * is empty or if the doctor is null, the method return false. If everything is okay it return true.
      *
      *<b>Parameter</b>
-     * @param title this is the title of the diagnosis - it is not allowed to be empty
-     * @param description this is the description of the diagnosis - it is not allowed to be empty
+     * @param title this is the title of the diagnosis - it is not allowed to be empty or null
+     * @param description this is the description of the diagnosis - it is not allowed to be empty or null
      * @param iDoctor this is the doctor, which created the diagnosis - it is not allowed to be null
      */
     private boolean checkRequirements(String title, String description, IDoctor iDoctor) {
         if (title == null || title.equals("")) {
-            log.info("Title is empty");
+            log.info("Title is not set");
             return false;
-        } else if (description.equals("")) {
-            log.info("Description is empty");
+        } else if ( description == null || description.equals("")) {
+            log.info("Description is not set");
             return false;
         } else if (iDoctor == null) {
             log.info("Doctor is not set");
