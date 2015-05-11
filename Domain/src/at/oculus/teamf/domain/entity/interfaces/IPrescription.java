@@ -20,6 +20,8 @@ public interface IPrescription extends IDomain {
 
     IPatient getPatient();
 
+    void setPatient(IPatient iPatient);
+
 	Collection<IPrescriptionEntry> getPrescriptionEntries();
 
 	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
