@@ -10,6 +10,7 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.technical.printing.IPrinter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -29,7 +30,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Karo on 04.05.2015.
  */
-public class PrescriptionController implements Initializable{
+public class PrescriptionController implements Initializable, IPrinter {
 
 
     @FXML public ComboBox choosePrescriptionBox;
@@ -74,7 +75,9 @@ public class PrescriptionController implements Initializable{
         newPatientLastname.setText(_model.getPatient().getLastName());
         newPatientFirstname.setText(_model.getPatient().getFirstName());
         newPatientSVN.setText(_model.getPatient().getSocialInsuranceNr());
-        newPatientBday.setText(_model.getPatient().getBirthDay().toString());
+        if (_model.getPatient().getBirthDay() != null) {
+            newPatientBday.setText(_model.getPatient().getBirthDay().toString());
+        }
         newPatientStreet.setText(_model.getPatient().getStreet());
         newPatientPLZ.setText(_model.getPatient().getPostalCode());
         newPatientCity.setText(_model.getPatient().getCity());
@@ -104,6 +107,10 @@ public class PrescriptionController implements Initializable{
 
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
+    }
 
+    @FXML
+    public void doPrint(ActionEvent actionEvent) {
+        printer.print("BESCHWERDE !","Guten Tag, bla bla lala blubb");
     }
 }
