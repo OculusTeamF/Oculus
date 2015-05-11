@@ -53,6 +53,7 @@ public class Patient implements IPatient, ILogger {
     private String _medicineIntolerance;
     private Collection<ExaminationProtocol> _examinationProtocol;
 	private Collection<Prescription> _prescriptions;
+    private Collection<VisualAid> _visualAid;
 
     //private EntityBroker eb;
 
@@ -171,6 +172,10 @@ public class Patient implements IPatient, ILogger {
 		return _id;
 	}
 
+    public void setId(int id) {
+        _id = id;
+    }
+
 	@Override
 	public String toString() {
 		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
@@ -187,15 +192,6 @@ public class Patient implements IPatient, ILogger {
 		}
 		_prescriptions.add(p);
 	}
-
-
-	public void setId(int id) {
-		_id = id;
-	}
-
-
-
-
 
 	public String getFirstName() {
 		return _firstName;
@@ -218,6 +214,10 @@ public class Patient implements IPatient, ILogger {
         return _gender;
     }
 
+    public void setGender(Gender gender) {
+        _gender = gender;
+    }
+
     public void setGender(String gender) {
         if (gender.equals("male")) {
             setGender(Gender.Male);
@@ -225,11 +225,6 @@ public class Patient implements IPatient, ILogger {
             setGender(Gender.Female);
         }
     }
-
-    public void setGender(Gender gender) {
-        _gender = gender;
-    }
-
 
 	public Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
 
@@ -345,10 +340,6 @@ public class Patient implements IPatient, ILogger {
         _medicineIntolerance = medicineIntolerance;
     }
 
-	public void setPrescriptions(Collection<Prescription> prescriptions) {
-		_prescriptions = prescriptions;
-	}
-
 	public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
 
 		if(_examinationProtocol == null) {
@@ -367,28 +358,27 @@ public class Patient implements IPatient, ILogger {
         _examinationProtocol = (Collection<ExaminationProtocol>) (Collection<?>) examinationProtocol;
     }
 
-    //</editor-fold>
-
-	/**
-	 * get all examination results
-	 *
-	 * @return ExaminationResult Collection
-	 *
-	 * @throws NoBrokerMappedException
-	 * @throws CouldNotGetExaminationResultException
-	 */
-	public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
+    /**
+     * get all examination results
+     *
+     * @return ExaminationResult Collection
+     * @throws NoBrokerMappedException
+     * @throws CouldNotGetExaminationResultException
+     */
+    public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
         Collection<IExaminationResult> examinationResults = null;
 
         try {
             examinationResults = Facade.getInstance().search(ExaminationResult.class, this.getId() + "");
-        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException  e) {
+        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
             log.error(e.getMessage());
             throw new CouldNotGetExaminationResultException();
         }
 
-		return examinationResults;
+        return examinationResults;
     }
+
+    //</editor-fold>
 
 	/**
 	 * get all prescriptions
@@ -404,7 +394,11 @@ public class Patient implements IPatient, ILogger {
 		}
 
 		return (Collection<IPrescription>) (Collection<?>) _prescriptions;
-	}
+    }
+
+    public void setPrescriptions(Collection<Prescription> prescriptions) {
+        _prescriptions = prescriptions;
+    }
 
 	/**
 	 * get all diagnoses
@@ -439,7 +433,17 @@ public class Patient implements IPatient, ILogger {
 		}
 
 		return medicine;
-	}
+    }
 
-
+    public Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException {
+        if (_visualAid == null) {
+            try {
+                _visualAid = Facade.getInstance().search(VisualAid.class, "1");
+            } catch (NoBrokerMappedException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException e) {
+                e.printStackTrace();
+                throw new CouldNotGetVisualAidException();
+            }
+        }
+        return (Collection<IVisualAid>) (Collection<?>) _visualAid;
+    }
 }

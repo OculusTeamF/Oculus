@@ -77,9 +77,9 @@ public interface IPatient extends IDomain {
     String getMedicineIntolerance();
     void setMedicineIntolerance(String medicineIntolerance);
 
-    void setExaminationProtocol(Collection<IExaminationProtocol> protocols);
-
     Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException;
+
+    void setExaminationProtocol(Collection<IExaminationProtocol> protocols);
 
 	void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol;
 
@@ -90,4 +90,6 @@ public interface IPatient extends IDomain {
     Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
 
 	Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException;
+
+    Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException;
 }
