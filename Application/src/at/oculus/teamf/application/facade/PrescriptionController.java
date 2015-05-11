@@ -10,8 +10,18 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.Prescription;
+import at.oculus.teamf.domain.entity.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.technical.loggin.ILogger;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by jpo2433 on 08.05.15.
@@ -19,10 +29,13 @@ import at.oculus.teamf.technical.loggin.ILogger;
 public class PrescriptionController implements ILogger {
 
     private IPatient _iPatient;
+    private IPrescription iPrescription;
 
 
     private PrescriptionController(IPatient iPatient){
         _iPatient = iPatient;
+        iPrescription = new Prescription(iPatient);
+
     }
 
     public static PrescriptionController createController(IPatient iPatient) throws NoPatientException {
@@ -32,6 +45,31 @@ public class PrescriptionController implements ILogger {
         return new PrescriptionController(iPatient);
     }
 
+    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException {
+        IPrescriptionEntry entry = new PrescriptionEntry();
+        entry.setMedicine(iMedicine);
+        try {
+            iPrescription.addPrescriptionEntry(entry);
+        } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
+            log.error("Could nor add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
+            throw couldNotAddPrescriptionEntryException;
+        }
+        return entry;
+    }
 
+    public Collection<IMedicine> getAllPrescribedMedicines(){
+        Collection<IMedicine> medicines = new LinkedList<IMedicine>();
+        try {
+            medicines = _iPatient.getMedicine();
+        } catch (CouldNotGetMedicineException e) {
+            e.printStackTrace();
+        }
+        return medicines;
+    }
+
+    public IPrescription printPrescription(){
+        //TODO
+        return iPrescription;
+    }
 
 }
