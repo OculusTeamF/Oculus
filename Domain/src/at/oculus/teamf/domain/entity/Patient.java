@@ -363,7 +363,7 @@ public class Patient implements IPatient, ILogger {
         return (Collection<IExaminationProtocol>) (Collection<?>) _examinationProtocol;
     }
 
-    public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
+    public void setExaminationProtocol(Collection<IExaminationProtocol> examinationProtocol) {
         _examinationProtocol = (Collection<ExaminationProtocol>) (Collection<?>) examinationProtocol;
     }
 

@@ -11,7 +11,7 @@ package at.oculus.teamf.applicationunittests;
 
 import static org.junit.Assert.*;
 
-public class OpticalAidPrescriptionControllerTest {
+public class VisualAidPrescriptionControllerTest {
 
     @org.junit.Before
     public void setUp() throws Exception {

@@ -9,38 +9,50 @@
 
 package at.oculus.teamf.application.facade;
 
-/**<h1>$OpticalAidPrescriptionController.java</h1>
+/**<h1>$VisualAidPrescriptionController.java</h1>
  * @author $jpo2433
  * @author $sha9939
  * @since $30.04.2015
  *
  * <b>Description:</b>
- * This File contains the OpticalAidPrescriptionController class,
+ * This File contains the VisualAidPrescriptionController class,
  * which is responsible for the creation of a new optical aid prescription and to save it into the database
  **/
 
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 /**
- * <h2>$OpticalAidPrescriptionController</h2>
+ * <h2>$VisualAidPrescriptionController</h2>
  *
  * <b>Description:</b>
  * With this controller a new optical aid prescription can be created.
  **/
-public class OpticalAidPrescriptionController implements ILogger{
+public class VisualAidPrescriptionController implements ILogger{
 
     private IPatient _iPatient;
 
-    private OpticalAidPrescriptionController(IPatient iPatient){
+    private VisualAidPrescriptionController(IPatient iPatient){
             _iPatient = iPatient;
     }
 
-    public static OpticalAidPrescriptionController createController(IPatient iPatient) throws NoPatientException {
+    public static VisualAidPrescriptionController createController(IPatient iPatient) throws NoPatientException {
         if(iPatient == null){
             throw new NoPatientException();
         }
-        return new OpticalAidPrescriptionController(iPatient);
+        return new VisualAidPrescriptionController(iPatient);
+    }
+
+    public IVisualAid createVisualAidPrescription(IDiagnosis iDiagnosis, String description){
+        IVisualAid visualAid = new VisualAid();
+        //visualAid.setDescription(description);
+        //visualAid.setDiagnosis(iDiagnosis);
+
+        return null;
+
     }
 }

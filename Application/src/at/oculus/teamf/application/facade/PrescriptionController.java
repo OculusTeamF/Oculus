@@ -19,6 +19,7 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.technical.loggin.ILogger;
+import at.oculus.teamf.technical.printing.Printer;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -52,7 +53,7 @@ public class PrescriptionController implements ILogger {
         try {
             iPrescription.addPrescriptionEntry(entry);
         } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
-            log.error("Could nor add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
+            log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
             throw couldNotAddPrescriptionEntryException;
         }
         return entry;
@@ -63,7 +64,7 @@ public class PrescriptionController implements ILogger {
             try {
                 createPrescriptionEntry(medicine);
             } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
-                log.error("Could nor add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
+                log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
                 throw couldNotAddPrescriptionEntryException;
             }
         }
@@ -82,6 +83,10 @@ public class PrescriptionController implements ILogger {
 
     public IPrescription printPrescription(){
         //TODO
+        Printer printer = Printer.getInstance();
+
+        printer.printPrescription(iPrescription);
+
         return iPrescription;
     }
 
