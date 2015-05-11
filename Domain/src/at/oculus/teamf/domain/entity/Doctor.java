@@ -68,7 +68,7 @@ public class Doctor extends User implements IDoctor, ILogger {
     }
 
     @Override
-    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+    public PatientQueue getQueue() {
         if(_queue == null) {
             _queue = QueueFactory.getInstance().getUserQueue(this);
         }

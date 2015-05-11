@@ -171,18 +171,6 @@ public class Model implements Serializable, ILogger{
         Collection<CalendarEvent> events = null;
         try {
             events = _patient.getCalendarEvents();
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidReloadClassException - Please contact support");
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "ReloadInterfaceNotImplementedException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (CouldNotGetCalendarEventsException e) {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetCalendarEventsException - Please contact support");

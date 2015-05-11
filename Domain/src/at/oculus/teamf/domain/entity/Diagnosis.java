@@ -109,15 +109,18 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 	 * @throws NoBrokerMappedException
 	 * @throws BadConnectionException
 	 */
-	public void addMedicine(Medicine medicine)
-			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException,
-			       CouldNotGetMedicineException {
+	public void addMedicine(Medicine medicine) throws CouldNotGetMedicineException, CouldNotAddMedicineException {
 		if (_medicine == null) {
 			getMedicine();
 		}
 		medicine.setDiagnosis(this);
 		_medicine.add(medicine);
-		Facade.getInstance().save(medicine);
+		try {
+			Facade.getInstance().save(medicine);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			log.error(e.getMessage());
+			throw new CouldNotAddMedicineException();
+		}
 	}
 
 	public void addVisualAid(VisualAid visualAid)

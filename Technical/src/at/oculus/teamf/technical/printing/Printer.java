@@ -127,8 +127,8 @@ public class Printer {
             stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
             stream.drawString(iPatient.getPostalCode() + ", " + iPatient.getCity());
             stream.endText();
-
-            for (IPrescriptionEntry entry :iPrescription.getPrescriptionEntries()){
+            
+            for (IPrescriptionEntry entry : iPrescription.getPrescriptionEntries()){
                 stream.beginText();
                 stream.setFont(fontPlain, 12);
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);

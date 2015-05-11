@@ -78,12 +78,9 @@ public class CheckinController implements ILogger {
 
         if(user instanceof Doctor){
             doctor = (Doctor) iuser;
-            try {
-                queue = doctor.getQueue();
-            } catch (NoBrokerMappedException e) {
-                log.error("Major implementation error was found! " + e.getMessage());
-                throw new CriticalClassException();
-            }
+
+            queue = doctor.getQueue();
+
             log.info("Queue belongs to doctor.");
         }else if(user instanceof Orthoptist){
             orthoptist = (Orthoptist) iuser;

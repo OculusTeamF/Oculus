@@ -66,6 +66,7 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 		                                        .persistentToDomain(prescriptionEntity.getPatient()));
 		prescription.setIssueDate(prescriptionEntity.getIssueDate());
 		prescription.setLastPrint(prescriptionEntity.getLastPrint());
+
 		return prescription;
 	}
 
