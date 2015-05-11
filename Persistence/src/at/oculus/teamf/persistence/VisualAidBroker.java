@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.persistence;
 
+import at.oculus.teamf.databaseconnection.session.ISession;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.VisualAid;
@@ -24,12 +26,14 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * VisualAidBroker.java Created by oculus on 11.05.15.
  */
-public class VisualAidBroker extends EntityBroker {
-	public VisualAidBroker() {
+public class VisualAidBroker extends EntityBroker implements ISearch {
+    public VisualAidBroker() {
 		super(VisualAid.class, VisualAidEntity.class);
 		addDomainClass(IVisualAid.class);
 	}
@@ -67,4 +71,18 @@ public class VisualAidBroker extends EntityBroker {
 
 		return visualAidEntity;
 	}
+
+    @Override
+    public Collection search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, ClassNotMappedException, DatabaseOperationException, SearchInterfaceNotImplementedException {
+        Collection<Object> searchResult = null;
+
+        searchResult = session.search("getAllVisualAidOfPatient", params);
+
+        Collection<VisualAid> result = new LinkedList<>();
+        for (Object o : searchResult) {
+            result.add((VisualAid) persistentToDomain((VisualAidEntity) o));
+        }
+
+        return result;
+    }
 }
