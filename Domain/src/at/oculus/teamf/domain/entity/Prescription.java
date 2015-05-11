@@ -67,8 +67,8 @@ public class Prescription implements IPrescription, ILogger {
 		return _patient;
 	}
 
-	public void setPatient(IPatient patient) {
-		_patient = (Patient) patient;
+	public void setPatient(Patient patient) {
+		_patient = patient;
 	}
 
 	public Collection<IPrescriptionEntry> getPrescriptionEntries() {

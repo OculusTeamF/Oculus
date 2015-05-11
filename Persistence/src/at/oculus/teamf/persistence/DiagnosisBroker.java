@@ -15,12 +15,10 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.persistence.entity.DiagnosisEntity;
-import at.oculus.teamf.persistence.entity.DoctorEntity;
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.entity.MedicineEntity;
+import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -126,6 +124,8 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 			       InvalidSearchParameterException {
 		if (clazz == Medicine.class) {
 			((Diagnosis) obj).setMedicine(reloadMedicine(session, obj));
+		} else if (clazz == VisualAid.class) {
+			((Diagnosis) obj).setVisualAid(reloadVisualAid(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
 		}
@@ -151,11 +151,44 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 		return reloadComponent.reloadCollection(session, ((Diagnosis) obj).getId(), new MedicineLoader());
 	}
 
+	/**
+	 * reload visualaid of diagnosis
+	 *
+	 * @param session
+	 * 		to be used
+	 * @param obj
+	 * 		diagnosis
+	 *
+	 * @return medicine collection
+	 *
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
+	private Collection<VisualAid> reloadVisualAid(ISession session, Object obj)
+			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		log.debug("reloading visual aid");
+		ReloadComponent reloadComponent = new ReloadComponent(DiagnosisEntity.class, VisualAid.class);
+		return reloadComponent.reloadCollection(session, ((Diagnosis) obj).getId(), new VisualAidLoader());
+	}
+
 	private class MedicineLoader implements ICollectionLoader<MedicineEntity> {
 
 		@Override
 		public Collection<MedicineEntity> load(Object databaseEntity) {
 			return ((DiagnosisEntity) databaseEntity).getMedicine();
+		}
+	}
+
+	private class VisualAidLoader implements ICollectionLoader<VisualAidEntity> {
+
+		@Override
+		public Collection<VisualAidEntity> load(Object databaseEntity) {
+			return ((DiagnosisEntity) databaseEntity).getVisualAid();
 		}
 	}
 }
