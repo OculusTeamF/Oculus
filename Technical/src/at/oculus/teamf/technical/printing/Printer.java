@@ -19,9 +19,14 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -83,6 +88,13 @@ public class Printer {
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
                 stream.drawString(tobePrinted);
                 stream.endText();
+
+                /*
+                BufferedImage awtImage = ImageIO.read(new File("src/res/oculus.JPG"));
+                PDXObjectImage ximage = new PDPixelMap(document, awtImage);
+                float scale = 0.5f; // alter this value to set the image size
+                stream.drawXObject(ximage, 100, 400, ximage.getWidth() * scale, ximage.getHeight() * scale);
+                */
             }
             stream.close();
 
@@ -120,21 +132,45 @@ public class Printer {
             stream.setFont(fontPlain, 12);
             stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
             stream.drawString(iPatient.getFirstName() + " " + iPatient.getLastName());
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-            stream.drawString(iPatient.getBirthDay().toString());
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-            stream.drawString(iPatient.getStreet());
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-            stream.drawString(iPatient.getPostalCode() + ", " + iPatient.getCity());
             stream.endText();
 
-            for (IPrescriptionEntry entry :iPrescription.getPrescriptionEntries()){
+            stream.beginText();
+            stream.setFont(fontPlain, 12);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.drawString(iPatient.getBirthDay().toString());
+            stream.endText();
+
+            if (iPatient.getStreet() != null){
                 stream.beginText();
                 stream.setFont(fontPlain, 12);
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
-                stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                stream.drawString(iPatient.getStreet());
                 stream.endText();
             }
+
+            if ((iPatient.getCity() != null) && (iPatient.getPostalCode() != null)){
+                stream.beginText();
+                stream.setFont(fontPlain, 12);
+                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                stream.drawString(iPatient.getPostalCode() + ", " + iPatient.getCity());
+                stream.endText();
+            }
+
+            if (iPrescription.getPrescriptionEntries().size() > 0){
+                stream.beginText();
+                stream.setFont(fontBold, 14);
+                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                stream.drawString("Prescription Entries:");
+                stream.endText();
+                for (IPrescriptionEntry entry : iPrescription.getPrescriptionEntries()){
+                    stream.beginText();
+                    stream.setFont(fontPlain, 12);
+                    stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                    stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                    stream.endText();
+                }
+            }
+
             stream.close();
 
             document.save("prescription.pdf");
