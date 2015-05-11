@@ -18,10 +18,17 @@ import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.Printer;
 
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -47,8 +54,12 @@ public class PrescriptionController implements ILogger {
         return new PrescriptionController(iPatient);
     }
 
-    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException {
+    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
         IPrescriptionEntry entry = new PrescriptionEntry();
+
+        IFacade facade = Facade.getInstance();
+        facade.save(entry);
+
         entry.setMedicine(iMedicine);
         try {
             iPrescription.addPrescriptionEntry(entry);
@@ -59,7 +70,7 @@ public class PrescriptionController implements ILogger {
         return entry;
     }
 
-    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException {
+    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException {
         for(IMedicine medicine : medicines){
             try {
                 createPrescriptionEntry(medicine);
@@ -81,11 +92,14 @@ public class PrescriptionController implements ILogger {
         return medicines;
     }
 
-    public IPrescription printPrescription(){
-        //TODO
+    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
         Printer printer = Printer.getInstance();
-
         printer.printPrescription(iPrescription);
+
+        iPrescription.setLastPrint(new Timestamp(new Date().getTime()));
+
+        IFacade facade = Facade.getInstance();
+        facade.save(iPrescription);
 
         return iPrescription;
     }

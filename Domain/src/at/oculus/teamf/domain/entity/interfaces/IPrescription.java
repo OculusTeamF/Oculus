@@ -13,6 +13,7 @@ import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
@@ -22,6 +23,7 @@ public interface IPrescription extends IDomain {
     IPatient getPatient();
 
     void setPatient(IPatient iPatient);
+    void setLastPrint(Date lastPrint);
 
 	Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException;
 

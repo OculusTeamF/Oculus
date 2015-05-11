@@ -49,10 +49,10 @@ public class VisualAidPrescriptionController implements ILogger{
 
     public IVisualAid createVisualAidPrescription(IDiagnosis iDiagnosis, String description){
         IVisualAid visualAid = new VisualAid();
-        //visualAid.setDescription(description);
-        //visualAid.setDiagnosis(iDiagnosis);
+        visualAid.setDescription(description);
+        visualAid.setDiagnosis(iDiagnosis);
 
-        return null;
-
+        return visualAid;
     }
+
 }

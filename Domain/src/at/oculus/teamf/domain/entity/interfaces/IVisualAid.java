@@ -13,5 +13,4 @@ package at.oculus.teamf.domain.entity.interfaces;
  * IVisualAid.java Created by oculus on 11.05.15.
  */
 public interface IVisualAid extends IDomain {
-    void setDiagnosis(IDiagnosis diagnosis);
 }

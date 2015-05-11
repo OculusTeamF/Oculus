@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 
 import java.util.Date;
@@ -63,9 +62,9 @@ public class VisualAid implements IVisualAid {
 		return _diagnosis;
 	}
 
-    public void setDiagnosis(IDiagnosis diagnosis) {
-        _diagnosis = (Diagnosis) diagnosis;
-    }
+	public void setDiagnosis(Diagnosis diagnosis) {
+		_diagnosis = diagnosis;
+	}
 
 	@Override
 	public int hashCode() {
