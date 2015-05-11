@@ -19,6 +19,8 @@ package at.oculus.teamf.application.facade;
  * which is responsible for the creation of a new optical aid prescription and to save it into the database
  **/
 
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 /**
@@ -28,7 +30,17 @@ import at.oculus.teamf.technical.loggin.ILogger;
  * With this controller a new optical aid prescription can be created.
  **/
 public class OpticalAidPrescriptionController implements ILogger{
-    public OpticalAidPrescriptionController(){
 
+    private IPatient _iPatient;
+
+    private OpticalAidPrescriptionController(IPatient iPatient){
+            _iPatient = iPatient;
+    }
+
+    public static OpticalAidPrescriptionController createController(IPatient iPatient) throws NoPatientException {
+        if(iPatient == null){
+            throw new NoPatientException();
+        }
+        return new OpticalAidPrescriptionController(iPatient);
     }
 }
