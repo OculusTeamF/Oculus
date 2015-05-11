@@ -9,8 +9,16 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.Diagnosis;
+
+import java.util.Date;
+
 /**
  * IVisualAid.java Created by oculus on 11.05.15.
  */
 public interface IVisualAid extends IDomain {
+    void setDescription(String description);
+    void setLastPrint(Date lastPrint);
+    void setDiagnosis(IDiagnosis diagnosis);
+    void setIssueDate(Date issueDate);
 }
