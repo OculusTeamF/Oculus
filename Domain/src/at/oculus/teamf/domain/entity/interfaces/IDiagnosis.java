@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
@@ -46,7 +47,5 @@ public interface IDiagnosis extends IDomain {
 
 	Collection<Medicine> getMedicine() throws CouldNotGetMedicineException;
 
-	void addMedicine(Medicine medicine)
-			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException,
-			       CouldNotGetMedicineException;
+	void addMedicine(Medicine medicine) throws CouldNotGetMedicineException, CouldNotAddMedicineException;
 }

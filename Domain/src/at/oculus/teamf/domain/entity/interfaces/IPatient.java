@@ -44,9 +44,7 @@ public interface IPatient extends IDomain {
     IDoctor getIDoctor();
     void setIDoctor(IDoctor idoctor);
 
-    Collection<CalendarEvent> getCalendarEvents()
-            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-            NoBrokerMappedException, CouldNotGetCalendarEventsException;
+    Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException;
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
 
     Date getBirthDay();

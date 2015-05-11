@@ -108,11 +108,7 @@ public class StartupController implements ILogger {
 
         if (doctors != null) {
             for (Doctor doctor : doctors) {
-                try {
-                    queues.add(doctor.getQueue());
-                } catch (NoBrokerMappedException e) {
-                    throw new CriticalClassException();
-                }
+                queues.add(doctor.getQueue());
             }
         }
         log.info("All queues have been acquired.");
