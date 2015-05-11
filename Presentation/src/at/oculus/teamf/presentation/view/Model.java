@@ -217,7 +217,7 @@ public class Model implements Serializable, ILogger{
     public void addExaminationTab(IPatient patient){
 
         this._patient = patient;
-        loadTab("PATIENT: " + getPatient().getLastName(), "fxml/ExaminationTab.fxml");
+        loadTab("EXAMINATIONS: " + getPatient().getLastName(), "fxml/ExaminationTab.fxml");
     }
 
     /**
@@ -226,7 +226,7 @@ public class Model implements Serializable, ILogger{
      */
     public void addPrescriptionTab(IPatient patient){
         this._patient = patient;
-        loadTab("PATIENT: " + getPatient().getLastName(), "fxml/PrescriptionTab.fxml");
+        loadTab("PRESCRIPTION: " + getPatient().getLastName(), "fxml/PrescriptionTab.fxml");
     }
 
     // *******************************************************************
@@ -702,7 +702,7 @@ public class Model implements Serializable, ILogger{
      */
     public void addNewPatientDiagnosis(String title, String description, IDoctor doc){
         //TODO IExaminationProtocol getter setter
-        _createDiagnosisController = new CreateDiagnosisController(_eximationprotocol);
+        _createDiagnosisController = CreateDiagnosisController.CreateController(_eximationprotocol);
 
         try {
             _createDiagnosisController.createDiagnosis(title,description, doc);

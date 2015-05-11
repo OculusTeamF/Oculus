@@ -20,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -40,17 +42,19 @@ public class PrescriptionController implements Initializable{
     @FXML public StackPane prescriptionStackPane;
     @FXML public AnchorPane prescriptionMedicalPane;
     @FXML public AnchorPane prescriptionVisualAidPane;
-    @FXML public TextField newPatientLastname;
-    @FXML public TextField newPatientFirstname;
-    @FXML public TextField newPatientSVN;
-    @FXML public TextField newPatientBday;
-    @FXML public TextField newPatientStreet;
-    @FXML public TextField newPatientPLZ;
-    @FXML public TextField newPatientCity;
-    @FXML public TextField newPatientCountryIsoCode;
     @FXML public ListView prescriptionItems;
     @FXML public ChoiceBox chooseMedicinBox;
     @FXML public Button addMedicinButton;
+    @FXML public Button removeMedicinButton;
+    @FXML public Button saveButton;
+    @FXML public Label lastname;
+    @FXML public Label firstname;
+    @FXML public Label svn;
+    @FXML public Label bday;
+    @FXML public Label address;
+    @FXML public Label zip;
+    @FXML public Label city;
+    @FXML public Label state;
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
@@ -60,22 +64,27 @@ public class PrescriptionController implements Initializable{
 
         _prescriptionType = FXCollections.observableArrayList("Medicin", "Visual Aid");
         choosePrescriptionBox.setItems(_prescriptionType);
+        choosePrescriptionBox.getSelectionModel().select(0);
 
         //Stackpane on index 0 is the visualAidPrescription, on index 1 is the medicalPrescription
         prescriptionStackPane.getChildren().get(0).setVisible(false);
-        prescriptionStackPane.getChildren().get(1).setVisible(false);
+        prescriptionStackPane.getChildren().get(1).setVisible(true);
 
-        printButton.setVisible(false);
+        // load image resources for buttons
+        Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
+        saveButton.setGraphic(new ImageView(imageSaveIcon));
 
         //fill in data
-        newPatientLastname.setText(_model.getPatient().getLastName());
-        newPatientFirstname.setText(_model.getPatient().getFirstName());
-        newPatientSVN.setText(_model.getPatient().getSocialInsuranceNr());
-        newPatientBday.setText(_model.getPatient().getBirthDay().toString());
-        newPatientStreet.setText(_model.getPatient().getStreet());
-        newPatientPLZ.setText(_model.getPatient().getPostalCode());
-        newPatientCity.setText(_model.getPatient().getCity());
-        newPatientCountryIsoCode.setText(_model.getPatient().getCountryIsoCode());
+        lastname.setText(_model.getPatient().getLastName());
+        firstname.setText(_model.getPatient().getFirstName());
+        svn.setText(_model.getPatient().getSocialInsuranceNr());
+        bday.setText(_model.getPatient().getBirthDay().toString());
+        address.setText(_model.getPatient().getStreet());
+        zip.setText(_model.getPatient().getPostalCode());
+        city.setText(_model.getPatient().getCity());
+        state.setText(_model.getPatient().getCountryIsoCode());
+
+
 
 
         choosePrescriptionBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -102,5 +111,8 @@ public class PrescriptionController implements Initializable{
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
 
+    }
+
+    public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
     }
 }

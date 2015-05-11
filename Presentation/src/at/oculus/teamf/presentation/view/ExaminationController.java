@@ -78,7 +78,6 @@ public class ExaminationController implements Initializable {
                 if (event.getClickCount() == 1) {
                     loadSelectedExaminationData((IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem());
 
-
                     IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
                     try {
                         _results = FXCollections.observableArrayList(protocol.getExaminationResults());
@@ -124,7 +123,8 @@ public class ExaminationController implements Initializable {
     private void loadSelectedExaminationData (IExaminationProtocol exp){
         examinationDocumentation.setText(exp.getDescription());
 
-        ObservableList<IExaminationResult> results = null; try {
+        ObservableList<IExaminationResult> results = null;
+        try {
             results = FXCollections.observableArrayList(exp.getExaminationResults());
         } catch (CouldNotGetExaminationResultException e) {
             e.printStackTrace();

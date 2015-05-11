@@ -46,6 +46,9 @@
 #colorPane2{
     -fx-background-color: #cbe6ff;
 }
+#colorPane21{
+    -fx-background-color: #cbe6ff;
+}
 #colorPane3{
     -fx-background-color: #cbe6ff;
 }
@@ -68,7 +71,9 @@
     -fx-background-color: #cbe6ff;
 }
 
-
+#examinationResults{
+    -fx-opacity: 0.5;
+}
 #colorPane4:hover{
     -fx-opacity: 0.5;
 }
