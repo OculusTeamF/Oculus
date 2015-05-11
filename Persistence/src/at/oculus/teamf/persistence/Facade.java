@@ -60,15 +60,9 @@ public class Facade implements ILogger, IFacade{
 	    entityBrokers.add(new MedicineBroker());
 	    entityBrokers.add(new PrescriptionEntryBroker());
 	    entityBrokers.add(new PrescriptionBroker());
+	    entityBrokers.add(new VisualAidBroker());
 
 	    init(entityBrokers);
-    }
-
-    public static Facade getInstance() {
-        if (_self == null) {
-            _self = new Facade();
-        }
-        return _self;
     }
 
     private void init(Collection<EntityBroker> brokers) {
@@ -88,6 +82,13 @@ public class Facade implements ILogger, IFacade{
         //Todo: catch exceptions
         _sessionBroker = new HibernateSessionBroker(entityClazzes);
     }
+
+	public static Facade getInstance() {
+		if (_self == null) {
+			_self = new Facade();
+		}
+		return _self;
+	}
 
     /**
      * get an entity of a specific domain class by id

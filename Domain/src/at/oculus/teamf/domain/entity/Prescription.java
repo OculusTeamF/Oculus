@@ -34,9 +34,8 @@ public class Prescription implements IPrescription, ILogger {
 	private Patient _patient;
 	private Collection<PrescriptionEntry> _prescriptionEntries;
 
-    public Prescription(IPatient iPatient){
-        _patient = (Patient) iPatient;
-        _issueDate = new Timestamp(new Date().getTime());
+	public Prescription() {
+		_issueDate = new Timestamp(new Date().getTime());
         _prescriptionEntries = new LinkedList<PrescriptionEntry>();
     }
 
