@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.technical.printing;
 
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -39,7 +42,7 @@ public class Printer {
         return printerInstance;
     }
 
-    public void print (String text){
+    public void print (String title, String text){
 
         PDDocument document = new PDDocument();
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
@@ -57,7 +60,7 @@ public class Printer {
             stream.beginText();
             stream.setFont(fontBold, 14);
             stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 50);
-            stream.drawString("Visual Aid Prescription:");
+            stream.drawString(title + ":");
             stream.endText();
 
             int start = 0;
@@ -83,12 +86,63 @@ public class Printer {
             }
             stream.close();
 
-            document.save("current_visual_aid.pdf");
+            document.save(title + ".pdf");
             document.close();
-            Desktop.getDesktop().open(new File("current_visual_aid.pdf"));
+            Desktop.getDesktop().open(new File(title + ".pdf"));
         } catch (IOException | COSVisitorException e) {
-            e.printStackTrace();
             //TODO
         }
+    }
+
+    public void printPrescription (IPrescription iPrescription){
+        PDDocument document = new PDDocument();
+        PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
+        PDRectangle rectangle = page1.getMediaBox();
+        document.addPage(page1);
+
+        PDFont fontPlain = PDType1Font.HELVETICA;
+        PDFont fontBold = PDType1Font.HELVETICA_BOLD;
+
+        int line = 0;
+
+        try {
+            PDPageContentStream stream = new PDPageContentStream(document, page1);
+
+            stream.beginText();
+            stream.setFont(fontBold, 14);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 50);
+            stream.drawString("Prescription:");
+            stream.endText();
+
+            IPatient iPatient = iPrescription.getPatient();
+
+            stream.beginText();
+            stream.setFont(fontPlain, 12);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.drawString(iPatient.getFirstName() + " " + iPatient.getLastName());
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.drawString(iPatient.getBirthDay().toString());
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.drawString(iPatient.getStreet());
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.drawString(iPatient.getPostalCode() + ", " + iPatient.getCity());
+            stream.endText();
+
+            for (IPrescriptionEntry entry :iPrescription.getPrescriptionEntries()){
+                stream.beginText();
+                stream.setFont(fontPlain, 12);
+                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                stream.endText();
+            }
+            stream.close();
+
+            document.save("prescription.pdf");
+            document.close();
+            Desktop.getDesktop().open(new File("prescription.pdf"));
+        } catch (IOException | COSVisitorException e) {
+            //TODO
+        }
+
     }
 }

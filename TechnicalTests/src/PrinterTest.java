@@ -7,7 +7,13 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.technical.printing.IPrinter;
+
+import java.util.LinkedList;
 
 import static org.junit.Assert.*;
 
@@ -23,9 +29,9 @@ public class PrinterTest implements IPrinter {
 
     }
 
-    @org.junit.Test
+    /*@org.junit.Test
     public void testPrint() throws Exception {
-        printer.print(
+        printer.print("title",
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n" +
                 "\n"     +
                 "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   \n" +
@@ -37,5 +43,18 @@ public class PrinterTest implements IPrinter {
                 "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.   \n" +
                 "\n" +
                 "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur");
+    }*/
+
+    @org.junit.Test
+    public void testPrintPrescription() throws Exception {
+        SearchPatientController searchPatientController = new SearchPatientController();
+        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Mustermann");
+        try {
+            LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
+            iPrescriptions.addAll(patients.getFirst().getPrescriptions());
+            printer.printPrescription(iPrescriptions.getFirst());
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        }
     }
 }
