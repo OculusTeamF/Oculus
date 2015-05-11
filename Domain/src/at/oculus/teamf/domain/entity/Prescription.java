@@ -19,8 +19,10 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
@@ -29,8 +31,13 @@ public class Prescription implements IPrescription, ILogger {
 	private int _id;
 	private Date _issueDate;
 	private Date _lastPrint;
-	private Patient _patient;
+	private IPatient _patient;
 	private Collection<PrescriptionEntry> _prescriptionEntries;
+
+    public Prescription(){
+        _issueDate = new Timestamp(new Date().getTime());
+        _prescriptionEntries = new LinkedList<PrescriptionEntry>();
+    }
 
 	public int getId() {
 		return _id;
@@ -60,9 +67,11 @@ public class Prescription implements IPrescription, ILogger {
 		return _patient;
 	}
 
-	public void setPatient(Patient patient) {
-		_patient = patient;
+	@Override
+	public void setPatient(IPatient iPatient) {
+			_patient = iPatient;
 	}
+
 
 	public Collection<IPrescriptionEntry> getPrescriptionEntries() {
 		return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;

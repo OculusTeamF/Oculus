@@ -9,20 +9,8 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
-
-import java.util.Collection;
-
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * IVisualAid.java Created by oculus on 11.05.15.
  */
-public interface IPrescription extends IDomain {
-
-    IPatient getPatient();
-
-    void setPatient(IPatient iPatient);
-
-	Collection<IPrescriptionEntry> getPrescriptionEntries();
-
-	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
+public interface IVisualAid extends IDomain {
 }

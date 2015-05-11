@@ -7,22 +7,19 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import static org.junit.Assert.*;
 
-import java.util.Collection;
+public class OpticalAidPrescriptionControllerTest {
 
-/**
- * Created by Simon Angerer on 08.05.2015.
- */
-public interface IPrescription extends IDomain {
+    @org.junit.Before
+    public void setUp() throws Exception {
 
-    IPatient getPatient();
+    }
 
-    void setPatient(IPatient iPatient);
+    @org.junit.After
+    public void tearDown() throws Exception {
 
-	Collection<IPrescriptionEntry> getPrescriptionEntries();
-
-	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
+    }
 }

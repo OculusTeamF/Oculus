@@ -43,6 +43,7 @@ public class Facade implements ILogger, IFacade{
     private ISessionBroker _sessionBroker;
 
     private Facade() {
+        log.debug("creating new facade");
 
         Collection<EntityBroker> entityBrokers = new LinkedList<>();
         entityBrokers.add(new CalendarBroker());
@@ -59,11 +60,14 @@ public class Facade implements ILogger, IFacade{
 	    entityBrokers.add(new MedicineBroker());
 	    entityBrokers.add(new PrescriptionEntryBroker());
 	    entityBrokers.add(new PrescriptionBroker());
+	    entityBrokers.add(new VisualAidBroker());
 
 	    init(entityBrokers);
     }
 
     private void init(Collection<EntityBroker> brokers) {
+        log.debug("init brokers in facade");
+
         _entityBrokers = new HashMap<>();
         Collection<Class> entityClazzes = new LinkedList<>();
 
@@ -98,6 +102,8 @@ public class Facade implements ILogger, IFacade{
      */
     public <T> T getById(Class clazz, int id)
 		    throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        log.debug("loading object with class " + clazz.getName() + " with id " + id);
+
 	    T object = null;
 
 	    try {
@@ -189,6 +195,7 @@ public class Facade implements ILogger, IFacade{
      * @throws NoBrokerMappedException
      */
     public boolean save(IDomain obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        log.debug("saving " + obj.getClass());
         boolean isSaved = false;
 
         try {
@@ -222,6 +229,7 @@ public class Facade implements ILogger, IFacade{
      * @throws InvalidSearchParameterException
      */
     public boolean delete(IDomain obj) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, DatabaseOperationException {
+        log.debug("deleting " + obj.getClass());
         boolean isDeleted = false;
 
         try {
@@ -257,6 +265,7 @@ public class Facade implements ILogger, IFacade{
      * @throws InvalidSearchParameterException
      */
     public <T> Collection<T> search(Class clazz, String... search) throws SearchInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, DatabaseOperationException {
+        log.debug("searching " + clazz.getName());
         Collection<T> searchResult = null;
 
         try {

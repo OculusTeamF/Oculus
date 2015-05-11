@@ -7,22 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
-
-import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
-
-import java.util.Collection;
+package at.oculus.teamf.domain.entity.exception;
 
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * Created by Simon Angerer on 11.05.2015.
  */
-public interface IPrescription extends IDomain {
-
-    IPatient getPatient();
-
-    void setPatient(IPatient iPatient);
-
-	Collection<IPrescriptionEntry> getPrescriptionEntries();
-
-	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
+public class CantLoadPatientsException extends Throwable {
 }

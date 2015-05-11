@@ -350,18 +350,21 @@ public class Patient implements IPatient, ILogger {
 	}
 
 	public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
-		try {
-            Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
-        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException  e) {
-            log.error(e.getMessage());
-            throw new CouldNotGetExaminationProtolException();
-        }
+
+		if(_examinationProtocol == null) {
+			try {
+				Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
+			} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+				log.error(e.getMessage());
+				throw new CouldNotGetExaminationProtolException();
+			}
+		}
 
         return (Collection<IExaminationProtocol>) (Collection<?>) _examinationProtocol;
     }
 
-    public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
-        _examinationProtocol = examinationProtocol;
+    public void setExaminationProtocol(Collection<IExaminationProtocol> examinationProtocol) {
+        _examinationProtocol = (Collection<ExaminationProtocol>) (Collection<?>) examinationProtocol;
     }
 
     //</editor-fold>
@@ -374,17 +377,17 @@ public class Patient implements IPatient, ILogger {
 	 * @throws NoBrokerMappedException
 	 * @throws CouldNotGetExaminationResultException
 	 */
-	public Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
+	public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
         Collection<IExaminationResult> examinationResults = null;
 
         try {
             examinationResults = Facade.getInstance().search(ExaminationResult.class, this.getId() + "");
-        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException  e) {
+        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException  e) {
             log.error(e.getMessage());
             throw new CouldNotGetExaminationResultException();
         }
 
-        return examinationResults;
+		return examinationResults;
     }
 
 	/**

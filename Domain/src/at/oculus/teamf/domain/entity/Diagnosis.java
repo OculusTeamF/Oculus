@@ -10,6 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.Facade;
@@ -33,6 +34,7 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 	private Integer _doctorId;
 	private Doctor _doctor;
 	private Collection<Medicine> _medicine;
+	private Collection<VisualAid> _visualAid;
 
 	public Diagnosis() {}
 
@@ -108,10 +110,39 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 	 * @throws BadConnectionException
 	 */
 	public void addMedicine(Medicine medicine)
-			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
+			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException,
+			       CouldNotGetMedicineException {
+		if (_medicine == null) {
+			getMedicine();
+		}
 		medicine.setDiagnosis(this);
 		_medicine.add(medicine);
 		Facade.getInstance().save(medicine);
+	}
+
+	public void addVisualAid(VisualAid visualAid)
+			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException,
+			       CouldNotGetVisualAidException {
+		if (_visualAid == null) {
+			getVisualAid();
+		}
+		visualAid.setDiagnosis(this);
+		_visualAid.add(visualAid);
+		Facade.getInstance().save(visualAid);
+	}
+
+	public Collection<VisualAid> getVisualAid() throws CouldNotGetVisualAidException {
+		try {
+			Facade.getInstance().reloadCollection(this, VisualAid.class);
+		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetVisualAidException();
+		}
+		return _visualAid;
+	}
+
+	public void setVisualAid(Collection<VisualAid> visualAid) {
+		_visualAid = visualAid;
 	}
 
 	@Override

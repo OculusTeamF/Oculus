@@ -49,6 +49,7 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         Doctor doctor = null;
         Orthoptist orthoptist = null;
+
         // TODO named query doctor und orthoptist
         if (examinationProtocolEntity.getUserId() > 0) {
             for (Object obj : Facade.getInstance().getAll(Doctor.class)) {

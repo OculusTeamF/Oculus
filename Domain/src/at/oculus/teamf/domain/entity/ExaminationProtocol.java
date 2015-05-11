@@ -131,12 +131,14 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
 
 	public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
 
-		try {
-			Facade.getInstance().reloadCollection(this, ExaminationResult.class);
-		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException  | ReloadInterfaceNotImplementedException e) {
-			log.error(e.getMessage());
-			throw new CouldNotGetExaminationResultException();
+		if(_results == null) {
+			try {
+				Facade.getInstance().reloadCollection(this, ExaminationResult.class);
+			} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException | ReloadInterfaceNotImplementedException e) {
+				log.error(e.getMessage());
+				throw new CouldNotGetExaminationResultException();
 
+			}
 		}
 
 		return (Collection<IExaminationResult>)(Collection<?>) _results;
