@@ -18,6 +18,8 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.presentation.view.models.TabModel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,6 +54,7 @@ public class PatientSearchController implements Initializable{
     @FXML private Button searchPatientButton;
 
     private Model _model = Model.getInstance();
+    private TabModel _tabmodel = TabModel.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,7 +76,7 @@ public class PatientSearchController implements Initializable{
 
                 if (event.getClickCount() == 2) {
                     _model.setPatient((IPatient) searchPatientList.getSelectionModel().getSelectedItem());
-                    _model.loadTab("PATIENT RECORD: " + _model.getPatient().getLastName(), "fxml/PatientRecordTab.fxml");
+                    _tabmodel.addPatientRecordTab(_model.getPatient());
                 }
             }
         });
@@ -91,7 +94,7 @@ public class PatientSearchController implements Initializable{
                 String firstName = searchPatientFirstname.getText();
                 String svn = searchPatientSVN.getText();
 
-                ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.searchPatients(svn, firstName, lastName));
+                ObservableList<IPatient> patientlist = FXCollections.observableList((List)_model.getSearchModel().searchPatients(svn, firstName, lastName));
 
                 if (patientlist.size() > 0) {
                     searchPatientList.setItems(patientlist);

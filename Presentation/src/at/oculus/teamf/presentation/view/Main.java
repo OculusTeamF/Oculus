@@ -10,6 +10,7 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.presentation.view.exceptions.InitLoadingException;
+import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.localization.ILocal;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.application.Application;

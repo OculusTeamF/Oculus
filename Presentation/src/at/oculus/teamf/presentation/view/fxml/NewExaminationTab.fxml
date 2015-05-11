@@ -9,6 +9,7 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="examinationPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.NewExaminationController">
+<AnchorPane fx:id="examinationPane" prefHeight="534.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.NewExaminationController">
    <children>
       <GridPane prefHeight="612.0" prefWidth="906.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
@@ -32,12 +33,11 @@
             <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="131.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="247.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="107.0" minHeight="40.0" prefHeight="104.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="111.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="115.0" minHeight="0.0" prefHeight="39.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Pane fx:id="colorPane8" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="5">
@@ -67,7 +67,7 @@
                <items>
                   <Button fx:id="saveProtocolButton" mnemonicParsing="false" onAction="#saveExaminationButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Save Examination" textAlignment="CENTER" />
                   <Button fx:id="addDiagnosisButton" mnemonicParsing="false" onAction="#addDiagnosisButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Add Diagnosis" textAlignment="CENTER" />
-                  <Button fx:id="prescriptionButton" mnemonicParsing="false" onAction="#addPrescriptionButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Prescription" textAlignment="CENTER" />
+                  <Button fx:id="prescriptionButton" mnemonicParsing="false" onAction="#addPrescriptionButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Prescriptions" textAlignment="CENTER" />
                </items></ToolBar>
             <Text fx:id="examinationLnameFnameSvn" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname, Firstname, svn" GridPane.rowIndex="1" />
             <Text fx:id="examinationCurrDate" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -77,18 +77,21 @@
                </GridPane.margin></Label>
             <Text fx:id="examinationCurrTime" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Time" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextArea fx:id="examinationDocumentation" prefHeight="111.0" prefWidth="302.0" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="5" />
-            <Label text=" Diagnoses:" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <Label text=" Diagnosis:" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
             </Label>
-            <ListView fx:id="diagnosesList" prefHeight="45.0" prefWidth="302.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
             <Label fx:id="diagnosisIdentity" text=" Diagnoses Details:" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
             </Label>
-            <TextArea fx:id="diagnosisDetails" editable="false" prefHeight="107.0" prefWidth="183.0" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.rowSpan="3" />
+            <TextArea fx:id="diagnosisDetails" editable="false" prefHeight="107.0" prefWidth="183.0" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.rowSpan="3">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor></TextArea>
+            <Label text=" No diagnosis set" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

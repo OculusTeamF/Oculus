@@ -9,24 +9,20 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -61,6 +57,11 @@ public class PrescriptionController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // load image resources for buttons
+        Image imagePrintIcon = new Image(getClass().getResourceAsStream("/res/icon_print.png"));
+        printButton.setGraphic(new ImageView(imagePrintIcon));
+
 
         _prescriptionType = FXCollections.observableArrayList("Medicin", "Visual Aid");
         choosePrescriptionBox.setItems(_prescriptionType);

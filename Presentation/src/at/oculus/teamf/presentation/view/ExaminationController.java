@@ -12,6 +12,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -77,18 +78,11 @@ public class ExaminationController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 1) {
                     loadSelectedExaminationData((IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem());
-
-                    IExaminationProtocol protocol = (IExaminationProtocol) examinationList.getSelectionModel().getSelectedItem();
-                    try {
-                        _results = FXCollections.observableArrayList(protocol.getExaminationResults());
-                    } catch (CouldNotGetExaminationResultException e) {
-                        e.printStackTrace();
-                        DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetExaminationResultException - Please contact support");
-                    }
-                    examinationResults.setItems(_results);
                 }
             }
         });
+
+        System.out.println(_model.getTabModel().getSelectedTab().getId());
     }
 
     private void getExaminationList(){
@@ -130,6 +124,7 @@ public class ExaminationController implements Initializable {
             e.printStackTrace();
         }
         examinationResults.setItems(results);
+        examinationResults.setDisable(false);
 
         // TODO fill into controls
         textExaminationDetails.setText("");
@@ -155,12 +150,12 @@ public class ExaminationController implements Initializable {
         }
 
         textExaminationDetails.setText(result.toString());
+        textExaminationDetails.setDisable(true);
     }
 
     @FXML
     public void addNewExaminationProtocol(ActionEvent actionEvent) {
-        Date date = new Date();
-        _model.loadTab("NEW EXAMINATION: " + _model.getPatient().getLastName() + " [" + date.toString()+"]" ,"fxml/NewExaminationTab.fxml");
+        _model.getTabModel().addNewExaminationTab(_model.getPatient());
     }
 
     // *******************************************************************
@@ -172,7 +167,7 @@ public class ExaminationController implements Initializable {
         @Override
         protected Void call() {
             // application layer acces for examination protocols loading
-            _protocolist = FXCollections.observableArrayList(_model.getAllExaminationProtcols(_model.getPatient()));
+            _protocolist = FXCollections.observableArrayList(_model.getExaminationModel().getAllExaminationProtcols(_model.getPatient()));
             return null;
         }
     };

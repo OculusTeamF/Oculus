@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.presentation.view.models.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,8 +43,7 @@ public class DiagnosisController implements Initializable {
 
     @FXML
     public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
-        //TODO save new examination entry / get correct logged in user
-        _model.addNewPatientDiagnosis(textDiagnosisTitle.getText(),textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser());
-        _model.closeSelectedTab();
+        //_model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(),textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser());
+        _model.getTabModel().closeSelectedTab();
     }
 }
