@@ -170,13 +170,7 @@ public class MainController implements Initializable, ILogger {
     /*Tab: opens the patient property (unused)*/
     @FXML
     public void openPatientProperty(ActionEvent event) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("../fxml/PatientProperty.fxml")));
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
+        //
     }
 
     // *******************************************************************
