@@ -7,11 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.exception;
 
 /**
- * IVisualAid.java Created by oculus on 11.05.15.
+ * CouldNotAddVisualAidException.java Created by oculus on 11.05.15.
  */
-public interface IVisualAid extends IDomain {
-    void setDiagnosis(IDiagnosis diagnosis);
+public class CouldNotAddVisualAidException extends Throwable {
 }

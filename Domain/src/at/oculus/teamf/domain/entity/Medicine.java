@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 
 /**
@@ -30,9 +31,10 @@ public class Medicine implements IMedicine {
 	public Diagnosis getDiagnosis() {
 		return _diagnosis;
 	}
-	public void setDiagnosis(Diagnosis diagnosis) {
-		_diagnosis = diagnosis;
-	}
+
+    public void setDiagnosis(IDiagnosis diagnosis) {
+        _diagnosis = (Diagnosis) diagnosis;
+    }
 
 	public String getName() {
 		return _name;
