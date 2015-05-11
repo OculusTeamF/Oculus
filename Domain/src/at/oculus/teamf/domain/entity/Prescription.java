@@ -31,7 +31,7 @@ public class Prescription implements IPrescription, ILogger {
 	private int _id;
 	private Date _issueDate;
 	private Date _lastPrint;
-	private Patient _patient;
+	private IPatient _patient;
 	private Collection<PrescriptionEntry> _prescriptionEntries;
 
     public Prescription(){
@@ -67,9 +67,11 @@ public class Prescription implements IPrescription, ILogger {
 		return _patient;
 	}
 
-    public void setPatient(IPatient patient) {
-        _patient = (Patient) patient;
-    }
+	@Override
+	public void setPatient(IPatient iPatient) {
+			_patient = iPatient;
+	}
+
 
 	public Collection<IPrescriptionEntry> getPrescriptionEntries() {
 		return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
@@ -118,6 +120,9 @@ public class Prescription implements IPrescription, ILogger {
 			return false;
 
 		Prescription that = (Prescription) o;
+
+		System.out.println(_issueDate.getTime() - that._issueDate.getTime());
+		System.out.println(_lastPrint.getTime() - that._lastPrint.getTime());
 
 		if (_id != that._id)
 			return false;
