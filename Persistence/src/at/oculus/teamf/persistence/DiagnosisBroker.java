@@ -18,6 +18,7 @@ import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -27,6 +28,7 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * diagnosis broker translating domain objects to persistence entities
@@ -95,12 +97,21 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 	 * @throws BadSessionException
 	 */
 	@Override
-    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException {
         if (params.length == 1) {
-            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
+            Collection<Object> diagnosisEntities = session.search("getAllDiagnosisOfPatient", params[0]);
+
+			Collection<Diagnosis> diagnosises = new LinkedList<>();
+			for(Object o : diagnosisEntities) {
+				diagnosises.add((Diagnosis) persistentToDomain((DiagnosisEntity)o));
+			}
+
+			return diagnosises;
+
         } else {
 	        return null;
         }
+
     }
 
 	/**
@@ -168,8 +179,8 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 	 * @throws SearchInterfaceNotImplementedException
 	 * @throws InvalidSearchParameterException
 	 */
-	private Collection<VisualAid> reloadVisualAid(ISession session, Object obj)
-			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+    private Collection<IVisualAid> reloadVisualAid(ISession session, Object obj)
+            throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("reloading visual aid");
 		ReloadComponent reloadComponent = new ReloadComponent(DiagnosisEntity.class, VisualAid.class);
