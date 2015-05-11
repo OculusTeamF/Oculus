@@ -6,6 +6,7 @@
       <root url="jar://$PROJECT_DIR$/Technical/lib/log4j-core-2.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/Technical/lib/log4j-api-2.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/Technical/lib/log4j-slf4j-impl-2.2.jar!/" />
+      <root url="jar://$USER_HOME$/pdfbox-app-1.8.9.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

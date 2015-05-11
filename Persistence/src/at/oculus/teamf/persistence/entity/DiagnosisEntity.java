@@ -33,6 +33,7 @@ public class DiagnosisEntity implements IEntity {
 	private Integer _doctorId;
 	private DoctorEntity _doctor;
 	private Collection<MedicineEntity> _medicine;
+	private Collection<VisualAidEntity> _visualAid;
 
 	public DiagnosisEntity() {	}
 
@@ -93,11 +94,18 @@ public class DiagnosisEntity implements IEntity {
 	public Collection<MedicineEntity> getMedicine() {
 		return _medicine;
 	}
-
 	public void setMedicine(Collection<MedicineEntity> medicine) {
 		_medicine = medicine;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagnosis")
+	public Collection<VisualAidEntity> getVisualAid() {
+		return _visualAid;
+	}
+
+	public void setVisualAid(Collection<VisualAidEntity> visualAid) {
+		_visualAid = visualAid;
+	}
 
 	@Override
 	public int hashCode() {

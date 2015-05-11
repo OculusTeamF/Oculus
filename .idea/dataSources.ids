@@ -1025,6 +1025,9 @@
     <table name="visualaid" schema="" catalog="oculus_f" type="TABLE">
       <column name="visualAidId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="diagnosisId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="description" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="issueDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="lastPrint" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="visualAidId"/>
       <foreign-key name="visualaid_ibfk_1" columns="diagnosisId" ref-table="diagnosis" ref-schema="" ref-catalog="oculus_f" ref-columns="diagnosisId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="visualAid_i1" unique="false" columns="diagnosisId"/>

@@ -47,5 +47,6 @@ public interface IDiagnosis extends IDomain {
 	Collection<Medicine> getMedicine() throws CouldNotGetMedicineException;
 
 	void addMedicine(Medicine medicine)
-			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException;
+			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException,
+			       CouldNotGetMedicineException;
 }
