@@ -27,7 +27,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -39,6 +38,9 @@ public class Printer {
 
     private static final int MAX_CHARACTERS_PER_LINE = 75;
     private static final int SPACING_LEFT = 80;
+    private static final int SPACING_TOP = 50;
+    private static final int SPACING_HEADER = 60;
+    private static final int LINE_HEIGHT = 20;
 
     private Printer() {
 
@@ -48,7 +50,7 @@ public class Printer {
         return printerInstance;
     }
 
-    public void print(String title, String text) {
+    public void print(String title, String text) throws IOException, COSVisitorException {
 
         PDDocument document = new PDDocument();
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
@@ -65,7 +67,7 @@ public class Printer {
 
             stream.beginText();
             stream.setFont(fontBold, 14);
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 50);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - SPACING_TOP);
             stream.drawString(title + ":");
             stream.endText();
 
@@ -86,7 +88,7 @@ public class Printer {
                 }
                 stream.beginText();
                 stream.setFont(fontPlain, 12);
-                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
                 stream.drawString(tobePrinted);
                 stream.endText();
 
@@ -98,15 +100,15 @@ public class Printer {
             }
             stream.close();
 
-            document.save(title + ".pdf");
+            document.save("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/" + title + ".pdf");
             document.close();
-            Desktop.getDesktop().open(new File(title + ".pdf"));
+            Desktop.getDesktop().open(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/" + title + ".pdf"));
         } catch (IOException | COSVisitorException e) {
-            //TODO
+            throw e;
         }
     }
 
-    public void printPrescription(IPrescription iPrescription) {
+    public void printPrescription(IPrescription iPrescription) throws COSVisitorException, IOException, CantGetPresciptionEntriesException {
         PDDocument document = new PDDocument();
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
         PDRectangle rectangle = page1.getMediaBox();
@@ -122,7 +124,7 @@ public class Printer {
 
             stream.beginText();
             stream.setFont(fontBold, 14);
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 50);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - SPACING_TOP);
             stream.drawString("Prescription:");
             stream.endText();
 
@@ -130,13 +132,13 @@ public class Printer {
 
             stream.beginText();
             stream.setFont(fontPlain, 12);
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
             stream.drawString(iPatient.getFirstName() + " " + iPatient.getLastName());
             stream.endText();
 
             stream.beginText();
             stream.setFont(fontPlain, 12);
-            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+            stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
             stream.drawString(iPatient.getBirthDay().toString());
             stream.endText();
 
@@ -144,13 +146,13 @@ public class Printer {
             if (iPrescription.getPrescriptionEntries().size() > 0) {
                 stream.beginText();
                 stream.setFont(fontBold, 14);
-                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
                 stream.drawString("Prescription Entries:");
                 stream.endText();
                 for (IPrescriptionEntry entry : iPrescription.getPrescriptionEntries()) {
                     stream.beginText();
                     stream.setFont(fontPlain, 12);
-                    stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - 20 * (++line) - 60);
+                    stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
                     stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
                     stream.endText();
                 }
@@ -163,15 +165,11 @@ public class Printer {
 
             stream.close();
 
-            document.save("prescription.pdf");
+            document.save("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf");
             document.close();
-            Desktop.getDesktop().open(new File("prescription.pdf"));
-        } catch (COSVisitorException e) {
-            e.printStackTrace();
-        } catch (CantGetPresciptionEntriesException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Desktop.getDesktop().open(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
+        } catch (COSVisitorException | CantGetPresciptionEntriesException | IOException e) {
+            throw e;
         }
     }
 }

@@ -56,11 +56,15 @@ public class PrescriptionEntryBroker extends EntityBroker {
 		PrescriptionEntryEntity prescriptionEntryEntity = (PrescriptionEntryEntity) entity;
 		PrescriptionEntry prescriptionEntry = new PrescriptionEntry();
 		prescriptionEntry.setId(prescriptionEntryEntity.getId());
-		prescriptionEntry.setMedicine((Medicine) Facade.getInstance().getBroker(Medicine.class)
-		                                               .persistentToDomain(prescriptionEntryEntity.getMedicine()));
-		prescriptionEntry.setPrescription((Prescription) Facade.getInstance().getBroker(Prescription.class)
-		                                                       .persistentToDomain(
-				                                                       prescriptionEntryEntity.getPrescription()));
+        if(prescriptionEntryEntity.getMedicine()!=null) {
+            prescriptionEntry.setMedicine((Medicine) Facade.getInstance().getBroker(Medicine.class)
+                    .persistentToDomain(prescriptionEntryEntity.getMedicine()));
+        }
+        if(prescriptionEntryEntity.getPrescription()!=null) {
+            prescriptionEntry.setPrescription((Prescription) Facade.getInstance().getBroker(Prescription.class)
+                    .persistentToDomain(
+                            prescriptionEntryEntity.getPrescription()));
+        }
 		return prescriptionEntry;
 	}
 
@@ -81,14 +85,19 @@ public class PrescriptionEntryBroker extends EntityBroker {
 		PrescriptionEntry prescriptionEntry = (PrescriptionEntry) obj;
 		PrescriptionEntryEntity prescriptionEntryEntity = new PrescriptionEntryEntity();
 		prescriptionEntryEntity.setId(prescriptionEntry.getId());
-		prescriptionEntryEntity.setMedicine((MedicineEntity) Facade.getInstance().getBroker(Medicine.class)
-		                                                           .domainToPersistent(
-				                                                           prescriptionEntry.getMedicine()));
-		prescriptionEntryEntity.setMedicineId(prescriptionEntry.getMedicine().getId());
-		prescriptionEntryEntity.setPrescription((PrescriptionEntity) Facade.getInstance().getBroker(Prescription.class)
-		                                                                   .domainToPersistent(prescriptionEntry
-				                                                                                       .getPrescription()));
-		prescriptionEntryEntity.setPrescriptionId(prescriptionEntry.getPrescription().getId());
+        if(prescriptionEntry.getMedicine()!=null) {
+            prescriptionEntryEntity.setMedicine((MedicineEntity) Facade.getInstance().getBroker(Medicine.class)
+                    .domainToPersistent(
+                            prescriptionEntry.getMedicine()));
+            prescriptionEntryEntity.setMedicineId(prescriptionEntry.getMedicine().getId());
+        }
+        if(prescriptionEntry
+                .getPrescription()!=null) {
+            prescriptionEntryEntity.setPrescription((PrescriptionEntity) Facade.getInstance().getBroker(Prescription.class)
+                    .domainToPersistent(prescriptionEntry
+                            .getPrescription()));
+            prescriptionEntryEntity.setPrescriptionId(prescriptionEntry.getPrescription().getId());
+        }
 		return prescriptionEntryEntity;
 	}
 }
