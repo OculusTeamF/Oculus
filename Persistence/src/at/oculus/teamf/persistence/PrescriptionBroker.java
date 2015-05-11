@@ -60,8 +60,8 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		PrescriptionEntity prescriptionEntity = (PrescriptionEntity) entity;
-		Prescription prescription = new Prescription();
-		prescription.setId(prescriptionEntity.getId());
+        Prescription prescription = new Prescription();
+        prescription.setId(prescriptionEntity.getId());
 		prescription.setPatient((Patient) Facade.getInstance().getBroker(Patient.class)
 		                                        .persistentToDomain(prescriptionEntity.getPatient()));
 		prescription.setIssueDate(prescriptionEntity.getIssueDate());
@@ -116,9 +116,9 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 			throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException,
 			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
 			       InvalidSearchParameterException {
-		if (clazz == PrescriptionEntry.class) {
-			((Prescription) obj).setPrescriptionEntries(reloadPrescriptionEntries(session, obj));
-		} else {
+        if (clazz == PrescriptionEntry.class) {
+            ((Prescription) obj).setPrescriptionEntries(reloadPrescriptionEntries(session, obj));
+        } else {
 			throw new InvalidReloadClassException();
 		}
 	}

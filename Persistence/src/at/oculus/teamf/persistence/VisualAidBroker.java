@@ -66,8 +66,12 @@ public class VisualAidBroker extends EntityBroker implements ISearch {
 		visualAidEntity.setDiagnosis((DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
 		                                                     .domainToPersistent(visualAid.getDiagnosis()));
 		visualAidEntity.setDescription(visualAid.getDescription());
-		visualAidEntity.setIssueDate(new Timestamp(visualAid.getIssueDate().getTime()));
-		visualAidEntity.setLastPrint(new Timestamp(visualAid.getLastPrint().getTime()));
+        if (visualAid.getIssueDate() != null) {
+            visualAidEntity.setIssueDate(new Timestamp(visualAid.getIssueDate().getTime()));
+        }
+        if (visualAid.getLastPrint() != null) {
+            visualAidEntity.setLastPrint(new Timestamp(visualAid.getLastPrint().getTime()));
+        }
 
 		return visualAidEntity;
 	}

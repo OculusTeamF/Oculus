@@ -80,7 +80,6 @@ public class PrescriptionEntity implements IEntity {
 	public Collection<PrescriptionEntryEntity> getPrescriptionEntries() {
 		return _prescriptionEntries;
 	}
-
 	public void setPrescriptionEntries(Collection<PrescriptionEntryEntity> prescriptionEntries) {
 		_prescriptionEntries = prescriptionEntries;
 	}

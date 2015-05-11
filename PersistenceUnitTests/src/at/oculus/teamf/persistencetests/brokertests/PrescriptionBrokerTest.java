@@ -9,13 +9,16 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.Prescription;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Date;
@@ -84,4 +87,17 @@ public class PrescriptionBrokerTest extends BrokerTest {
 		}
 		assertTrue(prescriptions.size() > 0);
 	}
+
+    @Test
+    public void testReload() {
+        Prescription prescription = null;
+        Collection<IPrescriptionEntry> prescriptionEntries = null;
+        try {
+            prescription = Facade.getInstance().getById(Prescription.class, 1);
+            prescriptionEntries = prescription.getPrescriptionEntries();
+        } catch (BadConnectionException | NoBrokerMappedException | CantGetPresciptionEntriesException | DatabaseOperationException e) {
+            e.printStackTrace();
+        }
+        assertTrue(prescriptionEntries.size() > 0);
+    }
 }

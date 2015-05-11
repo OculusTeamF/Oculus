@@ -92,10 +92,12 @@ public class VisualAid implements IVisualAid {
 			return false;
 		if (_diagnosis != null ? !_diagnosis.equals(visualAid._diagnosis) : visualAid._diagnosis != null)
 			return false;
-		if (_issueDate != null ? !_issueDate.equals(visualAid._issueDate) : visualAid._issueDate != null)
-			return false;
-		if (_lastPrint != null ? !_lastPrint.equals(visualAid._lastPrint) : visualAid._lastPrint != null)
-			return false;
+        if (_issueDate != null ? !((_issueDate.getTime() - visualAid._issueDate.getTime()) > -1000 &&
+                (_issueDate.getTime() - visualAid._issueDate.getTime()) < 1000) : visualAid._issueDate != null)
+            return false;
+        if (_lastPrint != null ? !((_lastPrint.getTime() - visualAid._lastPrint.getTime()) > -1000 &&
+                (_lastPrint.getTime() - visualAid._lastPrint.getTime()) < 1000) : visualAid._lastPrint != null)
+            return false;
 
 		return true;
 	}
