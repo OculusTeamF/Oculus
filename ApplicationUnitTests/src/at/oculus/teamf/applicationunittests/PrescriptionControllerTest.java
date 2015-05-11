@@ -15,11 +15,27 @@ public class PrescriptionControllerTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-
+        //TODO implement setUP in PrescriptionControllerTest
     }
 
     @org.junit.After
     public void tearDown() throws Exception {
-
+        //TODO implement tearDown in PrescriptionControllerTest
     }
+
+    @org.junit.Test
+    public void testCreatePrescriptionEntry() throws Exception {
+        //TODO implement testCreatePrescriptionEntry in PrescriptionControllerTest
+    }
+
+    @org.junit.Test
+    public void testGetAllPrescribedMedicines() throws Exception {
+        //TODO implement testGetAllPrescribedMedicines in PrescriptionControllerTest
+    }
+
+    @org.junit.Test
+    public void testPrintPrescription() throws Exception {
+        //TODO implement testPrintPrescription in PrescriptionControllerTest
+    }
+
 }

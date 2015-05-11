@@ -58,6 +58,18 @@ public class PrescriptionController implements ILogger {
         return entry;
     }
 
+    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException {
+        for(IMedicine medicine : medicines){
+            try {
+                createPrescriptionEntry(medicine);
+            } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
+                log.error("Could nor add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
+                throw couldNotAddPrescriptionEntryException;
+            }
+        }
+        return iPrescription;
+    }
+
     public Collection<IMedicine> getAllPrescribedMedicines(){
         Collection<IMedicine> medicines = new LinkedList<IMedicine>();
         try {
