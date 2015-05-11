@@ -13,5 +13,5 @@ package at.oculus.teamf.technical.printing;
  * Created by oculus on 11.05.15.
  */
 public interface IPrinter {
-    //final static Printer printer = Printer.getInstance();
+    final static Printer printer = Printer.getInstance();
 }

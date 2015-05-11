@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.technical.printing;
 
+import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
@@ -140,7 +141,7 @@ public class Printer {
             document.save("prescription.pdf");
             document.close();
             Desktop.getDesktop().open(new File("prescription.pdf"));
-        } catch (IOException | COSVisitorException e) {
+        } catch (IOException | COSVisitorException | CantGetPresciptionEntriesException e) {
             //TODO
         }
 

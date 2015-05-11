@@ -11,6 +11,7 @@ import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.util.LinkedList;
@@ -29,7 +30,7 @@ public class PrinterTest implements IPrinter {
 
     }
 
-    /*@org.junit.Test
+    @org.junit.Test
     public void testPrint() throws Exception {
         printer.print("title",
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n" +
@@ -43,18 +44,22 @@ public class PrinterTest implements IPrinter {
                 "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.   \n" +
                 "\n" +
                 "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur");
-    }*/
+    }
 
     @org.junit.Test
     public void testPrintPrescription() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
-        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Mustermann");
+        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Stone");
         try {
             LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
             iPrescriptions.addAll(patients.getFirst().getPrescriptions());
+            for (IPrescriptionEntry entry : iPrescriptions.getFirst().getPrescriptionEntries()){
+                System.out.println(entry.getMedicine());
+            }
             printer.printPrescription(iPrescriptions.getFirst());
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
         }
+
     }
 }

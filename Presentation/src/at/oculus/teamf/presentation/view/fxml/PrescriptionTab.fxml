@@ -47,7 +47,7 @@
                <items>
                   <Label text="Choose Prescription:" />
                   <ComboBox fx:id="choosePrescriptionBox" prefHeight="31.0" prefWidth="150.0" />
-                  <Button fx:id="printButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
+                  <Button fx:id="printButton" mnemonicParsing="false" onAction="#doPrint" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
                </items></ToolBar>
             <StackPane fx:id="prescriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="9">
                <children>
