@@ -9,12 +9,79 @@
 
 package at.oculus.teamf.persistence.entity;
 
+import javax.persistence.*;
+
 /**
- * MedicineEntity.java
- * Created by oculus on 06.05.15.
+ * MedicineEntity.java Created by oculus on 06.05.15.
  */
-public class MedicineEntity {
-    private int _id;
-    private Integer _diagnosisId;
-    private DiagnosisEntity _diagnosis;
+
+@Entity
+@Table(name = "medicine", schema = "", catalog = "oculus_f")
+@NamedNativeQueries({@NamedNativeQuery(
+		name = "getMedicineByPatientId",
+		query = "SELECT m.* " +
+		        "FROM medicine m, examinationprotocol e " +
+		        "WHERE m.diagnosisId = e.diagnosisId " +
+		        "AND e.patientId = ?0",
+		resultClass = MedicineEntity.class)})
+public class MedicineEntity implements IEntity {
+	private int _id;
+	private Integer _diagnosisId;
+	private DiagnosisEntity _diagnosis;
+	private String _name;
+	private String _dose;
+
+	public MedicineEntity() {
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "medicineId", nullable = false, insertable = false, updatable = false)
+	public int getId() {
+		return _id;
+	}
+
+	public void setId(int _id) {
+		this._id = _id;
+	}
+
+	@Basic
+	@Column(name = "diagnosisId", nullable = true, insertable = false, updatable = false)
+	public Integer getDiagnosisId() {
+		return _diagnosisId;
+	}
+
+	public void setDiagnosisId(Integer _diagnosisId) {
+		this._diagnosisId = _diagnosisId;
+	}
+
+	@Basic
+	@Column(name = "name", nullable = false, insertable = true, updatable = true)
+	public String getName() {
+		return _name;
+	}
+
+	public void setName(String name) {
+		_name = name;
+	}
+
+	@Basic
+	@Column(name = "dose", nullable = true, insertable = true, updatable = true)
+	public String getDose() {
+		return _dose;
+	}
+
+	public void setDose(String dose) {
+		_dose = dose;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "diagnosisId", referencedColumnName = "diagnosisId")
+	public DiagnosisEntity getDiagnosis() {
+		return _diagnosis;
+	}
+
+	public void setDiagnosis(DiagnosisEntity diagnosis) {
+		_diagnosis = diagnosis;
+	}
 }

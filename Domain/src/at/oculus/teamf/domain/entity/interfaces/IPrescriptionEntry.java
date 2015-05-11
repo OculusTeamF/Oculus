@@ -9,16 +9,16 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.Prescription;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
  */
-public interface IPrescriptionEntry {
+public interface IPrescriptionEntry extends IDomain {
 
     Prescription getPrescription();
 
-    void setMedince();
-
     IMedicine getMedicine();
+
+	void setMedicine(IMedicine medicine);
 }

@@ -9,7 +9,16 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 
@@ -17,12 +26,13 @@ import java.util.Collection;
  * Diagnosis.java
  * Created by oculus on 16.04.15.
  */
-public class Diagnosis implements IDiagnosis {
+public class Diagnosis implements IDiagnosis, IDomain, ILogger {
     private int _id;
     private String _title;
     private String _description;
 	private Integer _doctorId;
 	private Doctor _doctor;
+	private Collection<Medicine> _medicine;
 
 	public Diagnosis() {}
 
@@ -42,38 +52,30 @@ public class Diagnosis implements IDiagnosis {
 		_id = id;
 	}
 
-	@Override
     public String getTitle() {
 		return _title;
 	}
-	@Override
     public void setTitle(String title) {
 		_title = title;
 	}
 
-	@Override
     public String getDescription() {
 		return _description;
 	}
-	@Override
     public void setDescription(String description) {
 		_description = description;
 	}
 
-	@Override
     public Integer getDoctorId() {
 		return _doctorId;
 	}
-	@Override
     public void setDoctorId(Integer doctorId) {
 		_doctorId = doctorId;
 	}
 
-	@Override
     public Doctor getDoctor() {
 		return _doctor;
 	}
-	@Override
     public void setDoctor(Doctor doctor) {
 		_doctor = doctor;
 		if(doctor!=null) {
@@ -81,15 +83,71 @@ public class Diagnosis implements IDiagnosis {
 		}
 	}
 
-	@Override
-	public Collection<Medicine> getAllMedicines() {
-		//Todo: implement
-		return null;
+	public Collection<Medicine> getMedicine() throws CouldNotGetMedicineException {
+		try {
+			Facade.getInstance().reloadCollection(this, Medicine.class);
+		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetMedicineException();
+		}
+		return _medicine;
+	}
+
+	public void setMedicine(Collection<Medicine> medicine) {
+		_medicine = medicine;
+	}
+
+	/**
+	 * add medicine to diagnosis
+	 *
+	 * @param medicine
+	 * 		medicine to add
+	 *
+	 * @throws DatabaseOperationException
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 */
+	public void addMedicine(Medicine medicine)
+			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
+		medicine.setDiagnosis(this);
+		_medicine.add(medicine);
+		Facade.getInstance().save(medicine);
 	}
 
 	@Override
-	public void addMedicine(Medicine medicine) {
-		//Todo: implement
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_title != null ? _title.hashCode() : 0);
+		result = 31 * result + (_description != null ? _description.hashCode() : 0);
+		result = 31 * result + (_doctorId != null ? _doctorId.hashCode() : 0);
+		result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+		result = 31 * result + (_medicine != null ? _medicine.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Diagnosis))
+			return false;
+
+		Diagnosis diagnosis = (Diagnosis) o;
+
+		if (_id != diagnosis._id)
+			return false;
+		if (_description != null ? !_description.equals(diagnosis._description) : diagnosis._description != null)
+			return false;
+		if (_doctor != null ? !_doctor.equals(diagnosis._doctor) : diagnosis._doctor != null)
+			return false;
+		if (_doctorId != null ? !_doctorId.equals(diagnosis._doctorId) : diagnosis._doctorId != null)
+			return false;
+		if (_medicine != null ? !_medicine.equals(diagnosis._medicine) : diagnosis._medicine != null)
+			return false;
+		if (_title != null ? !_title.equals(diagnosis._title) : diagnosis._title != null)
+			return false;
+
+		return true;
 	}
 
 	@Override

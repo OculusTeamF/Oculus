@@ -915,6 +915,7 @@
       <column name="prescriptionId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="patientId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="issueDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <column name="lastPrint" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="prescriptionId"/>
       <foreign-key name="prescription_ibfk_1" columns="patientId" ref-table="patient" ref-schema="" ref-catalog="oculus_f" ref-columns="patientId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="prescriptionentry_ibfk_1" table="prescriptionentry" schema="" catalog="oculus_f" columns="prescriptionId"/>

@@ -15,8 +15,6 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
@@ -27,8 +25,8 @@ import java.util.Collection;
  * Created by oculus on 08.05.15.
  */
 public interface IFacade {
-    public static IFacade getInstance();
-    public <T> T getById(Class clazz, int id) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException;
+	//public static IFacade getInstance();
+	public <T> T getById(Class clazz, int id) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException;
     public <T> Collection<T> getAll(Class clazz) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException;
     //public void reloadCollection(IDomain obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, DatabaseOperationException;
     public boolean save(IDomain obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException;

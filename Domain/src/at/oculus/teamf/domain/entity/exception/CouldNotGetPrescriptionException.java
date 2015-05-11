@@ -7,13 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
-
-import at.oculus.teamf.domain.entity.Diagnosis;
+package at.oculus.teamf.domain.entity.exception;
 
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * CouldNotGetPrescriptionException.java Created by oculus on 09.05.15.
  */
-public interface IMedicine extends IDomain {
-    Diagnosis getDiagnosis();
+public class CouldNotGetPrescriptionException extends Throwable {
 }

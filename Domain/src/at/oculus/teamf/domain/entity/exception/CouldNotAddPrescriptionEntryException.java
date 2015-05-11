@@ -7,16 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
-
-import at.oculus.teamf.domain.entity.PrescriptionEntry;
-
-import java.util.Collection;
+package at.oculus.teamf.domain.entity.exception;
 
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * CouldNotAddPrescriptionEntryException.java Created by oculus on 08.05.15.
  */
-public class Prescription {
-
-
+public class CouldNotAddPrescriptionEntryException extends Throwable {
 }

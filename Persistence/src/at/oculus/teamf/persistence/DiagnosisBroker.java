@@ -14,22 +14,26 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.DiagnosisEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
+import at.oculus.teamf.persistence.entity.MedicineEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
 
 /**
  * diagnosis broker translating domain objects to persistence entities
  */
-public class DiagnosisBroker extends EntityBroker implements ISearch {
+public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectionReload {
     public DiagnosisBroker() {
         super(Diagnosis.class, DiagnosisEntity.class);
         addDomainClass(IDiagnosis.class);
@@ -77,12 +81,81 @@ public class DiagnosisBroker extends EntityBroker implements ISearch {
         return new DiagnosisEntity(diagnosis.getId(), diagnosis.getTitle(), diagnosis.getDescription(), doctorEntity);
     }
 
-    @Override
+	/**
+	 * search diagnoses
+	 *
+	 * @param session
+	 * 		to be used
+	 * @param params
+	 * 		in order (patientId)
+	 *
+	 * @return
+	 *
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidSearchParameterException
+	 * @throws BadSessionException
+	 */
+	@Override
     public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
         if (params.length == 1) {
             return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
         } else {
-            return null;
+	        return null;
         }
     }
+
+	/**
+	 * reload collection of diagnosis
+	 * @param session to be used
+	 * @param obj diagnosis
+	 * @param clazz to be reloaded
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidReloadClassException
+	 * @throws BadSessionException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
+	@Override
+	public void reload(ISession session, Object obj, Class clazz)
+			throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, BadSessionException,
+			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
+			       InvalidSearchParameterException {
+		if (clazz == Medicine.class) {
+			((Diagnosis) obj).setMedicine(reloadMedicine(session, obj));
+		} else {
+			throw new InvalidReloadClassException();
+		}
+	}
+
+	/**
+	 * reload medicine of diagnosis
+	 * @param session to be used
+	 * @param obj diagnosis
+	 * @return medicine collection
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
+	private Collection<Medicine> reloadMedicine(ISession session, Object obj)
+			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		log.debug("reloading medicine");
+		ReloadComponent reloadComponent = new ReloadComponent(DiagnosisEntity.class, Medicine.class);
+		return reloadComponent.reloadCollection(session, ((Diagnosis) obj).getId(), new MedicineLoader());
+	}
+
+	private class MedicineLoader implements ICollectionLoader<MedicineEntity> {
+
+		@Override
+		public Collection<MedicineEntity> load(Object databaseEntity) {
+			return ((DiagnosisEntity) databaseEntity).getMedicine();
+		}
+	}
 }

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -22,8 +21,8 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.util.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -32,7 +31,7 @@ import java.util.LinkedList;
  * @date 03.4.2015
  */
 //Todo: Proxy, Remove Facade calls and extend broker
-public class Patient implements IPatient, IDomain, ILogger {
+public class Patient implements IPatient, ILogger {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -53,6 +52,7 @@ public class Patient implements IPatient, IDomain, ILogger {
     private String _childhoodAilments;
     private String _medicineIntolerance;
     private Collection<ExaminationProtocol> _examinationProtocol;
+	private Collection<Prescription> _prescriptions;
 
     //private EntityBroker eb;
 
@@ -65,29 +65,152 @@ public class Patient implements IPatient, IDomain, ILogger {
 
     //<editor-fold desc="Getter/Setter">
 
-    public int getId() {
+	public Doctor getDoctor() {
+		return _doctor;
+	}
 
-        return _id;
+	public void setDoctor(Doctor doctor) {
+		_doctor = doctor;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
+		result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
+		result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
+		result = 31 * result + (_socialInsuranceNr != null ? _socialInsuranceNr.hashCode() : 0);
+		result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+		result = 31 * result + (_calendarEvents != null ? _calendarEvents.hashCode() : 0);
+		result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
+		result = 31 * result + (_street != null ? _street.hashCode() : 0);
+		result = 31 * result + (_postalCode != null ? _postalCode.hashCode() : 0);
+		result = 31 * result + (_city != null ? _city.hashCode() : 0);
+		result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
+		result = 31 * result + (_phone != null ? _phone.hashCode() : 0);
+		result = 31 * result + (_email != null ? _email.hashCode() : 0);
+		result = 31 * result + (_allergy != null ? _allergy.hashCode() : 0);
+		result = 31 * result + (_childhoodAilments != null ? _childhoodAilments.hashCode() : 0);
+		result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
+		result = 31 * result + (_examinationProtocol != null ? _examinationProtocol.hashCode() : 0);
+		return result;
+	}
+
+	public void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
+		log.debug("adding examination protocol to patient " + this);
+		examinationProtocol.setPatient(this);
+		if (_examinationProtocol == null) {
+			_examinationProtocol = new LinkedList<ExaminationProtocol>();
+		}
+		_examinationProtocol.add((ExaminationProtocol) examinationProtocol);
+		try {
+			Facade.getInstance().save(examinationProtocol);
+		} catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotAddExaminationProtocol();
+		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Patient))
+			return false;
+
+		Patient patient = (Patient) o;
+
+		if (_id != patient._id)
+			return false;
+		if (_allergy != null ? !_allergy.equals(patient._allergy) : patient._allergy != null)
+			return false;
+		if (_birthDay != null ? !_birthDay.equals(patient._birthDay) : patient._birthDay != null)
+			return false;
+		if (_calendarEvents != null ? !_calendarEvents.equals(patient._calendarEvents) :
+		    patient._calendarEvents != null)
+			return false;
+		if (_childhoodAilments != null ? !_childhoodAilments.equals(patient._childhoodAilments) :
+		    patient._childhoodAilments != null)
+			return false;
+		if (_city != null ? !_city.equals(patient._city) : patient._city != null)
+			return false;
+		if (_countryIsoCode != null ? !_countryIsoCode.equals(patient._countryIsoCode) :
+		    patient._countryIsoCode != null)
+			return false;
+		if (_doctor != null ? !_doctor.equals(patient._doctor) : patient._doctor != null)
+			return false;
+		if (_email != null ? !_email.equals(patient._email) : patient._email != null)
+			return false;
+		if (_examinationProtocol != null ? !_examinationProtocol.equals(patient._examinationProtocol) :
+		    patient._examinationProtocol != null)
+			return false;
+		if (_firstName != null ? !_firstName.equals(patient._firstName) : patient._firstName != null)
+			return false;
+		if (_gender != patient._gender)
+			return false;
+		if (_lastName != null ? !_lastName.equals(patient._lastName) : patient._lastName != null)
+			return false;
+		if (_medicineIntolerance != null ? !_medicineIntolerance.equals(patient._medicineIntolerance) :
+		    patient._medicineIntolerance != null)
+			return false;
+		if (_phone != null ? !_phone.equals(patient._phone) : patient._phone != null)
+			return false;
+		if (_postalCode != null ? !_postalCode.equals(patient._postalCode) : patient._postalCode != null)
+			return false;
+		if (_socialInsuranceNr != null ? !_socialInsuranceNr.equals(patient._socialInsuranceNr) :
+		    patient._socialInsuranceNr != null)
+			return false;
+		if (_street != null ? !_street.equals(patient._street) : patient._street != null)
+			return false;
+
+		return true;
+	}
+
+	public int getId() {
+
+		return _id;
+	}
+
+	@Override
+	public String toString() {
+		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
+	}
+
+	public void addPrescription(IPrescription prescription) throws CouldNotAddPrescriptionException {
+		Prescription p = (Prescription) prescription;
+		p.setPatient(this);
+		try {
+			Facade.getInstance().save(p);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			log.error(e.getMessage());
+			throw new CouldNotAddPrescriptionException();
+		}
+		_prescriptions.add(p);
+	}
+
+
+	public void setId(int id) {
+		_id = id;
+	}
+
+
+
+
+
+	public String getFirstName() {
+		return _firstName;
     }
 
-    public void setId(int id) {
-        _id = id;
+	public void setFirstName(String firstName) {
+		_firstName = firstName;
     }
 
-    public String getFirstName() {
-        return _firstName;
+	public String getLastName() {
+		return _lastName;
     }
 
-    public void setFirstName(String firstName) {
-        _firstName = firstName;
-    }
-
-    public String getLastName() {
-        return _lastName;
-    }
-
-    public Patient setLastName(String lastName) {
-        _lastName = lastName;
+	public Patient setLastName(String lastName) {
+		_lastName = lastName;
         return this;
     }
 
@@ -107,15 +230,8 @@ public class Patient implements IPatient, IDomain, ILogger {
         _gender = gender;
     }
 
-    public Doctor getDoctor() {
-        return _doctor;
-    }
 
-    public void setDoctor(Doctor doctor) {
-        _doctor = doctor;
-    }
-
-    public Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
+	public Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
 
         try {
             Facade.getInstance().reloadCollection(this, CalendarEvent.class);
@@ -229,8 +345,12 @@ public class Patient implements IPatient, IDomain, ILogger {
         _medicineIntolerance = medicineIntolerance;
     }
 
-    public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
-        try {
+	public void setPrescriptions(Collection<Prescription> prescriptions) {
+		_prescriptions = prescriptions;
+	}
+
+	public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
+		try {
             Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
         } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException  e) {
             log.error(e.getMessage());
@@ -240,17 +360,21 @@ public class Patient implements IPatient, IDomain, ILogger {
         return (Collection<IExaminationProtocol>) (Collection<?>) _examinationProtocol;
     }
 
-    @Override
-    public void addExaminationProtocol(IExaminationProtocol examinationProtocol) {
-    }
-
     public void setExaminationProtocol(Collection<ExaminationProtocol> examinationProtocol) {
         _examinationProtocol = examinationProtocol;
     }
 
     //</editor-fold>
 
-    public Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
+	/**
+	 * get all examination results
+	 *
+	 * @return ExaminationResult Collection
+	 *
+	 * @throws NoBrokerMappedException
+	 * @throws CouldNotGetExaminationResultException
+	 */
+	public Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException {
         Collection<IExaminationResult> examinationResults = null;
 
         try {
@@ -263,13 +387,28 @@ public class Patient implements IPatient, IDomain, ILogger {
         return examinationResults;
     }
 
-    @Override
-    public Collection<IPrescription> getPrescriptions() {
-        //Todo: implement
-        return null;
-    }
+	/**
+	 * get all prescriptions
+	 * @return Prescription Collection
+	 * @throws CouldNotGetPrescriptionException
+	 */
+	public Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException {
+		try {
+			Facade.getInstance().reloadCollection(this, Prescription.class);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidReloadClassException | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetPrescriptionException();
+		}
 
-    public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
+		return (Collection<IPrescription>) (Collection<?>) _prescriptions;
+	}
+
+	/**
+	 * get all diagnoses
+	 * @return Diagnose Collection
+	 * @throws CouldNotGetDiagnoseException
+	 */
+	public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
         Collection<IDiagnosis> diagnoses = null;
         try {
             diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
@@ -278,104 +417,26 @@ public class Patient implements IPatient, IDomain, ILogger {
             throw new CouldNotGetDiagnoseException();
         }
 
-        return (Collection<IDiagnosis>)(Collection<?>)diagnoses;
+	    return diagnoses;
     }
 
-    @Override
-    public String toString() {
-        return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
-    }
+	/**
+	 * get all medicine
+	 * @return Medicine Collection
+	 * @throws CouldNotGetMedicineException
+	 */
+	public Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException {
+		Collection<IMedicine> medicine = null;
 
-    public void addExaminationProtocol(ExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
-        log.debug("adding examination protocol to patient " + this);
-        examinationProtocol.setPatient(this);
-        if (_examinationProtocol == null){
-            _examinationProtocol = new LinkedList<ExaminationProtocol>();
-        }
-        _examinationProtocol.add(examinationProtocol);
-        try {
-            Facade.getInstance().save(examinationProtocol);
-        } catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
-            log.error(e.getMessage());
-            throw new CouldNotAddExaminationProtocol();
-        }
-    }
+		try {
+			medicine = Facade.getInstance().search(Medicine.class, this.getId() + "");
+		} catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetMedicineException();
+		}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Patient))
-            return false;
+		return medicine;
+	}
 
-        Patient patient = (Patient) o;
 
-        if (_id != patient._id)
-            return false;
-        if (_allergy != null ? !_allergy.equals(patient._allergy) : patient._allergy != null)
-            return false;
-        if (_birthDay != null ? !_birthDay.equals(patient._birthDay) : patient._birthDay != null)
-            return false;
-        if (_calendarEvents != null ? !_calendarEvents.equals(patient._calendarEvents) :
-                patient._calendarEvents != null)
-            return false;
-        if (_childhoodAilments != null ? !_childhoodAilments.equals(patient._childhoodAilments) :
-                patient._childhoodAilments != null)
-            return false;
-        if (_city != null ? !_city.equals(patient._city) : patient._city != null)
-            return false;
-        if (_countryIsoCode != null ? !_countryIsoCode.equals(patient._countryIsoCode) :
-                patient._countryIsoCode != null)
-            return false;
-        if (_doctor != null ? !_doctor.equals(patient._doctor) : patient._doctor != null)
-            return false;
-        if (_email != null ? !_email.equals(patient._email) : patient._email != null)
-            return false;
-        if (_examinationProtocol != null ? !_examinationProtocol.equals(patient._examinationProtocol) :
-                patient._examinationProtocol != null)
-            return false;
-        if (_firstName != null ? !_firstName.equals(patient._firstName) : patient._firstName != null)
-            return false;
-        if (_gender != patient._gender)
-            return false;
-        if (_lastName != null ? !_lastName.equals(patient._lastName) : patient._lastName != null)
-            return false;
-        if (_medicineIntolerance != null ? !_medicineIntolerance.equals(patient._medicineIntolerance) :
-                patient._medicineIntolerance != null)
-            return false;
-        if (_phone != null ? !_phone.equals(patient._phone) : patient._phone != null)
-            return false;
-        if (_postalCode != null ? !_postalCode.equals(patient._postalCode) : patient._postalCode != null)
-            return false;
-        if (_socialInsuranceNr != null ? !_socialInsuranceNr.equals(patient._socialInsuranceNr) :
-                patient._socialInsuranceNr != null)
-            return false;
-        if (_street != null ? !_street.equals(patient._street) : patient._street != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = _id;
-        result = 31 * result + (_firstName != null ? _firstName.hashCode() : 0);
-        result = 31 * result + (_lastName != null ? _lastName.hashCode() : 0);
-        result = 31 * result + (_gender != null ? _gender.hashCode() : 0);
-        result = 31 * result + (_socialInsuranceNr != null ? _socialInsuranceNr.hashCode() : 0);
-        result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
-        result = 31 * result + (_calendarEvents != null ? _calendarEvents.hashCode() : 0);
-        result = 31 * result + (_birthDay != null ? _birthDay.hashCode() : 0);
-        result = 31 * result + (_street != null ? _street.hashCode() : 0);
-        result = 31 * result + (_postalCode != null ? _postalCode.hashCode() : 0);
-        result = 31 * result + (_city != null ? _city.hashCode() : 0);
-        result = 31 * result + (_countryIsoCode != null ? _countryIsoCode.hashCode() : 0);
-        result = 31 * result + (_phone != null ? _phone.hashCode() : 0);
-        result = 31 * result + (_email != null ? _email.hashCode() : 0);
-        result = 31 * result + (_allergy != null ? _allergy.hashCode() : 0);
-        result = 31 * result + (_childhoodAilments != null ? _childhoodAilments.hashCode() : 0);
-        result = 31 * result + (_medicineIntolerance != null ? _medicineIntolerance.hashCode() : 0);
-        result = 31 * result + (_examinationProtocol != null ? _examinationProtocol.hashCode() : 0);
-        return result;
-    }
 }

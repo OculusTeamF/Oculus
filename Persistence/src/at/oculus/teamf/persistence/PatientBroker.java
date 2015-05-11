@@ -13,10 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.persistence.entity.CalendarEventEntity;
-import at.oculus.teamf.persistence.entity.DoctorEntity;
-import at.oculus.teamf.persistence.entity.ExaminationProtocolEntity;
-import at.oculus.teamf.persistence.entity.PatientEntity;
+import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -26,10 +23,8 @@ import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplemente
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Objects;
 
 /**
  * patient broker translating domain objects to persistence entities
@@ -40,131 +35,75 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
         super(Patient.class, PatientEntity.class);
     }
 
-    /**
-     * converts a persitency entity to a domain object
-     *
-     * @param entity that needs to be converted
-     * @return domain object that is created from entity
-     * @throws NoBrokerMappedException
-     * @throws BadConnectionException
-     */
-    @Override
-    protected Patient persistentToDomain(PatientEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
-        Patient patient = new Patient();
-        patient.setId(entity.getId());
-        patient.setFirstName(entity.getFirstName());
-        patient.setLastName(entity.getLastName());
-        patient.setSocialInsuranceNr(entity.getSocialInsuranceNr());
+	/**
+	 * reload collections of a patient
+	 *
+	 * @param session
+	 * 		session to be used
+	 * @param obj
+	 * 		patient
+	 * @param clazz
+	 * 		to be reloaded
+	 *
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws InvalidReloadClassException
+	 */
+	@Override
+	public void reload(ISession session, Object obj, Class clazz)
+			throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException,
+			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
+			       InvalidSearchParameterException, BadSessionException {
+		if (clazz == CalendarEvent.class) {
+			((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
+		} else if (clazz == ExaminationProtocol.class) {
+			((Patient) obj).setExaminationProtocol(reloadExaminationProtocol(session, obj));
+		} else if (clazz == Prescription.class) {
+			((Patient) obj).setPrescriptions(reloadPrescriptions(session, obj));
+		} else {
+			throw new InvalidReloadClassException();
+		}
+	}
 
-        if (entity.getDoctor() != null) {
-            patient.setDoctor(
-                    (Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
-        }
+	/**
+	 * reload the calendar events of a patient
+	 * @param session to be used
+	 * @param obj patient
+	 * @return collection of calendar events
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 */
+	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj)
+			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
+		log.debug("reloading calendar events");
+		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
+	}
 
-        if (entity.getGender().equals("M")) {
-            patient.setGender(Gender.Male);
-        } else {
-            patient.setGender(Gender.Female);
-        }
-        patient.setAllergy(entity.getAllergy());
-        patient.setBirthDay(entity.getBirthDay());
-        patient.setChildhoodAilments(entity.getChildhoodAilments());
-        patient.setCity(entity.getCity());
-        patient.setCountryIsoCode(entity.getCountryIsoCode());
-        patient.setEmail(entity.getEmail());
-        patient.setMedicineIntolerance(entity.getMedicineIntolerance());
-        patient.setPhone(entity.getPhone());
-        patient.setPostalCode(entity.getPostalCode());
-        patient.setStreet(entity.getStreet());
+	/**
+	 * reload the examination protocols of a patient
+	 * @param session session to be used
+	 * @param obj patient
+	 * @return collection of examnation protocols
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 */
+	private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj)
+			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		log.debug("reloading examination protocols");
+		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
+		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
+	}
 
-        return patient;
-    }
-
-    /**
-     * Converts a domain object to persitency entity
-     * @param obj that needs to be converted
-     * @return return a persitency entity
-     */
-    @Override
-    protected PatientEntity domainToPersistent(Patient obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
-        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
-        PatientEntity patientEntity = new PatientEntity();
-        patientEntity.setId(obj.getId());
-        patientEntity.setFirstName(obj.getFirstName());
-        patientEntity.setLastName(obj.getLastName());
-        patientEntity.setSocialInsuranceNr(obj.getSocialInsuranceNr());
-        patientEntity.setAllergy(obj.getAllergy());
-        if (obj.getBirthDay() != null) {
-            patientEntity.setBirthDay(new Date(obj.getBirthDay().getTime()));
-        }
-        patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
-        patientEntity.setCity(obj.getCity());
-        patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
-        if (obj.getDoctor() != null) {
-            patientEntity.setDoctor((DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(obj.getDoctor()));
-        }
-        patientEntity.setEmail(obj.getEmail());
-        patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
-        if (obj.getGender() == Gender.Male) {
-            patientEntity.setGender("M");
-        } else {
-            patientEntity.setGender("F");
-        }
-        patientEntity.setPhone(obj.getPhone());
-        patientEntity.setPostalCode(obj.getPostalCode());
-        patientEntity.setStreet(obj.getStreet());
-        log.debug("converted " + _domainClass.getClass() + " to " + _entityClass.getClass());
-        return patientEntity;
-    }
-
-    /**
-     * reload the calendar events of a patient
-     * @param session to be used
-     * @param obj patient
-     * @return collection of calendar events
-     * @throws BadConnectionException
-     * @throws NoBrokerMappedException
-     */
-    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-        ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
-        log.debug("reloading calendar events");
-        return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
-    }
-
-    /**
-     * reload the examination protocols of a patient
-     * @param session session to be used
-     * @param obj patient
-     * @return collection of examnation protocols
-     * @throws BadConnectionException
-     * @throws NoBrokerMappedException
-     */
-    private Collection<ExaminationProtocol> reloadExaminationProtocol(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-        log.debug("reloading examination protocols");
-        ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
-        return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
-    }
-
-    /**
-     * reload collections of a patient
-     * @param session session to be used
-     * @param obj patient
-     * @param clazz to be reloaded
-     * @throws BadConnectionException
-     * @throws NoBrokerMappedException
-     * @throws InvalidReloadClassException
-     */
-    @Override
-    public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException, BadSessionException {
-        if (clazz == CalendarEvent.class) {
-	        ((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
-        } else if (clazz == ExaminationProtocol.class) {
-	        ((Patient) obj).setExaminationProtocol(reloadExaminationProtocol(session, obj));
-        } else {
-            throw new InvalidReloadClassException();
-        }
-    }
+	private Collection<Prescription> reloadPrescriptions(ISession session, Object obj)
+			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		log.debug("reloading prescriptions");
+		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, Prescription.class);
+		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new PrescriptionLoader());
+	}
 
     /**
      * search patients
@@ -173,37 +112,125 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
      * @return collection of search results
      */
     @Override
-    public Collection<Patient> search(ISession session, String... params) throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, BadSessionException {
-        Collection<Object> searchResult = null;
+    public Collection<Patient> search(ISession session, String... params)
+		    throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException,
+		           DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
+		           BadSessionException {
+	    Collection<Object> searchResult = null;
 
-        // create query
-        String query = null;
+	    // create query
+	    String query = null;
 
-        for(int i = 0; i < params.length; ++i) {
-            if(params[i].length() > 0) {
-                params[i] = new String("%"+ params[i].replace(' ', '%') + "%");
-            }
-        }
-
-
-        //decide on query
-        if (params.length == 1) {
-            query = "getPatientByAll";
-        } else if (params.length == 3) {
-            query = "getPatientBySingle";
-        } else {
-            throw new InvalidSearchParameterException();
-        }
-
-        searchResult = session.search(query, params);
-
-        Collection<Patient> result = new LinkedList<>();
-        for(Object o : searchResult) {
-            result.add(persistentToDomain((PatientEntity)o));
-        }
+	    for (int i = 0; i < params.length; ++i) {
+		    if (params[i].length() > 0) {
+			    params[i] = new String("%" + params[i].replace(' ', '%') + "%");
+		    }
+	    }
 
 
-        return (Collection<Patient>)(Collection<?>) result;
+	    //decide on query
+	    if (params.length == 1) {
+		    query = "getPatientByAll";
+	    } else if (params.length == 3) {
+		    query = "getPatientBySingle";
+	    } else {
+		    throw new InvalidSearchParameterException();
+	    }
+
+	    searchResult = session.search(query, params);
+
+	    Collection<Patient> result = new LinkedList<>();
+	    for (Object o : searchResult) {
+		    result.add(persistentToDomain((PatientEntity) o));
+	    }
+
+
+	    return (Collection<Patient>) result;
+    }
+
+	/**
+	 * converts a persitency entity to a domain object
+	 *
+	 * @param entity that needs to be converted
+	 * @return domain object that is created from entity
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 */
+	@Override
+	protected Patient persistentToDomain(PatientEntity entity)
+			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " +
+		          _domainClass.getClass());
+		Patient patient = new Patient();
+		patient.setId(entity.getId());
+		patient.setFirstName(entity.getFirstName());
+		patient.setLastName(entity.getLastName());
+		patient.setSocialInsuranceNr(entity.getSocialInsuranceNr());
+
+		if (entity.getDoctor() != null) {
+			patient.setDoctor(
+					(Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
+		}
+
+		if (entity.getGender().equals("M")) {
+			patient.setGender(Gender.Male);
+		} else {
+			patient.setGender(Gender.Female);
+		}
+		patient.setAllergy(entity.getAllergy());
+		patient.setBirthDay(entity.getBirthDay());
+		patient.setChildhoodAilments(entity.getChildhoodAilments());
+		patient.setCity(entity.getCity());
+		patient.setCountryIsoCode(entity.getCountryIsoCode());
+		patient.setEmail(entity.getEmail());
+		patient.setMedicineIntolerance(entity.getMedicineIntolerance());
+		patient.setPhone(entity.getPhone());
+		patient.setPostalCode(entity.getPostalCode());
+		patient.setStreet(entity.getStreet());
+
+		return patient;
+	}
+
+	/**
+	 * Converts a domain object to persitency entity
+	 * @param obj that needs to be converted
+	 * @return return a persitency entity
+	 */
+	@Override
+	protected PatientEntity domainToPersistent(Patient obj)
+			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
+			       ClassNotMappedException {
+		log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " +
+		          _entityClass.getClass());
+		PatientEntity patientEntity = new PatientEntity();
+		patientEntity.setId(obj.getId());
+		patientEntity.setFirstName(obj.getFirstName());
+		patientEntity.setLastName(obj.getLastName());
+		patientEntity.setSocialInsuranceNr(obj.getSocialInsuranceNr());
+		patientEntity.setAllergy(obj.getAllergy());
+		if (obj.getBirthDay() != null) {
+			patientEntity.setBirthDay(new Date(obj.getBirthDay().getTime()));
+		}
+		patientEntity.setChildhoodAilments(obj.getChildhoodAilments());
+		patientEntity.setCity(obj.getCity());
+		patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
+		if (obj.getDoctor() != null) {
+			patientEntity.setDoctor(
+					(DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(obj.getDoctor()));
+		}
+		patientEntity.setEmail(obj.getEmail());
+		patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
+		if (obj.getGender() == Gender.Male) {
+			patientEntity.setGender("M");
+		} else {
+			patientEntity.setGender("F");
+		}
+		patientEntity.setPhone(obj.getPhone());
+		patientEntity.setPostalCode(obj.getPostalCode());
+		patientEntity.setStreet(obj.getStreet());
+		log.debug("converted " + _domainClass.getClass() + " to " + _entityClass.getClass());
+		return patientEntity;
     }
 
     private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {
@@ -221,4 +248,12 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
             return ((PatientEntity) databaseEntity).getExaminationProtocol();
         }
     }
+
+	private class PrescriptionLoader implements ICollectionLoader<PrescriptionEntity> {
+
+		@Override
+		public Collection<PrescriptionEntity> load(Object databaseEntity) {
+			return ((PatientEntity) databaseEntity).getPrescriptions();
+		}
+	}
 }
