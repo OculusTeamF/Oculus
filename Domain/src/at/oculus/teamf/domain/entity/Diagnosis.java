@@ -186,6 +186,14 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 
 	@Override
     public String toString(){
-        return  _title + " " + _description.substring(0,50) + "...";
+
+		int lenght = 0;
+		if(_description.length() > 50) {
+			lenght = _description.length();
+		} else {
+			lenght = _description.length();
+		}
+
+        return _title + " " + _description.substring(0,lenght) + "...";
     }
 }

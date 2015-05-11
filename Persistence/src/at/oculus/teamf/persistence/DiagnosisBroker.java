@@ -27,6 +27,7 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * diagnosis broker translating domain objects to persistence entities
@@ -95,12 +96,21 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 	 * @throws BadSessionException
 	 */
 	@Override
-    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException {
         if (params.length == 1) {
-            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
+            Collection<Object> diagnosisEntities = session.search("getAllDiagnosisOfPatient", params[0]);
+
+			Collection<Diagnosis> diagnosises = new LinkedList<>();
+			for(Object o : diagnosisEntities) {
+				diagnosises.add((Diagnosis) persistentToDomain((DiagnosisEntity)o));
+			}
+
+			return diagnosises;
+
         } else {
 	        return null;
         }
+
     }
 
 	/**
