@@ -117,7 +117,7 @@ public class TabModel implements ILogger {
     public void addPatientRecordTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("PATIENT RECORD: " + patient.getLastName(), "fxml/PatientRecordTab.fxml", "patientrecord" + patient.getSocialInsuranceNr());
+        loadTab("RECORD: " + patient.getLastName(), "fxml/PatientRecordTab.fxml", "patientrecord" + patient.getSocialInsuranceNr());
     }
 
     /**
@@ -127,7 +127,7 @@ public class TabModel implements ILogger {
     public void addDiagnosisTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("NEW DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml", "diagnosis" + patient.getSocialInsuranceNr());
+        loadTab("DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml", "diagnosis" + patient.getSocialInsuranceNr());
     }
 
     /**
@@ -137,7 +137,7 @@ public class TabModel implements ILogger {
     public void addExaminationTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("PATIENT: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", "examination" + patient.getSocialInsuranceNr());
+        loadTab("PROTOCOLS: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", "examination" + patient.getSocialInsuranceNr());
     }
 
     /**
@@ -147,14 +147,14 @@ public class TabModel implements ILogger {
     public void addPrescriptionTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("PATIENT: " +  _model.getPatient().getLastName(), "fxml/PrescriptionTab.fxml", "prescription" + patient.getSocialInsuranceNr());
+        loadTab("PRESCRIPTIONS: " +  _model.getPatient().getLastName(), "fxml/PrescriptionTab.fxml", "prescription" + patient.getSocialInsuranceNr());
     }
 
     public void addNewExaminationTab(IPatient patient){
         Date date = new Date();
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("NEW EXAMINATION: " + _model.getPatient().getLastName() + " [" + date.toString() + "]", "fxml/NewExaminationTab.fxml","newexamination" + patient.getSocialInsuranceNr() );
+        loadTab("EXAMINATION: " + _model.getPatient().getLastName(), "fxml/NewExaminationTab.fxml","newexamination" + patient.getSocialInsuranceNr() );
     }
 
     public void addSearchTab(){
