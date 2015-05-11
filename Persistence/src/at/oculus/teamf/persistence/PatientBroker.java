@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -57,8 +58,8 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		if (clazz == CalendarEvent.class) {
 			((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
 		} else if (clazz == ExaminationProtocol.class) {
-			((Patient) obj).setExaminationProtocol(reloadExaminationProtocol(session, obj));
-		} else if (clazz == Prescription.class) {
+            ((Patient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
+        } else if (clazz == Prescription.class) {
 			((Patient) obj).setPrescriptions(reloadPrescriptions(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
@@ -145,7 +146,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	    }
 
 
-	    return (Collection<Patient>) result;
+        return result;
     }
 
 	/**
@@ -178,7 +179,8 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		} else {
 			patient.setGender(Gender.Female);
 		}
-		patient.setAllergy(entity.getAllergy());
+
+        patient.setAllergy(entity.getAllergy());
 		patient.setBirthDay(entity.getBirthDay());
 		patient.setChildhoodAilments(entity.getChildhoodAilments());
 		patient.setCity(entity.getCity());
