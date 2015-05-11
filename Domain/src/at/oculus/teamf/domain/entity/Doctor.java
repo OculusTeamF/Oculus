@@ -9,8 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.persistence.Facade;
@@ -19,6 +18,7 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 
@@ -27,7 +27,7 @@ import java.util.Collection;
 /**
  * @author Simon Angerer
  */
-public class Doctor extends User implements IDoctor {
+public class Doctor extends User implements IDoctor, ILogger {
     //<editor-fold desc="Attributes">
     private int _id;
     private Calendar _calendar;
@@ -96,10 +96,15 @@ public class Doctor extends User implements IDoctor {
     }
 
     @Override
-    public Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
+    public Collection<Patient> getPatients() throws CantLoadPatientsException {
         Facade facade = Facade.getInstance();
 
-        facade.reloadCollection(this, Patient.class);
+        try {
+            facade.reloadCollection(this, Patient.class);
+        } catch (BadConnectionException | NoBrokerMappedException | ReloadInterfaceNotImplementedException | DatabaseOperationException | InvalidReloadClassException e) {
+            log.error(e.getMessage());
+            throw new CantLoadPatientsException();
+        }
 
         return _patients;
     }

@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -43,7 +44,7 @@ public interface IDoctor extends IUser, IDomain {
 
     void addPatient(Patient patient);
 
-    Collection<Patient> getPatients() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException;
+    Collection<Patient> getPatients() throws CantLoadPatientsException;
 
     void setPatients(Collection<Patient> patients);
 

@@ -7,11 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.technical.printing;
+package at.oculus.teamf.domain.entity.exception;
 
 /**
- * Created by oculus on 11.05.15.
+ * Created by Simon Angerer on 11.05.2015.
  */
-public interface IPrinter {
-    //final static Printer printer = Printer.getInstance();
+public class CantLoadPatientsException extends Throwable {
 }
