@@ -52,59 +52,46 @@
                </items></ToolBar>
             <StackPane fx:id="prescriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="9">
                <children>
-              <AnchorPane fx:id="prescriptionVisualAidPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              <AnchorPane fx:id="prescriptionMedicalPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane fx:id="prescriptionVisualAidPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane prefHeight="631.0" prefWidth="940.0">
+                        <GridPane prefHeight="587.0" prefWidth="939.0">
                            <children>
-                              <Label text="Last Name" />
-                              <Label text="First Name" GridPane.rowIndex="1" />
-                              <Label text="Social Insurance number" GridPane.rowIndex="2" />
-                              <Label text="Date of Birth" GridPane.rowIndex="3" />
-                              <Label text="Street address" GridPane.rowIndex="4" />
-                              <Label text="Zip" GridPane.rowIndex="5" />
-                              <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="6" />
-                              <Label text="State" GridPane.rowIndex="7" />
-                              <TextField fx:id="newPatientLastname" GridPane.columnIndex="1" />
-                              <TextField fx:id="newPatientFirstname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="newPatientSVN" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="newPatientBday" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <TextField fx:id="newPatientPLZ" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <TextField fx:id="newPatientCity" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <Label text="Prescription:" GridPane.rowIndex="9" />
-                              <ListView fx:id="prescriptionItems" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="10" GridPane.rowSpan="3" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                              <Label text="Prescription:" GridPane.rowIndex="6" />
+                              <ListView fx:id="prescriptionItems1" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <children>
-                                    <ChoiceBox fx:id="chooseMedicinBox" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
-                                    <Button fx:id="addMedicinButton" layoutX="285.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="64.0" text="Add" />
+                                    <ChoiceBox fx:id="chooseMedicinBox1" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
+                                    <Button fx:id="addMedicinButton1" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
+                                    <Button fx:id="removeMedicinButton1" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
                                  </children>
                               </Pane>
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Label fx:id="lastname" layoutY="13.0" text="Last Name" />
-                                    <Label fx:id="firstname" layoutX="103.0" layoutY="13.0" text="First Name" />
+                                    <Label fx:id="lastname1" text="Last name" />
+                                    <Label fx:id="firstname1" text=" First name" />
                                  </children>
-                              </Pane>
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              </FlowPane>
+                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Label fx:id="svn" layoutY="7.0" text="Social Insurance number" />
-                                    <Label fx:id="bday" layoutX="236.0" layoutY="7.0" text="Date of Birth" />
+                                    <Label fx:id="svn1" text="Social Insurance number" />
+                                    <Label text=" / " />
+                                    <Label fx:id="bday1" text=" Date of birth" />
                                  </children>
-                              </Pane>
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              </FlowPane>
+                              <FlowPane prefHeight="81.0" prefWidth="349.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
-                                    <Label fx:id="address" layoutY="9.0" text="Street address" />
+                                    <Label fx:id="address1" text="Street address" />
                                  </children>
-                              </Pane>
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              </FlowPane>
+                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <children>
-                                    <Label fx:id="zip" layoutX="51.0" layoutY="12.0" text="Zip" />
-                                    <Label fx:id="city" contentDisplay="RIGHT" layoutX="137.0" layoutY="12.0" text="City" />
-                                    <Label fx:id="state" layoutX="-2.0" layoutY="12.0" text="State" />
+                                    <Label fx:id="state1" text="State" />
+                                    <Label text="   " />
+                                    <Label fx:id="zip1" text="Zip" />
+                                    <Label text="   " />
+                                    <Label fx:id="city1" contentDisplay="RIGHT" text="City" />
                                  </children>
-                              </Pane>
+                              </FlowPane>
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="50.0" prefWidth="190.0" />
@@ -119,11 +106,71 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                              <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children></AnchorPane>
+              <AnchorPane fx:id="prescriptionMedicalPane" minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="902.0">
+                     <children>
+                        <GridPane layoutX="1.0" prefHeight="587.0" prefWidth="939.0">
+                           <children>
+                              <Label text="Prescription:" GridPane.rowIndex="6" />
+                              <ListView fx:id="prescriptionItems" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                 <children>
+                                    <ChoiceBox fx:id="chooseMedicinBox" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
+                                    <Button fx:id="addMedicinButton" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
+                                    <Button fx:id="removeMedicinButton" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
+                                 </children>
+                              </Pane>
+                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <children>
+                                    <Label fx:id="lastname" text="Last name" />
+                                    <Label fx:id="firstname" text=" First name" />
+                                 </children>
+                              </FlowPane>
+                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <children>
+                                    <Label fx:id="svn" text="Social Insurance number" />
+                                    <Label text=" / " />
+                                    <Label fx:id="bday" text=" Date of birth" />
+                                 </children>
+                              </FlowPane>
+                              <FlowPane prefHeight="81.0" prefWidth="349.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <children>
+                                    <Label fx:id="address" text="Street address" />
+                                 </children>
+                              </FlowPane>
+                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <children>
+                                    <Label fx:id="state" text="State" />
+                                    <Label text="   " />
+                                    <Label fx:id="zip" text="Zip" />
+                                    <Label text="   " />
+                                    <Label fx:id="city" contentDisplay="RIGHT" text="City" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="50.0" prefWidth="190.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="349.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="741.0" minWidth="10.0" prefWidth="161.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="741.0" minWidth="10.0" prefWidth="161.0" />
+                           </columnConstraints>
+                           <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                              <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                            </rowConstraints>
                         </GridPane>
                      </children>

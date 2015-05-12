@@ -24,6 +24,7 @@ import java.util.Date;
  * Created by Fabian on 10.05.2015.
  */
 public class PatientRecordModel {
+
     private static PatientRecordModel _patientmodel = new PatientRecordModel();
     private Model _model;
 
