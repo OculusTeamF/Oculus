@@ -18,6 +18,7 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.presentation.view.models.PatientRecordModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -77,6 +78,7 @@ public class PatientRecordController implements Initializable {
     private Model _model = Model.getInstance();
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
+    private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
 
 
     @Override
@@ -513,15 +515,11 @@ public class PatientRecordController implements Initializable {
         patientRecordSaveButton.setDisable(false);
     }
 
+    @FXML
     public void openPrescriptionsToPrintButtonHandler(ActionEvent actionEvent) {
 
-        final Popup prescriptionPopup = new Popup();
+        _patientRecordModel.openPrescriptionsToPrint(_model.getPatient());
 
-        prescriptionPopup.setX(300);
-        prescriptionPopup.setY(200);
 
-        ListView<IPrescription> prescriptionListView = new ListView<>();
-        ObservableList<IPrescription> prescriptions = FXCollections.observableArrayList();
-        prescriptionListView.setItems(prescriptions);
     }
 }

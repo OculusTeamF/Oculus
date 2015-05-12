@@ -15,8 +15,21 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassExcep
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import com.sun.javafx.tk.Toolkit;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 import java.util.Date;
 
@@ -88,4 +101,49 @@ public class PatientRecordModel {
         return false;
     }
 
+
+    /**
+     * opens a popupwindow with the not printed prescriptions
+     * @param patient
+     */
+    public void openPrescriptionsToPrint(IPatient patient) {
+
+        IPatient currPatient = patient;
+
+        //Create Popup
+        Stage stage = new Stage();
+        stage.setTitle("Open Prescriptions");
+
+        final Popup prescriptionPopup = new Popup();
+
+        prescriptionPopup.setX(300);
+        prescriptionPopup.setY(200);
+
+        ListView<IPrescription> prescriptionListView = new ListView<>();
+        ObservableList<IPrescription> prescriptions = FXCollections.observableArrayList();
+        prescriptionListView.setItems(prescriptions);
+
+        Button printPrescriptionButton = new Button("Print Prescription");
+        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event){
+                //TODO:
+            }
+        });
+
+        Button deletePrescriptionButton = new Button("Delete Prescription");
+        deletePrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO:
+            }
+        });
+
+        HBox box = new HBox(10);
+        box.getChildren().addAll(prescriptionListView, printPrescriptionButton, deletePrescriptionButton);
+
+        stage.setScene(new Scene(box));
+        stage.show();
+
+    }
 }
