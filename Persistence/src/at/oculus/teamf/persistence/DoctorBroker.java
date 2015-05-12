@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -124,7 +125,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
     @Override
     public void reload(ISession session, Object obj, Class clazz) throws InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, ClassNotMappedException, DatabaseOperationException, InvalidSearchParameterException, SearchInterfaceNotImplementedException {
         if (clazz == Patient.class) {
-            ((Doctor) obj).setPatients(reloadPatients(session, obj));
+            ((Doctor) obj).setPatients((Collection<IPatient>) (Collection<?>) reloadPatients(session, obj));
         } else {
             throw new InvalidReloadClassException();
         }

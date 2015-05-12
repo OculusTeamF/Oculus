@@ -79,7 +79,7 @@ public class CheckinController implements ILogger {
         if(user instanceof Doctor){
             doctor = (Doctor) iuser;
 
-            queue = doctor.getQueue();
+            queue = (PatientQueue) doctor.getQueue();
 
             log.info("Queue belongs to doctor.");
         }else if(user instanceof Orthoptist){
