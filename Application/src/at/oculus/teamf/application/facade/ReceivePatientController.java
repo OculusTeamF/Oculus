@@ -80,14 +80,7 @@ public class ReceivePatientController implements ILogger {
 
         protocols = patient.getExaminationProtocol();
 
-        Collection<IExaminationProtocol> examinationProtocols = new LinkedList<IExaminationProtocol>();
-        if (protocols != null) {
-            for (IExaminationProtocol examinationProtocol : protocols) {
-                examinationProtocols.add(examinationProtocol);
-            }
-        }
-
-        return examinationProtocols;
+        return protocols;
     }
 
     /**

@@ -12,9 +12,11 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.facade.CreateDiagnosisController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.Facade;
 import org.junit.After;
 import org.junit.Before;
 
@@ -23,33 +25,39 @@ import java.util.LinkedList;
 
 public class CreateDiagnosisControllerTest {
 
+    private SearchPatientController searchPatientController = new SearchPatientController();
+    private ReceivePatientController receivePatientController = new ReceivePatientController();
+
+    private LinkedList<IPatient> patients;
+    private IPatient iPatient;
+    private IDoctor iDoctor;
+    private IExaminationProtocol iExaminationProtocol;
+    private IDiagnosis iDiagnosis;
+
     @Before
     public void setUp() throws Exception {
-
+        patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
+        iPatient = patients.getLast();
+        iDoctor = iPatient.getIDoctor();
+        iExaminationProtocol = receivePatientController.createNewExaminationProtocol(new Date(), new Date(), "description", iPatient, iDoctor, null);
     }
 
     @After
     public void tearDown() throws Exception{
-
+        Facade facade = Facade.getInstance();
+        facade.delete(iDiagnosis);
+        facade.delete(iExaminationProtocol);
     }
 
     @org.junit.Test
     public void testCreateDiagnosis() throws Exception {
-        SearchPatientController searchPatientController = new SearchPatientController();
-        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
-
-        IPatient iPatient = patients.getFirst();
-        IDoctor iDoctor = iPatient.getIDoctor();
-
-        ReceivePatientController receivePatientController = new ReceivePatientController();
-
-        IExaminationProtocol iExaminationProtocol = receivePatientController.createNewExaminationProtocol(new Date(), new Date(), "description", iPatient, iDoctor, null);
-
         CreateDiagnosisController createDiagnosisController =  CreateDiagnosisController.CreateController(iExaminationProtocol);
-        createDiagnosisController.createDiagnosis("title", "description", iDoctor);
+        iDiagnosis = createDiagnosisController.createDiagnosis("title", "description", iDoctor);
 
         assert (iExaminationProtocol.getDiagnosis().getTitle().equals("title"));
         assert (iExaminationProtocol.getDiagnosis().getDescription().equals("description"));
         assert (iExaminationProtocol.getDiagnosis().getDoctor().equals(iDoctor));
+        assert (iPatient.getExaminationProtocol().contains(iExaminationProtocol));
     }
+
 }

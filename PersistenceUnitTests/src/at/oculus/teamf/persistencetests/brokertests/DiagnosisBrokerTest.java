@@ -9,10 +9,13 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -24,7 +27,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class DiagnosisBrokerTest extends BrokerTest {
 	private Calendar _calendar;
@@ -106,4 +109,30 @@ public class DiagnosisBrokerTest extends BrokerTest {
         }
 		assertTrue(diagnoses.size() == 3);
     }
+
+	@Test
+	public void testReload() {
+		// reload medicine, visual aid
+		Diagnosis diagnosis = null;
+		try {
+			diagnosis = Facade.getInstance().getById(Diagnosis.class, 1);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+        Collection<IMedicine> medicine = null;
+        Collection<IVisualAid> visualAid = null;
+        try {
+			medicine = diagnosis.getMedicine();
+			visualAid = diagnosis.getVisualAid();
+		} catch (CouldNotGetVisualAidException | CouldNotGetMedicineException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		System.out.println(medicine.size());
+		System.out.println(visualAid.size());
+		assertTrue(medicine.size() > 0);
+		assertTrue(visualAid.size() > 0);
+	}
 }

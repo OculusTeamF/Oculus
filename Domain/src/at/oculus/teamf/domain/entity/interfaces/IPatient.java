@@ -44,9 +44,7 @@ public interface IPatient extends IDomain {
     IDoctor getIDoctor();
     void setIDoctor(IDoctor idoctor);
 
-    Collection<CalendarEvent> getCalendarEvents()
-            throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-            NoBrokerMappedException, CouldNotGetCalendarEventsException;
+    Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException;
     void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
 
     Date getBirthDay();
@@ -79,7 +77,9 @@ public interface IPatient extends IDomain {
     String getMedicineIntolerance();
     void setMedicineIntolerance(String medicineIntolerance);
 
-    Collection<IExaminationProtocol> getExaminationProtocol() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, CouldNotGetExaminationProtolException;
+    Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException;
+
+    void setExaminationProtocol(Collection<IExaminationProtocol> protocols);
 
 	void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol;
 
@@ -87,7 +87,9 @@ public interface IPatient extends IDomain {
 
 	Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException;
 
-    Collection<IExaminationResult> getExaminationResults() throws NoBrokerMappedException, CouldNotGetExaminationResultException;
+    Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
 
 	Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException;
+
+    Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException;
 }

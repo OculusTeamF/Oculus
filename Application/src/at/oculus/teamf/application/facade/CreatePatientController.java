@@ -20,6 +20,7 @@ import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -89,7 +90,7 @@ public class CreatePatientController implements ILogger {
         patient.setEmail(email);
         patient.setCountryIsoCode(countryIsoCode);
         patient.setDoctor((Doctor) doctor);
-        patient.setExaminationProtocol(new LinkedList<ExaminationProtocol>());
+        patient.setExaminationProtocol(new LinkedList<IExaminationProtocol>());
         log.info("Patient attributes have been assigned.");
 
         savePatient(patient);

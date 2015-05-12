@@ -16,4 +16,6 @@ import at.oculus.teamf.domain.entity.Diagnosis;
  */
 public interface IMedicine extends IDomain {
     Diagnosis getDiagnosis();
+
+    void setDiagnosis(IDiagnosis diagnosis);
 }

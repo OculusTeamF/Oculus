@@ -55,15 +55,30 @@
               <AnchorPane fx:id="prescriptionVisualAidPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               <AnchorPane fx:id="prescriptionMedicalPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane layoutX="-6.0" prefHeight="585.0" prefWidth="946.0">
+                        <GridPane prefHeight="631.0" prefWidth="940.0">
                            <children>
-                              <Label text="Prescription:" GridPane.rowIndex="7" />
-                              <ListView fx:id="prescriptionItems" prefHeight="202.0" prefWidth="539.0" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.rowSpan="3" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                              <Label text="Last Name" />
+                              <Label text="First Name" GridPane.rowIndex="1" />
+                              <Label text="Social Insurance number" GridPane.rowIndex="2" />
+                              <Label text="Date of Birth" GridPane.rowIndex="3" />
+                              <Label text="Street address" GridPane.rowIndex="4" />
+                              <Label text="Zip" GridPane.rowIndex="5" />
+                              <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="6" />
+                              <Label text="State" GridPane.rowIndex="7" />
+                              <TextField fx:id="newPatientLastname" GridPane.columnIndex="1" />
+                              <TextField fx:id="newPatientFirstname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="newPatientSVN" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="newPatientBday" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="newPatientPLZ" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField fx:id="newPatientCity" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label text="Prescription:" GridPane.rowIndex="9" />
+                              <ListView fx:id="prescriptionItems" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="10" GridPane.rowSpan="3" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
                                  <children>
                                     <ChoiceBox fx:id="chooseMedicinBox" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
-                                    <Button fx:id="addMedicinButton" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
-                                    <Button fx:id="removeMedicinButton" layoutX="316.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
+                                    <Button fx:id="addMedicinButton" layoutX="285.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="64.0" text="Add" />
                                  </children>
                               </Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

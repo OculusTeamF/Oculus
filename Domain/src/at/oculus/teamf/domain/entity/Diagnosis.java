@@ -9,9 +9,13 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -33,6 +37,7 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 	private Integer _doctorId;
 	private Doctor _doctor;
 	private Collection<Medicine> _medicine;
+	private Collection<VisualAid> _visualAid;
 
 	public Diagnosis() {}
 
@@ -83,15 +88,15 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 		}
 	}
 
-	public Collection<Medicine> getMedicine() throws CouldNotGetMedicineException {
-		try {
+    public Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException {
+        try {
 			Facade.getInstance().reloadCollection(this, Medicine.class);
 		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException | ReloadInterfaceNotImplementedException e) {
 			log.error(e.getMessage());
 			throw new CouldNotGetMedicineException();
 		}
-		return _medicine;
-	}
+        return (Collection<IMedicine>) (Collection<?>) _medicine;
+    }
 
 	public void setMedicine(Collection<Medicine> medicine) {
 		_medicine = medicine;
@@ -107,12 +112,49 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 	 * @throws NoBrokerMappedException
 	 * @throws BadConnectionException
 	 */
-	public void addMedicine(Medicine medicine)
-			throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
-		medicine.setDiagnosis(this);
-		_medicine.add(medicine);
-		Facade.getInstance().save(medicine);
+    public void addMedicine(IMedicine medicine)
+            throws CouldNotAddMedicineException {
+        try {
+            if (_medicine == null) {
+                getMedicine();
+            }
+            medicine.setDiagnosis(this);
+            _medicine.add((Medicine) medicine);
+            Facade.getInstance().save(medicine);
+        } catch (DatabaseOperationException | CouldNotGetMedicineException | NoBrokerMappedException | BadConnectionException e) {
+            log.error(e.getMessage());
+			throw new CouldNotAddMedicineException();
+		}
 	}
+
+    public void addVisualAid(IVisualAid visualAid)
+            throws CouldNotAddVisualAidException {
+        try {
+            if (_visualAid == null) {
+                getVisualAid();
+            }
+            visualAid.setDiagnosis(this);
+            _visualAid.add((VisualAid) visualAid);
+            Facade.getInstance().save(visualAid);
+        } catch (NoBrokerMappedException | CouldNotGetVisualAidException | BadConnectionException | DatabaseOperationException e) {
+            log.error(e.getMessage());
+            throw new CouldNotAddVisualAidException();
+        }
+    }
+
+    public Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException {
+        try {
+			Facade.getInstance().reloadCollection(this, VisualAid.class);
+		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | DatabaseOperationException | ReloadInterfaceNotImplementedException e) {
+			log.error(e.getMessage());
+			throw new CouldNotGetVisualAidException();
+		}
+        return (Collection<IVisualAid>) (Collection<?>) _visualAid;
+    }
+
+    public void setVisualAid(Collection<IVisualAid> visualAid) {
+        _visualAid = (Collection<VisualAid>) (Collection<?>) visualAid;
+    }
 
 	@Override
 	public int hashCode() {
@@ -152,6 +194,14 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 
 	@Override
     public String toString(){
-        return  _title + " " + _description.substring(0,50) + "...";
+
+		int lenght = 0;
+		if(_description.length() > 50) {
+			lenght = _description.length();
+		} else {
+			lenght = _description.length();
+		}
+
+        return _title + " " + _description.substring(0,lenght) + "...";
     }
 }

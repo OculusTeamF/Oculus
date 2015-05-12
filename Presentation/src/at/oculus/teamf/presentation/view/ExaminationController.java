@@ -13,6 +13,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultExcep
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -36,7 +37,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Karo on 20.04.2015.
  */
-public class ExaminationController implements Initializable {
+public class ExaminationController implements Initializable, ILogger {
 
     @FXML public ListView examinationResults;
     @FXML private Button newExaminationButton;
@@ -59,7 +60,7 @@ public class ExaminationController implements Initializable {
         examinationList.setDisable(true);
         examinationResults.setDisable(true);
         examinationDocumentation.setDisable(true);
-        textExaminationDetails.setDisable(true);
+        textExaminationDetails.setDisable(false);
         String loadtext = "Loading examinations protocols....";
         examinationList.getItems().add(loadtext);
         String loadtext2 = "Choose an examination protocol....";
@@ -110,7 +111,6 @@ public class ExaminationController implements Initializable {
         });
 
         new Thread(search).start();
-
     }
 
     /* load selected examination data and set data to forms */
@@ -119,7 +119,9 @@ public class ExaminationController implements Initializable {
 
         ObservableList<IExaminationResult> results = null;
         try {
+            log.debug("start loading examination results!");
             results = FXCollections.observableArrayList(exp.getExaminationResults());
+            log.debug("examination results loaded!");
         } catch (CouldNotGetExaminationResultException e) {
             e.printStackTrace();
         }
@@ -167,7 +169,10 @@ public class ExaminationController implements Initializable {
         @Override
         protected Void call() {
             // application layer acces for examination protocols loading
+            log.debug("Starting to load examination Protocols!");
             _protocolist = FXCollections.observableArrayList(_model.getExaminationModel().getAllExaminationProtcols(_model.getPatient()));
+            log.debug("Examination protocols were loaded!");
+
             return null;
         }
     };

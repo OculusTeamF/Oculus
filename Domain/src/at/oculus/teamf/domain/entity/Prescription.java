@@ -17,6 +17,8 @@ import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -31,7 +33,7 @@ public class Prescription implements IPrescription, ILogger {
 	private int _id;
 	private Date _issueDate;
 	private Date _lastPrint;
-	private Patient _patient;
+	private IPatient _patient;
 	private Collection<PrescriptionEntry> _prescriptionEntries;
 
     public Prescription(){
@@ -67,11 +69,19 @@ public class Prescription implements IPrescription, ILogger {
 		return _patient;
 	}
 
-	public void setPatient(IPatient patient) {
-		_patient = (Patient) patient;
+	@Override
+	public void setPatient(IPatient iPatient) {
+			_patient = iPatient;
 	}
 
-	public Collection<IPrescriptionEntry> getPrescriptionEntries() {
+
+	public Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException {
+			try {
+				Facade.getInstance().reloadCollection(this, PrescriptionEntry.class);
+			} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException | DatabaseOperationException e) {
+				log.error(e.getMessage());
+				throw new CantGetPresciptionEntriesException();
+			}
 		return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
 	}
 
@@ -93,6 +103,7 @@ public class Prescription implements IPrescription, ILogger {
 		entry.setPrescription(this);
 		_prescriptionEntries.add(entry);
 		try {
+            Facade.getInstance().save(this);
 			Facade.getInstance().save(prescriptionEntry);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			log.error(e.getMessage());

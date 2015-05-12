@@ -15,12 +15,11 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.persistence.entity.DiagnosisEntity;
-import at.oculus.teamf.persistence.entity.DoctorEntity;
-import at.oculus.teamf.persistence.entity.IEntity;
-import at.oculus.teamf.persistence.entity.MedicineEntity;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -29,6 +28,7 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * diagnosis broker translating domain objects to persistence entities
@@ -97,12 +97,21 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 	 * @throws BadSessionException
 	 */
 	@Override
-    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException {
+    public Collection<Diagnosis> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException {
         if (params.length == 1) {
-            return (Collection<Diagnosis>) (Collection<?>) session.search("getAllDiagnosisOfPatient", params[0]);
+            Collection<Object> diagnosisEntities = session.search("getAllDiagnosisOfPatient", params[0]);
+
+			Collection<Diagnosis> diagnosises = new LinkedList<>();
+			for(Object o : diagnosisEntities) {
+				diagnosises.add((Diagnosis) persistentToDomain((DiagnosisEntity)o));
+			}
+
+			return diagnosises;
+
         } else {
 	        return null;
         }
+
     }
 
 	/**
@@ -126,6 +135,8 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 			       InvalidSearchParameterException {
 		if (clazz == Medicine.class) {
 			((Diagnosis) obj).setMedicine(reloadMedicine(session, obj));
+		} else if (clazz == VisualAid.class) {
+			((Diagnosis) obj).setVisualAid(reloadVisualAid(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
 		}
@@ -151,11 +162,44 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
 		return reloadComponent.reloadCollection(session, ((Diagnosis) obj).getId(), new MedicineLoader());
 	}
 
+	/**
+	 * reload visualaid of diagnosis
+	 *
+	 * @param session
+	 * 		to be used
+	 * @param obj
+	 * 		diagnosis
+	 *
+	 * @return medicine collection
+	 *
+	 * @throws BadConnectionException
+	 * @throws NoBrokerMappedException
+	 * @throws DatabaseOperationException
+	 * @throws ClassNotMappedException
+	 * @throws SearchInterfaceNotImplementedException
+	 * @throws InvalidSearchParameterException
+	 */
+    private Collection<IVisualAid> reloadVisualAid(ISession session, Object obj)
+            throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+		log.debug("reloading visual aid");
+		ReloadComponent reloadComponent = new ReloadComponent(DiagnosisEntity.class, VisualAid.class);
+		return reloadComponent.reloadCollection(session, ((Diagnosis) obj).getId(), new VisualAidLoader());
+	}
+
 	private class MedicineLoader implements ICollectionLoader<MedicineEntity> {
 
 		@Override
 		public Collection<MedicineEntity> load(Object databaseEntity) {
 			return ((DiagnosisEntity) databaseEntity).getMedicine();
+		}
+	}
+
+	private class VisualAidLoader implements ICollectionLoader<VisualAidEntity> {
+
+		@Override
+		public Collection<VisualAidEntity> load(Object databaseEntity) {
+			return ((DiagnosisEntity) databaseEntity).getVisualAid();
 		}
 	}
 }

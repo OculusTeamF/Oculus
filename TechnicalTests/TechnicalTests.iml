@@ -20,5 +20,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="Technical" />
+    <orderEntry type="module" module-name="Application" />
   </component>
 </module>
