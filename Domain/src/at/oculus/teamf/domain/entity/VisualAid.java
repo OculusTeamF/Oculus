@@ -63,9 +63,9 @@ public class VisualAid implements IVisualAid {
 		return _diagnosis;
 	}
 
-    public void setDiagnosis(IDiagnosis diagnosis) {
-        _diagnosis = (Diagnosis) diagnosis;
-    }
+	public void setDiagnosis(IDiagnosis diagnosis) {
+		_diagnosis = (Diagnosis) diagnosis;
+	}
 
 	@Override
 	public int hashCode() {

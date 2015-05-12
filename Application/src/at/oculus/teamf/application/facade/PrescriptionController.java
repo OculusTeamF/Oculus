@@ -26,7 +26,6 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
-import at.oculus.teamf.technical.printing.Printer;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;

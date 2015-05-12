@@ -16,8 +16,11 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -51,7 +54,9 @@ public class PrescriptionControllerTest {
         } catch (CouldNotAddPrescriptionEntryException e) {
             e.printStackTrace();
         }
-
+        Collection<IPrescriptionEntry> entries = iPrescription.getPrescriptionEntries();
+        System.out.println(entries.size());
+        System.out.println(medicines.size());
         assert(iPrescription.getPrescriptionEntries().size() == medicines.size());
     }
 

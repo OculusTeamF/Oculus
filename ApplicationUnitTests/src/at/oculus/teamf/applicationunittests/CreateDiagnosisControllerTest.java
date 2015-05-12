@@ -17,6 +17,7 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 import org.junit.After;
 import org.junit.Before;
 
@@ -44,9 +45,10 @@ public class CreateDiagnosisControllerTest {
 
     @After
     public void tearDown() throws Exception{
-        Facade facade = Facade.getInstance();
-        facade.delete(iDiagnosis);
+        IFacade facade = Facade.getInstance();
         facade.delete(iExaminationProtocol);
+        facade.delete(iDiagnosis);
+
     }
 
     @org.junit.Test
