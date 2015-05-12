@@ -42,8 +42,8 @@ public class PrescriptionControllerTest {
 
     @org.junit.After
     public void tearDown() throws Exception {
-        Facade facade = Facade.getInstance();
-//        facade.delete(iPrescription);
+      /*  Facade facade = Facade.getInstance();
+        facade.delete(iPrescription);*/
     }
 
     @org.junit.Test

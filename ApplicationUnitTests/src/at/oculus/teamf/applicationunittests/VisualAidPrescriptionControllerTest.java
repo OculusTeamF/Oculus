@@ -11,6 +11,7 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.VisualAidPrescriptionController;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
@@ -18,6 +19,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -60,6 +62,13 @@ public class VisualAidPrescriptionControllerTest {
         }
 
         //TODO
+        ArrayList<IVisualAid> visualAids = null;
+        try {
+            visualAids = (ArrayList<IVisualAid>) iDiagnosis.getVisualAid();
+        } catch (CouldNotGetVisualAidException e) {
+            e.printStackTrace();
+        }
 
+        assertTrue((visualAids.contains(visualAid)));
     }
 }
