@@ -14,9 +14,11 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,8 +33,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by Karo on 04.05.2015.
@@ -41,32 +42,34 @@ public class PrescriptionController implements Initializable, IPrinter {
 
 
     @FXML public ComboBox choosePrescriptionBox;
-    @FXML public AnchorPane prescriptionPane;
     @FXML public Button printButton;
-    @FXML public StackPane prescriptionStackPane;
-    @FXML public AnchorPane prescriptionMedicalPane;
-    @FXML public AnchorPane prescriptionVisualAidPane;
-    @FXML public ListView prescriptionItems;
-    @FXML public CheckComboBox chooseMedicinBox;
-    @FXML public Button addMedicinButton;
-    @FXML public Button removeMedicinButton;
     @FXML public Button saveButton;
-    @FXML public Label lastname;
-    @FXML public Label firstname;
-    @FXML public Label svn;
-    @FXML public Label bday;
-    @FXML public Label address;
-    @FXML public Label zip;
-    @FXML public Label city;
-    @FXML public Label state;
+    @FXML public StackPane prescriptionStackPane;
+    @FXML public ListView prescriptionItemsVA;
+    @FXML public ComboBox chooseMedicinBoxVA;
+    @FXML public Button addMedicinButtonVA;
+    @FXML public Button removeMedicinButtonVA;
     @FXML public Label lastnameVA;
     @FXML public Label firstnameVA;
     @FXML public Label svnVA;
     @FXML public Label bdayVA;
     @FXML public Label addressVA;
+    @FXML public Label stateVA;
     @FXML public Label zipVA;
     @FXML public Label cityVA;
-    @FXML public Label stateVA;
+    @FXML public ListView prescriptionItems;
+    @FXML public ComboBox chooseMedicinBox;
+    @FXML public Button addMedicinButton;
+    @FXML public Button removeMedicinButton;
+    @FXML public Label lastname;
+    @FXML public Label firstname;
+    @FXML public Label svn;
+    @FXML public Label bday;
+    @FXML public Label address;
+    @FXML public Label state;
+    @FXML public Label zip;
+    @FXML public Label city;
+
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
@@ -95,8 +98,10 @@ public class PrescriptionController implements Initializable, IPrinter {
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveButton.setGraphic(new ImageView(imageSaveIcon));
 
+        //Medicin box
         String text = "choose medicin ...";
-        chooseMedicinBox.checkModelProperty().setValue(text);
+        chooseMedicinBox.setPromptText(text);
+        chooseMedicinBoxVA.setPromptText(text);
 
         //fill in data
         lastname.setText(_model.getPatient().getLastName());
@@ -141,7 +146,9 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
 
-        ObservableList<IMedicine> medicinList = chooseMedicinBox.getCheckModel().getCheckedItems();
+        ObservableList<IMedicine> medicinList = null;
+
+        medicinList.add((IMedicine)chooseMedicinBox.getSelectionModel().getSelectedItem());
 
         prescriptionItems.setItems(medicinList);
 

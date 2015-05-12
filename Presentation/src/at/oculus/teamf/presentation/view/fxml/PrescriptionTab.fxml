@@ -16,6 +16,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import org.controlsfx.control.CheckComboBox?>
 <AnchorPane fx:id="prescriptionPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.PrescriptionController">
    <children>
       <GridPane prefHeight="612.0" prefWidth="906.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -47,8 +48,8 @@
                <items>
                   <Label prefHeight="21.0" prefWidth="157.0" text="Choose Prescription:" />
                   <ComboBox fx:id="choosePrescriptionBox" prefWidth="150.0" />
-                  <Button fx:id="printButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="101.0" text="Save" />
+                  <Button fx:id="printButton" onAction="#printPrescriptionButtonActionHandler" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
+                  <Button fx:id="saveButton" onAction="#savePrescriptionButtonActionHandler" mnemonicParsing="false" prefWidth="101.0" text="Save" />
                </items></ToolBar>
             <StackPane fx:id="prescriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="9">
                <children>
@@ -57,39 +58,40 @@
                         <GridPane prefHeight="587.0" prefWidth="939.0">
                            <children>
                               <Label text="Prescription:" GridPane.rowIndex="6" />
-                              <ListView fx:id="prescriptionItems1" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
+                              <ListView fx:id="prescriptionItemsVA" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <children>
-                                    <ChoiceBox fx:id="chooseMedicinBox1" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
-                                    <Button fx:id="addMedicinButton1" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
-                                    <Button fx:id="removeMedicinButton1" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
+                                    <ComboBox fx:id="chooseMedicinBoxVA" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
+                                    <Button fx:id="addMedicinButtonVA" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
+                                    <Button fx:id="removeMedicinButtonVA" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
                                  </children>
                               </Pane>
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Label fx:id="lastname1" text="Last name" />
-                                    <Label fx:id="firstname1" text=" First name" />
+                                    <Label fx:id="lastnameVA" text="Last name" />
+                                     <Label text="   " />
+                                    <Label fx:id="firstnameVA" text=" First name" />
                                  </children>
                               </FlowPane>
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Label fx:id="svn1" text="Social Insurance number" />
+                                    <Label fx:id="svnVA" text="Social Insurance number" />
                                     <Label text=" / " />
-                                    <Label fx:id="bday1" text=" Date of birth" />
+                                    <Label fx:id="bdayVA" text=" Date of birth" />
                                  </children>
                               </FlowPane>
                               <FlowPane prefHeight="81.0" prefWidth="349.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
-                                    <Label fx:id="address1" text="Street address" />
+                                    <Label fx:id="addressVA" text="Street address" />
                                  </children>
                               </FlowPane>
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <children>
-                                    <Label fx:id="state1" text="State" />
+                                    <Label fx:id="stateVA" text="State" />
                                     <Label text="   " />
-                                    <Label fx:id="zip1" text="Zip" />
+                                    <Label fx:id="zipVA" text="Zip" />
                                     <Label text="   " />
-                                    <Label fx:id="city1" contentDisplay="RIGHT" text="City" />
+                                    <Label fx:id="cityVA" contentDisplay="RIGHT" text="City" />
                                  </children>
                               </FlowPane>
                            </children>
@@ -112,7 +114,8 @@
                               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                            </rowConstraints>
                         </GridPane>
-                     </children></AnchorPane>
+                     </children>
+              </AnchorPane>
               <AnchorPane fx:id="prescriptionMedicalPane" minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="902.0">
                      <children>
                         <GridPane layoutX="1.0" prefHeight="587.0" prefWidth="939.0">
@@ -121,7 +124,7 @@
                               <ListView fx:id="prescriptionItems" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <children>
-                                    <ChoiceBox fx:id="chooseMedicinBox" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
+                                    <ComboBox fx:id="chooseMedicinBox" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
                                     <Button fx:id="addMedicinButton" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
                                     <Button fx:id="removeMedicinButton" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
                                  </children>
@@ -129,6 +132,7 @@
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
                                     <Label fx:id="lastname" text="Last name" />
+                                     <Label text="   " />
                                     <Label fx:id="firstname" text=" First name" />
                                  </children>
                               </FlowPane>

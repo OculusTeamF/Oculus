@@ -39,16 +39,16 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Last Name" GridPane.rowIndex="1" />
-            <Label text="First Name" GridPane.rowIndex="2" />
+            <Label text="Last name" GridPane.rowIndex="1" />
+            <Label text="First name" GridPane.rowIndex="2" />
             <Label text="Social Insurance number" GridPane.rowIndex="3" />
-            <Label text="Date of Birth" GridPane.rowIndex="4" />
+            <Label text="Date of birth" GridPane.rowIndex="4" />
             <Label text="Street address" GridPane.rowIndex="5" />
             <Label text="Zip" GridPane.rowIndex="6" />
             <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
             <Label text="State" GridPane.rowIndex="8" />
             <Label text="Phone number" GridPane.rowIndex="9" />
-            <Label text="E-Mail" GridPane.rowIndex="10" />
+            <Label text="Email" GridPane.rowIndex="10" />
             <Label focusTraversable="false" text="Gender" GridPane.rowIndex="11" />
             <Label text="Primary Doctor" GridPane.rowIndex="12" />
             <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="3" />

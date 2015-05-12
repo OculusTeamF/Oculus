@@ -19,7 +19,7 @@
       <GridPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="379.0" minWidth="10.0" prefWidth="256.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="384.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="384.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="71.0" minHeight="0.0" prefHeight="42.0" vgrow="NEVER" />
@@ -29,13 +29,13 @@
             <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="275.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <Label text="Last Name" />
-            <Label text="First Name" GridPane.rowIndex="1" />
-            <Label text="Social security number" GridPane.rowIndex="2" />
+            <Label text="Last name" />
+            <Label text="First name" GridPane.rowIndex="1" />
+            <Label text="Social Insurance number" GridPane.rowIndex="2" />
             <TextField fx:id="searchPatientLastname" GridPane.columnIndex="1" />
             <TextField fx:id="searchPatientFirstname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="searchPatientSVN" prefWidth="277.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="searchPatientButton" mnemonicParsing="false" onAction="#searchPatient" prefHeight="33.0" prefWidth="244.0" text="Search patient" GridPane.rowIndex="3" />
+            <Button fx:id="searchPatientButton" alignment="CENTER" mnemonicParsing="false" onAction="#searchPatient" prefHeight="33.0" prefWidth="244.0" text="Search patient" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ListView fx:id="searchPatientList" prefHeight="224.0" prefWidth="640.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <padding>
                   <Insets top="10.0" />

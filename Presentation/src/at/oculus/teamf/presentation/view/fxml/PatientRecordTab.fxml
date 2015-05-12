@@ -54,10 +54,10 @@
                   <Insets top="28.0" />
                </GridPane.margin>
             </Pane>
-            <Label text="Last Name" GridPane.rowIndex="1" />
-            <Label text="First Name" GridPane.rowIndex="2" />
+            <Label text="Last name" GridPane.rowIndex="1" />
+            <Label text="First name" GridPane.rowIndex="2" />
             <Label text="Social Insurance number" GridPane.rowIndex="3" />
-            <Label text="Date of Birth" GridPane.rowIndex="4" />
+            <Label text="Date of birth" GridPane.rowIndex="4" />
             <Label text="Street address" GridPane.rowIndex="5" />
             <Label text="Zip" GridPane.rowIndex="7" />
             <Label text="State" GridPane.columnIndex="1" GridPane.rowIndex="7">
@@ -65,7 +65,7 @@
                   <Insets left="240.0" />
                </GridPane.margin></Label>
             <Label text="Phone number" GridPane.rowIndex="9" />
-            <Label text="E-mail" GridPane.rowIndex="8" />
+            <Label text="Email" GridPane.rowIndex="8" />
             <Label text="Primary Doctor" GridPane.rowIndex="11" />
             <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="5">
                <items>
