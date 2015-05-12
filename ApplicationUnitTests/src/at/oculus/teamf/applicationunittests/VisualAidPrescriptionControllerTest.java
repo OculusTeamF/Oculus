@@ -13,7 +13,12 @@ import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.VisualAidPrescriptionController;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -21,15 +26,19 @@ import static org.junit.Assert.*;
 public class VisualAidPrescriptionControllerTest {
 
     private SearchPatientController searchPatientController = new SearchPatientController();
+    private VisualAidPrescriptionController visualAidPrescriptionController;
     private LinkedList<IPatient> patients;
     private IPatient iPatient;
+    private IDiagnosis iDiagnosis;
 
     @org.junit.Before
     public void setUp() throws Exception {
         patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Meyer");
         iPatient = patients.getFirst();
-        iPatient
-        VisualAidPrescriptionController visualAidPrescriptionController = VisualAidPrescriptionController.createController();
+        LinkedList<IDiagnosis> diagnoses = (LinkedList<IDiagnosis>) iPatient.getDiagnoses();
+        iDiagnosis = diagnoses.getFirst();
+        visualAidPrescriptionController = VisualAidPrescriptionController.createController(iDiagnosis);
+
     }
 
     @org.junit.After
@@ -39,6 +48,18 @@ public class VisualAidPrescriptionControllerTest {
 
     @org.junit.Test
     public void createVisualAidPrescription(){
+        IVisualAid visualAid = null;
+        try {
+            visualAid = visualAidPrescriptionController.createVisualAidPrescription("this is a description");
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        }
+
+        //TODO
 
     }
 }

@@ -46,8 +46,9 @@ public class CreateDiagnosisControllerTest {
     @After
     public void tearDown() throws Exception{
         IFacade facade = Facade.getInstance();
-        facade.delete(iDiagnosis);
         facade.delete(iExaminationProtocol);
+        facade.delete(iDiagnosis);
+
     }
 
     @org.junit.Test
