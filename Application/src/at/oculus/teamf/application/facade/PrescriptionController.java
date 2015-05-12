@@ -98,7 +98,7 @@ public class PrescriptionController implements ILogger, IPrinter {
     public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException {
         //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
         try {
-            printer.printPrescription(iPrescription);
+            printer.printPrescription(iPrescription, _iPatient.getIDoctor());
         } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException e) {
             throw e;
         }
