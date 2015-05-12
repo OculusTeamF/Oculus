@@ -10,6 +10,7 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
@@ -24,8 +25,11 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
+import at.oculus.teamf.technical.printing.IPrinter;
 import at.oculus.teamf.technical.printing.Printer;
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -34,7 +38,7 @@ import java.util.LinkedList;
 /**
  * Created by jpo2433 on 08.05.15.
  */
-public class PrescriptionController implements ILogger {
+public class PrescriptionController implements ILogger, IPrinter {
 
     private IPatient _iPatient;
     private IPrescription iPrescription;
@@ -92,9 +96,13 @@ public class PrescriptionController implements ILogger {
         return medicines;
     }
 
-    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
-        Printer printer = Printer.getInstance();
-        printer.printPrescription(iPrescription);
+    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException {
+        //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
+        try {
+            printer.printPrescription(iPrescription);
+        } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException e) {
+            throw e;
+        }
 
         iPrescription.setLastPrint(new Timestamp(new Date().getTime()));
 
