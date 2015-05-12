@@ -10,7 +10,10 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
-import at.oculus.teamf.databaseconnection.session.exception.*;
+import at.oculus.teamf.databaseconnection.session.exception.AlreadyInTransactionException;
+import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
+import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.databaseconnection.session.exception.NoTransactionException;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -20,7 +23,6 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -87,6 +89,21 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         return result;
     }
 
+	/**
+	 * Converts a persitency entity to a domain object
+	 *
+	 * @param entity
+	 * 		that needs to be converted
+	 *
+	 * @return domain object that is created from entity
+	 *
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 */
+	protected abstract D persistentToDomain(P entity)
+			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
+			       SearchInterfaceNotImplementedException, InvalidSearchParameterException;
+
     /**
      * Gets an colletion of D object from the database.
      *
@@ -146,13 +163,24 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
             throw new NoBrokerMappedException();
-        } catch (CanNotStartTransactionException | CanNotCommitTransactionException e) {
-            log.error(e.getMessage());
-            throw new DatabaseOperationException(e);
         }
 
         log.debug(_domainClass.toString() + " with ID " + domainObj.getId() + " saved");
     }
+
+	/**
+	 * Converts a domain object to persitency entity
+	 *
+	 * @param obj
+	 * 		that needs to be converted
+	 *
+	 * @return return a persitency entity
+	 *
+	 * @throws NoBrokerMappedException
+	 * @throws BadConnectionException
+	 */
+	protected abstract P domainToPersistent(D obj)
+			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException;
 
     /**
      * Saves a collection of object to the database.
@@ -182,9 +210,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
             throw new NoBrokerMappedException();
-        } catch (CanNotStartTransactionException | CanNotCommitTransactionException e) {
-            log.error(e.getMessage());
-            throw new DatabaseOperationException(e);
         }
 
         log.debug("collection of " + _domainClass.toString() + " saved");
@@ -213,9 +238,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         } catch (BadSessionException | AlreadyInTransactionException | ClassNotMappedException | NoTransactionException e) {
             log.error(e.getMessage());
             throw new BadConnectionException();
-        } catch (CanNotRollbackTheTransaction | CanNotStartTransactionException | CanNotCommitTransactionException e) {
-            log.error(e.getMessage());
-            throw new DatabaseOperationException(e);
         }
 
         log.debug(_domainClass.toString() + " with id " + domainObj.getId() + " deleted");
@@ -242,9 +264,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 		} catch (ClassNotMappedException e) {
             log.error(e.getMessage());
             throw new NoBrokerMappedException();
-        } catch (CanNotStartTransactionException | CanNotCommitTransactionException | CanNotRollbackTheTransaction e) {
-            log.error(e.getMessage());
-            throw new DatabaseOperationException(e);
         }
 
         log.debug("collection of " + _domainClass.toString() + " deleted");
@@ -252,41 +271,23 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         return true;
 	}
 
-    /**
-     * Adds additional entity class mappings to the broker.
-     * @param clazz that needs to map
-     */
-    protected void addClassMapping(Class clazz) {
-        _entityClasses.add(clazz);
+	//<editor-fold desc="Abstract Methode">
+
+	/**
+	 * Adds additional entity class mappings to the broker.
+	 * @param clazz that needs to map
+	 */
+	protected void addClassMapping(Class clazz) {
+		_entityClasses.add(clazz);
+	}
+
+	/**
+	 * Adds additional domain class mappings to the broker only. Can be used to map muliple domain classes to one broker.
+	 * @param clazz that needs to map
+	 */
+	protected void addDomainClass(Class clazz) {
+		_domainClasses.add(clazz);
     }
-
-    /**
-     * Adds additional domain class mappings to the broker only. Can be used to map muliple domain classes to one broker.
-     * @param clazz that needs to map
-     */
-    protected void addDomainClass(Class clazz) {
-        _domainClasses.add(clazz);
-    }
-
-    //<editor-fold desc="Abstract Methode">
-
-    /**
-     * Converts a persitency entity to a domain object
-     * @param entity that needs to be converted
-     * @return domain object that is created from entity
-     * @throws NoBrokerMappedException
-     * @throws BadConnectionException
-     */
-    protected abstract D persistentToDomain(P entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException;
-
-    /**
-     * Converts a domain object to persitency entity
-     * @param obj that needs to be converted
-     * @return return a persitency entity
-     * @throws NoBrokerMappedException
-     * @throws BadConnectionException
-     */
-    protected abstract P domainToPersistent(D obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException;
 
     //</editor-fold>
 

@@ -20,21 +20,18 @@ import at.oculus.teamf.persistence.Facade;
 
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
-
 public class PrescriptionControllerTest {
 
-    private SearchPatientController searchPatientController = new SearchPatientController();
     PrescriptionController prescriptionController;
     IPatient iPatient;
     IPrescription iPrescription;
+	private SearchPatientController searchPatientController = new SearchPatientController();
 
     @org.junit.Before
     public void setUp() throws Exception {
         LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Meyer");
         iPatient = patients.getFirst();
         prescriptionController = PrescriptionController.createController(iPatient);
-
     }
 
     @org.junit.After

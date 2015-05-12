@@ -26,7 +26,6 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
-import at.oculus.teamf.technical.printing.Printer;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
@@ -58,32 +57,32 @@ public class PrescriptionController implements ILogger, IPrinter {
         return new PrescriptionController(iPatient);
     }
 
+	public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines)
+			throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException,
+			       NoBrokerMappedException {
+		for (IMedicine medicine : medicines) {
+			try {
+				createPrescriptionEntry(medicine);
+			} catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
+				log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
+				throw couldNotAddPrescriptionEntryException;
+			}
+		}
+		return iPrescription;
+	}
+
     public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
         IPrescriptionEntry entry = new PrescriptionEntry();
 
-        IFacade facade = Facade.getInstance();
-        facade.save(entry);
-
         entry.setMedicine(iMedicine);
-        try {
+
+	    try {
             iPrescription.addPrescriptionEntry(entry);
         } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
             log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
             throw couldNotAddPrescriptionEntryException;
         }
         return entry;
-    }
-
-    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException {
-        for(IMedicine medicine : medicines){
-            try {
-                createPrescriptionEntry(medicine);
-            } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
-                log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
-                throw couldNotAddPrescriptionEntryException;
-            }
-        }
-        return iPrescription;
     }
 
     public Collection<IMedicine> getAllPrescribedMedicines(){

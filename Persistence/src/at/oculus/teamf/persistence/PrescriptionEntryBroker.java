@@ -85,19 +85,21 @@ public class PrescriptionEntryBroker extends EntityBroker {
 		PrescriptionEntry prescriptionEntry = (PrescriptionEntry) obj;
 		PrescriptionEntryEntity prescriptionEntryEntity = new PrescriptionEntryEntity();
 		prescriptionEntryEntity.setId(prescriptionEntry.getId());
+
         if(prescriptionEntry.getMedicine()!=null) {
             prescriptionEntryEntity.setMedicine((MedicineEntity) Facade.getInstance().getBroker(Medicine.class)
                     .domainToPersistent(
                             prescriptionEntry.getMedicine()));
             prescriptionEntryEntity.setMedicineId(prescriptionEntry.getMedicine().getId());
         }
-        if(prescriptionEntry
-                .getPrescription()!=null) {
-            prescriptionEntryEntity.setPrescription((PrescriptionEntity) Facade.getInstance().getBroker(Prescription.class)
-                    .domainToPersistent(prescriptionEntry
-                            .getPrescription()));
-            prescriptionEntryEntity.setPrescriptionId(prescriptionEntry.getPrescription().getId());
+
+		if (prescriptionEntry.getPrescription() != null) {
+			prescriptionEntryEntity.setPrescription(
+					(PrescriptionEntity) Facade.getInstance().getBroker(Prescription.class)
+					                           .domainToPersistent(prescriptionEntry.getPrescription()));
+			prescriptionEntryEntity.setPrescriptionId(prescriptionEntry.getPrescription().getId());
         }
+
 		return prescriptionEntryEntity;
 	}
 }
