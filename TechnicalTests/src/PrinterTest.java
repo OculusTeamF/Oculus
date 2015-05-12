@@ -29,7 +29,7 @@ public class PrinterTest implements IPrinter {
     public void tearDown() throws Exception {
 
     }
-
+/*
     @org.junit.Test
     public void testPrint() throws Exception {
         printer.print("title",
@@ -45,18 +45,19 @@ public class PrinterTest implements IPrinter {
                 "\n" +
                 "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur");
     }
-
+*/
     @org.junit.Test
     public void testPrintPrescription() throws Exception {
         SearchPatientController searchPatientController = new SearchPatientController();
         LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Stone");
         try {
             LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
-            iPrescriptions.addAll(patients.getFirst().getPrescriptions());
-            for (IPrescriptionEntry entry : iPrescriptions.getFirst().getPrescriptionEntries()){
+            IPatient iPatient = patients.getFirst();
+            iPrescriptions.addAll(iPatient.getPrescriptions());
+            for (IPrescriptionEntry entry : iPrescriptions.getFirst().getPrescriptionEntries()) {
                 System.out.println(entry.getMedicine());
             }
-            printer.printPrescription(iPrescriptions.getFirst());
+            printer.printPrescription(iPrescriptions.getFirst(), iPatient.getIDoctor());
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
         }
