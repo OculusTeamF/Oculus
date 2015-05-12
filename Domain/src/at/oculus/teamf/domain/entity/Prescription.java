@@ -104,7 +104,9 @@ public class Prescription implements IPrescription, ILogger {
 		_prescriptionEntries.add(entry);
 		try {
             Facade.getInstance().save(this);
-			Facade.getInstance().save(prescriptionEntry);
+			for(PrescriptionEntry p : _prescriptionEntries){
+                Facade.getInstance().save(p);
+            }
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			log.error(e.getMessage());
 			throw new CouldNotAddPrescriptionEntryException();
