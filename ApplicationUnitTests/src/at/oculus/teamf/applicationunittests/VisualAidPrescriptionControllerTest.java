@@ -9,17 +9,36 @@
 
 package at.oculus.teamf.applicationunittests;
 
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.VisualAidPrescriptionController;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+
+import java.util.LinkedList;
+
 import static org.junit.Assert.*;
 
 public class VisualAidPrescriptionControllerTest {
 
+    private SearchPatientController searchPatientController = new SearchPatientController();
+    private LinkedList<IPatient> patients;
+    private IPatient iPatient;
+
     @org.junit.Before
     public void setUp() throws Exception {
-
+        patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Meyer");
+        iPatient = patients.getFirst();
+        iPatient
+        VisualAidPrescriptionController visualAidPrescriptionController = VisualAidPrescriptionController.createController();
     }
 
     @org.junit.After
     public void tearDown() throws Exception {
+
+    }
+
+    @org.junit.Test
+    public void createVisualAidPrescription(){
 
     }
 }
