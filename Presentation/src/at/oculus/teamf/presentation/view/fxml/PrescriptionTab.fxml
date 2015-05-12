@@ -61,9 +61,7 @@
                               <ListView fx:id="prescriptionItemsVA" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <children>
-                                    <ComboBox fx:id="chooseMedicinBoxVA" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
-                                    <Button fx:id="addMedicinButtonVA" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
-                                    <Button fx:id="removeMedicinButtonVA" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
+                                    <TextArea fx:id="visualAidPrescription" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
                                  </children>
                               </Pane>
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

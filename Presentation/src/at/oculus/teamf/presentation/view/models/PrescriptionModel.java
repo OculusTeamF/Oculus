@@ -11,11 +11,14 @@ package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
+import javafx.collections.ObservableList;
 
 import java.util.Collection;
 
@@ -44,12 +47,27 @@ public class PrescriptionModel {
             _prescriptionController = PrescriptionController.createController(patient);
         } catch (NoPatientException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoPatientException - Please contact support");
         }
     }
 
     public void addPrescriptionEntries(Collection<IMedicine> medicinList) {
 
-        //_prescriptionController.createPrescriptionEntry(medicinList);
+        try {
+            _prescriptionController.createPrescriptionEntry(medicinList);
+        } catch (CouldNotAddPrescriptionEntryException e) {
+            e.printStackTrace();
+            //DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPrescriptionEntryException - Please contact support");
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "DatabaseOperationException - Please contact support");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        }
     }
 
     public void printPrescription() {
@@ -59,10 +77,20 @@ public class PrescriptionModel {
             _prescriptionController.printPrescription();
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "DatabaseOperationException - Please contact support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         }
+    }
+
+    public Collection<IMedicine> getPrescribedMedicin() {
+
+        Collection<IMedicine> prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
+
+        return prescribedMedicins;
     }
 }

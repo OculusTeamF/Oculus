@@ -79,6 +79,7 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets></Button>
+                  <Button fx:id="notPrintedPrescriptions" mnemonicParsing="false" onAction="#openPrescriptionsToPrintButtonHandler" text="not printed Prescriptions" />
                </items>
             </ToolBar>
             <Label focusTraversable="false" text="Gender" GridPane.rowIndex="10" />
