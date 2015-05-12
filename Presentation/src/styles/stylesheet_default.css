@@ -41,12 +41,9 @@
 
 
 #colorPane1{
-     -fx-background-color: #cbe6ff;
- }
-#colorPane2{
     -fx-background-color: #cbe6ff;
 }
-#colorPane21{
+#colorPane2{
     -fx-background-color: #cbe6ff;
 }
 #colorPane3{
@@ -70,12 +67,12 @@
 #colorPane9{
     -fx-background-color: #cbe6ff;
 }
-
-#examinationResults{
-    -fx-opacity: 0.5;
+#colorPane21{
+    -fx-background-color: #cbe6ff;
 }
+
 #colorPane4:hover{
-    -fx-opacity: 0.5;
+    /*-fx-opacity: 0.5;*/
 }
 
 #loaderPane{
@@ -102,6 +99,42 @@
 }
 
 #searchButton:hover {
+    -fx-opacity: 1;
+}
+
+#queueButton{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-border-style: none;
+    -fx-opacity: 0.3;
+}
+
+#queueButton:hover {
+    -fx-opacity: 1;
+}
+
+#queueDeleteButton{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-border-style: none;
+    -fx-opacity: 0.3;
+}
+
+#queueDeleteButton:hover {
+    -fx-opacity: 1;
+}
+
+#queueOpenButton{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-border-style: none;
+    -fx-opacity: 0.3;
+}
+
+#queueOpenButton:hover {
     -fx-opacity: 1;
 }
 
@@ -133,7 +166,10 @@
 }
 
 .text-area:disabled, .text-field:disabled{
-    -fx-opacity: 0.5;
+    -fx-opacity: 1;
+    -fx-text-fill: black;
+    -fx-background-color: mintcream;
+    -fx-border-color: lightgray;
 }
 
 .text-area .scroll-pane:disabled{
@@ -148,5 +184,9 @@
 
 .list-cell:hover{
     -fx-background-color: blanchedalmond;
+}
+
+.list-cell {
+    -fx-text-alignment: center;
 }
 

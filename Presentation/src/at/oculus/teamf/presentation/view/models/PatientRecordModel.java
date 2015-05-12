@@ -13,11 +13,16 @@ import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedExcep
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -86,6 +91,37 @@ public class PatientRecordModel {
             DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
         }
         return false;
+    }
+
+    /**
+     * Returns Calendar Events of a specific patient
+     */
+    public Collection<ICalendarEvent> getCalendarEvents(){
+
+        Collection<ICalendarEvent> events = null;
+        try {
+            System.out.println(_model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getLastName());
+            events = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getCalendarEvents();
+        } catch (CouldNotGetCalendarEventsException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetCalendarEventsException - Please contact support");
+        }
+        return events;
+    }
+
+    /**
+     * returns all Diagnoses Titles from a given Patient
+     * @return
+     */
+    public Collection<IDiagnosis> getAllDiagnoses(){
+        Collection<IDiagnosis> allDiagnoses = null;
+        try {
+            allDiagnoses = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getDiagnoses();
+        } catch (CouldNotGetDiagnoseException e) {
+            e.printStackTrace();
+        }
+
+        return allDiagnoses;
     }
 
 }

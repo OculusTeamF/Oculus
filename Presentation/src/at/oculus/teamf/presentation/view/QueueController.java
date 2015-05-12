@@ -63,8 +63,8 @@ public class QueueController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
-                    _model.setPatient((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
-                    _model.getTabModel().addPatientRecordTab(_model.getPatient());
+                    //_model.setPatient((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
+                    _model.getTabModel().addPatientRecordTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
         });
