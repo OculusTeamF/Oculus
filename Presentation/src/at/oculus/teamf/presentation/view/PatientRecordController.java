@@ -102,7 +102,7 @@ public class PatientRecordController implements Initializable {
         if (_model.getAllDiagnoses() != null) {
             patientRecordListDiagnoses.setDisable(false);
             try {
-                //TODO diagnoses not shown with toString
+                // TODO diagnoses not shown with toString
                 ObservableList<IDiagnosis> diagnosislist = FXCollections.observableArrayList(_model.getPatient().getDiagnoses());
                 patientRecordListDiagnoses.setItems(diagnosislist);
             } catch (CouldNotGetDiagnoseException e) {
