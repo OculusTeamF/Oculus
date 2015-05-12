@@ -33,7 +33,7 @@ public interface IPatient extends IDomain {
     void setFirstName(String firstName);
 
     String getLastName();
-    Patient setLastName(String lastName);
+    IPatient setLastName(String lastName);
 
     Gender getGender();
     void setGender(String gender);
@@ -44,8 +44,8 @@ public interface IPatient extends IDomain {
     IDoctor getIDoctor();
     void setIDoctor(IDoctor idoctor);
 
-    Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException;
-    void setCalendarEvents(Collection<CalendarEvent> calendarEvents);
+    Collection<ICalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException;
+    void setCalendarEvents(Collection<ICalendarEvent> calendarEvents);
 
     Date getBirthDay();
     void setBirthDay(Date birthDay);

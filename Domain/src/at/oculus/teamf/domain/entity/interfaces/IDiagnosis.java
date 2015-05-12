@@ -38,9 +38,9 @@ public interface IDiagnosis extends IDomain {
 
     void setDoctorId(Integer doctorId);
 
-    Doctor getDoctor();
+    IDoctor getDoctor();
 
-    void setDoctor(Doctor doctor);
+    void setDoctor(IDoctor doctor);
 
     Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException;
 

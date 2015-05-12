@@ -205,7 +205,7 @@ public class Patient implements IPatient, ILogger {
 		return _lastName;
     }
 
-	public Patient setLastName(String lastName) {
+	public IPatient setLastName(String lastName) {
 		_lastName = lastName;
         return this;
     }
@@ -226,7 +226,7 @@ public class Patient implements IPatient, ILogger {
         }
     }
 
-	public Collection<CalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
+	public Collection<ICalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
 
         try {
             Facade.getInstance().reloadCollection(this, CalendarEvent.class);
@@ -235,11 +235,11 @@ public class Patient implements IPatient, ILogger {
             throw new CouldNotGetCalendarEventsException();
         }
 
-        return _calendarEvents;
+        return (Collection<ICalendarEvent>) (Collection<?>) _calendarEvents;
     }
 
-    public void setCalendarEvents(Collection<CalendarEvent> calendarEvents) {
-        _calendarEvents = calendarEvents;
+    public void setCalendarEvents(Collection<ICalendarEvent> calendarEvents) {
+        _calendarEvents = (Collection<CalendarEvent>) (Collection<?>) calendarEvents;
     }
 
     public String getSocialInsuranceNr() {

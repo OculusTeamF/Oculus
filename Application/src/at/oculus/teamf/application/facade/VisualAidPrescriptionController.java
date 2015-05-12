@@ -20,10 +20,8 @@ package at.oculus.teamf.application.facade;
  **/
 
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
@@ -32,9 +30,7 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
-import org.apache.pdfbox.exceptions.COSVisitorException;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -63,22 +59,6 @@ public class VisualAidPrescriptionController implements ILogger, IPrinter{
     public IVisualAid createVisualAidPrescription(String description) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
         visualAid.setDescription(description);
         visualAid.setIssueDate(new Timestamp(new Date().getTime()));
-
-        IFacade facade = Facade.getInstance();
-        facade.save(visualAid);
-
-        return visualAid;
-    }
-
-    public IVisualAid printVisualAid() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
-       //TODO printVisualAid methode im Printer?
-       /* try {
-            printer.printVisualAid(visualAid);
-        } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException e) {
-            throw e;
-        }*/
-
-        visualAid.setLastPrint(new Timestamp(new Date().getTime()));
 
         IFacade facade = Facade.getInstance();
         facade.save(visualAid);

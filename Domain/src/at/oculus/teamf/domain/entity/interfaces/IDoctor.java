@@ -30,23 +30,23 @@ public interface IDoctor extends IUser, IDomain {
 
     void setId(int id);
 
-    Calendar getCalendar();
+    ICalendar getCalendar();
 
-    void setCalendar(Calendar _calendar);
+    void setCalendar(ICalendar _calendar);
 
-    PatientQueue getQueue();
+    IPatientQueue getQueue();
 
-    void setQueue(PatientQueue _queue);
+    void setQueue(IPatientQueue _queue);
 
-    Doctor getDoctorSubstitude();
+    IDoctor getDoctorSubstitude();
 
-    void setDoctorSubstitude(Doctor doctorSubstitude);
+    void setDoctorSubstitude(IDoctor doctorSubstitude);
 
-    void addPatient(Patient patient);
+    void addPatient(IPatient patient);
 
-    Collection<Patient> getPatients() throws CantLoadPatientsException;
+    Collection<IPatient> getPatients() throws CantLoadPatientsException;
 
-    void setPatients(Collection<Patient> patients);
+    void setPatients(Collection<IPatient> patients);
 
     @Override
     String toString();

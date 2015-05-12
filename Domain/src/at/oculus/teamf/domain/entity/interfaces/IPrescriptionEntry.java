@@ -16,7 +16,7 @@ import at.oculus.teamf.domain.entity.Prescription;
  */
 public interface IPrescriptionEntry extends IDomain {
 
-    Prescription getPrescription();
+    IPrescription getPrescription();
 
     IMedicine getMedicine();
 
