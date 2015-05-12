@@ -74,7 +74,7 @@ public class VisualAidEntity implements IEntity {
 	}
 
 	@Basic
-	@Column(name = "lastPrint", nullable = false, insertable = true, updatable = true)
+	@Column(name = "lastPrint", nullable = true, insertable = true, updatable = true)
 	public Timestamp getLastPrint() {
 		return _lastPrint;
 	}
