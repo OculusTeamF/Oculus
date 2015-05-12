@@ -107,7 +107,6 @@ public class PrescriptionController implements Initializable, IPrinter {
                 }
             }
         });
-
     }
 
     @FXML
