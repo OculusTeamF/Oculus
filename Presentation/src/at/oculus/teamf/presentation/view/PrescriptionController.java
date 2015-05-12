@@ -9,7 +9,10 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,9 +27,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.controlsfx.control.CheckComboBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 /**
@@ -42,7 +47,7 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public AnchorPane prescriptionMedicalPane;
     @FXML public AnchorPane prescriptionVisualAidPane;
     @FXML public ListView prescriptionItems;
-    @FXML public ChoiceBox chooseMedicinBox;
+    @FXML public CheckComboBox chooseMedicinBox;
     @FXML public Button addMedicinButton;
     @FXML public Button removeMedicinButton;
     @FXML public Button saveButton;
@@ -54,9 +59,18 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label zip;
     @FXML public Label city;
     @FXML public Label state;
+    @FXML public Label lastnameVA;
+    @FXML public Label firstnameVA;
+    @FXML public Label svnVA;
+    @FXML public Label bdayVA;
+    @FXML public Label addressVA;
+    @FXML public Label zipVA;
+    @FXML public Label cityVA;
+    @FXML public Label stateVA;
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
+    private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,6 +84,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         choosePrescriptionBox.setItems(_prescriptionType);
         choosePrescriptionBox.getSelectionModel().select(0);
 
+        addMedicinButton.setTooltip(new Tooltip("add Medicin to Prescription"));
+        removeMedicinButton.setTooltip(new Tooltip("remove Medicin from Prescription"));
+
         //Stackpane on index 0 is the visualAidPrescription, on index 1 is the medicalPrescription
         prescriptionStackPane.getChildren().get(0).setVisible(false);
         prescriptionStackPane.getChildren().get(1).setVisible(true);
@@ -77,6 +94,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveButton.setGraphic(new ImageView(imageSaveIcon));
+
+        String text = "choose medicin ...";
+        chooseMedicinBox.checkModelProperty().setValue(text);
 
         //fill in data
         lastname.setText(_model.getPatient().getLastName());
@@ -87,6 +107,14 @@ public class PrescriptionController implements Initializable, IPrinter {
         zip.setText(_model.getPatient().getPostalCode());
         city.setText(_model.getPatient().getCity());
         state.setText(_model.getPatient().getCountryIsoCode());
+        lastnameVA.setText(_model.getPatient().getLastName());
+        firstnameVA.setText(_model.getPatient().getFirstName());
+        svnVA.setText(_model.getPatient().getSocialInsuranceNr());
+        bdayVA.setText(_model.getPatient().getBirthDay().toString());
+        addressVA.setText(_model.getPatient().getStreet());
+        zipVA.setText(_model.getPatient().getPostalCode());
+        cityVA.setText(_model.getPatient().getCity());
+        stateVA.setText(_model.getPatient().getCountryIsoCode());
 
 
         choosePrescriptionBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -109,25 +137,46 @@ public class PrescriptionController implements Initializable, IPrinter {
         });
     }
 
+    //add the selected MedicinItems to the PrescriptionList
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
 
+        ObservableList<IMedicine> medicinList = chooseMedicinBox.getCheckModel().getCheckedItems();
+
+        prescriptionItems.setItems(medicinList);
+
     }
 
+    //remove the Medicin from the PrescriptionList
     @FXML
     public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
 
+        prescriptionItems.getSelectionModel().clearSelection();
     }
 
+    @FXML
+    public void savePrescriptionButtonActionHandler(ActionEvent actionEvent){
+
+        //TODO: save prescription
+        IPatient patient = _model.getPatient();
+        Collection<IMedicine> medicinList = prescriptionItems.getItems();
+
+        _prescriptionModel.addNewPrescription(patient);
+        _prescriptionModel.addPrescriptionEntries(medicinList);
+    }
 
     @FXML
-    public void doPrint(ActionEvent actionEvent) {
-            try {
-                printer.print("BESCHWERDE !","Guten Tag, bla bla lala blubb");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (COSVisitorException e) {
-                e.printStackTrace();
-            }
+    public void printPrescriptionButtonActionHandler(ActionEvent actionEvent){
+
+        //TODO: print and save prescription
+        _prescriptionModel.printPrescription();
+
+        //save prescription
+        IPatient patient = _model.getPatient();
+        Collection<IMedicine> medicinList = prescriptionItems.getItems();
+
+        _prescriptionModel.addNewPrescription(patient);
+        _prescriptionModel.addPrescriptionEntries(medicinList);
+
         }
 }
