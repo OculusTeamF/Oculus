@@ -9,11 +9,15 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,7 +29,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Fabian on 01.05.2015.
  */
-public class DiagnosisController implements Initializable {
+public class DiagnosisController implements Initializable,ILogger {
     //private IPatient patient;
 
     @FXML private Button saveDiagnosisButton;
@@ -33,9 +37,14 @@ public class DiagnosisController implements Initializable {
     @FXML private TextArea textDiagnosisDescription;
 
     private Model _model = Model.getInstance();
+    private IExaminationProtocol currexam;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // get examination object
+        currexam = _model.getExaminationModel().getCurrentExaminationProtocol();
+        log.debug("ADD Diagnosis to Examination: " + currexam.getPatient().getLastName());
+
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveDiagnosisButton.setGraphic(new ImageView(imageSaveIcon));
@@ -43,7 +52,14 @@ public class DiagnosisController implements Initializable {
 
     @FXML
     public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
-        //_model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(),textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser());
-        _model.getTabModel().closeSelectedTab();
+        if (textDiagnosisTitle.getText().isEmpty() == false && textDiagnosisDescription.getText().isEmpty() == false) {
+            _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), currexam);
+            //TODO: return to correct examination tab & refresh examination from patient
+            Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()));
+            _model.getTabModel().closeSelectedAndReturnToOriginTab(origintab);
+            //_model.getTabModel().closeSelectedTab();
+        } else {
+            DialogBoxController.getInstance().showInformationDialog("Data needed", "Please add diagnosis title and/or description");
+        }
     }
 }

@@ -237,7 +237,7 @@ public class StartupController implements ILogger {
         Patient patient = (Patient) iPatient;
         Collection<CalendarEvent> events = null;
 
-        events = patient.getCalendarEvents();
+        events = (Collection<CalendarEvent>) (Collection<?>) patient.getCalendarEvents();
 
         Collection<ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();
 
@@ -326,7 +326,7 @@ public class StartupController implements ILogger {
         if (user != null) {
             if (user instanceof Doctor) {
                 doctor = (Doctor) user;
-                queue = doctor.getQueue();
+                queue = (PatientQueue) doctor.getQueue();
             } else if (user instanceof Orthoptist) {
                 orthoptist = (Orthoptist) user;
                 queue = orthoptist.getQueue();

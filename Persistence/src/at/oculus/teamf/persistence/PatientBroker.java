@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -56,7 +57,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
 			       InvalidSearchParameterException, BadSessionException {
 		if (clazz == CalendarEvent.class) {
-			((Patient) obj).setCalendarEvents(reloadCalendarEvents(session, obj));
+			((Patient) obj).setCalendarEvents((Collection<ICalendarEvent>) (Collection<?>) reloadCalendarEvents(session, obj));
 		} else if (clazz == ExaminationProtocol.class) {
             ((Patient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
         } else if (clazz == Prescription.class) {

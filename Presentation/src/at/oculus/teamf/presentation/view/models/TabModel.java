@@ -20,7 +20,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -34,6 +33,8 @@ public class TabModel implements ILogger {
     private HashMap<Tab, IPatient> _tabmap;
     private Tab _selectedTab;
     private TabPane _tabPanel;
+
+    private IPatient _tabinitpatient;
 
     private TabModel(){
         _tabmap = new HashMap();
@@ -56,19 +57,22 @@ public class TabModel implements ILogger {
      */
     public void loadTab(String tabTitle, String tabFXML, String ID){
         _model = Model.getInstance();
+
+        System.out.println(checkIfTabIsAlreadyOpened(ID));
+
         try {
             Tab tab = new Tab(tabTitle);
+            // tab management
             _selectedTab = tab;
             tab.setId(ID);
 
+            // load tab fxml
             String pathTabFXML = "../" + tabFXML;
             AnchorPane ap = FXMLLoader.load(this.getClass().getResource(pathTabFXML));
             tab.setContent(ap);
 
 
-            // setup tab hashmap
-            setTabMapEntry(tab, _model._patient);
-
+            // setup tab
             tab.setOnCloseRequest(new EventHandler<Event>() {
                 @Override
                 public void handle(Event t) {
@@ -80,6 +84,7 @@ public class TabModel implements ILogger {
                 }
             });
 
+            setTabMapEntry(tab, _tabinitpatient);
             _tabPanel.getTabs().add(tab);               // add tab to pane
             _tabPanel.getSelectionModel().select(tab);  // switch to new tab
             log.debug("New Tab added: " + getSelectedTab().getText() + " to TabPanel " + _tabPanel.getId());
@@ -89,9 +94,33 @@ public class TabModel implements ILogger {
         }
     }
 
+    public Tab getTabFromPatientAndID(String id, IPatient patient){
+        for (Tab key : _tabmap.keySet()) {
+            if (key.getId() == id){
+                IPatient pat =  _tabmap.get(key);
+                if (patient.equals(pat)){
+                    return key;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean checkIfTabIsAlreadyOpened(String ID){
+        //TODO
+        return false;
+    }
+
     public void closeSelectedTab(){
         _tabPanel.getTabs().removeAll(_selectedTab);
         removeTabMapEntry( _selectedTab);
+    }
+
+    public void closeSelectedAndReturnToOriginTab(Tab tab){
+        _tabPanel.getTabs().removeAll(_selectedTab);
+        removeTabMapEntry( _selectedTab);
+
+        _tabPanel.getSelectionModel().select(tab);
     }
 
     public void setSelectedTab(Tab tab){
@@ -100,6 +129,8 @@ public class TabModel implements ILogger {
     }
 
     public Tab getSelectedTab(){ return  _selectedTab; }
+
+    public IPatient getInitPatient(){ return _tabinitpatient; }
 
     public void setTabMapEntry(Tab tab, IPatient pat){  _tabmap.put(tab,pat); }
 
@@ -117,6 +148,7 @@ public class TabModel implements ILogger {
     public void addPatientRecordTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("RECORD: " + patient.getLastName(), "fxml/PatientRecordTab.fxml", "patientrecord" + patient.getSocialInsuranceNr());
     }
 
@@ -127,6 +159,7 @@ public class TabModel implements ILogger {
     public void addDiagnosisTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml", "diagnosis" + patient.getSocialInsuranceNr());
     }
 
@@ -137,7 +170,8 @@ public class TabModel implements ILogger {
     public void addExaminationTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("PROTOCOLS: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", "examination" + patient.getSocialInsuranceNr());
+        _tabinitpatient = patient;
+        loadTab("PROTOCOLS: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", "protocols" + patient.getSocialInsuranceNr());
     }
 
     /**
@@ -147,13 +181,14 @@ public class TabModel implements ILogger {
     public void addPrescriptionTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("PRESCRIPTIONS: " +  _model.getPatient().getLastName(), "fxml/PrescriptionTab.fxml", "prescription" + patient.getSocialInsuranceNr());
     }
 
     public void addNewExaminationTab(IPatient patient){
-        Date date = new Date();
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("EXAMINATION: " + _model.getPatient().getLastName(), "fxml/NewExaminationTab.fxml","newexamination" + patient.getSocialInsuranceNr() );
     }
 

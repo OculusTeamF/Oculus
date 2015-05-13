@@ -26,7 +26,6 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
-import at.oculus.teamf.technical.printing.Printer;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
@@ -99,7 +98,7 @@ public class PrescriptionController implements ILogger, IPrinter {
     public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException {
         //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
         try {
-            printer.printPrescription(iPrescription);
+            printer.printPrescription(iPrescription, _iPatient.getIDoctor());
         } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException e) {
             throw e;
         }

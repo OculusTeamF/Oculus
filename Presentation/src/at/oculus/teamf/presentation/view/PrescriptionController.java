@@ -14,11 +14,9 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,14 +24,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.controlsfx.control.CheckComboBox;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Collection;
+import java.util.ResourceBundle;
 
 /**
  * Created by Karo on 04.05.2015.
@@ -108,7 +103,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         lastname.setText(_model.getPatient().getLastName());
         firstname.setText(_model.getPatient().getFirstName());
         svn.setText(_model.getPatient().getSocialInsuranceNr());
-        bday.setText(_model.getPatient().getBirthDay().toString());
+        if (_model.getPatient().getBirthDay() != null) {
+            bday.setText(_model.getPatient().getBirthDay().toString());
+        }
         address.setText(_model.getPatient().getStreet());
         zip.setText(_model.getPatient().getPostalCode());
         city.setText(_model.getPatient().getCity());
