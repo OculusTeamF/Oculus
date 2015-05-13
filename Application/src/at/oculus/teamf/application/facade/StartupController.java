@@ -23,6 +23,9 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamE.domain.interfaces.IDomainFactory;
+import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
+import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
@@ -40,6 +43,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.function.Supplier;
 
 /**
  * <h2>$StartupController</h2>
@@ -59,6 +63,19 @@ public class StartupController implements ILogger {
      */
     public StartupController() {
         Facade facade = Facade.getInstance();
+        DependencyResolver teamEDependencies = DependencyResolver.getInstance();
+        teamEDependencies.registerPersistenceFacade(new Supplier<IPersistenceFacadeTb2>() {
+            @Override
+            public IPersistenceFacadeTb2 get() {
+                return null;
+            }
+        });
+        teamEDependencies.registerDomainFactory(new Supplier<IDomainFactory>() {
+            @Override
+            public IDomainFactory get() {
+                return null;
+            }
+        });
     }
 
     /**
