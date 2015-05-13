@@ -46,9 +46,6 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Button saveButton;
     @FXML public StackPane prescriptionStackPane;
     @FXML public ListView prescriptionItemsVA;
-    @FXML public ComboBox chooseMedicinBoxVA;
-    @FXML public Button addMedicinButtonVA;
-    @FXML public Button removeMedicinButtonVA;
     @FXML public Label lastnameVA;
     @FXML public Label firstnameVA;
     @FXML public Label svnVA;
@@ -69,6 +66,8 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label state;
     @FXML public Label zip;
     @FXML public Label city;
+    @FXML public TextArea visualAidPrescription;
+    @FXML public Button printPrescriptionButton;
 
 
     private Model _model = Model.getInstance();
@@ -101,7 +100,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         //Medicin box
         String text = "choose medicin ...";
         chooseMedicinBox.setPromptText(text);
-        chooseMedicinBoxVA.setPromptText(text);
+        ObservableList<IMedicine> prescribedMedicin = FXCollections.observableArrayList((List)_prescriptionModel.getPrescribedMedicin());
+        chooseMedicinBox.setItems(prescribedMedicin);
+
 
         //fill in data
         lastname.setText(_model.getPatient().getLastName());
@@ -148,9 +149,12 @@ public class PrescriptionController implements Initializable, IPrinter {
 
         ObservableList<IMedicine> medicinList = null;
 
-        medicinList.add((IMedicine)chooseMedicinBox.getSelectionModel().getSelectedItem());
+        IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
+
+        medicinList.add(itemToAdd);
 
         prescriptionItems.setItems(medicinList);
+        StatusBarController.showProgressBarIdle("Added " + itemToAdd);
 
     }
 
@@ -158,8 +162,23 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
 
-        prescriptionItems.getSelectionModel().clearSelection();
+        //prescriptionItems.getSelectionModel().clearSelection();
+
+        final int selectedIdx = prescriptionItems.getSelectionModel().getSelectedIndex();
+        if (selectedIdx != -1) {
+            IMedicine itemToRemove = (IMedicine)prescriptionItems.getSelectionModel().getSelectedItem();
+
+            final int newSelectedIdx =
+                    (selectedIdx == prescriptionItems.getItems().size() - 1)
+                            ? selectedIdx - 1
+                            : selectedIdx;
+
+            prescriptionItems.getItems().remove(selectedIdx);
+            StatusBarController.showProgressBarIdle("Removed " + itemToRemove);
+            prescriptionItems.getSelectionModel().select(newSelectedIdx);
+        }
     }
+
 
     @FXML
     public void savePrescriptionButtonActionHandler(ActionEvent actionEvent){
@@ -173,7 +192,7 @@ public class PrescriptionController implements Initializable, IPrinter {
     }
 
     @FXML
-    public void printPrescriptionButtonActionHandler(ActionEvent actionEvent){
+    public void printPrescriptionButtonHandler(ActionEvent actionEvent){
 
         //TODO: print and save prescription
         _prescriptionModel.printPrescription();
@@ -186,4 +205,6 @@ public class PrescriptionController implements Initializable, IPrinter {
         _prescriptionModel.addPrescriptionEntries(medicinList);
 
         }
+
+
 }

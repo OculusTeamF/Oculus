@@ -15,8 +15,10 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.presentation.view.models.PatientRecordModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,7 +30,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.*;
+import javafx.stage.Popup;
 
+import javax.swing.*;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -56,6 +61,7 @@ public class PatientRecordController implements Initializable {
     @FXML public TextArea patientRecordIntolerance;
     @FXML public TextArea patientRecordChildhood;
     @FXML public DatePicker patientRecordBday;
+    @FXML public Button notPrintedPrescriptions;
     @FXML private ComboBox<IUser> addToQueueBox;
     @FXML private Button addPatientToQueueButton;
     @FXML private Button examinationProtocolButton;
@@ -72,6 +78,7 @@ public class PatientRecordController implements Initializable {
     private Model _model = Model.getInstance();
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
+    private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
 
 
     @Override
@@ -273,6 +280,8 @@ public class PatientRecordController implements Initializable {
 
         medicalHistory.setExpandedPane(mh4);
 
+        //TODO: set disable(false) after testing
+        notPrintedPrescriptions.setVisible(true);
     }
 
     /* add change listener to inputfields */
@@ -505,5 +514,12 @@ public class PatientRecordController implements Initializable {
         patientRecordChildhood.setDisable(false);
         patientRecordChildhood.setEditable(true);
         patientRecordSaveButton.setDisable(false);
+    }
+
+    @FXML
+    public void openPrescriptionsToPrintButtonHandler(ActionEvent actionEvent) {
+
+        _patientRecordModel.openPrescriptionsToPrint(_model.getPatient());
+
     }
 }
