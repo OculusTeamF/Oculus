@@ -35,14 +35,43 @@ import java.util.Date;
 import java.util.LinkedList;
 
 /**
- * Created by jpo2433 on 08.05.15.
+ * <h1>$CreateDiagnosisController.java</h1>
+ *
+ * @author $jpo2433
+ * @since $30.04.2015
+ * <p/>
+ * <b>Description:</b>
+ * This File contains the PrescriptionController class,
+ * which is responsible for the creation of a new Prescription object, to create new Prescription Entries,
+ * put the entries into the new prescription object and save it into the database.
+ * It also provides a class to get all prescribed medicine of the given patient and the possibility
+ * to print the prescription.
  */
+
+/**
+ * <h2>$CreateDiagnosisController</h2>
+ *
+ * <b>Description:</b>
+ * With this controller a new prescription can be created.
+ * In the controller, a new Prescription is created and the specified patient is saved in the prescription
+ * and in the controller. It contains te methods createPrescriptionEntry, getAllPrescribedMedicines and printPrescription.
+ **/
 public class PrescriptionController implements ILogger, IPrinter {
 
     private IPatient _iPatient;
     private IPrescription iPrescription;
 
-
+    /**
+     *<h3>$PrescriptionController</h3>
+     *
+     * <b>Description:</b>
+     *this is the private constructor of the PrescriptionController. To get an instance of this controller,
+     * the static method createController(IPatient iPatient) has to be invoked. This method checks if the given Patient
+     * interface is not null, throws an exception if it is null or returns an instance of the PrescriptionController.
+     *
+     *<b>Parameter</b>
+     * @param iPatient this parameter shows the interface of the Patient, who wants a prescription
+     */
     private PrescriptionController(IPatient iPatient){
         _iPatient = iPatient;
         iPrescription = new Prescription();
