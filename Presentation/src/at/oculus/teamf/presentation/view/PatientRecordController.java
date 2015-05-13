@@ -12,11 +12,9 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPrescription;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PatientRecordModel;
 import javafx.beans.value.ChangeListener;
@@ -79,6 +77,7 @@ public class PatientRecordController implements Initializable {
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
     private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
+    private IPatient initpatient;
 
 
     @Override
@@ -88,12 +87,11 @@ public class PatientRecordController implements Initializable {
          * if changes are detected in patientform, then the tab cannot be closed without answer the dialogbox
          * if you press no to "Do you want to save changes?" Tab is closing without saving changes.
          */
-        patientRecordAllergies.setWrapText(true);
-        patientRecordChildhood.setWrapText(true);
-        patientRecordIntolerance.setWrapText(true);
 
+        // set patient to init only
+        initpatient = _model.getTabModel().getInitPatient();
 
-        // button images
+        // load button images
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         patientRecordSaveButton.setGraphic(new ImageView(imageSaveIcon));
         Image imageEditIcon = new Image(getClass().getResourceAsStream("/res/icon_edit.png"));
@@ -103,46 +101,45 @@ public class PatientRecordController implements Initializable {
         Image imageExaminationIcon = new Image(getClass().getResourceAsStream("/res/icon_examination.png"));
         examinationProtocolButton.setGraphic(new ImageView(imageExaminationIcon));
 
+        // load data: doctorlist, appointmentlist, diagnoseslist
         patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
-        patientRecordAppointmentList.setItems(FXCollections.observableArrayList(_model.getCalendarEvents()));
-
-        if (_model.getAllDiagnoses() != null) {
-            patientRecordListDiagnoses.setDisable(false);
-            try {
-                //TODO diagnoses not shown with toString
-                ObservableList<IDiagnosis> diagnosislist = FXCollections.observableArrayList(_model.getPatient().getDiagnoses());
-                patientRecordListDiagnoses.setItems(diagnosislist);
-            } catch (CouldNotGetDiagnoseException e) {
-                e.printStackTrace();
-            }
-        } else {
-            patientRecordListDiagnoses.setDisable(true);
+        try {
+            patientRecordAppointmentList.setItems(FXCollections.observableArrayList(initpatient.getCalendarEvents()));
+        } catch (CouldNotGetCalendarEventsException e) {
+            e.printStackTrace();
+        }
+        addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrthoptists()));
+        try {
+            ObservableList<IDiagnosis> diagnosislist = FXCollections.observableArrayList(initpatient.getDiagnoses());
+            patientRecordListDiagnoses.setItems(diagnosislist);
+        } catch (CouldNotGetDiagnoseException e) {
+            e.printStackTrace();
         }
 
 
-        //<editor-fold desc="Set Default Values">
+
         //disable all Patientfields and the save button, sets the text from IPatient into fields
         patientRecordSaveButton.setDisable(true);
-
         patientRecordradioGenderFemale.setToggleGroup(group);
         patientRecordradioGenderMale.setToggleGroup(group);
 
-        patientRecordLastname.setText(_model.getPatient().getLastName());
-        patientRecordFirstname.setText(_model.getPatient().getFirstName());
 
-        if(_model.getPatient().getGender().equals("female"))
+        patientRecordLastname.setText(initpatient.getLastName());
+        patientRecordFirstname.setText(initpatient.getFirstName());
+
+        if(initpatient.getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
         }else{
             patientRecordradioGenderMale.setSelected(true);
         }
 
-        patientRecordSVN.setText(_model.getPatient().getSocialInsuranceNr());
+        patientRecordSVN.setText(initpatient.getSocialInsuranceNr());
 
 
-        if(_model.getPatient().getBirthDay() != null)
+        if(initpatient.getBirthDay() != null)
         {
-            Date input = _model.getPatient().getBirthDay();
+            Date input = initpatient.getBirthDay();
             Calendar cal = Calendar.getInstance();
             cal.setTime(input);
             LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
@@ -151,36 +148,31 @@ public class PatientRecordController implements Initializable {
 
             patientRecordBday.setValue(date);
         }
-        patientRecordStreet.setText(_model.getPatient().getStreet());
-        patientRecordPLZ.setText(_model.getPatient().getPostalCode());
-        patientRecordCity.setText(_model.getPatient().getCity());
-        patientRecordCountryIsoCode.setText(_model.getPatient().getCountryIsoCode());
-        patientRecordPhone.setText(_model.getPatient().getPhone());
-        patientRecordEmail.setText(_model.getPatient().getEmail());
-        patientRecordDoctor.setValue(_model.getPatient().getIDoctor());
+        patientRecordStreet.setText(initpatient.getStreet());
+        patientRecordPLZ.setText(initpatient.getPostalCode());
+        patientRecordCity.setText(initpatient.getCity());
+        patientRecordCountryIsoCode.setText(initpatient.getCountryIsoCode());
+        patientRecordPhone.setText(initpatient.getPhone());
+        patientRecordEmail.setText(initpatient.getEmail());
+        patientRecordDoctor.setValue(initpatient.getIDoctor());
 
         disableFields();
 
-        if(_model.getPatient().getAllergy() == null || _model.getPatient().getAllergy().length() < 1)
-        {
+        if(initpatient.getAllergy() == null || initpatient.getAllergy().length() < 1) {
             patientRecordAllergies.setText("No Allergies known");
         }else{
-            patientRecordAllergies.setText(_model.getPatient().getAllergy());
+            patientRecordAllergies.setText(initpatient.getAllergy());
         }
-        if(_model.getPatient().getMedicineIntolerance() == null || _model.getPatient().getMedicineIntolerance().length() < 1)
-        {
+        if(initpatient.getMedicineIntolerance() == null || initpatient.getMedicineIntolerance().length() < 1) {
             patientRecordIntolerance.setText("No Intolerance known");
         }else{
-            patientRecordIntolerance.setText(_model.getPatient().getMedicineIntolerance());
+            patientRecordIntolerance.setText(initpatient.getMedicineIntolerance());
         }
-        if(_model.getPatient().getChildhoodAilments() == null || _model.getPatient().getChildhoodAilments().length() < 1)
-        {
+        if(initpatient.getChildhoodAilments() == null || initpatient.getChildhoodAilments().length() < 1) {
             patientRecordChildhood.setText("No childhood Ailments");
         }else{
-            patientRecordChildhood.setText(_model.getPatient().getChildhoodAilments());
+            patientRecordChildhood.setText(initpatient.getChildhoodAilments());
         }
-
-        addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrthoptists()));
 
         patientRecordAllergies.setDisable(false);
         patientRecordIntolerance.setDisable(false);
@@ -189,11 +181,8 @@ public class PatientRecordController implements Initializable {
         patientRecordIntolerance.setEditable(false);
         patientRecordChildhood.setEditable(false);
 
-        addToQueueBox.setValue(_model.getPatient().getIDoctor());
+        addToQueueBox.setValue(initpatient.getIDoctor());
 
-        //</editor-fold>
-
-        //<editor-fold desc="Set Field Listener">
         //check if something has changed, if changes detected --> saveChanges()
         addListener(patientRecordLastname);
         addListener(patientRecordFirstname);
@@ -279,6 +268,7 @@ public class PatientRecordController implements Initializable {
         addTextLimiter(patientRecordEmail, 255);
 
         medicalHistory.setExpandedPane(mh4);
+
 
         //TODO: set disable(false) after testing
         notPrintedPrescriptions.setVisible(true);
