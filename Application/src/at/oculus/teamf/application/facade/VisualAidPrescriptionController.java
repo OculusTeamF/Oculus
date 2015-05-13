@@ -57,11 +57,11 @@ public class VisualAidPrescriptionController implements ILogger, IPrinter{
         return new VisualAidPrescriptionController(iDiagnosis);
     }
 
-    public IVisualAid createVisualAidPrescription(String description) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
+    public IVisualAid createVisualAidPrescription(String description) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
         visualAid.setDescription(description);
         visualAid.setIssueDate(new Timestamp(new Date().getTime()));
 
-        IFacade facade = Facade.getInstance();
+        IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(visualAid);
 
         return visualAid;
