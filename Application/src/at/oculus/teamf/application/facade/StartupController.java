@@ -23,9 +23,9 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamE.domain.interfaces.IDomainFactory;
+/*import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
-import at.oculus.teamE.support.DependencyResolver;
+import at.oculus.teamE.support.DependencyResolver;*/
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
@@ -61,7 +61,7 @@ public class StartupController implements ILogger {
      * This is the contructor of the StartupController class. It gets a instance of a facade, so that the facade
      * is loaded at the start up.
      */
-    public StartupController() {
+/*    public StartupController() {
         Facade facade = Facade.getInstance();
         DependencyResolver teamEDependencies = DependencyResolver.getInstance();
         teamEDependencies.registerPersistenceFacade(new Supplier<IPersistenceFacadeTb2>() {
@@ -76,7 +76,7 @@ public class StartupController implements ILogger {
                 return null;
             }
         });
-    }
+    }*/
 
     /**
      * <h3>$getUser</h3>
