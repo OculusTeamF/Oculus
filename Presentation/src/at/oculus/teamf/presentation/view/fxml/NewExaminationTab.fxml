@@ -68,6 +68,8 @@
                   <Button fx:id="saveProtocolButton" mnemonicParsing="false" onAction="#saveExaminationButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Save Examination" textAlignment="CENTER" />
                   <Button fx:id="addDiagnosisButton" mnemonicParsing="false" onAction="#addDiagnosisButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Add Diagnosis" textAlignment="CENTER" />
                   <Button fx:id="prescriptionButton" mnemonicParsing="false" onAction="#addPrescriptionButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Prescriptions" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="_space_" visible="false" />
+                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshTab" prefHeight="31.0" prefWidth="155.0" text="Refresh" />
                </items></ToolBar>
             <Text fx:id="examinationLnameFnameSvn" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname, Firstname, svn" GridPane.rowIndex="1" />
             <Text fx:id="examinationCurrDate" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -91,7 +93,7 @@
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor></TextArea>
-            <Label text=" No diagnosis set" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="diagnosisTitle" text=" No diagnosis set" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

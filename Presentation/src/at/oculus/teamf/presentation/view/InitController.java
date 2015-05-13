@@ -23,6 +23,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,28 +45,6 @@ public class InitController implements Initializable, ILogger {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-
-        // run init as thread (unused currently)
-       /*  Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                new Thread(new Runnable() {
-                    @Override public void run() {
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-
-                            }
-                        });
-
-                    }
-                }).start();
-                return null;
-            }
-        };
-        Thread th = new Thread(task);
-        th.start();*/
-
         // set true when init window is set "undeocarted"
         initRectangle.setVisible(true);
 
@@ -74,28 +53,42 @@ public class InitController implements Initializable, ILogger {
         labelQuote.setEffect(new DropShadow());
     }
 
-    /* fetch quote from quote webpgae and print it on loading screen */
+    /* fetch quote from quote webpage and print it on loading screen */
     private String getQuote(){
         String html = "http://ivyjoy.com/quote.shtml";
-        try {
-            Document doc = Jsoup.connect(html).get();
-            Elements tableElements = doc.select("table");
+        if (checkURL(html)) {
+            try {
+                Document doc = Jsoup.connect(html).get();
+                Elements tableElements = doc.select("table");
 
-            //Elements tableHeaderEles = tableElements.select("thead tr th");
-            Elements tableRowElements = tableElements.select(":not(thead) tr");
-            Element row = tableRowElements.get(0);
+                //Elements tableHeaderEles = tableElements.select("thead tr th");
+                Elements tableRowElements = tableElements.select(":not(thead) tr");
+                Element row = tableRowElements.get(0);
 
-            Elements rowItems = row.select("td");
-            for (int j = 0; j < rowItems.size(); j++) {
-                return (rowItems.get(j).text());
+                Elements rowItems = row.select("td");
+                for (int j = 0; j < rowItems.size(); j++) {
+                    return (rowItems.get(j).text());
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return "";
     }
 
+    private boolean checkURL(String url) {
+        HttpURLConnection httpUrlConn;
+        try {
+            httpUrlConn = (HttpURLConnection) new URL(url).openConnection();
+            httpUrlConn.setRequestMethod("HEAD");
+            httpUrlConn.setConnectTimeout(30000);
+            httpUrlConn.setReadTimeout(30000);
+            return (httpUrlConn.getResponseCode() == HttpURLConnection.HTTP_OK);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
+    }
 }

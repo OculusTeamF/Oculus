@@ -134,7 +134,8 @@ public class MainController implements Initializable, ILogger {
         } else {
             StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: "
                     + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Selected Patient: "
-                    + _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getLastName() + "]");
+                    + _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getLastName() + "]    [Selected Tab: "
+                    + _model.getTabModel().getSelectedTab().getId() + "]");
         }
     }
 

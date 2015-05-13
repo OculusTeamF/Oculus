@@ -10,10 +10,7 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -44,12 +41,14 @@ public class NewExaminationController implements Initializable {
     @FXML private Button prescriptionButton;
     @FXML private Button saveProtocolButton;
     @FXML private Button addDiagnosisButton;
+    @FXML private Button refreshButton;
     @FXML private Text examinationLnameFnameSvn;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationCurrTime;
     @FXML private Label diagnosisIdentity;
     @FXML private TextArea examinationDocumentation;
     @FXML private TextArea diagnosisDetails;
+    @FXML private Label diagnosisTitle;
 
     private Timeline timeline;
     private Integer timeSeconds = 0;
@@ -78,6 +77,8 @@ public class NewExaminationController implements Initializable {
         addDiagnosisButton.setGraphic(new ImageView(imageAddIcon));
         Image imageAddForm = new Image(getClass().getResourceAsStream("/res/icon_forms.png"));
         prescriptionButton.setGraphic(new ImageView(imageAddForm));
+        Image imageRefresh = new Image(getClass().getResourceAsStream("/res/icon_refresh.png"));
+        refreshButton.setGraphic(new ImageView(imageRefresh));
 
         // enable addDiagnosis only ig protocol is created
         addDiagnosisButton.setDisable(true);
@@ -138,5 +139,14 @@ public class NewExaminationController implements Initializable {
         //opens a new PrescriptionTab
         IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addPrescriptionTab(selectedPatient);
+    }
+
+    @FXML
+    public void refreshTab(ActionEvent actionEvent) {
+        IDiagnosis diag = newexam.getDiagnosis();
+        if (diag != null) {
+            diagnosisTitle.setText(diag.getTitle());
+            diagnosisDetails.setText(diag.getDescription());
+        }
     }
 }

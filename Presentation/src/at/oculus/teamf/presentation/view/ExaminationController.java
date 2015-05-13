@@ -42,6 +42,7 @@ public class ExaminationController implements Initializable, ILogger {
 
     @FXML public ListView examinationResults;
     @FXML private Button newExaminationButton;
+    @FXML private Button refreshButton;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationLnameFnameSvn;
     @FXML private TextArea textExaminationDetails;
@@ -76,6 +77,8 @@ public class ExaminationController implements Initializable, ILogger {
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_newexamination.png"));
         newExaminationButton.setGraphic(new ImageView(imageSaveIcon));
+        Image imageRefresh = new Image(getClass().getResourceAsStream("/res/icon_refresh.png"));
+        refreshButton.setGraphic(new ImageView(imageRefresh));
 
         // load all examination protocols
         getExaminationList();
@@ -178,6 +181,13 @@ public class ExaminationController implements Initializable, ILogger {
     public void addNewExaminationProtocol(ActionEvent actionEvent) {
         IPatient selectedpatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addNewExaminationTab(selectedpatient);
+    }
+
+    @FXML
+    public void refreshTab(ActionEvent actionEvent) {
+        String loadtext = "Loading examinations protocols....";
+        examinationList.getItems().add(loadtext);
+        getExaminationList();
     }
 
     // *******************************************************************

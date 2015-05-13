@@ -64,6 +64,7 @@
                </GridPane.margin>
                <items>
                   <Button fx:id="newExaminationButton" mnemonicParsing="false" onAction="#addNewExaminationProtocol" prefHeight="31.0" prefWidth="155.0" text="New Examination" textAlignment="CENTER" />
+                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshTab" prefHeight="31.0" prefWidth="155.0" text="Refresh" />
                </items></ToolBar>
             <Text fx:id="examinationLnameFnameSvn" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname, Firstname, svn" GridPane.rowIndex="1" />
             <Text fx:id="examinationCurrDate" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
