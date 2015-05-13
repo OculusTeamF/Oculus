@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -45,10 +46,10 @@ public class NewExaminationController implements Initializable {
     @FXML private Text examinationLnameFnameSvn;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationCurrTime;
+    @FXML private TextField diagnosisTitle;
     @FXML private Label diagnosisIdentity;
     @FXML private TextArea examinationDocumentation;
     @FXML private TextArea diagnosisDetails;
-    @FXML private Label diagnosisTitle;
 
     private Timeline timeline;
     private Integer timeSeconds = 0;
@@ -111,6 +112,7 @@ public class NewExaminationController implements Initializable {
         if (examinationDocumentation.getText().length() != 0){
             IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
             timeline.stop();
+            examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds) + " [Examination done]");
             Date enddate = new Date();
 
             if (_model.getLoggedInUser() instanceof Doctor) {
@@ -121,7 +123,6 @@ public class NewExaminationController implements Initializable {
 
             saveProtocolButton.setDisable(true);
             addDiagnosisButton.setDisable(false);
-            //_model.getTabModel().closeSelectedTab();
         }
     }
 
