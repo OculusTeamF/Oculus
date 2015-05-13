@@ -32,14 +32,14 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
     private String _title;
     private String _description;
 	private Integer _doctorId;
-	private Doctor _doctor;
+	private IDoctor _doctor;
 	private Collection<Medicine> _medicine;
 	private Collection<VisualAid> _visualAid;
 
 	public Diagnosis() {}
 
-	public Diagnosis(int id, String title, String description, Doctor doctor) {
-		_id = id;
+	public Diagnosis(String title, String description, IDoctor doctor) {
+		_id = 0;
 		_title = title;
 		_description = description;
 		_doctor = doctor;

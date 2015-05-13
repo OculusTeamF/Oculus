@@ -23,14 +23,13 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamE.domain.interfaces.IDomainFactory;
-import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
-import at.oculus.teamE.support.DependencyResolver;
+
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -38,12 +37,10 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.function.Supplier;
 
 /**
  * <h2>$StartupController</h2>
@@ -63,7 +60,9 @@ public class StartupController implements ILogger {
      */
     public StartupController() {
         Facade facade = Facade.getInstance();
-        DependencyResolver teamEDependencies = DependencyResolver.getInstance();
+
+        DependenceResolverTB2.init(facade, new FactoryTB2());
+        /*DependencyResolver teamEDependencies = DependencyResolver.getInstance();
         teamEDependencies.registerPersistenceFacade(new Supplier<IPersistenceFacadeTb2>() {
             @Override
             public IPersistenceFacadeTb2 get() {
@@ -75,7 +74,9 @@ public class StartupController implements ILogger {
             public IDomainFactory get() {
                 return null;
             }
-        });
+        });*/
+
+
     }
 
     /**

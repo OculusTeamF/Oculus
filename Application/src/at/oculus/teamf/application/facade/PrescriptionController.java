@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.Prescription;
@@ -72,24 +74,24 @@ public class PrescriptionController implements ILogger, IPrinter {
      *<b>Parameter</b>
      * @param iPatient this parameter shows the interface of the Patient, who wants a prescription
      */
-    private PrescriptionController(IPatient iPatient){
+    private PrescriptionController(IPatient iPatient) throws NotInitatedExceptions {
         _iPatient = iPatient;
-        iPrescription = new Prescription();
+        iPrescription = DependenceResolverTB2.getInstance().getFactory().createPrescription();
         iPrescription.setPatient(iPatient);
 
     }
 
-    public static PrescriptionController createController(IPatient iPatient) throws NoPatientException {
+    public static PrescriptionController createController(IPatient iPatient) throws NoPatientException, NotInitatedExceptions {
         if(iPatient == null){
             throw new NoPatientException();
         }
         return new PrescriptionController(iPatient);
     }
 
-    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
-        IPrescriptionEntry entry = new PrescriptionEntry();
+    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
+        IPrescriptionEntry entry = DependenceResolverTB2.getInstance().getFactory().createPrescriptionEntry();
 
-        IFacade facade = Facade.getInstance();
+        IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(entry);
 
         entry.setMedicine(iMedicine);
@@ -102,7 +104,7 @@ public class PrescriptionController implements ILogger, IPrinter {
         return entry;
     }
 
-    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException {
+    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException, NotInitatedExceptions {
         for(IMedicine medicine : medicines){
             try {
                 createPrescriptionEntry(medicine);
@@ -119,12 +121,13 @@ public class PrescriptionController implements ILogger, IPrinter {
         try {
             medicines = _iPatient.getMedicine();
         } catch (CouldNotGetMedicineException e) {
+            //Todo
             e.printStackTrace();
         }
         return medicines;
     }
 
-    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException {
+    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException, NotInitatedExceptions {
         //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
         try {
             printer.printPrescription(iPrescription, _iPatient.getIDoctor());
@@ -134,7 +137,7 @@ public class PrescriptionController implements ILogger, IPrinter {
 
         iPrescription.setLastPrint(new Timestamp(new Date().getTime()));
 
-        IFacade facade = Facade.getInstance();
+        IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(iPrescription);
 
         return iPrescription;

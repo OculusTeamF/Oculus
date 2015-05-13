@@ -12,6 +12,8 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.facade.CreateDiagnosisController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.domain.entity.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
@@ -37,6 +39,7 @@ public class CreateDiagnosisControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        DependenceResolverTB2.init(Facade.getInstance(), new FactoryTB2());
         patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
         iPatient = patients.getLast();
         iDoctor = iPatient.getIDoctor();

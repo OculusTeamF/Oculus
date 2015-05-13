@@ -19,6 +19,8 @@ package at.oculus.teamf.application.facade;
  * which is responsible for the creation of a new optical aid prescription and to save it into the database
  **/
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
@@ -44,12 +46,12 @@ public class VisualAidPrescriptionController implements ILogger, IPrinter{
 
     private IVisualAid visualAid;
 
-    private VisualAidPrescriptionController(IDiagnosis iDiagnosis){
-            visualAid = new VisualAid();
+    private VisualAidPrescriptionController(IDiagnosis iDiagnosis) throws NotInitatedExceptions {
+            visualAid = DependenceResolverTB2.getInstance().getFactory().createVisualAid();
             visualAid.setDiagnosis(iDiagnosis);
     }
 
-    public static VisualAidPrescriptionController createController(IDiagnosis iDiagnosis) throws NoPatientException {
+    public static VisualAidPrescriptionController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitatedExceptions {
         if(iDiagnosis == null){
             throw new NoPatientException();
         }
