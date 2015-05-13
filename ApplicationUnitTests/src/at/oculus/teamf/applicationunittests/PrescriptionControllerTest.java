@@ -18,6 +18,7 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class PrescriptionControllerTest {
 
     @org.junit.After
     public void tearDown() throws Exception {
-      /*  Facade facade = Facade.getInstance();
+        /*IFacade facade = Facade.getInstance();
         facade.delete(iPrescription);*/
     }
 

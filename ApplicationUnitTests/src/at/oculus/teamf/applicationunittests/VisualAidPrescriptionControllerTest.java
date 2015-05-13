@@ -15,6 +15,8 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -32,6 +34,7 @@ public class VisualAidPrescriptionControllerTest {
     private LinkedList<IPatient> patients;
     private IPatient iPatient;
     private IDiagnosis iDiagnosis;
+    private IVisualAid visualAid;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -45,12 +48,13 @@ public class VisualAidPrescriptionControllerTest {
 
     @org.junit.After
     public void tearDown() throws Exception {
-
+        IFacade facade = Facade.getInstance();
+        facade.delete(visualAid);
     }
 
     @org.junit.Test
     public void createVisualAidPrescription(){
-        IVisualAid visualAid = null;
+        visualAid = null;
         try {
             visualAid = visualAidPrescriptionController.createVisualAidPrescription("this is a description");
         } catch (DatabaseOperationException e) {
@@ -61,7 +65,6 @@ public class VisualAidPrescriptionControllerTest {
             e.printStackTrace();
         }
 
-        //TODO
         ArrayList<IVisualAid> visualAids = null;
         try {
             visualAids = (ArrayList<IVisualAid>) iDiagnosis.getVisualAid();
