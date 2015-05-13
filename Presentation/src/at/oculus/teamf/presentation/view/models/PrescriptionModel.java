@@ -10,6 +10,7 @@
 package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
@@ -44,7 +45,7 @@ public class PrescriptionModel {
     }
 
 
-    public void addNewPrescription(IPatient patient) {
+    public void addNewPrescription(IPatient patient) throws NotInitatedExceptions {
 
         try {
             _prescriptionController = PrescriptionController.createController(patient);
@@ -54,7 +55,7 @@ public class PrescriptionModel {
         }
     }
 
-    public void addPrescriptionEntries(Collection<IMedicine> medicinList) {
+    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
 
         try {
             _prescriptionController.createPrescriptionEntry(medicinList);
@@ -93,6 +94,8 @@ public class PrescriptionModel {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
         }
     }
 

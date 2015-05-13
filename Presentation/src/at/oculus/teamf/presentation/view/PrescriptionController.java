@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
@@ -185,8 +186,14 @@ public class PrescriptionController implements Initializable, IPrinter {
         IPatient patient = _model.getPatient();
         Collection<IMedicine> medicinList = prescriptionItems.getItems();
 
-        _prescriptionModel.addNewPrescription(patient);
-        _prescriptionModel.addPrescriptionEntries(medicinList);
+        try {
+            _prescriptionModel.addNewPrescription(patient);
+            _prescriptionModel.addPrescriptionEntries(medicinList);
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+            //Todo: handle
+        }
+
     }
 
     @FXML
@@ -199,8 +206,14 @@ public class PrescriptionController implements Initializable, IPrinter {
         IPatient patient = _model.getPatient();
         Collection<IMedicine> medicinList = prescriptionItems.getItems();
 
-        _prescriptionModel.addNewPrescription(patient);
-        _prescriptionModel.addPrescriptionEntries(medicinList);
+        try {
+            _prescriptionModel.addNewPrescription(patient);
+            _prescriptionModel.addPrescriptionEntries(medicinList);
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+            //Todo: handle
+        }
+
 
         }
 

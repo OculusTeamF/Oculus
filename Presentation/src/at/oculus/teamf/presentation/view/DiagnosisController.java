@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.presentation.view.models.Model;
@@ -53,7 +54,12 @@ public class DiagnosisController implements Initializable,ILogger {
     @FXML
     public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
         if (textDiagnosisTitle.getText().isEmpty() == false && textDiagnosisDescription.getText().isEmpty() == false) {
-            _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), currexam);
+            try {
+                _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), currexam);
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                //Todo
+                notInitatedExceptions.printStackTrace();
+            }
             //TODO: return to correct examination tab & refresh examination from patient
             Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()));
             _model.getTabModel().closeSelectedAndReturnToOriginTab(origintab);
