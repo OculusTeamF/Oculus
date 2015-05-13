@@ -280,7 +280,8 @@ public class PatientRecordController implements Initializable {
 
         medicalHistory.setExpandedPane(mh4);
 
-        notPrintedPrescriptions.setVisible(false);
+        //TODO: set disable(false) after testing
+        notPrintedPrescriptions.setVisible(true);
     }
 
     /* add change listener to inputfields */
@@ -519,7 +520,6 @@ public class PatientRecordController implements Initializable {
     public void openPrescriptionsToPrintButtonHandler(ActionEvent actionEvent) {
 
         _patientRecordModel.openPrescriptionsToPrint(_model.getPatient());
-
 
     }
 }

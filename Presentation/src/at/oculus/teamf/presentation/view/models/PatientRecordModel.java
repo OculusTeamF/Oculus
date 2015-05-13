@@ -23,14 +23,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -110,40 +114,21 @@ public class PatientRecordModel {
 
         IPatient currPatient = patient;
 
-        //Create Popup
+        Parent root = null;
         Stage stage = new Stage();
+
+        try {
+            root = FXMLLoader.load(getClass().getResource("fxml/notPrintedPresciptions.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Create Popup
+        stage.setScene(new Scene(root));
         stage.setTitle("Open Prescriptions");
+        stage.initModality(Modality.APPLICATION_MODAL);
 
-        final Popup prescriptionPopup = new Popup();
 
-        prescriptionPopup.setX(300);
-        prescriptionPopup.setY(200);
-
-        ListView<IPrescription> prescriptionListView = new ListView<>();
-        ObservableList<IPrescription> prescriptions = FXCollections.observableArrayList();
-        prescriptionListView.setItems(prescriptions);
-
-        Button printPrescriptionButton = new Button("Print Prescription");
-        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event){
-                //TODO:
-            }
-        });
-
-        Button deletePrescriptionButton = new Button("Delete Prescription");
-        deletePrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //TODO:
-            }
-        });
-
-        HBox box = new HBox(10);
-        box.getChildren().addAll(prescriptionListView, printPrescriptionButton, deletePrescriptionButton);
-
-        stage.setScene(new Scene(box));
-        stage.show();
-
+        stage.showAndWait();
     }
 }

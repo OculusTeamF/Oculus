@@ -67,6 +67,7 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label zip;
     @FXML public Label city;
     @FXML public TextArea visualAidPrescription;
+    @FXML public Button printPrescriptionButton;
 
 
     private Model _model = Model.getInstance();
@@ -191,7 +192,7 @@ public class PrescriptionController implements Initializable, IPrinter {
     }
 
     @FXML
-    public void printPrescriptionButtonActionHandler(ActionEvent actionEvent){
+    public void printPrescriptionButtonHandler(ActionEvent actionEvent){
 
         //TODO: print and save prescription
         _prescriptionModel.printPrescription();
@@ -204,4 +205,6 @@ public class PrescriptionController implements Initializable, IPrinter {
         _prescriptionModel.addPrescriptionEntries(medicinList);
 
         }
+
+
 }
