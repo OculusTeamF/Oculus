@@ -62,7 +62,7 @@ public class DiagnosisController implements Initializable,ILogger {
             }
             //TODO: return to correct examination tab & refresh examination from patient
             Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()));
-            _model.getTabModel().closeSelectedAndReturnToOriginTab(origintab);
+            _model.getTabModel().closeSelectedAndSwitchTab(origintab);
             //_model.getTabModel().closeSelectedTab();
         } else {
             DialogBoxController.getInstance().showInformationDialog("Data needed", "Please add diagnosis title and/or description");

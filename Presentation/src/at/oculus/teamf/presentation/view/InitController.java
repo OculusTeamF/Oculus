@@ -45,8 +45,7 @@ public class InitController implements Initializable, ILogger {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        // set true when init window is set "undeocarted"
-        initRectangle.setVisible(true);
+        initRectangle.setVisible(false);
 
         // comment this out if 'QuoteGenerator' create errors
         labelQuote.setText(getQuote());
