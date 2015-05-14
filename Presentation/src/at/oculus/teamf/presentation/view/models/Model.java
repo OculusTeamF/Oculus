@@ -77,6 +77,8 @@ public class Model implements Serializable, ILogger{
     // user management
     private IUser _loggedInUser;
 
+    private static final int QUEUE_CELL_SIZE = 66;      // default: 38
+    private static final int QUEUE_LABEL_SIZE = 60;     // default: 30
 
     /**
      * Singelton of Model
@@ -207,7 +209,7 @@ public class Model implements Serializable, ILogger{
 
             // bind listview to titledpanes
             listView.setItems(olist);
-            listView.setPrefHeight((olist.size() * 38));
+            listView.setPrefHeight((olist.size() * QUEUE_CELL_SIZE));
 
             _userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);
@@ -266,7 +268,7 @@ public class Model implements Serializable, ILogger{
         }
 
         ListView newList = _listViewMap.get(user);
-        newList.setPrefHeight(entries.size() * 38);
+        newList.setPrefHeight(entries.size() * QUEUE_CELL_SIZE);
 
         _userWaitingList.put(user, entryList);
         _listViewMap.put(user, newList);
@@ -439,7 +441,10 @@ public class Model implements Serializable, ILogger{
 
             _label = new Label(entry.getPatient().toString());
             _label.setMaxWidth(Double.MAX_VALUE);
-            _label.setMinHeight(30);
+            _label.setMinHeight(QUEUE_LABEL_SIZE);
+            _startexaminationbutton.setMinHeight(QUEUE_LABEL_SIZE);
+            _deletebutton.setMinHeight(QUEUE_LABEL_SIZE);
+            _openbutton.setMinHeight(QUEUE_LABEL_SIZE);
 
             HBox.setHgrow(_label, Priority.ALWAYS);
             this.getChildren().addAll(_label,_openbutton, _deletebutton , _startexaminationbutton);
