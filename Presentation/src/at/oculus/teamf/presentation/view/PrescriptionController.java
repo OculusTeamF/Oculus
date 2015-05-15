@@ -10,8 +10,8 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
-import at.oculus.teamf.domain.entity.interfaces.IMedicine;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
@@ -34,6 +34,7 @@ import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -79,6 +80,9 @@ public class PrescriptionController implements Initializable, IPrinter {
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
     private ObservableList<Entry> _medicinList;
+
+    private HashMap<IPatient, IVisualAid> notPrintedPrescriptionsMap = new HashMap<>();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -196,11 +200,13 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void savePrescriptionButtonActionHandler(ActionEvent actionEvent){
 
+        IPatient patient = _model.getPatient();
+        Collection<IMedicine> medicinList = prescriptionItems.getItems();
+        Collection<IDiagnosis> allDiagnoses = null;
+        IVisualAid notPrintedVisualAid = null;
+
         if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicine"))
         {
-            IPatient patient = _model.getPatient();
-            Collection<IMedicine> medicinList = prescriptionItems.getItems();
-
             try {
                 _prescriptionModel.addNewPrescription(patient);
                 _prescriptionModel.addPrescriptionEntries(medicinList);
@@ -211,9 +217,18 @@ public class PrescriptionController implements Initializable, IPrinter {
         }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Visual Aid"))
         {
             //TODO:
-            // _prescriptionModel.addNewVisualAidPrescription(_model.getPatient());
+            try {
+                allDiagnoses = _model.getPatient().getDiagnoses();
+            } catch (CouldNotGetDiagnoseException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showInformationDialog("CouldNotGetDiagnoseException", "Cannot Save Prescription - No Diagnose ");
+            }
+
+            IDiagnosis diagnosis = allDiagnoses.iterator().next();
+            _prescriptionModel.addNewVisualAidPrescription(diagnosis);
             String text = visualAidInformation.getText();
-             _prescriptionModel.addVisualAidPrescriptionEntries(text);
+            notPrintedVisualAid = _prescriptionModel.addVisualAidPrescriptionEntries(text);
+            notPrintedPrescriptionsMap.put(patient, notPrintedVisualAid);
         }
     }
 
@@ -242,7 +257,6 @@ public class PrescriptionController implements Initializable, IPrinter {
         Entry newEntry = new Entry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText());
 
         _medicinList.add(newEntry);
-        prescriptionItems.setItems(_medicinList);
 
         medicinTextfield.clear();
         dosageTextfield.clear();
@@ -250,6 +264,7 @@ public class PrescriptionController implements Initializable, IPrinter {
 
     }
 
+    //Removes the entries of the Fields
     @FXML
     public void clearFields(ActionEvent actionEvent) {
 

@@ -14,10 +14,12 @@ import at.oculus.teamf.application.facade.VisualAidController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -26,6 +28,7 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Created by Karo on 11.05.2015.
@@ -37,6 +40,9 @@ public class PrescriptionModel {
 
     private PrescriptionController _prescriptionController;
     private VisualAidController _visualAidPrescriptionController;
+
+    private HashMap<IPatient, IVisualAid> visualAidHashMap = new HashMap<>();
+    private IPatient currPatient;
 
     public static PrescriptionModel getInstance() {
         if(_prescriptionModel == null) {
@@ -55,6 +61,8 @@ public class PrescriptionModel {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoPatientException - Please contact support");
         }
+
+        currPatient = patient;
     }
 
     public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
@@ -120,10 +128,12 @@ public class PrescriptionModel {
         }
     }
 
-    public void addVisualAidPrescriptionEntries(String prescription) {
+    public IVisualAid addVisualAidPrescriptionEntries(String prescription) {
+
+        IVisualAid visualAid = null;
 
         try {
-            _visualAidPrescriptionController.createVisualAidPrescription(prescription);
+           visualAid =  _visualAidPrescriptionController.createVisualAidPrescription(prescription);
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
@@ -133,5 +143,10 @@ public class PrescriptionModel {
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
         }
+        visualAidHashMap.put(currPatient, visualAid);
+
+        return visualAid;
     }
+
+
 }
