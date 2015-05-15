@@ -178,31 +178,18 @@ public class PrescriptionController implements Initializable, IPrinter {
 
     }
 
+    // *****************************************************************************************************************
+    //
+    // BUTTON HANDLERS
+    //
+    // *****************************************************************************************************************
+
     //add the selected MedicinItems to the Textfield
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
 
         IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
         medicinTextfield.setText(itemToAdd.toString());
-    }
-
-    //remove the Medicin from the PrescriptionList
-    @FXML
-    public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
-
-        final int selectedIdx = prescriptionItems.getSelectionModel().getSelectedIndex();
-        if (selectedIdx != -1) {
-            IMedicine itemToRemove = (IMedicine)prescriptionItems.getSelectionModel().getSelectedItem();
-
-            final int newSelectedIdx =
-                    (selectedIdx == prescriptionItems.getItems().size() - 1)
-                            ? selectedIdx - 1
-                            : selectedIdx;
-
-            prescriptionItems.getItems().remove(selectedIdx);
-            StatusBarController.showProgressBarIdle("Removed " + itemToRemove);
-            prescriptionItems.getSelectionModel().select(newSelectedIdx);
-        }
     }
 
 
@@ -249,6 +236,13 @@ public class PrescriptionController implements Initializable, IPrinter {
         }
     }
 
+
+    // *****************************************************************************************************************
+    //
+    // TABLEVIEW METHODS
+    //
+    // *****************************************************************************************************************
+
     @FXML
     public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
 
@@ -263,14 +257,27 @@ public class PrescriptionController implements Initializable, IPrinter {
 
     }
 
+    //remove the Medicin from the PrescriptionList
+    @FXML
+    public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
+        if (_medicinList.size() > 0 ) {
+            MedicineTableEntry itemToRemove = (MedicineTableEntry) prescriptionItems.getSelectionModel().getSelectedItem();
+            _medicinList.remove(itemToRemove);
+        }
+    }
+
     @FXML
     public void clearFields(ActionEvent actionEvent) {
-
         medicinTextfield.clear();
         dosageTextfield.clear();
         informationTextfield.clear();
     }
 
+    // *****************************************************************************************************************
+    //
+    // TABLEVIEW DATAENTRY BEAN
+    //
+    // *****************************************************************************************************************
 
     public static class MedicineTableEntry {
         private final SimpleStringProperty medicin;

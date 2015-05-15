@@ -106,6 +106,12 @@ public class NewExaminationController implements Initializable {
         return time;
     }
 
+    // *****************************************************************************************************************
+    //
+    // BUTTON HANDLERS
+    //
+    // *****************************************************************************************************************
+
     @FXML
     public void saveExaminationButtonHandler (ActionEvent actionEvent){
         if (examinationDocumentation.getText().length() != 0){

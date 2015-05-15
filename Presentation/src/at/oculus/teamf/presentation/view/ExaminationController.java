@@ -190,9 +190,11 @@ public class ExaminationController implements Initializable, ILogger {
         getExaminationList();
     }
 
-    // *******************************************************************
+    // *****************************************************************************************************************
+    //
     // LOADING THREADS
-    // *******************************************************************
+    //
+    // *****************************************************************************************************************
 
     /* thread: load examination protocols */
     public Task<Void> loadExaminationListsThread() {return new Task<Void>() {
