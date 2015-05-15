@@ -15,8 +15,6 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,7 +28,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.Collection;
@@ -68,17 +65,21 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label city;
     @FXML public TextArea visualAidInformation;
     @FXML public ChoiceBox visualAidChoiceBox;
-    @FXML public TableView prescriptionItems;
     @FXML public TextField medicinTextfield;
     @FXML public TextField dosageTextfield;
     @FXML public TextField informationTextfield;
     @FXML public Button removeEntryFromTable;
     @FXML public Button addNewEntryToTable;
 
+    @FXML private TableView prescriptionItems;
+    @FXML private TableColumn medicamentationCol;
+    @FXML private TableColumn dosageCol;
+    @FXML private TableColumn Informationcol;
+
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
-    private ObservableList<Entry> _medicinList;
+    private ObservableList<MedicineTableEntry> _medicinList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -133,7 +134,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         lastnameVA.setText(_model.getPatient().getLastName());
         firstnameVA.setText(_model.getPatient().getFirstName());
         svnVA.setText(_model.getPatient().getSocialInsuranceNr());
-        bdayVA.setText(_model.getPatient().getBirthDay().toString());
+        if (_model.getPatient().getBirthDay() != null) {
+            bdayVA.setText(_model.getPatient().getBirthDay().toString());
+        }
         addressVA.setText(_model.getPatient().getStreet());
         zipVA.setText(_model.getPatient().getPostalCode());
         cityVA.setText(_model.getPatient().getCity());
@@ -160,8 +163,18 @@ public class PrescriptionController implements Initializable, IPrinter {
         });
 
         //TableView
+        medicamentationCol.setCellValueFactory(
+                new PropertyValueFactory<MedicineTableEntry,String>("medicin")
+        );
+        dosageCol.setCellValueFactory(
+                new PropertyValueFactory<MedicineTableEntry,String>("dosage")
+        );
+        Informationcol.setCellValueFactory(
+                new PropertyValueFactory<MedicineTableEntry,String>("information")
+        );
+
         _medicinList = FXCollections.observableArrayList();
-        prescriptionItems.setItems(_medicinList);
+        //prescriptionItems.setItems(_medicinList);
 
     }
 
@@ -239,7 +252,7 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
 
-        Entry newEntry = new Entry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText());
+        MedicineTableEntry newEntry = new MedicineTableEntry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText());
 
         _medicinList.add(newEntry);
         prescriptionItems.setItems(_medicinList);
@@ -257,18 +270,40 @@ public class PrescriptionController implements Initializable, IPrinter {
         dosageTextfield.clear();
         informationTextfield.clear();
     }
-}
 
-class Entry{
 
-    private final SimpleStringProperty  medicin;
-    private final SimpleStringProperty  dosage;
-    private final SimpleStringProperty  information;
+    public static class MedicineTableEntry {
+        private final SimpleStringProperty medicin;
+        private final SimpleStringProperty  dosage;
+        private final SimpleStringProperty  information;
 
-    public Entry(String medicin, String dosage, String information){
+        public MedicineTableEntry(String medicin, String dosage, String information){
 
-        this.medicin = new SimpleStringProperty( medicin.toString());
-        this.dosage = new SimpleStringProperty(dosage);
-        this.information = new SimpleStringProperty(information);
+            this.medicin = new SimpleStringProperty( medicin.toString());
+            this.dosage = new SimpleStringProperty(dosage);
+            this.information = new SimpleStringProperty(information);
+        }
+
+        public String getMedicin() {
+            return medicin.get();
+        }
+        public void setMedicin(String med) {
+            medicin.set(med);
+        }
+
+        public String getDosage() {
+            return dosage.get();
+        }
+        public void setDosage(String dos) {
+            dosage.set(dos);
+        }
+
+        public String getInformation() {
+            return information.get();
+        }
+        public void setInformation(String inf) {
+            information.set(inf);
+        }
     }
 }
+
