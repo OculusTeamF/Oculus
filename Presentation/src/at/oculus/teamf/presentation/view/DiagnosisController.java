@@ -12,6 +12,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.event.ActionEvent;
@@ -60,10 +61,9 @@ public class DiagnosisController implements Initializable,ILogger {
                 //Todo
                 notInitatedExceptions.printStackTrace();
             }
-            //TODO: return to correct examination tab & refresh examination from patient
-            Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()));
+            IPatient currpatient  = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+            Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", currpatient);
             _model.getTabModel().closeSelectedAndSwitchTab(origintab);
-            //_model.getTabModel().closeSelectedTab();
         } else {
             DialogBoxController.getInstance().showInformationDialog("Data needed", "Please add diagnosis title and/or description");
         }

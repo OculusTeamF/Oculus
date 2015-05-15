@@ -109,9 +109,9 @@ public class ExaminationController implements Initializable, ILogger {
         loadlist.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                StatusBarController.hideStatusBarProgressBarIdle();
                 examinationList.setDisable(false);
                 examinationList.setItems(_protocolist);
+                StatusBarController.hideStatusBarProgressBarIdle();
             }
         });
 

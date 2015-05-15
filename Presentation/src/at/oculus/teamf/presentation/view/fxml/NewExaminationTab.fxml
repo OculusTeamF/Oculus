@@ -73,18 +73,18 @@
                </items></ToolBar>
             <Text fx:id="examinationLnameFnameSvn" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname, Firstname, svn" GridPane.rowIndex="1" />
             <Text fx:id="examinationCurrDate" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text=" Protocol description:" GridPane.rowIndex="3">
+            <Label text=" PROTOCOL:" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin></Label>
             <Text fx:id="examinationCurrTime" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Time" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextArea fx:id="examinationDocumentation" prefHeight="111.0" prefWidth="302.0" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="5" />
-            <Label text=" Diagnosis:" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <Label text=" DIAGNOSIS:" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="diagnosisIdentity" text=" Diagnoses Details:" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <Label fx:id="diagnosisIdentity" text=" DIAGNOSIS DETAILS:" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>

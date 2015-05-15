@@ -77,7 +77,7 @@ public class TabModel implements ILogger {
                 tab.setContent(ap);
 
 
-                // setup tab
+                // setup tab tab close event
                 tab.setOnCloseRequest(new EventHandler<Event>() {
                     @Override
                     public void handle(Event t) {
@@ -115,9 +115,8 @@ public class TabModel implements ILogger {
     // check if tab exits with given id
     public Tab getTabFromPatientAndID(String id, IPatient patient){
         id = id + patient.getSocialInsuranceNr();
-
         for (Tab key : _tabmap.keySet()) {
-            if (key.getId() == id){
+            if (key.getId().equals(id)){
                 IPatient pat =  _tabmap.get(key);
                 if (patient.equals(pat)){
                     return key;
@@ -139,19 +138,25 @@ public class TabModel implements ILogger {
 
     // return patient from current selected tab
     public IPatient getPatientFromSelectedTab(Tab tab){
-        IPatient pat =  _tabmap.get(tab);
+        System.out.println("SEARCH KEY: " + tab.getId());
+        for (Tab key : _tabmap.keySet()) {
+            System.out.println("TABKEYS AVAILABLE: " + key.getId());
+        }
+        IPatient pat = _tabmap.get(tab);
         return pat;
     }
 
     public void closeSelectedTab(){
         _tabPanel.getTabs().removeAll(_selectedTab);
-        removeTabMapEntry( _selectedTab);
     }
 
-    public void closeSelectedAndSwitchTab(Tab tab){
+    public void closeSelectedAndSwitchTab(Tab switchtab){
+        // close and remove current tab
+        removeTabMapEntry(_selectedTab);
         _tabPanel.getTabs().removeAll(_selectedTab);
-        removeTabMapEntry( _selectedTab);
-        _tabPanel.getSelectionModel().select(tab);
+        // switch to given tab
+        _selectedTab = switchtab;
+        _tabPanel.getSelectionModel().select(switchtab);
     }
 
     public void switchToTab(Tab tab){
@@ -160,11 +165,14 @@ public class TabModel implements ILogger {
 
     public void setSelectedTab(Tab tab){
         _selectedTab = tab;
-        log.debug("Switched Tab to: " + getSelectedTab().getText());
+        log.debug("SET SELECTED TAB: " + getSelectedTab().getText() + " / ID: " + getSelectedTab().getId());
     }
 
     public void setTabMapEntry(Tab tab, IPatient pat){  _tabmap.put(tab,pat); }
-    public void removeTabMapEntry(Tab tab){  _tabmap.remove(tab); }
+    public void removeTabMapEntry(Tab tab){
+        _tabmap.remove(tab);
+        System.out.println("REMOVE TAB ENTRY: " + tab.getId());
+    }
     public Tab getSelectedTab(){ return  _selectedTab; }
 
     // *****************************************************************************************************************
@@ -201,21 +209,23 @@ public class TabModel implements ILogger {
         _model._patient = patient;
         _tabinitpatient = patient;
         String tabid = "protocols" + patient.getSocialInsuranceNr();
-        loadTab("PROTOCOLS: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", tabid);
+        loadTab("PROTOCOLS: " +  patient.getLastName(), "fxml/ExaminationTab.fxml", tabid);
     }
 
     public void addPrescriptionTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
         _tabinitpatient = patient;
-        loadTab("PRESCRIPTIONS: " +  _model.getPatient().getLastName(), "fxml/PrescriptionTab.fxml", "prescription" + patient.getSocialInsuranceNr());
+        String tabid = "prescription" + patient.getSocialInsuranceNr();
+        loadTab("PRESCRIPTIONS: " +  patient.getLastName(), "fxml/PrescriptionTab.fxml", tabid);
     }
 
     public void addNewExaminationTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
         _tabinitpatient = patient;
-        loadTab("EXAMINATION: " + _model.getPatient().getLastName(), "fxml/NewExaminationTab.fxml","newexamination" + patient.getSocialInsuranceNr() );
+        String tabid = "newexamination" + patient.getSocialInsuranceNr();
+        loadTab("EXAMINATION: " + patient.getLastName(), "fxml/NewExaminationTab.fxml", tabid);
     }
 
     public void addSearchTab(){
