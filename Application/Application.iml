@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Domain" exported="" />
     <orderEntry type="module" module-name="Persistence" exported="" />
+    <orderEntry type="library" exported="" name="oculus-tb2-0.1-SNAPSHOT" level="project" />
   </component>
 </module>

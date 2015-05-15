@@ -12,6 +12,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.collections.FXCollections;
@@ -41,6 +42,7 @@ public class ExaminationController implements Initializable, ILogger {
 
     @FXML public ListView examinationResults;
     @FXML private Button newExaminationButton;
+    @FXML private Button refreshButton;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationLnameFnameSvn;
     @FXML private TextArea textExaminationDetails;
@@ -51,16 +53,22 @@ public class ExaminationController implements Initializable, ILogger {
     private Date date = new Date();
     private ObservableList<IExaminationProtocol> _protocolist;
     private ObservableList<IExaminationResult> _results;
+    private IExaminationProtocol selectedProtocol;
+    private IPatient initPatient;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initPatient =  _model.getTabModel().getInitPatient();
+
         // setup controls
         examinationCurrDate.setText(date.toString());
-        examinationLnameFnameSvn.setText("PATIENT: " + _model.getPatient().getLastName() + ", " + _model.getPatient().getFirstName() + ", " + _model.getPatient().getSocialInsuranceNr());
+        examinationLnameFnameSvn.setText(" PATIENT: " + initPatient.getLastName() + ", " + initPatient.getFirstName() + ", " + initPatient.getSocialInsuranceNr());
+
         examinationList.setDisable(true);
         examinationResults.setDisable(true);
         examinationDocumentation.setDisable(true);
-        textExaminationDetails.setDisable(false);
+        textExaminationDetails.setDisable(true);
+
         String loadtext = "Loading examinations protocols....";
         examinationList.getItems().add(loadtext);
         String loadtext2 = "Choose an examination protocol....";
@@ -69,8 +77,10 @@ public class ExaminationController implements Initializable, ILogger {
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_newexamination.png"));
         newExaminationButton.setGraphic(new ImageView(imageSaveIcon));
+        Image imageRefresh = new Image(getClass().getResourceAsStream("/res/icon_refresh.png"));
+        refreshButton.setGraphic(new ImageView(imageRefresh));
 
-        // fetch data (loading & setup)
+        // load all examination protocols
         getExaminationList();
 
         // add mouse event handler
@@ -82,53 +92,62 @@ public class ExaminationController implements Initializable, ILogger {
                 }
             }
         });
-
-        System.out.println(_model.getTabModel().getSelectedTab().getId());
     }
 
+    // *******************************************************************
+    // EXAMINATION PROTOCOLS
+    // *******************************************************************
+
+    /* loads all examination protocols for selected patient */
     private void getExaminationList(){
-        //TODO reduce loading times
-        // loads all examination protocols for selected patient
-        final Task<Void> search = loadExaminationListsThread();
+        // setup task: load all examination protocols
+        final Task<Void> loadlist = loadExaminationListsThread();
+
         StatusBarController.showProgressBarIdle("Loading examination protocols");
-        search.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+        // setup: when task is done then refresh all controls
+        loadlist.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                // end of search thread
                 StatusBarController.hideStatusBarProgressBarIdle();
                 examinationList.setDisable(false);
-                examinationDocumentation.setDisable(false);
-                textExaminationDetails.setDisable(false);
                 examinationList.setItems(_protocolist);
-                //TODO sort list
-                /*java.util.Collections.sort(examinationList.getItems(), new java.util.Comparator<TYPE>() {
-                    @Override
-                    public int compare(TYPE o1, TYPE o2) {
-                    // implement date comparator
-                    }
-                });*/
             }
         });
 
-        new Thread(search).start();
+        // start loading task
+        new Thread(loadlist).start();
     }
+
+    // *******************************************************************
+    // SELECTED PROTOCOL ACTIONS
+    // *******************************************************************
 
     /* load selected examination data and set data to forms */
     private void loadSelectedExaminationData (IExaminationProtocol exp){
         examinationDocumentation.setText(exp.getDescription());
 
-        ObservableList<IExaminationResult> results = null;
-        try {
-            log.debug("start loading examination results!");
-            results = FXCollections.observableArrayList(exp.getExaminationResults());
-            log.debug("examination results loaded!");
-        } catch (CouldNotGetExaminationResultException e) {
-            e.printStackTrace();
-        }
-        examinationResults.setItems(results);
-        examinationResults.setDisable(false);
+        // load examination results
+        selectedProtocol = exp;
+        examinationResults.setDisable(true);
+        examinationResults.setItems(FXCollections.observableArrayList("Loading examination results..."));
+        final Task<Void> loadresults = loadExaminationResultsThread();
+        StatusBarController.showProgressBarIdle("Loading examination results");
 
-        // TODO fill into controls
+        // setup: when task is done then refresh all controls
+        loadresults.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                StatusBarController.hideStatusBarProgressBarIdle();
+                examinationResults.setItems(_results);
+                examinationResults.setDisable(false);
+            }
+        });
+        // start loading task
+        new Thread(loadresults).start();
+
+
+        // return loaded data as stringbuilder
         textExaminationDetails.setText("");
         StringBuilder result = new StringBuilder();
         result.append("START TIME: " + exp.getStartTime());
@@ -152,27 +171,52 @@ public class ExaminationController implements Initializable, ILogger {
         }
 
         textExaminationDetails.setText(result.toString());
-        textExaminationDetails.setDisable(true);
     }
+
+    // *******************************************************************
+    // BUTTON EVENTS
+    // *******************************************************************
 
     @FXML
     public void addNewExaminationProtocol(ActionEvent actionEvent) {
-        _model.getTabModel().addNewExaminationTab(_model.getPatient());
+        IPatient selectedpatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        _model.getTabModel().addNewExaminationTab(selectedpatient);
+    }
+
+    @FXML
+    public void refreshTab(ActionEvent actionEvent) {
+        String loadtext = "Loading examinations protocols....";
+        examinationList.getItems().add(loadtext);
+        getExaminationList();
     }
 
     // *******************************************************************
-    // Loading Thread
+    // LOADING THREADS
     // *******************************************************************
 
-    /* thread for loading*/
+    /* thread: load examination protocols */
     public Task<Void> loadExaminationListsThread() {return new Task<Void>() {
         @Override
         protected Void call() {
-            // application layer acces for examination protocols loading
-            log.debug("Starting to load examination Protocols!");
-            _protocolist = FXCollections.observableArrayList(_model.getExaminationModel().getAllExaminationProtcols(_model.getPatient()));
-            log.debug("Examination protocols were loaded!");
+            //IPatient selectedPatient =  _model.getTabModel().getInitPatient();
+            log.debug("Loading examination protocols for patient: " + initPatient.getLastName());
+            _protocolist = FXCollections.observableArrayList(_model.getExaminationModel().getAllExaminationProtcols(initPatient));
+            return null;
+        }
+    };
+    }
 
+    /* thread: load examination results */
+    public Task<Void> loadExaminationResultsThread() {return new Task<Void>() {
+        @Override
+        protected Void call() {
+            IPatient selectedpatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+            log.debug("Loading examination results for patient: " + selectedpatient.getLastName());
+            try {
+                _results = FXCollections.observableArrayList(selectedProtocol.getExaminationResults());
+            } catch (CouldNotGetExaminationResultException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     };

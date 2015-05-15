@@ -15,7 +15,8 @@ import at.oculus.teamf.domain.entity.Diagnosis;
  * Created by Simon Angerer on 08.05.2015.
  */
 public interface IMedicine extends IDomain {
-    Diagnosis getDiagnosis();
 
+    IDiagnosis getDiagnosis();
     void setDiagnosis(IDiagnosis diagnosis);
+
 }

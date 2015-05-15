@@ -49,7 +49,7 @@
                                         <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />
                                     </items>
                                 </Menu>
-                                <MenuItem mnemonicParsing="false" onAction="#openPatientProperty" text="Patient Property (Test)" />
+                                <MenuItem disable="true" mnemonicParsing="false" onAction="#openPatientProperty" text="Patient Property (Test)" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Patient">

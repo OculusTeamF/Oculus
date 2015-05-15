@@ -19,12 +19,21 @@ package at.oculus.teamf.application.facade;
  * which is responsible for the creation of a new optical aid prescription and to save it into the database
  **/
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
+import at.oculus.teamf.technical.printing.IPrinter;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * <h2>$VisualAidPrescriptionController</h2>
@@ -32,25 +41,28 @@ import at.oculus.teamf.technical.loggin.ILogger;
  * <b>Description:</b>
  * With this controller a new optical aid prescription can be created.
  **/
-public class VisualAidPrescriptionController implements ILogger{
+public class VisualAidPrescriptionController implements ILogger, IPrinter{
 
-    private IPatient _iPatient;
+    private IVisualAid visualAid;
 
-    private VisualAidPrescriptionController(IPatient iPatient){
-            _iPatient = iPatient;
+    private VisualAidPrescriptionController(IDiagnosis iDiagnosis) throws NotInitatedExceptions {
+            visualAid = DependenceResolverTB2.getInstance().getFactory().createVisualAid();
+            visualAid.setDiagnosis(iDiagnosis);
     }
 
-    public static VisualAidPrescriptionController createController(IPatient iPatient) throws NoPatientException {
-        if(iPatient == null){
+    public static VisualAidPrescriptionController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitatedExceptions {
+        if(iDiagnosis == null){
             throw new NoPatientException();
         }
-        return new VisualAidPrescriptionController(iPatient);
+        return new VisualAidPrescriptionController(iDiagnosis);
     }
 
-    public IVisualAid createVisualAidPrescription(IDiagnosis iDiagnosis, String description){
-        IVisualAid visualAid = new VisualAid();
+    public IVisualAid createVisualAidPrescription(String description) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
         visualAid.setDescription(description);
-        visualAid.setDiagnosis(iDiagnosis);
+        visualAid.setIssueDate(new Timestamp(new Date().getTime()));
+
+        IFacade facade = DependenceResolverTB2.getInstance().getFacade();
+        facade.save(visualAid);
 
         return visualAid;
     }

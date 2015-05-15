@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.Prescription;
@@ -35,48 +37,65 @@ import java.util.Date;
 import java.util.LinkedList;
 
 /**
- * Created by jpo2433 on 08.05.15.
+ * <h1>$CreateDiagnosisController.java</h1>
+ *
+ * @author $jpo2433
+ * @since $30.04.2015
+ * <p/>
+ * <b>Description:</b>
+ * This File contains the PrescriptionController class,
+ * which is responsible for the creation of a new Prescription object, to create new Prescription Entries,
+ * put the entries into the new prescription object and save it into the database.
+ * It also provides a class to get all prescribed medicine of the given patient and the possibility
+ * to print the prescription.
  */
+
+/**
+ * <h2>$CreateDiagnosisController</h2>
+ *
+ * <b>Description:</b>
+ * With this controller a new prescription can be created.
+ * In the controller, a new Prescription is created and the specified patient is saved in the prescription
+ * and in the controller. It contains te methods createPrescriptionEntry, getAllPrescribedMedicines and printPrescription.
+ **/
 public class PrescriptionController implements ILogger, IPrinter {
 
     private IPatient _iPatient;
     private IPrescription iPrescription;
 
-
-    private PrescriptionController(IPatient iPatient){
+    /**
+     *<h3>$PrescriptionController</h3>
+     *
+     * <b>Description:</b>
+     *this is the private constructor of the PrescriptionController. To get an instance of this controller,
+     * the static method createController(IPatient iPatient) has to be invoked. This method checks if the given Patient
+     * interface is not null, throws an exception if it is null or returns an instance of the PrescriptionController.
+     *
+     *<b>Parameter</b>
+     * @param iPatient this parameter shows the interface of the Patient, who wants a prescription
+     */
+    private PrescriptionController(IPatient iPatient) throws NotInitatedExceptions {
         _iPatient = iPatient;
-        iPrescription = new Prescription();
+        iPrescription = DependenceResolverTB2.getInstance().getFactory().createPrescription();
         iPrescription.setPatient(iPatient);
 
     }
 
-    public static PrescriptionController createController(IPatient iPatient) throws NoPatientException {
+    public static PrescriptionController createController(IPatient iPatient) throws NoPatientException, NotInitatedExceptions {
         if(iPatient == null){
             throw new NoPatientException();
         }
         return new PrescriptionController(iPatient);
     }
 
-	public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines)
-			throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException,
-			       NoBrokerMappedException {
-		for (IMedicine medicine : medicines) {
-			try {
-				createPrescriptionEntry(medicine);
-			} catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
-				log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
-				throw couldNotAddPrescriptionEntryException;
-			}
-		}
-		return iPrescription;
-	}
+    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
+        IPrescriptionEntry entry = DependenceResolverTB2.getInstance().getFactory().createPrescriptionEntry();
 
-    public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException {
-        IPrescriptionEntry entry = new PrescriptionEntry();
+        IFacade facade = DependenceResolverTB2.getInstance().getFacade();
+        facade.save(entry);
 
         entry.setMedicine(iMedicine);
-
-	    try {
+        try {
             iPrescription.addPrescriptionEntry(entry);
         } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
             log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
@@ -85,27 +104,40 @@ public class PrescriptionController implements ILogger, IPrinter {
         return entry;
     }
 
+    public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException, NotInitatedExceptions {
+        for(IMedicine medicine : medicines){
+            try {
+                createPrescriptionEntry(medicine);
+            } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
+                log.error("Could not add Entry to prescription! " + couldNotAddPrescriptionEntryException.getMessage());
+                throw couldNotAddPrescriptionEntryException;
+            }
+        }
+        return iPrescription;
+    }
+
     public Collection<IMedicine> getAllPrescribedMedicines(){
         Collection<IMedicine> medicines = new LinkedList<IMedicine>();
         try {
             medicines = _iPatient.getMedicine();
         } catch (CouldNotGetMedicineException e) {
+            //Todo
             e.printStackTrace();
         }
         return medicines;
     }
 
-    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException {
+    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException, NotInitatedExceptions {
         //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
         try {
-            printer.printPrescription(iPrescription);
+            printer.printPrescription(iPrescription, _iPatient.getIDoctor());
         } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException e) {
             throw e;
         }
 
         iPrescription.setLastPrint(new Timestamp(new Date().getTime()));
 
-        IFacade facade = Facade.getInstance();
+        IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(iPrescription);
 
         return iPrescription;

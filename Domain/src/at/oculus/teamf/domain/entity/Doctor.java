@@ -11,7 +11,10 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -59,44 +62,44 @@ public class Doctor extends User implements IDoctor, ILogger {
     }
 
 	@Override
-    public Calendar getCalendar() {
+    public ICalendar getCalendar() {
 		return _calendar;
     }
     @Override
-    public void setCalendar(Calendar _calendar) {
-        this._calendar = _calendar;
+    public void setCalendar(ICalendar _calendar) {
+        this._calendar = (Calendar) _calendar;
     }
 
     @Override
-    public PatientQueue getQueue() {
+    public IPatientQueue getQueue() {
         if(_queue == null) {
             _queue = QueueFactory.getInstance().getUserQueue(this);
         }
         return _queue;
     }
     @Override
-    public void setQueue(PatientQueue _queue) {
-        this._queue = _queue;
+    public void setQueue(IPatientQueue _queue) {
+        this._queue = (PatientQueue) _queue;
     }
 
     @Override
-    public Doctor getDoctorSubstitude() {
+    public IDoctor getDoctorSubstitude() {
 	    return _doctorSubstitude;
     }
     @Override
-    public void setDoctorSubstitude(Doctor doctorSubstitude) {
-        _doctorSubstitude = doctorSubstitude;
+    public void setDoctorSubstitude(IDoctor doctorSubstitude) {
+        _doctorSubstitude = (Doctor) doctorSubstitude;
     }
 
     @Override
-    public void addPatient(Patient patient) {
+    public void addPatient(IPatient patient) {
         if (patient != null) {
-            _patients.add(patient);
+            _patients.add((Patient)patient);
         }
     }
 
     @Override
-    public Collection<Patient> getPatients() throws CantLoadPatientsException {
+    public Collection<IPatient> getPatients() throws CantLoadPatientsException {
         Facade facade = Facade.getInstance();
 
         try {
@@ -106,12 +109,12 @@ public class Doctor extends User implements IDoctor, ILogger {
             throw new CantLoadPatientsException();
         }
 
-        return _patients;
+        return (Collection<IPatient>)(Collection<?>)_patients;
     }
 
 	@Override
-    public void setPatients(Collection<Patient> patients) {
-		_patients = patients;
+    public void setPatients(Collection<IPatient> patients) {
+		_patients = (Collection<Patient>)(Collection<?>)patients;
 	}
 
     @Override

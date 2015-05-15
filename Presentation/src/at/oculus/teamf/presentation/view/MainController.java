@@ -134,7 +134,8 @@ public class MainController implements Initializable, ILogger {
         } else {
             StatusBarController.getInstance().setText("Welcome to Oculus [Logged in: "
                     + _model.getLoggedInUser().getFirstName() + " " + _model.getLoggedInUser().getLastName() + "]    [Selected Patient: "
-                    + _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getLastName() + "]");
+                    + _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()).getLastName() + "]    [Selected Tab: "
+                    + _model.getTabModel().getSelectedTab().getId() + "]");
         }
     }
 
@@ -170,13 +171,7 @@ public class MainController implements Initializable, ILogger {
     /*Tab: opens the patient property (unused)*/
     @FXML
     public void openPatientProperty(ActionEvent event) {
-        try {
-            displayPane.getTabs().addAll((Tab) FXMLLoader.load(this.getClass().getResource("../fxml/PatientProperty.fxml")));
-            displayPane.getSelectionModel().select(displayPane.getTabs().size() - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - Please contact support");
-        }
+        //
     }
 
     // *******************************************************************

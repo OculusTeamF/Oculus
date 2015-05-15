@@ -12,15 +12,13 @@ package at.oculus.teamf.presentation.view.models;
 import at.oculus.teamf.application.facade.*;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.QueueEntry;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
-import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.collections.FXCollections;
@@ -28,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -158,46 +157,16 @@ public class Model implements Serializable, ILogger{
 
     // *******************************************************************
     // Patient methods
+    // TODO: remove getpatient & setpatient (handled by tabmodel)
     // *******************************************************************
 
     public IPatient getPatient(){ return _patient; }
     public void setPatient(IPatient setPatient) { this._patient = setPatient; }
 
-    /**
-     * Returns Calendar Events of a specific patient
-     */
-    public Collection<CalendarEvent> getCalendarEvents(){
-
-        Collection<CalendarEvent> events = null;
-        try {
-            events = _patient.getCalendarEvents();
-        } catch (CouldNotGetCalendarEventsException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotGetCalendarEventsException - Please contact support");
-        }
-        return events;
-    }
-
-    /**
-     * returns all Diagnoses Titles from a given Patient
-     * @return
-     */
-    public Collection<IDiagnosis> getAllDiagnoses(){
-        Collection<IDiagnosis> allDiagnoses = null;
-        try {
-            allDiagnoses = getPatient().getDiagnoses();
-        } catch (CouldNotGetDiagnoseException e) {
-            e.printStackTrace();
-        }
-
-        return allDiagnoses;
-    }
-
     // *******************************************************************
     // Queue methods
+    // TODO: move 'buildQueueLists' & 'refreshQueue' to QueueController
     // *******************************************************************
-
-
     public void buildQueueLists(){
 
         _userWaitingList = new HashMap<>();
@@ -240,7 +209,6 @@ public class Model implements Serializable, ILogger{
             listView.setItems(olist);
             listView.setPrefHeight((olist.size() * 38));
 
-
             _userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);
 
@@ -248,7 +216,11 @@ public class Model implements Serializable, ILogger{
              String queueName = buildTitledPaneHeader(u, olist.size());
 
             TitledPane queueTitledPane = new TitledPane(queueName, listView);
-            queueTitledPane.setExpanded(false);
+            if (olist.size() > 0 ){
+                queueTitledPane.setExpanded(true);
+            } else {
+                queueTitledPane.setExpanded(false);
+            }
             queueTitledPane.setAnimated(true);
             queueTitledPane.setVisible(true);
 
@@ -337,11 +309,6 @@ public class Model implements Serializable, ILogger{
         return queuename;
     }
 
-
-
-
-
-
     /**
      * unused
      * @param
@@ -368,7 +335,7 @@ public class Model implements Serializable, ILogger{
     public static class HBoxCell extends HBox {
 
         IQueueEntry _entry = null;
-        Button _button = new Button();
+        Button _startexaminationbutton = new Button();
         Button _deletebutton = new Button();
         Button _openbutton = new Button();
         Label _label;
@@ -383,22 +350,25 @@ public class Model implements Serializable, ILogger{
             Image imageDelete = new Image(getClass().getResourceAsStream("/res/icon_delete.png"));
             Image imageOpen = new Image(getClass().getResourceAsStream("/res/icon_open.png"));
 
-            _button.setGraphic(new ImageView(imageEnqueue));
-            _button.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
-            _button.setId("queueButton");
+            _startexaminationbutton.setGraphic(new ImageView(imageEnqueue));
+            _startexaminationbutton.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
+            _startexaminationbutton.setCursor(Cursor.HAND);
+            _startexaminationbutton.setId("queueButton");
 
             _deletebutton.setGraphic(new ImageView(imageDelete));
             _deletebutton.setTooltip(new Tooltip("Delete patient from queue without examination"));
+            _deletebutton.setCursor(Cursor.HAND);
             _deletebutton.setId("queueDeleteButton");
 
             _openbutton.setGraphic(new ImageView(imageOpen));
             _openbutton.setTooltip(new Tooltip("Open and view patient record"));
+            _openbutton.setCursor(Cursor.HAND);
             _openbutton.setId("queueOpenButton");
 
             /**
              * removes the patient from the Waiting List
              */
-            _button.setOnAction(new EventHandler<ActionEvent>() {
+            _startexaminationbutton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     QueueModel.getInstance().removePatientFromQueue(_entry.getPatient(), _user);
@@ -422,18 +392,18 @@ public class Model implements Serializable, ILogger{
             });
 
             // button hover
-            _button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            _startexaminationbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _button.setText("Start Examination");
-                    _button.setContentDisplay(ContentDisplay.RIGHT);
-                    _button.setTextAlignment(TextAlignment.LEFT);
+                    _startexaminationbutton.setText("Start Examination");
+                    _startexaminationbutton.setContentDisplay(ContentDisplay.RIGHT);
+                    _startexaminationbutton.setTextAlignment(TextAlignment.LEFT);
                 }
             });
-            _button.setOnMouseExited(new EventHandler<MouseEvent>() {
+            _startexaminationbutton.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _button.setText("");
+                    _startexaminationbutton.setText("");
                 }
             });
 
@@ -472,7 +442,7 @@ public class Model implements Serializable, ILogger{
             _label.setMinHeight(30);
 
             HBox.setHgrow(_label, Priority.ALWAYS);
-            this.getChildren().addAll(_label,_openbutton, _deletebutton ,_button);
+            this.getChildren().addAll(_label,_openbutton, _deletebutton , _startexaminationbutton);
         }
 
         /**

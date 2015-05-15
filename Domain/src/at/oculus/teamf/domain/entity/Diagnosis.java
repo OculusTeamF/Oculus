@@ -12,10 +12,7 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IMedicine;
-import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -35,14 +32,14 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
     private String _title;
     private String _description;
 	private Integer _doctorId;
-	private Doctor _doctor;
+	private IDoctor _doctor;
 	private Collection<Medicine> _medicine;
 	private Collection<VisualAid> _visualAid;
 
 	public Diagnosis() {}
 
-	public Diagnosis(int id, String title, String description, Doctor doctor) {
-		_id = id;
+	public Diagnosis(String title, String description, IDoctor doctor) {
+		_id = 0;
 		_title = title;
 		_description = description;
 		_doctor = doctor;
@@ -78,11 +75,11 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 		_doctorId = doctorId;
 	}
 
-    public Doctor getDoctor() {
+    public IDoctor getDoctor() {
 		return _doctor;
 	}
-    public void setDoctor(Doctor doctor) {
-		_doctor = doctor;
+    public void setDoctor(IDoctor doctor) {
+		_doctor = (Doctor) doctor;
 		if(doctor!=null) {
 			_doctorId = doctor.getId();
 		}

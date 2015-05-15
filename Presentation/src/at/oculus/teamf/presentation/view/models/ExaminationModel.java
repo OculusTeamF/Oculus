@@ -10,6 +10,7 @@
 package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.CreateDiagnosisController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
@@ -25,6 +26,7 @@ import at.oculus.teamf.presentation.view.DialogBoxController;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Fabian on 10.05.2015.
@@ -35,6 +37,8 @@ public class ExaminationModel {
 
     private IExaminationProtocol _eximationprotocol;
     private CreateDiagnosisController _createDiagnosisController;
+
+    private HashMap<IPatient, IExaminationProtocol> _examinationmap;
 
     public static ExaminationModel getInstance() {
         if(_examinationmodel == null) {
@@ -66,19 +70,21 @@ public class ExaminationModel {
     /**
      * creates a new examinationprotocol
      */
-    public void newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
+    public IExaminationProtocol newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
         _model = Model.getInstance();
         try {
-            _model.getReceivePatientController().createNewExaminationProtocol(startdate, enddate, examinationDocumentation, patient, doctor, orthoptist);
+            return _model.getReceivePatientController().createNewExaminationProtocol(startdate, enddate, examinationDocumentation, patient, doctor, orthoptist);
         } catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
             couldNotAddExaminationProtocol.printStackTrace();
         }
+
+        return null;
     }
 
 
-    public void addNewPatientDiagnosis(String title, String description, IDoctor doc){
+    public void addNewPatientDiagnosis(String title, String description, IDoctor doc, IExaminationProtocol exp) throws NotInitatedExceptions {
         try {
-            _createDiagnosisController = CreateDiagnosisController.CreateController(_eximationprotocol);
+            _createDiagnosisController = CreateDiagnosisController.CreateController(exp);
         } catch (NoExaminationProtocolException e) {
             e.printStackTrace();
         }
@@ -105,6 +111,15 @@ public class ExaminationModel {
     }
     public void setCurrentExaminationProtocol(IExaminationProtocol ep){
         _eximationprotocol = ep;
+    }
+
+    public void setExaminationMapEntry(IExaminationProtocol exp, IPatient pat){  _examinationmap.put(pat, exp); }
+
+    public void removeExaminationMapEntry(IExaminationProtocol exp){  _examinationmap.remove(exp); }
+
+    public IExaminationProtocol getExaminationFromSelectedPatient(IPatient patient){
+        IExaminationProtocol exp =  _examinationmap.get(patient);
+        return exp;
     }
 
 }

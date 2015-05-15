@@ -23,11 +23,18 @@
 
 package at.oculus.teamf.application.facade;
 
+import at.oculus.teamE.domain.interfaces.IDomainFactory;
+import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
+import at.oculus.teamE.support.DependencyResolver;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.technical.loggin.ILogger;
+
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -35,11 +42,11 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.function.Supplier;
 
 /**
  * <h2>$StartupController</h2>
@@ -58,7 +65,22 @@ public class StartupController implements ILogger {
      * is loaded at the start up.
      */
     public StartupController() {
-        Facade facade = Facade.getInstance();
+        IFacade facade = Facade.getInstance();
+        DependenceResolverTB2.init(facade, new FactoryTB2());
+
+        DependencyResolver teamEDependencies = DependencyResolver.getInstance();
+        teamEDependencies.registerPersistenceFacade(new Supplier<IPersistenceFacadeTb2>() {
+            @Override
+            public IPersistenceFacadeTb2 get() {
+                return null;
+            }
+        });
+        teamEDependencies.registerDomainFactory(new Supplier<IDomainFactory>() {
+            @Override
+            public IDomainFactory get() {
+                return null;
+            }
+        });
     }
 
     /**
@@ -237,7 +259,7 @@ public class StartupController implements ILogger {
         Patient patient = (Patient) iPatient;
         Collection<CalendarEvent> events = null;
 
-        events = patient.getCalendarEvents();
+        events = (Collection<CalendarEvent>) (Collection<?>) patient.getCalendarEvents();
 
         Collection<ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();
 
@@ -326,7 +348,7 @@ public class StartupController implements ILogger {
         if (user != null) {
             if (user instanceof Doctor) {
                 doctor = (Doctor) user;
-                queue = doctor.getQueue();
+                queue = (PatientQueue) doctor.getQueue();
             } else if (user instanceof Orthoptist) {
                 orthoptist = (Orthoptist) user;
                 queue = orthoptist.getQueue();

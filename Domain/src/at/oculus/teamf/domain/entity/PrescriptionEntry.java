@@ -10,6 +10,7 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 
 /**
@@ -31,7 +32,7 @@ public class PrescriptionEntry implements IPrescriptionEntry {
 		_id = id;
 	}
 
-	public Prescription getPrescription() {
+	public IPrescription getPrescription() {
 		return _prescription;
 	}
 

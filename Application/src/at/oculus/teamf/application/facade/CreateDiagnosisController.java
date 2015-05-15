@@ -22,6 +22,8 @@ package at.oculus.teamf.application.facade;
  * and to save it into the database.
  */
 
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
@@ -87,7 +89,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param description this is the description of the diagnosis
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
-    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
+    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException, NotInitatedExceptions {
         //check parameters
         if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");
@@ -95,13 +97,13 @@ public class CreateDiagnosisController implements ILogger {
         }
 
         //create new diagnosis
-        IDiagnosis diagnosis = new Diagnosis(0, title, description, (Doctor) iDoctor);
+        IDiagnosis diagnosis = DependenceResolverTB2.getInstance().getFactory().createDiagnos(title, description, (Doctor) iDoctor);
         log.info("New diagnosis created.");
         iExaminationProtocol.setDiagnosis(diagnosis);
         log.info("Diagnosis added to examination protocol");
 
         //save diagnosis and examinationprotocol
-        IFacade iFacade = Facade.getInstance();
+        IFacade iFacade = DependenceResolverTB2.getInstance().getFacade();
         try {
             iFacade.save(diagnosis);
             iFacade.save(iExaminationProtocol);

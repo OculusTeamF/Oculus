@@ -12,11 +12,14 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.facade.CreateDiagnosisController;
 import at.oculus.teamf.application.facade.ReceivePatientController;
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.domain.entity.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 import org.junit.After;
 import org.junit.Before;
 
@@ -36,6 +39,7 @@ public class CreateDiagnosisControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        DependenceResolverTB2.init(Facade.getInstance(), new FactoryTB2());
         patients = (LinkedList<IPatient>) searchPatientController.searchPatients("duck");
         iPatient = patients.getLast();
         iDoctor = iPatient.getIDoctor();
@@ -44,9 +48,10 @@ public class CreateDiagnosisControllerTest {
 
     @After
     public void tearDown() throws Exception{
-        Facade facade = Facade.getInstance();
-        facade.delete(iDiagnosis);
+        IFacade facade = Facade.getInstance();
         facade.delete(iExaminationProtocol);
+        facade.delete(iDiagnosis);
+
     }
 
     @org.junit.Test

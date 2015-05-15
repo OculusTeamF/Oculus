@@ -57,7 +57,10 @@ public class DiagnosisBroker extends EntityBroker implements ISearch, ICollectio
             doctor = Facade.getInstance().getById(Doctor.class, diagnosisEntity.getDoctorId());
         }
 
-        return new Diagnosis(diagnosisEntity.getId(), diagnosisEntity.getTitle(), diagnosisEntity.getDescription(), doctor);
+        Diagnosis diagnosis = new Diagnosis(diagnosisEntity.getTitle(), diagnosisEntity.getDescription(), doctor);
+		diagnosis.setId(diagnosisEntity.getId());
+
+		return diagnosis;
     }
 
     /**

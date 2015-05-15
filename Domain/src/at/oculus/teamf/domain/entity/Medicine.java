@@ -28,7 +28,7 @@ public class Medicine implements IMedicine {
 		_id = id;
 	}
 
-	public Diagnosis getDiagnosis() {
+	public IDiagnosis getDiagnosis() {
 		return _diagnosis;
 	}
 

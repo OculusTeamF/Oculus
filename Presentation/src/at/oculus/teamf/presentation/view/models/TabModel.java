@@ -20,7 +20,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -35,6 +34,8 @@ public class TabModel implements ILogger {
     private Tab _selectedTab;
     private TabPane _tabPanel;
 
+    private IPatient _tabinitpatient;
+
     private TabModel(){
         _tabmap = new HashMap();
     }
@@ -47,46 +48,99 @@ public class TabModel implements ILogger {
         return _tabmodel;
     }
 
-    /**
-     * set the Tabs for the TabPanel
-     */
+    /* set the Tabs for the TabPanel */
     public void setTabPanel(TabPane tabpanel){ _tabPanel = tabpanel;}
-    /**
-     * Controlls the Tabs of the panels
-     */
+
+    // *****************************************************************************************************************
+    //
+    // LOAD AND ADD NEW TABS
+    //
+    // *****************************************************************************************************************
     public void loadTab(String tabTitle, String tabFXML, String ID){
         _model = Model.getInstance();
-        try {
-            Tab tab = new Tab(tabTitle);
-            _selectedTab = tab;
-            tab.setId(ID);
 
-            String pathTabFXML = "../" + tabFXML;
-            AnchorPane ap = FXMLLoader.load(this.getClass().getResource(pathTabFXML));
-            tab.setContent(ap);
+        // check if tab is already opened
+        Tab checktab = checkIfTabIsAlreadyOpened(ID);
+
+        if (checktab == null) {
+            try {
+                // add new tab
+                Tab tab = new Tab(tabTitle);
+
+                // tab management
+                _selectedTab = tab;
+                tab.setId(ID);
+
+                // load tab fxml
+                String pathTabFXML = "../" + tabFXML;
+                AnchorPane ap = FXMLLoader.load(this.getClass().getResource(pathTabFXML));
+                tab.setContent(ap);
 
 
-            // setup tab hashmap
-            setTabMapEntry(tab, _model._patient);
-
-            tab.setOnCloseRequest(new EventHandler<Event>() {
-                @Override
-                public void handle(Event t) {
-                    if (DialogBoxController.getInstance().showYesNoDialog("Close tab ?", "Do you want to cancel the current progress ?") == false) {
-                        t.consume();
-                    } else {
-                        removeTabMapEntry( _selectedTab);
+                // setup tab
+                tab.setOnCloseRequest(new EventHandler<Event>() {
+                    @Override
+                    public void handle(Event t) {
+                        if (DialogBoxController.getInstance().showYesNoDialog("Close tab ?", "Do you want to cancel the current progress ?") == false) {
+                            t.consume();
+                        } else {
+                            removeTabMapEntry(_selectedTab);
+                        }
                     }
-                }
-            });
+                });
 
-            _tabPanel.getTabs().add(tab);               // add tab to pane
-            _tabPanel.getSelectionModel().select(tab);  // switch to new tab
-            log.debug("New Tab added: " + getSelectedTab().getText() + " to TabPanel " + _tabPanel.getId());
-        } catch (IOException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
+                setTabMapEntry(tab, _tabinitpatient);
+                _tabPanel.getTabs().add(tab);               // add tab to pane
+                _tabPanel.getSelectionModel().select(tab);  // switch to new tab
+                log.debug("New Tab added: " + getSelectedTab().getText() + " to TabPanel " + _tabPanel.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+                DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
+            }
+        } else {
+            // switch to already opened tab
+            switchToTab(checktab);
         }
+    }
+
+    public IPatient getInitPatient(){ return _tabinitpatient; }
+
+
+    // *****************************************************************************************************************
+    //
+    // TAB HASHMAP OPERATIONS (FOR TAB IDENTIFICATION & MANEGMENT)
+    //
+    // *****************************************************************************************************************
+
+    // check if tab exits with given id
+    public Tab getTabFromPatientAndID(String id, IPatient patient){
+        id = id + patient.getSocialInsuranceNr();
+
+        for (Tab key : _tabmap.keySet()) {
+            if (key.getId() == id){
+                IPatient pat =  _tabmap.get(key);
+                if (patient.equals(pat)){
+                    return key;
+                }
+            }
+        }
+        return null;
+    }
+
+    // check if same tabtype is already openened (for same patient)
+    private Tab checkIfTabIsAlreadyOpened(String ID){
+        for (Tab key : _tabmap.keySet()) {
+            if (key.getId().equals(ID)){
+                return key;
+            }
+        }
+        return null;
+    }
+
+    // return patient from current selected tab
+    public IPatient getPatientFromSelectedTab(Tab tab){
+        IPatient pat =  _tabmap.get(tab);
+        return pat;
     }
 
     public void closeSelectedTab(){
@@ -94,66 +148,73 @@ public class TabModel implements ILogger {
         removeTabMapEntry( _selectedTab);
     }
 
+    public void closeSelectedAndSwitchTab(Tab tab){
+        _tabPanel.getTabs().removeAll(_selectedTab);
+        removeTabMapEntry( _selectedTab);
+        _tabPanel.getSelectionModel().select(tab);
+    }
+
+    public void switchToTab(Tab tab){
+        _tabPanel.getSelectionModel().select(tab);
+    }
+
     public void setSelectedTab(Tab tab){
         _selectedTab = tab;
         log.debug("Switched Tab to: " + getSelectedTab().getText());
     }
 
+    public void setTabMapEntry(Tab tab, IPatient pat){  _tabmap.put(tab,pat); }
+    public void removeTabMapEntry(Tab tab){  _tabmap.remove(tab); }
     public Tab getSelectedTab(){ return  _selectedTab; }
 
-    public void setTabMapEntry(Tab tab, IPatient pat){  _tabmap.put(tab,pat); }
+    // *****************************************************************************************************************
+    //
+    // ADD NEW TABS METHODS
+    //
+    // opens:   PatientRecord
+    //          Diagnosis (for NewExamination)
+    //          Examination (Archived protocols)
+    //          NewExamination
+    //          Prescription
+    //          Search (for detail patient search)
+    //          NewPatient (adding new patient to database)
+    //
+    // *****************************************************************************************************************
 
-    public void removeTabMapEntry(Tab tab){  _tabmap.remove(tab); }
-
-    public IPatient getPatientFromSelectedTab(Tab tab){
-        IPatient pat =  _tabmap.get(tab);
-        return pat;
-    }
-
-    /**
-     * Tab: opensPatientRecordTab for selected patient
-     * @param patient
-     */
     public void addPatientRecordTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("RECORD: " + patient.getLastName(), "fxml/PatientRecordTab.fxml", "patientrecord" + patient.getSocialInsuranceNr());
+        _tabinitpatient = patient;
+        String tabid = "patientrecord" + patient.getSocialInsuranceNr();
+        loadTab("RECORD: " + patient.getLastName(), "fxml/PatientRecordTab.fxml", tabid);
     }
 
-    /**
-     * Tab: opens DiagnosisTab for selected patient
-     * @param patient
-     */
     public void addDiagnosisTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("DIAGNOSIS: " + patient.getFirstName() + " " + patient.getLastName() ,"fxml/DiagnosisTab.fxml", "diagnosis" + patient.getSocialInsuranceNr());
     }
 
-    /**
-     * Tab: opens ExaminationTab for selected patient
-     * @param patient
-     */
     public void addExaminationTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
-        loadTab("PROTOCOLS: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", "examination" + patient.getSocialInsuranceNr());
+        _tabinitpatient = patient;
+        String tabid = "protocols" + patient.getSocialInsuranceNr();
+        loadTab("PROTOCOLS: " +  _model.getPatient().getLastName(), "fxml/ExaminationTab.fxml", tabid);
     }
 
-    /**
-     * Tab: opens PrescriptionTab for selected patient
-     * @return
-     */
     public void addPrescriptionTab(IPatient patient){
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("PRESCRIPTIONS: " +  _model.getPatient().getLastName(), "fxml/PrescriptionTab.fxml", "prescription" + patient.getSocialInsuranceNr());
     }
 
     public void addNewExaminationTab(IPatient patient){
-        Date date = new Date();
         _model = Model.getInstance();
         _model._patient = patient;
+        _tabinitpatient = patient;
         loadTab("EXAMINATION: " + _model.getPatient().getLastName(), "fxml/NewExaminationTab.fxml","newexamination" + patient.getSocialInsuranceNr() );
     }
 

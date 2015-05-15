@@ -10,13 +10,17 @@
 package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
+import javafx.collections.ObservableList;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
@@ -41,18 +45,33 @@ public class PrescriptionModel {
     }
 
 
-    public void addNewPrescription(IPatient patient) {
+    public void addNewPrescription(IPatient patient) throws NotInitatedExceptions {
 
         try {
             _prescriptionController = PrescriptionController.createController(patient);
         } catch (NoPatientException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoPatientException - Please contact support");
         }
     }
 
-    public void addPrescriptionEntries(Collection<IMedicine> medicinList) {
+    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
 
-        //_prescriptionController.createPrescriptionEntry(medicinList);
+        try {
+            _prescriptionController.createPrescriptionEntry(medicinList);
+        } catch (CouldNotAddPrescriptionEntryException e) {
+            e.printStackTrace();
+            //DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPrescriptionEntryException - Please contact support");
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "DatabaseOperationException - Please contact support");
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
+        }
     }
 
     public void printPrescription() {
@@ -62,16 +81,28 @@ public class PrescriptionModel {
             _prescriptionController.printPrescription();
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "DatabaseOperationException - Please contact support");
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         } catch (BadConnectionException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (COSVisitorException e) {
             e.printStackTrace();
         } catch (CantGetPresciptionEntriesException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
         }
+    }
+
+    public Collection<IMedicine> getPrescribedMedicin() {
+
+        Collection<IMedicine> prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
+
+        return prescribedMedicins;
     }
 }

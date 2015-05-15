@@ -36,10 +36,10 @@ public class Prescription implements IPrescription, ILogger {
 	private IPatient _patient;
 	private Collection<PrescriptionEntry> _prescriptionEntries;
 
-	public Prescription() {
-		_issueDate = new Timestamp(new Date().getTime());
-		_prescriptionEntries = new LinkedList<PrescriptionEntry>();
-	}
+    public Prescription(){
+        _issueDate = new Timestamp(new Date().getTime());
+        _prescriptionEntries = new LinkedList<PrescriptionEntry>();
+    }
 
 	public int getId() {
 		return _id;
@@ -65,13 +65,23 @@ public class Prescription implements IPrescription, ILogger {
 		_lastPrint = lastPrint;
 	}
 
+	public IPatient getPatient() {
+		return _patient;
+	}
+
+	@Override
+	public void setPatient(IPatient iPatient) {
+			_patient = iPatient;
+	}
+
+
 	public Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException {
-		try {
-			Facade.getInstance().reloadCollection(this, PrescriptionEntry.class);
-		} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException | DatabaseOperationException e) {
-			log.error(e.getMessage());
-			throw new CantGetPresciptionEntriesException();
-		}
+			try {
+				Facade.getInstance().reloadCollection(this, PrescriptionEntry.class);
+			} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException | DatabaseOperationException e) {
+				log.error(e.getMessage());
+				throw new CantGetPresciptionEntriesException();
+			}
 		return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
 	}
 
@@ -93,23 +103,14 @@ public class Prescription implements IPrescription, ILogger {
 		entry.setPrescription(this);
 		_prescriptionEntries.add(entry);
 		try {
-			Facade.getInstance().save(this);
-			for (PrescriptionEntry p : _prescriptionEntries) {
-				Facade.getInstance().save(p);
-			}
+            Facade.getInstance().save(this);
+			for(PrescriptionEntry p : _prescriptionEntries){
+                Facade.getInstance().save(p);
+            }
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			log.error(e.getMessage());
 			throw new CouldNotAddPrescriptionEntryException();
 		}
-	}
-
-	public IPatient getPatient() {
-		return _patient;
-	}
-
-	@Override
-	public void setPatient(IPatient iPatient) {
-		_patient = iPatient;
 	}
 
 	@Override

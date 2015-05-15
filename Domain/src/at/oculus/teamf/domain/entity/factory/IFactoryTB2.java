@@ -7,16 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.factory;
 
-import java.util.Date;
+
+import at.oculus.teamf.domain.entity.interfaces.*;
 
 /**
- * IVisualAid.java Created by oculus on 11.05.15.
+ * Created by Simon Angerer on 13.05.2015.
  */
-public interface IVisualAid extends IDomain {
-    void setDescription(String description);
-    void setLastPrint(Date lastPrint);
-    void setDiagnosis(IDiagnosis diagnosis);
-    void setIssueDate(Date issueDate);
+public interface IFactoryTB2 {
+
+    IVisualAid createVisualAid();
+
+    IDiagnosis createDiagnos(String title, String description, IDoctor doctor);
+
+    IPrescription createPrescription();
+
+    IPrescriptionEntry createPrescriptionEntry();
 }

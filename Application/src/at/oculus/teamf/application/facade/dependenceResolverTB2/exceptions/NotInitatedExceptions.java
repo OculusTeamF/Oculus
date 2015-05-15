@@ -7,16 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions;
 
-import java.util.Date;
+import at.oculus.teamf.application.facade.exceptions.ApplicationException;
 
 /**
- * IVisualAid.java Created by oculus on 11.05.15.
+ * Created by Simon Angerer on 13.05.2015.
  */
-public interface IVisualAid extends IDomain {
-    void setDescription(String description);
-    void setLastPrint(Date lastPrint);
-    void setDiagnosis(IDiagnosis diagnosis);
-    void setIssueDate(Date issueDate);
+public class NotInitatedExceptions extends Exception {
 }
