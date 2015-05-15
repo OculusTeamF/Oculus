@@ -15,7 +15,9 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -52,7 +55,6 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label stateVA;
     @FXML public Label zipVA;
     @FXML public Label cityVA;
-    @FXML public ListView prescriptionItems;
     @FXML public ComboBox chooseMedicinBox;
     @FXML public Button addMedicinButton;
     @FXML public Button removeMedicinButton;
@@ -66,11 +68,17 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label city;
     @FXML public TextArea visualAidInformation;
     @FXML public ChoiceBox visualAidChoiceBox;
+    @FXML public TableView prescriptionItems;
+    @FXML public TextField medicinTextfield;
+    @FXML public TextField dosageTextfield;
+    @FXML public TextField informationTextfield;
+    @FXML public Button removeEntryFromTable;
+    @FXML public Button addNewEntryToTable;
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
-    private ObservableList<IMedicine> _medicinList;
+    private ObservableList<Entry> _medicinList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,12 +92,12 @@ public class PrescriptionController implements Initializable, IPrinter {
         choosePrescriptionBox.setItems(_prescriptionType);
         choosePrescriptionBox.getSelectionModel().select(0);
 
-        addMedicinButton.setTooltip(new Tooltip("add Medicin to Prescription"));
-        removeMedicinButton.setTooltip(new Tooltip("remove Medicin from Prescription"));
+        addMedicinButton.setTooltip(new Tooltip("add Medicin"));
+        removeMedicinButton.setTooltip(new Tooltip("clear Fields"));
 
-        //Stackpane on index 0 is the visualAidPrescription, on index 1 is the medicalPrescription
-        prescriptionStackPane.getChildren().get(0).setVisible(false);
-        prescriptionStackPane.getChildren().get(1).setVisible(true);
+        //Stackpane on index 1 is the visualAidPrescription, on index 0 is the medicalPrescription
+        prescriptionStackPane.getChildren().get(1).setVisible(false);
+        prescriptionStackPane.getChildren().get(0).setVisible(true);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
@@ -138,12 +146,12 @@ public class PrescriptionController implements Initializable, IPrinter {
                 if (newValue != null) {
                     switch (newValue.toString()) {
                         case "Medicin":
-                            prescriptionStackPane.getChildren().get(0).setVisible(false);
-                            prescriptionStackPane.getChildren().get(1).setVisible(true);
-                            break;
-                        case "Visual Aid":
                             prescriptionStackPane.getChildren().get(1).setVisible(false);
                             prescriptionStackPane.getChildren().get(0).setVisible(true);
+                            break;
+                        case "Visual Aid":
+                            prescriptionStackPane.getChildren().get(0).setVisible(false);
+                            prescriptionStackPane.getChildren().get(1).setVisible(true);
                             break;
                     }
                     printButton.setVisible(true);
@@ -151,22 +159,19 @@ public class PrescriptionController implements Initializable, IPrinter {
             }
         });
 
-        //ListView
-
-
+        //TableView
+        TableColumn col = (TableColumn) prescriptionItems.getColumns().get(0);
 
         _medicinList = FXCollections.observableArrayList();
         prescriptionItems.setItems(_medicinList);
     }
 
-    //add the selected MedicinItems to the PrescriptionList
+    //add the selected MedicinItems to the Textfield
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
 
         IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
-        _medicinList.add(itemToAdd);
-        StatusBarController.showProgressBarIdle("Added " + itemToAdd);
-
+        medicinTextfield.setText(itemToAdd.toString());
     }
 
     //remove the Medicin from the PrescriptionList
@@ -231,5 +236,26 @@ public class PrescriptionController implements Initializable, IPrinter {
             notInitatedExceptions.printStackTrace();
             //Todo: handle
         }
+    }
+
+    @FXML
+    public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
+
+        _medicinList.add(new Entry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText()));
+
+    }
+}
+
+class Entry{
+
+    private final SimpleStringProperty  medicin;
+    private final SimpleStringProperty  dosage;
+    private final SimpleStringProperty  information;
+
+    public Entry(String medicin, String dosage, String information){
+
+        this.medicin = new SimpleStringProperty( medicin.toString());
+        this.dosage = new SimpleStringProperty(dosage);
+        this.information = new SimpleStringProperty(information);
     }
 }

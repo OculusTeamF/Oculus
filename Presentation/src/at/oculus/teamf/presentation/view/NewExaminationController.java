@@ -82,7 +82,7 @@ public class NewExaminationController implements Initializable {
         addDiagnosisButton.setDisable(true);
 
         //enable PrescriptionButton only when diagnose ist created
-        prescriptionButton.setDisable(true);
+        //prescriptionButton.setDisable(true);
 
         // start stopwatch
         timeline = new Timeline();
