@@ -67,13 +67,10 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public TextArea visualAidInformation;
     @FXML public ChoiceBox visualAidChoiceBox;
 
-
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
     private ObservableList<IMedicine> _medicinList;
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -195,18 +192,26 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void savePrescriptionButtonActionHandler(ActionEvent actionEvent){
 
-        //TODO: save prescription
-        IPatient patient = _model.getPatient();
-        Collection<IMedicine> medicinList = prescriptionItems.getItems();
 
-        try {
-            _prescriptionModel.addNewPrescription(patient);
-            _prescriptionModel.addPrescriptionEntries(medicinList);
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-            //Todo: handle
+        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicin"))
+        {
+            IPatient patient = _model.getPatient();
+            Collection<IMedicine> medicinList = prescriptionItems.getItems();
+
+            try {
+                _prescriptionModel.addNewPrescription(patient);
+                _prescriptionModel.addPrescriptionEntries(medicinList);
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                //Todo: handle
+            }
+        }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Visual Aid"))
+        {
+            //TODO:
+            // _prescriptionModel.addNewVisualAidPrescription(_model.getPatient());
+            String text = visualAidInformation.getText();
+             _prescriptionModel.addVisualAidPrescriptionEntries(text);
         }
-
     }
 
     @FXML

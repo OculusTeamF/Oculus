@@ -19,10 +19,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -84,6 +81,9 @@ public class NewExaminationController implements Initializable {
         // enable addDiagnosis only ig protocol is created
         addDiagnosisButton.setDisable(true);
 
+        //enable PrescriptionButton only when diagnose ist created
+        prescriptionButton.setDisable(true);
+
         // start stopwatch
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -133,12 +133,14 @@ public class NewExaminationController implements Initializable {
         IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addDiagnosisTab(selectedPatient);
         addDiagnosisButton.setDisable(true);
+        prescriptionButton.setDisable(false);
     }
 
     @FXML
     public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
-        IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        Tab selectedTab = _model.getTabModel().getSelectedTab();
+        IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(selectedTab);
         _model.getTabModel().addPrescriptionTab(selectedPatient);
     }
 
