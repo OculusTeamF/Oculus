@@ -138,10 +138,10 @@ public class TabModel implements ILogger {
 
     // return patient from current selected tab
     public IPatient getPatientFromSelectedTab(Tab tab){
-        System.out.println("SEARCH KEY: " + tab.getId());
+/*        System.out.println("SEARCH KEY: " + tab.getId());
         for (Tab key : _tabmap.keySet()) {
             System.out.println("TABKEYS AVAILABLE: " + key.getId());
-        }
+        }*/
         IPatient pat = _tabmap.get(tab);
         return pat;
     }
