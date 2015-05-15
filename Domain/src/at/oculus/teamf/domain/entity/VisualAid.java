@@ -128,7 +128,7 @@ public class VisualAid implements IVisualAid {
 
 	@Override
 	public String toString(){
-		String visualAid = null;
+		/*String visualAid = null;
 		if(_dioptreLeft!=null){
 			visualAid = "L " + _dioptreLeft + " ";
 		}
@@ -141,7 +141,13 @@ public class VisualAid implements IVisualAid {
 			} else {
 				visualAid = visualAid + _description;
 			}
-		}
+		}*/
+        String visualAid = _issueDate.toString();
+        if(_lastPrint!=null){
+            visualAid += " last printed on " + _lastPrint.toString();
+        } else {
+            visualAid += " not printed";
+        }
 		return  visualAid;
 	}
 }
