@@ -22,6 +22,8 @@ public class VisualAid implements IVisualAid {
 	private String _description;
 	private Date _issueDate;
 	private Date _lastPrint;
+	private Float _dioptreLeft;
+	private Float _dioptreRight;
 	private Diagnosis _diagnosis;
 
 	public VisualAid() {
@@ -59,22 +61,28 @@ public class VisualAid implements IVisualAid {
 		_lastPrint = lastPrint;
 	}
 
+	public Float getDioptreLeft() {
+		return _dioptreLeft;
+	}
+
+	public void setDioptreLeft(Float dioptreLeft) {
+		_dioptreLeft = dioptreLeft;
+	}
+
+	public Float getDioptreRight() {
+		return _dioptreRight;
+	}
+
+	public void setDioptreRight(Float dioptreRight) {
+		_dioptreRight = dioptreRight;
+	}
+
 	public Diagnosis getDiagnosis() {
 		return _diagnosis;
 	}
 
 	public void setDiagnosis(IDiagnosis diagnosis) {
 		_diagnosis = (Diagnosis) diagnosis;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = _id;
-		result = 31 * result + (_description != null ? _description.hashCode() : 0);
-		result = 31 * result + (_issueDate != null ? _issueDate.hashCode() : 0);
-		result = 31 * result + (_lastPrint != null ? _lastPrint.hashCode() : 0);
-		result = 31 * result + (_diagnosis != null ? _diagnosis.hashCode() : 0);
-		return result;
 	}
 
 	@Override
@@ -92,13 +100,46 @@ public class VisualAid implements IVisualAid {
 			return false;
 		if (_diagnosis != null ? !_diagnosis.equals(visualAid._diagnosis) : visualAid._diagnosis != null)
 			return false;
-        if (_issueDate != null ? !((_issueDate.getTime() - visualAid._issueDate.getTime()) > -1000 &&
-                (_issueDate.getTime() - visualAid._issueDate.getTime()) < 1000) : visualAid._issueDate != null)
-            return false;
-        if (_lastPrint != null ? !((_lastPrint.getTime() - visualAid._lastPrint.getTime()) > -1000 &&
-                (_lastPrint.getTime() - visualAid._lastPrint.getTime()) < 1000) : visualAid._lastPrint != null)
-            return false;
+		if (_dioptreLeft != null ? !_dioptreLeft.equals(visualAid._dioptreLeft) : visualAid._dioptreLeft != null)
+			return false;
+		if (_dioptreRight != null ? !_dioptreRight.equals(visualAid._dioptreRight) : visualAid._dioptreRight != null)
+			return false;
+		if (_issueDate != null ? !_issueDate.equals(visualAid._issueDate) : visualAid._issueDate != null)
+			return false;
+		if (_lastPrint != null ? !_lastPrint.equals(visualAid._lastPrint) : visualAid._lastPrint != null)
+			return false;
 
 		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = _id;
+		result = 31 * result + (_description != null ? _description.hashCode() : 0);
+		result = 31 * result + (_issueDate != null ? _issueDate.hashCode() : 0);
+		result = 31 * result + (_lastPrint != null ? _lastPrint.hashCode() : 0);
+		result = 31 * result + (_dioptreLeft != null ? _dioptreLeft.hashCode() : 0);
+		result = 31 * result + (_dioptreRight != null ? _dioptreRight.hashCode() : 0);
+		result = 31 * result + (_diagnosis != null ? _diagnosis.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public String toString(){
+		String visualAid = null;
+		if(_dioptreLeft!=null){
+			visualAid = "L " + _dioptreLeft + " ";
+		}
+		if(_dioptreRight!=null){
+			visualAid = visualAid + "R " + _dioptreRight + " ";
+		}
+		if(_description!=null){
+			if(_description.length()>20){
+				visualAid = visualAid + _description.substring(0,20) + "...";
+			} else {
+				visualAid = visualAid + _description;
+			}
+		}
+		return  visualAid;
 	}
 }
