@@ -95,9 +95,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         addMedicinButton.setTooltip(new Tooltip("add Medicin"));
         removeMedicinButton.setTooltip(new Tooltip("clear Fields"));
 
-        //Stackpane on index 1 is the visualAidPrescription, on index 0 is the medicalPrescription
-        prescriptionStackPane.getChildren().get(1).setVisible(false);
-        prescriptionStackPane.getChildren().get(0).setVisible(true);
+        //Stackpane on index 0 is the visualAidPrescription, on index 1 is the medicalPrescription
+        prescriptionStackPane.getChildren().get(0).setVisible(false);
+        prescriptionStackPane.getChildren().get(1).setVisible(true);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
@@ -146,12 +146,12 @@ public class PrescriptionController implements Initializable, IPrinter {
                 if (newValue != null) {
                     switch (newValue.toString()) {
                         case "Medicin":
-                            prescriptionStackPane.getChildren().get(1).setVisible(false);
-                            prescriptionStackPane.getChildren().get(0).setVisible(true);
-                            break;
-                        case "Visual Aid":
                             prescriptionStackPane.getChildren().get(0).setVisible(false);
                             prescriptionStackPane.getChildren().get(1).setVisible(true);
+                            break;
+                        case "Visual Aid":
+                            prescriptionStackPane.getChildren().get(1).setVisible(false);
+                            prescriptionStackPane.getChildren().get(0).setVisible(true);
                             break;
                     }
                     printButton.setVisible(true);
@@ -160,10 +160,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         });
 
         //TableView
-        TableColumn col = (TableColumn) prescriptionItems.getColumns().get(0);
-
         _medicinList = FXCollections.observableArrayList();
         prescriptionItems.setItems(_medicinList);
+
     }
 
     //add the selected MedicinItems to the Textfield
@@ -197,8 +196,7 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void savePrescriptionButtonActionHandler(ActionEvent actionEvent){
 
-
-        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicin"))
+        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicine"))
         {
             IPatient patient = _model.getPatient();
             Collection<IMedicine> medicinList = prescriptionItems.getItems();
@@ -241,8 +239,23 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
 
-        _medicinList.add(new Entry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText()));
+        Entry newEntry = new Entry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText());
 
+        _medicinList.add(newEntry);
+        prescriptionItems.setItems(_medicinList);
+
+        medicinTextfield.clear();
+        dosageTextfield.clear();
+        informationTextfield.clear();
+
+    }
+
+    @FXML
+    public void clearFields(ActionEvent actionEvent) {
+
+        medicinTextfield.clear();
+        dosageTextfield.clear();
+        informationTextfield.clear();
     }
 }
 
