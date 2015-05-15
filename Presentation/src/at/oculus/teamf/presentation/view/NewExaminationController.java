@@ -64,8 +64,7 @@ public class NewExaminationController implements Initializable {
         _startDate = new Date();
         examinationLnameFnameSvn.setText(" EXAMINATION: " + initPatient.getFirstName() + " " + initPatient.getLastName());
         examinationCurrDate.setText("START: " + _startDate.toString());
-        examinationCurrTime.setText("TIMECOUNTER: 00:00:00");
-        diagnosisIdentity.setText("Diagnosis details");
+        examinationCurrTime.setText("TIME: 00:00:00");
         diagnosisDetails.setDisable(true);
 
         // load image resources for buttons
