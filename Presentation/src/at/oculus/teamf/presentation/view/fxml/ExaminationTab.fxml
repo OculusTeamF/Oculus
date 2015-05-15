@@ -72,12 +72,12 @@
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor></TextArea>
-            <Label text=" Examination protocols: " GridPane.rowIndex="3">
+            <Label text=" EXAMINATION PROTOCOLS: " GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin></Label>
             <ListView fx:id="examinationList" prefHeight="45.0" prefWidth="302.0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2" />
-            <Label text=" Protocol details:" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <Label text=" PROTOCOL DETAILS:" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin></Label>
@@ -91,12 +91,12 @@
                   <Insets top="15.0" />
                </GridPane.margin>
             </Pane>
-            <Label text=" Examination results:" GridPane.rowIndex="6">
+            <Label text=" EXAMINATION RESULTS:" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
             </Label>
-            <Label text=" Protocol description:" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <Label text=" PROTOCOL DESCRIPTION:" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>

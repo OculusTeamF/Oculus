@@ -10,7 +10,8 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.application.facade.VisualAidPrescriptionController;
+import at.oculus.teamf.application.facade.VisualAidController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -22,15 +23,14 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
 
-public class VisualAidPrescriptionControllerTest {
+public class VisualAidControllerTest {
 
     private SearchPatientController searchPatientController = new SearchPatientController();
-    private VisualAidPrescriptionController visualAidPrescriptionController;
+    private VisualAidController visualAidController;
     private LinkedList<IPatient> patients;
     private IPatient iPatient;
     private IDiagnosis iDiagnosis;
@@ -42,7 +42,7 @@ public class VisualAidPrescriptionControllerTest {
         iPatient = patients.getFirst();
         LinkedList<IDiagnosis> diagnoses = (LinkedList<IDiagnosis>) iPatient.getDiagnoses();
         iDiagnosis = diagnoses.getFirst();
-        visualAidPrescriptionController = VisualAidPrescriptionController.createController(iDiagnosis);
+        visualAidController = VisualAidController.createController(iDiagnosis);
 
     }
 
@@ -56,13 +56,15 @@ public class VisualAidPrescriptionControllerTest {
     public void createVisualAidPrescription(){
         visualAid = null;
         try {
-            visualAid = visualAidPrescriptionController.createVisualAidPrescription("this is a description");
+            visualAid = visualAidController.createVisualAidPrescription("this is a description");
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (BadConnectionException e) {
             e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
         }
 
         ArrayList<IVisualAid> visualAids = null;

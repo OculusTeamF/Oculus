@@ -51,6 +51,8 @@ public class VisualAidBroker extends EntityBroker implements ISearch {
 		visualAid.setDescription(visualAidEntity.getDescription());
 		visualAid.setIssueDate(visualAidEntity.getIssueDate());
 		visualAid.setLastPrint(visualAidEntity.getLastPrint());
+		visualAid.setDioptreLeft(visualAidEntity.getDioptreLeft());
+		visualAid.setDioptreRight(visualAidEntity.getDioptreRight());
 
 		return visualAid;
 	}
@@ -66,6 +68,8 @@ public class VisualAidBroker extends EntityBroker implements ISearch {
 		visualAidEntity.setDiagnosis((DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
 		                                                     .domainToPersistent(visualAid.getDiagnosis()));
 		visualAidEntity.setDescription(visualAid.getDescription());
+		visualAidEntity.setDioptreLeft(visualAid.getDioptreLeft());
+		visualAidEntity.setDioptreRight(visualAid.getDioptreRight());
         if (visualAid.getIssueDate() != null) {
             visualAidEntity.setIssueDate(new Timestamp(visualAid.getIssueDate().getTime()));
         }

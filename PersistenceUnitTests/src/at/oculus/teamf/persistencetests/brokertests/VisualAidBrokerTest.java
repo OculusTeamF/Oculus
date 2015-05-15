@@ -31,9 +31,11 @@ public class VisualAidBrokerTest extends BrokerTest {
 	@Override
 	public void setUp() {
 		_visualAid = new VisualAid();
-		_visualAid.setDescription("Beschreibung blabla R 3.5 L 2.25");
+		_visualAid.setDescription("Beschreibung blabla");
 		_visualAid.setIssueDate(new Date());
 		_visualAid.setLastPrint(new Date());
+		_visualAid.setDioptreLeft(3.5f);
+		_visualAid.setDioptreRight(2.25f);
 
 		Diagnosis diagnosis = null;
 		try {

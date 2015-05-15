@@ -163,7 +163,17 @@
     -fx-border-color: lightgray;
 }
 
+#choosePrescriptionBox > .list-cell:selected {
+    -fx-background-color: white;
+    -fx-border-color: lightgray;
+}
+
 #patientRecordDoctor > .list-cell:selected {
+    -fx-background-color: white;
+    -fx-border-color: lightgray;
+}
+
+#chooseMedicinBox > .list-cell:selected {
     -fx-background-color: white;
     -fx-border-color: lightgray;
 }

@@ -544,11 +544,11 @@ public class PatientRecordController implements Initializable {
         loaddata.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                StatusBarController.hideStatusBarProgressBarIdle();
                 patientRecordAppointmentList.setItems(_calendareventlist);
                 patientRecordListDiagnoses.setItems(_diagnosislist);
                 patientRecordAppointmentList.setDisable(false);
                 patientRecordListDiagnoses.setDisable(false);
+                StatusBarController.hideStatusBarProgressBarIdle();
             }
         });
 

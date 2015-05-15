@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistence.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -30,6 +31,8 @@ public class VisualAidEntity implements IEntity {
 	private String _description;
 	private Timestamp _issueDate;
 	private Timestamp _lastPrint;
+    private Float _dioptreLeft;
+    private Float _dioptreRight;
 	private DiagnosisEntity _diagnosis;
 
 	@Id
@@ -38,7 +41,6 @@ public class VisualAidEntity implements IEntity {
 	public int getId() {
 		return _id;
 	}
-
 	public void setId(int id) {
 		_id = id;
 	}
@@ -48,7 +50,6 @@ public class VisualAidEntity implements IEntity {
 	public Integer getDiagnosisId() {
 		return _diagnosisId;
 	}
-
 	public void setDiagnosisId(Integer diagnosisId) {
 		_diagnosisId = diagnosisId;
 	}
@@ -58,7 +59,6 @@ public class VisualAidEntity implements IEntity {
 	public String getDescription() {
 		return _description;
 	}
-
 	public void setDescription(String description) {
 		_description = description;
 	}
@@ -68,7 +68,6 @@ public class VisualAidEntity implements IEntity {
 	public Timestamp getIssueDate() {
 		return _issueDate;
 	}
-
 	public void setIssueDate(Timestamp issueDate) {
 		_issueDate = issueDate;
 	}
@@ -78,9 +77,26 @@ public class VisualAidEntity implements IEntity {
 	public Timestamp getLastPrint() {
 		return _lastPrint;
 	}
-
 	public void setLastPrint(Timestamp lastPrint) {
 		_lastPrint = lastPrint;
+	}
+
+	@Basic
+	@Column(name = "dioptreLeft", nullable = true, insertable = true, updatable = true)
+	public Float getDioptreLeft() {
+		return _dioptreLeft;
+	}
+	public void setDioptreLeft(Float dioptreLeft) {
+		_dioptreLeft = dioptreLeft;
+	}
+
+	@Basic
+	@Column(name = "dioptreRight", nullable = true, insertable = true, updatable = true)
+	public Float getDioptreRight() {
+		return _dioptreRight;
+	}
+	public void setDioptreRight(Float dioptreRight) {
+		_dioptreRight = dioptreRight;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -88,7 +104,6 @@ public class VisualAidEntity implements IEntity {
 	public DiagnosisEntity getDiagnosis() {
 		return _diagnosis;
 	}
-
 	public void setDiagnosis(DiagnosisEntity diagnosis) {
 		if (diagnosis != null) {
 			setDiagnosisId(diagnosis.getId());

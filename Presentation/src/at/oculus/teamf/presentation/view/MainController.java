@@ -113,6 +113,8 @@ public class MainController implements Initializable, ILogger {
                     @Override
                     public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
                         if (t1 != null) {
+                            // t => old tab
+                            // t1 => new tab
                             _model.getTabModel().setSelectedTab(t1);
                             if(_model.getTabModel().getSelectedTab() != null) {
                                 updateStatusbar();

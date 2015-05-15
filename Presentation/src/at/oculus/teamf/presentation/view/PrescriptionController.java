@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.Collection;
@@ -42,7 +44,6 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Button printButton;
     @FXML public Button saveButton;
     @FXML public StackPane prescriptionStackPane;
-    @FXML public ListView prescriptionItemsVA;
     @FXML public Label lastnameVA;
     @FXML public Label firstnameVA;
     @FXML public Label svnVA;
@@ -63,13 +64,13 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public Label state;
     @FXML public Label zip;
     @FXML public Label city;
-    @FXML public TextArea visualAidPrescription;
-    @FXML public Button printPrescriptionButton;
-
+    @FXML public TextArea visualAidInformation;
+    @FXML public ChoiceBox visualAidChoiceBox;
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
+    private ObservableList<IMedicine> _medicinList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,9 +98,18 @@ public class PrescriptionController implements Initializable, IPrinter {
         //Medicin box
         String text = "choose medicin ...";
         chooseMedicinBox.setPromptText(text);
+
+        try {
+            _prescriptionModel.addNewPrescription(_model.getPatient());
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+        }
         ObservableList<IMedicine> prescribedMedicin = FXCollections.observableArrayList((List)_prescriptionModel.getPrescribedMedicin());
         chooseMedicinBox.setItems(prescribedMedicin);
 
+        //VisualAidChoiceBox
+        ObservableList<String> visualAids = FXCollections.observableArrayList("Contact Lenses", "Glasses");
+        visualAidChoiceBox.setItems(visualAids);
 
         //fill in data
         lastname.setText(_model.getPatient().getLastName());
@@ -140,19 +150,21 @@ public class PrescriptionController implements Initializable, IPrinter {
                 }
             }
         });
+
+        //ListView
+
+
+
+        _medicinList = FXCollections.observableArrayList();
+        prescriptionItems.setItems(_medicinList);
     }
 
     //add the selected MedicinItems to the PrescriptionList
     @FXML
     public void addMedicinButtonActionHandler(ActionEvent actionEvent) {
 
-        ObservableList<IMedicine> medicinList = null;
-
         IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
-
-        medicinList.add(itemToAdd);
-
-        prescriptionItems.setItems(medicinList);
+        _medicinList.add(itemToAdd);
         StatusBarController.showProgressBarIdle("Added " + itemToAdd);
 
     }
@@ -160,8 +172,6 @@ public class PrescriptionController implements Initializable, IPrinter {
     //remove the Medicin from the PrescriptionList
     @FXML
     public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
-
-        //prescriptionItems.getSelectionModel().clearSelection();
 
         final int selectedIdx = prescriptionItems.getSelectionModel().getSelectedIndex();
         if (selectedIdx != -1) {
@@ -182,22 +192,30 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void savePrescriptionButtonActionHandler(ActionEvent actionEvent){
 
-        //TODO: save prescription
-        IPatient patient = _model.getPatient();
-        Collection<IMedicine> medicinList = prescriptionItems.getItems();
 
-        try {
-            _prescriptionModel.addNewPrescription(patient);
-            _prescriptionModel.addPrescriptionEntries(medicinList);
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-            //Todo: handle
+        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicin"))
+        {
+            IPatient patient = _model.getPatient();
+            Collection<IMedicine> medicinList = prescriptionItems.getItems();
+
+            try {
+                _prescriptionModel.addNewPrescription(patient);
+                _prescriptionModel.addPrescriptionEntries(medicinList);
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                //Todo: handle
+            }
+        }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Visual Aid"))
+        {
+            //TODO:
+            // _prescriptionModel.addNewVisualAidPrescription(_model.getPatient());
+            String text = visualAidInformation.getText();
+             _prescriptionModel.addVisualAidPrescriptionEntries(text);
         }
-
     }
 
     @FXML
-    public void printPrescriptionButtonHandler(ActionEvent actionEvent){
+    public void printPrescriptionButtonActionHandler(ActionEvent actionEvent) {
 
         //TODO: print and save prescription
         _prescriptionModel.printPrescription();
@@ -213,9 +231,5 @@ public class PrescriptionController implements Initializable, IPrinter {
             notInitatedExceptions.printStackTrace();
             //Todo: handle
         }
-
-
-        }
-
-
+    }
 }

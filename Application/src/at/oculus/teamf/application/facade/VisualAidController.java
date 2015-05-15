@@ -24,7 +24,6 @@ import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotIn
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
-import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -41,20 +40,20 @@ import java.util.Date;
  * <b>Description:</b>
  * With this controller a new optical aid prescription can be created.
  **/
-public class VisualAidPrescriptionController implements ILogger, IPrinter{
+public class VisualAidController implements ILogger, IPrinter{
 
     private IVisualAid visualAid;
 
-    private VisualAidPrescriptionController(IDiagnosis iDiagnosis) throws NotInitatedExceptions {
+    private VisualAidController(IDiagnosis iDiagnosis) throws NotInitatedExceptions {
             visualAid = DependenceResolverTB2.getInstance().getFactory().createVisualAid();
             visualAid.setDiagnosis(iDiagnosis);
     }
 
-    public static VisualAidPrescriptionController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitatedExceptions {
+    public static VisualAidController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitatedExceptions {
         if(iDiagnosis == null){
             throw new NoPatientException();
         }
-        return new VisualAidPrescriptionController(iDiagnosis);
+        return new VisualAidController(iDiagnosis);
     }
 
     public IVisualAid createVisualAidPrescription(String description) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {

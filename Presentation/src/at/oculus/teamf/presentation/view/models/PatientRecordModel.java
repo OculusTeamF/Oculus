@@ -9,32 +9,45 @@
 
 package at.oculus.teamf.presentation.view.models;
 
+import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import com.sun.javafx.tk.Toolkit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import javafx.scene.paint.Color;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Date;
 
@@ -45,6 +58,7 @@ public class PatientRecordModel {
 
     private static PatientRecordModel _patientmodel = new PatientRecordModel();
     private Model _model;
+    private PrescriptionController _prescriptionController;
 
     public static PatientRecordModel getInstance() {
         if(_patientmodel == null) {
@@ -115,21 +129,82 @@ public class PatientRecordModel {
 
         IPatient currPatient = patient;
 
-        Parent root = null;
         Stage stage = new Stage();
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("fxml/notPrintedPresciptions.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Create Popup
-        stage.setScene(new Scene(root));
         stage.setTitle("Open Prescriptions");
+
+        Group root = new Group();
+        Scene scene = new Scene(root, 400, 300, Color.WHITE);
+
+       /* final Popup popup = new Popup();
+        popup.centerOnScreen();
+        popup.setAutoFix(true);
+        popup.sizeToScene();*/
+
+        GridPane pane = new GridPane();
+        for(int i = 0; i < 3; i++){
+            ColumnConstraints column = new ColumnConstraints(150);
+            pane.getColumnConstraints().add(column);
+        }
+        pane.setPadding(new Insets(5));
+        pane.setHgap(10);
+        pane.setVgap(10);
+
+
+        //Content of Popup
+        Label label = new Label("Not printed Prescriptions:");
+        final ListView<IPrescription> openPrescriptions = new ListView<>();
+        Button printPrescriptionButton = new Button("Print Prescription");
+        Button deletePrescriptionButton = new Button("Delete Prescription");
+
+       //Button ActionHandler
+        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
+
+                try {
+                    _prescriptionController.printPrescription();
+                } catch (DatabaseOperationException e) {
+                    e.printStackTrace();
+                } catch (NoBrokerMappedException e) {
+                    e.printStackTrace();
+                } catch (BadConnectionException e) {
+                    e.printStackTrace();
+                } catch (COSVisitorException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (CantGetPresciptionEntriesException e) {
+                    e.printStackTrace();
+                } catch (NotInitatedExceptions notInitatedExceptions) {
+                    notInitatedExceptions.printStackTrace();
+                }
+            }
+        });
+
+        deletePrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
+
+                //TODO: _prescriptionController.deletePrescription();
+            }
+        });
+
+
+        //TODO: get all saved and not printed Prescriptions
+        //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.)
+
+        pane.add(label, 0, 1, 2, 1);
+        pane.add(openPrescriptions, 0, 2, 3, 1);
+        pane.add(printPrescriptionButton, 0, 3);
+        pane.add(deletePrescriptionButton, 2, 3);
+        pane.setHgap(10);
+        pane.setVgap(5);
+
+        stage.setScene(new Scene(pane));
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
 
-
-        stage.showAndWait();
     }
 }
