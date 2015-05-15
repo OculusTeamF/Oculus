@@ -215,7 +215,7 @@ public class Model implements Serializable, ILogger{
             _listViewMap.put(u, listView);
 
             // Queue titlepane string - Header of the Titled panel
-             String queueName = buildTitledPaneHeader(u, olist.size());
+            String queueName = buildTitledPaneHeader(u, olist.size());
 
             TitledPane queueTitledPane = new TitledPane(queueName, listView);
             if (olist.size() > 0 ){
@@ -225,6 +225,7 @@ public class Model implements Serializable, ILogger{
             }
             queueTitledPane.setAnimated(true);
             queueTitledPane.setVisible(true);
+            queueTitledPane.setTooltip(new Tooltip("Patient queue for " + u.getLastName()));
 
             _queueTitledPaneFromUser.put(u,queueTitledPane);
 
@@ -277,6 +278,7 @@ public class Model implements Serializable, ILogger{
         TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
         String header = buildTitledPaneHeader(user, entries.size());
         userTitledPane.setText(header);
+        userTitledPane.setTooltip(new Tooltip("Patient queue for " + user.getLastName()));
         userTitledPane.setExpanded(true);
 
 
@@ -439,7 +441,10 @@ public class Model implements Serializable, ILogger{
                 }
             });
 
-            _label = new Label(entry.getPatient().toString());
+            String labeltext = "NAME:\t" + entry.getPatient().getLastName() + ", " + entry.getPatient().getFirstName() +
+                    "\n" + "SVN:  \t" + entry.getPatient().getSocialInsuranceNr();
+            _label = new Label(labeltext);
+            //_label = new Label(entry.getPatient().toString());
             _label.setMaxWidth(Double.MAX_VALUE);
             _label.setMinHeight(QUEUE_LABEL_SIZE);
             _startexaminationbutton.setMinHeight(QUEUE_LABEL_SIZE);
