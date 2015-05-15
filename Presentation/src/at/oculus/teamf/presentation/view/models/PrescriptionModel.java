@@ -10,10 +10,12 @@
 package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.VisualAidPrescriptionController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -35,6 +37,7 @@ public class PrescriptionModel {
     private Model _model;
 
     private PrescriptionController _prescriptionController;
+    private VisualAidPrescriptionController _visualAidPrescriptionController;
 
     public static PrescriptionModel getInstance() {
         if(_prescriptionModel == null) {
@@ -104,5 +107,32 @@ public class PrescriptionModel {
         Collection<IMedicine> prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
 
         return prescribedMedicins;
+    }
+
+    public void addNewVisualAidPrescription(IDiagnosis diagnose) {
+
+        try {
+            _visualAidPrescriptionController = VisualAidPrescriptionController.createController(diagnose);
+        } catch (NoPatientException e) {
+            e.printStackTrace();
+            DialogBoxController.getInstance().showExceptionDialog(e, "NoPatientException - Please contact support");
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+        }
+    }
+
+    public void addVisualAidPrescriptionEntries(String prescription) {
+
+        try {
+            _visualAidPrescriptionController.createVisualAidPrescription(prescription);
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+        }
     }
 }
