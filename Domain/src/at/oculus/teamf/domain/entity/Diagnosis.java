@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
@@ -109,8 +110,7 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 	 * @throws NoBrokerMappedException
 	 * @throws BadConnectionException
 	 */
-    public void addMedicine(IMedicine medicine)
-            throws CouldNotAddMedicineException {
+    public void addMedicine(IMedicine medicine) throws CouldNotAddMedicineException {
         try {
             if (_medicine == null) {
                 getMedicine();

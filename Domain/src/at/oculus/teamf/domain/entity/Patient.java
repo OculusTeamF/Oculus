@@ -55,15 +55,6 @@ public class Patient implements IPatient, ILogger {
 	private Collection<Prescription> _prescriptions;
     private Collection<VisualAid> _visualAid;
 
-    //private EntityBroker eb;
-
-    //</editor-fold>
-
-    public Patient() {
-        //IEntity p = eb.getEnity(PatientEntity.class, 0);
-
-    }
-
     //<editor-fold desc="Getter/Setter">
 
 	public Doctor getDoctor() {

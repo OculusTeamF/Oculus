@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
