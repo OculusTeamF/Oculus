@@ -44,9 +44,9 @@
                </GridPane.margin>
                <items>
                   <Label prefHeight="21.0" prefWidth="157.0" text="Choose Prescription:" />
-                  <ComboBox fx:id="choosePrescriptionBox" prefWidth="150.0" />
-                  <Button fx:id="printButton" mnemonicParsing="false" onAction="#printPrescriptionButtonActionHandler" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#savePrescriptionButtonActionHandler" prefWidth="101.0" text="Save" />
+                  <ComboBox fx:id="choosePrescriptionBox" minHeight="31.0" prefWidth="150.0" />
+                  <Button fx:id="printButton" minHeight="31.0" mnemonicParsing="false" onAction="#printPrescriptionButtonActionHandler" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
+                  <Button fx:id="saveButton" minHeight="31.0" mnemonicParsing="false" onAction="#savePrescriptionButtonActionHandler" prefWidth="101.0" text="Save" />
                </items></ToolBar>
             <StackPane fx:id="prescriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="9">
                <children>

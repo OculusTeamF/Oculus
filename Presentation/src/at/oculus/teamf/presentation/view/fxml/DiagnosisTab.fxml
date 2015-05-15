@@ -64,7 +64,7 @@
             <Label text="Description" GridPane.rowIndex="3" />
             <TextField fx:id="textDiagnosisTitle" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextArea fx:id="textDiagnosisDescription" prefHeight="141.0" prefWidth="356.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2" />
-            <Label text=" Medication (TeamMerge)" GridPane.columnSpan="2" GridPane.rowIndex="5">
+            <Label text=" MEDICATION (TeamMerge)" GridPane.columnSpan="2" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>

@@ -139,8 +139,8 @@ public class NewExaminationController implements Initializable {
     @FXML
     public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
-        Tab selectedTab = _model.getTabModel().getSelectedTab();
-        IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(selectedTab);
+        System.out.println("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
+        IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addPrescriptionTab(selectedPatient);
     }
 
