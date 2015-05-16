@@ -22,7 +22,11 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -32,6 +36,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -56,14 +61,32 @@ public class VisualAidController implements ILogger, IPrinter{
         return new VisualAidController(iDiagnosis);
     }
 
-    public IVisualAid createVisualAidPrescription(String description) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
+    public IVisualAid createVisualAidPrescription(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
         visualAid.setDescription(description);
         visualAid.setIssueDate(new Timestamp(new Date().getTime()));
+        visualAid.setDioptreLeft(Float.parseFloat(dioptersLeft));
+        visualAid.setDioptreRight(Float.parseFloat(dioptersRight));
 
         IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(visualAid);
 
         return visualAid;
+    }
+
+    public Collection<IVisualAid> getNotPrintedPrescriptions(IPatient iPatient) throws CouldNotGetVisualAidException {
+        Collection<IVisualAid> notPrinted = null;
+        try {
+            notPrinted = iPatient.getVisualAid();
+        } catch (CouldNotGetVisualAidException e) {
+            throw e;
+        }
+        for(IVisualAid iVisualAid: notPrinted){
+            if(iVisualAid.getLastPrint() == null){
+                notPrinted.remove(iVisualAid);
+            }
+        }
+
+        return notPrinted;
     }
 
 }

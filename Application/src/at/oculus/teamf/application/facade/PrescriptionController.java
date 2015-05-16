@@ -17,6 +17,7 @@ import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
@@ -141,6 +142,22 @@ public class PrescriptionController implements ILogger, IPrinter {
         facade.save(iPrescription);
 
         return iPrescription;
+    }
+
+    public Collection<IPrescription> getNotPrintesPrescriptions() throws CouldNotGetPrescriptionException {
+        Collection<IPrescription> notPrinted = null;
+        try {
+            notPrinted = _iPatient.getPrescriptions();
+        } catch (CouldNotGetPrescriptionException e) {
+            throw e;
+        }
+        for(IPrescription prescription : notPrinted){
+            if(prescription.getLastPrint() == null){
+                notPrinted.remove(prescription);
+            }
+        }
+
+        return notPrinted;
     }
 
 }
