@@ -16,10 +16,7 @@ import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IMedicine;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -65,10 +62,19 @@ public class PrescriptionModel {
         currPatient = patient;
     }
 
-    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
+    /**
+     * returns a not printed IPrescription
+     * @param medicinList
+     * @return IPrescription
+     * @throws NotInitatedExceptions
+     */
+
+    public IPrescription addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
+
+        IPrescription prescription = null;
 
         try {
-            _prescriptionController.createPrescriptionEntry(medicinList);
+            prescription = _prescriptionController.createPrescriptionEntry(medicinList);
         } catch (CouldNotAddPrescriptionEntryException e) {
             e.printStackTrace();
             //DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPrescriptionEntryException - Please contact support");
@@ -82,6 +88,8 @@ public class PrescriptionModel {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         }
+
+        return prescription;
     }
 
     public void printPrescription() {
@@ -147,6 +155,4 @@ public class PrescriptionModel {
 
         return visualAid;
     }
-
-
 }
