@@ -13,8 +13,6 @@ import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolv
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
-import at.oculus.teamf.domain.entity.Prescription;
-import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
@@ -22,7 +20,6 @@ import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -144,10 +141,10 @@ public class PrescriptionController implements ILogger, IPrinter {
         return iPrescription;
     }
 
-    public Collection<IPrescription> getNotPrintesPrescriptions() throws CouldNotGetPrescriptionException {
+    public Collection<IPrescription> getNotPrintedPrescriptions(IPatient patient) throws CouldNotGetPrescriptionException {
         Collection<IPrescription> notPrinted = null;
         try {
-            notPrinted = _iPatient.getPrescriptions();
+            notPrinted = patient.getPrescriptions();
         } catch (CouldNotGetPrescriptionException e) {
             throw e;
         }
