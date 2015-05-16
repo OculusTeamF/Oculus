@@ -12,11 +12,18 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
+import at.oculus.teamf.application.facade.*;
+import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PatientRecordModel;
+import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -36,9 +43,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PatientRecordController implements Initializable {
 
@@ -75,7 +80,13 @@ public class PatientRecordController implements Initializable {
     private boolean isFormEdited = false;
     private ToggleGroup group = new ToggleGroup();
     private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
+    private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
+    private PrescriptionController _prescriptionController;
+    private VisualAidController _visualAidController;
     private IPatient initpatient;
+
+    private HashMap<IPatient, IVisualAid> notPrintedvVisualAidMap = new HashMap<>();
+    private HashMap<IPatient, IPrescription> notPrintedPrescriptionMap = new HashMap<>();
 
     private ObservableList<IDiagnosis> _diagnosislist;
     private ObservableList<ICalendarEvent> _calendareventlist;
@@ -257,9 +268,42 @@ public class PatientRecordController implements Initializable {
 
         medicalHistory.setExpandedPane(mh4);
 
+        notPrintedPrescriptions.setVisible(false);
 
-        //TODO: set disable(false) after testing
-        notPrintedPrescriptions.setVisible(true);
+        //sets the visibility of the notPrintedPrescriptionButton of true, if HashMap is not empty
+        Collection<IPrescription> notPrintedPrescriptionsEntries =FXCollections.observableArrayList();
+        Collection<IVisualAid> notPrintedVisualAidEntries = FXCollections.observableArrayList();;
+
+        try {
+            _prescriptionController = PrescriptionController.createController(initpatient);
+            notPrintedPrescriptionsEntries.addAll(_prescriptionController.getNotPrintedPrescriptions(initpatient));
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+        } catch (NoPatientException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Collection<IDiagnosis> diagnosises = initpatient.getDiagnoses();
+            IDiagnosis patientsDiagnose = diagnosises.iterator().next();
+            _visualAidController = VisualAidController.createController(patientsDiagnose);
+            notPrintedVisualAidEntries.addAll(_visualAidController.getNotPrintedPrescriptions(initpatient));
+        } catch (CouldNotGetDiagnoseException e) {
+            e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+        } catch (NoPatientException e) {
+            e.printStackTrace();
+        } catch (CouldNotGetVisualAidException e) {
+            e.printStackTrace();
+        }
+
+        if(!notPrintedPrescriptionsEntries.isEmpty() && !notPrintedvVisualAidMap.isEmpty() ){
+            notPrintedPrescriptions.setVisible(true);
+        }
+
     }
 
     /**

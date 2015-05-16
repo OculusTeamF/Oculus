@@ -16,16 +16,18 @@ import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import javafx.collections.FXCollections;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by Karo on 11.05.2015.
@@ -38,7 +40,8 @@ public class PrescriptionModel {
     private PrescriptionController _prescriptionController;
     private VisualAidController _visualAidPrescriptionController;
 
-    private HashMap<IPatient, IVisualAid> visualAidHashMap = new HashMap<>();
+
+
     private IPatient currPatient;
 
     public static PrescriptionModel getInstance() {
@@ -52,6 +55,9 @@ public class PrescriptionModel {
 
     public void addNewPrescription(IPatient patient) throws NotInitatedExceptions {
 
+        Collection<IPrescription> notPrintedPrescriptions = null;
+        Collection<IVisualAid> notPrintedVisualAid = null;
+
         try {
             _prescriptionController = PrescriptionController.createController(patient);
         } catch (NoPatientException e) {
@@ -60,16 +66,17 @@ public class PrescriptionModel {
         }
 
         currPatient = patient;
+
     }
 
     /**
-     * returns a not printed IPrescription
+     * put a not printed IPrescription in HashMap
      * @param medicinList
      * @return IPrescription
      * @throws NotInitatedExceptions
      */
 
-    public IPrescription addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
+    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
 
         IPrescription prescription = null;
 
@@ -88,13 +95,10 @@ public class PrescriptionModel {
             e.printStackTrace();
             DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
         }
-
-        return prescription;
     }
 
     public void printPrescription() {
 
-        //TODO
         try {
             _prescriptionController.printPrescription();
         } catch (DatabaseOperationException e) {
@@ -134,14 +138,21 @@ public class PrescriptionModel {
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
         }
+
     }
 
-    public IVisualAid addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) {
+    /**
+     * puts a notPrintedPrescription into the Hashmap
+     * @param description
+     * @param dioptersLeft
+     * @param dioptersRight
+     */
+    public void addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) {
 
         IVisualAid visualAid = null;
 
         try {
-           visualAid =  _visualAidPrescriptionController.createVisualAidPrescription(description);
+           visualAid =  _visualAidPrescriptionController.createVisualAidPrescription(description, dioptersLeft, dioptersRight);
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
@@ -151,8 +162,5 @@ public class PrescriptionModel {
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
         }
-        visualAidHashMap.put(currPatient, visualAid);
-
-        return visualAid;
     }
 }

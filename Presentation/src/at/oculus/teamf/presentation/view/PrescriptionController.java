@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.printing.IPrinter;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -83,9 +84,6 @@ public class PrescriptionController implements Initializable, IPrinter {
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
     private ObservableList<MedicineTableEntry> _medicinList;
 
-    private HashMap<IPatient, IVisualAid> notPrintedVisualAidMap = new HashMap<>();
-    private HashMap<IPatient, IPrescription> notPrintedPrescriptionMap = new HashMap<>();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -102,9 +100,9 @@ public class PrescriptionController implements Initializable, IPrinter {
         addMedicinButton.setTooltip(new Tooltip("add Medicin"));
         removeMedicinButton.setTooltip(new Tooltip("clear Fields"));
 
-        //Stackpane on index 0 is the visualAidPrescription, on index 1 is the medicalPrescription
-        prescriptionStackPane.getChildren().get(0).setVisible(false);
-        prescriptionStackPane.getChildren().get(1).setVisible(true);
+        //Stackpane on index 1 is the visualAidPrescription, on index 0 is the medicalPrescription
+        prescriptionStackPane.getChildren().get(1).setVisible(false);
+        prescriptionStackPane.getChildren().get(0).setVisible(true);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
@@ -114,6 +112,8 @@ public class PrescriptionController implements Initializable, IPrinter {
         String text = "choose medicin ...";
         chooseMedicinBox.setPromptText(text);
 
+
+        //Prescription controller for this Patient
         try {
             _prescriptionModel.addNewPrescription(_model.getPatient());
         } catch (NotInitatedExceptions notInitatedExceptions) {
@@ -157,15 +157,17 @@ public class PrescriptionController implements Initializable, IPrinter {
                 if (newValue != null) {
                     switch (newValue.toString()) {
                         case "Medicin":
-                            prescriptionStackPane.getChildren().get(0).setVisible(false);
-                            prescriptionStackPane.getChildren().get(1).setVisible(true);
-                            break;
-                        case "Visual Aid":
                             prescriptionStackPane.getChildren().get(1).setVisible(false);
                             prescriptionStackPane.getChildren().get(0).setVisible(true);
+                            printButton.setVisible(true);
+                            break;
+                        case "Visual Aid":
+                            prescriptionStackPane.getChildren().get(0).setVisible(false);
+                            prescriptionStackPane.getChildren().get(1).setVisible(true);
+                            printButton.setVisible(false);
                             break;
                     }
-                    printButton.setVisible(true);
+
                 }
             }
         });
@@ -182,8 +184,8 @@ public class PrescriptionController implements Initializable, IPrinter {
         );
 
         _medicinList = FXCollections.observableArrayList();
-        //prescriptionItems.setItems(_medicinList);
 
+        medicinTextfield.setEditable(false);
     }
 
     // *****************************************************************************************************************
@@ -192,12 +194,19 @@ public class PrescriptionController implements Initializable, IPrinter {
     //
     // *****************************************************************************************************************
 
-    //add the selected MedicinItems to the Textfield
+    //add the selected MedicinItems to the Textfield and focus the next Textfield
     @FXML
     public void addMedicinButtonActionHandler() {
 
         IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
         medicinTextfield.setText(itemToAdd.toString());
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                dosageTextfield.requestFocus();
+            }
+        });
     }
 
     /**
@@ -207,20 +216,16 @@ public class PrescriptionController implements Initializable, IPrinter {
     public void savePrescriptionButtonActionHandler(){
 
         IPatient patient = _model.getPatient();
-        Collection<IMedicine> medicinList = prescriptionItems.getItems();
+        Collection<IMedicine> medicinList = null;
         Collection<IDiagnosis> allDiagnoses = null;
-        IVisualAid notPrintedVisualAid = null;
-        IPrescription notPrintedPrescription = null;
 
         if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicine"))
         {
-            patient = _model.getPatient();
             medicinList = prescriptionItems.getItems();
 
             try {
-                _prescriptionModel.addNewPrescription(patient);
-                notPrintedPrescription = _prescriptionModel.addPrescriptionEntries(medicinList);
-                notPrintedPrescriptionMap.put(patient, notPrintedPrescription);
+                //_prescriptionModel.addNewPrescription(patient);
+                _prescriptionModel.addPrescriptionEntries(medicinList);
 
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
@@ -237,8 +242,8 @@ public class PrescriptionController implements Initializable, IPrinter {
 
             IDiagnosis diagnosis = allDiagnoses.iterator().next();
             _prescriptionModel.addNewVisualAidPrescription(diagnosis);
-            notPrintedVisualAid = _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
-            notPrintedVisualAidMap.put(patient, notPrintedVisualAid);
+            _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
+
         }
     }
 
@@ -253,7 +258,7 @@ public class PrescriptionController implements Initializable, IPrinter {
         Collection<IMedicine> medicinList = prescriptionItems.getItems();
 
         try {
-            _prescriptionModel.addNewPrescription(patient);
+            //_prescriptionModel.addNewPrescription(patient);
             _prescriptionModel.addPrescriptionEntries(medicinList);
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
