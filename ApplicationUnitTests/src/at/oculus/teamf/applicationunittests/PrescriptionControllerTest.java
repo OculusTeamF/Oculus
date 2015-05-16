@@ -88,4 +88,19 @@ public class PrescriptionControllerTest implements IPrinter {
         }
     }
 
+    @org.junit.Test
+    public void testGetNotPrintedPrescriptions(){
+        LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
+        Collection<IPrescription> notPrinted = new ArrayList<>();
+        try {
+            iPrescriptions.addAll(iPatient.getPrescriptions());
+            notPrinted = prescriptionController.getNotPrintedPrescriptions();
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(iPrescriptions.size());
+        System.out.println(notPrinted.size());
+    }
+
 }
