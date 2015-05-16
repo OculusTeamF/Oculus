@@ -19,4 +19,7 @@ public interface IVisualAid extends IDomain {
     void setLastPrint(Date lastPrint);
     void setDiagnosis(IDiagnosis diagnosis);
     void setIssueDate(Date issueDate);
+    void setDioptreLeft(Float dioptreLeft);
+    void setDioptreRight(Float dioptreRight);
+    Date getLastPrint();
 }

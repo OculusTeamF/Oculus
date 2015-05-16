@@ -11,20 +11,23 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class PrescriptionControllerTest {
+public class PrescriptionControllerTest implements IPrinter {
 
     PrescriptionController prescriptionController;
     IPatient iPatient;
@@ -72,6 +75,17 @@ public class PrescriptionControllerTest {
     @org.junit.Test
     public void testPrintPrescription() throws Exception {
         //TODO implement testPrintPrescription in PrescriptionControllerTest
+        StartupController start = new StartupController();
+        try {
+            LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
+            iPrescriptions.addAll(iPatient.getPrescriptions());
+            for (IPrescriptionEntry entry : iPrescriptions.getFirst().getPrescriptionEntries()) {
+                System.out.println(entry.getMedicine());
+            }
+            printer.printPrescription(iPrescriptions.getFirst(), iPatient.getIDoctor());
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        }
     }
 
 }
