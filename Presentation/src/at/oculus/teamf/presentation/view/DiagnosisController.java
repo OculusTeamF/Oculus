@@ -52,6 +52,12 @@ public class DiagnosisController implements Initializable,ILogger {
         saveDiagnosisButton.setGraphic(new ImageView(imageSaveIcon));
     }
 
+    // *****************************************************************************************************************
+    //
+    // BUTTON HANDLERS
+    //
+    // *****************************************************************************************************************
+
     @FXML
     public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
         if (textDiagnosisTitle.getText().isEmpty() == false && textDiagnosisDescription.getText().isEmpty() == false) {
