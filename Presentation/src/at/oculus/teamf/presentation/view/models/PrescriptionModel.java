@@ -128,12 +128,12 @@ public class PrescriptionModel {
         }
     }
 
-    public IVisualAid addVisualAidPrescriptionEntries(String prescription) {
+    public IVisualAid addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) {
 
         IVisualAid visualAid = null;
 
         try {
-           visualAid =  _visualAidPrescriptionController.createVisualAidPrescription(prescription);
+           visualAid =  _visualAidPrescriptionController.createVisualAidPrescription(description);
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {

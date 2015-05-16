@@ -71,7 +71,8 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML public TextField informationTextfield;
     @FXML public Button removeEntryFromTable;
     @FXML public Button addNewEntryToTable;
-
+    @FXML public TextField dioptersRight;
+    @FXML public TextField dioptersLeft;
     @FXML private TableView prescriptionItems;
     @FXML private TableColumn medicamentationCol;
     @FXML private TableColumn dosageCol;
@@ -239,8 +240,7 @@ public class PrescriptionController implements Initializable, IPrinter {
 
             IDiagnosis diagnosis = allDiagnoses.iterator().next();
             _prescriptionModel.addNewVisualAidPrescription(diagnosis);
-            String text = visualAidInformation.getText();
-            notPrintedVisualAid = _prescriptionModel.addVisualAidPrescriptionEntries(text);
+            notPrintedVisualAid = _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
             notPrintedPrescriptionsMap.put(patient, notPrintedVisualAid);
         }
     }
@@ -271,15 +271,13 @@ public class PrescriptionController implements Initializable, IPrinter {
 
         _medicinList.add(newEntry);
 
-        medicinTextfield.clear();
-        dosageTextfield.clear();
-        informationTextfield.clear();
+       clearFields();
 
     }
 
     //Removes the entries of the Fields
     @FXML
-    public void clearFields(ActionEvent actionEvent) {
+    public void clearFields() {
 
         medicinTextfield.clear();
         dosageTextfield.clear();
@@ -294,7 +292,7 @@ public class PrescriptionController implements Initializable, IPrinter {
 
         public MedicineTableEntry(String medicin, String dosage, String information){
 
-            this.medicin = new SimpleStringProperty( medicin.toString());
+            this.medicin = new SimpleStringProperty(medicin.toString());
             this.dosage = new SimpleStringProperty(dosage);
             this.information = new SimpleStringProperty(information);
         }

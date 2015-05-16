@@ -90,9 +90,9 @@
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="2">
                                  <children>
                                     <Label layoutX="3.0" layoutY="9.0" text="Diopters Left:" />
-                                    <TextField layoutX="102.0" layoutY="4.0" prefHeight="31.0" prefWidth="60.0" />
+                                    <TextField fx:id="dioptersLeft" layoutX="102.0" layoutY="4.0" prefHeight="31.0" prefWidth="60.0" />
                                     <Label layoutX="175.0" layoutY="9.0" text="Diopters Right:" />
-                                    <TextField layoutX="289.0" layoutY="4.0" prefHeight="31.0" prefWidth="60.0" />
+                                    <TextField fx:id="dioptersRight" layoutX="289.0" layoutY="4.0" prefHeight="31.0" prefWidth="60.0" />
                                  </children>
                               </Pane>
                            </children>
