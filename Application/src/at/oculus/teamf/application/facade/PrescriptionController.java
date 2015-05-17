@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesExceptio
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
+import at.oculus.teamf.domain.entity.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
@@ -77,8 +78,10 @@ public class PrescriptionController implements ILogger, IPrinter {
      */
     private PrescriptionController(IPatient iPatient) throws NotInitatedExceptions {
         _iPatient = iPatient;
+
         iPrescription = DependenceResolverTB2.getInstance().getFactory().createPrescription();
         iPrescription.setPatient(iPatient);
+
 
     }
 
@@ -93,9 +96,10 @@ public class PrescriptionController implements ILogger, IPrinter {
         IPrescriptionEntry entry = DependenceResolverTB2.getInstance().getFactory().createPrescriptionEntry();
 
         IFacade facade = DependenceResolverTB2.getInstance().getFacade();
+        facade.save(iPrescription);
         facade.save(entry);
-
         entry.setMedicine(iMedicine);
+
         try {
             iPrescription.addPrescriptionEntry(entry);
         } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
@@ -114,6 +118,7 @@ public class PrescriptionController implements ILogger, IPrinter {
                 throw couldNotAddPrescriptionEntryException;
             }
         }
+
         return iPrescription;
     }
 

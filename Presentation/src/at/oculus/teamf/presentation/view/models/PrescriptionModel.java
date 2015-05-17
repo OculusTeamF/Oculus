@@ -109,14 +109,14 @@ public class PrescriptionModel {
             DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
         } catch (COSVisitorException e) {
             e.printStackTrace();
-        } catch (CantGetPresciptionEntriesException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
         } catch (NoPrescriptionToPrintException e) {
 	        e.printStackTrace();
+        } catch (CantGetPresciptionEntriesException e) {
+            e.printStackTrace();
         }
     }
 

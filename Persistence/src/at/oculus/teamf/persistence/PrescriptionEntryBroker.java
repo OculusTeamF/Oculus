@@ -90,7 +90,7 @@ public class PrescriptionEntryBroker extends EntityBroker {
             prescriptionEntryEntity.setMedicine((MedicineEntity) Facade.getInstance().getBroker(Medicine.class)
                     .domainToPersistent(
                             prescriptionEntry.getMedicine()));
-            prescriptionEntryEntity.setMedicineId(prescriptionEntry.getMedicine().getId());
+			prescriptionEntryEntity.setMedicineId(prescriptionEntry.getMedicine().getId());
         }
 
 		if (prescriptionEntry.getPrescription() != null) {
