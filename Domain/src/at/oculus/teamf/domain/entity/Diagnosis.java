@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;

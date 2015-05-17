@@ -7,12 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.exception;
 
 import at.oculus.teamf.domain.entity.exception.DomainException;
 
 /**
  * Created by Simon Angerer on 11.05.2015.
  */
-public class CouldNotAddMedicineException extends DomainException {
+public class CantGetPresciptionEntriesException extends DomainException {
 }

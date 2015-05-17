@@ -14,17 +14,21 @@ import at.oculus.teamf.application.facade.VisualAidController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+import javafx.collections.FXCollections;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created by Karo on 11.05.2015.
@@ -75,8 +79,10 @@ public class PrescriptionModel {
 
     public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
 
+        IPrescription prescription = null;
+
         try {
-            _prescriptionController.createPrescriptionEntry(medicinList);
+            prescription = _prescriptionController.createPrescriptionEntry(medicinList);
         } catch (CouldNotAddPrescriptionEntryException e) {
             e.printStackTrace();
             //DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPrescriptionEntryException - Please contact support");

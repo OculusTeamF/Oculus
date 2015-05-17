@@ -75,12 +75,7 @@ public class QueueModel {
         Collection<QueueEntry> entries = null;
 
         IPatientQueue queue = getQueueFromUser(user);
-        try {
-            entries = queue.getEntries();
-        } catch (NoBrokerMappedException | BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
+        entries = queue.getEntries();
         return entries;
     }
 
