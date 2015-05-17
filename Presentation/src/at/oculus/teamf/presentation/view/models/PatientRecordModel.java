@@ -128,7 +128,7 @@ public class PatientRecordModel {
         Group root = new Group();
         Scene scene = new Scene(root, 400, 300, Color.WHITE);
 
-       /* final Popup popup = new Popup();
+     /*   final Popup popup = new Popup();
         popup.centerOnScreen();
         popup.setAutoFix(true);
         popup.sizeToScene();*/
@@ -186,15 +186,6 @@ public class PatientRecordModel {
             }
         });
 
-        try {
-            Collection<IPrescription> prescribedMedicins = _prescriptionController.getNotPrintedPrescriptions(currPatient);
-
-
-            //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
-            //openPrescriptions.setItems(prescriptionList);
-        } catch (CouldNotGetPrescriptionException e) {
-            e.printStackTrace();
-        }
 
         pane.add(label, 0, 1, 2, 1);
         pane.add(openPrescriptions, 0, 2, 3, 1);
@@ -206,6 +197,16 @@ public class PatientRecordModel {
         stage.setScene(new Scene(pane));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
+
+        try {
+            Collection<IPrescription> prescribedMedicins = _prescriptionController.getNotPrintedPrescriptions(currPatient);
+
+
+            //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
+            //openPrescriptions.setItems(prescriptionList);
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        }
 
     }
 }

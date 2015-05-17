@@ -106,6 +106,8 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveButton.setGraphic(new ImageView(imageSaveIcon));
+        printButton.setDisable(true);
+        printButton.setTooltip(new Tooltip("Save prescription before using print"));
 
         //Medicin box
         String text = "choose medicin ...";
@@ -214,6 +216,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             try {
                 //_prescriptionModel.addNewPrescription(patient);
                 _prescriptionModel.addPrescriptionEntries(medicinList);
+                printButton.setDisable(false);
                 log.info("Medicine Prescription saved for " + patient.getLastName());
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
@@ -231,6 +234,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             IDiagnosis diagnosis = allDiagnoses.iterator().next();
             _prescriptionModel.addNewVisualAidPrescription(diagnosis);
             _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
+            printButton.setDisable(false);
             log.info("Visual aid prescription saved for " + patient.getLastName());
         }
     }
