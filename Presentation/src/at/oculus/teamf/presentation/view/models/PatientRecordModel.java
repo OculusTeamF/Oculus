@@ -150,6 +150,7 @@ public class PatientRecordModel {
         final ListView<IPrescription> openPrescriptions = new ListView<>();
         Button printPrescriptionButton = new Button("Print Prescription");
         Button deletePrescriptionButton = new Button("Delete Prescription");
+        deletePrescriptionButton.setDisable(true);
 
        //Button ActionHandler
         printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -205,6 +206,7 @@ public class PatientRecordModel {
 
         stage.setScene(new Scene(pane));
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
         stage.show();
 
         try {
