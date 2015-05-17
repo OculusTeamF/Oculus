@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -156,11 +157,23 @@ public class PrescriptionController implements ILogger, IPrinter {
         } catch (CouldNotGetPrescriptionException e) {
             throw e;
         }
-        for(IPrescription prescription : notPrinted){
-            if(prescription.getLastPrint() == null){
-                notPrinted.remove(prescription);
-            }
+
+        Iterator<IPrescription> iter = notPrinted.iterator();
+
+        while (iter.hasNext()) {
+            IPrescription ipres = iter.next();
+
+            if (ipres.getLastPrint() == null)
+                iter.remove();
         }
+/*
+        if (notPrinted != null) {
+            for (IPrescription prescription : notPrinted) {
+                if (prescription.getLastPrint() == null) {
+                    notPrinted.remove(prescription);
+                }
+            }
+        }*/
 
         return notPrinted;
     }
