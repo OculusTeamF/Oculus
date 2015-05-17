@@ -16,7 +16,6 @@ import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesExceptio
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
-import at.oculus.teamf.domain.entity.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
@@ -169,12 +168,11 @@ public class PrescriptionController implements ILogger, IPrinter {
         while (iter.hasNext()) {
             IPrescription ipres = iter.next();
 
-            if (ipres.getLastPrint() == null) {
+            if (ipres.getLastPrint() != null) {
                 iter.remove();
             }
         }
 
-        System.out.println(notPrinted.size());
 /*
         if (notPrinted != null) {
             for (IPrescription prescription : notPrinted) {
