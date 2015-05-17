@@ -14,6 +14,8 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.VisualAidController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.*;
@@ -78,11 +80,7 @@ public class PatientRecordController implements Initializable {
     private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
     private PrescriptionController _prescriptionController;
-    private VisualAidController _visualAidController;
     private IPatient initpatient;
-
-    private HashMap<IPatient, IVisualAid> notPrintedvVisualAidMap = new HashMap<>();
-    private HashMap<IPatient, IPrescription> notPrintedPrescriptionMap = new HashMap<>();
 
     private ObservableList<IDiagnosis> _diagnosislist;
     private ObservableList<ICalendarEvent> _calendareventlist;
@@ -466,7 +464,7 @@ public class PatientRecordController implements Initializable {
     @FXML
     public void openPrescriptionsToPrintButtonHandler(ActionEvent actionEvent) {
 
-        _patientRecordModel.openPrescriptionsToPrint(_model.getPatient());
+        _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, initpatient);
 
     }
 
@@ -533,6 +531,13 @@ public class PatientRecordController implements Initializable {
                 e.printStackTrace();
             }
 
+            try {
+                _prescriptionController = PrescriptionController.createController(initpatient);
+            } catch (NoPatientException e) {
+                e.printStackTrace();
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+            }
            /* try {
                 notPrintedPrescriptionsEntries = FXCollections.observableArrayList();
                 _prescriptionController = PrescriptionController.createController(initpatient);
