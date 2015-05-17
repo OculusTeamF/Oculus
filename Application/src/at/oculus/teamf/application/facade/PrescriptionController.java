@@ -12,7 +12,7 @@ package at.oculus.teamf.application.facade;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;

@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 
 import java.sql.Timestamp;
@@ -35,14 +36,14 @@ public class QueueEntry implements IQueueEntry {
      * @param queueIdParent  parentid for queueupart for a user
      * @param arrivalTime set timestamp
      */
-    public QueueEntry(int id, Patient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
+    public QueueEntry(int id, IPatient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
                       Timestamp arrivalTime) {
         _id = id;
         _doctor = doctor;
         _orthoptist = orthoptist;
         _queueIdParent = queueIdParent;
         _arrivalTime = arrivalTime;
-        _patient = patient;
+        _patient = (Patient)patient;
 
         // logging
         Integer dID = null;

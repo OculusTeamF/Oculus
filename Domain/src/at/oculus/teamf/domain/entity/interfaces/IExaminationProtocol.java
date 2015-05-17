@@ -37,21 +37,21 @@ public interface IExaminationProtocol extends IDomain {
 
     void setDescription(String description);
 
-    Doctor getDoctor();
+    IDoctor getDoctor();
 
-    void setDoctor(Doctor doctor);
+    void setDoctor(IDoctor doctor);
 
-    Orthoptist getOrthoptist();
+    IOrthoptist getOrthoptist();
 
-    void setOrthoptist(Orthoptist orthoptist);
+    void setOrthoptist(IOrthoptist orthoptist);
 
     IDiagnosis getDiagnosis();
 
     void setDiagnosis(IDiagnosis diagnosis);
 
-    Patient getPatient();
+    IPatient getPatient();
 
-    void setPatient(Patient patient);
+    void setPatient(IPatient patient);
 
     Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
 }

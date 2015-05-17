@@ -19,7 +19,7 @@
  */
 package at.oculus.teamf.technical.printing;
 
-import at.oculus.teamf.domain.entity.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;

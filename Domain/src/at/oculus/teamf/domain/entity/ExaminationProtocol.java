@@ -11,10 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -97,18 +94,20 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
     public Doctor getDoctor() {
 		return _doctor;
 	}
+
 	@Override
-    public void setDoctor(Doctor doctor) {
-		_doctor = doctor;
+	public void setDoctor(IDoctor doctor) {
+		_doctor = (Doctor) doctor;
 	}
 
 	@Override
     public Orthoptist getOrthoptist() {
 		return _orthoptist;
 	}
+
 	@Override
-    public void setOrthoptist(Orthoptist orthoptist) {
-		_orthoptist = orthoptist;
+	public void setOrthoptist(IOrthoptist orthoptist) {
+		_orthoptist = (Orthoptist) orthoptist;
 	}
 
 	@Override
@@ -124,9 +123,10 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
     public Patient getPatient() {
 		return _patient;
 	}
+
 	@Override
-    public void setPatient(Patient patient) {
-		_patient = patient;
+	public void setPatient(IPatient patient) {
+		_patient = (Patient) patient;
 	}
 
 	public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
