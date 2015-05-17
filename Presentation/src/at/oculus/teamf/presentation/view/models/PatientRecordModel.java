@@ -43,6 +43,7 @@ import javafx.stage.Stage;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -188,9 +189,10 @@ public class PatientRecordModel {
             }
         });
 
-
-        System.out.println(currPatient.getLastName());
         try {
+            Collection<IPrescription> prescribedMedicins = _prescriptionController.getNotPrintedPrescriptions(currPatient);
+
+
             ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
             openPrescriptions.setItems(prescriptionList);
         } catch (CouldNotGetPrescriptionException e) {
