@@ -593,7 +593,7 @@ public class PatientRecordController implements Initializable {
                 patientRecordListDiagnoses.setDisable(false);
                 StatusBarController.hideStatusBarProgressBarIdle();
 
-                if(!notPrintedPrescriptionsEntries.isEmpty() && !notPrintedvVisualAidMap.isEmpty() ){
+                if(!notPrintedPrescriptionsEntries.isEmpty() || !notPrintedvVisualAidMap.isEmpty()){
                     notPrintedPrescriptions.setVisible(true);
                 }
             }

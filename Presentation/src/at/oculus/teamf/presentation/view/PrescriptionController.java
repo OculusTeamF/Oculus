@@ -10,10 +10,15 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
-import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
+import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,14 +37,14 @@ import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * Created by Karo on 04.05.2015.
  */
-public class PrescriptionController implements Initializable, IPrinter {
+public class PrescriptionController implements Initializable, IPrinter, ILogger {
 
 
     @FXML public ComboBox choosePrescriptionBox;
@@ -216,22 +221,33 @@ public class PrescriptionController implements Initializable, IPrinter {
     public void savePrescriptionButtonActionHandler(){
 
         IPatient patient = _model.getPatient();
-        Collection<IMedicine> medicinList = null;
-        Collection<IDiagnosis> allDiagnoses = null;
+        Collection<IMedicine> medicinList = new LinkedList<IMedicine>();
+        Collection<IDiagnosis> allDiagnoses = new LinkedList<IDiagnosis>();
 
-        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Medicine"))
-        {
-            medicinList = prescriptionItems.getItems();
+        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicin")) {
+            for (int i = 0; i < _medicinList.size(); i++){
+                Medicine medtemp = new Medicine();
+                Diagnosis diag = new Diagnosis();
+                diag.setTitle("dummy");
+
+
+                MedicineTableEntry m = _medicinList.get(i);
+                medtemp.setName(m.getMedicin().toString());
+                medtemp.setDose(m.getDosage().toString());
+                medtemp.setDiagnosis((IDiagnosis) diag);
+
+                medicinList.add((IMedicine) medtemp);
+            }
 
             try {
                 //_prescriptionModel.addNewPrescription(patient);
                 _prescriptionModel.addPrescriptionEntries(medicinList);
-
+                log.info("Medicine Prescription saved for " + patient.getLastName());
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
                 //Todo: handle
             }
-        }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().equals("Visual Aid"))
+        }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid"))
         {
             try {
                 allDiagnoses = _model.getPatient().getDiagnoses();
@@ -243,9 +259,10 @@ public class PrescriptionController implements Initializable, IPrinter {
             IDiagnosis diagnosis = allDiagnoses.iterator().next();
             _prescriptionModel.addNewVisualAidPrescription(diagnosis);
             _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
-
+            log.info("Visual aid prescription saved for " + patient.getLastName());
         }
     }
+
 
     @FXML
     public void printPrescriptionButtonActionHandler() {
@@ -276,13 +293,13 @@ public class PrescriptionController implements Initializable, IPrinter {
     @FXML
     public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
 
-        MedicineTableEntry newEntry = new MedicineTableEntry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText());
+        if (medicinTextfield.getText().length() > 0 && dosageTextfield.getText().length() > 0) {
 
-        _medicinList.add(newEntry);
-        prescriptionItems.setItems(_medicinList);
-
-       clearFields();
-
+            MedicineTableEntry newEntry = new MedicineTableEntry(medicinTextfield.getText(), dosageTextfield.getText(), informationTextfield.getText());
+            _medicinList.add(newEntry);
+            prescriptionItems.setItems(_medicinList);
+            clearFields();
+        }
     }
 
     //remove the Medicin from the PrescriptionList
