@@ -24,6 +24,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import com.sun.javafx.tk.Toolkit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -178,6 +179,8 @@ public class PatientRecordModel {
                     e.printStackTrace();
                 } catch (NotInitatedExceptions notInitatedExceptions) {
                     notInitatedExceptions.printStackTrace();
+                } catch (NoPrescriptionToPrintException e) {
+	                e.printStackTrace();
                 }
             }
         });

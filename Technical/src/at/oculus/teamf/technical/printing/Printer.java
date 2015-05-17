@@ -24,6 +24,7 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -173,7 +174,11 @@ public class Printer {
      * @param iPrescription Is an Interface of a prescription from which all the information will be printed into
      *                      a PDF-File and then started with standard application from OS.
      */
-    public void printPrescription(IPrescription iPrescription, IDoctor iDoctor) throws COSVisitorException, IOException, CantGetPresciptionEntriesException {
+    public void printPrescription(IPrescription iPrescription, IDoctor iDoctor) throws COSVisitorException, IOException, CantGetPresciptionEntriesException, NoPrescriptionToPrintException {
+        if(iPrescription==null){
+            throw new NoPrescriptionToPrintException();
+        }
+
         //instantiate a new document, create a page and add the page to the document
         PDDocument document = new PDDocument();
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);

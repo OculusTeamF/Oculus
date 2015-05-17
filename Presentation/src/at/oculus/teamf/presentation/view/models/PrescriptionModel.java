@@ -23,6 +23,7 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import javafx.collections.FXCollections;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
@@ -118,6 +119,8 @@ public class PrescriptionModel {
             e.printStackTrace();
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
+        } catch (NoPrescriptionToPrintException e) {
+	        e.printStackTrace();
         }
     }
 

@@ -59,7 +59,7 @@ public class ReloadComponent implements ILogger{
     public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         Facade facade = Facade.getInstance();
 
-        //load database CalendarEventEntity that has the collection that needs to be reloaded
+        //load database entity that has the collection that needs to be reloaded
         Object databaseEntity = null;
 
         try {
