@@ -16,6 +16,7 @@ import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
@@ -24,6 +25,8 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -34,13 +37,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.pdfbox.exceptions.COSVisitorException;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Fabian on 10.05.2015.
@@ -185,8 +189,13 @@ public class PatientRecordModel {
         });
 
 
-        //TODO: get all saved and not printed Prescriptions
-        //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.)
+        System.out.println(currPatient.getLastName());
+        try {
+            ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
+            openPrescriptions.setItems(prescriptionList);
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        }
 
         pane.add(label, 0, 1, 2, 1);
         pane.add(openPrescriptions, 0, 2, 3, 1);

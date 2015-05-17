@@ -19,8 +19,7 @@ import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.util.ArrayList;
@@ -85,6 +84,8 @@ public class PrescriptionControllerTest implements IPrinter {
             printer.printPrescription(iPrescriptions.getFirst(), iPatient.getIDoctor());
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
+        } catch (NoPrescriptionToPrintException e) {
+            e.printStackTrace();
         }
     }
 
@@ -94,7 +95,7 @@ public class PrescriptionControllerTest implements IPrinter {
         Collection<IPrescription> notPrinted = new ArrayList<>();
         try {
             iPrescriptions.addAll(iPatient.getPrescriptions());
-            notPrinted = prescriptionController.getNotPrintedPrescriptions();
+            //notPrinted = prescriptionController.getNotPrintedPrescriptions();
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
         }
