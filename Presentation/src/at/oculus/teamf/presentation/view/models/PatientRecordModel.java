@@ -51,7 +51,6 @@ public class PatientRecordModel {
 
     private static PatientRecordModel _patientmodel = new PatientRecordModel();
     private Model _model;
-    private PrescriptionController _prescriptionController;
 
     public static PatientRecordModel getInstance() {
         if(_patientmodel == null) {
@@ -118,7 +117,7 @@ public class PatientRecordModel {
      * opens a popupwindow with the not printed prescriptions
      * @param patient
      */
-    public void openPrescriptionsToPrint(IPatient patient) {
+    public void openPrescriptionsToPrint(final PrescriptionController prescriptionController, IPatient patient) {
 
         IPatient currPatient = patient;
 
@@ -156,7 +155,7 @@ public class PatientRecordModel {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
 
                 try {
-                    _prescriptionController.printPrescription();
+                    prescriptionController.printPrescription();
                 } catch (DatabaseOperationException e) {
                     e.printStackTrace();
                 } catch (NoBrokerMappedException e) {
@@ -187,11 +186,8 @@ public class PatientRecordModel {
         });
 
         try {
-            Collection<IPrescription> prescribedMedicins = _prescriptionController.getNotPrintedPrescriptions(currPatient);
-
-
-            //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
-            //openPrescriptions.setItems(prescriptionList);
+           
+            prescriptionController.getNotPrintedPrescriptions(currPatient);
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
         }
