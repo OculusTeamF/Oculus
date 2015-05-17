@@ -14,12 +14,8 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.VisualAidController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PatientRecordModel;
@@ -114,6 +110,8 @@ public class PatientRecordController implements Initializable {
         addPatientToQueueButton.setGraphic(new ImageView(imageQueueIcon));
         Image imageExaminationIcon = new Image(getClass().getResourceAsStream("/res/icon_examination.png"));
         examinationProtocolButton.setGraphic(new ImageView(imageExaminationIcon));
+        Image imageAddForm = new Image(getClass().getResourceAsStream("/res/icon_forms.png"));
+        notPrintedPrescriptions.setGraphic(new ImageView(imageAddForm));
 
         // load data: doctorlist, appointmentlist, diagnoseslist
         loadPatientData();
@@ -270,10 +268,7 @@ public class PatientRecordController implements Initializable {
 
         medicalHistory.setExpandedPane(mh4);
 
-        notPrintedPrescriptions.setVisible(false);
-
-        //sets the visibility of the notPrintedPrescriptionButton of true, if HashMap is not empty
-
+        notPrintedPrescriptions.setVisible(true);
     }
 
     /**
@@ -538,7 +533,7 @@ public class PatientRecordController implements Initializable {
                 e.printStackTrace();
             }
 
-            try {
+           /* try {
                 notPrintedPrescriptionsEntries = FXCollections.observableArrayList();
                 _prescriptionController = PrescriptionController.createController(initpatient);
                 notPrintedPrescriptionsEntries.addAll(_prescriptionController.getNotPrintedPrescriptions(initpatient));
@@ -564,7 +559,7 @@ public class PatientRecordController implements Initializable {
                 e.printStackTrace();
             } catch (CouldNotGetVisualAidException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             return null;
         }
@@ -593,9 +588,9 @@ public class PatientRecordController implements Initializable {
                 patientRecordListDiagnoses.setDisable(false);
                 StatusBarController.hideStatusBarProgressBarIdle();
 
-                if(!notPrintedPrescriptionsEntries.isEmpty() || !notPrintedvVisualAidMap.isEmpty()){
+/*                if(!notPrintedPrescriptionsEntries.isEmpty() || !notPrintedvVisualAidMap.isEmpty()){
                     notPrintedPrescriptions.setVisible(true);
-                }
+                }*/
             }
         });
 

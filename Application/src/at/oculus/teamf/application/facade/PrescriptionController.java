@@ -157,7 +157,6 @@ public class PrescriptionController implements ILogger, IPrinter {
     }
 
     public Collection<IPrescription> getNotPrintedPrescriptions(IPatient patient) throws CouldNotGetPrescriptionException {
-        System.out.println("ok");
         Collection<IPrescription> notPrinted = null;
         try {
             notPrinted = patient.getPrescriptions();
@@ -165,18 +164,17 @@ public class PrescriptionController implements ILogger, IPrinter {
             throw e;
         }
 
-        System.out.println(notPrinted.size());
-
         Iterator<IPrescription> iter = notPrinted.iterator();
 
         while (iter.hasNext()) {
             IPrescription ipres = iter.next();
 
             if (ipres.getLastPrint() == null) {
-                System.out.println("Remove not printed");
                 iter.remove();
             }
         }
+
+        System.out.println(notPrinted.size());
 /*
         if (notPrinted != null) {
             for (IPrescription prescription : notPrinted) {

@@ -25,8 +25,6 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -45,7 +43,6 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Fabian on 10.05.2015.
@@ -193,8 +190,8 @@ public class PatientRecordModel {
             Collection<IPrescription> prescribedMedicins = _prescriptionController.getNotPrintedPrescriptions(currPatient);
 
 
-            ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
-            openPrescriptions.setItems(prescriptionList);
+            //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
+            //openPrescriptions.setItems(prescriptionList);
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
         }
