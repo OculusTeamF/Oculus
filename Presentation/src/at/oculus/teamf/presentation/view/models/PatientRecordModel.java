@@ -11,6 +11,7 @@ package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
@@ -25,6 +26,8 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -41,8 +44,8 @@ import javafx.stage.Stage;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Fabian on 10.05.2015.
@@ -205,11 +208,15 @@ public class PatientRecordModel {
         stage.show();
 
         try {
-            Collection<IPrescription> prescribedMedicins = _prescriptionController.getNotPrintedPrescriptions(currPatient);
-
-
-            //ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
-            //openPrescriptions.setItems(prescriptionList);
+            try {
+                PrescriptionController _prescriptionController = PrescriptionController.createController(currPatient);
+                ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
+                openPrescriptions.setItems(prescriptionList);
+            } catch (NoPatientException e) {
+                e.printStackTrace();
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+            }
         } catch (CouldNotGetPrescriptionException e) {
             e.printStackTrace();
         }
