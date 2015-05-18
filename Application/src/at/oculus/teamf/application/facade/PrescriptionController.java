@@ -121,13 +121,13 @@ public class PrescriptionController implements ILogger, IPrinter {
         return iPrescription;
     }
 
-    public Collection<IMedicine> getAllPrescribedMedicines(){
+    public Collection<IMedicine> getAllPrescribedMedicines() throws CouldNotGetMedicineException {
         Collection<IMedicine> medicines = new LinkedList<IMedicine>();
         try {
             medicines = _iPatient.getMedicine();
         } catch (CouldNotGetMedicineException e) {
-            //Todo
-            e.printStackTrace();
+            log.error("Could not get Medicine! " + e.getMessage());
+            throw e;
         }
         return medicines;
     }

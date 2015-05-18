@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IUserTb2;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.entity.UsergroupEntity;
@@ -20,7 +21,7 @@ import java.util.Date;
  *
  * @author Simon Angerer
  */
-public abstract class User implements IUser, IDomain {
+public abstract class User implements IUser, IDomain, IUserTb2 {
 
     //<editor-fold desc="Attributes">
     protected int _id;
@@ -38,7 +39,7 @@ public abstract class User implements IUser, IDomain {
 
     //<editor-fold desc="Getter/Setter">
     @Override
-    public int getUserId() {
+    public int getTeamFUserId() {
         return _id;
     }
     @Override
@@ -119,7 +120,7 @@ public abstract class User implements IUser, IDomain {
 	}
 
 	@Override
-    public Date getIdleDate() {
+    public Date getTeamFIdleDate() {
 		return _idleDate;
 	}
 	@Override

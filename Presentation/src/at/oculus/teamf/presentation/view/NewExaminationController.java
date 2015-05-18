@@ -151,7 +151,7 @@ public class NewExaminationController implements Initializable {
 
     @FXML
     public void refreshTab(ActionEvent actionEvent) {
-        IDiagnosis diag = newexam.getDiagnosis();
+        IDiagnosis diag = newexam.getTeamFDiagnosis();
         if (diag != null) {
             diagnosisTitle.setText(diag.getTitle());
             diagnosisDetails.setText(diag.getDescription());

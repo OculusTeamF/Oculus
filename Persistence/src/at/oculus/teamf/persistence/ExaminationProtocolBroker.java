@@ -22,7 +22,6 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -53,12 +52,12 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
         // TODO named query doctor und orthoptist
         if (examinationProtocolEntity.getUserId() > 0) {
             for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
-                if (((Doctor) obj).getUserId() == examinationProtocolEntity.getUserId()) {
+                if (((Doctor) obj).getTeamFUserId() == examinationProtocolEntity.getUserId()) {
                     doctor = (Doctor) obj;
                 }
             }
             for (Object obj : Facade.getInstance().getAll(Orthoptist.class)) {
-                if (((Orthoptist) obj).getUserId() == examinationProtocolEntity.getUserId()) {
+                if (((Orthoptist) obj).getTeamFUserId() == examinationProtocolEntity.getUserId()) {
                     orthoptist = (Orthoptist) obj;
                 }
             }
@@ -111,9 +110,9 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
         }
 
         DiagnosisEntity diagnosisEntity = null;
-        if (examinationProtocol.getDiagnosis() != null) {
+        if (examinationProtocol.getTeamFDiagnosis() != null) {
             diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
-                    .domainToPersistent(examinationProtocol.getDiagnosis());
+                    .domainToPersistent(examinationProtocol.getTeamFDiagnosis());
         }
 
         return new ExaminationProtocolEntity(examinationProtocol.getId(),

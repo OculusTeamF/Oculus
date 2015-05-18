@@ -162,8 +162,8 @@ public class ExaminationController implements Initializable, ILogger {
             result.append("ORTHOPTIST: " + exp.getOrthoptist().getLastName());
             result.append(System.getProperty("line.separator"));
         }
-        if (exp.getDiagnosis() != null) {
-            result.append("DIAGNOSIS: " + exp.getDiagnosis().getTitle());
+        if (exp.getTeamFDiagnosis() != null) {
+            result.append("DIAGNOSIS: " + exp.getTeamFDiagnosis().getTitle());
             result.append(System.getProperty("line.separator"));
         } else {
             result.append("DIAGNOSIS: none");

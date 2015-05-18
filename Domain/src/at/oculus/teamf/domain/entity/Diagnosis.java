@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
+import at.oculus.teamE.domain.interfaces.IMedicineTb2;
+import at.oculus.teamE.support.functional.QuadFunction;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
@@ -22,13 +25,15 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Diagnosis.java
  * Created by oculus on 16.04.15.
  */
-public class Diagnosis implements IDiagnosis, IDomain, ILogger {
+public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
     private int _id;
     private String _title;
     private String _description;
@@ -55,6 +60,11 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 		_id = id;
 	}
 
+    @Override
+    public Integer getDiagnosisId() {
+        return getId();
+    }
+
     public String getTitle() {
 		return _title;
 	}
@@ -65,6 +75,12 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
     public String getDescription() {
 		return _description;
 	}
+
+    @Override
+    public List<? extends IMedicineTb2> getMedicines() {
+        return (List<? extends IMedicineTb2>) _medicine;
+    }
+
     public void setDescription(String description) {
 		_description = description;
 	}
@@ -201,5 +217,15 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger {
 		}
 
         return _title + " " + _description.substring(0,lenght) + "...";
+    }
+
+    @Override
+    public void addMedicine(IMedicineTb2 iMedicineTb2) {
+        try {
+            addMedicine((IMedicine)iMedicineTb2);
+        } catch (CouldNotAddMedicineException e) {
+            log.error("Could not add medicine exception caught! " + e.getMessage());
+
+        }
     }
 }

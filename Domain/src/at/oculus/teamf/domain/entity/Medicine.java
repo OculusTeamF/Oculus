@@ -9,17 +9,24 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
+import at.oculus.teamE.domain.interfaces.IMedicineTb2;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
  */
-public class Medicine implements IMedicine {
+public class Medicine implements IMedicine, IMedicineTb2 {
 	private int _id;
 	private Diagnosis _diagnosis;
 	private String _name;
 	private String _dose;
+    private LocalDate _startDate;
+    private LocalDate _endDate;
 
 	public int getId() {
 		return _id;
@@ -28,15 +35,41 @@ public class Medicine implements IMedicine {
 		_id = id;
 	}
 
-	public IDiagnosis getDiagnosis() {
+    public Medicine(IDiagnosisTb2 diagnosis, String name, String dose, LocalDate start, LocalDate end){
+        _name = name;
+        _dose = dose;
+        _startDate = start;
+        _endDate = end;
+        _diagnosis = (Diagnosis) diagnosis;
+    }
+    public Medicine(){
+
+    }
+
+	public IDiagnosis getTeamFDiagnosis() {
 		return _diagnosis;
 	}
+
+    @Override
+    public IDiagnosisTb2 getDiagnosis() {
+        return _diagnosis;
+    }
+
+    @Override
+    public void setDiagnosis(IDiagnosisTb2 iDiagnosisTb2) {
+        _diagnosis = (Diagnosis) iDiagnosisTb2;
+    }
 
     public void setDiagnosis(IDiagnosis diagnosis) {
         _diagnosis = (Diagnosis) diagnosis;
     }
 
-	public String getName() {
+    @Override
+    public Integer getMedicineId() {
+        return getId();
+    }
+
+    public String getName() {
 		return _name;
 	}
 	public void setName(String name) {
@@ -46,7 +79,18 @@ public class Medicine implements IMedicine {
 	public String getDose() {
 		return _dose;
 	}
-	public void setDose(String dose) {
+
+    @Override
+    public LocalDate getStartDate() {
+        return _startDate;
+    }
+
+    @Override
+    public LocalDate getEndDate() {
+        return _endDate;
+    }
+
+    public void setDose(String dose) {
 		_dose = dose;
 	}
 

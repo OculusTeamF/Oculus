@@ -89,7 +89,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		orthoptistEntity.setCalendarId(entity.getCalendar().getId());
 		// user data
 		UserEntity userEntity = new UserEntity();
-		userEntity.setId(entity.getUserId());
+		userEntity.setId(entity.getTeamFUserId());
 		userEntity.setUserGroupId(entity.getUserGroupId());
 		userEntity.setUserName(entity.getUserName());
 		userEntity.setPassword(entity.getPassword());
@@ -98,7 +98,7 @@ public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity>
 		userEntity.setLastName(entity.getLastName());
 		userEntity.setEmail(entity.getEmail());
 		userEntity.setCreateDate((Timestamp) entity.getCreateDate());
-		userEntity.setIdleDate((Timestamp) entity.getIdleDate());
+		userEntity.setIdleDate((Timestamp) entity.getTeamFIdleDate());
 		//userEntity.setUserGroup(entity.getUserGroup());
 		orthoptistEntity.setUser(userEntity);
 		return orthoptistEntity;

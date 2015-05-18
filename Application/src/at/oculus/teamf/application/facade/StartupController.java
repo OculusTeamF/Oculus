@@ -27,6 +27,7 @@ import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
 import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.domain.entity.Adapter.FactoryAdapter;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
 
@@ -78,7 +79,8 @@ public class StartupController implements ILogger {
         teamEDependencies.registerDomainFactory(new Supplier<IDomainFactory>() {
             @Override
             public IDomainFactory get() {
-                return null;
+                FactoryAdapter factory = new FactoryAdapter();
+                return factory;
             }
         });
     }
@@ -280,7 +282,7 @@ public class StartupController implements ILogger {
      * This method returns all available orthoptists and doctors in one collection. We get a list of all
      * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
      */
-    //Todo: add getAllDoctors, getAllOrthoptists
+
     public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Collection<Orthoptist> orthoptists;
         Facade facade = Facade.getInstance();
