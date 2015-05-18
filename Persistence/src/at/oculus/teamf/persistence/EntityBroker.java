@@ -138,7 +138,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
 
             session.saveOrUpdate(entity);
             domainObj.setId(entity.getId());
-	        session.commit();
+            session.commit();
 
         } catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
             log.error(e.getMessage());
@@ -223,23 +223,23 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         return true;
     }
 
-	public boolean deleteAll(ISession session, Collection<IDomain> domainObjs) throws NoBrokerMappedException, DatabaseOperationException, BadConnectionException {
+    public boolean deleteAll(ISession session, Collection<IDomain> domainObjs) throws NoBrokerMappedException, DatabaseOperationException, BadConnectionException {
         log.debug("deleting collection of " + _domainClass.toString());
 
-		P entity = null;
+        P entity = null;
 
-		try {
-			session.beginTransaction();
-			for(Object obj : domainObjs) {
-				entity = domainToPersistent((D) obj);
-				session.delete(entity);
-			}
-			session.commit();
+        try {
+            session.beginTransaction();
+            for(Object obj : domainObjs) {
+                entity = domainToPersistent((D) obj);
+                session.delete(entity);
+            }
+            session.commit();
 
-		} catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
+        } catch (BadSessionException | AlreadyInTransactionException | NoTransactionException e) {
             log.error(e.getMessage());
             throw new BadConnectionException();
-		} catch (ClassNotMappedException e) {
+        } catch (ClassNotMappedException e) {
             log.error(e.getMessage());
             throw new NoBrokerMappedException();
         } catch (CanNotStartTransactionException | CanNotCommitTransactionException | CanNotRollbackTheTransaction e) {
@@ -250,7 +250,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
         log.debug("collection of " + _domainClass.toString() + " deleted");
 
         return true;
-	}
+    }
 
     /**
      * Adds additional entity class mappings to the broker.
@@ -302,6 +302,6 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
     public Collection<Class> getDomainClasses() {
         return _domainClasses;
     }
-	//</editor-fold>
+    //</editor-fold>
 
 }

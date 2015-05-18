@@ -12,6 +12,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.util.LinkedList;
@@ -59,6 +60,8 @@ public class PrinterTest implements IPrinter {
             }
             printer.printPrescription(iPrescriptions.getFirst(), iPatient.getIDoctor());
         } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        } catch (NoPrescriptionToPrintException e) {
             e.printStackTrace();
         }
 

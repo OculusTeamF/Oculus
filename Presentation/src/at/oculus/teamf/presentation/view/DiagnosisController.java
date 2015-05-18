@@ -10,8 +10,14 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.event.ActionEvent;
@@ -38,32 +44,55 @@ public class DiagnosisController implements Initializable,ILogger {
     @FXML private TextArea textDiagnosisDescription;
 
     private Model _model = Model.getInstance();
-    private IExaminationProtocol currexam;
+    private IExaminationProtocol _currexam;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // get examination object
-        currexam = _model.getExaminationModel().getCurrentExaminationProtocol();
-        log.debug("ADD Diagnosis to Examination: " + currexam.getPatient().getLastName());
+        _currexam = _model.getExaminationModel().getCurrentExaminationProtocol();
+        log.debug("ADD Diagnosis to Examination: " + _currexam.getPatient().getLastName());
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveDiagnosisButton.setGraphic(new ImageView(imageSaveIcon));
     }
 
+    // *****************************************************************************************************************
+    //
+    // BUTTON HANDLERS
+    //
+    // *****************************************************************************************************************
+
     @FXML
-    public void saveDiagnosisButtonHandler (ActionEvent actionEvent){
-        if (textDiagnosisTitle.getText().isEmpty() == false && textDiagnosisDescription.getText().isEmpty() == false) {
+    public void saveDiagnosisButtonHandler (ActionEvent actionEvent)
+    {
+        if (textDiagnosisTitle.getText().isEmpty() == false && textDiagnosisDescription.getText().isEmpty() == false)
+        {
             try {
-                _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), currexam);
+                _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), _currexam);
             } catch (NotInitatedExceptions notInitatedExceptions) {
-                //Todo
                 notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+            } catch (CriticalDatabaseException criticalDatabaseException) {
+                criticalDatabaseException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");
+            } catch (NoExaminationProtocolException noExaminationProtocolException) {
+                noExaminationProtocolException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoExaminationProtocolException", "Please contact support");
+            } catch (BadConnectionException badConnectionException) {
+                badConnectionException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+            } catch (CriticalClassException criticalClassException) {
+                criticalClassException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
+            } catch (RequirementsUnfulfilledException requirementsUnfulfilledException) {
+                requirementsUnfulfilledException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("RequirementsUnfulfilledException", "Please contact support");
             }
-            //TODO: return to correct examination tab & refresh examination from patient
-            Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab()));
-            _model.getTabModel().closeSelectedAndReturnToOriginTab(origintab);
-            //_model.getTabModel().closeSelectedTab();
+
+            IPatient currpatient  = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+            Tab origintab = _model.getTabModel().getTabFromPatientAndID("newexamination", currpatient);
+            _model.getTabModel().closeSelectedAndSwitchTab(origintab);
         } else {
             DialogBoxController.getInstance().showInformationDialog("Data needed", "Please add diagnosis title and/or description");
         }

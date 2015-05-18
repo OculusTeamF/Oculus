@@ -13,13 +13,15 @@ import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.entity.PatientEntity;
+
+import java.util.Date;
 
 /**
  * Created by Simon Angerer on 13.05.2015.
  */
-public class FactoryTB2 implements IFactoryTB2{
+public class FactoryTB2 implements IFactoryTB2 {
 
     @Override
     public IVisualAid createVisualAid() {
@@ -40,4 +42,11 @@ public class FactoryTB2 implements IFactoryTB2{
     public IPrescriptionEntry createPrescriptionEntry() {
         return new PrescriptionEntry();
     }
+
+    @Override
+    public IExaminationProtocol createExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
+                                                          Orthoptist orthoptist, Diagnosis diagnosis) {
+        return null;
+    }
+
 }

@@ -27,6 +27,7 @@ import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
 import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.domain.entity.adapter.FactoryAdapter;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
 
@@ -42,7 +43,6 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -78,7 +78,8 @@ public class StartupController implements ILogger {
         teamEDependencies.registerDomainFactory(new Supplier<IDomainFactory>() {
             @Override
             public IDomainFactory get() {
-                return null;
+                FactoryAdapter factory = new FactoryAdapter();
+                return factory;
             }
         });
     }
@@ -280,7 +281,7 @@ public class StartupController implements ILogger {
      * This method returns all available orthoptists and doctors in one collection. We get a list of all
      * orthoptists from the persistence layer and one list of all doctors, convert it into Interfaces and return it.
      */
-    //Todo: add getAllDoctors, getAllOrthoptists
+
     public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Collection<Orthoptist> orthoptists;
         Facade facade = Facade.getInstance();
@@ -340,17 +341,16 @@ public class StartupController implements ILogger {
      * @param iUser this parameter shows the interface of the user, who's queue should be returned
      */
     public IPatientQueue getQueueByUser(IUser iUser) throws BadConnectionException, NoBrokerMappedException {
-        User user = (User) iUser;
-        Doctor doctor;
-        Orthoptist orthoptist;
-        PatientQueue queue = null;
+        IDoctor doctor;
+        IOrthoptist orthoptist;
+        IPatientQueue queue = null;
 
-        if (user != null) {
-            if (user instanceof Doctor) {
-                doctor = (Doctor) user;
+        if (iUser != null) {
+            if (iUser instanceof Doctor) {
+                doctor = (Doctor) iUser;
                 queue = (PatientQueue) doctor.getQueue();
-            } else if (user instanceof Orthoptist) {
-                orthoptist = (Orthoptist) user;
+            } else if (iUser instanceof Orthoptist) {
+                orthoptist = (Orthoptist) iUser;
                 queue = orthoptist.getQueue();
             }
         }

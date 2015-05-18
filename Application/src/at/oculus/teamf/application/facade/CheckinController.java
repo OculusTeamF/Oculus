@@ -18,8 +18,7 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseEx
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -27,6 +26,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.Date;
+
 /**<h1>$CheckinController.java</h1>
  * @author $jpo2433
  * @author $sha9939
@@ -72,9 +72,9 @@ public class CheckinController implements ILogger {
         }
 
         Timestamp tstamp = new Timestamp(new Date().getTime());
-        PatientQueue queue = null;
-        Doctor doctor = null;
-        Orthoptist orthoptist = null;
+        IPatientQueue queue = null;
+        IDoctor doctor = null;
+        IOrthoptist orthoptist = null;
 
         if(user instanceof Doctor){
             doctor = (Doctor) iuser;

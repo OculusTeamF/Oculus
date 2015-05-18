@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.LinkedList;
 
 /**
- *
  * @author Simon Angerer
  * @date 03.4.2015
  */
@@ -39,7 +38,7 @@ public class Patient implements IPatient, ILogger {
     private String _lastName;
     private Gender _gender;
     private String _socialInsuranceNr;
-    private Doctor _doctor;
+    private IDoctor _doctor;
     private Collection<CalendarEvent> _calendarEvents;
     private Date _birthDay;
     private String _street;
@@ -51,13 +50,13 @@ public class Patient implements IPatient, ILogger {
     private String _allergy;
     private String _childhoodAilments;
     private String _medicineIntolerance;
-    private Collection<ExaminationProtocol> _examinationProtocol;
-	private Collection<Prescription> _prescriptions;
-    private Collection<VisualAid> _visualAid;
+    private Collection<IExaminationProtocol> _examinationProtocol;
+	private Collection<IPrescription> _prescriptions;
+    private Collection<IVisualAid> _visualAid;
 
     //<editor-fold desc="Getter/Setter">
 
-	public Doctor getDoctor() {
+	public IDoctor getDoctor() {
 		return _doctor;
 	}
 
@@ -92,7 +91,7 @@ public class Patient implements IPatient, ILogger {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		if (_examinationProtocol == null) {
-			_examinationProtocol = new LinkedList<ExaminationProtocol>();
+			_examinationProtocol = new LinkedList<IExaminationProtocol>();
 		}
 		_examinationProtocol.add((ExaminationProtocol) examinationProtocol);
 		try {
@@ -346,7 +345,7 @@ public class Patient implements IPatient, ILogger {
     }
 
     public void setExaminationProtocol(Collection<IExaminationProtocol> examinationProtocol) {
-        _examinationProtocol = (Collection<ExaminationProtocol>) (Collection<?>) examinationProtocol;
+        _examinationProtocol = examinationProtocol;
     }
 
     /**
@@ -387,7 +386,7 @@ public class Patient implements IPatient, ILogger {
 		return (Collection<IPrescription>) (Collection<?>) _prescriptions;
     }
 
-    public void setPrescriptions(Collection<Prescription> prescriptions) {
+    public void setPrescriptions(Collection<IPrescription> prescriptions) {
         _prescriptions = prescriptions;
     }
 

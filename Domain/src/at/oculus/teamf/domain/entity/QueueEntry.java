@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 
 import java.sql.Timestamp;
@@ -18,11 +21,11 @@ import java.sql.Timestamp;
  */
 public class QueueEntry implements IQueueEntry {
     private int _id;
-    private Doctor _doctor;
-    private Orthoptist _orthoptist;
+    private IDoctor _doctor;
+    private IOrthoptist _orthoptist;
     private Integer _queueIdParent;
     private Timestamp _arrivalTime;
-    private Patient _patient;
+    private IPatient _patient;
 
     /**
      *
@@ -35,14 +38,14 @@ public class QueueEntry implements IQueueEntry {
      * @param queueIdParent  parentid for queueupart for a user
      * @param arrivalTime set timestamp
      */
-    public QueueEntry(int id, Patient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
+    public QueueEntry(int id, IPatient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
                       Timestamp arrivalTime) {
         _id = id;
         _doctor = doctor;
         _orthoptist = orthoptist;
         _queueIdParent = queueIdParent;
         _arrivalTime = arrivalTime;
-        _patient = patient;
+        _patient = (Patient)patient;
 
         // logging
         Integer dID = null;
@@ -64,32 +67,32 @@ public class QueueEntry implements IQueueEntry {
     }
 
     @Override
-    public Doctor getDoctor() {
+    public IDoctor getDoctor() {
         return _doctor;
     }
 
     @Override
-    public void setDoctor(Doctor doctor) {
+    public void setDoctor(IDoctor doctor) {
         _doctor = doctor;
     }
 
     @Override
-    public Orthoptist getOrthoptist() {
+    public IOrthoptist getOrthoptist() {
         return _orthoptist;
     }
 
     @Override
-    public void setOrthoptist(Orthoptist orthoptist) {
+    public void setOrthoptist(IOrthoptist orthoptist) {
         _orthoptist = orthoptist;
     }
 
     @Override
-    public Patient getPatient() {
+    public IPatient getPatient() {
         return _patient;
     }
 
     @Override
-    public void setPatient(Patient patient) {
+    public void setPatient(IPatient patient) {
         _patient = patient;
     }
 
@@ -106,11 +109,6 @@ public class QueueEntry implements IQueueEntry {
     @Override
     public Timestamp getArrivalTime() {
         return _arrivalTime;
-    }
-
-    @Override
-    public void setArrivalTime(Timestamp arrivalTime) {
-        _arrivalTime = arrivalTime;
     }
 
     @Override

@@ -24,6 +24,7 @@ public interface IPrescription extends IDomain {
 
     void setPatient(IPatient iPatient);
     void setLastPrint(Date lastPrint);
+    Date getLastPrint();
 
 	Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException;
 

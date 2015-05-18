@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,7 @@ import java.util.List;
  */
 public class Model implements Serializable, ILogger{
 
-    private Stage _primaryStage = null;
+    private Stage _primaryStage;
 
     private static Model _modelInstance;
     private TabModel _tabmodel;
@@ -66,7 +67,7 @@ public class Model implements Serializable, ILogger{
     private Collection<IUser> _userlist;
     public IPatient _patient;
     private VBox _vBoxQueues;
-    private Task<Void> task;
+    private Task<Void> _task;
 
     private HashMap<IUser, ObservableList> _userWaitingList;
     private HashMap<IUser, ListView> _listViewMap;
@@ -76,11 +77,14 @@ public class Model implements Serializable, ILogger{
     // user management
     private IUser _loggedInUser;
 
+    private static final int QUEUE_CELL_SIZE = 68;      // default: 38
+    private static final int QUEUE_LABEL_SIZE = 60;     // default: 30
 
     /**
      * Singelton of Model
      */
-    private Model(){
+    private Model()
+    {
         _startupController = new StartupController();
         _tabmodel = TabModel.getInstance();
         _patientmodel = PatientRecordModel.getInstance();
@@ -93,18 +97,18 @@ public class Model implements Serializable, ILogger{
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
             _queueTitledPaneFromUser = new HashMap<>();
             _patientsInQueue = new HashMap<>();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - (Initialization error) Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - (Initialization error) Please contact support");
-        } catch (CriticalDatabaseException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - (Initialization error) Please contact support");
-        } catch (CriticalClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - (Initialization error) Please contact support");
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            noBrokerMappedException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact support");
+        } catch (BadConnectionException bAdConnectionException) {
+            bAdConnectionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+        } catch (CriticalDatabaseException criticalDatabaseException) {
+            criticalDatabaseException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");
+        } catch (CriticalClassException criticalClassException) {
+            criticalClassException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
         }
     }
 
@@ -206,19 +210,23 @@ public class Model implements Serializable, ILogger{
 
             // bind listview to titledpanes
             listView.setItems(olist);
-            listView.setPrefHeight((olist.size() * 38));
-
+            listView.setPrefHeight((olist.size() * QUEUE_CELL_SIZE));
 
             _userWaitingList.put(u, olist);
             _listViewMap.put(u, listView);
 
             // Queue titlepane string - Header of the Titled panel
-             String queueName = buildTitledPaneHeader(u, olist.size());
+            String queueName = buildTitledPaneHeader(u, olist.size());
 
             TitledPane queueTitledPane = new TitledPane(queueName, listView);
-            queueTitledPane.setExpanded(false);
+            if (olist.size() > 0 ){
+                queueTitledPane.setExpanded(true);
+            } else {
+                queueTitledPane.setExpanded(false);
+            }
             queueTitledPane.setAnimated(true);
             queueTitledPane.setVisible(true);
+            queueTitledPane.setTooltip(new Tooltip("Patient queue for " + u.getLastName()));
 
             _queueTitledPaneFromUser.put(u,queueTitledPane);
 
@@ -262,7 +270,7 @@ public class Model implements Serializable, ILogger{
         }
 
         ListView newList = _listViewMap.get(user);
-        newList.setPrefHeight(entries.size() * 38);
+        newList.setPrefHeight(entries.size() * QUEUE_CELL_SIZE);
 
         _userWaitingList.put(user, entryList);
         _listViewMap.put(user, newList);
@@ -271,6 +279,7 @@ public class Model implements Serializable, ILogger{
         TitledPane userTitledPane = _queueTitledPaneFromUser.get(user);
         String header = buildTitledPaneHeader(user, entries.size());
         userTitledPane.setText(header);
+        userTitledPane.setTooltip(new Tooltip("Patient queue for " + user.getLastName()));
         userTitledPane.setExpanded(true);
 
 
@@ -306,16 +315,6 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     * unused
-     * @param
-     */
-    /*public void setQueueTitledPane(TitledPane[] pane)
-    {
-        _queueTitledPane = new TitledPane[_userlist.size()];
-        this._queueTitledPane = pane;
-    }*/
-
-    /**
      * is used by QueueController to set the vBoxes. VBoxes are nessecary for the buildQueueLists method
      * @param vboxQueues
      */
@@ -331,7 +330,7 @@ public class Model implements Serializable, ILogger{
     public static class HBoxCell extends HBox {
 
         IQueueEntry _entry = null;
-        Button _button = new Button();
+        Button _startexaminationbutton = new Button();
         Button _deletebutton = new Button();
         Button _openbutton = new Button();
         Label _label;
@@ -346,22 +345,25 @@ public class Model implements Serializable, ILogger{
             Image imageDelete = new Image(getClass().getResourceAsStream("/res/icon_delete.png"));
             Image imageOpen = new Image(getClass().getResourceAsStream("/res/icon_open.png"));
 
-            _button.setGraphic(new ImageView(imageEnqueue));
-            _button.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
-            _button.setId("queueButton");
+            _startexaminationbutton.setGraphic(new ImageView(imageEnqueue));
+            _startexaminationbutton.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
+            _startexaminationbutton.setCursor(Cursor.HAND);
+            _startexaminationbutton.setId("queueButton");
 
             _deletebutton.setGraphic(new ImageView(imageDelete));
             _deletebutton.setTooltip(new Tooltip("Delete patient from queue without examination"));
+            _deletebutton.setCursor(Cursor.HAND);
             _deletebutton.setId("queueDeleteButton");
 
             _openbutton.setGraphic(new ImageView(imageOpen));
             _openbutton.setTooltip(new Tooltip("Open and view patient record"));
+            _openbutton.setCursor(Cursor.HAND);
             _openbutton.setId("queueOpenButton");
 
             /**
              * removes the patient from the Waiting List
              */
-            _button.setOnAction(new EventHandler<ActionEvent>() {
+            _startexaminationbutton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     QueueModel.getInstance().removePatientFromQueue(_entry.getPatient(), _user);
@@ -385,18 +387,18 @@ public class Model implements Serializable, ILogger{
             });
 
             // button hover
-            _button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            _startexaminationbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _button.setText("Start Examination");
-                    _button.setContentDisplay(ContentDisplay.RIGHT);
-                    _button.setTextAlignment(TextAlignment.LEFT);
+                    _startexaminationbutton.setText("Start Examination");
+                    _startexaminationbutton.setContentDisplay(ContentDisplay.RIGHT);
+                    _startexaminationbutton.setTextAlignment(TextAlignment.LEFT);
                 }
             });
-            _button.setOnMouseExited(new EventHandler<MouseEvent>() {
+            _startexaminationbutton.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _button.setText("");
+                    _startexaminationbutton.setText("");
                 }
             });
 
@@ -430,12 +432,18 @@ public class Model implements Serializable, ILogger{
                 }
             });
 
-            _label = new Label(entry.getPatient().toString());
+            String labeltext = "NAME:\t" + entry.getPatient().getLastName() + ", " + entry.getPatient().getFirstName() +
+                    "\n" + "SVN:  \t" + entry.getPatient().getSocialInsuranceNr();
+            _label = new Label(labeltext);
+            //_label = new Label(entry.getPatient().toString());
             _label.setMaxWidth(Double.MAX_VALUE);
-            _label.setMinHeight(30);
+            _label.setMinHeight(QUEUE_LABEL_SIZE);
+            _startexaminationbutton.setMinHeight(QUEUE_LABEL_SIZE);
+            _deletebutton.setMinHeight(QUEUE_LABEL_SIZE);
+            _openbutton.setMinHeight(QUEUE_LABEL_SIZE);
 
             HBox.setHgrow(_label, Priority.ALWAYS);
-            this.getChildren().addAll(_label,_openbutton, _deletebutton ,_button);
+            this.getChildren().addAll(_label,_openbutton, _deletebutton , _startexaminationbutton);
         }
 
         /**

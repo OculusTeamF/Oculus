@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientTo
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -28,6 +29,7 @@ import java.util.Collection;
  * Created by Fabian on 10.05.2015.
  */
 public class QueueModel {
+
     private static QueueModel _queuemodel = new QueueModel();
     private Model _model;
 
@@ -45,7 +47,8 @@ public class QueueModel {
      * @param user
      * @return IPatientQueue
      */
-    public IPatientQueue getQueueFromUser(IUser user){
+    public IPatientQueue getQueueFromUser(IUser user)
+    {
         _model = Model.getInstance();
         IPatientQueue queue = null;
 
@@ -53,12 +56,12 @@ public class QueueModel {
             queue =  _model.getStartupController().getQueueByUser(user);
         } catch (BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException, NoBrokerMappedException - Please contact support");
-        } catch (final NullPointerException e) {
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException | NoBrokerMappedException", "Please contact support");
+        } catch (final NullPointerException nullPointerException) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    DialogBoxController.getInstance().showExceptionDialog(e, "NullPointerException (Userqueue) - Please contact support");
+                    DialogBoxController.getInstance().showErrorDialog("NullPointerException", "Please contact support");
                 }
             });
         }
@@ -70,17 +73,12 @@ public class QueueModel {
      * @param user
      * @return Collection<QueueEntry>
      */
-    public Collection<QueueEntry> getEntriesFromQueue(IUser user) {
+    public Collection<IQueueEntry> getEntriesFromQueue(IUser user) {
         _model = Model.getInstance();
-        Collection<QueueEntry> entries = null;
+        Collection<IQueueEntry> entries = null;
 
         IPatientQueue queue = getQueueFromUser(user);
-        try {
-            entries = queue.getEntries();
-        } catch (NoBrokerMappedException | BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException, BadConnectionException - Please contact support");
-        }
+        entries = queue.getEntries();
         return entries;
     }
 
@@ -89,21 +87,23 @@ public class QueueModel {
      * @param user
      */
     public void insertPatientIntoQueue(IUser user){
+
         _model = Model.getInstance();
+
         try {
             _model.getCheckinController().insertPatientIntoQueue(_model.getPatient(), user);
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showInformationDialog("Error", "Patient already in Waitinglist.");
-        } catch (CheckinControllerException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CheckinControllerException - Please contact support");
-        } catch (CriticalClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
-        } catch (CouldNotAddPatientToQueueException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPatientToQueueException - Please contact support");
+        } catch (BadConnectionException badConnectionException) {
+            badConnectionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+        } catch (CheckinControllerException checkinControllerException) {
+            checkinControllerException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CheckinControllerException", "Please contact support");
+        } catch (CriticalClassException criticalClassException) {
+            criticalClassException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
+        } catch (CouldNotAddPatientToQueueException couldNotAddPatientToQueueException) {
+            couldNotAddPatientToQueueException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotAddPatientToQueueException", "Please contact support");
         }
         _model.refreshQueue(user);
     }
@@ -120,6 +120,7 @@ public class QueueModel {
             _model.getReceivePatientController().removePatientFromQueue(patient, queue);
         } catch (CouldNotRemovePatientFromQueueException couldNotRemovePatientFromQueueException) {
             couldNotRemovePatientFromQueueException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotRemovePatientFromQueueException", "Please contact support");
         }
 
         _model.getTabModel().addExaminationTab(patient);
@@ -138,6 +139,7 @@ public class QueueModel {
             _model.getReceivePatientController().removePatientFromQueue(patient, queue);
         } catch (CouldNotRemovePatientFromQueueException couldNotRemovePatientFromQueueException) {
             couldNotRemovePatientFromQueueException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotRemovePatientFromQueueException", "Please contact support");
         }
 
         _model.refreshQueue(user);

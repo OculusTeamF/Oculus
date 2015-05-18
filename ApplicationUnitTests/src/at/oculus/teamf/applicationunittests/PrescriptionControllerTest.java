@@ -11,34 +11,33 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.StartupController;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
+public class PrescriptionControllerTest implements IPrinter {
 
-public class PrescriptionControllerTest {
-
-    private SearchPatientController searchPatientController = new SearchPatientController();
     PrescriptionController prescriptionController;
     IPatient iPatient;
     IPrescription iPrescription;
+	private SearchPatientController searchPatientController = new SearchPatientController();
 
     @org.junit.Before
     public void setUp() throws Exception {
         LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("Meyer");
         iPatient = patients.getFirst();
         prescriptionController = PrescriptionController.createController(iPatient);
-
     }
 
     @org.junit.After
@@ -75,6 +74,34 @@ public class PrescriptionControllerTest {
     @org.junit.Test
     public void testPrintPrescription() throws Exception {
         //TODO implement testPrintPrescription in PrescriptionControllerTest
+        StartupController start = new StartupController();
+        try {
+            LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
+            iPrescriptions.addAll(iPatient.getPrescriptions());
+            for (IPrescriptionEntry entry : iPrescriptions.getFirst().getPrescriptionEntries()) {
+                System.out.println(entry.getMedicine());
+            }
+            printer.printPrescription(iPrescriptions.getFirst(), iPatient.getIDoctor());
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        } catch (NoPrescriptionToPrintException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @org.junit.Test
+    public void testGetNotPrintedPrescriptions(){
+        LinkedList<IPrescription> iPrescriptions = new LinkedList<>();
+        Collection<IPrescription> notPrinted = new ArrayList<>();
+        try {
+            iPrescriptions.addAll(iPatient.getPrescriptions());
+            //notPrinted = prescriptionController.getNotPrintedPrescriptions();
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(iPrescriptions.size());
+        System.out.println(notPrinted.size());
     }
 
 }

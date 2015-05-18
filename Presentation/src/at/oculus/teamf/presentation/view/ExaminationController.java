@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
@@ -42,6 +43,7 @@ public class ExaminationController implements Initializable, ILogger {
 
     @FXML public ListView examinationResults;
     @FXML private Button newExaminationButton;
+    @FXML private Button refreshButton;
     @FXML private Text examinationCurrDate;
     @FXML private Text examinationLnameFnameSvn;
     @FXML private TextArea textExaminationDetails;
@@ -49,19 +51,19 @@ public class ExaminationController implements Initializable, ILogger {
     @FXML private TextArea examinationDocumentation;
 
     private Model _model = Model.getInstance();
-    private Date date = new Date();
+    private Date _date = new Date();
     private ObservableList<IExaminationProtocol> _protocolist;
     private ObservableList<IExaminationResult> _results;
-    private IExaminationProtocol selectedProtocol;
-    private IPatient initPatient;
+    private IExaminationProtocol _selectedProtocol;
+    private IPatient _initPatient;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initPatient =  _model.getTabModel().getInitPatient();
+        _initPatient =  _model.getTabModel().getInitPatient();
 
         // setup controls
-        examinationCurrDate.setText(date.toString());
-        examinationLnameFnameSvn.setText(" PATIENT: " + initPatient.getLastName() + ", " + initPatient.getFirstName() + ", " + initPatient.getSocialInsuranceNr());
+        examinationCurrDate.setText(_date.toString());
+        examinationLnameFnameSvn.setText(" PATIENT: " + _initPatient.getLastName() + ", " + _initPatient.getFirstName() + ", " + _initPatient.getSocialInsuranceNr());
 
         examinationList.setDisable(true);
         examinationResults.setDisable(true);
@@ -76,6 +78,8 @@ public class ExaminationController implements Initializable, ILogger {
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_newexamination.png"));
         newExaminationButton.setGraphic(new ImageView(imageSaveIcon));
+        Image imageRefresh = new Image(getClass().getResourceAsStream("/res/icon_refresh.png"));
+        refreshButton.setGraphic(new ImageView(imageRefresh));
 
         // load all examination protocols
         getExaminationList();
@@ -106,9 +110,9 @@ public class ExaminationController implements Initializable, ILogger {
         loadlist.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                StatusBarController.hideStatusBarProgressBarIdle();
                 examinationList.setDisable(false);
                 examinationList.setItems(_protocolist);
+                StatusBarController.hideStatusBarProgressBarIdle();
             }
         });
 
@@ -125,7 +129,7 @@ public class ExaminationController implements Initializable, ILogger {
         examinationDocumentation.setText(exp.getDescription());
 
         // load examination results
-        selectedProtocol = exp;
+        _selectedProtocol = exp;
         examinationResults.setDisable(true);
         examinationResults.setItems(FXCollections.observableArrayList("Loading examination results..."));
         final Task<Void> loadresults = loadExaminationResultsThread();
@@ -159,8 +163,8 @@ public class ExaminationController implements Initializable, ILogger {
             result.append("ORTHOPTIST: " + exp.getOrthoptist().getLastName());
             result.append(System.getProperty("line.separator"));
         }
-        if (exp.getDiagnosis() != null) {
-            result.append("DIAGNOSIS: " + exp.getDiagnosis().getTitle());
+        if (exp.getTeamFDiagnosis() != null) {
+            result.append("DIAGNOSIS: " + exp.getTeamFDiagnosis().getTitle());
             result.append(System.getProperty("line.separator"));
         } else {
             result.append("DIAGNOSIS: none");
@@ -180,17 +184,31 @@ public class ExaminationController implements Initializable, ILogger {
         _model.getTabModel().addNewExaminationTab(selectedpatient);
     }
 
-    // *******************************************************************
+    @FXML
+    public void refreshTab(ActionEvent actionEvent) {
+        String loadtext = "Loading examinations protocols....";
+        examinationList.getItems().add(loadtext);
+        getExaminationList();
+    }
+
+    // *****************************************************************************************************************
+    //
     // LOADING THREADS
-    // *******************************************************************
+    //
+    // *****************************************************************************************************************
 
     /* thread: load examination protocols */
     public Task<Void> loadExaminationListsThread() {return new Task<Void>() {
         @Override
         protected Void call() {
             //IPatient selectedPatient =  _model.getTabModel().getInitPatient();
-            log.debug("Loading examination protocols for patient: " + initPatient.getLastName());
-            _protocolist = FXCollections.observableArrayList(_model.getExaminationModel().getAllExaminationProtcols(initPatient));
+            log.debug("Loading examination protocols for patient: " + _initPatient.getLastName());
+            try {
+                _protocolist = FXCollections.observableArrayList(_model.getExaminationModel().getAllExaminationProtcols(_initPatient));
+            } catch (CouldNotGetExaminationProtolException couldNotGetExaminationProtolException) {
+                couldNotGetExaminationProtolException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotGetExaminationProtolException", "Please contact support");
+            }
             return null;
         }
     };
@@ -203,9 +221,10 @@ public class ExaminationController implements Initializable, ILogger {
             IPatient selectedpatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
             log.debug("Loading examination results for patient: " + selectedpatient.getLastName());
             try {
-                _results = FXCollections.observableArrayList(selectedProtocol.getExaminationResults());
-            } catch (CouldNotGetExaminationResultException e) {
-                e.printStackTrace();
+                _results = FXCollections.observableArrayList(_selectedProtocol.getExaminationResults());
+            } catch (CouldNotGetExaminationResultException couldNotGetExaminationResultException) {
+                couldNotGetExaminationResultException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotGetExaminationResultException", "Please contact support");
             }
             return null;
         }

@@ -13,6 +13,9 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -68,8 +71,8 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
     @Override
     protected QueueEntity domainToPersistent(QueueEntry queueEntry) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
-        Doctor doctor = queueEntry.getDoctor();
-        Orthoptist orthoptist = queueEntry.getOrthoptist();
+        IDoctor doctor = queueEntry.getDoctor();
+        IOrthoptist orthoptist = queueEntry.getOrthoptist();
 
         DoctorEntity doctorEntity = null;
         if (doctor != null) {
@@ -83,7 +86,7 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
         if (orthoptist != null) {
 
             orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersistent(
-                        orthoptist);
+                    (IDomain) orthoptist);
 
         }
 

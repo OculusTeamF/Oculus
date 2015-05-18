@@ -36,21 +36,19 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Last name" GridPane.rowIndex="1" />
             <Label text="First name" GridPane.rowIndex="2" />
-            <Label text="Social Insurance number" GridPane.rowIndex="3" />
+            <Label text="Social insurance number" GridPane.rowIndex="3" />
             <Label text="Date of birth" GridPane.rowIndex="4" />
             <Label text="Street address" GridPane.rowIndex="5" />
-            <Label text="Zip" GridPane.rowIndex="6" />
-            <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="7" />
-            <Label text="State" GridPane.rowIndex="8" />
+            <Label text="Post code" GridPane.rowIndex="7" />
+            <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="6" />
             <Label text="Phone number" GridPane.rowIndex="9" />
-            <Label text="Email" GridPane.rowIndex="10" />
-            <Label focusTraversable="false" text="Gender" GridPane.rowIndex="11" />
-            <Label text="Primary Doctor" GridPane.rowIndex="12" />
+            <Label text="Email" GridPane.rowIndex="8" />
+            <Label focusTraversable="false" text="Gender" GridPane.rowIndex="10" />
+            <Label text="Primary Doctor" GridPane.rowIndex="11" />
             <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="3" />
             <Button fx:id="newPatientSaveButton" mnemonicParsing="false" onAction="#saveForm" prefHeight="31.0" prefWidth="101.0" text="Save" />
             <TextField fx:id="newPatientLastname" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -58,18 +56,26 @@
             <TextField fx:id="newPatientSVN" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <DatePicker fx:id="newPatientBday" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="newPatientPLZ" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="newPatientCity" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+             <TextField fx:id="newPatientCity" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="newPatientPLZ" alignment="CENTER" maxWidth="-Infinity" prefHeight="31.0" prefWidth="141.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="newPatientCountryIsoCode" prefHeight="31.0" prefWidth="53.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="240.0" />
+               </GridPane.margin>
+            </TextField>
+             <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField fx:id="newPatientPhone" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <RadioButton fx:id="radioGenderFemale" mnemonicParsing="false" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <RadioButton fx:id="radioGenderMale" mnemonicParsing="false" text="Male" GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <RadioButton fx:id="radioGenderFemale" mnemonicParsing="false" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <RadioButton fx:id="radioGenderMale" mnemonicParsing="false" text="Male" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <padding>
                   <Insets left="80.0" />
                </padding>
             </RadioButton>
-            <ChoiceBox fx:id="newPatientDoctor" prefHeight="25.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <ChoiceBox fx:id="newPatientDoctor" prefHeight="25.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <Label prefHeight="21.0" prefWidth="58.0" text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="160.0" />
+               </GridPane.margin></Label>
          </children>
       </GridPane>
    </children>

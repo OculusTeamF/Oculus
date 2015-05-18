@@ -35,17 +35,18 @@ import java.io.IOException;
  *
  */
 public class Main extends Application implements ILocal, ILogger {
+
     public FXMLLoader mainloader = new FXMLLoader(getClass().getResource("fxml/MainWindow.fxml"));
     public FXMLLoader initloader = new FXMLLoader(getClass().getResource("fxml/Init.fxml"));
 
-    public static MainController controller;
+    public static MainController _controller;
     private Model _model;
 
-    public static Service<Void> service;
+    public static Service<Void> _service;
 
-    public static Scene scene;
-    final Stage initStage = new Stage(StageStyle.UNDECORATED);;
-    final Stage primaryStage = new Stage(StageStyle.DECORATED);
+    public static Scene _scene;
+    final Stage _initStage = new Stage(StageStyle.UNDECORATED);;
+    final Stage _primaryStage = new Stage(StageStyle.DECORATED);
 
     /*start (init and build) application*/
     @Override
@@ -53,10 +54,10 @@ public class Main extends Application implements ILocal, ILogger {
 
         //Logger4J.setLevel(log, Level.ERROR);
         initLoadingScreen();        // create splashcreen
-        initStage.show();           // show splashcreen
+        _initStage.show();           // show splashcreen
 
         // cheap thread workaround (can be replaced later)
-        service = new Service<Void>() {
+        _service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -64,7 +65,7 @@ public class Main extends Application implements ILocal, ILogger {
                     protected Void call() throws Exception {
                         _model = Model.getInstance();
                         initMainWindow();  // build main window & queuelist)
-                        _model.setPrimaryStage(primaryStage);
+                        _model.setPrimaryStage(_primaryStage);
                         return null;
                     }
                 };
@@ -72,42 +73,42 @@ public class Main extends Application implements ILocal, ILogger {
             @Override
             protected void succeeded() {
                 // Called when finished without exception
-                primaryStage.setScene(scene);
-                primaryStage.setMaximized(true);
-                primaryStage.show();
-                initStage.close();
+                _primaryStage.setScene(_scene);
+                _primaryStage.setMaximized(true);
+                _primaryStage.show();
+                _initStage.close();
             }
         };
 
-        service.start(); // starts Thread
+        _service.start(); // starts Thread
     }
 
     /*create main screen*/
     private void initMainWindow() throws IOException {
         Parent root = (Parent) mainloader.load();
-        primaryStage.setTitle(locstring.getString("MainWindowTitle"));   //localization example
-        scene = new Scene(root, 900, 600);
-        scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
-        controller = mainloader.getController();
+        _primaryStage.setTitle(locstring.getString("MainWindowTitle"));   //localization example
+        _scene = new Scene(root, 900, 600);
+        _scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
+        _controller = mainloader.getController();
 
         // setup components in MainWindow.fxml
-        controller.getSplitter().setDividerPosition(0, 0.80);
+        _controller.getSplitter().setDividerPosition(0, 0.80);
 
 
         // update splitter position
-        scene.widthProperty().addListener(new ChangeListener<Number>() {
+        _scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                controller.getSplitter().setDividerPosition(0, 0.25);
+                _controller.getSplitter().setDividerPosition(0, 0.30);
             }
         });
-        scene.heightProperty().addListener(new ChangeListener<Number>() {
+        _scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                controller.getSplitter().setDividerPosition(0, 0.25);
+                _controller.getSplitter().setDividerPosition(0, 0.30);
             }
         });
 
         // add app icon
-        primaryStage.getIcons().add(new Image("/res/32x32.png"));
+        _primaryStage.getIcons().add(new Image("/res/32x32.png"));
     }
 
     /*create loading screen (splashcreen)*/
@@ -115,17 +116,18 @@ public class Main extends Application implements ILocal, ILogger {
         Parent initroot = null;
         try {
             initroot = (Parent) initloader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact support");
         }
 
         Scene sceneInit = new Scene(initroot, 553, 362);
         sceneInit.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
-        initStage.setScene(sceneInit);
-        initStage.setTitle("Oculus is loading...");
-        initStage.setResizable(false);
-        initStage.centerOnScreen();
-        initStage.getIcons().add(new Image("/res/32x32.png"));
+        _initStage.setScene(sceneInit);
+        _initStage.setTitle("Oculus is loading...");
+        _initStage.setResizable(false);
+        _initStage.centerOnScreen();
+        _initStage.getIcons().add(new Image("/res/32x32.png"));
     }
 
     public static void main(String[] args) {

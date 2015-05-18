@@ -97,7 +97,7 @@ public class CreateDiagnosisController implements ILogger {
         }
 
         //create new diagnosis
-        IDiagnosis diagnosis = DependenceResolverTB2.getInstance().getFactory().createDiagnos(title, description, (Doctor) iDoctor);
+        IDiagnosis diagnosis = DependenceResolverTB2.getInstance().getFactory().createDiagnos(title, description, iDoctor);
         log.info("New diagnosis created.");
         iExaminationProtocol.setDiagnosis(diagnosis);
         log.info("Diagnosis added to examination protocol");

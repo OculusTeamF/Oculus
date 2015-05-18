@@ -7,19 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
-
-import java.util.Date;
+package at.oculus.teamf.technical.exceptions;
 
 /**
- * IVisualAid.java Created by oculus on 11.05.15.
+ * NoPrescriptionToPrintException.java
+ * Created by oculus on 17.05.15.
  */
-public interface IVisualAid extends IDomain {
-    void setDescription(String description);
-    void setLastPrint(Date lastPrint);
-    void setDiagnosis(IDiagnosis diagnosis);
-    void setIssueDate(Date issueDate);
-    void setDioptreLeft(Float dioptreLeft);
-    void setDioptreRight(Float dioptreRight);
-    Date getLastPrint();
+public class NoPrescriptionToPrintException extends Throwable {
 }

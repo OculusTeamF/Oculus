@@ -11,7 +11,10 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -31,8 +34,8 @@ import java.util.LinkedList;
 public class PatientQueue implements ILogger, IPatientQueue {
 
     //<editor-fold desc="Attributes">
-    private User _user;
-    private LinkedList<QueueEntry> _entries;
+    private IUser _user;
+    private LinkedList<IQueueEntry> _entries;
     //</editor-fold>
 
     public PatientQueue(User user, Collection<QueueEntry> entries) {
@@ -49,22 +52,13 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws BadConnectionException
      */
     //Todo: Proxy
-    public LinkedList<QueueEntry> getEntries() throws NoBrokerMappedException, BadConnectionException {
+    @Override
+    public LinkedList<IQueueEntry> getEntries()  {
         return _entries;
     }
 
-
-    //TODO Voruntersuchung static Methode
-
-    /**
-     * add patient to queue
-     *
-     * @param patient     patient to be added
-     * @param arrivaltime time of arrival
-     * @throws NoBrokerMappedException
-     * @throws BadConnectionException
-     */
-    public void addPatient(Patient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
+    @Override
+    public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
         // id of last queue element
         Integer parentId = null;
         if (!_entries.isEmpty()) {
@@ -95,20 +89,12 @@ public class PatientQueue implements ILogger, IPatientQueue {
         _entries.add(queueEntryNew);
     }
 
-    /**
-     * removes patient from queue
-     *
-     * @param patient patient to be removed
-     * @throws NoBrokerMappedException
-     * @throws BadConnectionException
-     * @throws InvalidSearchParameterException
-     */
-    //Todo: optimize
-    public void removePatient(Patient patient) throws CouldNotRemovePatientFromQueueException {
-        QueueEntry queueEntryDel = null;
-        QueueEntry queueEntryChd = null;
+    @Override
+    public void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException {
+        IQueueEntry queueEntryDel = null;
+        IQueueEntry queueEntryChd = null;
 
-        for (QueueEntry qe : _entries) {
+        for (IQueueEntry qe : _entries) {
             //finde entry to remove
             if (qe.getPatient().getId() == patient.getId()) {
                 queueEntryDel = qe;
@@ -120,7 +106,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             throw  new CouldNotRemovePatientFromQueueException();
         }
 
-        for (QueueEntry qe : _entries) {
+        for (IQueueEntry qe : _entries) {
             //finde child of entry to remove
             if ((qe.getQueueIdParent()) != null && (qe.getQueueIdParent().equals(queueEntryDel.getId()))) {
                 queueEntryChd = qe;
@@ -129,7 +115,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
         }
 
         if(queueEntryChd != null) {
-           queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
+            queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
         }
 
 
@@ -145,6 +131,5 @@ public class PatientQueue implements ILogger, IPatientQueue {
             log.error(e.getMessage());
             throw new CouldNotRemovePatientFromQueueException();
         }
-
     }
 }

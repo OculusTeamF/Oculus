@@ -9,14 +9,11 @@
   ~ You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import org.controlsfx.control.CheckComboBox?>
 <AnchorPane fx:id="prescriptionPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.PrescriptionController">
    <children>
       <GridPane prefHeight="612.0" prefWidth="906.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -47,27 +44,22 @@
                </GridPane.margin>
                <items>
                   <Label prefHeight="21.0" prefWidth="157.0" text="Choose Prescription:" />
-                  <ComboBox fx:id="choosePrescriptionBox" prefWidth="150.0" />
-                  <Button fx:id="printButton" onAction="#printPrescriptionButtonActionHandler" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
-                  <Button fx:id="saveButton" onAction="#savePrescriptionButtonActionHandler" mnemonicParsing="false" prefWidth="101.0" text="Save" />
+                  <ComboBox fx:id="choosePrescriptionBox" minHeight="31.0" prefWidth="150.0" />
+                  <Button fx:id="printButton" minHeight="31.0" mnemonicParsing="false" onAction="#printPrescriptionButtonActionHandler" prefHeight="31.0" prefWidth="101.0" text="Print" textAlignment="CENTER" />
+                  <Button fx:id="saveButton" minHeight="31.0" mnemonicParsing="false" onAction="#savePrescriptionButtonActionHandler" prefWidth="101.0" text="Save" />
                </items></ToolBar>
             <StackPane fx:id="prescriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="9">
                <children>
-              <AnchorPane fx:id="prescriptionVisualAidPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane fx:id="prescriptionVisualAidPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <GridPane prefHeight="587.0" prefWidth="939.0">
                            <children>
-                              <Label text="Prescription:" GridPane.rowIndex="6" />
-                              <ListView fx:id="prescriptionItemsVA" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                 <children>
-                                    <TextArea fx:id="visualAidPrescription" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
-                                 </children>
-                              </Pane>
+                              <Label text="Information:" GridPane.rowIndex="8" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
                                     <Label fx:id="lastnameVA" text="Last name" />
-                                     <Label text="   " />
+                                    <Label text="   " />
                                     <Label fx:id="firstnameVA" text=" First name" />
                                  </children>
                               </FlowPane>
@@ -92,6 +84,17 @@
                                     <Label fx:id="cityVA" contentDisplay="RIGHT" text="City" />
                                  </children>
                               </FlowPane>
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="2">
+                                 <children>
+                                    <Label layoutX="3.0" layoutY="9.0" text="Diopters Left:" />
+                                    <TextField fx:id="dioptersLeft" layoutX="102.0" layoutY="4.0" prefHeight="31.0" prefWidth="60.0" />
+                                    <Label layoutX="175.0" layoutY="9.0" text="Diopters Right:" />
+                                    <TextField fx:id="dioptersRight" layoutX="289.0" layoutY="4.0" prefHeight="31.0" prefWidth="60.0" />
+                                 </children>
+                              </Pane>
+                              <TextArea fx:id="visualAidInformation" editable="true" prefHeight="220.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                              <Label text="Kind of Visual Aid:" GridPane.rowIndex="5" />
+                              <ChoiceBox fx:id="visualAidChoiceBox" prefHeight="31.0" prefWidth="349.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="50.0" prefWidth="190.0" />
@@ -100,37 +103,31 @@
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="741.0" minWidth="10.0" prefWidth="161.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="119.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="173.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="220.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="243.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                            </rowConstraints>
                         </GridPane>
                      </children>
-              </AnchorPane>
-              <AnchorPane fx:id="prescriptionMedicalPane" minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="902.0">
+                  </AnchorPane>
+                  <AnchorPane fx:id="prescriptionMedicalPane" minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="902.0">
                      <children>
-                        <GridPane layoutX="1.0" prefHeight="587.0" prefWidth="939.0">
+                        <GridPane prefHeight="587.0" prefWidth="939.0">
                            <children>
-                              <Label text="Prescription:" GridPane.rowIndex="6" />
-                              <ListView fx:id="prescriptionItems" prefHeight="198.0" prefWidth="536.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="3" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                 <children>
-                                    <ComboBox fx:id="chooseMedicinBox" layoutY="4.0" prefHeight="31.0" prefWidth="276.0" />
-                                    <Button fx:id="addMedicinButton" layoutX="280.0" layoutY="4.0" mnemonicParsing="false" onAction="#addMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="+" />
-                                    <Button fx:id="removeMedicinButton" layoutX="315.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" prefHeight="31.0" prefWidth="34.0" text="-" />
-                                 </children>
-                              </Pane>
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                               <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
                                     <Label fx:id="lastname" text="Last name" />
-                                     <Label text="   " />
+                                    <Label text="   " />
                                     <Label fx:id="firstname" text=" First name" />
                                  </children>
                               </FlowPane>
@@ -155,6 +152,17 @@
                                     <Label fx:id="city" contentDisplay="RIGHT" text="City" />
                                  </children>
                               </FlowPane>
+                              <ListView fx:id="prescriptionItems" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                              </ListView>
+                              <Pane prefHeight="59.0" prefWidth="539.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                                 <children>
+                                    <Label layoutX="1.0" layoutY="13.0" text="Prescription:" />
+                                    <ComboBox fx:id="chooseMedicinBox" layoutX="188.0" layoutY="49.0" prefHeight="31.0" prefWidth="192.0" />
+                                    <Button fx:id="addNewEntryToTable" layoutX="391.0" layoutY="122.0" mnemonicParsing="false" onAction="#addNewPrescriptionEntryToTable" text="Add to Prescription" />
+                                    <Button fx:id="removeEntryFromTable" layoutX="189.0" layoutY="122.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" text="Remove from Prescription" />
+                                    <Label layoutX="43.0" layoutY="54.0" text="Medicamentation:" />
+                                 </children>
+                              </Pane>
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="50.0" prefWidth="190.0" />
@@ -163,14 +171,13 @@
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="741.0" minWidth="10.0" prefWidth="161.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="77.0" minHeight="7.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="122.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="160.0" minHeight="0.0" prefHeight="160.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="273.0" minHeight="10.0" prefHeight="244.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
                            </rowConstraints>

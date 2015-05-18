@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 
 import java.util.Collection;
@@ -37,21 +36,23 @@ public interface IExaminationProtocol extends IDomain {
 
     void setDescription(String description);
 
-    Doctor getDoctor();
+    IDoctor getDoctor();
 
-    void setDoctor(Doctor doctor);
+    void setCreateDate(Date createDate);
 
-    Orthoptist getOrthoptist();
+    void setDoctor(IDoctor doctor);
 
-    void setOrthoptist(Orthoptist orthoptist);
+    IOrthoptist getOrthoptist();
 
-    IDiagnosis getDiagnosis();
+    void setOrthoptist(IOrthoptist orthoptist);
+
+    IDiagnosis getTeamFDiagnosis();
 
     void setDiagnosis(IDiagnosis diagnosis);
 
-    Patient getPatient();
+    IPatient getPatient();
 
-    void setPatient(Patient patient);
+    void setPatient(IPatient patient);
 
     Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
 }

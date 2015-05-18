@@ -77,12 +77,14 @@ public class Prescription implements IPrescription, ILogger {
 
 
 	public Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException {
+		if(_prescriptionEntries == null) {
 			try {
 				Facade.getInstance().reloadCollection(this, PrescriptionEntry.class);
 			} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException | DatabaseOperationException e) {
 				log.error(e.getMessage());
 				throw new CantGetPresciptionEntriesException();
 			}
+		}
 		return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
 	}
 
@@ -103,11 +105,9 @@ public class Prescription implements IPrescription, ILogger {
 		PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
 		entry.setPrescription(this);
 		_prescriptionEntries.add(entry);
+
 		try {
-            Facade.getInstance().save(this);
-			for(PrescriptionEntry p : _prescriptionEntries){
-                Facade.getInstance().save(p);
-            }
+			Facade.getInstance().save(entry);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			log.error(e.getMessage());
 			throw new CouldNotAddPrescriptionEntryException();

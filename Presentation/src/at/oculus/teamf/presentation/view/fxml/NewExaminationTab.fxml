@@ -68,21 +68,23 @@
                   <Button fx:id="saveProtocolButton" mnemonicParsing="false" onAction="#saveExaminationButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Save Examination" textAlignment="CENTER" />
                   <Button fx:id="addDiagnosisButton" mnemonicParsing="false" onAction="#addDiagnosisButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Add Diagnosis" textAlignment="CENTER" />
                   <Button fx:id="prescriptionButton" mnemonicParsing="false" onAction="#addPrescriptionButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Prescriptions" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="_space_" visible="false" />
+                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshTab" prefHeight="31.0" prefWidth="155.0" text="Refresh" />
                </items></ToolBar>
             <Text fx:id="examinationLnameFnameSvn" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname, Firstname, svn" GridPane.rowIndex="1" />
             <Text fx:id="examinationCurrDate" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text=" Protocol description:" GridPane.rowIndex="3">
+            <Label text=" PROTOCOL:" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin></Label>
             <Text fx:id="examinationCurrTime" strokeType="OUTSIDE" strokeWidth="0.0" text="curr Time" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextArea fx:id="examinationDocumentation" prefHeight="111.0" prefWidth="302.0" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="5" />
-            <Label text=" Diagnosis:" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <Label text=" DIAGNOSIS:" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="diagnosisIdentity" text=" Diagnoses Details:" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <Label fx:id="diagnosisIdentity" text=" DIAGNOSIS DETAILS:" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets top="15.0" />
                </GridPane.margin>
@@ -91,7 +93,7 @@
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor></TextArea>
-            <Label text=" No diagnosis set" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="diagnosisTitle" disable="true" text="No diagnosis set" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

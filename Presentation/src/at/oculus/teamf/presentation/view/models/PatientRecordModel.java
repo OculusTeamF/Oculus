@@ -9,34 +9,43 @@
 
 package at.oculus.teamf.presentation.view.models;
 
+import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
-import com.sun.javafx.tk.Toolkit;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Fabian on 10.05.2015.
@@ -57,51 +66,36 @@ public class PatientRecordModel {
     /**
      * saves a updated Patient object
      */
-    public void savePatient(IPatient patient){
+    public void savePatient(IPatient patient)throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, CriticalDatabaseException, CriticalClassException{
+
         _model = Model.getInstance();
-        try {
-            _model.getCreatePatientController().saveIPatient(patient);
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequrementsNotMetException - Please contact support");
-        } catch (PatientCouldNotBeSavedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (CriticalDatabaseException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
-        } catch (CriticalClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
-        }
+        _model.getCreatePatientController().saveIPatient(patient);
     }
 
     /**
      * creates & saves a new Patient object
      */
-    public boolean saveNewPatient(String gender, String lastname, String firstname, String svn, Date bday, String street, String postalcode, String city, String phone, String email, IDoctor doctor, String countryIsoCode){
+    public boolean saveNewPatient(String gender, String lastname, String firstname, String svn, Date bday, String street, String postalcode, String city, String phone, String email, IDoctor doctor, String countryIsoCode)
+    {
         _model = Model.getInstance();
         try {
             _model.getCreatePatientController().createPatient(gender, lastname, firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
             return true;
-        } catch (RequirementsNotMetException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsNotMetException - Please contact support.");
-        } catch (PatientCouldNotBeSavedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "PatientCouldNotBeSavedException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (CriticalDatabaseException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
-        } catch (CriticalClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
+        } catch (RequirementsNotMetException requirementsNotMetException) {
+            requirementsNotMetException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("RequirementsNotMetException", "Please contact support");
+        } catch (PatientCouldNotBeSavedException patientCouldNotBeSavedException) {
+            patientCouldNotBeSavedException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("PatientCouldNotBeSavedException", "Please contact support");
+        } catch (BadConnectionException badConnectionException) {
+            badConnectionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+        } catch (CriticalDatabaseException criticalDatabaseException) {
+            criticalDatabaseException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");
+        } catch (CriticalClassException criticalClassException) {
+            criticalClassException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
         }
         return false;
     }
@@ -111,25 +105,114 @@ public class PatientRecordModel {
      * opens a popupwindow with the not printed prescriptions
      * @param patient
      */
-    public void openPrescriptionsToPrint(IPatient patient) {
+    public void openPrescriptionsToPrint(final PrescriptionController prescriptionController, IPatient patient) {
 
         IPatient currPatient = patient;
 
-        Parent root = null;
         Stage stage = new Stage();
+        stage.setTitle("Open Prescriptions");
+
+        Group root = new Group();
+        Scene scene = new Scene(root, 400, 300, Color.WHITE);
+
+        GridPane pane = new GridPane();
+        for(int i = 0; i < 3; i++){
+            ColumnConstraints column = new ColumnConstraints(150);
+            pane.getColumnConstraints().add(column);
+        }
+        pane.setPadding(new Insets(5));
+        pane.setHgap(10);
+        pane.setVgap(10);
+
+
+        //Content of Popup
+        Label label = new Label("Not printed Prescriptions:");
+        final ListView<IPrescription> openPrescriptions = new ListView<>();
+        Button printPrescriptionButton = new Button("Print Prescription");
+        Button deletePrescriptionButton = new Button("Delete Prescription");
+        deletePrescriptionButton.setDisable(true);
+
+       //Button ActionHandler
+        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
+
+                try {
+                    prescriptionController.printPrescription();
+                } catch (DatabaseOperationException dataBaseOperationException) {
+                    dataBaseOperationException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact support");
+                } catch (NoBrokerMappedException noBrokerMappedException) {
+                    noBrokerMappedException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact support");
+                } catch (BadConnectionException badConnectionException) {
+                    badConnectionException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+                } catch (COSVisitorException cosVisitorException) {
+                    cosVisitorException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("COSVisitorException", "Please contact support");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact support");
+                } catch (CantGetPresciptionEntriesException cantGetPresciptionEntriesException) {
+                    cantGetPresciptionEntriesException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact support");
+                } catch (NotInitatedExceptions notInitatedExceptions) {
+                    notInitatedExceptions.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+                } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
+                    noPrescriptionToPrintException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact support");
+                }
+            }
+        });
+
+        deletePrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
+
+                //TODO: _prescriptionController.deletePrescription();
+            }
+        });
 
         try {
-            root = FXMLLoader.load(getClass().getResource("fxml/notPrintedPresciptions.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
+           
+            prescriptionController.getNotPrintedPrescriptions(currPatient);
+        } catch (CouldNotGetPrescriptionException couldNotGetPrescriptionException) {
+            couldNotGetPrescriptionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotGetPrescriptionException", "Please contact support");
         }
 
-        //Create Popup
-        stage.setScene(new Scene(root));
-        stage.setTitle("Open Prescriptions");
+
+        pane.add(label, 0, 1, 2, 1);
+        pane.add(openPrescriptions, 0, 2, 3, 1);
+        pane.add(printPrescriptionButton, 0, 3);
+        pane.add(deletePrescriptionButton, 2, 3);
+        pane.setHgap(10);
+        pane.setVgap(5);
+
+        stage.setScene(new Scene(pane));
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.show();
 
-
-        stage.showAndWait();
+        try {
+            try {
+                PrescriptionController _prescriptionController = PrescriptionController.createController(currPatient);
+                ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
+                openPrescriptions.setItems(prescriptionList);
+            } catch (NoPatientException noPatientException) {
+                noPatientException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+            }
+        } catch (CouldNotGetPrescriptionException couldNotGetPrescriptionException) {
+            couldNotGetPrescriptionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotGetPrescriptionException", "Please contact support");
+        }
     }
 }

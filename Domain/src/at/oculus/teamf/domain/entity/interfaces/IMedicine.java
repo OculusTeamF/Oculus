@@ -9,14 +9,18 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Diagnosis;
-
 /**
  * Created by Simon Angerer on 08.05.2015.
  */
 public interface IMedicine extends IDomain {
 
-    IDiagnosis getDiagnosis();
+    IDiagnosis getTeamFDiagnosis();
     void setDiagnosis(IDiagnosis diagnosis);
+
+    String getName();
+    void setName(String name);
+
+    String getDose();
+    void setDose(String dose);
 
 }

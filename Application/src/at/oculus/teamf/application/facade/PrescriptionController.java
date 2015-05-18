@@ -15,6 +15,7 @@ import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
@@ -23,6 +24,7 @@ import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -31,6 +33,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -73,8 +76,10 @@ public class PrescriptionController implements ILogger, IPrinter {
      */
     private PrescriptionController(IPatient iPatient) throws NotInitatedExceptions {
         _iPatient = iPatient;
+
         iPrescription = DependenceResolverTB2.getInstance().getFactory().createPrescription();
         iPrescription.setPatient(iPatient);
+
 
     }
 
@@ -89,9 +94,10 @@ public class PrescriptionController implements ILogger, IPrinter {
         IPrescriptionEntry entry = DependenceResolverTB2.getInstance().getFactory().createPrescriptionEntry();
 
         IFacade facade = DependenceResolverTB2.getInstance().getFacade();
-        facade.save(entry);
+        facade.save(iPrescription);
 
         entry.setMedicine(iMedicine);
+        facade.save(entry);
         try {
             iPrescription.addPrescriptionEntry(entry);
         } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
@@ -110,25 +116,33 @@ public class PrescriptionController implements ILogger, IPrinter {
                 throw couldNotAddPrescriptionEntryException;
             }
         }
+
         return iPrescription;
     }
 
-    public Collection<IMedicine> getAllPrescribedMedicines(){
+    public Collection<IMedicine> getAllPrescribedMedicines() throws CouldNotGetMedicineException {
         Collection<IMedicine> medicines = new LinkedList<IMedicine>();
         try {
             medicines = _iPatient.getMedicine();
         } catch (CouldNotGetMedicineException e) {
-            //Todo
-            e.printStackTrace();
+            log.error("Could not get Medicine! " + e.getMessage());
+            throw e;
         }
         return medicines;
     }
 
-    public IPrescription printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, CantGetPresciptionEntriesException, NotInitatedExceptions {
+    public IPrescription printPrescription()
+		    throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException,
+		           IOException, CantGetPresciptionEntriesException, NotInitatedExceptions,
+		           NoPrescriptionToPrintException {
         //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
         try {
+	        if(iPrescription.getId()==0){
+                DependenceResolverTB2.getInstance().getFacade().save(iPrescription);
+	        }
+            DependenceResolverTB2.getInstance().getFacade().save(iPrescription);
             printer.printPrescription(iPrescription, _iPatient.getIDoctor());
-        } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException e) {
+        } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException | NoPrescriptionToPrintException e) {
             throw e;
         }
 
@@ -138,6 +152,27 @@ public class PrescriptionController implements ILogger, IPrinter {
         facade.save(iPrescription);
 
         return iPrescription;
+    }
+
+    public Collection<IPrescription> getNotPrintedPrescriptions(IPatient patient) throws CouldNotGetPrescriptionException {
+        Collection<IPrescription> notPrinted = null;
+        try {
+            notPrinted = patient.getPrescriptions();
+        } catch (CouldNotGetPrescriptionException e) {
+            throw e;
+        }
+
+        Iterator<IPrescription> iter = notPrinted.iterator();
+
+        while (iter.hasNext()) {
+            IPrescription ipres = iter.next();
+
+            if (ipres.getLastPrint() != null) {
+                iter.remove();
+            }
+        }
+
+        return notPrinted;
     }
 
 }
