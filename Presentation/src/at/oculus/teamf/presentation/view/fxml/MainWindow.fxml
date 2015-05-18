@@ -34,9 +34,9 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu disable="false" mnemonicParsing="false" text="View">
+                        <Menu disable="true" mnemonicParsing="false" text="View">
                             <items>
-                                <Menu disable="false" mnemonicParsing="false" text="Theme">
+                                <Menu disable="true" mnemonicParsing="false" text="Theme">
                                     <items>
                                         <RadioMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="true" text="Default Theme" />
                                         <RadioMenuItem id="darkTheme" fx:id="darkTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="false" text="Dark Theme" />

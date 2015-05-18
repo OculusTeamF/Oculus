@@ -118,7 +118,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         printButton.setTooltip(new Tooltip("Save prescription before using print"));
 
         //Medicin box
-        String text = "choose medicin ...";
+        String text = "choose medicine ...";
         chooseMedicinBox.setPromptText(text);
 
 
@@ -199,7 +199,6 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         _medicinList = FXCollections.observableArrayList();
 
         //because only a Doctor is allowed to edit a medicin
-        medicinTextfield.setEditable(false);
     }
 
     // *****************************************************************************************************************
@@ -219,7 +218,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         Collection<IDiagnosis> allDiagnoses = new LinkedList<IDiagnosis>();
 
 
-        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicin")) {
+        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicine")) {
 
             for (MedicineTableEntry med : _medicinList){
                 med.getMedicin().setDose(med.getDosage());
