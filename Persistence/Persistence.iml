@@ -36,5 +36,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="Technical" exported="" />
     <orderEntry type="library" exported="" name="Technical" level="project" />
+    <orderEntry type="library" exported="" name="oculus-tb2-0.1-SNAPSHOT" level="project" />
   </component>
 </module>

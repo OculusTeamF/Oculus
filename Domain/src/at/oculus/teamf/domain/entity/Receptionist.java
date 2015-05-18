@@ -9,9 +9,12 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamf.domain.entity.interfaces.IReceptionist;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Norskan on 03.04.2015.
@@ -53,6 +56,29 @@ public class Receptionist extends User implements IReceptionist {
     @Override
     public void setQueues(Collection<PatientQueue> queues) {
         _queues = queues;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        //TODO implement getExaminationProtocols()
+        return null;
+    }
+
+    @Override
+    public Integer getUserId() {
+        return _id;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getCreationDate() {
+        return null;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getIdleDate() {
+        return null;
     }
     //</editor-fold>
 }

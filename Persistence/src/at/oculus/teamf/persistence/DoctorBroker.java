@@ -27,7 +27,6 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -98,7 +97,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         doctorEntity.setCalendar(calendarEntity);
         // user data
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(entity.getUserId());
+        userEntity.setId(entity.getTeamFUserId());
         userEntity.setUserGroupId(entity.getUserGroupId());
         userEntity.setUserName(entity.getUserName());
         userEntity.setPassword(entity.getPassword());
@@ -107,7 +106,7 @@ public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements 
         userEntity.setLastName(entity.getLastName());
         userEntity.setEmail(entity.getEmail());
         userEntity.setCreateDate((Timestamp) entity.getCreateDate());
-        userEntity.setIdleDate((Timestamp) entity.getIdleDate());
+        userEntity.setIdleDate((Timestamp) entity.getTeamFIdleDate());
         //userEntity.setUserGroup(entity.getUserGroup());
         doctorEntity.setUser(userEntity);
         return doctorEntity;

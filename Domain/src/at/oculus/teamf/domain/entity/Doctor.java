@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamE.domain.interfaces.IUserTb2;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
@@ -23,14 +25,17 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.function.Supplier;
 
 
 // Todo: add docs, implement equals
 /**
  * @author Simon Angerer
  */
-public class Doctor extends User implements IDoctor, ILogger {
+public class Doctor extends User implements IDoctor, ILogger{
     //<editor-fold desc="Attributes">
     private int _id;
     private Calendar _calendar;
@@ -132,6 +137,29 @@ public class Doctor extends User implements IDoctor, ILogger {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public Integer getUserId() {
+        return _id;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getCreationDate() {
+        return null;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getIdleDate() {
+        return null;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        //TODO implement getExaminationProtocols()
+        return null;
     }
 
     //</editor-fold>

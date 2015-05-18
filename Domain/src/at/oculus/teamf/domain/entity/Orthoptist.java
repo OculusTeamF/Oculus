@@ -9,12 +9,16 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * domain orthoptist class
@@ -59,6 +63,29 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
     @Override
     public void setQueue(PatientQueue queue) {
         _queue = queue;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        //TODO implement getExaminationProtocols()
+        return null;
+    }
+
+    @Override
+    public Integer getUserId() {
+        return _id;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getCreationDate() {
+        return null;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getIdleDate() {
+        return null;
     }
     //</editor-fold>
 }
