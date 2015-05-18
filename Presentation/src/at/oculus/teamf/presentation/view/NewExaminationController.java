@@ -10,6 +10,7 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import javafx.animation.KeyFrame;
@@ -36,33 +37,44 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable {
 
-    @FXML private Button prescriptionButton;
-    @FXML private Button saveProtocolButton;
-    @FXML private Button addDiagnosisButton;
-    @FXML private Button refreshButton;
-    @FXML private Text examinationLnameFnameSvn;
-    @FXML private Text examinationCurrDate;
-    @FXML private Text examinationCurrTime;
-    @FXML private TextField diagnosisTitle;
-    @FXML private Label diagnosisIdentity;
-    @FXML private TextArea examinationDocumentation;
-    @FXML private TextArea diagnosisDetails;
+    @FXML
+    private Button prescriptionButton;
+    @FXML
+    private Button saveProtocolButton;
+    @FXML
+    private Button addDiagnosisButton;
+    @FXML
+    private Button refreshButton;
+    @FXML
+    private Text examinationLnameFnameSvn;
+    @FXML
+    private Text examinationCurrDate;
+    @FXML
+    private Text examinationCurrTime;
+    @FXML
+    private TextField diagnosisTitle;
+    @FXML
+    private Label diagnosisIdentity;
+    @FXML
+    private TextArea examinationDocumentation;
+    @FXML
+    private TextArea diagnosisDetails;
 
-    private Timeline timeline;
-    private Integer timeSeconds = 0;
+    private Timeline _timeline;
+    private Integer _timeSeconds = 0;
     private Model _model = Model.getInstance();
     private Date _startDate;
-    private IPatient initPatient;
+    private IPatient _initPatient;
 
     private IExaminationProtocol newexam;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initPatient =  _model.getTabModel().getInitPatient();
+        _initPatient = _model.getTabModel().getInitPatient();
 
         // setup controls
         _startDate = new Date();
-        examinationLnameFnameSvn.setText(" EXAMINATION: " + initPatient.getFirstName() + " " + initPatient.getLastName());
+        examinationLnameFnameSvn.setText(" EXAMINATION: " + _initPatient.getFirstName() + " " + _initPatient.getLastName());
         examinationCurrDate.setText("START: " + _startDate.toString());
         examinationCurrTime.setText("TIME: 00:00:00");
         diagnosisDetails.setDisable(true);
@@ -84,17 +96,17 @@ public class NewExaminationController implements Initializable {
         //prescriptionButton.setDisable(true);
 
         // start stopwatch
-        timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler() {
+        _timeline = new Timeline();
+        _timeline.setCycleCount(Timeline.INDEFINITE);
+        _timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler() {
             @Override
             public void handle(Event event) {
-                timeSeconds++;
+                _timeSeconds++;
                 // update timerLabel
-                examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds));
+                examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(_timeSeconds));
             }
         }));
-        timeline.playFromStart();
+        _timeline.playFromStart();
     }
 
     /* for stopwatch: converts seconds to HHMM format */
@@ -102,7 +114,7 @@ public class NewExaminationController implements Initializable {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(tz);
-        String time = df.format(new Date(secondtTime*1000L));
+        String time = df.format(new Date(secondtTime * 1000L));
         return time;
     }
 
@@ -113,17 +125,23 @@ public class NewExaminationController implements Initializable {
     // *****************************************************************************************************************
 
     @FXML
-    public void saveExaminationButtonHandler (ActionEvent actionEvent){
-        if (examinationDocumentation.getText().length() != 0){
-            IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
-            timeline.stop();
-            examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds) + " [Examination done]");
+    public void saveExaminationButtonHandler(ActionEvent actionEvent) {
+        if (examinationDocumentation.getText().length() != 0) {
+            IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+            _timeline.stop();
+            examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(_timeSeconds) + " [Examination done]");
             Date enddate = new Date();
 
-            if (_model.getLoggedInUser() instanceof Doctor) {
-                newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, (IDoctor) _model.getLoggedInUser(), null);
-            } else{
-                newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, null, (IOrthoptist) _model.getLoggedInUser());
+            try {
+                if (_model.getLoggedInUser() instanceof Doctor) {
+
+                    newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, (IDoctor) _model.getLoggedInUser(), null);
+
+                } else {
+                    newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, null, (IOrthoptist) _model.getLoggedInUser());
+                }
+            } catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
+                couldNotAddExaminationProtocol.printStackTrace();
             }
 
             saveProtocolButton.setDisable(true);
@@ -132,10 +150,10 @@ public class NewExaminationController implements Initializable {
     }
 
     @FXML
-    public void addDiagnosisButtonHandler (ActionEvent actionEvent){
+    public void addDiagnosisButtonHandler(ActionEvent actionEvent) {
         // add diagnosis for selected patient
         _model.getExaminationModel().setCurrentExaminationProtocol(newexam);
-        IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addDiagnosisTab(selectedPatient);
         addDiagnosisButton.setDisable(true);
         prescriptionButton.setDisable(false);
@@ -145,13 +163,13 @@ public class NewExaminationController implements Initializable {
     public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
         System.out.println("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
-        IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addPrescriptionTab(selectedPatient);
     }
 
     @FXML
     public void refreshTab(ActionEvent actionEvent) {
-        IDiagnosis diag = newexam.getDiagnosis();
+        IDiagnosis diag = newexam.getTeamFDiagnosis();
         if (diag != null) {
             diagnosisTitle.setText(diag.getTitle());
             diagnosisDetails.setText(diag.getDescription());

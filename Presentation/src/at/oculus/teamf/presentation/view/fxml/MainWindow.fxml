@@ -34,9 +34,9 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu disable="false" mnemonicParsing="false" text="View">
+                        <Menu mnemonicParsing="false" text="View">
                             <items>
-                                <Menu disable="false" mnemonicParsing="false" text="Theme">
+                                <Menu disable="true" mnemonicParsing="false" text="Theme">
                                     <items>
                                         <RadioMenuItem id="defaultTheme" fx:id="defaultTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="true" text="Default Theme" />
                                         <RadioMenuItem id="darkTheme" fx:id="darkTheme" mnemonicParsing="false" onAction="#clickMenuItemThemeSelection" selected="false" text="Dark Theme" />
@@ -49,7 +49,7 @@
                                         <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />
                                     </items>
                                 </Menu>
-                                <MenuItem disable="true" mnemonicParsing="false" onAction="#openPatientProperty" text="Patient Property (Test)" />
+                                <MenuItem mnemonicParsing="false" onAction="#openTestTab" text="Open Test Tab (Debug)" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Patient">

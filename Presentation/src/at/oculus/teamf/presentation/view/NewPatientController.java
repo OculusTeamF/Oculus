@@ -14,6 +14,7 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.presentation.view.models.Model;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,7 +51,7 @@ public class NewPatientController implements Initializable{
     @FXML private TextField newPatientCountryIsoCode;
 
     private Model _model = Model.getInstance();
-    private ToggleGroup group = new ToggleGroup();
+    private ToggleGroup _group = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,9 +71,16 @@ public class NewPatientController implements Initializable{
 
         newPatientDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
 
-        radioGenderFemale.setToggleGroup(group);
-        radioGenderMale.setToggleGroup(group);
-        radioGenderFemale.setSelected(true);
+        radioGenderFemale.setToggleGroup(_group);
+        radioGenderMale.setToggleGroup(_group);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                newPatientLastname.requestFocus();
+            }
+        });
+
     }
 
     /*Triggers the saveNewPatient() method from Model when 'save' button is pressed*/
@@ -93,32 +101,49 @@ public class NewPatientController implements Initializable{
 
         //check if mandatory fields are filled with data
         boolean filled = true;
+
+        if(lastname.isEmpty()){
+            filled = false;
+            newPatientLastname.requestFocus();
+            newPatientLastname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please fill in Last name.");
+            return;
+        }
+        if(firstname.isEmpty()){
+            filled = false;
+            newPatientFirstname.requestFocus();
+            newPatientFirstname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please fill in First name.");
+            return;
+        }
+        if(svn.isEmpty()){
+            filled = false;
+            newPatientSVN.requestFocus();
+            newPatientSVN.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please fill in Social insurance number.");
+            return;
+        }
+        if(newPatientBday.getValue() == null) {
+            filled = false;
+            newPatientBday.requestFocus();
+            newPatientBday.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please fill in birthday.");
+            return;
+        }
         if(radioGenderFemale.isSelected()){
             gender = "female";
         }else if(radioGenderMale.isSelected()){
             gender = "male";
         }else{
             filled = false;
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please fill in gender.");
+            return;
         }
-        if(lastname.isEmpty()){
+        if(newPatientDoctor.getSelectionModel().isEmpty()){
             filled = false;
-            newPatientLastname.requestFocus();
-            newPatientLastname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
-        }
-        if(firstname.isEmpty()){
-            filled = false;
-            newPatientFirstname.requestFocus();
-            newPatientFirstname.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
-        }
-        if(svn.isEmpty()){
-            filled = false;
-            newPatientSVN.requestFocus();
-            newPatientSVN.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
-        }
-        if(newPatientBday.getValue() == null) {
-            filled = false;
-            newPatientBday.requestFocus();
-            newPatientBday.setStyle("-fx-control-inner-background: lightgoldenrodyellow");
+            newPatientDoctor.requestFocus();
+            DialogBoxController.getInstance().showInformationDialog("Information", "Please choose a Doctor.");
+            return;
         }
 
 

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity.factory;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.persistence.Facade;

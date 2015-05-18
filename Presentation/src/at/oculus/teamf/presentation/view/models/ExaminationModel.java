@@ -22,11 +22,10 @@ import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.presentation.view.DialogBoxController;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
+
 
 /**
  * Created by Fabian on 10.05.2015.
@@ -37,8 +36,6 @@ public class ExaminationModel {
 
     private IExaminationProtocol _eximationprotocol;
     private CreateDiagnosisController _createDiagnosisController;
-
-    private HashMap<IPatient, IExaminationProtocol> _examinationmap;
 
     public static ExaminationModel getInstance() {
         if(_examinationmodel == null) {
@@ -54,56 +51,36 @@ public class ExaminationModel {
      * @param patient
      * @return Collection<IExaminationProtocol>
      */
-    public Collection<IExaminationProtocol> getAllExaminationProtcols(IPatient patient){
+    public Collection<IExaminationProtocol> getAllExaminationProtcols(IPatient patient) throws CouldNotGetExaminationProtolException
+    {
         _model = Model.getInstance();
-        Collection<IExaminationProtocol> protocols = null;
-
-        try {
-            protocols = _model.getReceivePatientController().getAllExaminationProtocols(patient);
-        } catch (CouldNotGetExaminationProtolException e) {
-            e.printStackTrace();
-        }
+        Collection<IExaminationProtocol> protocols = _model.getReceivePatientController().getAllExaminationProtocols(patient);
 
         return protocols;
     }
 
     /**
-     * creates a new examinationprotocol
+     * creates a new Exanmination Protocol
+     * @param startdate
+     * @param enddate
+     * @param examinationDocumentation
+     * @param patient
+     * @param doctor
+     * @param orthoptist
+     * @return
      */
-    public IExaminationProtocol newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) {
+    public IExaminationProtocol newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) throws CouldNotAddExaminationProtocol{
         _model = Model.getInstance();
-        try {
-            return _model.getReceivePatientController().createNewExaminationProtocol(startdate, enddate, examinationDocumentation, patient, doctor, orthoptist);
-        } catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
-            couldNotAddExaminationProtocol.printStackTrace();
-        }
 
-        return null;
+        return _model.getReceivePatientController().createNewExaminationProtocol(startdate, enddate, examinationDocumentation, patient, doctor, orthoptist);
     }
 
 
-    public void addNewPatientDiagnosis(String title, String description, IDoctor doc, IExaminationProtocol exp) throws NotInitatedExceptions {
-        try {
-            _createDiagnosisController = CreateDiagnosisController.CreateController(exp);
-        } catch (NoExaminationProtocolException e) {
-            e.printStackTrace();
-        }
+    public void addNewPatientDiagnosis(String title, String description, IDoctor doc, IExaminationProtocol exp) throws NoExaminationProtocolException, NotInitatedExceptions, BadConnectionException, RequirementsUnfulfilledException, CriticalDatabaseException, CriticalClassException{
 
-        try {
-            _createDiagnosisController.createDiagnosis(title,description, doc);
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (RequirementsUnfulfilledException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "RequirementsUnfulfilledException - Please contact support");
-        } catch (CriticalDatabaseException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
-        } catch (CriticalClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
-        }
+        _createDiagnosisController = CreateDiagnosisController.CreateController(exp);
+        _createDiagnosisController.createDiagnosis(title,description, doc);
+
     }
 
     public IExaminationProtocol getCurrentExaminationProtocol(){
@@ -111,15 +88,6 @@ public class ExaminationModel {
     }
     public void setCurrentExaminationProtocol(IExaminationProtocol ep){
         _eximationprotocol = ep;
-    }
-
-    public void setExaminationMapEntry(IExaminationProtocol exp, IPatient pat){  _examinationmap.put(pat, exp); }
-
-    public void removeExaminationMapEntry(IExaminationProtocol exp){  _examinationmap.remove(exp); }
-
-    public IExaminationProtocol getExaminationFromSelectedPatient(IPatient patient){
-        IExaminationProtocol exp =  _examinationmap.get(patient);
-        return exp;
     }
 
 }

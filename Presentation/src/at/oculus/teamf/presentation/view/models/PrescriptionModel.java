@@ -15,11 +15,11 @@ import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotIn
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
@@ -32,14 +32,12 @@ import java.util.Collection;
 public class PrescriptionModel {
 
     private static PrescriptionModel _prescriptionModel = new PrescriptionModel();
-    private Model _model;
 
     private PrescriptionController _prescriptionController;
     private VisualAidController _visualAidPrescriptionController;
 
+    private IPatient _currPatient;
 
-
-    private IPatient currPatient;
 
     public static PrescriptionModel getInstance() {
         if(_prescriptionModel == null) {
@@ -50,116 +48,62 @@ public class PrescriptionModel {
     }
 
 
-    public void addNewPrescription(IPatient patient) throws NotInitatedExceptions {
+    /**
+     *
+     * @param patient
+     * @throws NotInitatedExceptions
+     */
+    public void addNewPrescription(IPatient patient) throws NotInitatedExceptions, NoPatientException {
 
-        Collection<IPrescription> notPrintedPrescriptions = null;
-        Collection<IVisualAid> notPrintedVisualAid = null;
+        _prescriptionController = PrescriptionController.createController(patient);
 
-        try {
-            _prescriptionController = PrescriptionController.createController(patient);
-        } catch (NoPatientException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoPatientException - Please contact support");
-        }
-
-        currPatient = patient;
-
+        _currPatient = patient;
     }
 
     /**
-     * put a not printed IPrescription in HashMap
+     * creates a new PrescriptionEntry
      * @param medicinList
-     * @return IPrescription
+     * @return
      * @throws NotInitatedExceptions
      */
 
-    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions {
+    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions, CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException {
 
-        IPrescription prescription = null;
-
-        try {
-            prescription = _prescriptionController.createPrescriptionEntry(medicinList);
-        } catch (CouldNotAddPrescriptionEntryException e) {
-            e.printStackTrace();
-            //DialogBoxController.getInstance().showExceptionDialog(e, "CouldNotAddPrescriptionEntryException - Please contact support");
-        } catch (DatabaseOperationException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "DatabaseOperationException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        }
+        _prescriptionController.createPrescriptionEntry(medicinList);
     }
 
-    public void printPrescription() {
+    public void printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, NotInitatedExceptions, NoPrescriptionToPrintException, CantGetPresciptionEntriesException {
 
-        try {
-            _prescriptionController.printPrescription();
-        } catch (DatabaseOperationException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "DatabaseOperationException - Please contact support");
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoBrokerMappedException - Please contact support");
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (COSVisitorException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-        } catch (NoPrescriptionToPrintException e) {
-	        e.printStackTrace();
-        } catch (CantGetPresciptionEntriesException e) {
-            e.printStackTrace();
-        }
+        _prescriptionController.printPrescription();
     }
 
     public Collection<IMedicine> getPrescribedMedicin() {
 
-        Collection<IMedicine> prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
+        Collection<IMedicine> prescribedMedicins = null;
+        try {
+            prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
+        } catch (CouldNotGetMedicineException e) {
+            e.printStackTrace();
+        }
 
         return prescribedMedicins;
     }
 
-    public void addNewVisualAidPrescription(IDiagnosis diagnose) {
+    public void addNewVisualAidPrescription(IDiagnosis diagnose) throws NoPatientException, NotInitatedExceptions{
 
-        try {
-            _visualAidPrescriptionController = VisualAidController.createController(diagnose);
-        } catch (NoPatientException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "NoPatientException - Please contact support");
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-        }
+        _visualAidPrescriptionController = VisualAidController.createController(diagnose);
 
     }
 
     /**
-     * puts a notPrintedPrescription into the Hashmap
+     * creates a new VisualAid prescription entry
      * @param description
      * @param dioptersLeft
      * @param dioptersRight
      */
-    public void addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) {
+    public void addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions{
 
-        IVisualAid visualAid = null;
+        _visualAidPrescriptionController.createVisualAidPrescription(description, dioptersLeft, dioptersRight);
 
-        try {
-           visualAid =  _visualAidPrescriptionController.createVisualAidPrescription(description, dioptersLeft, dioptersRight);
-        } catch (DatabaseOperationException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-        }
     }
 }

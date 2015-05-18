@@ -194,8 +194,8 @@ public class MainController implements Initializable, ILogger {
 
     /*Button: opens test action*/
     @FXML
-    public void openPatient(ActionEvent actionEvent) {
-        System.out.println(DialogBoxController.getInstance().showYesNoDialog("Frage", "ist es OK?"));
+    public void openTestTab(ActionEvent actionEvent) {
+        _model.getTabModel().addTestTab(_model.getPatient());
     }
 
     /* MenuItem for the selection of the Theme*/
@@ -204,10 +204,10 @@ public class MainController implements Initializable, ILogger {
         MenuItem src = (MenuItem) actionEvent.getSource();
         switch(src.getId()) {
             case "defaultTheme":
-                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
+                Main._scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
                 break;
             case "darkTheme":
-                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_dark.css").toExternalForm());
+                Main._scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_dark.css").toExternalForm());
                 break;
             case "customTheme":
                 DialogBoxController.getInstance().showInformationDialog("theme","show custom theme");

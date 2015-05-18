@@ -9,9 +9,14 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.domain.entity.interfaces.IReceptionist;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Norskan on 03.04.2015.
@@ -20,8 +25,8 @@ public class Receptionist extends User implements IReceptionist {
 
     //<editor-fold desc="Attributes">
     private int _id;
-    private Collection<Calendar> _calendars;
-    private Collection<PatientQueue> _queues;
+    private Collection<ICalendar> _calendars;
+    private Collection<IPatientQueue> _queues;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -36,23 +41,46 @@ public class Receptionist extends User implements IReceptionist {
     }
 
     @Override
-    public Collection<Calendar> getCalendars() {
+    public Collection<ICalendar> getCalendars() {
         return _calendars;
     }
 
     @Override
-    public void setCalendars(Collection<Calendar> calendars) {
+    public void setCalendars(Collection<ICalendar> calendars) {
         _calendars = calendars;
     }
 
     @Override
-    public Collection<PatientQueue> getQueues() {
+    public Collection<IPatientQueue> getQueues() {
         return _queues;
     }
 
     @Override
-    public void setQueues(Collection<PatientQueue> queues) {
+    public void setQueues(Collection<IPatientQueue> queues) {
         _queues = queues;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        //TODO implement getExaminationProtocols()
+        return null;
+    }
+
+    @Override
+    public Integer getUserId() {
+        return _id;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getCreationDate() {
+        return null;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getIdleDate() {
+        return null;
     }
     //</editor-fold>
 }

@@ -9,7 +9,11 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.presentation.view.models.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +46,7 @@ public class QueueController implements Initializable {
     @FXML private VBox vboxQueues;
 
     private Model _model = Model.getInstance();
-    private ObservableList<IPatient> patientlist;
+    private ObservableList<IPatient> _patientlist;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,7 +67,7 @@ public class QueueController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2 || event.getClickCount() == 1) {
-                    //_model.setPatient((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
+
                     _model.getTabModel().addPatientRecordTab((IPatient) listSearchResults.getSelectionModel().getSelectedItem());
                 }
             }
@@ -109,18 +113,18 @@ public class QueueController implements Initializable {
                 textSearch.setDisable(false);
 
                 // list results and setup controls
-                if (patientlist.size() > 0) {
-                    listSearchResults.setItems(patientlist);
-                    listSearchResults.setPrefHeight((patientlist.size() * 25));
+                if (_patientlist.size() > 0) {
+                    listSearchResults.setItems(_patientlist);
+                    listSearchResults.setPrefHeight((_patientlist.size() * 25));
                     searchResults.setDisable(false);
                     searchResults.setExpanded(true);
-                    searchResults.setText("Search Results (" + patientlist.size() + "):");
-                    StatusBarController.getInstance().setText("Found patients: " + patientlist.size());
+                    searchResults.setText("Search Results (" + _patientlist.size() + "):");
+                    StatusBarController.getInstance().setText("Found patients: " + _patientlist.size());
                 } else {
                     searchResults.setText("Search Results (None)");
                     searchResults.setExpanded(false);
                     searchResults.setDisable(true);
-                    listSearchResults.setItems(patientlist);
+                    listSearchResults.setItems(_patientlist);
                     listSearchResults.setPrefHeight(0);
                     StatusBarController.getInstance().setText("No patients found");
                 }
@@ -147,7 +151,21 @@ public class QueueController implements Initializable {
                 textSearch.setDisable(true);
 
                 // application layer acces for search
-                patientlist = FXCollections.observableList((List)_model.getSearchModel().searchPatients(textSearch.getText()));
+                try {
+                    _patientlist = FXCollections.observableList((List)_model.getSearchModel().searchPatients(textSearch.getText()));
+                } catch (BadConnectionException badConnectionException) {
+                    badConnectionException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+                } catch (CriticalClassException criticalClassException) {
+                    criticalClassException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
+                } catch (CriticalDatabaseException criticalDatabaseException) {
+                    criticalDatabaseException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");
+                } catch (InvalidSearchParameterException invalidSearchParameterException) {
+                    invalidSearchParameterException.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("InvalidSearchParameterException", "Please contact support");
+                }
                 return null;
             }
         };

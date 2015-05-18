@@ -24,11 +24,11 @@ public interface IOrthoptist extends IUser {
 
     void setId(int id);
 
-    Calendar getCalendar();
+    ICalendar getCalendar();
 
-    void setCalendar(Calendar calendar);
+    void setCalendar(ICalendar calendar);
 
-    PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
+    IPatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
 
-    void setQueue(PatientQueue queue);
+    void setQueue(IPatientQueue queue);
 }

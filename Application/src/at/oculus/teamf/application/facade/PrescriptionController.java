@@ -121,13 +121,13 @@ public class PrescriptionController implements ILogger, IPrinter {
         return iPrescription;
     }
 
-    public Collection<IMedicine> getAllPrescribedMedicines(){
+    public Collection<IMedicine> getAllPrescribedMedicines() throws CouldNotGetMedicineException {
         Collection<IMedicine> medicines = new LinkedList<IMedicine>();
         try {
             medicines = _iPatient.getMedicine();
         } catch (CouldNotGetMedicineException e) {
-            //Todo
-            e.printStackTrace();
+            log.error("Could not get Medicine! " + e.getMessage());
+            throw e;
         }
         return medicines;
     }
@@ -139,7 +139,7 @@ public class PrescriptionController implements ILogger, IPrinter {
         //IPrinter only has to be implemented in class head and then can be used with printer.METHOD
         try {
 	        if(iPrescription.getId()==0){
-		        Facade.getInstance().save(iPrescription);
+                DependenceResolverTB2.getInstance().getFacade().save(iPrescription);
 	        }
             DependenceResolverTB2.getInstance().getFacade().save(iPrescription);
             printer.printPrescription(iPrescription, _iPatient.getIDoctor());
@@ -172,15 +172,6 @@ public class PrescriptionController implements ILogger, IPrinter {
                 iter.remove();
             }
         }
-
-/*
-        if (notPrinted != null) {
-            for (IPrescription prescription : notPrinted) {
-                if (prescription.getLastPrint() == null) {
-                    notPrinted.remove(prescription);
-                }
-            }
-        }*/
 
         return notPrinted;
     }

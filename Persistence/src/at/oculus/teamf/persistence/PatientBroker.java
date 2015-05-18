@@ -15,6 +15,7 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -61,7 +62,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		} else if (clazz == ExaminationProtocol.class) {
             ((Patient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
         } else if (clazz == Prescription.class) {
-			((Patient) obj).setPrescriptions(reloadPrescriptions(session, obj));
+			((Patient) obj).setPrescriptions((Collection<IPrescription>)(Collection<?>)reloadPrescriptions(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
 		}

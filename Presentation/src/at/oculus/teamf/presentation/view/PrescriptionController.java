@@ -10,17 +10,23 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,7 +39,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -69,22 +77,16 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
     @FXML public Label city;
     @FXML public TextArea visualAidInformation;
     @FXML public ChoiceBox visualAidChoiceBox;
-    @FXML public TextField medicinTextfield;
-    @FXML public TextField dosageTextfield;
-    @FXML public TextField informationTextfield;
     @FXML public Button removeEntryFromTable;
     @FXML public Button addNewEntryToTable;
     @FXML public TextField dioptersRight;
     @FXML public TextField dioptersLeft;
-    @FXML private TableView prescriptionItems;
-    @FXML private TableColumn medicamentationCol;
-    @FXML private TableColumn dosageCol;
-    @FXML private TableColumn Informationcol;
+    @FXML private ListView prescriptionItems;
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
-    private ObservableList<MedicineTableEntry> _medicinList;
+    private ObservableList<IMedicine> _medicinList;
 
 
     @Override
@@ -106,11 +108,10 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveButton.setGraphic(new ImageView(imageSaveIcon));
-        printButton.setDisable(true);
         printButton.setTooltip(new Tooltip("Save prescription before using print"));
 
         //Medicin box
-        String text = "choose medicin ...";
+        String text = "choose medicine ...";
         chooseMedicinBox.setPromptText(text);
 
 
@@ -119,6 +120,10 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             _prescriptionModel.addNewPrescription(_model.getPatient());
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+        } catch (NoPatientException noPatientException) {
+            noPatientException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
         }
         ObservableList<IMedicine> prescribedMedicin = FXCollections.observableArrayList((List)_prescriptionModel.getPrescribedMedicin());
         chooseMedicinBox.setItems(prescribedMedicin);
@@ -173,20 +178,8 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             }
         });
 
-        //TableView
-        medicamentationCol.setCellValueFactory(
-                new PropertyValueFactory<MedicineTableEntry,String>("medicin")
-        );
-        dosageCol.setCellValueFactory(
-                new PropertyValueFactory<MedicineTableEntry,String>("dosage")
-        );
-        Informationcol.setCellValueFactory(
-                new PropertyValueFactory<MedicineTableEntry,String>("information")
-        );
-
         _medicinList = FXCollections.observableArrayList();
 
-        //medicinTextfield.setEditable(false);
     }
 
     // *****************************************************************************************************************
@@ -206,134 +199,140 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         Collection<IDiagnosis> allDiagnoses = new LinkedList<IDiagnosis>();
 
 
-        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicin")) {
+        if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicine")) {
 
-            for (MedicineTableEntry med : _medicinList){
-                med.getMedicin().setDose(med.getDosage());
-                medicinList.add(med.getMedicin());
+           ObservableList<IMedicine> prescribedMedicine = prescriptionItems.getItems();
+
+            for(IMedicine med : prescribedMedicine){
+                medicinList.add(med);
             }
 
             try {
-                //_prescriptionModel.addNewPrescription(patient);
                 _prescriptionModel.addPrescriptionEntries(medicinList);
                 printButton.setDisable(false);
                 log.info("Medicine Prescription saved for " + patient.getLastName());
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
-                //Todo: handle
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact Support ");
+            } catch (DatabaseOperationException databaseOperationException) {
+                databaseOperationException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact Support ");
+            } catch (BadConnectionException badConnectionException) {
+                badConnectionException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact Support ");
+            } catch (CouldNotAddPrescriptionEntryException CouldNotAddPrescriptionEntryException) {
+                CouldNotAddPrescriptionEntryException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotAddPrescriptionEntryException", "Please contact Support ");
+            } catch (NoBrokerMappedException noBrokerMappedException) {
+                noBrokerMappedException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact Support ");
             }
         }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid"))
         {
             try {
                 allDiagnoses = _model.getPatient().getDiagnoses();
-            } catch (CouldNotGetDiagnoseException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showInformationDialog("CouldNotGetDiagnoseException", "Cannot Save Prescription - No Diagnose ");
+            } catch (CouldNotGetDiagnoseException couldNotGetDiagnoseException) {
+                couldNotGetDiagnoseException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotGetDiagnoseException", "Cannot Save Prescription - No Diagnose ");
             }
 
             IDiagnosis diagnosis = allDiagnoses.iterator().next();
-            _prescriptionModel.addNewVisualAidPrescription(diagnosis);
+            try {
+                _prescriptionModel.addNewVisualAidPrescription(diagnosis);
+            } catch (NoPatientException noPatientException) {
+                noPatientException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Cannot Save Prescription - No Diagnose ");
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
+            }
+            try{
             _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
-            printButton.setDisable(false);
+            } catch (DatabaseOperationException databaseOperationException) {
+                databaseOperationException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Cannot Save Prescription - No Diagnose ");
+            } catch (NoBrokerMappedException noBrokerMappedException) {
+                noBrokerMappedException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Cannot Save Prescription - No Diagnose ");
+            } catch (BadConnectionException badConnectionException) {
+                badConnectionException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Cannot Save Prescription - No Diagnose ");
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
+            }
             log.info("Visual aid prescription saved for " + patient.getLastName());
         }
     }
 
 
+    /**
+     * prints out a medical Prescription
+     */
     @FXML
     public void printPrescriptionButtonActionHandler() {
 
-        //TODO: print and save prescription
-        _prescriptionModel.printPrescription();
-
-        //save prescription
-        IPatient patient = _model.getPatient();
-
-        Collection<IMedicine> medicinList = new LinkedList<IMedicine>();
-
         try {
-            //_prescriptionModel.addNewPrescription(patient);
-            _prescriptionModel.addPrescriptionEntries(medicinList);
+            _prescriptionModel.printPrescription();
+        } catch (DatabaseOperationException databaseOperationException) {
+            databaseOperationException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact Support ");
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            noBrokerMappedException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact Support ");
+        } catch (BadConnectionException badConnectionException) {
+            badConnectionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact Support ");
+        } catch (COSVisitorException cosVisitorException) {
+            cosVisitorException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("COSVisitorException", "Please contact Support ");
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact Support ");
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
-            //Todo: handle
+            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact Support ");
+        } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
+            noPrescriptionToPrintException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact Support ");
+        } catch (CantGetPresciptionEntriesException cantGetPrescriptionEntriesException) {
+            cantGetPrescriptionEntriesException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact Support ");
         }
     }
 
 
     // *****************************************************************************************************************
     //
-    // TABLEVIEW METHODS
+    // LISTVIEW METHODS
     //
     // *****************************************************************************************************************
 
     @FXML
     public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
 
-        if (dosageTextfield.getText().length() > 0 && chooseMedicinBox.getSelectionModel().getSelectedItem() != null) {
+        IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
 
-            IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
-
-            MedicineTableEntry newEntry = new MedicineTableEntry(itemToAdd, dosageTextfield.getText(), informationTextfield.getText());
-            _medicinList.add(newEntry);
-            prescriptionItems.setItems(_medicinList);
-            clearFields();
-        }
+        _medicinList.add(itemToAdd);
+        prescriptionItems.setItems(_medicinList);
+        clearFields();
+        log.info("Medicin: "+itemToAdd+" was added to the Prescription");
     }
 
     //remove the Medicin from the PrescriptionList
     @FXML
     public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
         if (_medicinList.size() > 0 ) {
-            MedicineTableEntry itemToRemove = (MedicineTableEntry) prescriptionItems.getSelectionModel().getSelectedItem();
+            IMedicine itemToRemove = (IMedicine) prescriptionItems.getSelectionModel().getSelectedItem();
             _medicinList.remove(itemToRemove);
+            log.info("Medicin: " + itemToRemove + " was removed from the Prescription");
         }
     }
 
     @FXML
     public void clearFields() {
-        dosageTextfield.clear();
-        informationTextfield.clear();
+
         chooseMedicinBox.getSelectionModel().clearSelection();
-    }
-
-    // *****************************************************************************************************************
-    //
-    // TABLEVIEW DATAENTRY BEAN
-    //
-    // *****************************************************************************************************************
-
-    public static class MedicineTableEntry {
-        private final ObjectProperty<IMedicine> medicin;
-        private final SimpleStringProperty dosage;
-        private final SimpleStringProperty information;
-
-        public MedicineTableEntry(IMedicine medicin, String dosage, String information){
-            this.medicin = new SimpleObjectProperty(medicin);
-            this.dosage = new SimpleStringProperty(dosage);
-            this.information = new SimpleStringProperty(information);
-        }
-
-        public IMedicine getMedicin() {
-            return medicin.get();
-        }
-        public void setMedicin(IMedicine med) {
-            medicin.set(med);
-        }
-
-        public String getDosage() {
-            return dosage.get();
-        }
-        public void setDosage(String dos) {
-            dosage.set(dos);
-        }
-
-        public String getInformation() {
-            return information.get();
-        }
-        public void setInformation(String inf) {
-            information.set(inf);
-        }
     }
 }
 

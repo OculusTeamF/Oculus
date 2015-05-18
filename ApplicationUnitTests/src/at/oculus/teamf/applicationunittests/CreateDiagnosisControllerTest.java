@@ -59,9 +59,9 @@ public class CreateDiagnosisControllerTest {
         CreateDiagnosisController createDiagnosisController =  CreateDiagnosisController.CreateController(iExaminationProtocol);
         iDiagnosis = createDiagnosisController.createDiagnosis("title", "description", iDoctor);
 
-        assert (iExaminationProtocol.getDiagnosis().getTitle().equals("title"));
-        assert (iExaminationProtocol.getDiagnosis().getDescription().equals("description"));
-        assert (iExaminationProtocol.getDiagnosis().getDoctor().equals(iDoctor));
+        assert (iExaminationProtocol.getTeamFDiagnosis().getTitle().equals("title"));
+        assert (iExaminationProtocol.getTeamFDiagnosis().getDescription().equals("description"));
+        assert (iExaminationProtocol.getTeamFDiagnosis().getDoctor().equals(iDoctor));
         assert (iPatient.getExaminationProtocol().contains(iExaminationProtocol));
     }
 

@@ -45,10 +45,6 @@
             <Label text="Street address" GridPane.rowIndex="5" />
             <Label text="Post code" GridPane.rowIndex="7" />
             <Label contentDisplay="RIGHT" text="City" GridPane.rowIndex="6" />
-            <Label text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="190.0" />
-               </GridPane.margin></Label>
             <Label text="Phone number" GridPane.rowIndex="9" />
             <Label text="Email" GridPane.rowIndex="8" />
             <Label focusTraversable="false" text="Gender" GridPane.rowIndex="10" />
@@ -60,14 +56,15 @@
             <TextField fx:id="newPatientSVN" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <DatePicker fx:id="newPatientBday" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="newPatientPLZ" alignment="CENTER" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="newPatientCity" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7">
+             <TextField fx:id="newPatientCity" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="newPatientPLZ" alignment="CENTER" maxWidth="-Infinity" prefHeight="31.0" prefWidth="141.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="newPatientCountryIsoCode" prefHeight="31.0" prefWidth="53.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="240.0" />
-               </GridPane.margin></TextField>
+               </GridPane.margin>
+            </TextField>
+             <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField fx:id="newPatientPhone" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <RadioButton fx:id="radioGenderFemale" mnemonicParsing="false" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <RadioButton fx:id="radioGenderMale" mnemonicParsing="false" text="Male" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <padding>
@@ -75,6 +72,10 @@
                </padding>
             </RadioButton>
             <ChoiceBox fx:id="newPatientDoctor" prefHeight="25.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <Label prefHeight="21.0" prefWidth="58.0" text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="160.0" />
+               </GridPane.margin></Label>
          </children>
       </GridPane>
    </children>
