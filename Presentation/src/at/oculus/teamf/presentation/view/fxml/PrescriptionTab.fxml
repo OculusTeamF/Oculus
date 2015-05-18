@@ -152,21 +152,15 @@
                                     <Label fx:id="city" contentDisplay="RIGHT" text="City" />
                                  </children>
                               </FlowPane>
-                              <TableView fx:id="prescriptionItems" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
-                                 <columns>
-                                    <TableColumn fx:id="medicamentationCol" editable="false" prefWidth="192.0" text="Medicamentation" />
-                                    <TableColumn fx:id="dosageCol" minWidth="2.0" prefWidth="107.0" text="Dosage" />
-                                    <TableColumn fx:id="Informationcol" minWidth="0.0" prefWidth="239.0" text="Information" />
-                                 </columns>
-                              </TableView>
+                              <ListView fx:id="prescriptionItems" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                              </ListView>
                               <Pane prefHeight="59.0" prefWidth="539.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
                                  <children>
                                     <Label layoutX="1.0" layoutY="13.0" text="Prescription:" />
-                                    <ComboBox fx:id="chooseMedicinBox" layoutX="1.0" layoutY="47.0" prefHeight="31.0" prefWidth="184.0" />
-                                    <TextField fx:id="dosageTextfield" layoutX="194.0" layoutY="47.0" prefHeight="31.0" prefWidth="109.0" promptText="Dosage" />
-                                    <TextField fx:id="informationTextfield" layoutX="303.0" layoutY="47.0" prefHeight="31.0" prefWidth="236.0" promptText="Information" />
+                                    <ComboBox fx:id="chooseMedicinBox" layoutX="188.0" layoutY="49.0" prefHeight="31.0" prefWidth="192.0" />
                                     <Button fx:id="addNewEntryToTable" layoutX="391.0" layoutY="122.0" mnemonicParsing="false" onAction="#addNewPrescriptionEntryToTable" text="Add to Prescription" />
                                     <Button fx:id="removeEntryFromTable" layoutX="189.0" layoutY="122.0" mnemonicParsing="false" onAction="#removeMedicinButtonActionHandler" text="Remove from Prescription" />
+                                    <Label layoutX="43.0" layoutY="54.0" text="Medicamentation:" />
                                  </children>
                               </Pane>
                            </children>

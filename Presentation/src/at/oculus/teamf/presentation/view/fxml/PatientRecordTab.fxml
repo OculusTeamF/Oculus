@@ -60,9 +60,9 @@
             <Label text="Date of birth" GridPane.rowIndex="4" />
             <Label text="Street address" GridPane.rowIndex="5" />
             <Label text="Post code" GridPane.rowIndex="7" />
-            <Label prefHeight="17.0" prefWidth="48.0" text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Label prefHeight="21.0" prefWidth="70.0" text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
-                  <Insets left="230.0" />
+                  <Insets left="205.0" />
                </GridPane.margin></Label>
             <Label text="Phone number" GridPane.rowIndex="9" />
             <Label text="Email" GridPane.rowIndex="8" />
