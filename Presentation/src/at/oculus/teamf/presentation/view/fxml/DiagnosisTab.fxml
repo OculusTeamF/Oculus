@@ -69,7 +69,7 @@
                   <Insets top="15.0" />
                </GridPane.margin>
             </Label>
-            <ListView disable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+            <AnchorPane fx:id="integratePane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </children>

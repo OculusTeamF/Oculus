@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamE.presentation.ViewLoaderTb2;
+import at.oculus.teamE.presentation.controllers.ExaminationsListViewController;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;

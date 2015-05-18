@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamE.presentation.ViewLoaderTb2;
+import at.oculus.teamE.presentation.controllers.ExaminationsListViewController;
+import at.oculus.teamE.presentation.controllers.MedicineEditFormViewController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
@@ -24,6 +27,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,9 +41,12 @@ public class DiagnosisController implements Initializable,ILogger {
     @FXML private Button saveDiagnosisButton;
     @FXML private TextField textDiagnosisTitle;
     @FXML private TextArea textDiagnosisDescription;
+    @FXML private AnchorPane integratePane;
 
     private Model _model = Model.getInstance();
     private IExaminationProtocol currexam;
+
+    private ViewLoaderTb2<ExaminationsListViewController> mededit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,6 +57,11 @@ public class DiagnosisController implements Initializable,ILogger {
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveDiagnosisButton.setGraphic(new ImageView(imageSaveIcon));
+
+        // integrate team E -> add medication
+        // mededit.getController().initialize();
+
+        integratePane.getChildren().add(mededit.loadNode());
     }
 
     // *****************************************************************************************************************
