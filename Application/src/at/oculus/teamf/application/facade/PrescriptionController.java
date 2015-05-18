@@ -96,9 +96,9 @@ public class PrescriptionController implements ILogger, IPrinter {
 
         IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(iPrescription);
-        facade.save(entry);
-        entry.setMedicine(iMedicine);
 
+        entry.setMedicine(iMedicine);
+        facade.save(entry);
         try {
             iPrescription.addPrescriptionEntry(entry);
         } catch (CouldNotAddPrescriptionEntryException couldNotAddPrescriptionEntryException) {
