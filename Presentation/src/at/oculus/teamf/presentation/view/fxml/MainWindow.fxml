@@ -34,7 +34,7 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu disable="true" mnemonicParsing="false" text="View">
+                        <Menu mnemonicParsing="false" text="View">
                             <items>
                                 <Menu disable="true" mnemonicParsing="false" text="Theme">
                                     <items>
@@ -49,7 +49,7 @@
                                         <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />
                                     </items>
                                 </Menu>
-                                <MenuItem disable="true" mnemonicParsing="false" onAction="#openPatientProperty" text="Patient Property (Test)" />
+                                <MenuItem mnemonicParsing="false" onAction="#openTestTab" text="Open Test Tab (Debug)" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Patient">
