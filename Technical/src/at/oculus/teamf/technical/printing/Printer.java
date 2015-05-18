@@ -4,7 +4,7 @@
  * This file is part of Oculus.
  * Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with Oculus. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -17,32 +17,32 @@
  * This file contains the class Printer and all its methods and functionality to print information and save it in a PDF
  * file.
  */
-package at.oculus.teamf.technical.printing;
+        package at.oculus.teamf.technical.printing;
 
-import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPrescription;
-import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
-import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
-import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
+        import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+        import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+        import at.oculus.teamf.domain.entity.interfaces.IPatient;
+        import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+        import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+        import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+        import at.oculus.teamf.technical.loggin.ILogger;
+        import org.apache.pdfbox.exceptions.COSVisitorException;
+        import org.apache.pdfbox.pdmodel.PDDocument;
+        import org.apache.pdfbox.pdmodel.PDPage;
+        import org.apache.pdfbox.pdmodel.common.PDRectangle;
+        import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+        import org.apache.pdfbox.pdmodel.font.PDFont;
+        import org.apache.pdfbox.pdmodel.font.PDType1Font;
+        import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
+        import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+        import javax.imageio.ImageIO;
+        import java.awt.*;
+        import java.awt.image.BufferedImage;
+        import java.io.File;
+        import java.io.IOException;
+        import java.sql.Timestamp;
+        import java.util.Date;
 
 /**
  * <h2>$Printer</h2>
@@ -51,7 +51,7 @@ import java.nio.file.Paths;
  * This class implements the Printer with all its methods and functionality. It provides methods to create PDF-Files
  * and save / print them.
  */
-public class Printer {
+public class Printer implements ILogger{
 
     private static final Printer printerInstance = new Printer();
 
@@ -147,19 +147,21 @@ public class Printer {
 
             }
             //print oculus image into pdf file
+            /*
             BufferedImage awtImage = ImageIO.read(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/res/oculus.JPG"));
             PDXObjectImage ximage = new PDPixelMap(document, awtImage);
             float scale = 0.3f; // alter this value to set the image size
             stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
+            */
 
             //close stream afterwards
             stream.close();
 
             //save document and close document
-            document.save("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/" + title + ".pdf");
+            document.save("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/" + title + ".pdf");
             document.close();
             //open document with standard application for the file
-            Desktop.getDesktop().open(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/" + title + ".pdf"));
+            Desktop.getDesktop().open(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/" + title + ".pdf"));
         } catch (IOException | COSVisitorException e) {
             throw e;
         }
@@ -175,7 +177,7 @@ public class Printer {
      * <b>Parameter</b>
      *
      * @param iPrescription Is an Interface of a prescription from which all the information will be printed into
-     *                      a PDF-File and then started with standard application from OS.
+     * a PDF-File and then started with standard application from OS.
      */
     public void printPrescription(IPrescription iPrescription, IDoctor iDoctor) throws COSVisitorException, IOException, CantGetPresciptionEntriesException, NoPrescriptionToPrintException {
         if(iPrescription==null){
@@ -187,10 +189,12 @@ public class Printer {
         PDPage page1 = new PDPage(PDPage.PAGE_SIZE_A4);
         PDRectangle rectangle = page1.getMediaBox();
         document.addPage(page1);
+        log.info("Document created.");
 
         //create fonts for the document
         PDFont fontPlain = PDType1Font.HELVETICA;
         PDFont fontBold = PDType1Font.HELVETICA_BOLD;
+        log.info("Fonts added.");
 
         //running variable to calculate current line
         int line = 0;
@@ -237,6 +241,7 @@ public class Printer {
                 stream.drawString(iPatient.getPostalCode() + ", " + iPatient.getCity());
                 stream.endText();
             }
+            log.info("Patient printed.");
 
             //next row
             ++line;
@@ -256,6 +261,7 @@ public class Printer {
 
             //next row
             ++line;
+            log.info("Doctor printed.");
 
             //print all the entries in the prescription
             if (iPrescription.getPrescriptionEntries().size() > 0) {
@@ -272,12 +278,16 @@ public class Printer {
                     stream.endText();
                 }
             }
+            log.info("Medicine entries printed.");
 
             //print oculus image into pdf file
-            BufferedImage awtImage = ImageIO.read(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/res/oculus.JPG"));
+            //Not working
+
+            BufferedImage awtImage = ImageIO.read(new File("Technical/res/oculus.JPG"));
             PDXObjectImage ximage = new PDPixelMap(document, awtImage);
             float scale = 0.3f; // alter this value to set the image size
             stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
+
 
             //signature field
             ++line;
@@ -291,17 +301,24 @@ public class Printer {
             stream.setLineWidth(0.5f);
             stream.addLine(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (line+=2) - SPACING_HEADER, SPACING_LEFT + 100, rectangle.getHeight() - LINE_HEIGHT * (line) - SPACING_HEADER);
             stream.closeAndStroke();
+            log.info("Signature field printed");
 
             //close the stream
             stream.close();
 
             //save the document and close it
-            document.save("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"); //Todo: position from property file
+            Timestamp tstamp = new Timestamp(new Date().getTime());
+            System.out.println(System.getProperty("user.dir"));
+            String filename = "Technical/output/prescription_" + tstamp.toString() + ".pdf";
+            document.save(filename);
             document.close();
-            //open file with standard OS application
-            Desktop.getDesktop().open(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
+            log.info("Document saved with filename: " + filename);
 
-            //Print file directly from standard printer (NOT SUPPORTED ON OCULUS-LINUX -- should be tested first!!!)
+            //open file with standard OS application
+            Desktop.getDesktop().open(new File(filename));
+            log.info("Document opened.");
+
+            //Print file directly from standard printer (NOT SUPPORTED ON OCULUS-LINUX — should be tested first!!!)
             //Desktop.getDesktop().print(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
         } catch (COSVisitorException | CantGetPresciptionEntriesException | IOException e) {
             throw e;
