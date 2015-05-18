@@ -59,11 +59,11 @@ public class NewExaminationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        _initPatient =  _model.getTabModel().getInitPatient();
+        initPatient =  _model.getTabModel().getInitPatient();
 
         // setup controls
         _startDate = new Date();
-        examinationLnameFnameSvn.setText(" EXAMINATION: " + _initPatient.getFirstName() + " " + _initPatient.getLastName());
+        examinationLnameFnameSvn.setText(" EXAMINATION: " + initPatient.getFirstName() + " " + initPatient.getLastName());
         examinationCurrDate.setText("START: " + _startDate.toString());
         examinationCurrTime.setText("TIME: 00:00:00");
         diagnosisDetails.setDisable(true);
@@ -85,17 +85,17 @@ public class NewExaminationController implements Initializable {
         //prescriptionButton.setDisable(true);
 
         // start stopwatch
-        _timeline = new Timeline();
-        _timeline.setCycleCount(Timeline.INDEFINITE);
-        _timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler() {
+        timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler() {
             @Override
             public void handle(Event event) {
-                _timeSeconds++;
+                timeSeconds++;
                 // update timerLabel
-                examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(_timeSeconds));
+                examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds));
             }
         }));
-        _timeline.playFromStart();
+        timeline.playFromStart();
     }
 
     /* for stopwatch: converts seconds to HHMM format */
@@ -114,30 +114,17 @@ public class NewExaminationController implements Initializable {
     // *****************************************************************************************************************
 
     @FXML
-    public void saveExaminationButtonHandler (ActionEvent actionEvent)
-    {
-        if (examinationDocumentation.getText().length() != 0)
-        {
+    public void saveExaminationButtonHandler (ActionEvent actionEvent){
+        if (examinationDocumentation.getText().length() != 0){
             IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
-            _timeline.stop();
-            examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(_timeSeconds) + " [Examination done]");
+            timeline.stop();
+            examinationCurrTime.setText("TIMECOUNTER: " + convertSecondToHHMMString(timeSeconds) + " [Examination done]");
             Date enddate = new Date();
 
-            if (_model.getLoggedInUser() instanceof Doctor)
-            {
-                try {
-                    newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, (IDoctor) _model.getLoggedInUser(), null);
-                } catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
-                    couldNotAddExaminationProtocol.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("CouldNotAddExaminationProtocol", "Please contact support");
-                }
+            if (_model.getLoggedInUser() instanceof Doctor) {
+                newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, (IDoctor) _model.getLoggedInUser(), null);
             } else{
-                try {
-                    newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, null, (IOrthoptist) _model.getLoggedInUser());
-                } catch (CouldNotAddExaminationProtocol couldNotAddExaminationProtocol) {
-                    couldNotAddExaminationProtocol.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("CouldNotAddExaminationProtocol", "Please contact support");
-                }
+                newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, null, (IOrthoptist) _model.getLoggedInUser());
             }
 
             saveProtocolButton.setDisable(true);
@@ -146,8 +133,7 @@ public class NewExaminationController implements Initializable {
     }
 
     @FXML
-    public void addDiagnosisButtonHandler (ActionEvent actionEvent)
-    {
+    public void addDiagnosisButtonHandler (ActionEvent actionEvent){
         // add diagnosis for selected patient
         _model.getExaminationModel().setCurrentExaminationProtocol(newexam);
         IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
@@ -157,8 +143,7 @@ public class NewExaminationController implements Initializable {
     }
 
     @FXML
-    public void addPrescriptionButtonHandler(ActionEvent actionEvent)
-    {
+    public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
         System.out.println("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
         IPatient selectedPatient =  _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
@@ -166,11 +151,9 @@ public class NewExaminationController implements Initializable {
     }
 
     @FXML
-    public void refreshTab(ActionEvent actionEvent)
-    {
-        IDiagnosis diag = newexam.getDiagnosis();
-        if (diag != null)
-        {
+    public void refreshTab(ActionEvent actionEvent) {
+        IDiagnosis diag = newexam.getTeamFDiagnosis();
+        if (diag != null) {
             diagnosisTitle.setText(diag.getTitle());
             diagnosisDetails.setText(diag.getDescription());
         }

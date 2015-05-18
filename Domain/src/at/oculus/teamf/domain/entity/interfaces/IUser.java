@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public interface IUser {
     //<editor-fold desc="Getter/Setter">
-    int getUserId();
+    int getTeamFUserId();
 
     void setUserId(int id);
 
@@ -54,7 +54,7 @@ public interface IUser {
 
     void setCreateDate(Date createDate);
 
-    Date getIdleDate();
+    Date getTeamFIdleDate();
 
     void setIdleDate(Date idleDate);
 

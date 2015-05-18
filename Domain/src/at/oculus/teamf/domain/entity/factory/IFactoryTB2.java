@@ -10,12 +10,13 @@
 package at.oculus.teamf.domain.entity.factory;
 
 
+import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.*;
 
 /**
  * Created by Simon Angerer on 13.05.2015.
  */
-public interface IFactoryTB2 {
+public interface IFactoryTB2{
 
     IVisualAid createVisualAid();
 
