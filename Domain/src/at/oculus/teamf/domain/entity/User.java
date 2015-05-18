@@ -128,14 +128,6 @@ public abstract class User implements IUser, IDomain, IUserTb2 {
 		_idleDate = idleDate;
 	}
 
-	@Override
-    public UsergroupEntity getUserGroup() {
-		return _usergroup;
-	}
-	@Override
-    public void setUserGroup(UsergroupEntity usergroup) {
-		_usergroup = usergroup;
-	}
 	//</editor-fold>
 
     @Override

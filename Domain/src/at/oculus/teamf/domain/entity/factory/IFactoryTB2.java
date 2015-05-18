@@ -9,12 +9,10 @@
 
 package at.oculus.teamf.domain.entity.factory;
 
-
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.*;
 
 import java.util.Date;

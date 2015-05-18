@@ -9,9 +9,6 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;

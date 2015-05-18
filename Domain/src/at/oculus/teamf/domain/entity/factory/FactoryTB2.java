@@ -9,18 +9,12 @@
 
 package at.oculus.teamf.domain.entity.factory;
 
-import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
-import at.oculus.teamE.domain.interfaces.IMedicineTb2;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.entity.PatientEntity;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import java.util.Date;
 

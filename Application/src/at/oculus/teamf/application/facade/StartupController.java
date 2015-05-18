@@ -27,7 +27,7 @@ import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
 import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
-import at.oculus.teamf.domain.entity.Adapter.FactoryAdapter;
+import at.oculus.teamf.domain.entity.FactoryAdapter;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
 
@@ -43,7 +43,6 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.LinkedList;
