@@ -284,6 +284,8 @@ public class Printer implements ILogger{
             //Not working
 
             BufferedImage awtImage = ImageIO.read(new File("Technical/res/oculus.JPG"));
+            //filename for tests
+            //BufferedImage awtImage = ImageIO.read(new File("../Technical/res/oculus.JPG"));
             PDXObjectImage ximage = new PDPixelMap(document, awtImage);
             float scale = 0.3f; // alter this value to set the image size
             stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
@@ -310,6 +312,8 @@ public class Printer implements ILogger{
             Timestamp tstamp = new Timestamp(new Date().getTime());
             System.out.println(System.getProperty("user.dir"));
             String filename = "Technical/output/prescription_" + tstamp.toString() + ".pdf";
+            //filename for tests
+            //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
             document.save(filename);
             document.close();
             log.info("Document saved with filename: " + filename);
