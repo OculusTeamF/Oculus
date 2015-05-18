@@ -10,12 +10,19 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
+import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
 import javafx.beans.property.ObjectProperty;
@@ -33,7 +40,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -106,7 +115,6 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveButton.setGraphic(new ImageView(imageSaveIcon));
-        printButton.setDisable(true);
         printButton.setTooltip(new Tooltip("Save prescription before using print"));
 
         //Medicin box
@@ -119,6 +127,10 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             _prescriptionModel.addNewPrescription(_model.getPatient());
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+        } catch (NoPatientException noPatientException) {
+            noPatientException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
         }
         ObservableList<IMedicine> prescribedMedicin = FXCollections.observableArrayList((List)_prescriptionModel.getPrescribedMedicin());
         chooseMedicinBox.setItems(prescribedMedicin);
@@ -186,7 +198,8 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
         _medicinList = FXCollections.observableArrayList();
 
-        //medicinTextfield.setEditable(false);
+        //because only a Doctor is allowed to edit a medicin
+        medicinTextfield.setEditable(false);
     }
 
     // *****************************************************************************************************************
@@ -214,49 +227,96 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             }
 
             try {
-                //_prescriptionModel.addNewPrescription(patient);
                 _prescriptionModel.addPrescriptionEntries(medicinList);
                 printButton.setDisable(false);
                 log.info("Medicine Prescription saved for " + patient.getLastName());
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
-                //Todo: handle
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact Support ");
+            } catch (DatabaseOperationException databaseOperationException) {
+                databaseOperationException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact Support ");
+            } catch (BadConnectionException badConnectionException) {
+                badConnectionException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact Support ");
+            } catch (CouldNotAddPrescriptionEntryException CouldNotAddPrescriptionEntryException) {
+                CouldNotAddPrescriptionEntryException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotAddPrescriptionEntryException", "Please contact Support ");
+            } catch (NoBrokerMappedException noBrokerMappedException) {
+                noBrokerMappedException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact Support ");
             }
         }else if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid"))
         {
             try {
                 allDiagnoses = _model.getPatient().getDiagnoses();
-            } catch (CouldNotGetDiagnoseException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showInformationDialog("CouldNotGetDiagnoseException", "Cannot Save Prescription - No Diagnose ");
+            } catch (CouldNotGetDiagnoseException couldNotGetDiagnoseException) {
+                couldNotGetDiagnoseException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotGetDiagnoseException", "Cannot Save Prescription - No Diagnose ");
             }
 
             IDiagnosis diagnosis = allDiagnoses.iterator().next();
-            _prescriptionModel.addNewVisualAidPrescription(diagnosis);
+            try {
+                _prescriptionModel.addNewVisualAidPrescription(diagnosis);
+            } catch (NoPatientException noPatientException) {
+                noPatientException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Cannot Save Prescription - No Diagnose ");
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
+            }
+            try{
             _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
-            printButton.setDisable(false);
+            } catch (DatabaseOperationException databaseOperationException) {
+                databaseOperationException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Cannot Save Prescription - No Diagnose ");
+            } catch (NoBrokerMappedException noBrokerMappedException) {
+                noBrokerMappedException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Cannot Save Prescription - No Diagnose ");
+            } catch (BadConnectionException badConnectionException) {
+                badConnectionException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Cannot Save Prescription - No Diagnose ");
+            } catch (NotInitatedExceptions notInitatedExceptions) {
+                notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
+            }
             log.info("Visual aid prescription saved for " + patient.getLastName());
         }
     }
 
 
+    /**
+     * prints out a medical Prescription
+     */
     @FXML
     public void printPrescriptionButtonActionHandler() {
 
-        //TODO: print and save prescription
-        _prescriptionModel.printPrescription();
-
-        //save prescription
-        IPatient patient = _model.getPatient();
-
-        Collection<IMedicine> medicinList = new LinkedList<IMedicine>();
-
         try {
-            //_prescriptionModel.addNewPrescription(patient);
-            _prescriptionModel.addPrescriptionEntries(medicinList);
+            _prescriptionModel.printPrescription();
+        } catch (DatabaseOperationException databaseOperationException) {
+            databaseOperationException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact Support ");
+        } catch (NoBrokerMappedException noBrokerMappedException) {
+            noBrokerMappedException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact Support ");
+        } catch (BadConnectionException badConnectionException) {
+            badConnectionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact Support ");
+        } catch (COSVisitorException cosVisitorException) {
+            cosVisitorException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("COSVisitorException", "Please contact Support ");
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact Support ");
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
-            //Todo: handle
+            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact Support ");
+        } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
+            noPrescriptionToPrintException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact Support ");
+        } catch (CantGetPresciptionEntriesException cantGetPrescriptionEntriesException) {
+            cantGetPrescriptionEntriesException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact Support ");
         }
     }
 
@@ -278,6 +338,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             _medicinList.add(newEntry);
             prescriptionItems.setItems(_medicinList);
             clearFields();
+            log.info("Medicin: "+itemToAdd+" was added to the Prescription");
         }
     }
 
@@ -287,6 +348,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         if (_medicinList.size() > 0 ) {
             MedicineTableEntry itemToRemove = (MedicineTableEntry) prescriptionItems.getSelectionModel().getSelectedItem();
             _medicinList.remove(itemToRemove);
+            log.info("Medicin: " + itemToRemove + " was removed from the Prescription");
         }
     }
 

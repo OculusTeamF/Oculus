@@ -50,7 +50,7 @@ public class NewPatientController implements Initializable{
     @FXML private TextField newPatientCountryIsoCode;
 
     private Model _model = Model.getInstance();
-    private ToggleGroup group = new ToggleGroup();
+    private ToggleGroup _group = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,8 +70,8 @@ public class NewPatientController implements Initializable{
 
         newPatientDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
 
-        radioGenderFemale.setToggleGroup(group);
-        radioGenderMale.setToggleGroup(group);
+        radioGenderFemale.setToggleGroup(_group);
+        radioGenderMale.setToggleGroup(_group);
         radioGenderFemale.setSelected(true);
     }
 

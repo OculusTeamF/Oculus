@@ -56,7 +56,8 @@ public class TabModel implements ILogger {
     // LOAD AND ADD NEW TABS
     //
     // *****************************************************************************************************************
-    public void loadTab(String tabTitle, String tabFXML, String ID){
+    public void loadTab(String tabTitle, String tabFXML, String ID)
+    {
         _model = Model.getInstance();
 
         // check if tab is already opened
@@ -93,9 +94,9 @@ public class TabModel implements ILogger {
                 _tabPanel.getTabs().add(tab);               // add tab to pane
                 _tabPanel.getSelectionModel().select(tab);  // switch to new tab
                 log.debug("New Tab added: " + getSelectedTab().getText() + " to TabPanel " + _tabPanel.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-                DialogBoxController.getInstance().showExceptionDialog(e, "IOException - (Tab loading error) Please contact support");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact support");
             }
         } else {
             // switch to already opened tab
@@ -169,10 +170,12 @@ public class TabModel implements ILogger {
     }
 
     public void setTabMapEntry(Tab tab, IPatient pat){  _tabmap.put(tab,pat); }
+
     public void removeTabMapEntry(Tab tab){
         _tabmap.remove(tab);
         System.out.println("REMOVE TAB ENTRY: " + tab.getId());
     }
+
     public Tab getSelectedTab(){ return  _selectedTab; }
 
     // *****************************************************************************************************************
@@ -189,7 +192,8 @@ public class TabModel implements ILogger {
     //
     // *****************************************************************************************************************
 
-    public void addPatientRecordTab(IPatient patient){
+    public void addPatientRecordTab(IPatient patient)
+    {
         _model = Model.getInstance();
         _model._patient = patient;
         _tabinitpatient = patient;
@@ -197,7 +201,8 @@ public class TabModel implements ILogger {
         loadTab("RECORD: " + patient.getLastName(), "fxml/PatientRecordTab.fxml", tabid);
     }
 
-    public void addDiagnosisTab(IPatient patient){
+    public void addDiagnosisTab(IPatient patient)
+    {
         _model = Model.getInstance();
         _model._patient = patient;
         _tabinitpatient = patient;
@@ -212,7 +217,8 @@ public class TabModel implements ILogger {
         loadTab("PROTOCOLS: " +  patient.getLastName(), "fxml/ExaminationTab.fxml", tabid);
     }
 
-    public void addPrescriptionTab(IPatient patient){
+    public void addPrescriptionTab(IPatient patient)
+    {
         _model = Model.getInstance();
         _model._patient = patient;
         _tabinitpatient = patient;
@@ -220,7 +226,8 @@ public class TabModel implements ILogger {
         loadTab("PRESCRIPTIONS: " +  patient.getLastName(), "fxml/PrescriptionTab.fxml", tabid);
     }
 
-    public void addNewExaminationTab(IPatient patient){
+    public void addNewExaminationTab(IPatient patient)
+    {
         _model = Model.getInstance();
         _model._patient = patient;
         _tabinitpatient = patient;

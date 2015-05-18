@@ -204,10 +204,10 @@ public class MainController implements Initializable, ILogger {
         MenuItem src = (MenuItem) actionEvent.getSource();
         switch(src.getId()) {
             case "defaultTheme":
-                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
+                Main._scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
                 break;
             case "darkTheme":
-                Main.scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_dark.css").toExternalForm());
+                Main._scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_dark.css").toExternalForm());
                 break;
             case "customTheme":
                 DialogBoxController.getInstance().showInformationDialog("theme","show custom theme");
