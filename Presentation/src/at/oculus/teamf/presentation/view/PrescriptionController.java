@@ -299,6 +299,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             cantGetPrescriptionEntriesException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact Support ");
         }
+        saveButton.setDisable(true);
     }
 
 
