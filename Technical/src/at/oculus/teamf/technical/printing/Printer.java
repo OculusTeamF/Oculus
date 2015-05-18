@@ -283,6 +283,7 @@ public class Printer implements ILogger{
             //print oculus image into pdf file
             //Not working
 
+
             BufferedImage awtImage = ImageIO.read(new File("Technical/res/oculus.JPG"));
             //filename for tests
             //BufferedImage awtImage = ImageIO.read(new File("../Technical/res/oculus.JPG"));
@@ -311,7 +312,7 @@ public class Printer implements ILogger{
             //save the document and close it
             Timestamp tstamp = new Timestamp(new Date().getTime());
             System.out.println(System.getProperty("user.dir"));
-            String filename = "Technical/output/prescription_" + tstamp.toString() + ".pdf";
+            String filename = "./Technical/output/prescription_" + tstamp.toString().replace(' ', '_') + ".pdf";
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
             document.save(filename);
