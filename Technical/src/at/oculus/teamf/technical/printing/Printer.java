@@ -40,6 +40,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * <h2>$Printer</h2>
@@ -271,14 +274,12 @@ public class Printer {
             }
 
             //print oculus image into pdf file
-            //Not working
-            /*BufferedImage awtImage = ImageIO.read(new File("oculus.JPG"));
+            BufferedImage awtImage = ImageIO.read(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/res/oculus.JPG"));
             PDXObjectImage ximage = new PDPixelMap(document, awtImage);
             float scale = 0.3f; // alter this value to set the image size
-            stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);*/
+            stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
 
             //signature field
-
             ++line;
             stream.beginText();
             stream.setFont(fontPlain, 12);
@@ -295,10 +296,10 @@ public class Printer {
             stream.close();
 
             //save the document and close it
-            document.save("prescription.pdf"); //Todo: position from property file
+            document.save("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"); //Todo: position from property file
             document.close();
             //open file with standard OS application
-            Desktop.getDesktop().open(new File("prescription.pdf"));
+            Desktop.getDesktop().open(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
 
             //Print file directly from standard printer (NOT SUPPORTED ON OCULUS-LINUX -- should be tested first!!!)
             //Desktop.getDesktop().print(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
