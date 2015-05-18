@@ -141,6 +141,11 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 	}
 
 	@Override
+	public void setCreateDate(Date createDate) {
+
+	}
+
+	@Override
 	public void setDoctor(IDoctor doctor) {
 		_doctor = (Doctor) doctor;
 	}

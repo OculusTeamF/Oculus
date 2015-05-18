@@ -10,8 +10,14 @@
 package at.oculus.teamf.domain.entity.factory;
 
 
+import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.*;
+
+import java.util.Date;
 
 /**
  * Created by Simon Angerer on 13.05.2015.
@@ -25,4 +31,7 @@ public interface IFactoryTB2{
     IPrescription createPrescription();
 
     IPrescriptionEntry createPrescriptionEntry();
+
+    IExaminationProtocol createExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
+                                                   Orthoptist orthoptist, Diagnosis diagnosis);
 }

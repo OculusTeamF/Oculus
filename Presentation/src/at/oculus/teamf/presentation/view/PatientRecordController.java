@@ -15,6 +15,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
@@ -83,7 +84,6 @@ public class PatientRecordController implements Initializable {
     private boolean _isFormEdited = false;
     private ToggleGroup _group = new ToggleGroup();
     private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
-    private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
     private PrescriptionController _prescriptionController;
     private IPatient _initpatient;
 
@@ -294,9 +294,9 @@ public class PatientRecordController implements Initializable {
     {
         if(patientRecordradioGenderFemale.isSelected())
         {
-            _model.getPatient().setGender("female");
+            _model.getPatient().setGender(Gender.Female);
         }else{
-            _model.getPatient().setGender("male");
+            _model.getPatient().setGender(Gender.Male);
         }
         if(patientRecordLastname.getText()!=null) {
             _model.getPatient().setLastName(patientRecordLastname.getText());

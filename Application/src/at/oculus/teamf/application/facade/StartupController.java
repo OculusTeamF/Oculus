@@ -342,17 +342,16 @@ public class StartupController implements ILogger {
      * @param iUser this parameter shows the interface of the user, who's queue should be returned
      */
     public IPatientQueue getQueueByUser(IUser iUser) throws BadConnectionException, NoBrokerMappedException {
-        User user = (User) iUser;
-        Doctor doctor;
-        Orthoptist orthoptist;
-        PatientQueue queue = null;
+        IDoctor doctor;
+        IOrthoptist orthoptist;
+        IPatientQueue queue = null;
 
-        if (user != null) {
-            if (user instanceof Doctor) {
-                doctor = (Doctor) user;
+        if (iUser != null) {
+            if (iUser instanceof Doctor) {
+                doctor = (Doctor) iUser;
                 queue = (PatientQueue) doctor.getQueue();
-            } else if (user instanceof Orthoptist) {
-                orthoptist = (Orthoptist) user;
+            } else if (iUser instanceof Orthoptist) {
+                orthoptist = (Orthoptist) iUser;
                 queue = orthoptist.getQueue();
             }
         }

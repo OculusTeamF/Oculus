@@ -24,25 +24,23 @@ public interface IQueueEntry extends IDomain, ILogger {
 
     void setId(int id);
 
-    Doctor getDoctor();
+    IDoctor getDoctor();
 
-    void setDoctor(Doctor doctor);
+    void setDoctor(IDoctor doctor);
 
-    Orthoptist getOrthoptist();
+    IOrthoptist getOrthoptist();
 
-    void setOrthoptist(Orthoptist orthoptist);
+    void setOrthoptist(IOrthoptist orthoptist);
 
-    Patient getPatient();
+    IPatient getPatient();
 
-    void setPatient(Patient patient);
+    void setPatient(IPatient patient);
 
     Integer getQueueIdParent();
 
     void setQueueIdParent(Integer queueIdParent);
 
     Timestamp getArrivalTime();
-
-    void setArrivalTime(Timestamp arrivalTime);
 
     @Override
     String toString();
