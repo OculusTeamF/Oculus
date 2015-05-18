@@ -27,7 +27,7 @@ import at.oculus.teamE.domain.interfaces.IDomainFactory;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
 import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
-import at.oculus.teamf.domain.entity.adapter1.FactoryAdapter;
+import at.oculus.teamf.domain.entity.adapter.FactoryAdapter;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
 
