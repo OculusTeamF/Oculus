@@ -27,7 +27,6 @@ import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -78,22 +77,16 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
     @FXML public Label city;
     @FXML public TextArea visualAidInformation;
     @FXML public ChoiceBox visualAidChoiceBox;
-    @FXML public TextField medicinTextfield;
-    @FXML public TextField dosageTextfield;
-    @FXML public TextField informationTextfield;
     @FXML public Button removeEntryFromTable;
     @FXML public Button addNewEntryToTable;
     @FXML public TextField dioptersRight;
     @FXML public TextField dioptersLeft;
-    @FXML private TableView prescriptionItems;
-    @FXML private TableColumn medicamentationCol;
-    @FXML private TableColumn dosageCol;
-    @FXML private TableColumn Informationcol;
+    @FXML private ListView prescriptionItems;
 
     private Model _model = Model.getInstance();
     private ObservableList<String> _prescriptionType;
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
-    private ObservableList<MedicineTableEntry> _medicinList;
+    private ObservableList<IMedicine> _medicinList;
 
 
     @Override
@@ -185,20 +178,8 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             }
         });
 
-        //TableView
-        medicamentationCol.setCellValueFactory(
-                new PropertyValueFactory<MedicineTableEntry,String>("medicin")
-        );
-        dosageCol.setCellValueFactory(
-                new PropertyValueFactory<MedicineTableEntry,String>("dosage")
-        );
-        Informationcol.setCellValueFactory(
-                new PropertyValueFactory<MedicineTableEntry,String>("information")
-        );
-
         _medicinList = FXCollections.observableArrayList();
 
-        //because only a Doctor is allowed to edit a medicin
     }
 
     // *****************************************************************************************************************
@@ -220,9 +201,10 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
         if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicine")) {
 
-            for (MedicineTableEntry med : _medicinList){
-                med.getMedicin().setDose(med.getDosage());
-                medicinList.add(med.getMedicin());
+           ObservableList<IMedicine> prescribedMedicine = prescriptionItems.getItems();
+
+            for(IMedicine med : prescribedMedicine){
+                medicinList.add(med);
             }
 
             try {
@@ -322,30 +304,26 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
     // *****************************************************************************************************************
     //
-    // TABLEVIEW METHODS
+    // LISTVIEW METHODS
     //
     // *****************************************************************************************************************
 
     @FXML
     public void addNewPrescriptionEntryToTable(ActionEvent actionEvent) {
 
-        if (dosageTextfield.getText().length() > 0 && chooseMedicinBox.getSelectionModel().getSelectedItem() != null) {
+        IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
 
-            IMedicine itemToAdd = (IMedicine) chooseMedicinBox.getSelectionModel().getSelectedItem();
-
-            MedicineTableEntry newEntry = new MedicineTableEntry(itemToAdd, dosageTextfield.getText(), informationTextfield.getText());
-            _medicinList.add(newEntry);
-            prescriptionItems.setItems(_medicinList);
-            clearFields();
-            log.info("Medicin: "+itemToAdd+" was added to the Prescription");
-        }
+        _medicinList.add(itemToAdd);
+        prescriptionItems.setItems(_medicinList);
+        clearFields();
+        log.info("Medicin: "+itemToAdd+" was added to the Prescription");
     }
 
     //remove the Medicin from the PrescriptionList
     @FXML
     public void removeMedicinButtonActionHandler(ActionEvent actionEvent) {
         if (_medicinList.size() > 0 ) {
-            MedicineTableEntry itemToRemove = (MedicineTableEntry) prescriptionItems.getSelectionModel().getSelectedItem();
+            IMedicine itemToRemove = (IMedicine) prescriptionItems.getSelectionModel().getSelectedItem();
             _medicinList.remove(itemToRemove);
             log.info("Medicin: " + itemToRemove + " was removed from the Prescription");
         }
@@ -353,48 +331,8 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
     @FXML
     public void clearFields() {
-        dosageTextfield.clear();
-        informationTextfield.clear();
+
         chooseMedicinBox.getSelectionModel().clearSelection();
-    }
-
-    // *****************************************************************************************************************
-    //
-    // TABLEVIEW DATAENTRY BEAN
-    //
-    // *****************************************************************************************************************
-
-    public static class MedicineTableEntry {
-        private final ObjectProperty<IMedicine> medicin;
-        private final SimpleStringProperty dosage;
-        private final SimpleStringProperty information;
-
-        public MedicineTableEntry(IMedicine medicin, String dosage, String information){
-            this.medicin = new SimpleObjectProperty(medicin);
-            this.dosage = new SimpleStringProperty(dosage);
-            this.information = new SimpleStringProperty(information);
-        }
-
-        public IMedicine getMedicin() {
-            return medicin.get();
-        }
-        public void setMedicin(IMedicine med) {
-            medicin.set(med);
-        }
-
-        public String getDosage() {
-            return dosage.get();
-        }
-        public void setDosage(String dos) {
-            dosage.set(dos);
-        }
-
-        public String getInformation() {
-            return information.get();
-        }
-        public void setInformation(String inf) {
-            information.set(inf);
-        }
     }
 }
 
