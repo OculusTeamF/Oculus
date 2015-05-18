@@ -25,8 +25,6 @@ import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -35,7 +33,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -54,33 +51,33 @@ import java.util.ResourceBundle;
 public class PrescriptionController implements Initializable, IPrinter, ILogger {
 
 
-    @FXML public ComboBox choosePrescriptionBox;
-    @FXML public Button printButton;
-    @FXML public Button saveButton;
-    @FXML public StackPane prescriptionStackPane;
-    @FXML public Label lastnameVA;
-    @FXML public Label firstnameVA;
-    @FXML public Label svnVA;
-    @FXML public Label bdayVA;
-    @FXML public Label addressVA;
-    @FXML public Label stateVA;
-    @FXML public Label zipVA;
-    @FXML public Label cityVA;
-    @FXML public ComboBox chooseMedicinBox;
-    @FXML public Label lastname;
-    @FXML public Label firstname;
-    @FXML public Label svn;
-    @FXML public Label bday;
-    @FXML public Label address;
-    @FXML public Label state;
-    @FXML public Label zip;
-    @FXML public Label city;
-    @FXML public TextArea visualAidInformation;
-    @FXML public ChoiceBox visualAidChoiceBox;
-    @FXML public Button removeEntryFromTable;
-    @FXML public Button addNewEntryToTable;
-    @FXML public TextField dioptersRight;
-    @FXML public TextField dioptersLeft;
+    @FXML private ComboBox choosePrescriptionBox;
+    @FXML private Button printButton;
+    @FXML private Button saveButton;
+    @FXML private StackPane prescriptionStackPane;
+    @FXML private Label lastnameVA;
+    @FXML private Label firstnameVA;
+    @FXML private Label svnVA;
+    @FXML private Label bdayVA;
+    @FXML private Label addressVA;
+    @FXML private Label stateVA;
+    @FXML private Label zipVA;
+    @FXML private Label cityVA;
+    @FXML private ComboBox chooseMedicinBox;
+    @FXML private Label lastname;
+    @FXML private Label firstname;
+    @FXML private Label svn;
+    @FXML private Label bday;
+    @FXML private Label address;
+    @FXML private Label state;
+    @FXML private Label zip;
+    @FXML private Label city;
+    @FXML private TextArea visualAidInformation;
+    @FXML private ChoiceBox visualAidChoiceBox;
+    @FXML private Button removeEntryFromTable;
+    @FXML private Button addNewEntryToTable;
+    @FXML private TextField dioptersRight;
+    @FXML private TextField dioptersLeft;
     @FXML private ListView prescriptionItems;
 
     private Model _model = Model.getInstance();
@@ -95,7 +92,6 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         // load image resources for buttons
         Image imagePrintIcon = new Image(getClass().getResourceAsStream("/res/icon_print.png"));
         printButton.setGraphic(new ImageView(imagePrintIcon));
-
 
         _prescriptionType = FXCollections.observableArrayList("Medicin", "Visual Aid");
         choosePrescriptionBox.setItems(_prescriptionType);
@@ -201,7 +197,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
         if(choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicine")) {
 
-           ObservableList<IMedicine> prescribedMedicine = prescriptionItems.getItems();
+            ObservableList<IMedicine> prescribedMedicine = prescriptionItems.getItems();
 
             for(IMedicine med : prescribedMedicine){
                 medicinList.add(med);
@@ -247,7 +243,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
                 DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
             }
             try{
-            _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
+                _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
             } catch (DatabaseOperationException databaseOperationException) {
                 databaseOperationException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Cannot Save Prescription - No Diagnose ");

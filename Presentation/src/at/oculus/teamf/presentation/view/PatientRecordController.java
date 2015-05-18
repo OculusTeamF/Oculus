@@ -15,11 +15,11 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.facade.PrescriptionController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
@@ -27,7 +27,6 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PatientRecordModel;
-import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -47,7 +46,10 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 public class PatientRecordController implements Initializable {
 
@@ -89,6 +91,8 @@ public class PatientRecordController implements Initializable {
 
     private ObservableList<IDiagnosis> _diagnosislist;
     private ObservableList<ICalendarEvent> _calendareventlist;
+
+    Collection<IPrescription> notPrintedprescriptionsList = null;
 
 
     @Override
@@ -269,7 +273,7 @@ public class PatientRecordController implements Initializable {
 
         medicalHistory.setExpandedPane(mh4);
 
-        Collection<IPrescription> notPrintedprescriptionsList = null;
+
         try {
             _prescriptionController = PrescriptionController.createController(_initpatient);
             notPrintedprescriptionsList = _prescriptionController.getNotPrintedPrescriptions(_initpatient);
@@ -565,43 +569,6 @@ public class PatientRecordController implements Initializable {
                 DialogBoxController.getInstance().showErrorDialog("CouldNotGetDiagnoseException", "Please contact support");
             }
 
-           /* try {
-                _prescriptionController = PrescriptionController.createController(_initpatient);
-            } catch (NoPatientException noPatientException) {
-                noPatientException.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
-            }*/
-           /* try {
-                notPrintedPrescriptionsEntries = FXCollections.observableArrayList();
-                _prescriptionController = PrescriptionController.createController(initpatient);
-                notPrintedPrescriptionsEntries.addAll(_prescriptionController.getNotPrintedPrescriptions(initpatient));
-            } catch (CouldNotGetPrescriptionException e) {
-                e.printStackTrace();
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-            } catch (NoPatientException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                notPrintedVisualAidEntries = FXCollections.observableArrayList();
-                Collection<IDiagnosis> diagnosises = initpatient.getDiagnoses();
-                IDiagnosis patientsDiagnose = diagnosises.iterator().next();
-                _visualAidController = VisualAidController.createController(patientsDiagnose);
-                notPrintedVisualAidEntries.addAll(_visualAidController.getNotPrintedPrescriptions(initpatient));
-            } catch (CouldNotGetDiagnoseException e) {
-                e.printStackTrace();
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-            } catch (NoPatientException e) {
-                e.printStackTrace();
-            } catch (CouldNotGetVisualAidException e) {
-                e.printStackTrace();
-            }*/
-
             return null;
         }
     };
@@ -630,9 +597,6 @@ public class PatientRecordController implements Initializable {
                 patientRecordListDiagnoses.setDisable(false);
                 StatusBarController.hideStatusBarProgressBarIdle();
 
-/*                if(!notPrintedPrescriptionsEntries.isEmpty() || !notPrintedvVisualAidMap.isEmpty()){
-                    notPrintedPrescriptions.setVisible(true);
-                }*/
             }
         });
 

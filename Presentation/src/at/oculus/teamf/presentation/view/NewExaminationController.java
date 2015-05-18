@@ -13,6 +13,7 @@ import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -35,7 +36,7 @@ import java.util.TimeZone;
 /**
  * Created by Fabian on 01.05.2015.
  */
-public class NewExaminationController implements Initializable {
+public class NewExaminationController implements Initializable, ILogger {
 
     @FXML
     private Button prescriptionButton;
@@ -162,7 +163,7 @@ public class NewExaminationController implements Initializable {
     @FXML
     public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
-        System.out.println("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
+        log.debug("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
         IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addPrescriptionTab(selectedPatient);
     }
