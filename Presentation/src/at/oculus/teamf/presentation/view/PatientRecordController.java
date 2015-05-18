@@ -21,6 +21,7 @@ import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassExcep
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.models.Model;
@@ -268,7 +269,22 @@ public class PatientRecordController implements Initializable {
 
         medicalHistory.setExpandedPane(mh4);
 
-        notPrintedPrescriptions.setVisible(true);
+        Collection<IPrescription> notPrintedprescriptionsList = null;
+        try {
+            _prescriptionController = PrescriptionController.createController(_initpatient);
+            notPrintedprescriptionsList = _prescriptionController.getNotPrintedPrescriptions(_initpatient);
+        } catch (CouldNotGetPrescriptionException e) {
+            e.printStackTrace();
+        } catch (NotInitatedExceptions notInitatedExceptions) {
+            notInitatedExceptions.printStackTrace();
+        } catch (NoPatientException e) {
+            e.printStackTrace();
+        }
+
+        if(notPrintedprescriptionsList.isEmpty()){
+            notPrintedPrescriptions.setVisible(false);
+        }
+
     }
 
     /**
@@ -477,8 +493,11 @@ public class PatientRecordController implements Initializable {
     @FXML
     public void openPrescriptionsToPrintButtonHandler(ActionEvent actionEvent) {
 
-        _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, _initpatient);
-
+        if(_initpatient.getBirthDay() != null){
+            _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, _initpatient);
+        }else{
+            DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please make sure");
+        }
     }
 
     @FXML
@@ -546,7 +565,7 @@ public class PatientRecordController implements Initializable {
                 DialogBoxController.getInstance().showErrorDialog("CouldNotGetDiagnoseException", "Please contact support");
             }
 
-            try {
+           /* try {
                 _prescriptionController = PrescriptionController.createController(_initpatient);
             } catch (NoPatientException noPatientException) {
                 noPatientException.printStackTrace();
@@ -554,7 +573,7 @@ public class PatientRecordController implements Initializable {
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
-            }
+            }*/
            /* try {
                 notPrintedPrescriptionsEntries = FXCollections.observableArrayList();
                 _prescriptionController = PrescriptionController.createController(initpatient);

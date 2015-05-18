@@ -77,7 +77,7 @@ public class Model implements Serializable, ILogger{
     // user management
     private IUser _loggedInUser;
 
-    private static final int QUEUE_CELL_SIZE = 66;      // default: 38
+    private static final int QUEUE_CELL_SIZE = 68;      // default: 38
     private static final int QUEUE_LABEL_SIZE = 60;     // default: 30
 
     /**

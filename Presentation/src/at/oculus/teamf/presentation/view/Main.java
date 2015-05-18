@@ -98,12 +98,12 @@ public class Main extends Application implements ILocal, ILogger {
         // update splitter position
         _scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                _controller.getSplitter().setDividerPosition(0, 0.25);
+                _controller.getSplitter().setDividerPosition(0, 0.35);
             }
         });
         _scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                _controller.getSplitter().setDividerPosition(0, 0.25);
+                _controller.getSplitter().setDividerPosition(0, 0.35);
             }
         });
 
