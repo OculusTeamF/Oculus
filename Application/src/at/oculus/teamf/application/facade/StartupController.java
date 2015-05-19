@@ -24,6 +24,7 @@
 package at.oculus.teamf.application.facade;
 
 import at.oculus.teamE.domain.interfaces.IDomainFactory;
+import at.oculus.teamE.domain.interfaces.IUserTb2;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
 import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;

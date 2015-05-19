@@ -49,16 +49,15 @@ public class ExaminationProtocolBroker extends EntityBroker implements ICollecti
         Doctor doctor = null;
         Orthoptist orthoptist = null;
 
-        // TODO named query doctor und orthoptist
         if (examinationProtocolEntity.getUserId() > 0) {
-            for (Object obj : Facade.getInstance().getAll(Doctor.class)) {
-                if (((Doctor) obj).getTeamFUserId() == examinationProtocolEntity.getUserId()) {
-                    doctor = (Doctor) obj;
-                }
+            Collection<Doctor> doctors = (Collection<Doctor>) (Collection<?>) Facade.getInstance().search(Doctor.class,examinationProtocolEntity.getUserId()+"");
+            for(Doctor d : doctors){
+                doctor = d;
             }
-            for (Object obj : Facade.getInstance().getAll(Orthoptist.class)) {
-                if (((Orthoptist) obj).getTeamFUserId() == examinationProtocolEntity.getUserId()) {
-                    orthoptist = (Orthoptist) obj;
+            if(doctor == null){
+                Collection<Orthoptist> orthoptists = (Collection<Orthoptist>) (Collection<?>) Facade.getInstance().search(Orthoptist.class,examinationProtocolEntity.getUserId()+"");
+                for(Orthoptist o : orthoptists){
+                    orthoptist = o;
                 }
             }
         }

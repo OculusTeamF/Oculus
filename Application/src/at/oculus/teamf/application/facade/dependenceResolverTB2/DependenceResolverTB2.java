@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.application.facade.dependenceResolverTB2;
 
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.domain.entity.factory.IFactoryTB2;
 import at.oculus.teamf.persistence.IFacade;
 
@@ -34,17 +34,17 @@ public class DependenceResolverTB2 {
         _factory = factory;
     }
 
-    public IFactoryTB2 getFactory() throws NotInitatedExceptions {
+    public IFactoryTB2 getFactory() throws NotInitiatedExceptions {
         if(_factory == null) {
-            throw new NotInitatedExceptions();
+            throw new NotInitiatedExceptions();
         }
 
         return _factory;
     }
 
-    public IFacade getFacade() throws NotInitatedExceptions {
+    public IFacade getFacade() throws NotInitiatedExceptions {
         if(_facade == null) {
-            throw new NotInitatedExceptions();
+            throw new NotInitiatedExceptions();
         }
 
         return _facade;

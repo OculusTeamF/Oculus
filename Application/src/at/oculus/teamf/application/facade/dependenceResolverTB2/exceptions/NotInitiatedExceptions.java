@@ -7,26 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.presentation.view.resourcebundel;
+package at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions;
 
-import java.util.Enumeration;
-import java.util.ResourceBundle;
+import at.oculus.teamf.application.facade.exceptions.ApplicationException;
 
-public class SingleResourceBundle extends ResourceBundle {
-
-    private Object _obj;
-
-    public SingleResourceBundle(Object obj) {
-        _obj = obj;
-    }
-
-    @Override
-    protected Object handleGetObject(String key) {
-        return _obj;
-    }
-
-    @Override
-    public Enumeration<String> getKeys() {
-        return null;
-    }
+/**
+ * Created by Simon Angerer on 13.05.2015.
+ */
+public class NotInitiatedExceptions extends Exception {
 }

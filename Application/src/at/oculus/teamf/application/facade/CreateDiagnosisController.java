@@ -23,15 +23,12 @@ package at.oculus.teamf.application.facade;
  */
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -89,7 +86,7 @@ public class CreateDiagnosisController implements ILogger {
      * @param description this is the description of the diagnosis
      * @param iDoctor this is the interface of the doctor, which created the diagnosis
      */
-    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException, NotInitatedExceptions {
+    public IDiagnosis createDiagnosis(String title, String description, IDoctor iDoctor) throws RequirementsUnfulfilledException, BadConnectionException, CriticalClassException, CriticalDatabaseException, NotInitiatedExceptions {
         //check parameters
         if (!checkRequirements(title, description, iDoctor)) {
             log.info("Requirememts unfulfilled");

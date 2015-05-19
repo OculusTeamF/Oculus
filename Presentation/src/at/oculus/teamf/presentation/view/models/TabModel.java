@@ -52,7 +52,7 @@ public class TabModel implements ILogger {
     }
 
     // team E integration
-    private ViewLoaderTb2<ExaminationCreationFormViewController> exDetailTeamE;
+    private ViewLoaderTb2<ExaminationCreationFormViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
 
     /* set the Tabs for the TabPanel */
     public void setTabPanel(TabPane tabpanel){ _tabPanel = tabpanel;}

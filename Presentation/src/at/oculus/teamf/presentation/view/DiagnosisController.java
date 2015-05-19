@@ -9,10 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamE.presentation.ViewLoaderTb2;
-import at.oculus.teamE.presentation.controllers.ExaminationsListViewController;
-import at.oculus.teamE.presentation.controllers.MedicineEditFormViewController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
@@ -32,7 +29,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,12 +42,9 @@ public class DiagnosisController implements Initializable,ILogger {
     @FXML private Button saveDiagnosisButton;
     @FXML private TextField textDiagnosisTitle;
     @FXML private TextArea textDiagnosisDescription;
-    @FXML private AnchorPane integratePane;
 
     private Model _model = Model.getInstance();
     private IExaminationProtocol _currexam;
-
-    private ViewLoaderTb2<ExaminationsListViewController> mededit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -62,11 +55,6 @@ public class DiagnosisController implements Initializable,ILogger {
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
         saveDiagnosisButton.setGraphic(new ImageView(imageSaveIcon));
-
-        // integrate team E -> add medication
-        // mededit.getController().initialize();
-
-        integratePane.getChildren().add(mededit.loadNode());
     }
 
     // *****************************************************************************************************************
@@ -82,9 +70,9 @@ public class DiagnosisController implements Initializable,ILogger {
         {
             try {
                 _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), _currexam);
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+            } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                notInitiatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
             } catch (CriticalDatabaseException criticalDatabaseException) {
                 criticalDatabaseException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");
