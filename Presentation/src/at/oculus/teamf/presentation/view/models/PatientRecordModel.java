@@ -81,6 +81,7 @@ public class PatientRecordModel {
         try {
             _model.getCreatePatientController().createPatient(gender, lastname, firstname, svn, bday, street, postalcode, city, phone, email, doctor, countryIsoCode);
             return true;
+
         } catch (RequirementsNotMetException requirementsNotMetException) {
             requirementsNotMetException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("RequirementsNotMetException", "Please contact support");
@@ -124,7 +125,6 @@ public class PatientRecordModel {
         pane.setHgap(10);
         pane.setVgap(10);
 
-
         //Content of Popup
         Label label = new Label("Not printed Prescriptions:");
         final ListView<IPrescription> openPrescriptions = new ListView<>();
@@ -139,7 +139,11 @@ public class PatientRecordModel {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
 
                 try {
-                    prescriptionController.printPrescription();
+                    if(prescription != null){
+                        prescriptionController.printPrescription();
+                    }else{
+                        DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please choose a Prescription");
+                    }
                 } catch (DatabaseOperationException dataBaseOperationException) {
                     dataBaseOperationException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact support");
