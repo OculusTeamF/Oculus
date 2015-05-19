@@ -317,7 +317,7 @@ public class Printer implements ILogger{
             tstampString = tstampString.replace(' ', '_');
             tstampString = tstampString.replace(':', '_');
             String finalFileName = tstampString.substring(0, 19);
-            String filename = "Technical/output/prescription" + finalFileName + ".pdf";
+            String filename = "out/prescriptions/prescription" + finalFileName + ".pdf";
 
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
