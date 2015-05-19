@@ -77,7 +77,7 @@ public class Model implements Serializable, ILogger{
     // user management
     private IUser _loggedInUser;
 
-    private static final int QUEUE_CELL_SIZE = 66;      // default: 38
+    private static final int QUEUE_CELL_SIZE = 68;      // default: 38
     private static final int QUEUE_LABEL_SIZE = 60;     // default: 30
 
     /**
@@ -257,7 +257,6 @@ public class Model implements Serializable, ILogger{
 
         _patientsInQueue.clear();
         _userWaitingList.clear();
-        //_queueTitledPaneFromUser.remove(user);
 
         //actual list from the given user //hier ist problem!!!
         ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) QueueModel.getInstance().getEntriesFromQueue(user));
@@ -281,18 +280,6 @@ public class Model implements Serializable, ILogger{
         userTitledPane.setText(header);
         userTitledPane.setTooltip(new Tooltip("Patient queue for " + user.getLastName()));
         userTitledPane.setExpanded(true);
-
-
-        /*//the entries of the Queue from the given user which is not actual
-        ObservableList<IPatient> observableList = _userWaitingList.get(user);
-
-        if (observableList != null) {
-            observableList.remove(0, observableList.size());
-        } else {
-            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
-        }*/
-
-
     }
 
     /**

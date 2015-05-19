@@ -36,6 +36,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -114,6 +116,7 @@ public class PatientRecordModel {
 
         Group root = new Group();
         Scene scene = new Scene(root, 400, 300, Color.WHITE);
+        scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
 
         GridPane pane = new GridPane();
         for(int i = 0; i < 3; i++){
@@ -130,7 +133,17 @@ public class PatientRecordModel {
         final ListView<IPrescription> openPrescriptions = new ListView<>();
         Button printPrescriptionButton = new Button("Print Prescription");
         Button deletePrescriptionButton = new Button("Delete Prescription");
+
+        // setup buttons
+        Image imagePrintIcon = new Image(getClass().getResourceAsStream("/res/icon_print.png"));
+        Image imageDelete = new Image(getClass().getResourceAsStream("/res/icon_delete.png"));
+        printPrescriptionButton.setGraphic(new ImageView(imagePrintIcon));
+        deletePrescriptionButton.setGraphic(new ImageView(imageDelete));
         deletePrescriptionButton.setDisable(true);
+        printPrescriptionButton.setMinHeight(31);
+        printPrescriptionButton.setMinWidth(150);
+        deletePrescriptionButton.setMinHeight(31);
+        deletePrescriptionButton.setMinWidth(150);
 
        //Button ActionHandler
         printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -172,7 +185,6 @@ public class PatientRecordModel {
             @Override
             public void handle(ActionEvent event) {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
-
                 //TODO: _prescriptionController.deletePrescription();
             }
         });
@@ -195,6 +207,7 @@ public class PatientRecordModel {
 
         stage.setScene(new Scene(pane));
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.getIcons().add(new Image("/res/32x32.png"));
         stage.setResizable(false);
         stage.show();
 

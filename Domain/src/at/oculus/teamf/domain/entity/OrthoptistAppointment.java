@@ -15,9 +15,6 @@ import at.oculus.teamf.domain.entity.interfaces.IOrthoptistAppointment;
  * Created by Norskan on 03.04.2015.
  */
 public class OrthoptistAppointment extends EventType implements IOrthoptistAppointment {
-	public OrthoptistAppointment() {
-	}
-
 	public OrthoptistAppointment(int id, String eventTypeName, int estimatedTime, String description) {
 		super(id, eventTypeName, estimatedTime, description);
 	}

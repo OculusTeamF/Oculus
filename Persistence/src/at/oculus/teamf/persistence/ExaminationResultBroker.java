@@ -93,7 +93,7 @@ public class ExaminationResultBroker extends EntityBroker implements ISearch {
 	                }
                 } else if (examinationResult.getOrthoptist()!=null) {
 	                OrthoptistEntity orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
-	                                                                              .domainToPersistent(examinationResult.getOrthoptist());
+	                                                                              .domainToPersistent((IDomain) examinationResult.getOrthoptist());
 	                if(orthoptistEntity!=null) {
 		                userEntity = orthoptistEntity.getUser();
 	                }

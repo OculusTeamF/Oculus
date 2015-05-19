@@ -10,6 +10,8 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.domain.entity.interfaces.IReceptionist;
 
 import java.time.LocalDateTime;
@@ -23,8 +25,8 @@ public class Receptionist extends User implements IReceptionist {
 
     //<editor-fold desc="Attributes">
     private int _id;
-    private Collection<Calendar> _calendars;
-    private Collection<PatientQueue> _queues;
+    private Collection<ICalendar> _calendars;
+    private Collection<IPatientQueue> _queues;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -39,22 +41,22 @@ public class Receptionist extends User implements IReceptionist {
     }
 
     @Override
-    public Collection<Calendar> getCalendars() {
+    public Collection<ICalendar> getCalendars() {
         return _calendars;
     }
 
     @Override
-    public void setCalendars(Collection<Calendar> calendars) {
+    public void setCalendars(Collection<ICalendar> calendars) {
         _calendars = calendars;
     }
 
     @Override
-    public Collection<PatientQueue> getQueues() {
+    public Collection<IPatientQueue> getQueues() {
         return _queues;
     }
 
     @Override
-    public void setQueues(Collection<PatientQueue> queues) {
+    public void setQueues(Collection<IPatientQueue> queues) {
         _queues = queues;
     }
 

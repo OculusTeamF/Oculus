@@ -57,8 +57,8 @@
             <DatePicker fx:id="newPatientBday" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="newPatientStreet" GridPane.columnIndex="1" GridPane.rowIndex="5" />
              <TextField fx:id="newPatientCity" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="newPatientPLZ" alignment="CENTER" maxWidth="-Infinity" prefHeight="31.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="newPatientCountryIsoCode" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <TextField fx:id="newPatientPLZ" alignment="CENTER" maxWidth="-Infinity" prefHeight="31.0" prefWidth="141.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="newPatientCountryIsoCode" prefHeight="31.0" prefWidth="53.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="240.0" />
                </GridPane.margin>
@@ -74,7 +74,7 @@
             <ChoiceBox fx:id="newPatientDoctor" prefHeight="25.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Label prefHeight="21.0" prefWidth="58.0" text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
-                  <Insets left="180.0" />
+                  <Insets left="160.0" />
                </GridPane.margin></Label>
          </children>
       </GridPane>

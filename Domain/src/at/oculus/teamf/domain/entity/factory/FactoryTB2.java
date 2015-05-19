@@ -9,17 +9,14 @@
 
 package at.oculus.teamf.domain.entity.factory;
 
-import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
-import at.oculus.teamE.domain.interfaces.IMedicineTb2;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.entity.PatientEntity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by Simon Angerer on 13.05.2015.
@@ -44,6 +41,12 @@ public class FactoryTB2 implements IFactoryTB2 {
     @Override
     public IPrescriptionEntry createPrescriptionEntry() {
         return new PrescriptionEntry();
+    }
+
+    @Override
+    public IExaminationProtocol createExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
+                                                          Orthoptist orthoptist, Diagnosis diagnosis) {
+        return null;
     }
 
 }

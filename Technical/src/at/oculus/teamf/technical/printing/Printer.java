@@ -43,6 +43,7 @@
         import java.io.IOException;
         import java.sql.Timestamp;
         import java.util.Date;
+        import java.util.Random;
 
 /**
  * <h2>$Printer</h2>
@@ -283,7 +284,10 @@ public class Printer implements ILogger{
             //print oculus image into pdf file
             //Not working
 
+
             BufferedImage awtImage = ImageIO.read(new File("Technical/res/oculus.JPG"));
+            //filename for tests
+            //BufferedImage awtImage = ImageIO.read(new File("../Technical/res/oculus.JPG"));
             PDXObjectImage ximage = new PDPixelMap(document, awtImage);
             float scale = 0.3f; // alter this value to set the image size
             stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
@@ -299,7 +303,7 @@ public class Printer implements ILogger{
 
             //print a line for signature field
             stream.setLineWidth(0.5f);
-            stream.addLine(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (line+=2) - SPACING_HEADER, SPACING_LEFT + 100, rectangle.getHeight() - LINE_HEIGHT * (line) - SPACING_HEADER);
+            stream.addLine(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (line += 2) - SPACING_HEADER, SPACING_LEFT + 100, rectangle.getHeight() - LINE_HEIGHT * (line) - SPACING_HEADER);
             stream.closeAndStroke();
             log.info("Signature field printed");
 
@@ -309,7 +313,14 @@ public class Printer implements ILogger{
             //save the document and close it
             Timestamp tstamp = new Timestamp(new Date().getTime());
             System.out.println(System.getProperty("user.dir"));
-            String filename = "Technical/output/prescription_" + tstamp.toString() + ".pdf";
+            String tstampString = tstamp.toString();
+            tstampString = tstampString.replace(' ', '_');
+            tstampString = tstampString.replace(':', '_');
+            String finalFileName = tstampString.substring(0, 19);
+            String filename = "Technical/output/prescription" + finalFileName + ".pdf";
+
+            //filename for tests
+            //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
             document.save(filename);
             document.close();
             log.info("Document saved with filename: " + filename);

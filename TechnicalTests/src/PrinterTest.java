@@ -64,5 +64,6 @@ public class PrinterTest implements IPrinter {
         } catch (NoPrescriptionToPrintException e) {
             e.printStackTrace();
         }
+
     }
 }

@@ -26,17 +26,13 @@ public interface IExaminationResult extends IDomain {
     @Override
     void setId(int id);
 
-    ExaminationProtocol getExaminationProtocol();
+    IExaminationProtocol getExaminationProtocol();
 
-    void setExaminationProtocol(ExaminationProtocol examinationProtocolEntity);
+    void setExaminationProtocol(IExaminationProtocol examinationProtocolEntity);
 
-    Integer getExaminationProtocolId();
+    IUser getUser();
 
-    void setExaminationProtocolId(Integer examinationProtocolId);
-
-    User getUser();
-
-    void setUser(User user);
+    void setUser(IUser user);
 
     Integer getUserId();
 
@@ -48,17 +44,11 @@ public interface IExaminationResult extends IDomain {
 
     Date getCreateDate();
 
-    void setCreateDate(Date createDate);
-
     String getDevice();
-
-    void setDevice(String device);
 
     byte[] getDeviceData();
 
-    void setDeviceData(byte[] deviceData);
+    IDoctor getDoctor();
 
-    Doctor getDoctor();
-
-    Orthoptist getOrthoptist();
+    IOrthoptist getOrthoptist();
 }

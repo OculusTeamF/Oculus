@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientTo
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -72,9 +73,9 @@ public class QueueModel {
      * @param user
      * @return Collection<QueueEntry>
      */
-    public Collection<QueueEntry> getEntriesFromQueue(IUser user) {
+    public Collection<IQueueEntry> getEntriesFromQueue(IUser user) {
         _model = Model.getInstance();
-        Collection<QueueEntry> entries = null;
+        Collection<IQueueEntry> entries = null;
 
         IPatientQueue queue = getQueueFromUser(user);
         entries = queue.getEntries();

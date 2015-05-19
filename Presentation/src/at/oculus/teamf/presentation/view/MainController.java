@@ -194,8 +194,8 @@ public class MainController implements Initializable, ILogger {
 
     /*Button: opens test action*/
     @FXML
-    public void openPatient(ActionEvent actionEvent) {
-        System.out.println(DialogBoxController.getInstance().showYesNoDialog("Frage", "ist es OK?"));
+    public void openTestTab(ActionEvent actionEvent) {
+        _model.getTabModel().addTestTab(_model.getPatient());
     }
 
     /* MenuItem for the selection of the Theme*/

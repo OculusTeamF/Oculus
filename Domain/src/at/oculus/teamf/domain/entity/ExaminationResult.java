@@ -12,8 +12,7 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IExaminationTb2;
 import at.oculus.teamE.domain.interfaces.IUserTb2;
-import at.oculus.teamE.domain.readonly.IRUserTb2;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
+import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Blob;
@@ -27,12 +26,12 @@ import java.util.Date;
  */
 public class ExaminationResult implements IExaminationResult, ILogger, IExaminationTb2 {
 	private int _id;
-	private ExaminationProtocol _examinationProtocol;
+	private IExaminationProtocol _examinationProtocol;
 	private Integer _examinationProtocolId;
-	private User _user;
+	private IUser _user;
 	private Integer _userId;
-    private Doctor _doctor;
-    private Orthoptist _orthoptist;
+    private IDoctor _doctor;
+    private IOrthoptist _orthoptist;
 	private String _result;
 	private Date _createDate;
 	private String _device;
@@ -71,29 +70,29 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
 	}
 
 	@Override
-    public ExaminationProtocol getExaminationProtocol() {
+    public IExaminationProtocol getExaminationProtocol() {
 		return _examinationProtocol;
 	}
 	@Override
-    public void setExaminationProtocol(ExaminationProtocol examinationProtocolEntity) {
+    public void setExaminationProtocol(IExaminationProtocol examinationProtocolEntity) {
 		_examinationProtocol = examinationProtocolEntity;
 	}
 
-	@Override
+
     public Integer getExaminationProtocolId() {
 		return _examinationProtocolId;
 	}
-	@Override
+
     public void setExaminationProtocolId(Integer examinationProtocolId) {
 		_examinationProtocolId = examinationProtocolId;
 	}
 
 	@Override
-    public User getUser() {
+    public IUser getUser() {
 		return _user;
 	}
 	@Override
-    public void setUser(User user) {
+    public void setUser(IUser user) {
         if(user!=null){
             _user = user;
             _userId = user.getTeamFUserId();
@@ -149,7 +148,7 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
 
     @Override
     public IExaminationProtocolTb2 getProtocol() {
-        return _examinationProtocol;
+        return (IExaminationProtocolTb2) _examinationProtocol;
     }
 
     //not used
@@ -166,9 +165,9 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
     @Override
     public IUserTb2 getCreator() {
         if(_doctor != null){
-            return _doctor;
+            return (IUserTb2) _doctor;
         }else if(_orthoptist != null){
-            return _orthoptist;
+            return (IUserTb2) _orthoptist;
         }
         return null;
     }
@@ -182,36 +181,24 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
     public Date getCreateDate() {
 		return _createDate;
 	}
-	@Override
-    public void setCreateDate(Date createDate) {
-		_createDate = createDate;
-	}
 
 	@Override
     public String getDevice() {
 		return _device;
-	}
-	@Override
-    public void setDevice(String device) {
-		_device = device;
 	}
 
 	@Override
     public byte[] getDeviceData() {
 		return _deviceData;
 	}
-	@Override
-    public void setDeviceData(byte[] deviceData) {
-		_deviceData = deviceData;
-	}
 
 	@Override
-    public Doctor getDoctor() {
+    public IDoctor getDoctor() {
 		return _doctor;
 	}
 
 	@Override
-    public Orthoptist getOrthoptist() {
+    public IOrthoptist getOrthoptist() {
 		return _orthoptist;
 	}
 

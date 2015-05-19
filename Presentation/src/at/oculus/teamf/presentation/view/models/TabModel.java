@@ -9,12 +9,15 @@
 
 package at.oculus.teamf.presentation.view.models;
 
+import at.oculus.teamE.presentation.ViewLoaderTb2;
+import at.oculus.teamE.presentation.controllers.ExaminationCreationFormViewController;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +50,9 @@ public class TabModel implements ILogger {
 
         return _tabmodel;
     }
+
+    // team E integration
+    private ViewLoaderTb2<ExaminationCreationFormViewController> exDetailTeamE;
 
     /* set the Tabs for the TabPanel */
     public void setTabPanel(TabPane tabpanel){ _tabPanel = tabpanel;}
@@ -139,10 +145,6 @@ public class TabModel implements ILogger {
 
     // return patient from current selected tab
     public IPatient getPatientFromSelectedTab(Tab tab){
-/*        System.out.println("SEARCH KEY: " + tab.getId());
-        for (Tab key : _tabmap.keySet()) {
-            System.out.println("TABKEYS AVAILABLE: " + key.getId());
-        }*/
         IPatient pat = _tabmap.get(tab);
         return pat;
     }
@@ -173,7 +175,7 @@ public class TabModel implements ILogger {
 
     public void removeTabMapEntry(Tab tab){
         _tabmap.remove(tab);
-        System.out.println("REMOVE TAB ENTRY: " + tab.getId());
+        log.debug("REMOVE TAB ENTRY: " + tab.getId());
     }
 
     public Tab getSelectedTab(){ return  _selectedTab; }
@@ -233,6 +235,35 @@ public class TabModel implements ILogger {
         _tabinitpatient = patient;
         String tabid = "newexamination" + patient.getSocialInsuranceNr();
         loadTab("EXAMINATION: " + patient.getLastName(), "fxml/NewExaminationTab.fxml", tabid);
+    }
+
+    // *****************************************************************************************************************
+    //
+    // ADD ARNO STUFF
+    //
+    // *****************************************************************************************************************
+
+    public void addTestTab(IPatient patient)
+    {
+        _model._patient = patient;
+        _tabinitpatient = patient;
+        Tab tab = new Tab("Testtab");
+
+        // tab management
+        _selectedTab = tab;
+        tab.setId("testtab");
+
+        // load tab fxml
+        //String pathTabFXML = "../" + tabFXML;
+        //AnchorPane ap = FXMLLoader.load(this.getClass().getResource(pathTabFXML));
+        //tab.setContent(ap);
+
+        Node newnode = exDetailTeamE.loadNode();
+        tab.setContent(newnode);
+
+        setTabMapEntry(tab, _tabinitpatient);
+        _tabPanel.getTabs().add(tab);               // add tab to pane
+        _tabPanel.getSelectionModel().select(tab);  // switch to new tab
     }
 
     public void addSearchTab(){
