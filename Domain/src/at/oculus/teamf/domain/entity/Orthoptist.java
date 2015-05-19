@@ -9,12 +9,18 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
+import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * domain orthoptist class
@@ -22,8 +28,8 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 public class Orthoptist extends User implements IDomain, IOrthoptist {
 	//<editor-fold desc="Attributes">
 	private int _id;
-    private Calendar _calendar;
-    private PatientQueue _queue;
+    private ICalendar _calendar;
+    private IPatientQueue _queue;
 
     //</editor-fold>
 
@@ -39,17 +45,17 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
 	}
 
     @Override
-    public Calendar getCalendar() {
+    public ICalendar getCalendar() {
 	    return _calendar;
     }
 
     @Override
-    public void setCalendar(Calendar calendar) {
+    public void setCalendar(ICalendar calendar) {
         _calendar = calendar;
     }
 
     @Override
-    public PatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+    public IPatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
         if(_queue == null) {
             _queue = QueueFactory.getInstance().getUserQueue(this);
         }
@@ -57,8 +63,31 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
     }
 
     @Override
-    public void setQueue(PatientQueue queue) {
+    public void setQueue(IPatientQueue queue) {
         _queue = queue;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        //TODO implement getExaminationProtocols()
+        return null;
+    }
+
+    @Override
+    public Integer getUserId() {
+        return _id;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getCreationDate() {
+        return null;
+    }
+
+    //not used
+    @Override
+    public LocalDateTime getIdleDate() {
+        return null;
     }
     //</editor-fold>
 }

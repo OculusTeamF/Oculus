@@ -14,7 +14,7 @@ package at.oculus.teamf.domain.entity.interfaces;
  */
 public interface IMedicine extends IDomain {
 
-    IDiagnosis getDiagnosis();
+    IDiagnosis getTeamFDiagnosis();
     void setDiagnosis(IDiagnosis diagnosis);
 
     String getName();

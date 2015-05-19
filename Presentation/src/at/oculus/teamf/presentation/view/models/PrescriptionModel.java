@@ -15,6 +15,7 @@ import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotIn
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -78,7 +79,12 @@ public class PrescriptionModel {
 
     public Collection<IMedicine> getPrescribedMedicin() {
 
-        Collection<IMedicine> prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
+        Collection<IMedicine> prescribedMedicins = null;
+        try {
+            prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
+        } catch (CouldNotGetMedicineException e) {
+            e.printStackTrace();
+        }
 
         return prescribedMedicins;
     }

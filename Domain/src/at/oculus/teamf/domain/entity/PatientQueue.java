@@ -13,6 +13,8 @@ import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientTo
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -32,8 +34,8 @@ import java.util.LinkedList;
 public class PatientQueue implements ILogger, IPatientQueue {
 
     //<editor-fold desc="Attributes">
-    private User _user;
-    private LinkedList<QueueEntry> _entries;
+    private IUser _user;
+    private LinkedList<IQueueEntry> _entries;
     //</editor-fold>
 
     public PatientQueue(User user, Collection<QueueEntry> entries) {
@@ -51,7 +53,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
      */
     //Todo: Proxy
     @Override
-    public LinkedList<QueueEntry> getEntries()  {
+    public LinkedList<IQueueEntry> getEntries()  {
         return _entries;
     }
 
@@ -89,10 +91,10 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
     @Override
     public void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException {
-        QueueEntry queueEntryDel = null;
-        QueueEntry queueEntryChd = null;
+        IQueueEntry queueEntryDel = null;
+        IQueueEntry queueEntryChd = null;
 
-        for (QueueEntry qe : _entries) {
+        for (IQueueEntry qe : _entries) {
             //finde entry to remove
             if (qe.getPatient().getId() == patient.getId()) {
                 queueEntryDel = qe;
@@ -104,7 +106,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             throw  new CouldNotRemovePatientFromQueueException();
         }
 
-        for (QueueEntry qe : _entries) {
+        for (IQueueEntry qe : _entries) {
             //finde child of entry to remove
             if ((qe.getQueueIdParent()) != null && (qe.getQueueIdParent().equals(queueEntryDel.getId()))) {
                 queueEntryChd = qe;

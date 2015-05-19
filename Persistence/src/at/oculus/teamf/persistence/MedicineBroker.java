@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 import at.oculus.teamf.persistence.entity.DiagnosisEntity;
@@ -91,7 +92,7 @@ public class MedicineBroker extends EntityBroker implements ISearch {
 		MedicineEntity medicineEntity = (MedicineEntity) entity;
 		Medicine medicine = new Medicine();
 		medicine.setId(medicineEntity.getId());
-		medicine.setDiagnosis((Diagnosis) Facade.getInstance().getBroker(Diagnosis.class).persistentToDomain(medicineEntity.getDiagnosis()));
+		medicine.setDiagnosis((IDiagnosis) Facade.getInstance().getBroker(Diagnosis.class).persistentToDomain(medicineEntity.getDiagnosis()));
 		medicine.setDose(medicineEntity.getDose());
 		medicine.setName(medicineEntity.getName());
 		return medicine;
@@ -115,7 +116,7 @@ public class MedicineBroker extends EntityBroker implements ISearch {
 		MedicineEntity medicineEntity = new MedicineEntity();
 		medicineEntity.setId(medicine.getId());
 		medicineEntity.setDiagnosis((DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
-		                                                    .domainToPersistent(medicine.getDiagnosis()));
+		                                                    .domainToPersistent(medicine.getTeamFDiagnosis()));
 		medicineEntity.setDose(medicine.getDose());
 		medicineEntity.setName(medicine.getName());
 		return medicineEntity;

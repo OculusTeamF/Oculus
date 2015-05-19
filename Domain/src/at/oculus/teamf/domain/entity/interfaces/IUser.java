@@ -9,8 +9,6 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.persistence.entity.UsergroupEntity;
-
 import java.util.Date;
 
 /**
@@ -18,7 +16,7 @@ import java.util.Date;
  */
 public interface IUser {
     //<editor-fold desc="Getter/Setter">
-    int getUserId();
+    int getTeamFUserId();
 
     void setUserId(int id);
 
@@ -54,11 +52,7 @@ public interface IUser {
 
     void setCreateDate(Date createDate);
 
-    Date getIdleDate();
+    Date getTeamFIdleDate();
 
     void setIdleDate(Date idleDate);
-
-    UsergroupEntity getUserGroup();
-
-    void setUserGroup(UsergroupEntity usergroup);
 }

@@ -9,9 +9,6 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.PatientQueue;
-
 import java.util.Collection;
 
 /**
@@ -23,11 +20,11 @@ public interface IReceptionist extends IDomain {
 
     void setId(int _id);
 
-    Collection<Calendar> getCalendars();
+    Collection<ICalendar> getCalendars();
 
-    void setCalendars(Collection<Calendar> calendars);
+    void setCalendars(Collection<ICalendar> calendars);
 
-    Collection<PatientQueue> getQueues();
+    Collection<IPatientQueue> getQueues();
 
-    void setQueues(Collection<PatientQueue> queues);
+    void setQueues(Collection<IPatientQueue> queues);
 }

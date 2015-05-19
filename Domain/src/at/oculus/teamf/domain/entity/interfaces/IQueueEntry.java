@@ -9,9 +9,6 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -24,25 +21,23 @@ public interface IQueueEntry extends IDomain, ILogger {
 
     void setId(int id);
 
-    Doctor getDoctor();
+    IDoctor getDoctor();
 
-    void setDoctor(Doctor doctor);
+    void setDoctor(IDoctor doctor);
 
-    Orthoptist getOrthoptist();
+    IOrthoptist getOrthoptist();
 
-    void setOrthoptist(Orthoptist orthoptist);
+    void setOrthoptist(IOrthoptist orthoptist);
 
-    Patient getPatient();
+    IPatient getPatient();
 
-    void setPatient(Patient patient);
+    void setPatient(IPatient patient);
 
     Integer getQueueIdParent();
 
     void setQueueIdParent(Integer queueIdParent);
 
     Timestamp getArrivalTime();
-
-    void setArrivalTime(Timestamp arrivalTime);
 
     @Override
     String toString();

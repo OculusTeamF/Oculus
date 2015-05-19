@@ -9,7 +9,11 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.*;
+import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
+import at.oculus.teamE.domain.readonly.IRUserTb2;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -21,15 +25,21 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * ExaminationProtocol.java
  * Created by oculus on 16.04.15.
  */
-//Todo: Prox<
-public class ExaminationProtocol implements IExaminationProtocol, ILogger {
+//Todo: Proxy
+public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExaminationProtocolTb2 {
     private int _id;
 	private Date _startTime;
 	private Date _endTime;
@@ -41,6 +51,11 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
 	private Collection<ExaminationResult> _results;
 
 	public ExaminationProtocol() {}
+
+    public ExaminationProtocol(IPatientTb2 iPatientTb2, IUserTb2 iUserTb2){
+        _patient = (Patient) iPatientTb2;
+        _doctor = (Doctor) iUserTb2;
+    }
 
 	public ExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
 	                           Orthoptist orthoptist, Diagnosis diagnosis) {
@@ -85,14 +100,49 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
     public String getDescription() {
 		return _description;
 	}
-	@Override
+
+    @Override
+    public void setEndTimeProtocol(LocalDateTime localDateTime) {
+        _endTime = Date.from(localDateTime.toInstant(ZoneOffset.ofHours(0)));
+    }
+
+    @Override
     public void setDescription(String description) {
 		_description = description;
 	}
 
-	@Override
+    @Override
+    public void addExamination(IExaminationTb2 iExaminationTb2) {
+        //TODO addExamination
+        log.debug("adding examination result to examination protocol " + this);
+        IExaminationResult result = (IExaminationResult) iExaminationTb2;
+        result.setExaminationProtocol(this);
+
+        if (_results == null) {
+            _results = new LinkedList<ExaminationResult>();
+        }
+        _results.add((ExaminationResult)result);
+
+    }
+
+    @Override
+    public List<? extends IExaminationTb2> getExaminations() {
+        return (List<? extends IExaminationTb2>) _results;
+    }
+
+    @Override
+    public void removeExamination(IExaminationTb2 iExaminationTb2) {
+        //TODO removeExamination
+    }
+
+    @Override
     public Doctor getDoctor() {
 		return _doctor;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+
 	}
 
 	@Override
@@ -110,11 +160,49 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger {
 		_orthoptist = (Orthoptist) orthoptist;
 	}
 
-	@Override
-    public IDiagnosis getDiagnosis() {
+    @Override
+    public Integer getExaminationProtocolId() {
+        return getId();
+    }
+
+    @Override
+    public IRUserTb2 getCreator() {
+        if(_orthoptist != null){
+            return _orthoptist;
+        }else if(_doctor != null){
+            return _doctor;
+        }
+       return null;
+    }
+
+    @Override
+    public IRDiagnosisTb2 getDiagnosis() {
+        return _diagnosis;
+    }
+
+    @Override
+    public IDiagnosis getTeamFDiagnosis() {
 		return _diagnosis;
 	}
-	@Override
+
+
+    @Override
+    public LocalDateTime getStartTimeProtocol() {
+        Date ts = _startTime;
+        Instant instant = Instant.ofEpochMilli(ts.getTime());
+        LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return res;
+    }
+
+    @Override
+    public LocalDateTime getEndTimeProtocol() {
+        Date ts = _endTime;
+        Instant instant = Instant.ofEpochMilli(ts.getTime());
+        LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return res;
+    }
+
+    @Override
     public void setDiagnosis(IDiagnosis diagnosis) {
 		_diagnosis = (Diagnosis) diagnosis;
 	}

@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.Orthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -43,7 +42,7 @@ public class OrthoptistBrokerTest extends BrokerTest {
             e.printStackTrace();
         }
         assertTrue(orthoptist != null);
-        assertTrue(orthoptist.getUserId() > 0);
+        assertTrue(orthoptist.getTeamFUserId() > 0);
     }
 
     @Test
