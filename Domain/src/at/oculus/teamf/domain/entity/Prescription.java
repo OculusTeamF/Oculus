@@ -102,16 +102,18 @@ public class Prescription implements IPrescription, ILogger {
 	 */
 	public void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry)
 			throws CouldNotAddPrescriptionEntryException {
-		PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
-		entry.setPrescription(this);
-		_prescriptionEntries.add(entry);
+        if(prescriptionEntry!=null) {
+            PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
+            entry.setPrescription(this);
+            _prescriptionEntries.add(entry);
 
-		try {
-			Facade.getInstance().save(entry);
-		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
-			log.error(e.getMessage());
-			throw new CouldNotAddPrescriptionEntryException();
-		}
+            try {
+                Facade.getInstance().save(entry);
+            } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+                log.error(e.getMessage());
+                throw new CouldNotAddPrescriptionEntryException();
+            }
+        }
 	}
 
 	@Override
