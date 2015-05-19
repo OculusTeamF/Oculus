@@ -9,8 +9,9 @@
 
 package at.oculus.teamf.presentation.view.models;
 
+import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
 import at.oculus.teamE.presentation.ViewLoaderTb2;
-import at.oculus.teamE.presentation.controllers.ExaminationCreationFormViewController;
+import at.oculus.teamE.presentation.controllers.*;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -52,7 +53,10 @@ public class TabModel implements ILogger {
     }
 
     // team E integration
-    private ViewLoaderTb2<ExaminationCreationFormViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
+    private ViewLoaderTb2<MedicineEditFormViewController> exDetailTeamE = new ViewLoaderTb2<>(MedicineEditFormViewController.class);
+    // private ViewLoaderTb2<ExaminationCreationFormViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
+    // private ViewLoaderTb2<ExaminationDataWidgetController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationDataWidgetController.class);
+    // private ViewLoaderTb2<ExaminationsListViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationsListViewController.class);
 
     /* set the Tabs for the TabPanel */
     public void setTabPanel(TabPane tabpanel){ _tabPanel = tabpanel;}
@@ -264,6 +268,8 @@ public class TabModel implements ILogger {
 
         Node newnode = exDetailTeamE.loadNode();
         tab.setContent(newnode);
+
+        // MedicineAttachDialog<IRDiagnosisTb2> arno = new MedicineAttachDialog<>(diagnose).showAndWait();
 
         setTabMapEntry(tab, _tabinitpatient);
         _tabPanel.getTabs().add(tab);               // add tab to pane
