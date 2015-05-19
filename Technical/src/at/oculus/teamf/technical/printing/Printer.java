@@ -317,11 +317,18 @@ public class Printer implements ILogger{
             tstampString = tstampString.replace(' ', '_');
             tstampString = tstampString.replace(':', '_');
             String finalFileName = tstampString.substring(0, 19);
-            String filename = "Technical/output/prescription" + finalFileName + ".pdf";
+            String filename = "out/prescriptions/prescription" + finalFileName + ".pdf";
 
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
-            document.save(filename);
+            try {
+                document.save(filename);
+            } catch (IOException exception){
+                log.info("New Folder out/prescriptions has been created!");
+                File directory = new File("out/prescriptions");
+                directory.mkdir();
+                document.save(filename);
+            }
             document.close();
             log.info("Document saved with filename: " + filename);
 
@@ -329,8 +336,6 @@ public class Printer implements ILogger{
             Desktop.getDesktop().open(new File(filename));
             log.info("Document opened.");
 
-            //Print file directly from standard printer (NOT SUPPORTED ON OCULUS-LINUX — should be tested first!!!)
-            //Desktop.getDesktop().print(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
         } catch (COSVisitorException | CantGetPresciptionEntriesException | IOException e) {
             throw e;
         }
