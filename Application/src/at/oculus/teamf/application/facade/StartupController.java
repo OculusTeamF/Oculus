@@ -28,6 +28,7 @@ import at.oculus.teamE.domain.interfaces.IUserTb2;
 import at.oculus.teamE.persistence.api.IPersistenceFacadeTb2;
 import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
+import at.oculus.teamf.domain.entity.adapter.FacadeAdapter;
 import at.oculus.teamf.domain.entity.adapter.FactoryAdapter;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -58,6 +59,8 @@ import java.util.function.Supplier;
  */
 public class StartupController implements ILogger {
 
+    private User _user;
+
     /**
      * <h3>$StartupController</h3>
      * <p/>
@@ -73,14 +76,29 @@ public class StartupController implements ILogger {
         teamEDependencies.registerPersistenceFacade(new Supplier<IPersistenceFacadeTb2>() {
             @Override
             public IPersistenceFacadeTb2 get() {
-                return null;
-            }
-        });
+                return new FacadeAdapter();
+        }
+    });
+
         teamEDependencies.registerDomainFactory(new Supplier<IDomainFactory>() {
             @Override
             public IDomainFactory get() {
                 FactoryAdapter factory = new FactoryAdapter();
                 return factory;
+            }
+        });
+
+        teamEDependencies.registerCurrentUserSupplier(new Supplier<IUserTb2>() {
+            @Override
+            public IUserTb2 get() {
+
+                IUserTb2 user = null;
+                try {
+                     user = (IUserTb2) getUser();
+                } catch (BadConnectionException | CriticalClassException | CriticalDatabaseException e) {
+                    // eat up
+                }
+                return user;
             }
         });
     }
@@ -94,17 +112,16 @@ public class StartupController implements ILogger {
      */
     public IUser getUser() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
         Facade facade = Facade.getInstance();
-        User user = null;
 
         try {
-            user = facade.getById(Receptionist.class, 1);
+            _user = facade.getById(Receptionist.class, 1);
         } catch (NoBrokerMappedException e) {
             throw new CriticalClassException();
         } catch (DatabaseOperationException e) {
             throw new CriticalDatabaseException();
         }
 
-        return user;
+        return _user;
     }
 
     /**
