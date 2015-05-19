@@ -39,7 +39,6 @@ public class Prescription implements IPrescription, ILogger {
 
     public Prescription() {
         _issueDate = new Timestamp(new Date().getTime());
-        _prescriptionEntries = new LinkedList<PrescriptionEntry>();
     }
 
     public int getId() {
@@ -101,13 +100,17 @@ public class Prescription implements IPrescription, ILogger {
     public void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry)
             throws CouldNotAddPrescriptionEntryException {
         if (prescriptionEntry != null) {
+            if (_prescriptionEntries == null) {
+                _prescriptionEntries = new LinkedList<PrescriptionEntry>();
+            }
+
             PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
             entry.setPrescription(this);
             _prescriptionEntries.add(entry);
 
             try {
-                //Facade.getInstance().save(entry);
                 for (PrescriptionEntry p : _prescriptionEntries) {
+                    log.debug("saving prescription entry with id " + p.getId());
                     Facade.getInstance().save(p);
                 }
             } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
