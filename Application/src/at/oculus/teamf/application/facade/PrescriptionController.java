@@ -67,12 +67,12 @@ public class PrescriptionController implements ILogger, IPrinter {
      *<h3>$PrescriptionController</h3>
      *
      * <b>Description:</b>
-     *this is the private constructor of the PrescriptionController. To get an instance of this controller,
+     * this is the private constructor of the PrescriptionController. To get an instance of this controller,
      * the static method createController(IPatient iPatient) has to be invoked. This method checks if the given Patient
      * interface is not null, throws an exception if it is null or returns an instance of the PrescriptionController.
      *
      *<b>Parameter</b>
-     * @param iPatient this parameter shows the interface of the Patient, who wants a prescription
+     * @param iPatient this parameter shows the interface of the Patient who wants a prescription
      */
     private PrescriptionController(IPatient iPatient) throws NotInitiatedExceptions {
         _iPatient = iPatient;
@@ -83,6 +83,16 @@ public class PrescriptionController implements ILogger, IPrinter {
 
     }
 
+    /**
+     *<h3>$PrescriptionController</h3>
+     *
+     * <b>Description:</b>
+     * This is the static factory to be called when creating a PrescriptionController. It will then call the private
+     * constructor.
+     *
+     *<b>Parameter</b>
+     * @param iPatient this parameter shows the interface of the Patient who wants a prescription
+     */
     public static PrescriptionController createController(IPatient iPatient) throws NoPatientException, NotInitiatedExceptions {
         if(iPatient == null){
             throw new NoPatientException();
@@ -90,6 +100,16 @@ public class PrescriptionController implements ILogger, IPrinter {
         return new PrescriptionController(iPatient);
     }
 
+    /**
+     *<h3>$createPrescriptionEntry</h3>
+     *
+     * <b>Description:</b>
+     * This method created a new prescription entry from the given parameter iMedicine. It will then save the
+     * prescription again to update it. Then it will save the entry and return it.
+     *
+     *<b>Parameter</b>
+     * @param iMedicine the medicine to be added into the prescription entry
+     */
     public IPrescriptionEntry createPrescriptionEntry(IMedicine iMedicine) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
         IPrescriptionEntry entry = DependenceResolverTB2.getInstance().getFactory().createPrescriptionEntry();
 
@@ -107,6 +127,17 @@ public class PrescriptionController implements ILogger, IPrinter {
         return entry;
     }
 
+    /**
+     *<h3>$createPrescriptionEntry</h3>
+     *
+     * <b>Description:</b>
+     * This method creates a prescription entry by a given collection of medicines. It will create a prescription
+     * entry for each medicine from the collection and then return the whole prescription. For each iteration
+     * it will call the createPrescriptionEntry-method with the single medicine parameter.
+     *
+     *<b>Parameter</b>
+     * @param medicines a list of medicines to be added to the prescription
+     */
     public IPrescription createPrescriptionEntry(Collection<IMedicine> medicines) throws CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException, NotInitiatedExceptions {
         for(IMedicine medicine : medicines){
             try {
@@ -120,6 +151,12 @@ public class PrescriptionController implements ILogger, IPrinter {
         return iPrescription;
     }
 
+    /**
+     *<h3>$getAllPrescribedMedicines</h3>
+     *
+     * <b>Description:</b>
+     * This method will return all prescribed medicines in a collection.
+     */
     public Collection<IMedicine> getAllPrescribedMedicines() throws CouldNotGetMedicineException {
         Collection<IMedicine> medicines = new LinkedList<IMedicine>();
         try {
@@ -131,6 +168,12 @@ public class PrescriptionController implements ILogger, IPrinter {
         return medicines;
     }
 
+    /**
+     *<h3>$printPrescription</h3>
+     *
+     * <b>Description:</b>
+     * This method will print the prescription via the IPrinter interface. It will also set the attribute last printed.
+     */
     public IPrescription printPrescription()
 		    throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException,
 		           IOException, CantGetPresciptionEntriesException, NotInitiatedExceptions,
@@ -154,6 +197,15 @@ public class PrescriptionController implements ILogger, IPrinter {
         return iPrescription;
     }
 
+    /**
+     *<h3>$PrescriptionController</h3>
+     *
+     * <b>Description:</b>
+     * This method will fetch all prescriptions of a patient which have not yet been printed.
+     *
+     *<b>Parameter</b>
+     * @param patient this parameter shows the interface of the Patient of which the collection will be created
+     */
     public Collection<IPrescription> getNotPrintedPrescriptions(IPatient patient) throws CouldNotGetPrescriptionException {
         Collection<IPrescription> notPrinted = null;
         try {

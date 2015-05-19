@@ -47,11 +47,30 @@ public class VisualAidController implements ILogger, IPrinter{
 
     private IVisualAid visualAid;
 
+    /**
+     *<h3>$VisualAidController</h3>
+     *
+     * <b>Description:</b>
+     * private Constructor
+     *
+     *<b>Parameter</b>
+     * @param iDiagnosis diagnosis to be created
+     */
     private VisualAidController(IDiagnosis iDiagnosis) throws NotInitiatedExceptions {
             visualAid = DependenceResolverTB2.getInstance().getFactory().createVisualAid();
             visualAid.setDiagnosis(iDiagnosis);
     }
 
+    /**
+     *<h3>$VisualAidController</h3>
+     *
+     * <b>Description:</b>
+     * This is the factory to create a new VisualAidController. It will call the private Constructor if the given
+     * parameter is not null.
+     *
+     *<b>Parameter</b>
+     * @param iDiagnosis diagnosis to be created
+     */
     public static VisualAidController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitiatedExceptions {
         if(iDiagnosis == null){
             throw new NoPatientException();
@@ -59,11 +78,22 @@ public class VisualAidController implements ILogger, IPrinter{
         return new VisualAidController(iDiagnosis);
     }
 
-    public IVisualAid createVisualAidPrescription(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
+    /**
+     *<h3>$createVisualAidPrescription</h3>
+     *
+     * <b>Description:</b>
+     * This method will create a new visual aid prescription and then save it.
+     *
+     *<b>Parameter</b>
+     * @param description this is the description of the prescription (why the patient needs one)
+     * @param dioptreLeft amount of dioptre that will be needed for the left eye
+     * @param dioptreRight amount of dioptre that will be needed for the right eye
+     */
+    public IVisualAid createVisualAidPrescription(String description, String dioptreLeft, String dioptreRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
         visualAid.setDescription(description);
         visualAid.setIssueDate(new Timestamp(new Date().getTime()));
-        visualAid.setDioptreLeft(Float.parseFloat(dioptersLeft));
-        visualAid.setDioptreRight(Float.parseFloat(dioptersRight));
+        visualAid.setDioptreLeft(Float.parseFloat(dioptreLeft));
+        visualAid.setDioptreRight(Float.parseFloat(dioptreRight));
 
         IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(visualAid);
@@ -71,6 +101,16 @@ public class VisualAidController implements ILogger, IPrinter{
         return visualAid;
     }
 
+    /**
+     *<h3>$getNotPrintedPrescriptions</h3>
+     *
+     * <b>Description:</b>
+     * This method will create a Collection with all visual aid prescriptions of the patient that have not yet been
+     * printed.
+     *
+     *<b>Parameter</b>
+     * @param iPatient the patient from which the prescriptions will be fetched
+     */
     public Collection<IVisualAid> getNotPrintedPrescriptions(IPatient iPatient) throws CouldNotGetVisualAidException {
         Collection<IVisualAid> notPrinted = null;
         try {
