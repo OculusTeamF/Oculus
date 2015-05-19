@@ -269,6 +269,7 @@ public class TabModel implements ILogger {
         Node newnode = exDetailTeamE.loadNode();
         tab.setContent(newnode);
 
+        // exDetailTeamE.getController().displayExaminationData();
         // MedicineAttachDialog<IRDiagnosisTb2> arno = new MedicineAttachDialog<>(diagnose).showAndWait();
 
         setTabMapEntry(tab, _tabinitpatient);
