@@ -31,129 +31,130 @@ import java.util.LinkedList;
  * Created by Simon Angerer on 08.05.2015.
  */
 public class Prescription implements IPrescription, ILogger {
-	private int _id;
-	private Date _issueDate;
-	private Date _lastPrint;
-	private IPatient _patient;
-	private Collection<PrescriptionEntry> _prescriptionEntries;
+    private int _id;
+    private Date _issueDate;
+    private Date _lastPrint;
+    private IPatient _patient;
+    private Collection<PrescriptionEntry> _prescriptionEntries;
 
-    public Prescription(){
+    public Prescription() {
         _issueDate = new Timestamp(new Date().getTime());
         _prescriptionEntries = new LinkedList<PrescriptionEntry>();
     }
 
-	public int getId() {
-		return _id;
-	}
+    public int getId() {
+        return _id;
+    }
 
-	public void setId(int id) {
-		_id = id;
-	}
+    public void setId(int id) {
+        _id = id;
+    }
 
-	public Date getIssueDate() {
-		return _issueDate;
-	}
+    public Date getIssueDate() {
+        return _issueDate;
+    }
 
-	public void setIssueDate(Date issueDate) {
-		_issueDate = issueDate;
-	}
+    public void setIssueDate(Date issueDate) {
+        _issueDate = issueDate;
+    }
 
-	public Date getLastPrint() {
-		return _lastPrint;
-	}
+    public Date getLastPrint() {
+        return _lastPrint;
+    }
 
-	public void setLastPrint(Date lastPrint) {
-		_lastPrint = lastPrint;
-	}
+    public void setLastPrint(Date lastPrint) {
+        _lastPrint = lastPrint;
+    }
 
-	public IPatient getPatient() {
-		return _patient;
-	}
+    public IPatient getPatient() {
+        return _patient;
+    }
 
-	@Override
-	public void setPatient(IPatient iPatient) {
-			_patient = iPatient;
-	}
+    @Override
+    public void setPatient(IPatient iPatient) {
+        _patient = iPatient;
+    }
 
 
-	public Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException {
-		if(_prescriptionEntries == null) {
-			try {
-				Facade.getInstance().reloadCollection(this, PrescriptionEntry.class);
-			} catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException | DatabaseOperationException e) {
-				log.error(e.getMessage());
-				throw new CantGetPresciptionEntriesException();
-			}
-		}
-		return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
-	}
+    public Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException {
+        if (_prescriptionEntries == null) {
+            try {
+                Facade.getInstance().reloadCollection(this, PrescriptionEntry.class);
+            } catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException | DatabaseOperationException e) {
+                log.error(e.getMessage());
+                throw new CantGetPresciptionEntriesException();
+            }
+        }
+        return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
+    }
 
-	public void setPrescriptionEntries(Collection<PrescriptionEntry> prescriptionEntries) {
-		_prescriptionEntries = prescriptionEntries;
-	}
+    public void setPrescriptionEntries(Collection<PrescriptionEntry> prescriptionEntries) {
+        _prescriptionEntries = prescriptionEntries;
+    }
 
-	/**
-	 * add a entry to the prescription
-	 *
-	 * @param prescriptionEntry
-	 * 		entry to add
-	 *
-	 * @throws CouldNotAddPrescriptionEntryException
-	 */
-	public void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry)
-			throws CouldNotAddPrescriptionEntryException {
-        if(prescriptionEntry!=null) {
+    /**
+     * add a entry to the prescription
+     *
+     * @param prescriptionEntry entry to add
+     * @throws CouldNotAddPrescriptionEntryException
+     */
+    public void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry)
+            throws CouldNotAddPrescriptionEntryException {
+        if (prescriptionEntry != null) {
             PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
             entry.setPrescription(this);
             _prescriptionEntries.add(entry);
 
             try {
-                Facade.getInstance().save(entry);
+                //Facade.getInstance().save(entry);
+                for (PrescriptionEntry p : _prescriptionEntries) {
+                    Facade.getInstance().save(p);
+                }
             } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
                 log.error(e.getMessage());
                 throw new CouldNotAddPrescriptionEntryException();
             }
         }
-	}
+    }
 
-	@Override
-	public int hashCode() {
-		int result = _id;
-		result = 31 * result + (_issueDate != null ? _issueDate.hashCode() : 0);
-		result = 31 * result + (_lastPrint != null ? _lastPrint.hashCode() : 0);
-		result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
-		result = 31 * result + (_prescriptionEntries != null ? _prescriptionEntries.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = _id;
+        result = 31 * result + (_issueDate != null ? _issueDate.hashCode() : 0);
+        result = 31 * result + (_lastPrint != null ? _lastPrint.hashCode() : 0);
+        result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
+        result = 31 * result + (_prescriptionEntries != null ? _prescriptionEntries.hashCode() : 0);
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (!(o instanceof Prescription))
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Prescription))
+            return false;
 
-		Prescription that = (Prescription) o;
+        Prescription that = (Prescription) o;
 
-		if (_id != that._id)
-			return false;
-		if (_issueDate != null ? !((_issueDate.getTime() - that._issueDate.getTime()) > -1000 &&
-		                           (_issueDate.getTime() - that._issueDate.getTime()) < 1000) : that._issueDate != null)
-			return false;
-		if (_lastPrint != null ? !((_lastPrint.getTime() - that._lastPrint.getTime()) > -1000 &&
-		                           (_lastPrint.getTime() - that._lastPrint.getTime()) < 1000) : that._lastPrint != null)
-			return false;
-		if (_patient != null ? !_patient.equals(that._patient) : that._patient != null)
-			return false;
-		if (_prescriptionEntries != null ? !_prescriptionEntries.equals(that._prescriptionEntries) :
-		    that._prescriptionEntries != null)
-			return false;
+        if (_id != that._id)
+            return false;
+        if (_issueDate != null ? !((_issueDate.getTime() - that._issueDate.getTime()) > -1000 &&
+                (_issueDate.getTime() - that._issueDate.getTime()) < 1000) : that._issueDate != null)
+            return false;
+        if (_lastPrint != null ? !((_lastPrint.getTime() - that._lastPrint.getTime()) > -1000 &&
+                (_lastPrint.getTime() - that._lastPrint.getTime()) < 1000) : that._lastPrint != null)
+            return false;
+        if (_patient != null ? !_patient.equals(that._patient) : that._patient != null)
+            return false;
+        if (_prescriptionEntries != null ? !_prescriptionEntries.equals(that._prescriptionEntries) :
+                that._prescriptionEntries != null)
+            return false;
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return _issueDate.toString();
-	}
+    @Override
+    public String toString() {
+        return _issueDate.toString();
+    }
 }
