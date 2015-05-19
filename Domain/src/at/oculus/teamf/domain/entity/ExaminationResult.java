@@ -9,15 +9,23 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamE.domain.interfaces.IExaminationTb2;
+import at.oculus.teamE.domain.interfaces.IUserTb2;
+import at.oculus.teamE.domain.readonly.IRUserTb2;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.sql.Blob;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
  * ExaminationResult.java Created by oculus on 30.04.15.
  */
-public class ExaminationResult implements IExaminationResult, ILogger {
+public class ExaminationResult implements IExaminationResult, ILogger, IExaminationTb2 {
 	private int _id;
 	private ExaminationProtocol _examinationProtocol;
 	private Integer _examinationProtocolId;
@@ -32,6 +40,10 @@ public class ExaminationResult implements IExaminationResult, ILogger {
 
 	public ExaminationResult() {
 	}
+    public ExaminationResult(IUserTb2 iUserTb2, IExaminationProtocolTb2 iExaminationProtocolTb2){
+        _user = (User) iUserTb2;
+        _examinationProtocol = (ExaminationProtocol) iExaminationProtocolTb2;
+    }
 
 	public ExaminationResult(int id, ExaminationProtocol examinationProtocol,
 	                         User user, String result, Date createDate, String device,
@@ -84,7 +96,7 @@ public class ExaminationResult implements IExaminationResult, ILogger {
     public void setUser(User user) {
         if(user!=null){
             _user = user;
-            _userId = user.getUserId();
+            _userId = user.getTeamFUserId();
             if(user instanceof Doctor){
                 _doctor = (Doctor) user;
             } else if (user instanceof Orthoptist) {
@@ -102,11 +114,66 @@ public class ExaminationResult implements IExaminationResult, ILogger {
 		_userId = userId;
 	}
 
-	@Override
+    @Override
+    public Integer getExaminationId() {
+        return getId();
+    }
+
+    @Override
     public String getResult() {
 		return _result;
 	}
-	@Override
+
+    @Override
+    public void setCreationDate(LocalDateTime localDateTime) {
+
+    }
+
+    @Override
+    public LocalDateTime getCreationDate() {
+        Date ts = _createDate;
+        Instant instant = Instant.ofEpochMilli(ts.getTime());
+        LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return res;
+    }
+
+    @Override
+    public void setMeasuringDevice(String s) {
+        _device = s;
+    }
+
+    @Override
+    public String getMeasuringDevice() {
+        return _device;
+    }
+
+    @Override
+    public IExaminationProtocolTb2 getProtocol() {
+        return _examinationProtocol;
+    }
+
+    //not used
+    @Override
+    public Blob getMeasuringDeviceData() {
+        return null;
+    }
+
+    @Override
+    public void setCreator(IUserTb2 iUserTb2) {
+        _doctor = (Doctor) iUserTb2;
+    }
+
+    @Override
+    public IUserTb2 getCreator() {
+        if(_doctor != null){
+            return _doctor;
+        }else if(_orthoptist != null){
+            return _orthoptist;
+        }
+        return null;
+    }
+
+    @Override
     public void setResult(String result) {
 		_result = result;
 	}

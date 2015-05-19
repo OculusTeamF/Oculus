@@ -27,6 +27,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
 import java.util.Date;
+
 /**<h1>$CheckinController.java</h1>
  * @author $jpo2433
  * @author $sha9939

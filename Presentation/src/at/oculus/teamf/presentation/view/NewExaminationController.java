@@ -10,6 +10,7 @@
 package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
 import javafx.animation.KeyFrame;
@@ -48,11 +49,11 @@ public class NewExaminationController implements Initializable {
     @FXML private TextArea examinationDocumentation;
     @FXML private TextArea diagnosisDetails;
 
-    private Timeline timeline;
-    private Integer timeSeconds = 0;
+    private Timeline _timeline;
+    private Integer _timeSeconds = 0;
     private Model _model = Model.getInstance();
     private Date _startDate;
-    private IPatient initPatient;
+    private IPatient _initPatient;
 
     private IExaminationProtocol newexam;
 
@@ -151,7 +152,7 @@ public class NewExaminationController implements Initializable {
 
     @FXML
     public void refreshTab(ActionEvent actionEvent) {
-        IDiagnosis diag = newexam.getDiagnosis();
+        IDiagnosis diag = newexam.getTeamFDiagnosis();
         if (diag != null) {
             diagnosisTitle.setText(diag.getTitle());
             diagnosisDetails.setText(diag.getDescription());

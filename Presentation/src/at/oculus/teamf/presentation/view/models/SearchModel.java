@@ -22,6 +22,7 @@ import java.util.Collection;
  * Created by Fabian on 10.05.2015.
  */
 public class SearchModel {
+
     private static SearchModel _searchmodel = new SearchModel();
     private Model _model;
 
@@ -36,26 +37,11 @@ public class SearchModel {
     /**
      * search Patients by given Text
      */
-    public Collection<IPatient> searchPatients(String text){
+    public Collection<IPatient> searchPatients(String text) throws  BadConnectionException, CriticalClassException, CriticalDatabaseException, InvalidSearchParameterException
+    {
         _model = Model.getInstance();
-        Collection<IPatient> searchresults = null;
-        try {
-            searchresults = _model.getSearchPatientController().searchPatients(text);
-        }  catch (BadConnectionException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "BadConnectionException - Please contact support");
-        } catch (CriticalDatabaseException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalDatabaseException - Please contact support");
-        } catch (CriticalClassException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "CriticalClassException - Please contact support");
-        } catch (InvalidSearchParameterException e) {
-            e.printStackTrace();
-            DialogBoxController.getInstance().showExceptionDialog(e, "InvalidSearchParameterException - Please contact support");
-        }
 
-        return searchresults;
+        return  _model.getSearchPatientController().searchPatients(text);
     }
 
     /**

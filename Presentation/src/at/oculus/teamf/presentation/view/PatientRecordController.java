@@ -13,12 +13,16 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.VisualAidController;
 import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PatientRecordModel;
 import at.oculus.teamf.presentation.view.models.PrescriptionModel;
@@ -75,17 +79,15 @@ public class PatientRecordController implements Initializable {
 
 
     private Model _model = Model.getInstance();
-    private boolean isFormEdited = false;
-    private ToggleGroup group = new ToggleGroup();
+    private boolean _isFormEdited = false;
+    private ToggleGroup _group = new ToggleGroup();
     private PatientRecordModel _patientRecordModel = PatientRecordModel.getInstance();
     private PrescriptionModel _prescriptionModel = PrescriptionModel.getInstance();
     private PrescriptionController _prescriptionController;
-    private IPatient initpatient;
+    private IPatient _initpatient;
 
     private ObservableList<IDiagnosis> _diagnosislist;
     private ObservableList<ICalendarEvent> _calendareventlist;
-    private Collection<IPrescription> notPrintedPrescriptionsEntries;
-    private Collection<IVisualAid> notPrintedVisualAidEntries;
 
 
     @Override
@@ -97,7 +99,7 @@ public class PatientRecordController implements Initializable {
          */
 
         // set patient to init only
-        initpatient = _model.getTabModel().getInitPatient();
+        _initpatient = _model.getTabModel().getInitPatient();
 
         // load button images
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
@@ -117,26 +119,26 @@ public class PatientRecordController implements Initializable {
 
         //disable all Patientfields and the save button, sets the text from IPatient into fields
         patientRecordSaveButton.setDisable(true);
-        patientRecordradioGenderFemale.setToggleGroup(group);
-        patientRecordradioGenderMale.setToggleGroup(group);
+        patientRecordradioGenderFemale.setToggleGroup(_group);
+        patientRecordradioGenderMale.setToggleGroup(_group);
 
 
-        patientRecordLastname.setText(initpatient.getLastName());
-        patientRecordFirstname.setText(initpatient.getFirstName());
+        patientRecordLastname.setText(_initpatient.getLastName());
+        patientRecordFirstname.setText(_initpatient.getFirstName());
 
-        if(initpatient.getGender().equals("female"))
+        if(_initpatient.getGender().equals("female"))
         {
             patientRecordradioGenderFemale.setSelected(true);
         }else{
             patientRecordradioGenderMale.setSelected(true);
         }
 
-        patientRecordSVN.setText(initpatient.getSocialInsuranceNr());
+        patientRecordSVN.setText(_initpatient.getSocialInsuranceNr());
 
 
-        if(initpatient.getBirthDay() != null)
+        if(_initpatient.getBirthDay() != null)
         {
-            Date input = initpatient.getBirthDay();
+            Date input = _initpatient.getBirthDay();
             Calendar cal = Calendar.getInstance();
             cal.setTime(input);
             LocalDate date = LocalDate.of(cal.get(Calendar.YEAR),
@@ -145,30 +147,30 @@ public class PatientRecordController implements Initializable {
 
             patientRecordBday.setValue(date);
         }
-        patientRecordStreet.setText(initpatient.getStreet());
-        patientRecordPLZ.setText(initpatient.getPostalCode());
-        patientRecordCity.setText(initpatient.getCity());
-        patientRecordCountryIsoCode.setText(initpatient.getCountryIsoCode());
-        patientRecordPhone.setText(initpatient.getPhone());
-        patientRecordEmail.setText(initpatient.getEmail());
-        patientRecordDoctor.setValue(initpatient.getIDoctor());
+        patientRecordStreet.setText(_initpatient.getStreet());
+        patientRecordPLZ.setText(_initpatient.getPostalCode());
+        patientRecordCity.setText(_initpatient.getCity());
+        patientRecordCountryIsoCode.setText(_initpatient.getCountryIsoCode());
+        patientRecordPhone.setText(_initpatient.getPhone());
+        patientRecordEmail.setText(_initpatient.getEmail());
+        patientRecordDoctor.setValue(_initpatient.getIDoctor());
 
         disableFields();
 
-        if(initpatient.getAllergy() == null || initpatient.getAllergy().length() < 1) {
+        if(_initpatient.getAllergy() == null || _initpatient.getAllergy().length() < 1) {
             patientRecordAllergies.setText("No Allergies known");
         }else{
-            patientRecordAllergies.setText(initpatient.getAllergy());
+            patientRecordAllergies.setText(_initpatient.getAllergy());
         }
-        if(initpatient.getMedicineIntolerance() == null || initpatient.getMedicineIntolerance().length() < 1) {
+        if(_initpatient.getMedicineIntolerance() == null || _initpatient.getMedicineIntolerance().length() < 1) {
             patientRecordIntolerance.setText("No Intolerance known");
         }else{
-            patientRecordIntolerance.setText(initpatient.getMedicineIntolerance());
+            patientRecordIntolerance.setText(_initpatient.getMedicineIntolerance());
         }
-        if(initpatient.getChildhoodAilments() == null || initpatient.getChildhoodAilments().length() < 1) {
+        if(_initpatient.getChildhoodAilments() == null || _initpatient.getChildhoodAilments().length() < 1) {
             patientRecordChildhood.setText("No childhood Ailments");
         }else{
-            patientRecordChildhood.setText(initpatient.getChildhoodAilments());
+            patientRecordChildhood.setText(_initpatient.getChildhoodAilments());
         }
 
         patientRecordAllergies.setDisable(false);
@@ -178,7 +180,7 @@ public class PatientRecordController implements Initializable {
         patientRecordIntolerance.setEditable(false);
         patientRecordChildhood.setEditable(false);
 
-        addToQueueBox.setValue(initpatient.getIDoctor());
+        addToQueueBox.setValue(_initpatient.getIDoctor());
 
         //check if something has changed, if changes detected --> saveChanges()
         addListener(patientRecordLastname);
@@ -197,11 +199,11 @@ public class PatientRecordController implements Initializable {
             public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
                 try {
                     if (oldValue != newValue) {
-                        isFormEdited = true;
+                        _isFormEdited = true;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Birthday");
+                    DialogBoxController.getInstance().showErrorDialog("Exception", "Please contact support");
                 }
             }
         });
@@ -209,19 +211,19 @@ public class PatientRecordController implements Initializable {
         patientRecordDoctor.valueProperty().addListener(new ChangeListener<IDoctor>() {
             @Override
             public void changed(ObservableValue<? extends IDoctor> observable, IDoctor oldValue, IDoctor newValue) {
-                isFormEdited = true;
+                _isFormEdited = true;
             }
         });
         patientRecordAllergies.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
+                    if (!oldValue.equals(newValue)) {
+                        _isFormEdited = true;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Allergies");
+                    DialogBoxController.getInstance().showErrorDialog("Exception", "Please contact support");
                 }
             }
         });
@@ -229,13 +231,13 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
+                    if (!oldValue.equals(newValue)) {
+                        _isFormEdited = true;
                         System.out.println("Intolerances changed");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Intolerances");
+                    DialogBoxController.getInstance().showErrorDialog("Exception", "Please contact support");
                 }
             }
         });
@@ -243,12 +245,12 @@ public class PatientRecordController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (oldValue != newValue) {
-                        isFormEdited = true;
+                    if (!oldValue.equals(newValue)) {
+                        _isFormEdited = true;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textarea Childhood");
+                    DialogBoxController.getInstance().showErrorDialog("Exception", "Please contact support");
                 }
             }
         });
@@ -329,9 +331,26 @@ public class PatientRecordController implements Initializable {
         disableFields();
 
         //createPatientController.saveIPatient(_model.getPatient());
-        _model.getPatientModel().savePatient(_model.getPatient());
+        try {
+            _model.getPatientModel().savePatient(_model.getPatient());
+        } catch (RequirementsNotMetException requirementsNotMetException) {
+            requirementsNotMetException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("RequirementsNotMetException", "Please contact support");
+        } catch (PatientCouldNotBeSavedException patientCouldNotBeSavedException) {
+            patientCouldNotBeSavedException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("PatientCouldNotBeSavedException", "Please contact support");
+        } catch (BadConnectionException badConnectionException) {
+            badConnectionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
+        } catch (CriticalDatabaseException criticalDatabaseException) {
+            criticalDatabaseException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");
+        } catch (CriticalClassException criticalClassException) {
+            criticalClassException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
+        }
         StatusBarController.getInstance().setText("Changes saved...");
-        isFormEdited = false;
+        _isFormEdited = false;
 
 
     }
@@ -372,23 +391,17 @@ public class PatientRecordController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     if (oldValue != newValue) {
-                        isFormEdited = true;
+                        _isFormEdited = true;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    DialogBoxController.getInstance().showExceptionDialog(e, "Exception - Problems with detecting changes in Textfield Lastname");
+                    DialogBoxController.getInstance().showErrorDialog("Exception", "Please contact support");
                 }
             }
         });
     }
 
     private void disableFields() {
-        /*for (Node node : patientRecordPane.getChildren()) {
-            if (node instanceof TextField) {
-                node.setDisable(true);
-                ((TextField)node).setEditable(false);
-            }
-        }*/
 
         //disables every field, radiobutton or choicebox
         patientRecordradioGenderMale.setDisable(true);
@@ -464,7 +477,7 @@ public class PatientRecordController implements Initializable {
     @FXML
     public void openPrescriptionsToPrintButtonHandler(ActionEvent actionEvent) {
 
-        _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, initpatient);
+        _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, _initpatient);
 
     }
 
@@ -498,7 +511,7 @@ public class PatientRecordController implements Initializable {
         if (patientRecordFirstname.getLength() == 0 || patientRecordLastname.getLength() == 0 || patientRecordSVN.getLength() == 0 || patientRecordBday == null){
             DialogBoxController.getInstance().showInformationDialog("Missing _patient data requirements", "Please fill the following fields: Firstname / Lastname / SVN / Birthdate");
         } else {
-            if (isFormEdited) {
+            if (_isFormEdited) {
                 saveChanges();
             } else {
                 DialogBoxController.getInstance().showInformationDialog("Information", "No changes detected");
@@ -520,23 +533,27 @@ public class PatientRecordController implements Initializable {
 
             patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
             try {
-                _calendareventlist = FXCollections.observableArrayList(initpatient.getCalendarEvents());
-            } catch (CouldNotGetCalendarEventsException e) {
-                e.printStackTrace();
+                _calendareventlist = FXCollections.observableArrayList(_initpatient.getCalendarEvents());
+            } catch (CouldNotGetCalendarEventsException couldNotGetCalendarEventsException) {
+                couldNotGetCalendarEventsException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotGetCalendarEventsException", "Please contact support");
             }
             addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrthoptists()));
             try {
-                _diagnosislist = FXCollections.observableArrayList(initpatient.getDiagnoses());
-            } catch (CouldNotGetDiagnoseException e) {
-                e.printStackTrace();
+                _diagnosislist = FXCollections.observableArrayList(_initpatient.getDiagnoses());
+            } catch (CouldNotGetDiagnoseException couldNotGetDiagnoseException) {
+                couldNotGetDiagnoseException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("CouldNotGetDiagnoseException", "Please contact support");
             }
 
             try {
-                _prescriptionController = PrescriptionController.createController(initpatient);
-            } catch (NoPatientException e) {
-                e.printStackTrace();
+                _prescriptionController = PrescriptionController.createController(_initpatient);
+            } catch (NoPatientException noPatientException) {
+                noPatientException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
             } catch (NotInitatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
             }
            /* try {
                 notPrintedPrescriptionsEntries = FXCollections.observableArrayList();
@@ -572,6 +589,7 @@ public class PatientRecordController implements Initializable {
     }
 
     private void loadPatientData(){
+
         // setup task: load patient data
         patientRecordAppointmentList.setDisable(true);
         patientRecordListDiagnoses.setDisable(true);

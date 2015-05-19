@@ -70,8 +70,9 @@ public class InitController implements Initializable, ILogger {
                 }
 
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact support");
             }
         }
         return "";
@@ -86,7 +87,8 @@ public class InitController implements Initializable, ILogger {
             httpUrlConn.setReadTimeout(30000);
             return (httpUrlConn.getResponseCode() == HttpURLConnection.HTTP_OK);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("Exception", "Please contact support");
             return false;
         }
     }
