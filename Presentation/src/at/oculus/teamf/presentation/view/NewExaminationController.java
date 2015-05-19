@@ -13,6 +13,7 @@ import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.presentation.view.models.Model;
+import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -35,7 +36,7 @@ import java.util.TimeZone;
 /**
  * Created by Fabian on 01.05.2015.
  */
-public class NewExaminationController implements Initializable {
+public class NewExaminationController implements Initializable, ILogger {
 
     @FXML
     private Button prescriptionButton;
@@ -45,6 +46,8 @@ public class NewExaminationController implements Initializable {
     private Button addDiagnosisButton;
     @FXML
     private Button refreshButton;
+    @FXML
+    private Button medicationButton;
     @FXML
     private Text examinationLnameFnameSvn;
     @FXML
@@ -88,6 +91,9 @@ public class NewExaminationController implements Initializable {
         prescriptionButton.setGraphic(new ImageView(imageAddForm));
         Image imageRefresh = new Image(getClass().getResourceAsStream("/res/icon_refresh.png"));
         refreshButton.setGraphic(new ImageView(imageRefresh));
+        Image imagePills = new Image(getClass().getResourceAsStream("/res/icon_med.png"));
+        medicationButton.setGraphic(new ImageView(imagePills));
+
 
         // enable addDiagnosis only ig protocol is created
         addDiagnosisButton.setDisable(true);
@@ -162,7 +168,7 @@ public class NewExaminationController implements Initializable {
     @FXML
     public void addPrescriptionButtonHandler(ActionEvent actionEvent) {
         //opens a new PrescriptionTab
-        System.out.println("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
+        log.debug("SELECTED TAB PRES: " + _model.getTabModel().getSelectedTab().getId());
         IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addPrescriptionTab(selectedPatient);
     }
@@ -174,5 +180,11 @@ public class NewExaminationController implements Initializable {
             diagnosisTitle.setText(diag.getTitle());
             diagnosisDetails.setText(diag.getDescription());
         }
+    }
+
+    @FXML
+    public void setMedicationButtonHandler(ActionEvent actionEvent) {
+        IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        _model.getTabModel().addMedicationTab(selectedPatient);
     }
 }

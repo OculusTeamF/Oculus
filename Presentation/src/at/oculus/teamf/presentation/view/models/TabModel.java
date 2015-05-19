@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
 import at.oculus.teamE.presentation.ViewLoaderTb2;
-import at.oculus.teamE.presentation.controllers.*;
+import at.oculus.teamE.presentation.controllers.MedicineEditFormViewController;
+import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -53,7 +53,7 @@ public class TabModel implements ILogger {
     }
 
     // team E integration
-    private ViewLoaderTb2<MedicineEditFormViewController> exDetailTeamE = new ViewLoaderTb2<>(MedicineEditFormViewController.class);
+    private ViewLoaderTb2<MedicineEditFormViewController> exMedicationTeamE = new ViewLoaderTb2<>(MedicineEditFormViewController.class);
     // private ViewLoaderTb2<ExaminationCreationFormViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
     // private ViewLoaderTb2<ExaminationDataWidgetController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationDataWidgetController.class);
     // private ViewLoaderTb2<ExaminationsListViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationsListViewController.class);
@@ -245,9 +245,17 @@ public class TabModel implements ILogger {
         loadTab("EXAMINATION: " + patient.getLastName(), "fxml/NewExaminationTab.fxml", tabid);
     }
 
+    public void addSearchTab(){
+        loadTab("Search patient", "fxml/SearchPatientTab.fxml", "search");
+    }
+
+    public void addNewPatientTab(){
+        loadTab("Add new patient", "fxml/NewPatientTab.fxml", "newpatient");
+    }
+
     // *****************************************************************************************************************
     //
-    // ADD ARNO STUFF
+    // ARNO INTEGRATION
     //
     // *****************************************************************************************************************
 
@@ -266,22 +274,32 @@ public class TabModel implements ILogger {
         //AnchorPane ap = FXMLLoader.load(this.getClass().getResource(pathTabFXML));
         //tab.setContent(ap);
 
-        Node newnode = exDetailTeamE.loadNode();
+        Node newnode = exMedicationTeamE.loadNode();
         tab.setContent(newnode);
-
-        // exDetailTeamE.getController().displayExaminationData();
-        // MedicineAttachDialog<IRDiagnosisTb2> arno = new MedicineAttachDialog<>(diagnose).showAndWait();
 
         setTabMapEntry(tab, _tabinitpatient);
         _tabPanel.getTabs().add(tab);               // add tab to pane
         _tabPanel.getSelectionModel().select(tab);  // switch to new tab
     }
 
-    public void addSearchTab(){
-        loadTab("Search patient", "fxml/SearchPatientTab.fxml", "search");
+    public void addMedicationTab(IPatient patient)
+    {
+        _model._patient = patient;
+        _tabinitpatient = patient;
+        Tab tab = new Tab("MEDICATION: " + patient.getLastName());
+        // tab management
+        _selectedTab = tab;
+        tab.setId("medication" + patient.getSocialInsuranceNr());
+
+        Node newnode = exMedicationTeamE.loadNode();
+        tab.setContent(newnode);
+
+        setTabMapEntry(tab, _tabinitpatient);
+        _tabPanel.getTabs().add(tab);               // add tab to pane
+        _tabPanel.getSelectionModel().select(tab);  // switch to new tab
     }
 
-    public void addNewPatientTab(){
-        loadTab("Add new patient", "fxml/NewPatientTab.fxml", "newpatient");
+    public void showMedicineAttachDialog(IDiagnosis diag){
+        //MedicineAttachDialog<IRDiagnosisTb2> arno = new MedicineAttachDialog<IRDiagnosisTb2>(diag).showAndWait();
     }
 }
