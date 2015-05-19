@@ -329,8 +329,6 @@ public class Printer implements ILogger{
             Desktop.getDesktop().open(new File(filename));
             log.info("Document opened.");
 
-            //Print file directly from standard printer (NOT SUPPORTED ON OCULUS-LINUX — should be tested first!!!)
-            //Desktop.getDesktop().print(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
         } catch (COSVisitorException | CantGetPresciptionEntriesException | IOException e) {
             throw e;
         }
