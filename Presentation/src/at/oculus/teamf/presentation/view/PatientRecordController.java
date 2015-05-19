@@ -13,7 +13,7 @@ package at.oculus.teamf.presentation.view;
  */
 
 import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
@@ -27,7 +27,6 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.presentation.view.models.PatientRecordModel;
-import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -276,9 +275,9 @@ public class PatientRecordController implements Initializable {
         } catch (CouldNotGetPrescriptionException couldNotGetPrescriptionException) {
             couldNotGetPrescriptionException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("CouldNotGetPrescriptionException", "Please contact support");
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+        } catch (NotInitiatedExceptions notInitiatedExceptions) {
+            notInitiatedExceptions.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
         } catch (NoPatientException noPatientException) {
             noPatientException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
@@ -561,9 +560,9 @@ public class PatientRecordController implements Initializable {
             } catch (NoPatientException noPatientException) {
                 noPatientException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
-            } catch (NotInitatedExceptions notInitatedExceptions) {
+            } catch (NotInitiatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
             }*/
            /* try {
                 notPrintedPrescriptionsEntries = FXCollections.observableArrayList();
@@ -571,7 +570,7 @@ public class PatientRecordController implements Initializable {
                 notPrintedPrescriptionsEntries.addAll(_prescriptionController.getNotPrintedPrescriptions(initpatient));
             } catch (CouldNotGetPrescriptionException e) {
                 e.printStackTrace();
-            } catch (NotInitatedExceptions notInitatedExceptions) {
+            } catch (NotInitiatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
             } catch (NoPatientException e) {
                 e.printStackTrace();
@@ -585,7 +584,7 @@ public class PatientRecordController implements Initializable {
                 notPrintedVisualAidEntries.addAll(_visualAidController.getNotPrintedPrescriptions(initpatient));
             } catch (CouldNotGetDiagnoseException e) {
                 e.printStackTrace();
-            } catch (NotInitatedExceptions notInitatedExceptions) {
+            } catch (NotInitiatedExceptions notInitatedExceptions) {
                 notInitatedExceptions.printStackTrace();
             } catch (NoPatientException e) {
                 e.printStackTrace();

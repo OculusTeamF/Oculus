@@ -14,5 +14,5 @@ import at.oculus.teamf.application.facade.exceptions.ApplicationException;
 /**
  * Created by Simon Angerer on 13.05.2015.
  */
-public class NotInitatedExceptions extends Exception {
+public class NotInitiatedExceptions extends Exception {
 }

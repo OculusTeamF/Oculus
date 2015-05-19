@@ -10,7 +10,7 @@
 package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
@@ -162,9 +162,9 @@ public class PatientRecordModel {
                 } catch (CantGetPresciptionEntriesException cantGetPresciptionEntriesException) {
                     cantGetPresciptionEntriesException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact support");
-                } catch (NotInitatedExceptions notInitatedExceptions) {
-                    notInitatedExceptions.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+                } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                    notInitiatedExceptions.printStackTrace();
+                    DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
                 } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
                     noPrescriptionToPrintException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact support");
@@ -210,9 +210,9 @@ public class PatientRecordModel {
             } catch (NoPatientException noPatientException) {
                 noPatientException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+            } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                notInitiatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
             }
         } catch (CouldNotGetPrescriptionException couldNotGetPrescriptionException) {
             couldNotGetPrescriptionException.printStackTrace();
