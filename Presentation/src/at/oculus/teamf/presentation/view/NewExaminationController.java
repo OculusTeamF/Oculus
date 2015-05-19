@@ -47,6 +47,8 @@ public class NewExaminationController implements Initializable, ILogger {
     @FXML
     private Button refreshButton;
     @FXML
+    private Button medicationButton;
+    @FXML
     private Text examinationLnameFnameSvn;
     @FXML
     private Text examinationCurrDate;
@@ -89,6 +91,9 @@ public class NewExaminationController implements Initializable, ILogger {
         prescriptionButton.setGraphic(new ImageView(imageAddForm));
         Image imageRefresh = new Image(getClass().getResourceAsStream("/res/icon_refresh.png"));
         refreshButton.setGraphic(new ImageView(imageRefresh));
+        Image imagePills = new Image(getClass().getResourceAsStream("/res/icon_med.png"));
+        medicationButton.setGraphic(new ImageView(imagePills));
+
 
         // enable addDiagnosis only ig protocol is created
         addDiagnosisButton.setDisable(true);
@@ -175,5 +180,11 @@ public class NewExaminationController implements Initializable, ILogger {
             diagnosisTitle.setText(diag.getTitle());
             diagnosisDetails.setText(diag.getDescription());
         }
+    }
+
+    @FXML
+    public void setMedicationButtonHandler(ActionEvent actionEvent) {
+        IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        _model.getTabModel().addMedicationTab(selectedPatient);
     }
 }
