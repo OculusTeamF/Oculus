@@ -140,7 +140,6 @@ public class PrescriptionController implements ILogger, IPrinter {
 	        if(iPrescription.getId()==0){
                 DependenceResolverTB2.getInstance().getFacade().save(iPrescription);
 	        }
-            DependenceResolverTB2.getInstance().getFacade().save(iPrescription);
             printer.printPrescription(iPrescription, _iPatient.getIDoctor());
         } catch (COSVisitorException | IOException | CantGetPresciptionEntriesException | NoPrescriptionToPrintException e) {
             throw e;
