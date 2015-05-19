@@ -321,7 +321,14 @@ public class Printer implements ILogger{
 
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
-            document.save(filename);
+            try {
+                document.save(filename);
+            } catch (IOException exception){
+                log.info("New Folder out/prescriptions has been created!");
+                File directory = new File("out/prescriptions");
+                directory.mkdir();
+                document.save(filename);
+            }
             document.close();
             log.info("Document saved with filename: " + filename);
 
