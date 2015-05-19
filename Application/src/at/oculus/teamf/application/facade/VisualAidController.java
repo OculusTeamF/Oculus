@@ -20,13 +20,11 @@ package at.oculus.teamf.application.facade;
  **/
 
 import at.oculus.teamf.application.facade.dependenceResolverTB2.DependenceResolverTB2;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -49,19 +47,19 @@ public class VisualAidController implements ILogger, IPrinter{
 
     private IVisualAid visualAid;
 
-    private VisualAidController(IDiagnosis iDiagnosis) throws NotInitatedExceptions {
+    private VisualAidController(IDiagnosis iDiagnosis) throws NotInitiatedExceptions {
             visualAid = DependenceResolverTB2.getInstance().getFactory().createVisualAid();
             visualAid.setDiagnosis(iDiagnosis);
     }
 
-    public static VisualAidController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitatedExceptions {
+    public static VisualAidController createController(IDiagnosis iDiagnosis) throws NoPatientException, NotInitiatedExceptions {
         if(iDiagnosis == null){
             throw new NoPatientException();
         }
         return new VisualAidController(iDiagnosis);
     }
 
-    public IVisualAid createVisualAidPrescription(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions {
+    public IVisualAid createVisualAidPrescription(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
         visualAid.setDescription(description);
         visualAid.setIssueDate(new Timestamp(new Date().getTime()));
         visualAid.setDioptreLeft(Float.parseFloat(dioptersLeft));

@@ -9,9 +9,8 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
@@ -26,8 +25,6 @@ import at.oculus.teamf.presentation.view.models.PrescriptionModel;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import at.oculus.teamf.technical.printing.IPrinter;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -36,7 +33,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -118,9 +114,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         //Prescription controller for this Patient
         try {
             _prescriptionModel.addNewPrescription(_model.getPatient());
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+        } catch (NotInitiatedExceptions notInitiatedExceptions) {
+            notInitiatedExceptions.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
         } catch (NoPatientException noPatientException) {
             noPatientException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
@@ -213,9 +209,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
                 log.info("Medicine Prescription saved for " + patient.getLastName());
                 StatusBarController.getInstance().setText("Medical Prescription saved for "+patient.getLastName()+", "+patient.getFirstName());
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact Support ");
+            } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                notInitiatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact Support ");
             } catch (DatabaseOperationException databaseOperationException) {
                 databaseOperationException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact Support ");
@@ -248,9 +244,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             } catch (NoPatientException noPatientException) {
                 noPatientException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Cannot Save Prescription - No Diagnose ");
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
+            } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                notInitiatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Cannot Save Prescription - No Diagnose ");
             }
             try{
             _prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(),dioptersLeft.getText(), dioptersRight.getText());
@@ -263,9 +259,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
             } catch (BadConnectionException badConnectionException) {
                 badConnectionException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Cannot Save Prescription - No Diagnose ");
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Cannot Save Prescription - No Diagnose ");
+            } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                notInitiatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Cannot Save Prescription - No Diagnose ");
             }
 
             saveButton.setDisable(true);
@@ -298,9 +294,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
         } catch (IOException ioException) {
             ioException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact Support ");
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
-            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact Support ");
+        } catch (NotInitiatedExceptions notInitiatedExceptions) {
+            notInitiatedExceptions.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact Support ");
         } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
             noPrescriptionToPrintException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact Support ");

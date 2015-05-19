@@ -10,7 +10,7 @@
 package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.facade.CreateDiagnosisController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
 import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
@@ -76,7 +76,7 @@ public class ExaminationModel {
     }
 
 
-    public void addNewPatientDiagnosis(String title, String description, IDoctor doc, IExaminationProtocol exp) throws NoExaminationProtocolException, NotInitatedExceptions, BadConnectionException, RequirementsUnfulfilledException, CriticalDatabaseException, CriticalClassException{
+    public void addNewPatientDiagnosis(String title, String description, IDoctor doc, IExaminationProtocol exp) throws NoExaminationProtocolException, NotInitiatedExceptions, BadConnectionException, RequirementsUnfulfilledException, CriticalDatabaseException, CriticalClassException{
 
         _createDiagnosisController = CreateDiagnosisController.CreateController(exp);
         _createDiagnosisController.createDiagnosis(title,description, doc);

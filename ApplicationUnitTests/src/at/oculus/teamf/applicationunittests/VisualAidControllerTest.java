@@ -11,7 +11,7 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.application.facade.VisualAidController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -63,8 +63,8 @@ public class VisualAidControllerTest {
             e.printStackTrace();
         } catch (BadConnectionException e) {
             e.printStackTrace();
-        } catch (NotInitatedExceptions notInitatedExceptions) {
-            notInitatedExceptions.printStackTrace();
+        } catch (NotInitiatedExceptions notInitiatedExceptions) {
+            notInitiatedExceptions.printStackTrace();
         }
 
         ArrayList<IVisualAid> visualAids = null;
