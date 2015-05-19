@@ -273,18 +273,20 @@ public class PatientRecordController implements Initializable {
         try {
             _prescriptionController = PrescriptionController.createController(_initpatient);
             notPrintedprescriptionsList = _prescriptionController.getNotPrintedPrescriptions(_initpatient);
-        } catch (CouldNotGetPrescriptionException e) {
-            e.printStackTrace();
+        } catch (CouldNotGetPrescriptionException couldNotGetPrescriptionException) {
+            couldNotGetPrescriptionException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotGetPrescriptionException", "Please contact support");
         } catch (NotInitatedExceptions notInitatedExceptions) {
             notInitatedExceptions.printStackTrace();
-        } catch (NoPatientException e) {
-            e.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+        } catch (NoPatientException noPatientException) {
+            noPatientException.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
         }
 
         if(notPrintedprescriptionsList.isEmpty()){
             notPrintedPrescriptions.setVisible(false);
         }
-
     }
 
     /**
@@ -346,7 +348,6 @@ public class PatientRecordController implements Initializable {
 
         disableFields();
 
-        //createPatientController.saveIPatient(_model.getPatient());
         try {
             _model.getPatientModel().savePatient(_model.getPatient());
         } catch (RequirementsNotMetException requirementsNotMetException) {
@@ -401,7 +402,8 @@ public class PatientRecordController implements Initializable {
     }
 
     /* add change listener to inputfields */
-    private void addListener(TextField textfield){
+    private void addListener(TextField textfield)
+    {
         textfield.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -423,32 +425,19 @@ public class PatientRecordController implements Initializable {
         patientRecordradioGenderMale.setDisable(true);
         patientRecordradioGenderFemale.setDisable(true);
         patientRecordLastname.setDisable(true);
-        patientRecordLastname.setEditable(false);
         patientRecordFirstname.setDisable(true);
-        patientRecordFirstname.setEditable(false);
         patientRecordSVN.setDisable(true);
-        patientRecordSVN.setEditable(false);
         patientRecordBday.setDisable(true);
-        patientRecordBday.setEditable(false);
         patientRecordStreet.setDisable(true);
-        patientRecordStreet.setEditable(false);
         patientRecordPLZ.setDisable(true);
-        patientRecordPLZ.setEditable(false);
         patientRecordCity.setDisable(true);
-        patientRecordCity.setEditable(false);
         patientRecordCountryIsoCode.setDisable(true);
-        patientRecordCountryIsoCode.setEditable(false);
         patientRecordPhone.setDisable(true);
-        patientRecordPhone.setEditable(false);
         patientRecordEmail.setDisable(true);
-        patientRecordEmail.setEditable(false);
         patientRecordDoctor.setDisable(true);
         patientRecordAllergies.setDisable(true);
-        patientRecordAllergies.setEditable(false);
         patientRecordIntolerance.setDisable(true);
-        patientRecordIntolerance.setEditable(false);
         patientRecordChildhood.setDisable(true);
-        patientRecordChildhood.setEditable(false);
     }
 
     private void enableFields() {
@@ -553,6 +542,7 @@ public class PatientRecordController implements Initializable {
             patientRecordDoctor.setItems(FXCollections.observableArrayList(_model.getAllDoctors()));
             try {
                 _calendareventlist = FXCollections.observableArrayList(_initpatient.getCalendarEvents());
+
             } catch (CouldNotGetCalendarEventsException couldNotGetCalendarEventsException) {
                 couldNotGetCalendarEventsException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("CouldNotGetCalendarEventsException", "Please contact support");
@@ -560,6 +550,7 @@ public class PatientRecordController implements Initializable {
             addToQueueBox.setItems(FXCollections.observableArrayList(_model.getAllDoctorsAndOrthoptists()));
             try {
                 _diagnosislist = FXCollections.observableArrayList(_initpatient.getDiagnoses());
+
             } catch (CouldNotGetDiagnoseException couldNotGetDiagnoseException) {
                 couldNotGetDiagnoseException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("CouldNotGetDiagnoseException", "Please contact support");
