@@ -38,30 +38,18 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable, ILogger {
 
-    @FXML
-    private Button prescriptionButton;
-    @FXML
-    private Button saveProtocolButton;
-    @FXML
-    private Button addDiagnosisButton;
-    @FXML
-    private Button refreshButton;
-    @FXML
-    private Button medicationButton;
-    @FXML
-    private Text examinationLnameFnameSvn;
-    @FXML
-    private Text examinationCurrDate;
-    @FXML
-    private Text examinationCurrTime;
-    @FXML
-    private TextField diagnosisTitle;
-    @FXML
-    private Label diagnosisIdentity;
-    @FXML
-    private TextArea examinationDocumentation;
-    @FXML
-    private TextArea diagnosisDetails;
+    @FXML  private Button prescriptionButton;
+    @FXML private Button saveProtocolButton;
+    @FXML private Button addDiagnosisButton;
+    @FXML private Button refreshButton;
+    @FXML private Button medicationButton;
+    @FXML private Text examinationLnameFnameSvn;
+    @FXML private Text examinationCurrDate;
+    @FXML private Text examinationCurrTime;
+    @FXML private TextField diagnosisTitle;
+    @FXML private Label diagnosisIdentity;
+    @FXML private TextArea examinationDocumentation;
+    @FXML private TextArea diagnosisDetails;
 
     private Timeline _timeline;
     private Integer _timeSeconds = 0;
