@@ -89,11 +89,11 @@ public class VisualAidController implements ILogger, IPrinter{
      * @param dioptreLeft amount of dioptre that will be needed for the left eye
      * @param dioptreRight amount of dioptre that will be needed for the right eye
      */
-    public IVisualAid createVisualAidPrescription(String description, String dioptreLeft, String dioptreRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
+    public IVisualAid createVisualAidPrescription(String description, Float dioptreLeft, Float dioptreRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
         visualAid.setDescription(description);
         visualAid.setIssueDate(new Timestamp(new Date().getTime()));
-        visualAid.setDioptreLeft(Float.parseFloat(dioptreLeft));
-        visualAid.setDioptreRight(Float.parseFloat(dioptreRight));
+        visualAid.setDioptreLeft(dioptreLeft);
+        visualAid.setDioptreRight(dioptreRight);
 
         IFacade facade = DependenceResolverTB2.getInstance().getFacade();
         facade.save(visualAid);
