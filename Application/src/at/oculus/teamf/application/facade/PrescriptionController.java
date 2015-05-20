@@ -222,8 +222,23 @@ public class PrescriptionController implements ILogger, IPrinter {
                 iter.remove();
             }
         }
-
         return notPrinted;
+    }
+
+    /**
+     *<h3>$printPrescription</h3>
+     *
+     * <b>Description:</b>
+     * This method will print the prescription via the IPrinter interface. It will also set the attribute last printed.
+     */
+    public void printPrescription (IPrescription iPrescription) throws COSVisitorException, CantGetPresciptionEntriesException, NoPrescriptionToPrintException, IOException {
+        try {
+            printer.printPrescription(iPrescription, iPrescription.getPatient().getIDoctor());
+            iPrescription.setLastPrint(new Timestamp(new Date().getTime()));
+        } catch (COSVisitorException | NoPrescriptionToPrintException | CantGetPresciptionEntriesException | IOException e) {
+            log.error("Could not print Prescription! " + e.getMessage());
+            throw  e;
+        }
     }
 
 }
