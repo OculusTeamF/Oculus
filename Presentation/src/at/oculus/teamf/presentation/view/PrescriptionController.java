@@ -170,6 +170,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 							prescriptionStackPane.getChildren().get(0).setVisible(false);
 							prescriptionStackPane.getChildren().get(1).setVisible(true);
 							printButton.setVisible(true);
+							saveButton.setDisable(false);
 							break;
 						case "Visual Aid":
 							prescriptionStackPane.getChildren().get(1).setVisible(false);
@@ -203,7 +204,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 		Collection<IMedicine> medicinList = new LinkedList<IMedicine>();
 		Collection<IDiagnosis> allDiagnoses = new LinkedList<IDiagnosis>();
 
-
+		//Save Medical Prescription
 		if (choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicine")) {
 
 			ObservableList<IMedicine> prescribedMedicine = prescriptionItems.getItems();
@@ -249,9 +250,14 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 				DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact Support ");
 			}
 			saveButton.setDisable(true);
+
+
+
 			_isSaved = true;
 
-		} else if (choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid"))
+		}
+		//Save Visual Aid Prescription
+		else if (choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid"))
 		{
 			//Prescription controller for this Patient
 			try {
@@ -298,8 +304,20 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 				dioptersL = Float.parseFloat(dioptersLeft.getText());
 				dioptersR = Float.parseFloat(dioptersRight.getText());
 			}
+
+			String visualAidInformationField = null;
+
+			//check if Description is filled in
+			if(visualAidInformation.getText().isEmpty()){
+
+				visualAidInformationField = "";
+			}else{
+				visualAidInformationField = visualAidInformation.getText();
+			}
+
 			try {
-				_prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(), dioptersL, dioptersR);
+				_prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformationField, dioptersL, dioptersR);
+
 
 			} catch (DatabaseOperationException databaseOperationException) {
 				databaseOperationException.printStackTrace();
@@ -319,6 +337,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 			}
 
 			saveButton.setDisable(true);
+			//dioptersLeft.clear();
+			//dioptersRight.clear();
+			//visualAidInformation.clear();
 			log.info("Visual aid prescription saved for " + patient.getLastName());
 			StatusBarController.getInstance().setText(
 					"Visual Aid Prescription saved for " + patient.getLastName() + ", " + patient.getFirstName());
