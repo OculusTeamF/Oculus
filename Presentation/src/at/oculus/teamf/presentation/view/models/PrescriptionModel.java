@@ -20,6 +20,7 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
@@ -53,7 +54,7 @@ public class PrescriptionModel {
      * @param patient
      * @throws NotInitiatedExceptions
      */
-    public void addNewPrescription(IPatient patient) throws NotInitiatedExceptions, NoPatientException {
+    public void fetchPrescriptionController(IPatient patient) throws NotInitiatedExceptions, NoPatientException {
 
         _prescriptionController = PrescriptionController.createController(patient);
 
@@ -80,10 +81,12 @@ public class PrescriptionModel {
     public Collection<IMedicine> getPrescribedMedicin() {
 
         Collection<IMedicine> prescribedMedicins = null;
+
         try {
             prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
         } catch (CouldNotGetMedicineException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotGetMedicineEcxeption", "Please contact Support");
         }
 
         return prescribedMedicins;

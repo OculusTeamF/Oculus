@@ -65,7 +65,7 @@
                   <Insets />
                </GridPane.margin>
                <items>
-                  <Button fx:id="saveProtocolButton" mnemonicParsing="false" onAction="#saveExaminationButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Save Examination" textAlignment="CENTER" />
+                  <Button fx:id="saveProtocolButton" mnemonicParsing="false" onAction="#saveExaminationButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Save" textAlignment="CENTER" />
                   <Button fx:id="addDiagnosisButton" mnemonicParsing="false" onAction="#addDiagnosisButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Add Diagnosis" textAlignment="CENTER" />
                   <Button fx:id="prescriptionButton" mnemonicParsing="false" onAction="#addPrescriptionButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Prescriptions" textAlignment="CENTER" />
                   <Button fx:id="medicationButton" mnemonicParsing="false" onAction="#setMedicationButtonHandler" prefHeight="31.0" prefWidth="155.0" text="Medication" />
