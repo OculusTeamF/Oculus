@@ -25,7 +25,9 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.StatusBarController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+import at.oculus.teamf.technical.printing.Printer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -153,6 +155,7 @@ public class PatientRecordModel {
                 try {
                     if(prescription != null){
                         prescriptionController.printPrescription();
+                        StatusBarController.getInstance().setText("Print Prescription...");
                     }else{
                         DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please choose a Prescription");
                     }
@@ -220,6 +223,7 @@ public class PatientRecordModel {
                 PrescriptionController _prescriptionController = PrescriptionController.createController(currPatient);
                 ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
                 openPrescriptions.setItems(prescriptionList);
+
             } catch (NoPatientException noPatientException) {
                 noPatientException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
