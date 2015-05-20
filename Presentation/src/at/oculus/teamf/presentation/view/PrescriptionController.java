@@ -335,17 +335,6 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 			savePrescriptionButtonActionHandler();
 		}
 
-		//Prescription controller for this Patient
-		/*try {
-			_prescriptionModel.fetchPrescriptionController(_model.getPatient());
-		} catch (NotInitiatedExceptions notInitiatedExceptions) {
-			notInitiatedExceptions.printStackTrace();
-			DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
-		} catch (NoPatientException noPatientException) {
-			noPatientException.printStackTrace();
-			DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
-		}*/
-
 		try {
 			_prescriptionModel.printPrescription();
 
