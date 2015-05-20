@@ -69,6 +69,8 @@ public class NewExaminationController implements Initializable, ILogger {
     private IExaminationProtocol newexam;
     private ViewLoaderTb2<ExaminationCreationFormViewController> exCreateDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
     private ViewLoaderTb2<ExaminationDataWidgetController> exDataWidgetTeamE = new ViewLoaderTb2<>(ExaminationDataWidgetController.class);
+    // private ViewLoaderTb2<ExaminationDetailViewController> exDataWidgetTeamE = new ViewLoaderTb2<>(ExaminationDetailViewController.class);
+    // private ViewLoaderTb2<ExaminationsListViewController> exDataWidgetTeamE = new ViewLoaderTb2<>(ExaminationsListViewController.class);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
