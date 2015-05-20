@@ -154,20 +154,11 @@ public class PatientRecordModel {
 
                 try {
                     if(prescription != null){
-                        prescriptionController.printPrescription();
+                        prescriptionController.printPrescription(prescription);
                         StatusBarController.getInstance().setText("Print Prescription...");
                     }else{
                         DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please choose a Prescription");
                     }
-                } catch (DatabaseOperationException dataBaseOperationException) {
-                    dataBaseOperationException.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact support");
-                } catch (NoBrokerMappedException noBrokerMappedException) {
-                    noBrokerMappedException.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact support");
-                } catch (BadConnectionException badConnectionException) {
-                    badConnectionException.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
                 } catch (COSVisitorException cosVisitorException) {
                     cosVisitorException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("COSVisitorException", "Please contact support");
@@ -177,9 +168,6 @@ public class PatientRecordModel {
                 } catch (CantGetPresciptionEntriesException cantGetPresciptionEntriesException) {
                     cantGetPresciptionEntriesException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact support");
-                } catch (NotInitiatedExceptions notInitiatedExceptions) {
-                    notInitiatedExceptions.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
                 } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
                     noPrescriptionToPrintException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact support");
