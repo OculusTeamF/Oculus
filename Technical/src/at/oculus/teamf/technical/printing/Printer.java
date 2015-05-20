@@ -275,7 +275,7 @@ public class Printer implements ILogger{
                     stream.beginText();
                     stream.setFont(fontPlain, 12);
                     stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
-                    stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                    stream.drawString(entry.getMedicine().getName() + ", " + entry.getMedicine().getDose());
                     stream.endText();
                 }
             }
