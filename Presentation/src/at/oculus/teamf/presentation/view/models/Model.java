@@ -247,7 +247,7 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     *
+     * Refreshes the Queue after a patient was removed from queue or added
      * @return
      */
     public void refreshQueue(IUser user) {
@@ -299,8 +299,16 @@ public class Model implements Serializable, ILogger{
         } else {
             DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
         }*/
+    }
 
+    public boolean isPatientInQueue(String patient){
 
+        Boolean isInQueue = false;
+
+        if(_patientsInQueue.get(patient) != null){
+            isInQueue = true;
+        }
+        return isInQueue;
     }
 
     /**
@@ -312,6 +320,7 @@ public class Model implements Serializable, ILogger{
     private String buildTitledPaneHeader(IUser user, int sizeOfQueue)
     {
         String queuename;
+
         if (user.getTitle() == null || user.getTitle().equals("null") || user.getTitle().equals("")) {
             queuename = user.getFirstName() + " " + user.getLastName();
         } else {

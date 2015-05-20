@@ -103,7 +103,7 @@ public class QueueModel {
             DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
         } catch (CouldNotAddPatientToQueueException couldNotAddPatientToQueueException) {
             couldNotAddPatientToQueueException.printStackTrace();
-            DialogBoxController.getInstance().showErrorDialog("CouldNotAddPatientToQueueException", "Please contact support");
+            DialogBoxController.getInstance().showErrorDialog("CouldNotAddPatientToQueueException", "Make sure that the patient is not in a queue.");
         }
         _model.refreshQueue(user);
     }
@@ -112,7 +112,8 @@ public class QueueModel {
      * removes the patient from the queue and opens a new examinationTab
      * @param patient
      */
-    public void removePatientFromQueue(IPatient patient, IUser user) {
+    public void removePatientFromQueue(IPatient patient, IUser user)
+    {
         _model = Model.getInstance();
         IPatientQueue queue = getQueueFromUser(user);
 
@@ -131,7 +132,8 @@ public class QueueModel {
      * delete the patient without starting an examination
      * @param patient
      */
-    public void deletePatientFromQueue(IPatient patient, IUser user) {
+    public void deletePatientFromQueue(IPatient patient, IUser user)
+    {
         _model = Model.getInstance();
         IPatientQueue queue = getQueueFromUser(user);
 
