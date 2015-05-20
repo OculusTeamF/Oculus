@@ -485,7 +485,7 @@ public class PatientRecordController implements Initializable {
         if(_initpatient.getBirthDay() != null){
             _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, _initpatient);
         }else{
-            DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please make sure");
+            DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please make sure that the Patient has a Birth date set");
         }
     }
 

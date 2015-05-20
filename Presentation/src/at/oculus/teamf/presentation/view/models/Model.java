@@ -20,13 +20,18 @@ import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.SpeedUpTooltip;
 import at.oculus.teamf.technical.loggin.ILogger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,8 +42,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -346,17 +354,23 @@ public class Model implements Serializable, ILogger{
             Image imageOpen = new Image(getClass().getResourceAsStream("/res/icon_open.png"));
 
             _startexaminationbutton.setGraphic(new ImageView(imageEnqueue));
-            _startexaminationbutton.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
+             Tooltip startExaminationTooltip = new SpeedUpTooltip();
+            startExaminationTooltip.setText("Start Examination and remove patient from queue");
+            _startexaminationbutton.setTooltip(startExaminationTooltip);
             _startexaminationbutton.setCursor(Cursor.HAND);
             _startexaminationbutton.setId("queueButton");
 
             _deletebutton.setGraphic(new ImageView(imageDelete));
-            _deletebutton.setTooltip(new Tooltip("Delete patient from queue without examination"));
+            Tooltip deletebuttonTooltip = new SpeedUpTooltip();
+            deletebuttonTooltip.setText("Remove patient from queue witout examination");
+            _deletebutton.setTooltip(deletebuttonTooltip);
             _deletebutton.setCursor(Cursor.HAND);
             _deletebutton.setId("queueDeleteButton");
 
             _openbutton.setGraphic(new ImageView(imageOpen));
-            _openbutton.setTooltip(new Tooltip("Open and view patient record"));
+            Tooltip openbuttonTooltip = new SpeedUpTooltip();
+            openbuttonTooltip.setText("Open and view patient record");
+            _openbutton.setTooltip(openbuttonTooltip);
             _openbutton.setCursor(Cursor.HAND);
             _openbutton.setId("queueOpenButton");
 
@@ -390,7 +404,7 @@ public class Model implements Serializable, ILogger{
             _startexaminationbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _startexaminationbutton.setText("Start Examination");
+                   // _startexaminationbutton.setText("Start Examination");
                     _startexaminationbutton.setContentDisplay(ContentDisplay.RIGHT);
                     _startexaminationbutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -405,7 +419,7 @@ public class Model implements Serializable, ILogger{
             _deletebutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _deletebutton.setText("Delete from queue");
+                   // _deletebutton.setText("Delete from queue");
                     _deletebutton.setContentDisplay(ContentDisplay.RIGHT);
                     _deletebutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -420,7 +434,7 @@ public class Model implements Serializable, ILogger{
             _openbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _openbutton.setText("Open patient record");
+                   // _openbutton.setText("Open patient record");
                     _openbutton.setContentDisplay(ContentDisplay.RIGHT);
                     _openbutton.setTextAlignment(TextAlignment.LEFT);
                 }
