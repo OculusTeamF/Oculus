@@ -182,6 +182,13 @@ public class PatientRecordController implements Initializable {
 
         addToQueueBox.setValue(_initpatient.getIDoctor());
 
+        if(_model.isPatientInQueue(_initpatient.toString()))
+        {
+            addToQueueBox.setDisable(true);
+            addPatientToQueueButton.setDisable(true);
+
+        }
+
         //check if something has changed, if changes detected --> saveChanges()
         addListener(patientRecordLastname);
         addListener(patientRecordFirstname);
@@ -285,6 +292,7 @@ public class PatientRecordController implements Initializable {
 
         if(notPrintedprescriptionsList.isEmpty()){
             notPrintedPrescriptions.setVisible(false);
+
         }
     }
 
@@ -489,8 +497,10 @@ public class PatientRecordController implements Initializable {
     }
 
     @FXML
-    public void addPatientToQueueButtonHandler(){
-        if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
+    public void addPatientToQueueButtonHandler()
+    {
+        if(addToQueueBox.getSelectionModel().getSelectedItem() != null)
+        {
             IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
             _model.getQueueModel().insertPatientIntoQueue(user);
             StatusBarController.getInstance().setText("Added _patient '" + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName() + "' to queue for: " + user.getLastName());
