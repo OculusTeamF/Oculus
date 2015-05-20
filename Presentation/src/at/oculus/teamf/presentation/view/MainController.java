@@ -195,7 +195,7 @@ public class MainController implements Initializable, ILogger {
     /*Button: opens test action*/
     @FXML
     public void openTestTab(ActionEvent actionEvent) {
-        _model.getTabModel().addTestTab(_model.getPatient());
+        _model.getTabModel().addNewExaminationEntryTab(_model.getPatient());
     }
 
     /* MenuItem for the selection of the Theme*/
