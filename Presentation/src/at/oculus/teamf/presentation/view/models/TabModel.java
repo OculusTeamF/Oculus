@@ -11,9 +11,8 @@ package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
 import at.oculus.teamE.presentation.ViewLoaderTb2;
-import at.oculus.teamE.presentation.controllers.ExaminationCreationFormViewController;
+import at.oculus.teamE.presentation.controllers.ExaminationDataWidgetController;
 import at.oculus.teamE.presentation.controllers.MedicineAttachDialog;
-import at.oculus.teamE.presentation.controllers.MedicineEditFormViewController;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.presentation.view.DialogBoxController;
@@ -56,9 +55,9 @@ public class TabModel implements ILogger {
     }
 
     // team E integration
-    private ViewLoaderTb2<MedicineEditFormViewController> exMedicationTeamE = new ViewLoaderTb2<>(MedicineEditFormViewController.class);
-    private ViewLoaderTb2<ExaminationCreationFormViewController> exCreateDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
-    // private ViewLoaderTb2<ExaminationDataWidgetController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationDataWidgetController.class);
+    // private ViewLoaderTb2<MedicineEditFormViewController> exMedicationTeamE = new ViewLoaderTb2<>(MedicineEditFormViewController.class);
+    // private ViewLoaderTb2<ExaminationCreationFormViewController> exCreateDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
+    private ViewLoaderTb2<ExaminationDataWidgetController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationDataWidgetController.class);
     // private ViewLoaderTb2<ExaminationsListViewController> exDetailTeamE = new ViewLoaderTb2<>(ExaminationsListViewController.class);
 
     /* set the Tabs for the TabPanel */
@@ -258,7 +257,7 @@ public class TabModel implements ILogger {
 
     // *****************************************************************************************************************
     //
-    // ARNO INTEGRATION
+    // TEAM E INTEGRATION
     //
     // *****************************************************************************************************************
 
@@ -272,7 +271,7 @@ public class TabModel implements ILogger {
         _selectedTab = tab;
         tab.setId("examinationdetails" + patient.getSocialInsuranceNr());
 
-        Node newnode = exCreateDetailTeamE.loadNode();
+        Node newnode = exDetailTeamE.loadNode();
         tab.setContent(newnode);
 
         setTabMapEntry(tab, _tabinitpatient);

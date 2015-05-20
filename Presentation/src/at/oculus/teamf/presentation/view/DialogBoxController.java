@@ -168,6 +168,8 @@ public class DialogBoxController {
         dlg.getDialogPane().setGraphic(new javafx.scene.image.ImageView(new Image(getClass().getResource("/res/keepcalm.jpg").toExternalForm())));
         dlg.getDialogPane().setStyle("-fx-background-color: white;");
         dlg.setHeaderText("");
+        //dlg.setWidth(10.0);
+        dlg.getDialogPane().setMaxWidth(30);
         dlg.show();
     }
 
