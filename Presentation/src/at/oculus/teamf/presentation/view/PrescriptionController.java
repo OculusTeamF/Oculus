@@ -285,14 +285,25 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 				DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions",
 				                                                  "Cannot Save Prescription - No Diagnose ");
 			}
+
+			//Check if diopters are valid
+			Float dioptersL = 0.0f;
+			Float dioptersR = 0.0f;
+
+			if(!dioptersLeft.getText().matches("[0-9.]*"))
+			{
+				DialogBoxController.getInstance().showInformationDialog("No valid input", "Diopters: only numbers valid ( 1.0 )");
+				saveButton.setDisable(false);
+			}else{
+				dioptersL = Float.parseFloat(dioptersLeft.getText());
+				dioptersR = Float.parseFloat(dioptersRight.getText());
+			}
 			try {
-				_prescriptionModel
-						.addVisualAidPrescriptionEntries(visualAidInformation.getText(), dioptersLeft.getText(),
-						                                 dioptersRight.getText());
+				_prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformation.getText(), dioptersL, dioptersR);
+
 			} catch (DatabaseOperationException databaseOperationException) {
 				databaseOperationException.printStackTrace();
-				DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException",
-				                                                  "Cannot Save Prescription - No Diagnose ");
+				DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Cannot Save Prescription - No Diagnose ");
 			} catch (NoBrokerMappedException noBrokerMappedException) {
 				noBrokerMappedException.printStackTrace();
 				DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException",
@@ -325,7 +336,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 		}
 
 		//Prescription controller for this Patient
-		try {
+		/*try {
 			_prescriptionModel.fetchPrescriptionController(_model.getPatient());
 		} catch (NotInitiatedExceptions notInitiatedExceptions) {
 			notInitiatedExceptions.printStackTrace();
@@ -333,7 +344,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 		} catch (NoPatientException noPatientException) {
 			noPatientException.printStackTrace();
 			DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
-		}
+		}*/
 
 		try {
 			_prescriptionModel.printPrescription();

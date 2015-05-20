@@ -132,8 +132,8 @@ public class PatientRecordModel {
         //Content of Popup
         Label label = new Label("Not printed Prescriptions:");
         final ListView<IPrescription> openPrescriptions = new ListView<>();
-        Button printPrescriptionButton = new Button("Print Prescription");
-        Button deletePrescriptionButton = new Button("Delete Prescription");
+        Button printPrescriptionButton = new Button("Print");
+        Button deletePrescriptionButton = new Button("Delete");
 
         // setup buttons
         Image imagePrintIcon = new Image(getClass().getResourceAsStream("/res/icon_print.png"));
@@ -147,9 +147,11 @@ public class PatientRecordModel {
         deletePrescriptionButton.setMinWidth(150);
 
        //Button ActionHandler
-        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
 
                 try {

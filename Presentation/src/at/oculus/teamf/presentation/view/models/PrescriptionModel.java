@@ -104,7 +104,7 @@ public class PrescriptionModel {
      * @param dioptersLeft
      * @param dioptersRight
      */
-    public void addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
+    public void addVisualAidPrescriptionEntries(String description, Float dioptersLeft, Float dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
 
         _visualAidPrescriptionController.createVisualAidPrescription(description, dioptersLeft, dioptersRight);
 
