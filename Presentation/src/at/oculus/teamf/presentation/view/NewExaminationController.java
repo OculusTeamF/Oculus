@@ -185,8 +185,7 @@ public class NewExaminationController implements Initializable, ILogger {
     @FXML
     public void setMedicationButtonHandler(ActionEvent actionEvent) {
         IDiagnosis diag = newexam.getTeamFDiagnosis();
-        IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
-        //_model.getTabModel().addMedicationTab(selectedPatient);
+        //IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().showMedicineAttachDialog(diag);
     }
 }

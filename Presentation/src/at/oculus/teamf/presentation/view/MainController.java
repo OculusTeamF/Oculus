@@ -192,6 +192,12 @@ public class MainController implements Initializable, ILogger {
         DialogBoxController.getInstance().showAboutDialog();
     }
 
+    /*Menu item: opens support dialog*/
+    @FXML
+    public void clickMenuItemShowSupport(ActionEvent actionEvent) {
+        DialogBoxController.getInstance().showSupportDialog();
+    }
+
     /*Button: opens test action*/
     @FXML
     public void openTestTab(ActionEvent actionEvent) {
