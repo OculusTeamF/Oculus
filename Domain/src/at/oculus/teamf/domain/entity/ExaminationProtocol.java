@@ -111,8 +111,8 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 	}
 
     @Override
-    public void addExamination(IExaminationTb2 iExaminationTb2) {
-        //TODO addExamination
+    public void addExamination(IExaminationTb2 iExaminationTb2){
+        //TODO review
         log.debug("adding examination result to examination protocol " + this);
         IExaminationResult result = (IExaminationResult) iExaminationTb2;
         result.setExaminationProtocol(this);
@@ -121,7 +121,6 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
             _results = new LinkedList<ExaminationResult>();
         }
         _results.add((ExaminationResult)result);
-
     }
 
     @Override
@@ -131,7 +130,13 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
     @Override
     public void removeExamination(IExaminationTb2 iExaminationTb2) {
-        //TODO removeExamination
+        //TODO review
+        log.debug("remove examination result from examination protocol " + this);
+        IExaminationResult result = (IExaminationResult) iExaminationTb2;
+        if(_results == null){
+            return;
+        }
+        _results.remove(result);
     }
 
     @Override
