@@ -29,7 +29,6 @@ import java.util.LinkedList;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-//Todo: Proxy, Remove Facade calls and extend broker
 public class Patient implements IPatient, ILogger {
 
     //<editor-fold desc="Attributes">

@@ -299,7 +299,6 @@ class HibernateSession implements ISession, ISessionClosable, ILogger {
                 query.setParameter(i.toString(), parameters[i]);
             } catch (Exception e) {
                 log.error("A error occurred when trying to search for an object through named queries! OriginalMessage: " + e.getMessage());
-                //Todo: add exception
             }
 		}
 		return query.getResultList();

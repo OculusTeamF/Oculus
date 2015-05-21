@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.technical.properties;
 
+import at.oculus.teamf.technical.loggin.ILogger;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,9 +18,8 @@ import java.util.Properties;
 
 /**
  * Created by Norskan on 02.04.2015.
- * //TODO: add docs
  */
-public abstract class PropertiesHelper {
+public abstract class PropertiesHelper implements ILogger {
 
     protected Properties _prop;
 
@@ -34,8 +35,7 @@ public abstract class PropertiesHelper {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
         } catch (Exception e) {
-            //TODO: add log
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

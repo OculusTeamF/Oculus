@@ -38,7 +38,6 @@ import java.util.List;
  * ExaminationProtocol.java
  * Created by oculus on 16.04.15.
  */
-//Todo: Proxy
 public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExaminationProtocolTb2 {
     private int _id;
 	private Date _startTime;

@@ -68,10 +68,6 @@ OFF     The OFF Level has the highest possible rank and is intended to turn off 
         </RollingFile>
     </Appenders>
 
-    <!-- DATABASE OUTPUT CONFIG
-        toDO: special pattern for database output
-    -->
-
 
     <!-- USED LOGGERS -->
     <Loggers>
