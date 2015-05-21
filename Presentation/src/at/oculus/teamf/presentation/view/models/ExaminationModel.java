@@ -9,12 +9,12 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.controller.CreateDiagnosisController;
-import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoExaminationProtocolException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsUnfulfilledException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.facade.CreateDiagnosisController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;

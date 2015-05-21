@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.controller.SearchPatientController;
-import at.oculus.teamf.application.controller.VisualAidController;
-import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.facade.VisualAidController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;

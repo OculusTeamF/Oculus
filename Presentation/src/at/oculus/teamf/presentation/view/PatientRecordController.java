@@ -12,14 +12,14 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.application.controller.PrescriptionController;
-import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoPatientException;
+import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;

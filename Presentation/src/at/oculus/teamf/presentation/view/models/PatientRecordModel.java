@@ -9,22 +9,25 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.controller.PrescriptionController;
-import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoPatientException;
-import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.facade.PrescriptionController;
+import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.presentation.view.StatusBarController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+import at.oculus.teamf.technical.printing.Printer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

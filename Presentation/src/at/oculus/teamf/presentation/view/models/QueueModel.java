@@ -9,8 +9,9 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.controller.exceptions.CheckinControllerException;
-import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
+import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;

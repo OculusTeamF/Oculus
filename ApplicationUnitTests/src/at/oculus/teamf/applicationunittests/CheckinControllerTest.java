@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.controller.CheckinController;
-import at.oculus.teamf.application.controller.ReceivePatientController;
-import at.oculus.teamf.application.controller.SearchPatientController;
+import at.oculus.teamf.application.facade.CheckinController;
+import at.oculus.teamf.application.facade.ReceivePatientController;
+import at.oculus.teamf.application.facade.SearchPatientController;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.junit.After;

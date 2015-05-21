@@ -7,21 +7,22 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
+/**<h1>$RequirementsNotMetException.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $13.04.15
+ *
+ * Description:
+ * In this file is  the RequirementsNotMetException-class which extends Exception
+ **/
+package at.oculus.teamf.application.facade.exceptions;
 
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-
-import java.util.LinkedList;
-
-public class SearchPatientControllerTest {
-
-    SearchPatientController searchPatientController = new SearchPatientController();
-
-    @org.junit.Test
-    public void testSearchPatients() throws Exception {
-        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("son");
-        assert (patients.size() > 0);
-    }
+/**
+ * <h2>$RequirementsNotMetException</h2>
+ *
+ * <b>Description:</b>
+ * This Exception is thrown, if the requirements of given data, when a new patient is created, are unfulfilled.
+ **/
+public class RequirementsNotMetException extends CreatePatientControllerException {
 
 }
