@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.exception.WrongUserInQueueEntryException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -58,7 +59,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
     }
 
     @Override
-    public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
+    public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException, WrongUserInQueueEntryException {
         // id of last queue element
         Integer parentId = null;
         if (!_entries.isEmpty()) {
@@ -67,14 +68,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
         // new queue entry
         QueueEntry queueEntryNew = null;
-        // TODO Umbau QueueEntry auf User statt Doc und Orth extra
-        if (_user instanceof Doctor) {
-            queueEntryNew = new QueueEntry(0, patient, (Doctor) _user, null, parentId, arrivaltime);
-        } else if (_user instanceof Orthoptist) {
-            queueEntryNew = new QueueEntry(0, patient, null, (Orthoptist) _user, parentId, arrivaltime);
-        } else {
-            queueEntryNew = new QueueEntry(0, patient, null, null, parentId, arrivaltime);
-        }
+        queueEntryNew = new QueueEntry(0, patient, (User) _user, parentId, arrivaltime);
 
         // save
         if (queueEntryNew != null) {

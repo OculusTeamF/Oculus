@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.exception.WrongUserInQueueEntryException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import java.sql.Timestamp;
@@ -21,7 +22,7 @@ public interface IPatientQueue {
 
     Collection<IQueueEntry> getEntries();
 
-    void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException;
+    void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException, WrongUserInQueueEntryException;
 
     void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException;
 }
