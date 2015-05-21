@@ -7,21 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
+package at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions;
 
-import at.oculus.teamf.application.controller.SearchPatientController;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-
-import java.util.LinkedList;
-
-public class SearchPatientControllerTest {
-
-    SearchPatientController searchPatientController = new SearchPatientController();
-
-    @org.junit.Test
-    public void testSearchPatients() throws Exception {
-        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("son");
-        assert (patients.size() > 0);
-    }
-
+/**
+ * Created by Simon Angerer on 13.05.2015.
+ */
+public class NotInitiatedExceptions extends Exception {
 }

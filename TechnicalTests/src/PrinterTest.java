@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
@@ -16,8 +16,6 @@ import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.printing.IPrinter;
 
 import java.util.LinkedList;
-
-import static org.junit.Assert.*;
 
 public class PrinterTest implements IPrinter {
 
