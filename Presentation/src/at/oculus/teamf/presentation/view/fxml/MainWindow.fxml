@@ -34,7 +34,7 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="View">
+                        <Menu mnemonicParsing="false" disable="true" text="View">
                             <items>
                                 <Menu disable="true" mnemonicParsing="false" text="Theme">
                                     <items>
@@ -60,8 +60,8 @@
                         </Menu>
                         <Menu disable="true" mnemonicParsing="false" text="Forms">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Medical prescription" />
-                                <MenuItem mnemonicParsing="false" text="Visual aid" />
+                                <MenuItem mnemonicParsing="false" text="Medical Prescription" />
+                                <MenuItem mnemonicParsing="false" text="Visual Aid" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Calendar">

@@ -319,7 +319,7 @@ public class PatientRecordController implements Initializable {
         if(patientRecordBday.getValue()!=null) {
             LocalDate localDate = patientRecordBday.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-            Date bday = java.sql.Date.from(instant);
+            Date bday = Date.from(instant);
             _model.getPatient().setBirthDay(bday);
         }
         if(patientRecordStreet.getText()!=null) {

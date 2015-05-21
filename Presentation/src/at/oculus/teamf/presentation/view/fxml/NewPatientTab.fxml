@@ -65,12 +65,12 @@
             </TextField>
              <TextField fx:id="newPatientEmail" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField fx:id="newPatientPhone" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <RadioButton fx:id="radioGenderFemale" mnemonicParsing="false" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <RadioButton fx:id="radioGenderMale" mnemonicParsing="false" text="Male" GridPane.columnIndex="1" GridPane.rowIndex="10">
-               <padding>
-                  <Insets left="80.0" />
-               </padding>
-            </RadioButton>
+             <RadioButton fx:id="radioGenderMale"  mnemonicParsing="false" text="Male" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                 <padding>
+                     <Insets left="80.0" />
+                 </padding>
+             </RadioButton>
+             <RadioButton fx:id="radioGenderFemale"  mnemonicParsing="false" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <ChoiceBox fx:id="newPatientDoctor" prefHeight="25.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Label prefHeight="21.0" prefWidth="58.0" text="Country" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
