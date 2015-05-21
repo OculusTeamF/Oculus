@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamE.domain.readonly.IRPatientTb2;
 import at.oculus.teamE.presentation.ViewLoaderTb2;
 import at.oculus.teamE.presentation.controllers.ExaminationCreationFormViewController;
 import at.oculus.teamE.presentation.controllers.ExaminationDataWidgetController;
@@ -118,6 +119,7 @@ public class NewExaminationController implements Initializable, ILogger {
 
         // add Team E integration (Examination detail form)
         exAnchor.getChildren().add(exCreateDetailTeamE.loadNode());
+        exCreateDetailTeamE.getController().setCurrentPatient((IRPatientTb2) _initPatient);
         dataPane.getChildren().add(exDataWidgetTeamE.loadNode());
         //IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         //exCreateDetailTeamE.getController().setCurrentPatient(selectedPatient);

@@ -25,6 +25,7 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -55,6 +56,10 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
     public ExaminationProtocol(IPatientTb2 iPatientTb2, IUserTb2 iUserTb2){
         _patient = (Patient) iPatientTb2;
         _doctor = (Doctor) iUserTb2;
+		_startTime = new java.sql.Timestamp(new Date().getTime());
+		_endTime = new java.sql.Timestamp(new Date().getTime());
+		_description = "";
+
     }
 
 	public ExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
@@ -156,9 +161,8 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
 	@Override
 	public void setCreateDate(Date createDate) {
-
+		_startTime = createDate;
 	}
-
 	@Override
 	public void setDoctor(IDoctor doctor) {
 		_doctor = (Doctor) doctor;

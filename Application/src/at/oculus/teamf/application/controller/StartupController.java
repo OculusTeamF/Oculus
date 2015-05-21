@@ -94,9 +94,10 @@ public class StartupController implements ILogger {
 
                 IUserTb2 user = null;
                 try {
-                     user = (IUserTb2) getUser();
-                } catch (BadConnectionException | CriticalClassException | CriticalDatabaseException e) {
-                    // eat up
+                     user = Facade.getInstance().getById(Doctor.class, 1);
+                } catch (DatabaseOperationException | NoBrokerMappedException | BadConnectionException e) {
+                    e.printStackTrace();
+                    //Todo: Handling
                 }
                 return user;
             }
