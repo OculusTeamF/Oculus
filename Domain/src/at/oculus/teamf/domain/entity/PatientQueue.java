@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.exception.WrongUserInQueueEntryException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -58,7 +57,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
     }
 
     @Override
-    public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException, WrongUserInQueueEntryException {
+    public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException {
         log.debug("add patient " + patient + " to " + this);
 
         // patient already in queue

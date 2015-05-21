@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.exception.WrongUserInQueueEntryException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -34,39 +33,19 @@ public class QueueEntry implements IQueueEntry {
      *
      * @param id  queue id, set by database. if queue id is 0 then new entry else update entry of given id
      * @param patient set patient which shoul dbe added to queue
-     * @param doctor add to doctor user, use 'null' if not assigned to a doctor
-     * @param orthoptist add to orthoptist user, use 'null' if not assigned to a orthoptist
+     * @param user add to user, use 'null' if not assigned to a doctor
      * @param queueIdParent  parentid for queueupart for a user
      * @param arrivalTime set timestamp
      */
-    public QueueEntry(int id, IPatient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
-                      Timestamp arrivalTime) {
-        _id = id;
-        _doctor = doctor;
-        _orthoptist = orthoptist;
-        _queueIdParent = queueIdParent;
-        _arrivalTime = arrivalTime;
-        _patient = (Patient)patient;
-
-        // logging
-        Integer dID = null;
-        Integer oID = null;
-        if(_doctor != null) { dID = _doctor.getId();}
-        if(_orthoptist != null) { oID = _orthoptist.getId();}
-        log.debug("[CREATE QueueEntry] id: " + _id + " | doctorID: " + dID + " | orthoptistID: " + oID
-                + " | patientID: " + _patient.getId() + " | queueIDParent: " + _queueIdParent + " | arrivalTime: " + _arrivalTime.toString());
-    }
-
     public QueueEntry(int id, IPatient patient, User user, Integer queueIdParent,
-                      Timestamp arrivalTime) throws WrongUserInQueueEntryException {
+                      Timestamp arrivalTime) {
         _id = id;
         if(user instanceof Doctor){
             _doctor = (Doctor) user;
         } else if (user instanceof Orthoptist) {
             _orthoptist = (Orthoptist) user;
-        } else if (user != null) {
-            throw new WrongUserInQueueEntryException();
         }
+
         _queueIdParent = queueIdParent;
         _arrivalTime = arrivalTime;
         _patient = (Patient)patient;

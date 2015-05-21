@@ -9,19 +9,14 @@
 
 package at.oculus.teamf.application.facade;
 
-import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
 import at.oculus.teamf.application.facade.exceptions.PatientNotFoundException;
 import at.oculus.teamf.application.facade.exceptions.QueueNotFoundException;
 import at.oculus.teamf.application.facade.exceptions.UserNotFoundException;
 import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.exception.WrongUserInQueueEntryException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
@@ -57,7 +52,7 @@ public class CheckinController implements ILogger {
      * @param iuser the patient should be added to the queue of this user
      *
      */
-    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CouldNotAddPatientToQueueException, UserNotFoundException, PatientNotFoundException, CriticalClassException, BadConnectionException, QueueNotFoundException, WrongUserInQueueEntryException {
+    public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CouldNotAddPatientToQueueException, UserNotFoundException, PatientNotFoundException, CriticalClassException, BadConnectionException, QueueNotFoundException {
         Patient patient = (Patient) ipatient;
         log.info("Patient object has been created and assigned from interface.");
         User user = (User) iuser;

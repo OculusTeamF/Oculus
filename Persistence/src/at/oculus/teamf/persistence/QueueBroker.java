@@ -50,15 +50,14 @@ public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implement
     protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
-        Doctor doctor = null;
+        User user = null;
         if (entity.getDoctorId() != null) {
-            doctor = Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
+            user = (User) Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
         }
-        Orthoptist orthoptist = null;
-        if (entity.getOrthoptistId() != null) {
-            orthoptist = Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
+        if (user == null && entity.getOrthoptistId() != null) {
+            user = (User) Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
         }
-        return new QueueEntry(entity.getId(), patient, doctor, orthoptist, entity.getQueueIdParent(),
+        return new QueueEntry(entity.getId(), patient, user, entity.getQueueIdParent(),
                 entity.getArrivalTime());
     }
 
