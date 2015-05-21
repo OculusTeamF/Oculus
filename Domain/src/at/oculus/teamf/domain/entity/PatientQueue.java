@@ -27,8 +27,6 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.LinkedList;
 
-// Todo: add docs, implement equals, logging
-
 /**
  * @author Fabian Salzgeber
  */
@@ -40,6 +38,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
     //</editor-fold>
 
     public PatientQueue(User user, Collection<QueueEntry> entries) {
+        log.debug("new queue for user " + _user);
         _entries = new LinkedList<>();
         _entries.addAll(entries);
         _user = user;
@@ -60,6 +59,15 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
     @Override
     public void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException, WrongUserInQueueEntryException {
+        log.debug("add patient " + patient + " to " + this);
+
+        // patient already in queue
+        if(patient != null && !_entries.isEmpty()){
+            if(_entries.contains(patient)){
+                throw new CouldNotAddPatientToQueueException();
+            }
+        }
+
         // id of last queue element
         Integer parentId = null;
         if (!_entries.isEmpty()) {
@@ -83,8 +91,15 @@ public class PatientQueue implements ILogger, IPatientQueue {
         _entries.add(queueEntryNew);
     }
 
+    /**
+     * removes the patient from this queue
+     * @param patient to remove
+     * @throws CouldNotRemovePatientFromQueueException
+     */
     @Override
     public void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException {
+        log.debug("remove patient " + patient + " from " + this);
+
         IQueueEntry queueEntryDel = null;
         IQueueEntry queueEntryChd = null;
 
@@ -125,5 +140,30 @@ public class PatientQueue implements ILogger, IPatientQueue {
             log.error(e.getMessage());
             throw new CouldNotRemovePatientFromQueueException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PatientQueue)) return false;
+
+        PatientQueue that = (PatientQueue) o;
+
+        if (_entries != null ? !_entries.equals(that._entries) : that._entries != null) return false;
+        if (_user != null ? !_user.equals(that._user) : that._user != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _user != null ? _user.hashCode() : 0;
+        result = 31 * result + (_entries != null ? _entries.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString(){
+        return _user + "'s queue";
     }
 }

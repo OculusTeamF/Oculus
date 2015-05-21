@@ -140,4 +140,33 @@ public class QueueEntry implements IQueueEntry {
         return "QueueID " + getId() + " with Patient: " + getPatient() + ", Doctor: " + getDoctor() + ", Orthoptist: " +
                 getOrthoptist();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QueueEntry)) return false;
+
+        QueueEntry that = (QueueEntry) o;
+
+        if (_id != that._id) return false;
+        if (_arrivalTime != null ? !_arrivalTime.equals(that._arrivalTime) : that._arrivalTime != null) return false;
+        if (_doctor != null ? !_doctor.equals(that._doctor) : that._doctor != null) return false;
+        if (_orthoptist != null ? !_orthoptist.equals(that._orthoptist) : that._orthoptist != null) return false;
+        if (_patient != null ? !_patient.equals(that._patient) : that._patient != null) return false;
+        if (_queueIdParent != null ? !_queueIdParent.equals(that._queueIdParent) : that._queueIdParent != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _id;
+        result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+        result = 31 * result + (_orthoptist != null ? _orthoptist.hashCode() : 0);
+        result = 31 * result + (_queueIdParent != null ? _queueIdParent.hashCode() : 0);
+        result = 31 * result + (_arrivalTime != null ? _arrivalTime.hashCode() : 0);
+        result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
+        return result;
+    }
 }
