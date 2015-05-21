@@ -50,7 +50,6 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws NoBrokerMappedException
      * @throws BadConnectionException
      */
-    //Todo: Proxy
     @Override
     public LinkedList<IQueueEntry> getEntries()  {
         return _entries;

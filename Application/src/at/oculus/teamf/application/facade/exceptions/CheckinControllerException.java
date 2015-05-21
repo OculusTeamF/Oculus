@@ -21,7 +21,7 @@ package at.oculus.teamf.application.facade.exceptions;
  * <h2>$CheckinControllerException</h2>
  *
  * <b>Description:</b>
- * A short description of the class TODO
+ * A short description of the class
  **/
 public class CheckinControllerException extends Exception {
 

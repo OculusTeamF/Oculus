@@ -17,7 +17,6 @@ import at.oculus.teamf.persistence.entity.UsergroupEntity;
 import java.util.Date;
 
 /**
- * Todo: add docs, implement equals
  *
  * @author Simon Angerer
  */

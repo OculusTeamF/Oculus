@@ -18,8 +18,6 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
-
-// Todo: add docs, implement equals
 /**
  * @author Simon Angerer
  */
