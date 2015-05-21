@@ -7,21 +7,22 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.applicationunittests;
+/**<h1>$CheckinControllerException.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $13.04.15
+ *
+ * Description:
+ * In this file is the CheckinControllerException-class which extends Exception
+ **/
+package at.oculus.teamf.application.controller.exceptions;
 
-import at.oculus.teamf.application.controller.SearchPatientController;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-
-import java.util.LinkedList;
-
-public class SearchPatientControllerTest {
-
-    SearchPatientController searchPatientController = new SearchPatientController();
-
-    @org.junit.Test
-    public void testSearchPatients() throws Exception {
-        LinkedList<IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("son");
-        assert (patients.size() > 0);
-    }
+/**
+ * <h2>$CheckinControllerException</h2>
+ *
+ * <b>Description:</b>
+ * A short description of the class
+ **/
+public class CheckinControllerException extends Exception {
 
 }

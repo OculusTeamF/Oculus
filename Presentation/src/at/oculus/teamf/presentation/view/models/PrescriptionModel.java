@@ -9,10 +9,10 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.VisualAidController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.PrescriptionController;
+import at.oculus.teamf.application.controller.VisualAidController;
+import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.controller.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;

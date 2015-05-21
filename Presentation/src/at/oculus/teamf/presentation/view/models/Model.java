@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.facade.*;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.controller.*;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -22,16 +22,12 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.presentation.view.SpeedUpTooltip;
 import at.oculus.teamf.technical.loggin.ILogger;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,11 +38,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.util.Duration;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
