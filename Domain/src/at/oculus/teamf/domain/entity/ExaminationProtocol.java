@@ -22,6 +22,7 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.text.SimpleDateFormat;
@@ -112,12 +113,17 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
     @Override
     public void addExamination(IExaminationTb2 iExaminationTb2){
-        //TODO review
         log.debug("adding examination result to examination protocol " + this);
         IExaminationResult result = (IExaminationResult) iExaminationTb2;
         result.setExaminationProtocol(this);
 
-        if (_results == null) {
+		try {
+			Facade.getInstance().save(result);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			//eat up
+		}
+
+		if (_results == null) {
             _results = new LinkedList<ExaminationResult>();
         }
         _results.add((ExaminationResult)result);
@@ -130,14 +136,18 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
     @Override
     public void removeExamination(IExaminationTb2 iExaminationTb2) {
-        //TODO review
         log.debug("remove examination result from examination protocol " + this);
         IExaminationResult result = (IExaminationResult) iExaminationTb2;
         if(_results == null){
             return;
         }
         _results.remove(result);
-    }
+		try {
+			Facade.getInstance().delete(result);
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidSearchParameterException e) {
+			//eat up
+		}
+	}
 
     @Override
     public Doctor getDoctor() {
