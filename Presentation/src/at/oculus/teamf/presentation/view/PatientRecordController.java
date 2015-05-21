@@ -291,7 +291,7 @@ public class PatientRecordController implements Initializable {
         }
 
         if(notPrintedprescriptionsList.isEmpty()){
-            notPrintedPrescriptions.setVisible(false);
+            notPrintedPrescriptions.setDisable(true);
 
         }
     }
