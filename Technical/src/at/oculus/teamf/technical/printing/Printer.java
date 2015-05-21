@@ -285,12 +285,13 @@ public class Printer implements ILogger{
             //Not working
 
 
-            BufferedImage awtImage = ImageIO.read(new File("Technical/res/oculus.JPG"));
+            // TODO fix path problem
+            /*BufferedImage awtImage = ImageIO.read(new File("/res/oculus.JPG"));
             //filename for tests
             //BufferedImage awtImage = ImageIO.read(new File("../Technical/res/oculus.JPG"));
             PDXObjectImage ximage = new PDPixelMap(document, awtImage);
             float scale = 0.3f; // alter this value to set the image size
-            stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);
+            stream.drawXObject(ximage, 380, 780, ximage.getWidth() * scale, ximage.getHeight() * scale);*/
 
 
             //signature field
@@ -312,12 +313,12 @@ public class Printer implements ILogger{
 
             //save the document and close it
             Timestamp tstamp = new Timestamp(new Date().getTime());
-            System.out.println(System.getProperty("user.dir"));
+            log.info("user directory: " + System.getProperty("user.dir"));
             String tstampString = tstamp.toString();
             tstampString = tstampString.replace(' ', '_');
             tstampString = tstampString.replace(':', '_');
             String finalFileName = tstampString.substring(0, 19);
-            String filename = "out/prescriptions/prescription" + finalFileName + ".pdf";
+            String filename = "/out/prescriptions/prescription" + finalFileName + ".pdf";
 
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
@@ -325,8 +326,10 @@ public class Printer implements ILogger{
                 document.save(filename);
             } catch (IOException exception){
                 log.info("New Folder out/prescriptions has been created!");
-                File directory = new File("out/prescriptions");
-                directory.mkdir();
+                File directory = new File("/out/prescriptions");
+                if(!directory.mkdirs()){
+                    log.info("New Folder out/prescriptions could not be created!");
+                }
                 document.save(filename);
             }
             document.close();
