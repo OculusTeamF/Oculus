@@ -121,11 +121,8 @@ public class NewExaminationController implements Initializable, ILogger {
         exAnchor.getChildren().add(exCreateDetailTeamE.loadNode());
         exCreateDetailTeamE.getController().setCurrentPatient((IRPatientTb2) _initPatient);
         dataPane.getChildren().add(exDataWidgetTeamE.loadNode());
-        //IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
+        //exDataWidgetTeamE.getController().displayExaminationData((IRExaminationTb2) newexam);
         //exCreateDetailTeamE.getController().setCurrentPatient(selectedPatient);
-
-        // team E actions
-        //exCreateDetailTeamE.getController()
     }
 
     /* for stopwatch: converts seconds to HHMM format */
