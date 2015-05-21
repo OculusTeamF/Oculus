@@ -9,10 +9,10 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.VisualAidController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.PrescriptionController;
+import at.oculus.teamf.application.controller.VisualAidController;
+import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.controller.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
@@ -20,6 +20,7 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
@@ -51,9 +52,9 @@ public class PrescriptionModel {
     /**
      *
      * @param patient
-     * @throws NotInitatedExceptions
+     * @throws NotInitiatedExceptions
      */
-    public void addNewPrescription(IPatient patient) throws NotInitatedExceptions, NoPatientException {
+    public void fetchPrescriptionController(IPatient patient) throws NotInitiatedExceptions, NoPatientException {
 
         _prescriptionController = PrescriptionController.createController(patient);
 
@@ -64,15 +65,15 @@ public class PrescriptionModel {
      * creates a new PrescriptionEntry
      * @param medicinList
      * @return
-     * @throws NotInitatedExceptions
+     * @throws NotInitiatedExceptions
      */
 
-    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitatedExceptions, CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException {
+    public void addPrescriptionEntries(Collection<IMedicine> medicinList) throws NotInitiatedExceptions, CouldNotAddPrescriptionEntryException, DatabaseOperationException, BadConnectionException, NoBrokerMappedException {
 
         _prescriptionController.createPrescriptionEntry(medicinList);
     }
 
-    public void printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, NotInitatedExceptions, NoPrescriptionToPrintException, CantGetPresciptionEntriesException {
+    public void printPrescription() throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, COSVisitorException, IOException, NotInitiatedExceptions, NoPrescriptionToPrintException, CantGetPresciptionEntriesException {
 
         _prescriptionController.printPrescription();
     }
@@ -80,16 +81,18 @@ public class PrescriptionModel {
     public Collection<IMedicine> getPrescribedMedicin() {
 
         Collection<IMedicine> prescribedMedicins = null;
+
         try {
             prescribedMedicins = _prescriptionController.getAllPrescribedMedicines();
         } catch (CouldNotGetMedicineException e) {
             e.printStackTrace();
+            DialogBoxController.getInstance().showErrorDialog("CouldNotGetMedicineEcxeption", "Please contact Support");
         }
 
         return prescribedMedicins;
     }
 
-    public void addNewVisualAidPrescription(IDiagnosis diagnose) throws NoPatientException, NotInitatedExceptions{
+    public void addNewVisualAidPrescription(IDiagnosis diagnose) throws NoPatientException, NotInitiatedExceptions {
 
         _visualAidPrescriptionController = VisualAidController.createController(diagnose);
 
@@ -101,7 +104,7 @@ public class PrescriptionModel {
      * @param dioptersLeft
      * @param dioptersRight
      */
-    public void addVisualAidPrescriptionEntries(String description, String dioptersLeft, String dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitatedExceptions{
+    public void addVisualAidPrescriptionEntries(String description, Float dioptersLeft, Float dioptersRight) throws DatabaseOperationException, NoBrokerMappedException, BadConnectionException, NotInitiatedExceptions {
 
         _visualAidPrescriptionController.createVisualAidPrescription(description, dioptersLeft, dioptersRight);
 

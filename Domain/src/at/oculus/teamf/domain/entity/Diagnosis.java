@@ -206,15 +206,13 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 
 	@Override
     public String toString(){
-
-		int lenght = 0;
 		if(_description.length() > 50) {
-			lenght = _description.length();
+            return _title + ": " + _description.substring(0,30) + "...";
 		} else {
-			lenght = _description.length();
+            return _title + ": " + _description;
 		}
 
-        return _title + " " + _description.substring(0,lenght) + "...";
+
     }
 
     @Override

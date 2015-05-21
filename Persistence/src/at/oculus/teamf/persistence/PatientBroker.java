@@ -130,7 +130,6 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		    }
 	    }
 
-
 	    //decide on query
 	    if (params.length == 1) {
 		    query = "getPatientByAll";

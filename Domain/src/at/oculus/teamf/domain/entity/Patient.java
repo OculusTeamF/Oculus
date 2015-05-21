@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamE.domain.interfaces.IPatientTb2;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -21,16 +23,17 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Simon Angerer
  * @date 03.4.2015
  */
-//Todo: Proxy, Remove Facade calls and extend broker
-public class Patient implements IPatient, ILogger {
+public class Patient implements IPatient, ILogger, IPatientTb2 {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -195,7 +198,12 @@ public class Patient implements IPatient, ILogger {
 		return _lastName;
     }
 
-	public IPatient setLastName(String lastName) {
+    @Override
+    public LocalDate getBirthDate() {
+        return null;
+    }
+
+    public IPatient setLastName(String lastName) {
 		_lastName = lastName;
         return this;
     }
@@ -230,6 +238,11 @@ public class Patient implements IPatient, ILogger {
 
     public void setCalendarEvents(Collection<ICalendarEvent> calendarEvents) {
         _calendarEvents = (Collection<CalendarEvent>) (Collection<?>) calendarEvents;
+    }
+
+    @Override
+    public Integer getPatientId() {
+        return null;
     }
 
     public String getSocialInsuranceNr() {
@@ -284,6 +297,16 @@ public class Patient implements IPatient, ILogger {
 
     public String getCountryIsoCode() {
         return _countryIsoCode;
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return getPhoneNumber();
+    }
+
+    @Override
+    public String getEmailAddress() {
+        return getEmail();
     }
 
     public void setCountryIsoCode(String countryIsoCode) {
@@ -435,5 +458,24 @@ public class Patient implements IPatient, ILogger {
             }
         }
         return (Collection<IVisualAid>) (Collection<?>) _visualAid;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        try {
+            return (List<? extends IExaminationProtocolTb2>) (Collection<?>)getExaminationProtocol();
+        } catch (CouldNotGetExaminationProtolException e) {
+             //eat up
+        }
+        return null;
+    }
+
+    @Override
+    public void addProtocol(IExaminationProtocolTb2 iExaminationProtocolTb2) {
+        try {
+            addExaminationProtocol((IExaminationProtocol) iExaminationProtocolTb2);
+        } catch (CouldNotAddExaminationProtocol e) {
+            //eat up
+        }
     }
 }

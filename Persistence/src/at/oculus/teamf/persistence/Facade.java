@@ -79,7 +79,6 @@ public class Facade implements ILogger, IFacade{
             entityClazzes.addAll(broker.getEntityClasses());
         }
 
-        //Todo: catch exceptions
         _sessionBroker = new HibernateSessionBroker(entityClazzes);
     }
 

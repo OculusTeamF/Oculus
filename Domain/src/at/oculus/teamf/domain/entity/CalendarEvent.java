@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Todo: add docs, implement equals
  *
  * @author Simon Angerer
  * @date 03.4.2015

@@ -17,34 +17,33 @@
  * This file contains the class Printer and all its methods and functionality to print information and save it in a PDF
  * file.
  */
+        package at.oculus.teamf.technical.printing;
 
-package at.oculus.teamf.technical.printing;
+        import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+        import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+        import at.oculus.teamf.domain.entity.interfaces.IPatient;
+        import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+        import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+        import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
+        import at.oculus.teamf.technical.loggin.ILogger;
+        import org.apache.pdfbox.exceptions.COSVisitorException;
+        import org.apache.pdfbox.pdmodel.PDDocument;
+        import org.apache.pdfbox.pdmodel.PDPage;
+        import org.apache.pdfbox.pdmodel.common.PDRectangle;
+        import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+        import org.apache.pdfbox.pdmodel.font.PDFont;
+        import org.apache.pdfbox.pdmodel.font.PDType1Font;
+        import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
+        import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
-import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.interfaces.IPrescription;
-import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
-import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
-import at.oculus.teamf.technical.loggin.ILogger;
-import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
-import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
-
+        import javax.imageio.ImageIO;
+        import java.awt.*;
+        import java.awt.image.BufferedImage;
+        import java.io.File;
+        import java.io.IOException;
+        import java.sql.Timestamp;
+        import java.util.Date;
+        import java.util.Random;
 
 /**
  * <h2>$Printer</h2>
@@ -53,7 +52,7 @@ import java.util.Date;
  * This class implements the Printer with all its methods and functionality. It provides methods to create PDF-Files
  * and save / print them.
  */
-public class Printer implements ILogger {
+public class Printer implements ILogger{
 
     private static final Printer printerInstance = new Printer();
 
@@ -93,7 +92,7 @@ public class Printer implements ILogger {
      * <b>Parameter</b>
      *
      * @param title Is a string which will be printed as title in the PDF Document.
-     * @param text  Is a string which will be printed as message in the PDF Document.
+     * @param text Is a string which will be printed as message in the PDF Document.
      */
     public void print(String title, String text) throws IOException, COSVisitorException {
 
@@ -179,10 +178,10 @@ public class Printer implements ILogger {
      * <b>Parameter</b>
      *
      * @param iPrescription Is an Interface of a prescription from which all the information will be printed into
-     *                      a PDF-File and then started with standard application from OS.
+     * a PDF-File and then started with standard application from OS.
      */
     public void printPrescription(IPrescription iPrescription, IDoctor iDoctor) throws COSVisitorException, IOException, CantGetPresciptionEntriesException, NoPrescriptionToPrintException {
-        if (iPrescription == null) {
+        if(iPrescription==null){
             throw new NoPrescriptionToPrintException();
         }
 
@@ -228,7 +227,7 @@ public class Printer implements ILogger {
             stream.drawString(iPatient.getBirthDay().toString());
             stream.endText();
 
-            if (iPatient.getStreet() != null) {
+            if (iPatient.getStreet() != null){
                 stream.beginText();
                 stream.setFont(fontPlain, 12);
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
@@ -236,7 +235,7 @@ public class Printer implements ILogger {
                 stream.endText();
             }
 
-            if ((iPatient.getPostalCode() != null) && (iPatient.getCity() != null)) {
+            if ((iPatient.getPostalCode() != null) && (iPatient.getCity() != null)){
                 stream.beginText();
                 stream.setFont(fontPlain, 12);
                 stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
@@ -276,7 +275,7 @@ public class Printer implements ILogger {
                     stream.beginText();
                     stream.setFont(fontPlain, 12);
                     stream.moveTextPositionByAmount(SPACING_LEFT, rectangle.getHeight() - LINE_HEIGHT * (++line) - SPACING_HEADER);
-                    stream.drawString("ID: " + entry.getId() + ", " + entry.getMedicine());
+                    stream.drawString(entry.getMedicine().getName() + ", " + entry.getMedicine().getDose());
                     stream.endText();
                 }
             }
@@ -284,6 +283,7 @@ public class Printer implements ILogger {
 
             //print oculus image into pdf file
             //Not working
+
 
             BufferedImage awtImage = ImageIO.read(new File("Technical/res/oculus.JPG"));
             //filename for tests
@@ -313,10 +313,22 @@ public class Printer implements ILogger {
             //save the document and close it
             Timestamp tstamp = new Timestamp(new Date().getTime());
             System.out.println(System.getProperty("user.dir"));
-            String filename = "Technical/output/prescription_" + tstamp.toString() + ".pdf";
+            String tstampString = tstamp.toString();
+            tstampString = tstampString.replace(' ', '_');
+            tstampString = tstampString.replace(':', '_');
+            String finalFileName = tstampString.substring(0, 19);
+            String filename = "out/prescriptions/prescription" + finalFileName + ".pdf";
+
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
-            document.save(filename);
+            try {
+                document.save(filename);
+            } catch (IOException exception){
+                log.info("New Folder out/prescriptions has been created!");
+                File directory = new File("out/prescriptions");
+                directory.mkdir();
+                document.save(filename);
+            }
             document.close();
             log.info("Document saved with filename: " + filename);
 
@@ -324,8 +336,6 @@ public class Printer implements ILogger {
             Desktop.getDesktop().open(new File(filename));
             log.info("Document opened.");
 
-            //Print file directly from standard printer (NOT SUPPORTED ON OCULUS-LINUX — should be tested first!!!)
-            //Desktop.getDesktop().print(new File("/home/oculus/IdeaProjects/Oculus/Technical/src/at/oculus/teamf/technical/printing/output_files/prescription.pdf"));
         } catch (COSVisitorException | CantGetPresciptionEntriesException | IOException e) {
             throw e;
         }

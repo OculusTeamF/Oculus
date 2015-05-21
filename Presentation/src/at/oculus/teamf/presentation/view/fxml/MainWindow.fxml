@@ -34,7 +34,7 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="(not used)" />
                             </items>
                         </Menu>
-                        <Menu disable="true" mnemonicParsing="false" text="View">
+                        <Menu mnemonicParsing="false" disable="true" text="View">
                             <items>
                                 <Menu disable="true" mnemonicParsing="false" text="Theme">
                                     <items>
@@ -49,7 +49,7 @@
                                         <CheckMenuItem disable="true" mnemonicParsing="false" text="German" />
                                     </items>
                                 </Menu>
-                                <MenuItem disable="true" mnemonicParsing="false" onAction="#openPatientProperty" text="Patient Property (Test)" />
+                                <MenuItem disable="true" mnemonicParsing="false" onAction="#openTestTab" text="Open Test Tab (Debug)" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Patient">
@@ -60,8 +60,8 @@
                         </Menu>
                         <Menu disable="true" mnemonicParsing="false" text="Forms">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Medical prescription" />
-                                <MenuItem mnemonicParsing="false" text="Visual aid" />
+                                <MenuItem mnemonicParsing="false" text="Medical Prescription" />
+                                <MenuItem mnemonicParsing="false" text="Visual Aid" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Calendar">
@@ -82,6 +82,8 @@
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
                                 <MenuItem fx:id="userManual" mnemonicParsing="false" onAction="#clickMenuItemShowHelp" text="Oculus Help" />
+                        <MenuItem fx:id="supportOculus" mnemonicParsing="false" onAction="#clickMenuItemShowSupport" text="Oculus Support" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem fx:id="aboutOculus" mnemonicParsing="false" onAction="#clickMenuItemShowAbout" text="About Oculus" />
                             </items>
                         </Menu>

@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.facade.*;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.controller.*;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.QueueEntry;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -20,6 +20,7 @@ import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.SpeedUpTooltip;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -239,7 +240,7 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     *
+     * Refreshes the Queue after a patient was removed from queue or added
      * @return
      */
     public void refreshQueue(IUser user) {
@@ -291,8 +292,16 @@ public class Model implements Serializable, ILogger{
         } else {
             DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
         }*/
+    }
 
+    public boolean isPatientInQueue(String patient){
 
+        Boolean isInQueue = false;
+
+        if(_patientsInQueue.get(patient) != null){
+            isInQueue = true;
+        }
+        return isInQueue;
     }
 
     /**
@@ -304,6 +313,7 @@ public class Model implements Serializable, ILogger{
     private String buildTitledPaneHeader(IUser user, int sizeOfQueue)
     {
         String queuename;
+
         if (user.getTitle() == null || user.getTitle().equals("null") || user.getTitle().equals("")) {
             queuename = user.getFirstName() + " " + user.getLastName();
         } else {
@@ -346,17 +356,23 @@ public class Model implements Serializable, ILogger{
             Image imageOpen = new Image(getClass().getResourceAsStream("/res/icon_open.png"));
 
             _startexaminationbutton.setGraphic(new ImageView(imageEnqueue));
-            _startexaminationbutton.setTooltip(new Tooltip("Start Examination and remove patient from queue"));
+             Tooltip startExaminationTooltip = new SpeedUpTooltip();
+            startExaminationTooltip.setText("Start Examination and remove patient from queue");
+            _startexaminationbutton.setTooltip(startExaminationTooltip);
             _startexaminationbutton.setCursor(Cursor.HAND);
             _startexaminationbutton.setId("queueButton");
 
             _deletebutton.setGraphic(new ImageView(imageDelete));
-            _deletebutton.setTooltip(new Tooltip("Delete patient from queue without examination"));
+            Tooltip deletebuttonTooltip = new SpeedUpTooltip();
+            deletebuttonTooltip.setText("Remove patient from queue witout examination");
+            _deletebutton.setTooltip(deletebuttonTooltip);
             _deletebutton.setCursor(Cursor.HAND);
             _deletebutton.setId("queueDeleteButton");
 
             _openbutton.setGraphic(new ImageView(imageOpen));
-            _openbutton.setTooltip(new Tooltip("Open and view patient record"));
+            Tooltip openbuttonTooltip = new SpeedUpTooltip();
+            openbuttonTooltip.setText("Open and view patient record");
+            _openbutton.setTooltip(openbuttonTooltip);
             _openbutton.setCursor(Cursor.HAND);
             _openbutton.setId("queueOpenButton");
 
@@ -390,7 +406,7 @@ public class Model implements Serializable, ILogger{
             _startexaminationbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _startexaminationbutton.setText("Start Examination");
+                   // _startexaminationbutton.setText("Start Examination");
                     _startexaminationbutton.setContentDisplay(ContentDisplay.RIGHT);
                     _startexaminationbutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -405,7 +421,7 @@ public class Model implements Serializable, ILogger{
             _deletebutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _deletebutton.setText("Delete from queue");
+                   // _deletebutton.setText("Delete from queue");
                     _deletebutton.setContentDisplay(ContentDisplay.RIGHT);
                     _deletebutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -420,7 +436,7 @@ public class Model implements Serializable, ILogger{
             _openbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    _openbutton.setText("Open patient record");
+                   // _openbutton.setText("Open patient record");
                     _openbutton.setContentDisplay(ContentDisplay.RIGHT);
                     _openbutton.setTextAlignment(TextAlignment.LEFT);
                 }

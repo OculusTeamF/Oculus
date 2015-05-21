@@ -9,9 +9,8 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.facade.exceptions.CheckinControllerException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -103,7 +102,7 @@ public class QueueModel {
             DialogBoxController.getInstance().showErrorDialog("CriticalClassException", "Please contact support");
         } catch (CouldNotAddPatientToQueueException couldNotAddPatientToQueueException) {
             couldNotAddPatientToQueueException.printStackTrace();
-            DialogBoxController.getInstance().showErrorDialog("CouldNotAddPatientToQueueException", "Please contact support");
+            DialogBoxController.getInstance().showErrorDialog("CouldNotAddPatientToQueueException", "Make sure that the patient is not in a queue.");
         }
         _model.refreshQueue(user);
     }
@@ -112,7 +111,8 @@ public class QueueModel {
      * removes the patient from the queue and opens a new examinationTab
      * @param patient
      */
-    public void removePatientFromQueue(IPatient patient, IUser user) {
+    public void removePatientFromQueue(IPatient patient, IUser user)
+    {
         _model = Model.getInstance();
         IPatientQueue queue = getQueueFromUser(user);
 
@@ -131,7 +131,8 @@ public class QueueModel {
      * delete the patient without starting an examination
      * @param patient
      */
-    public void deletePatientFromQueue(IPatient patient, IUser user) {
+    public void deletePatientFromQueue(IPatient patient, IUser user)
+    {
         _model = Model.getInstance();
         IPatientQueue queue = getQueueFromUser(user);
 

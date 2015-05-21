@@ -62,7 +62,7 @@ public class Receptionist extends User implements IReceptionist {
 
     @Override
     public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
-        //TODO implement getExaminationProtocols()
+        //not used
         return null;
     }
 

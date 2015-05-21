@@ -9,11 +9,11 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoExaminationProtocolException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsUnfulfilledException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.controller.exceptions.NoExaminationProtocolException;
+import at.oculus.teamf.application.controller.exceptions.RequirementsUnfulfilledException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
@@ -70,9 +70,9 @@ public class DiagnosisController implements Initializable,ILogger {
         {
             try {
                 _model.getExaminationModel().addNewPatientDiagnosis(textDiagnosisTitle.getText(), textDiagnosisDescription.getText(), (IDoctor) _model.getLoggedInUser(), _currexam);
-            } catch (NotInitatedExceptions notInitatedExceptions) {
-                notInitatedExceptions.printStackTrace();
-                DialogBoxController.getInstance().showErrorDialog("NotInitatedExceptions", "Please contact support");
+            } catch (NotInitiatedExceptions notInitiatedExceptions) {
+                notInitiatedExceptions.printStackTrace();
+                DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
             } catch (CriticalDatabaseException criticalDatabaseException) {
                 criticalDatabaseException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("CriticalDatabaseException", "Please contact support");

@@ -16,9 +16,11 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Blob;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -42,6 +44,7 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
     public ExaminationResult(IUserTb2 iUserTb2, IExaminationProtocolTb2 iExaminationProtocolTb2){
         _user = (User) iUserTb2;
         _examinationProtocol = (ExaminationProtocol) iExaminationProtocolTb2;
+        _createDate = new Timestamp(new Date().getTime());
     }
 
 	public ExaminationResult(int id, ExaminationProtocol examinationProtocol,
@@ -205,5 +208,45 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
     @Override
     public String toString(){
         return _result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExaminationResult)) return false;
+
+        ExaminationResult that = (ExaminationResult) o;
+
+        if (_id != that._id) return false;
+        if (_createDate != null ? !_createDate.equals(that._createDate) : that._createDate != null) return false;
+        if (_device != null ? !_device.equals(that._device) : that._device != null) return false;
+        if (!Arrays.equals(_deviceData, that._deviceData)) return false;
+        if (_doctor != null ? !_doctor.equals(that._doctor) : that._doctor != null) return false;
+        if (_examinationProtocol != null ? !_examinationProtocol.equals(that._examinationProtocol) : that._examinationProtocol != null)
+            return false;
+        if (_examinationProtocolId != null ? !_examinationProtocolId.equals(that._examinationProtocolId) : that._examinationProtocolId != null)
+            return false;
+        if (_orthoptist != null ? !_orthoptist.equals(that._orthoptist) : that._orthoptist != null) return false;
+        if (_result != null ? !_result.equals(that._result) : that._result != null) return false;
+        if (_user != null ? !_user.equals(that._user) : that._user != null) return false;
+        if (_userId != null ? !_userId.equals(that._userId) : that._userId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _id;
+        result = 31 * result + (_examinationProtocol != null ? _examinationProtocol.hashCode() : 0);
+        result = 31 * result + (_examinationProtocolId != null ? _examinationProtocolId.hashCode() : 0);
+        result = 31 * result + (_user != null ? _user.hashCode() : 0);
+        result = 31 * result + (_userId != null ? _userId.hashCode() : 0);
+        result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+        result = 31 * result + (_orthoptist != null ? _orthoptist.hashCode() : 0);
+        result = 31 * result + (_result != null ? _result.hashCode() : 0);
+        result = 31 * result + (_createDate != null ? _createDate.hashCode() : 0);
+        result = 31 * result + (_device != null ? _device.hashCode() : 0);
+        result = 31 * result + (_deviceData != null ? Arrays.hashCode(_deviceData) : 0);
+        return result;
     }
 }
