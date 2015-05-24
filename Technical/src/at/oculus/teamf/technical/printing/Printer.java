@@ -318,7 +318,7 @@ public class Printer implements ILogger{
             tstampString = tstampString.replace(' ', '_');
             tstampString = tstampString.replace(':', '_');
             String finalFileName = tstampString.substring(0, 19);
-            String filename = "/out/prescriptions/prescription" + finalFileName + ".pdf";
+            String filename = "out/prescriptions/prescription" + finalFileName + ".pdf";
 
             //filename for tests
             //String filename = "../Technical/output/prescription_" + tstamp.toString() + ".pdf";
@@ -326,7 +326,7 @@ public class Printer implements ILogger{
                 document.save(filename);
             } catch (IOException exception){
                 log.info("New Folder out/prescriptions has been created!");
-                File directory = new File("/out/prescriptions");
+                File directory = new File("out/prescriptions");
                 if(!directory.mkdirs()){
                     log.info("New Folder out/prescriptions could not be created!");
                 }
