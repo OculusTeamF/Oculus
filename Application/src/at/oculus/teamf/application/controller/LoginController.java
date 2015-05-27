@@ -103,7 +103,7 @@ public class LoginController implements ILogger{
      *
      * @param email this is the email address which should be validated
      */
-    private boolean validateEmail(String email) {
+    public boolean validateEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
 

@@ -9,14 +9,20 @@
 
 package at.oculus.teamf.applicationunittests;
 
+import at.oculus.teamf.application.controller.LoginController;
+import org.junit.Assert;
+
 /**
- * Created by oculus on 27.05.15.
+ * Created by jpo2433 on 27.05.15.
  */
 public class LoginControllerTest {
+
+    private LoginController loginController;
 
     @org.junit.Before
     public void setUp() throws Exception {
         //TODO implement setUp()
+        loginController = new LoginController();
     }
 
     @org.junit.After
@@ -26,7 +32,13 @@ public class LoginControllerTest {
 
     @org.junit.Test
     public void validateEmail(){
-        //TODO implement test method validateEmail()
+        Assert.assertEquals(loginController.validateEmail("spitze.biene@hotmail.com"), true);
+        Assert.assertEquals(loginController.validateEmail("blablabla"), false);
+        Assert.assertEquals(loginController.validateEmail("test123@.com"), false);
+        Assert.assertEquals(loginController.validateEmail("patient111@gmail.com"), true);
+
+
+
     }
 
     @org.junit.Test
