@@ -345,6 +345,10 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		return _password;
 	}
 
+	public void setPasswordHash(String password) {
+		_password = password;
+	}
+
 	public String getAllergy() {
         return _allergy;
     }

@@ -35,7 +35,7 @@ import java.util.Collection;
 
 		@NamedNativeQuery(
 		name = "getPatientByEmail",
-		query = "select * from patient where UPPER(email) = UPPER(?0)",
+		query = "select * from patient where UPPER(email) like UPPER(?0)",
 		resultClass = PatientEntity.class)})
 
 public class PatientEntity implements IEntity {

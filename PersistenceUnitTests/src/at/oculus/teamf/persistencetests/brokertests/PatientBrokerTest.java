@@ -21,6 +21,8 @@ import at.oculus.teamf.persistence.exception.FacadeException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.technical.accessrights.Login;
+import at.oculus.teamf.technical.exceptions.HashGenerationException;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -223,6 +225,31 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(examinationProtocol));
 			assertTrue(Facade.getInstance().delete(diagnosis));
 		} catch (BadConnectionException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testLogin(){
+		Patient patient = null;
+		try {
+			for (Object p : Facade.getInstance().search(Patient.class, "spitze.biene@hotmail.com")) {
+				patient = (Patient) p;
+			}
+		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		if(patient == null){
+			assertTrue(false);
+		}
+
+		try {
+			if(!Login.login(patient,"letmein")){
+				assertTrue(false);
+			}
+		} catch (HashGenerationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
