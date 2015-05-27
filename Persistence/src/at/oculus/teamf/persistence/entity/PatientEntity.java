@@ -31,6 +31,11 @@ import java.util.Collection;
         @NamedNativeQuery(
 		name = "getPatientByAll",
 		query = "select * from patient where CONCAT(UPPER(firstName),UPPER(lastName),UPPER(socialInsuranceNr)) like UPPER(?0)",
+		resultClass = PatientEntity.class),
+
+		@NamedNativeQuery(
+		name = "getPatientByEmail",
+		query = "select * from patient where UPPER(email) = UPPER(?0)",
 		resultClass = PatientEntity.class)})
 
 public class PatientEntity implements IEntity {

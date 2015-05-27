@@ -132,7 +132,11 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 
 	    //decide on query
 	    if (params.length == 1) {
-		    query = "getPatientByAll";
+		    if(params[0].contains("@")){
+			    query = "getPatientByEmail";
+		    } else {
+			    query = "getPatientByAll";
+		    }
 	    } else if (params.length == 3) {
 		    query = "getPatientBySingle";
 	    } else {
