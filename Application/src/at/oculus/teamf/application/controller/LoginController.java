@@ -9,6 +9,9 @@
 
 package at.oculus.teamf.application.controller;
 
+import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 /**
@@ -23,19 +26,34 @@ import at.oculus.teamf.technical.loggin.ILogger;
  */
 public class LoginController implements ILogger{
 
+    private IPatient patient;
     /**
      * <h3>$checkLoginData</h3>
      * <p/>
      * <b>Description:</b>
      * This method validates the login data of the patient. First, it fetches the correct patient with the email address,
-     * afterwards the password is checked. If something fails, the correct exception is thrown. 
+     * afterwards the password is checked. If something fails, the correct exception is thrown.
      * <p/>
      * <b>Parameter</b>
      *
      * @param email this is the email address/the username of the patient who wants to log in
      * @param password this is the matching password of the patient who wants to log in
      */
-    public boolean checkLoginData(String email, String password){
+    public boolean checkLoginData(String email, String password) throws EmailNotFoundException, PasswordIncorrectException {
+
+        //if email i not available
+        if(email == null || email == ""){
+            throw new EmailNotFoundException();
+        }else{
+            //TODO check if email is available in database
+            //TODO get Patient from database
+        }
+
+        //if password and email do not match
+        if(password == null || password == ""){
+            throw new PasswordIncorrectException();
+        }
+
 
         return true;
     }
