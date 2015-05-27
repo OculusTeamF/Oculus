@@ -132,9 +132,16 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 
 	    //decide on query
 	    if (params.length == 1) {
-		    query = "getPatientByAll";
+		    if(params[0].contains("@")){
+			    query = "getPatientByEmail";
+			    log.debug("search patient by email");
+		    } else {
+			    query = "getPatientByAll";
+			    log.debug("search patient by all");
+		    }
 	    } else if (params.length == 3) {
 		    query = "getPatientBySingle";
+		    log.debug("search patient by single");
 	    } else {
 		    throw new InvalidSearchParameterException();
 	    }
@@ -145,7 +152,6 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 	    for (Object o : searchResult) {
 		    result.add(persistentToDomain((PatientEntity) o));
 	    }
-
 
         return result;
     }
@@ -187,6 +193,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 		patient.setCity(entity.getCity());
 		patient.setCountryIsoCode(entity.getCountryIsoCode());
 		patient.setEmail(entity.getEmail());
+		patient.setPasswordHash(entity.getPassword());
 		patient.setMedicineIntolerance(entity.getMedicineIntolerance());
 		patient.setPhone(entity.getPhone());
 		patient.setPostalCode(entity.getPostalCode());
@@ -223,6 +230,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 					(DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(obj.getDoctor()));
 		}
 		patientEntity.setEmail(obj.getEmail());
+		patientEntity.setPassword(obj.getPasswordHash());
 		patientEntity.setMedicineIntolerance(obj.getMedicineIntolerance());
 		if (obj.getGender() == Gender.Male) {
 			patientEntity.setGender("M");
