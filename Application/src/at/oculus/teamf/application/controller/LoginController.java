@@ -11,8 +11,19 @@ package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.technical.accessrights.Login;
+import at.oculus.teamf.technical.exceptions.HashGenerationException;
 import at.oculus.teamf.technical.loggin.ILogger;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <h1>$LoginController.java</h1>
@@ -26,13 +37,15 @@ import at.oculus.teamf.technical.loggin.ILogger;
  */
 public class LoginController implements ILogger{
 
-    private IPatient patient;
+    private Patient patient;
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     /**
      * <h3>$checkLoginData</h3>
      * <p/>
      * <b>Description:</b>
      * This method validates the login data of the patient. First, it fetches the correct patient with the email address,
-     * afterwards the password is checked. If something fails, the correct exception is thrown.
+     * afterwards the password is checked. If something fails, an exception is thrown.
      * <p/>
      * <b>Parameter</b>
      *
@@ -41,20 +54,59 @@ public class LoginController implements ILogger{
      */
     public boolean checkLoginData(String email, String password) throws EmailNotFoundException, PasswordIncorrectException {
 
-        //if email i not available
-        if(email == null || email == ""){
+        if(email == null || email.equals("")){
             throw new EmailNotFoundException();
         }else{
-            //TODO check if email is available in database
-            //TODO get Patient from database
+            if(!validateEmail(email)){
+                log.error("Email validation failed");
+                throw new EmailNotFoundException();
+            }
+
+            Facade facade = Facade.getInstance();
+            try {
+                for (Object p : facade.search(Patient.class, email)){
+                    patient = (Patient) p;
+                }
+            } catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
+                log.error("Facade Exception caught while searching patient - " + e.getMessage());
+                throw new EmailNotFoundException();
+            }
         }
 
-        //if password and email do not match
-        if(password == null || password == ""){
-            throw new PasswordIncorrectException();
+        if(patient != null){
+            log.info("Patient found! --> Going to check password.");
+            if(password == null || password.equals("")){
+                throw new PasswordIncorrectException();
+            }else{
+                try {
+                    if(!Login.login(patient, password)){
+                        throw new PasswordIncorrectException();
+                    }
+                } catch (HashGenerationException e) {
+                    log.error("HashGenerationException caught! Password could not be confirmed" + e.getMessage());
+                    throw new PasswordIncorrectException();
+                }
+            }
         }
-
-
+        log.info("Email address and password correct! Patient is allowed to log in the system.");
         return true;
+    }
+
+    /**
+     * <h3>$validateEmail</h3>
+     * <p/>
+     * <b>Description:</b>
+     * This method validates the email address with regular expressions. If the email address matches the specified format,
+     * the method returns the value true, else it returns false.
+     * <p/>
+     * <b>Parameter</b>
+     *
+     * @param email this is the email address which should be validated
+     */
+    private boolean validateEmail(String email) {
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 }
