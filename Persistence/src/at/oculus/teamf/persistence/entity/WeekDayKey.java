@@ -9,9 +9,27 @@
 
 package at.oculus.teamf.persistence.entity;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * WeekDayKey enum
  */
 public enum WeekDayKey {
-	MON, TUE, WED, THU, FRI, SAT, SUN
+	// null because weekday starts at 1 = SUN
+	NULL, SUN, MON, TUE, WED, THU, FRI, SAT;
+
+	public static WeekDayKey getWeekDayKey(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+		for(WeekDayKey w : WeekDayKey.values()){
+			if(w.ordinal()==dayOfWeek){
+				return w;
+			}
+		}
+
+		return null;
+	}
 }
