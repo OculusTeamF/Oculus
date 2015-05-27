@@ -47,6 +47,7 @@ public class PatientEntity implements IEntity {
 	private String _countryIsoCode;
 	private String _phone;
 	private String _email;
+    private String _password;
 	private String _allergy;
 	private String _childhoodAilments;
 	private String _medicineIntolerance;
@@ -185,6 +186,16 @@ public class PatientEntity implements IEntity {
 
 	public void setEmail(String email) {
 		this._email = email;
+	}
+
+	@Basic
+	@Column(name = "password", nullable = true, insertable = true, updatable = true, length = 255)
+	public String getPassword() {
+		return _password;
+	}
+
+	public void setPassword(String password) {
+		_password = password;
 	}
 
 	@Basic
