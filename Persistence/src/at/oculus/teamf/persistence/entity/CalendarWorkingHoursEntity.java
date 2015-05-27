@@ -16,12 +16,13 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "calendarworkinghours", schema = "", catalog = "oculus_f")
-public class CalendarworkinghoursEntity implements IEntity {
+public class CalendarWorkingHoursEntity implements IEntity {
 	private int _id;
     private int _workingHoursId;
     private int _calendarId;
-    //private WorkinghoursEntity _workinghours;
+    private WorkingHoursEntity _workinghours;
     private CalendarEntity _calendar;
+    private WeekDayKey _weekday;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -35,7 +36,7 @@ public class CalendarworkinghoursEntity implements IEntity {
 	}
 
     @Basic
-    @Column(name = "workingHoursId", nullable = false, insertable = true, updatable = true)
+    @Column(name = "workingHoursId", nullable = false, insertable = false, updatable = false)
     public int getWorkingHoursId() {
         return _workingHoursId;
     }
@@ -54,12 +55,22 @@ public class CalendarworkinghoursEntity implements IEntity {
         this._calendarId = calendarId;
     }
 
-    @Override
+	@Column(name = "weekDayKey", columnDefinition = "ENUM('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN')")
+	@Enumerated(EnumType.STRING)
+	public WeekDayKey getWeekday() {
+		return _weekday;
+	}
+
+	public void setWeekday(WeekDayKey weekday) {
+		_weekday = weekday;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CalendarworkinghoursEntity that = (CalendarworkinghoursEntity) o;
+        CalendarWorkingHoursEntity that = (CalendarWorkingHoursEntity) o;
 
         return _id == that._id && _workingHoursId == that._workingHoursId && _calendarId == that._calendarId;
     }
@@ -72,15 +83,15 @@ public class CalendarworkinghoursEntity implements IEntity {
         return result;
     }
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "workingHoursId", referencedColumnName = "workingHoursId", nullable = false)
-    public WorkinghoursEntity getWorkinghours() {
+    public WorkingHoursEntity getWorkinghours() {
         return _workinghours;
     }
 
-    public void setWorkinghours(WorkinghoursEntity workinghours) {
+    public void setWorkinghours(WorkingHoursEntity workinghours) {
         _workinghours = workinghours;
-    }*/
+    }
 
     @ManyToOne
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)

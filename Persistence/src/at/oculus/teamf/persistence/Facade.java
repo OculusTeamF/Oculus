@@ -61,6 +61,7 @@ public class Facade implements ILogger, IFacade{
 	    entityBrokers.add(new PrescriptionEntryBroker());
 	    entityBrokers.add(new PrescriptionBroker());
 	    entityBrokers.add(new VisualAidBroker());
+	    entityBrokers.add(new WorkingHoursBroker());
 
 	    init(entityBrokers);
     }

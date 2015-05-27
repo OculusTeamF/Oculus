@@ -15,14 +15,14 @@
       <class>at.oculus.teamf.persistence.entity.UsergroupEntity</class>
       <class>at.oculus.teamf.persistence.entity.CalendarEntity</class>
       <class>at.oculus.teamf.persistence.entity.CalendarEventEntity</class>
-      <class>at.oculus.teamf.persistence.entity.CalendarworkinghoursEntity</class>
+      <class>at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity</class>
       <class>at.oculus.teamf.persistence.entity.DoctorEntity</class>
       <class>at.oculus.teamf.persistence.entity.EventtypeEntity</class>
       <class>at.oculus.teamf.persistence.entity.OrthoptistEntity</class>
       <class>at.oculus.teamf.persistence.entity.PatientEntity</class>
       <class>at.oculus.teamf.persistence.entity.QueueEntity</class>
       <class>at.oculus.teamf.persistence.entity.ReceptionistEntity</class>
-      <class>at.oculus.teamf.persistence.entity.WorkinghoursEntity</class>
+      <class>at.oculus.teamf.persistence.entity.WorkingHoursEntity</class>
       <properties>
         <property name="hibernate.connection.url" value="jdbc:mysql://83.212.126.222:3306/oculus_f"/>
         <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

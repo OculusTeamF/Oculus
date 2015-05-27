@@ -20,6 +20,8 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Date;
 
 /**
  * @author Simon Angerer
@@ -59,6 +61,25 @@ public class Calendar implements ICalendar {
 
     //</editor-fold>
 
+    public boolean isAvailableEvent(Date from, Date to){
+        // alle vorhandenen Termine ueberpruefen
+        for(CalendarEvent calendarEvent : _events){
+            // wenn Startzeitpunnkt innerhalb eines Termins
+            if(calendarEvent.getEventStart().before(from) && calendarEvent.getEventEnd().after(from)){
+                return false;
+            }
+            // wenn Endzeitpunkt innerhalb eines Termins
+            if(calendarEvent.getEventStart().before(to) && calendarEvent.getEventEnd().after(to)){
+                return false;
+            }
+            // wenn genau der selbe Termin
+            if(calendarEvent.getEventStart().equals(from) && calendarEvent.getEventEnd().equals(to)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Iterator<CalendarEvent> getAvailableEvents(Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
 
@@ -74,13 +95,12 @@ public class Calendar implements ICalendar {
 
         @Override
         public boolean hasNext() {
-
-            return true;
+            return _calendarEvents.isEmpty();
         }
 
         @Override
         public CalendarEvent next() {
-            return null;
+            return ((LinkedList<CalendarEvent>) _calendarEvents).removeFirst();
         }
     }
 }
