@@ -31,6 +31,11 @@ import java.util.Collection;
         @NamedNativeQuery(
 		name = "getPatientByAll",
 		query = "select * from patient where CONCAT(UPPER(firstName),UPPER(lastName),UPPER(socialInsuranceNr)) like UPPER(?0)",
+		resultClass = PatientEntity.class),
+
+		@NamedNativeQuery(
+		name = "getPatientByEmail",
+		query = "select * from patient where UPPER(email) like UPPER(?0)",
 		resultClass = PatientEntity.class)})
 
 public class PatientEntity implements IEntity {
@@ -47,6 +52,7 @@ public class PatientEntity implements IEntity {
 	private String _countryIsoCode;
 	private String _phone;
 	private String _email;
+    private String _password;
 	private String _allergy;
 	private String _childhoodAilments;
 	private String _medicineIntolerance;
@@ -185,6 +191,16 @@ public class PatientEntity implements IEntity {
 
 	public void setEmail(String email) {
 		this._email = email;
+	}
+
+	@Basic
+	@Column(name = "password", nullable = true, insertable = true, updatable = true, length = 255)
+	public String getPassword() {
+		return _password;
+	}
+
+	public void setPassword(String password) {
+		_password = password;
 	}
 
 	@Basic
