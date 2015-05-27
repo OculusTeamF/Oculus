@@ -33,16 +33,19 @@ public class QueueEntry implements IQueueEntry {
      *
      * @param id  queue id, set by database. if queue id is 0 then new entry else update entry of given id
      * @param patient set patient which shoul dbe added to queue
-     * @param doctor add to doctor user, use 'null' if not assigned to a doctor
-     * @param orthoptist add to orthoptist user, use 'null' if not assigned to a orthoptist
+     * @param user add to user, use 'null' if not assigned to a doctor
      * @param queueIdParent  parentid for queueupart for a user
      * @param arrivalTime set timestamp
      */
-    public QueueEntry(int id, IPatient patient, Doctor doctor, Orthoptist orthoptist, Integer queueIdParent,
+    public QueueEntry(int id, IPatient patient, User user, Integer queueIdParent,
                       Timestamp arrivalTime) {
         _id = id;
-        _doctor = doctor;
-        _orthoptist = orthoptist;
+        if(user instanceof Doctor){
+            _doctor = (Doctor) user;
+        } else if (user instanceof Orthoptist) {
+            _orthoptist = (Orthoptist) user;
+        }
+
         _queueIdParent = queueIdParent;
         _arrivalTime = arrivalTime;
         _patient = (Patient)patient;
@@ -115,5 +118,34 @@ public class QueueEntry implements IQueueEntry {
     public String toString() {
         return "QueueID " + getId() + " with Patient: " + getPatient() + ", Doctor: " + getDoctor() + ", Orthoptist: " +
                 getOrthoptist();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QueueEntry)) return false;
+
+        QueueEntry that = (QueueEntry) o;
+
+        if (_id != that._id) return false;
+        if (_arrivalTime != null ? !_arrivalTime.equals(that._arrivalTime) : that._arrivalTime != null) return false;
+        if (_doctor != null ? !_doctor.equals(that._doctor) : that._doctor != null) return false;
+        if (_orthoptist != null ? !_orthoptist.equals(that._orthoptist) : that._orthoptist != null) return false;
+        if (_patient != null ? !_patient.equals(that._patient) : that._patient != null) return false;
+        if (_queueIdParent != null ? !_queueIdParent.equals(that._queueIdParent) : that._queueIdParent != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _id;
+        result = 31 * result + (_doctor != null ? _doctor.hashCode() : 0);
+        result = 31 * result + (_orthoptist != null ? _orthoptist.hashCode() : 0);
+        result = 31 * result + (_queueIdParent != null ? _queueIdParent.hashCode() : 0);
+        result = 31 * result + (_arrivalTime != null ? _arrivalTime.hashCode() : 0);
+        result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
+        return result;
     }
 }

@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.SearchPatientController;
-import at.oculus.teamf.application.facade.StartupController;
+import at.oculus.teamf.application.controller.PrescriptionController;
+import at.oculus.teamf.application.controller.SearchPatientController;
+import at.oculus.teamf.application.controller.StartupController;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
@@ -47,7 +47,7 @@ public class PrescriptionControllerTest implements IPrinter {
     }
 
     @org.junit.Test
-    public void testCreatePrescriptionEntry() throws Exception {
+    public void testCreatePrescriptionEntry() throws Exception, CouldNotGetMedicineException {
         LinkedList<IMedicine> medicines = (LinkedList<IMedicine>) prescriptionController.getAllPrescribedMedicines();
         try {
             iPrescription = prescriptionController.createPrescriptionEntry(medicines);
@@ -61,7 +61,7 @@ public class PrescriptionControllerTest implements IPrinter {
     }
 
     @org.junit.Test
-    public void testGetAllPrescribedMedicines() throws Exception {
+    public void testGetAllPrescribedMedicines() throws Exception, CouldNotGetMedicineException {
         LinkedList<IMedicine> medicines = (LinkedList<IMedicine>) prescriptionController.getAllPrescribedMedicines();
 
         try {
@@ -73,7 +73,6 @@ public class PrescriptionControllerTest implements IPrinter {
 
     @org.junit.Test
     public void testPrintPrescription() throws Exception {
-        //TODO implement testPrintPrescription in PrescriptionControllerTest
         StartupController start = new StartupController();
         try {
             LinkedList<IPrescription> iPrescriptions = new LinkedList<>();

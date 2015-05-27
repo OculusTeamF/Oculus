@@ -9,6 +9,10 @@
 
 package at.oculus.teamf.presentation.view;
 
+import at.oculus.teamE.domain.readonly.IRPatientTb2;
+import at.oculus.teamE.presentation.ViewLoaderTb2;
+import at.oculus.teamE.presentation.controllers.ExaminationCreationFormViewController;
+import at.oculus.teamE.presentation.controllers.ExaminationDataWidgetController;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
@@ -21,9 +25,13 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -38,30 +46,20 @@ import java.util.TimeZone;
  */
 public class NewExaminationController implements Initializable, ILogger {
 
-    @FXML
-    private Button prescriptionButton;
-    @FXML
-    private Button saveProtocolButton;
-    @FXML
-    private Button addDiagnosisButton;
-    @FXML
-    private Button refreshButton;
-    @FXML
-    private Button medicationButton;
-    @FXML
-    private Text examinationLnameFnameSvn;
-    @FXML
-    private Text examinationCurrDate;
-    @FXML
-    private Text examinationCurrTime;
-    @FXML
-    private TextField diagnosisTitle;
-    @FXML
-    private Label diagnosisIdentity;
-    @FXML
-    private TextArea examinationDocumentation;
-    @FXML
-    private TextArea diagnosisDetails;
+    @FXML private Button prescriptionButton;
+    @FXML private Button saveProtocolButton;
+    @FXML private Button addDiagnosisButton;
+    @FXML private Button refreshButton;
+    @FXML private Button medicationButton;
+    @FXML private Text examinationLnameFnameSvn;
+    @FXML private Text examinationCurrDate;
+    @FXML private Text examinationCurrTime;
+    @FXML private TextField diagnosisTitle;
+    @FXML private Label diagnosisIdentity;
+    @FXML private TextArea examinationDocumentation;
+    @FXML private TextArea diagnosisDetails;
+    @FXML private StackPane exAnchor;
+    @FXML private StackPane dataPane;
 
     private Timeline _timeline;
     private Integer _timeSeconds = 0;
@@ -70,6 +68,10 @@ public class NewExaminationController implements Initializable, ILogger {
     private IPatient _initPatient;
 
     private IExaminationProtocol newexam;
+    private ViewLoaderTb2<ExaminationCreationFormViewController> exCreateDetailTeamE = new ViewLoaderTb2<>(ExaminationCreationFormViewController.class);
+    private ViewLoaderTb2<ExaminationDataWidgetController> exDataWidgetTeamE = new ViewLoaderTb2<>(ExaminationDataWidgetController.class);
+    // private ViewLoaderTb2<ExaminationDetailViewController> exDataWidgetTeamE = new ViewLoaderTb2<>(ExaminationDetailViewController.class);
+    // private ViewLoaderTb2<ExaminationsListViewController> exDataWidgetTeamE = new ViewLoaderTb2<>(ExaminationsListViewController.class);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +83,7 @@ public class NewExaminationController implements Initializable, ILogger {
         examinationCurrDate.setText("START: " + _startDate.toString());
         examinationCurrTime.setText("TIME: 00:00:00");
         diagnosisDetails.setDisable(true);
+        medicationButton.setDisable(true);
 
         // load image resources for buttons
         Image imageSaveIcon = new Image(getClass().getResourceAsStream("/res/icon_save.png"));
@@ -113,6 +116,13 @@ public class NewExaminationController implements Initializable, ILogger {
             }
         }));
         _timeline.playFromStart();
+
+        // add Team E integration (Examination detail form)
+        exAnchor.getChildren().add(exCreateDetailTeamE.loadNode());
+        exCreateDetailTeamE.getController().setCurrentPatient((IRPatientTb2) _initPatient);
+        dataPane.getChildren().add(exDataWidgetTeamE.loadNode());
+        //exDataWidgetTeamE.getController().displayExaminationData((IRExaminationTb2) newexam);
+        //exCreateDetailTeamE.getController().setCurrentPatient(selectedPatient);
     }
 
     /* for stopwatch: converts seconds to HHMM format */
@@ -162,6 +172,7 @@ public class NewExaminationController implements Initializable, ILogger {
         IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
         _model.getTabModel().addDiagnosisTab(selectedPatient);
         addDiagnosisButton.setDisable(true);
+        medicationButton.setDisable(false);
         prescriptionButton.setDisable(false);
     }
 
@@ -184,7 +195,11 @@ public class NewExaminationController implements Initializable, ILogger {
 
     @FXML
     public void setMedicationButtonHandler(ActionEvent actionEvent) {
-        IPatient selectedPatient = _model.getTabModel().getPatientFromSelectedTab(_model.getTabModel().getSelectedTab());
-        _model.getTabModel().addMedicationTab(selectedPatient);
+        IDiagnosis diag = newexam.getTeamFDiagnosis();
+        if (diag != null) {
+            _model.getTabModel().showMedicineAttachDialog(diag);
+        } else {
+            DialogBoxController.getInstance().showInformationDialog("Missing Diagnosis", "Please add a diagnosis to examination");
+        }
     }
 }

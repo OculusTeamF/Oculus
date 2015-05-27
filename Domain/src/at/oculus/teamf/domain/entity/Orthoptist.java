@@ -69,7 +69,7 @@ public class Orthoptist extends User implements IDomain, IOrthoptist {
 
     @Override
     public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
-        //TODO implement getExaminationProtocols()
+        //not used
         return null;
     }
 

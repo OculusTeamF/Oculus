@@ -12,14 +12,14 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.PrescriptionController;
+import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.controller.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
@@ -182,6 +182,13 @@ public class PatientRecordController implements Initializable {
 
         addToQueueBox.setValue(_initpatient.getIDoctor());
 
+        if(_model.isPatientInQueue(_initpatient.toString()))
+        {
+            addToQueueBox.setDisable(true);
+            addPatientToQueueButton.setDisable(true);
+
+        }
+
         //check if something has changed, if changes detected --> saveChanges()
         addListener(patientRecordLastname);
         addListener(patientRecordFirstname);
@@ -284,7 +291,8 @@ public class PatientRecordController implements Initializable {
         }
 
         if(notPrintedprescriptionsList.isEmpty()){
-            notPrintedPrescriptions.setVisible(false);
+            notPrintedPrescriptions.setDisable(true);
+
         }
     }
 
@@ -311,7 +319,7 @@ public class PatientRecordController implements Initializable {
         if(patientRecordBday.getValue()!=null) {
             LocalDate localDate = patientRecordBday.getValue();
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-            Date bday = java.sql.Date.from(instant);
+            Date bday = Date.from(instant);
             _model.getPatient().setBirthDay(bday);
         }
         if(patientRecordStreet.getText()!=null) {
@@ -484,13 +492,15 @@ public class PatientRecordController implements Initializable {
         if(_initpatient.getBirthDay() != null){
             _patientRecordModel.openPrescriptionsToPrint(_prescriptionController, _initpatient);
         }else{
-            DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please make sure");
+            DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please make sure that the Patient has a Birth date set");
         }
     }
 
     @FXML
-    public void addPatientToQueueButtonHandler(){
-        if(addToQueueBox.getSelectionModel().getSelectedItem() != null){
+    public void addPatientToQueueButtonHandler()
+    {
+        if(addToQueueBox.getSelectionModel().getSelectedItem() != null)
+        {
             IUser user = addToQueueBox.getSelectionModel().getSelectedItem();
             _model.getQueueModel().insertPatientIntoQueue(user);
             StatusBarController.getInstance().setText("Added _patient '" + _model.getPatient().getFirstName() + " " + _model.getPatient().getLastName() + "' to queue for: " + user.getLastName());

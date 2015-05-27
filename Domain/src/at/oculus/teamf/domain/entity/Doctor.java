@@ -30,8 +30,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-
-// Todo: add docs, implement equals
 /**
  * @author Simon Angerer
  */
@@ -158,7 +156,7 @@ public class Doctor extends User implements IDoctor, ILogger{
 
     @Override
     public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
-        //TODO implement getExaminationProtocols()
+        //not used
         return null;
     }
 

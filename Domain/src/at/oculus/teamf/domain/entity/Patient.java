@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamE.domain.interfaces.IPatientTb2;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -21,16 +23,17 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Simon Angerer
  * @date 03.4.2015
  */
-//Todo: Proxy, Remove Facade calls and extend broker
-public class Patient implements IPatient, ILogger {
+public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -47,21 +50,13 @@ public class Patient implements IPatient, ILogger {
     private String _countryIsoCode;
     private String _phone;
     private String _email;
+	private String _password;
     private String _allergy;
     private String _childhoodAilments;
     private String _medicineIntolerance;
     private Collection<IExaminationProtocol> _examinationProtocol;
 	private Collection<IPrescription> _prescriptions;
     private Collection<IVisualAid> _visualAid;
-
-    //private EntityBroker eb;
-
-    //</editor-fold>
-
-    public Patient() {
-        //IEntity p = eb.getEnity(PatientEntity.class, 0);
-
-    }
 
     //<editor-fold desc="Getter/Setter">
 
@@ -204,7 +199,12 @@ public class Patient implements IPatient, ILogger {
 		return _lastName;
     }
 
-	public IPatient setLastName(String lastName) {
+    @Override
+    public LocalDate getBirthDate() {
+        return null;
+    }
+
+    public IPatient setLastName(String lastName) {
 		_lastName = lastName;
         return this;
     }
@@ -239,6 +239,11 @@ public class Patient implements IPatient, ILogger {
 
     public void setCalendarEvents(Collection<ICalendarEvent> calendarEvents) {
         _calendarEvents = (Collection<CalendarEvent>) (Collection<?>) calendarEvents;
+    }
+
+    @Override
+    public Integer getPatientId() {
+        return null;
     }
 
     public String getSocialInsuranceNr() {
@@ -295,6 +300,16 @@ public class Patient implements IPatient, ILogger {
         return _countryIsoCode;
     }
 
+    @Override
+    public String getPhoneNumber() {
+        return getPhoneNumber();
+    }
+
+    @Override
+    public String getEmailAddress() {
+        return getEmail();
+    }
+
     public void setCountryIsoCode(String countryIsoCode) {
         _countryIsoCode = countryIsoCode;
     }
@@ -307,6 +322,8 @@ public class Patient implements IPatient, ILogger {
         _phone = phone;
     }
 
+	public String getUserName() { return getEmail(); }
+
     public String getEmail() {
         return _email;
     }
@@ -315,7 +332,15 @@ public class Patient implements IPatient, ILogger {
         _email = email;
     }
 
-    public String getAllergy() {
+	public String getPasswordHash() {
+		return _password;
+	}
+
+	public void setPasswordHash(String password) {
+		_password = password;
+	}
+
+	public String getAllergy() {
         return _allergy;
     }
 
@@ -444,5 +469,24 @@ public class Patient implements IPatient, ILogger {
             }
         }
         return (Collection<IVisualAid>) (Collection<?>) _visualAid;
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        try {
+            return (List<? extends IExaminationProtocolTb2>) (Collection<?>)getExaminationProtocol();
+        } catch (CouldNotGetExaminationProtolException e) {
+             //eat up
+        }
+        return null;
+    }
+
+    @Override
+    public void addProtocol(IExaminationProtocolTb2 iExaminationProtocolTb2) {
+        try {
+            addExaminationProtocol((IExaminationProtocol) iExaminationProtocolTb2);
+        } catch (CouldNotAddExaminationProtocol e) {
+            //eat up
+        }
     }
 }

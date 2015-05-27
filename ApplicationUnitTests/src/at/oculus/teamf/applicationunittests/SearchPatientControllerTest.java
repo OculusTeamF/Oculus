@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.applicationunittests;
 
-import at.oculus.teamf.application.facade.SearchPatientController;
+import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 
 import java.util.LinkedList;

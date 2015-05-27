@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.criteria.Criteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -18,8 +19,8 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
+import java.util.Iterator;
 
-// Todo: add docs, implement equals
 /**
  * @author Simon Angerer
  */
@@ -57,4 +58,29 @@ public class Calendar implements ICalendar {
     }
 
     //</editor-fold>
+
+    public Iterator<CalendarEvent> getAvailableEvents(Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
+
+        return iterator;
+    }
+
+    public class CalendarEventIterator implements Iterator<CalendarEvent>{
+        private Collection<CalendarEvent> _calendarEvents;
+
+        public CalendarEventIterator(Calendar calendar, Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+            _calendarEvents = calendar.getEvents();
+        }
+
+        @Override
+        public boolean hasNext() {
+
+            return true;
+        }
+
+        @Override
+        public CalendarEvent next() {
+            return null;
+        }
+    }
 }

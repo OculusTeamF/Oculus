@@ -16,7 +16,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="diagnosisPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.DiagnosisController">
+<AnchorPane fx:id="diagnosisPane" prefHeight="432.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.oculus.teamf.presentation.view.DiagnosisController">
    <children>
       <GridPane prefHeight="612.0" prefWidth="906.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
@@ -34,8 +34,6 @@
             <RowConstraints maxHeight="44.0" minHeight="15.0" prefHeight="44.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="177.0" minHeight="10.0" prefHeight="177.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Pane fx:id="colorPane9" prefHeight="16.0" prefWidth="476.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
@@ -64,12 +62,6 @@
             <Label text="Description" GridPane.rowIndex="3" />
             <TextField fx:id="textDiagnosisTitle" promptText="Mandatory" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextArea fx:id="textDiagnosisDescription" prefHeight="141.0" prefWidth="356.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2" />
-            <Label text=" MEDICATION (TeamMerge)" GridPane.columnSpan="2" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets top="15.0" />
-               </GridPane.margin>
-            </Label>
-            <AnchorPane fx:id="integratePane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </children>

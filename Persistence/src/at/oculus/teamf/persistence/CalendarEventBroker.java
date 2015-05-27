@@ -57,7 +57,6 @@ class CalendarEventBroker extends EntityBroker<CalendarEvent, CalendarEventEntit
      */
     @Override
 	protected CalendarEventEntity domainToPersistent(CalendarEvent entity) {
-		//Todo: reverse
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass() + " !!NOT IMPLEMENTED!!");
         return null;
     }

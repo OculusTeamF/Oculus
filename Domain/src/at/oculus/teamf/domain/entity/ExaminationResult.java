@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Blob;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -43,6 +44,7 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
     public ExaminationResult(IUserTb2 iUserTb2, IExaminationProtocolTb2 iExaminationProtocolTb2){
         _user = (User) iUserTb2;
         _examinationProtocol = (ExaminationProtocol) iExaminationProtocolTb2;
+        _createDate = new Timestamp(new Date().getTime());
     }
 
 	public ExaminationResult(int id, ExaminationProtocol examinationProtocol,

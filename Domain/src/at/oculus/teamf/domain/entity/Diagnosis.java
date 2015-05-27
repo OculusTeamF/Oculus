@@ -11,7 +11,6 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
 import at.oculus.teamE.domain.interfaces.IMedicineTb2;
-import at.oculus.teamE.support.functional.QuadFunction;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
@@ -126,8 +125,7 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 	 * @throws NoBrokerMappedException
 	 * @throws BadConnectionException
 	 */
-    public void addMedicine(IMedicine medicine)
-            throws CouldNotAddMedicineException {
+    public void addMedicine(IMedicine medicine) throws CouldNotAddMedicineException {
         try {
             if (_medicine == null) {
                 getMedicine();
@@ -208,15 +206,13 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 
 	@Override
     public String toString(){
-
-		int lenght = 0;
 		if(_description.length() > 50) {
-			lenght = _description.length();
+            return _title + ": " + _description.substring(0,30) + "...";
 		} else {
-			lenght = _description.length();
+            return _title + ": " + _description;
 		}
 
-        return _title + " " + _description.substring(0,lenght) + "...";
+
     }
 
     @Override

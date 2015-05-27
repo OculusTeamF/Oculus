@@ -840,6 +840,11 @@
       <column name="createDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="device" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="deviceData" sqlType="BLOB" precision="65535" scale="0" nullable="true" jdbcType="-4"/>
+      <column name="visualTestType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="cylinderValue" sqlType="DECIMAL" precision="6" scale="2" nullable="true" jdbcType="3"/>
+      <column name="sphereValue" sqlType="DECIMAL" precision="6" scale="2" nullable="true" jdbcType="3"/>
+      <column name="axisValue" sqlType="DECIMAL" precision="3" scale="0" nullable="true" jdbcType="3"/>
+      <column name="prismValue" sqlType="DECIMAL" precision="6" scale="2" nullable="true" jdbcType="3"/>
       <primary-key name="PRIMARY" columns="examinationResultId"/>
       <foreign-key name="examinationresult_ibfk_1" columns="examinationProtocolId" ref-table="examinationprotocol" ref-schema="" ref-catalog="oculus_f" ref-columns="examinationProtocolId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="examinationresult_ibfk_2" columns="userId" ref-table="user" ref-schema="" ref-catalog="oculus_f" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
@@ -857,6 +862,8 @@
       <column name="diagnosisId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
       <column name="dose" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="startMedicine" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="endMedicine" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
       <primary-key name="PRIMARY" columns="medicineId"/>
       <foreign-key name="medicine_ibfk_1" columns="diagnosisId" ref-table="diagnosis" ref-schema="" ref-catalog="oculus_f" ref-columns="diagnosisId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="prescriptionentry_ibfk_2" table="prescriptionentry" schema="" catalog="oculus_f" columns="medicineId"/>
@@ -887,6 +894,7 @@
       <column name="countryIsoCode" sqlType="VARCHAR" precision="3" scale="0" nullable="true" jdbcType="12"/>
       <column name="phone" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
       <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="allergy" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="childhoodAilments" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="medicineIntolerance" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
@@ -897,6 +905,7 @@
       <exported-key name="prescription_ibfk_1" table="prescription" schema="" catalog="oculus_f" columns="patientId"/>
       <exported-key name="queue_ibfk_2" table="queue" schema="" catalog="oculus_f" columns="patientId"/>
       <exported-key name="referralletter_ibfk_1" table="referralletter" schema="" catalog="oculus_f" columns="patientId"/>
+      <index name="patient_u1" unique="true" columns="email"/>
       <index name="patient_i1" unique="false" columns="doctorId"/>
       <index name="patient_i2" unique="false" columns="socialInsuranceNr"/>
       <index name="patient_i3" unique="false" columns="firstName"/>

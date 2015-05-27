@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.presentation.view;
 
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.controller.exceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
@@ -51,62 +51,34 @@ import java.util.ResourceBundle;
 public class PrescriptionController implements Initializable, IPrinter, ILogger {
 
 
-	@FXML
-	public ComboBox choosePrescriptionBox;
-	@FXML
-	public Button printButton;
-	@FXML
-	public Button saveButton;
-	@FXML
-	public StackPane prescriptionStackPane;
-	@FXML
-	public Label lastnameVA;
-	@FXML
-	public Label firstnameVA;
-	@FXML
-	public Label svnVA;
-	@FXML
-	public Label bdayVA;
-	@FXML
-	public Label addressVA;
-	@FXML
-	public Label stateVA;
-	@FXML
-	public Label zipVA;
-	@FXML
-	public Label cityVA;
-	@FXML
-	public ComboBox chooseMedicinBox;
-	@FXML
-	public Label lastname;
-	@FXML
-	public Label firstname;
-	@FXML
-	public Label svn;
-	@FXML
-	public Label bday;
-	@FXML
-	public Label address;
-	@FXML
-	public Label state;
-	@FXML
-	public Label zip;
-	@FXML
-	public Label city;
-	@FXML
-	public TextArea visualAidInformation;
-	@FXML
-	public ChoiceBox visualAidChoiceBox;
-	@FXML
-	public Button removeEntryFromTable;
-	@FXML
-	public Button addNewEntryToTable;
-	@FXML
-	public TextField dioptersRight;
-	@FXML
-	public TextField dioptersLeft;
-	@FXML
-	private ListView prescriptionItems;
+	@FXML public ComboBox choosePrescriptionBox;
+	@FXML public Button printButton;
+	@FXML public Button saveButton;
+	@FXML public StackPane prescriptionStackPane;
+	@FXML public Label lastnameVA;
+	@FXML public Label firstnameVA;
+	@FXML public Label svnVA;
+	@FXML public Label bdayVA;
+	@FXML public Label addressVA;
+	@FXML public Label stateVA;
+	@FXML public Label zipVA;
+	@FXML public Label cityVA;
+	@FXML public ComboBox chooseMedicinBox;
+	@FXML public Label lastname;
+	@FXML public Label firstname;
+	@FXML public Label svn;
+	@FXML public Label bday;
+	@FXML public Label address;
+	@FXML public Label state;
+	@FXML public Label zip;
+	@FXML public Label city;
+	@FXML public TextArea visualAidInformation;
+	@FXML public ChoiceBox visualAidChoiceBox;
+	@FXML public Button removeEntryFromTable;
+	@FXML public Button addNewEntryToTable;
+	@FXML public TextField dioptersRight;
+	@FXML public TextField dioptersLeft;
+	@FXML private ListView prescriptionItems;
 
 	private Model _model = Model.getInstance();
 	private ObservableList<String> _prescriptionType;
@@ -142,7 +114,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
 		//Prescription controller for this Patient
 		try {
-			_prescriptionModel.addNewPrescription(_model.getPatient());
+			_prescriptionModel.fetchPrescriptionController(_model.getPatient());
 		} catch (NotInitiatedExceptions notInitiatedExceptions) {
 			notInitiatedExceptions.printStackTrace();
 			DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
@@ -150,9 +122,13 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 			noPatientException.printStackTrace();
 			DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
 		}
-		ObservableList<IMedicine> prescribedMedicin =
-				FXCollections.observableArrayList((List) _prescriptionModel.getPrescribedMedicin());
-		chooseMedicinBox.setItems(prescribedMedicin);
+
+		ObservableList<IMedicine> prescribedMedicin = FXCollections.observableArrayList((List) _prescriptionModel.getPrescribedMedicin());
+
+		if(!prescribedMedicin.isEmpty()){
+			chooseMedicinBox.setItems(prescribedMedicin);
+		}
+
 
 		//VisualAidChoiceBox
 		ObservableList<String> visualAids = FXCollections.observableArrayList("Contact Lenses", "Glasses");
@@ -184,19 +160,23 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 
 
 		choosePrescriptionBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
 			@Override
 			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
 				if (newValue != null) {
 					switch (newValue.toString()) {
-						case "Medicin":
+						case "Medicine":
 							prescriptionStackPane.getChildren().get(0).setVisible(false);
 							prescriptionStackPane.getChildren().get(1).setVisible(true);
 							printButton.setVisible(true);
+							saveButton.setDisable(false);
 							break;
 						case "Visual Aid":
 							prescriptionStackPane.getChildren().get(1).setVisible(false);
 							prescriptionStackPane.getChildren().get(0).setVisible(true);
 							printButton.setVisible(false);
+							saveButton.setDisable(false);
 							break;
 					}
 
@@ -224,10 +204,21 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 		Collection<IMedicine> medicinList = new LinkedList<IMedicine>();
 		Collection<IDiagnosis> allDiagnoses = new LinkedList<IDiagnosis>();
 
-
+		//Save Medical Prescription
 		if (choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Medicine")) {
 
 			ObservableList<IMedicine> prescribedMedicine = prescriptionItems.getItems();
+
+			//Prescription controller for this Patient
+			try {
+				_prescriptionModel.fetchPrescriptionController(_model.getPatient());
+			} catch (NotInitiatedExceptions notInitiatedExceptions) {
+				notInitiatedExceptions.printStackTrace();
+				DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
+			} catch (NoPatientException noPatientException) {
+				noPatientException.printStackTrace();
+				DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
+			}
 
 			for (IMedicine med : prescribedMedicine) {
 				medicinList.add(med);
@@ -258,9 +249,27 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 				noBrokerMappedException.printStackTrace();
 				DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact Support ");
 			}
-			//saveButton.setDisable(true);
+			saveButton.setDisable(true);
+
+
+
 			_isSaved = true;
-		} else if (choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid")) {
+
+		}
+		//Save Visual Aid Prescription
+		else if (choosePrescriptionBox.getSelectionModel().getSelectedItem().toString().equals("Visual Aid"))
+		{
+			//Prescription controller for this Patient
+			try {
+				_prescriptionModel.fetchPrescriptionController(_model.getPatient());
+			} catch (NotInitiatedExceptions notInitiatedExceptions) {
+				notInitiatedExceptions.printStackTrace();
+				DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
+			} catch (NoPatientException noPatientException) {
+				noPatientException.printStackTrace();
+				DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
+			}
+
 			try {
 				allDiagnoses = _model.getPatient().getDiagnoses();
 
@@ -282,14 +291,37 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 				DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions",
 				                                                  "Cannot Save Prescription - No Diagnose ");
 			}
+
+			//Check if diopters are valid
+			Float dioptersL = 0.0f;
+			Float dioptersR = 0.0f;
+
+			if(!dioptersLeft.getText().matches("[0-9.]*"))
+			{
+				DialogBoxController.getInstance().showInformationDialog("No valid input", "Diopters: only numbers valid ( 1.0 )");
+				saveButton.setDisable(false);
+			}else{
+				dioptersL = Float.parseFloat(dioptersLeft.getText());
+				dioptersR = Float.parseFloat(dioptersRight.getText());
+			}
+
+			String visualAidInformationField = null;
+
+			//check if Description is filled in
+			if(visualAidInformation.getText().isEmpty()){
+
+				visualAidInformationField = "";
+			}else{
+				visualAidInformationField = visualAidInformation.getText();
+			}
+
 			try {
-				_prescriptionModel
-						.addVisualAidPrescriptionEntries(visualAidInformation.getText(), dioptersLeft.getText(),
-						                                 dioptersRight.getText());
+				_prescriptionModel.addVisualAidPrescriptionEntries(visualAidInformationField, dioptersL, dioptersR);
+
+
 			} catch (DatabaseOperationException databaseOperationException) {
 				databaseOperationException.printStackTrace();
-				DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException",
-				                                                  "Cannot Save Prescription - No Diagnose ");
+				DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Cannot Save Prescription - No Diagnose ");
 			} catch (NoBrokerMappedException noBrokerMappedException) {
 				noBrokerMappedException.printStackTrace();
 				DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException",
@@ -305,6 +337,9 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 			}
 
 			saveButton.setDisable(true);
+			//dioptersLeft.clear();
+			//dioptersRight.clear();
+			//visualAidInformation.clear();
 			log.info("Visual aid prescription saved for " + patient.getLastName());
 			StatusBarController.getInstance().setText(
 					"Visual Aid Prescription saved for " + patient.getLastName() + ", " + patient.getFirstName());
@@ -315,7 +350,8 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 	 * prints out a medical Prescription
 	 */
 	@FXML
-	public void printPrescriptionButtonActionHandler() {
+	public void printPrescriptionButtonActionHandler()
+	{
 		if(!_isSaved){
 			savePrescriptionButtonActionHandler();
 		}
@@ -350,6 +386,7 @@ public class PrescriptionController implements Initializable, IPrinter, ILogger 
 			DialogBoxController.getInstance()
 			                   .showErrorDialog("CantGetPresciptionEntriesException", "Please contact Support ");
 		}
+
 		saveButton.setDisable(true);
 		log.info("Print Prescription");
 		StatusBarController.getInstance().setText("Print Prescription...");

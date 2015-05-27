@@ -158,6 +158,21 @@ public class DialogBoxController {
         dlg.show();
     }
 
+    // *******************************************************************
+    // SupportBox
+    // *******************************************************************
+    public void showSupportDialog(){
+        Alert dlg = createAlert(Alert.AlertType.INFORMATION);
+        dlg.setTitle("Oculus 1.0 (2015) - Support Information");
+        dlg.setContentText("");
+        dlg.getDialogPane().setGraphic(new javafx.scene.image.ImageView(new Image(getClass().getResource("/res/keepcalm.jpg").toExternalForm())));
+        dlg.getDialogPane().setStyle("-fx-background-color: white;");
+        dlg.setHeaderText("");
+        //dlg.setWidth(10.0);
+        dlg.getDialogPane().setMaxWidth(30);
+        dlg.show();
+    }
+
 
     private Alert createAlert(Alert.AlertType type) {
         //Window owner = cbSetOwner.isSelected() ? stage : null;

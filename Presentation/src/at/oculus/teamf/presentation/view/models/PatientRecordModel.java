@@ -9,22 +9,21 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.facade.PrescriptionController;
-import at.oculus.teamf.application.facade.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.facade.exceptions.NoPatientException;
-import at.oculus.teamf.application.facade.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.facade.exceptions.RequirementsNotMetException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.application.facade.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.application.controller.PrescriptionController;
+import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
+import at.oculus.teamf.application.controller.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
+import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
+import at.oculus.teamf.presentation.view.StatusBarController;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -131,8 +130,8 @@ public class PatientRecordModel {
         //Content of Popup
         Label label = new Label("Not printed Prescriptions:");
         final ListView<IPrescription> openPrescriptions = new ListView<>();
-        Button printPrescriptionButton = new Button("Print Prescription");
-        Button deletePrescriptionButton = new Button("Delete Prescription");
+        Button printPrescriptionButton = new Button("Print");
+        Button deletePrescriptionButton = new Button("Delete");
 
         // setup buttons
         Image imagePrintIcon = new Image(getClass().getResourceAsStream("/res/icon_print.png"));
@@ -146,26 +145,20 @@ public class PatientRecordModel {
         deletePrescriptionButton.setMinWidth(150);
 
        //Button ActionHandler
-        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>() {
+        printPrescriptionButton.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
 
                 try {
                     if(prescription != null){
-                        prescriptionController.printPrescription();
+                        prescriptionController.printPrescription(prescription);
+                        StatusBarController.getInstance().setText("Print Prescription...");
                     }else{
                         DialogBoxController.getInstance().showInformationDialog("Cannot print Prescription", "Please choose a Prescription");
                     }
-                } catch (DatabaseOperationException dataBaseOperationException) {
-                    dataBaseOperationException.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("DatabaseOperationException", "Please contact support");
-                } catch (NoBrokerMappedException noBrokerMappedException) {
-                    noBrokerMappedException.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact support");
-                } catch (BadConnectionException badConnectionException) {
-                    badConnectionException.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("BadConnectionException", "Please contact support");
                 } catch (COSVisitorException cosVisitorException) {
                     cosVisitorException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("COSVisitorException", "Please contact support");
@@ -175,9 +168,6 @@ public class PatientRecordModel {
                 } catch (CantGetPresciptionEntriesException cantGetPresciptionEntriesException) {
                     cantGetPresciptionEntriesException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("CantGetPresciptionEntriesException", "Please contact support");
-                } catch (NotInitiatedExceptions notInitiatedExceptions) {
-                    notInitiatedExceptions.printStackTrace();
-                    DialogBoxController.getInstance().showErrorDialog("NotInitiatedExceptions", "Please contact support");
                 } catch (NoPrescriptionToPrintException noPrescriptionToPrintException) {
                     noPrescriptionToPrintException.printStackTrace();
                     DialogBoxController.getInstance().showErrorDialog("NoPrescriptionToPrintException", "Please contact support");
@@ -220,6 +210,7 @@ public class PatientRecordModel {
                 PrescriptionController _prescriptionController = PrescriptionController.createController(currPatient);
                 ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
                 openPrescriptions.setItems(prescriptionList);
+
             } catch (NoPatientException noPatientException) {
                 noPatientException.printStackTrace();
                 DialogBoxController.getInstance().showErrorDialog("NoPatientException", "Please contact support");
