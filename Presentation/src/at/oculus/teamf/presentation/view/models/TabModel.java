@@ -85,7 +85,7 @@ public class TabModel implements ILogger {
                 tab.setId(ID);
 
                 // load tab fxml
-                String pathTabFXML = "../" + tabFXML;
+                String pathTabFXML = "/at/oculus/teamf/presentation/view/" + tabFXML;
                 AnchorPane ap = FXMLLoader.load(this.getClass().getResource(pathTabFXML));
                 tab.setContent(ap);
 
