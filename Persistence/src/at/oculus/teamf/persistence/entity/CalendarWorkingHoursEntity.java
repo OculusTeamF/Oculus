@@ -24,6 +24,8 @@ public class CalendarWorkingHoursEntity implements IEntity {
     private CalendarEntity _calendar;
     private WeekDayKey _weekday;
 
+	public CalendarWorkingHoursEntity(){}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "calendarWorkingHoursId", nullable = false, insertable = false, updatable = false)
