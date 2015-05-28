@@ -11,6 +11,7 @@ package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.CalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -19,6 +20,8 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import org.junit.Test;
+
+import java.util.Iterator;
 
 import static org.junit.Assert.assertTrue;
 
@@ -54,7 +57,7 @@ public class CalendarBrokerTest extends BrokerTest{
 	}
 
 	@Test
-	public void testReload() {
+	public void testReloadEvents() {
 		Facade facade = Facade.getInstance();
 		Calendar cal = null;
 		try {
@@ -76,10 +79,71 @@ public class CalendarBrokerTest extends BrokerTest{
             assertTrue(cal.getEvents() != null);
             assertTrue(cal.getEvents().size() > 1);
         } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+            assertTrue(false);
             e.printStackTrace();
         } catch (DatabaseOperationException e) {
 			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
+
+    @Test
+    public void testReloadWorkingHours() {
+        Facade facade = Facade.getInstance();
+        Calendar cal = null;
+        try {
+            cal = facade.getById(Calendar.class, 1);
+        } catch (FacadeException e) {
+            assertTrue(false);
+            e.printStackTrace();
+        }
+        assertTrue(cal != null);
+
+        try {
+            facade.reloadCollection(cal, CalendarWorkingHours.class);
+        } catch (FacadeException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+
+        try {
+            assertTrue(cal.getWorkingHours() != null);
+            assertTrue(cal.getWorkingHours().size() > 1);
+        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+            assertTrue(false);
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            assertTrue(false);
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testNextAvailEvent() {
+        Facade facade = Facade.getInstance();
+        Calendar cal = null;
+        try {
+            cal = facade.getById(Calendar.class, 1);
+        } catch (FacadeException e) {
+            assertTrue(false);
+            e.printStackTrace();
+        }
+        assertTrue(cal != null);
+
+        Iterator<CalendarEvent> iterator = null;
+        try {
+            iterator = cal.availableEventsIterator(null, 30);
+        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+            assertTrue(false);
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            assertTrue(false);
+            e.printStackTrace();
+        }
+        iterator.hasNext();
+        for(int i = 0; i<10; i++) {
+            System.out.println("next available event: " + iterator.next());
+        }
+    }
+
 }
