@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller;
+package at.oculus.teamf.application.controller.additional;
 
 /**<h1>$RemovePatientController.java</h1>
  * @author $jpo2433

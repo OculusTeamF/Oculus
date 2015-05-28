@@ -56,7 +56,7 @@ public class VisualAidControllerTest {
     public void createVisualAidPrescription(){
         visualAid = null;
         try {
-            visualAid = visualAidController.createVisualAidPrescription("this is a description", "2.5", "2.5");
+            visualAid = visualAidController.createVisualAidPrescription("this is a description", 2.5f, 2.5f);
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {

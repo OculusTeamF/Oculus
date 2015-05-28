@@ -12,7 +12,7 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.controller.CreatePatientController;
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.application.controller.StartupController;
-import at.oculus.teamf.application.controller.RemovePatientController;
+import at.oculus.teamf.application.controller.additional.RemovePatientController;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.Patient;

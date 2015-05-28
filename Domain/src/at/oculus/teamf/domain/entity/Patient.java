@@ -33,7 +33,7 @@ import java.util.List;
  * @author Simon Angerer
  * @date 03.4.2015
  */
-public class Patient implements IPatient, ILogger, IPatientTb2 {
+public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 
     //<editor-fold desc="Attributes">
     private int _id;
@@ -50,21 +50,13 @@ public class Patient implements IPatient, ILogger, IPatientTb2 {
     private String _countryIsoCode;
     private String _phone;
     private String _email;
+	private String _password;
     private String _allergy;
     private String _childhoodAilments;
     private String _medicineIntolerance;
     private Collection<IExaminationProtocol> _examinationProtocol;
 	private Collection<IPrescription> _prescriptions;
     private Collection<IVisualAid> _visualAid;
-
-    //private EntityBroker eb;
-
-    //</editor-fold>
-
-    public Patient() {
-        //IEntity p = eb.getEnity(PatientEntity.class, 0);
-
-    }
 
     //<editor-fold desc="Getter/Setter">
 
@@ -330,6 +322,8 @@ public class Patient implements IPatient, ILogger, IPatientTb2 {
         _phone = phone;
     }
 
+	public String getUserName() { return getEmail(); }
+
     public String getEmail() {
         return _email;
     }
@@ -338,7 +332,15 @@ public class Patient implements IPatient, ILogger, IPatientTb2 {
         _email = email;
     }
 
-    public String getAllergy() {
+	public String getPasswordHash() {
+		return _password;
+	}
+
+	public void setPasswordHash(String password) {
+		_password = password;
+	}
+
+	public String getAllergy() {
         return _allergy;
     }
 

@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.criteria.Criteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -18,6 +19,10 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Date;
+
 /**
  * @author Simon Angerer
  */
@@ -55,4 +60,47 @@ public class Calendar implements ICalendar {
     }
 
     //</editor-fold>
+
+    public boolean isAvailableEvent(Date from, Date to){
+        // alle vorhandenen Termine ueberpruefen
+        for(CalendarEvent calendarEvent : _events){
+            // wenn Startzeitpunnkt innerhalb eines Termins
+            if(calendarEvent.getEventStart().before(from) && calendarEvent.getEventEnd().after(from)){
+                return false;
+            }
+            // wenn Endzeitpunkt innerhalb eines Termins
+            if(calendarEvent.getEventStart().before(to) && calendarEvent.getEventEnd().after(to)){
+                return false;
+            }
+            // wenn genau der selbe Termin
+            if(calendarEvent.getEventStart().equals(from) && calendarEvent.getEventEnd().equals(to)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Iterator<CalendarEvent> getAvailableEvents(Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
+
+        return iterator;
+    }
+
+    public class CalendarEventIterator implements Iterator<CalendarEvent>{
+        private Collection<CalendarEvent> _calendarEvents;
+
+        public CalendarEventIterator(Calendar calendar, Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+            _calendarEvents = calendar.getEvents();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return _calendarEvents.isEmpty();
+        }
+
+        @Override
+        public CalendarEvent next() {
+            return ((LinkedList<CalendarEvent>) _calendarEvents).removeFirst();
+        }
+    }
 }

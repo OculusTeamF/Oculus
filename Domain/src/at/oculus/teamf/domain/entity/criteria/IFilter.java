@@ -7,29 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.entity;
-
-import java.util.Calendar;
-import java.util.Date;
+package at.oculus.teamf.domain.entity.criteria;
 
 /**
- * WeekDayKey enum
+ * IFilter.java
+ * Created by oculus on 27.05.15.
  */
-public enum WeekDayKey {
-	// null because weekday starts at 1 = SUN
-	NULL, SUN, MON, TUE, WED, THU, FRI, SAT;
-
-	public static WeekDayKey getWeekDayKey(Date date){
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-		for(WeekDayKey w : WeekDayKey.values()){
-			if(w.ordinal()==dayOfWeek){
-				return w;
-			}
-		}
-
-		return null;
-	}
+public interface IFilter {
 }
