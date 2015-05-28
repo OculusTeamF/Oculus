@@ -12,7 +12,10 @@ package at.oculus.teamf.application.controller;
 import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.interfaces.ILogin;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -37,7 +40,7 @@ import java.util.regex.Pattern;
  */
 public class LoginController implements ILogger{
 
-    private Patient patient;
+    private IPatient patient;
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     /**
@@ -52,7 +55,7 @@ public class LoginController implements ILogger{
      * @param email this is the email address/the username of the patient who wants to log in
      * @param password this is the matching password of the patient who wants to log in
      */
-    public boolean checkLoginData(String email, String password) throws EmailNotFoundException, PasswordIncorrectException {
+    public IPatient checkLoginData(String email, String password) throws EmailNotFoundException, PasswordIncorrectException {
 
         if(email == null || email.equals("")){
             throw new EmailNotFoundException();
@@ -62,10 +65,10 @@ public class LoginController implements ILogger{
                 throw new EmailNotFoundException();
             }
 
-            Facade facade = Facade.getInstance();
+            IFacade facade = Facade.getInstance();
             try {
-                for (Object p : facade.search(Patient.class, email)){
-                    patient = (Patient) p;
+                for (Object p : facade.search(IPatient.class, email)){
+                    patient = (IPatient) p;
                 }
             } catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
                 log.error("Facade Exception caught while searching patient - " + e.getMessage());
@@ -79,7 +82,7 @@ public class LoginController implements ILogger{
                 throw new PasswordIncorrectException();
             }else{
                 try {
-                    if(!Login.login(patient, password)){
+                    if(!Login.login((ILogin)patient, password)){
                         throw new PasswordIncorrectException();
                     }
                 } catch (HashGenerationException e) {
@@ -87,9 +90,12 @@ public class LoginController implements ILogger{
                     throw new PasswordIncorrectException();
                 }
             }
+        }else{
+            return null;
         }
+
         log.info("Email address and password correct! Patient is allowed to log in the system.");
-        return true;
+        return patient;
     }
 
     /**

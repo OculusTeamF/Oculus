@@ -10,6 +10,13 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.LoginController;
+import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import org.junit.Assert;
 
 /**
@@ -36,13 +43,32 @@ public class LoginControllerTest {
         Assert.assertEquals(loginController.validateEmail("blablabla"), false);
         Assert.assertEquals(loginController.validateEmail("test123@.com"), false);
         Assert.assertEquals(loginController.validateEmail("patient111@gmail.com"), true);
-
-
-
     }
 
     @org.junit.Test
     public void checkLoginData(){
         //TODO implement test method checkLoginData()
+
+        IPatient result = null;
+        IPatient patient = null;
+        
+        try {
+            patient = Facade.getInstance().getById(IPatient.class, 1);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        }
+        try {
+            result = loginController.checkLoginData("donald.duck@quack.eh", "letmein");
+        } catch (EmailNotFoundException e) {
+            e.printStackTrace();
+        } catch (PasswordIncorrectException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(patient, result);
     }
 }
