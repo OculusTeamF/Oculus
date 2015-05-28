@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class ReceptionistBrokerTest extends BrokerTest {
 	@Override
 	public void setUp() {
-		
+
 	}
 
 	@Override
@@ -31,32 +31,32 @@ public class ReceptionistBrokerTest extends BrokerTest {
 	}
 
 	@Test
-    @Override
-    public void testGetById() {
-        Facade facade = Facade.getInstance();
-        Receptionist receptionist = null;
-        try {
-            receptionist = facade.getById(Receptionist.class, 1);
-        } catch (FacadeException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-        assertTrue(receptionist != null);
-    }
+	@Override
+	public void testGetById() {
+		Facade facade = Facade.getInstance();
+		Receptionist receptionist = null;
+		try {
+			receptionist = facade.getById(Receptionist.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+		assertTrue(receptionist != null);
+	}
 
-    @Test
-    @Override
-    public void testGetAll() {
-	    Collection<Receptionist> receptionists = null;
+	@Test
+	@Override
+	public void testGetAll() {
+		Collection<Receptionist> receptionists = null;
 
-	    try {
-		    receptionists = Facade.getInstance().getAll(Receptionist.class);
-	    } catch (FacadeException e) {
-            assertTrue(false);
-            e.printStackTrace();
-	    }
+		try {
+			receptionists = Facade.getInstance().getAll(Receptionist.class);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
 
-        Assert.assertTrue(receptionists != null);
-	    Assert.assertTrue(receptionists.size() > 0);
-    }
+		Assert.assertTrue(receptionists != null);
+		Assert.assertTrue(receptionists.size() > 0);
+	}
 }

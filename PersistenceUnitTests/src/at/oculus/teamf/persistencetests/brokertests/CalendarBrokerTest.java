@@ -25,7 +25,7 @@ import java.util.Iterator;
 
 import static org.junit.Assert.assertTrue;
 
-public class CalendarBrokerTest extends BrokerTest{
+public class CalendarBrokerTest extends BrokerTest {
 	@Override
 	public void setUp() {
 
@@ -47,7 +47,7 @@ public class CalendarBrokerTest extends BrokerTest{
 			assertTrue(false);
 			e.printStackTrace();
 		}
-        assertTrue(cal != null);
+		assertTrue(cal != null);
 	}
 
 	@Test
@@ -61,12 +61,12 @@ public class CalendarBrokerTest extends BrokerTest{
 		Facade facade = Facade.getInstance();
 		Calendar cal = null;
 		try {
-            cal = facade.getById(Calendar.class, 1);
-        } catch (FacadeException e) {
-            assertTrue(false);
+			cal = facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
-        assertTrue(cal != null);
+		assertTrue(cal != null);
 
 		try {
 			facade.reloadCollection(cal, CalendarEvent.class);
@@ -75,75 +75,72 @@ public class CalendarBrokerTest extends BrokerTest{
 			assertTrue(false);
 		}
 
-        try {
-            assertTrue(cal.getEvents() != null);
-            assertTrue(cal.getEvents().size() > 1);
-        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        } catch (DatabaseOperationException e) {
+		try {
+			assertTrue(cal.getEvents() != null);
+			assertTrue(cal.getEvents().size() > 1);
+		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		} catch (DatabaseOperationException e) {
 			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
 
-    @Test
-    public void testReloadWorkingHours() {
-        Facade facade = Facade.getInstance();
-        Calendar cal = null;
-        try {
-            cal = facade.getById(Calendar.class, 1);
-        } catch (FacadeException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-        assertTrue(cal != null);
+	@Test
+	public void testReloadWorkingHours() {
+		Facade facade = Facade.getInstance();
+		Calendar cal = null;
+		try {
+			cal = facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+		assertTrue(cal != null);
 
-        try {
-            facade.reloadCollection(cal, CalendarWorkingHours.class);
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+		try {
+			facade.reloadCollection(cal, CalendarWorkingHours.class);
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 
-        try {
-            assertTrue(cal.getWorkingHours() != null);
-            assertTrue(cal.getWorkingHours().size() > 1);
-        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        } catch (DatabaseOperationException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-    }
+		try {
+			assertTrue(cal.getWorkingHours() != null);
+			assertTrue(cal.getWorkingHours().size() > 1);
+		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		} catch (DatabaseOperationException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+	}
 
-    @Test
-    public void testNextAvailEvent() {
-        Facade facade = Facade.getInstance();
-        Calendar cal = null;
-        try {
-            cal = facade.getById(Calendar.class, 1);
-        } catch (FacadeException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-        assertTrue(cal != null);
+	@Test
+	public void testNextAvailEvent() {
+		Facade facade = Facade.getInstance();
+		Calendar cal = null;
+		try {
+			cal = facade.getById(Calendar.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+		assertTrue(cal != null);
 
-        Iterator<CalendarEvent> iterator = null;
-        try {
-            iterator = cal.availableEventsIterator(null, 30);
-        } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        } catch (DatabaseOperationException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-        /*iterator.hasNext();
+		Iterator<CalendarEvent> iterator = null;
+		try {
+			iterator = cal.availableEventsIterator(null, 30);
+		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+	    /*iterator.hasNext();
         for(int i = 0; i<10; i++) {
             System.out.println("next available event: " + iterator.next());
         }*/
-    }
+	}
 
 }
