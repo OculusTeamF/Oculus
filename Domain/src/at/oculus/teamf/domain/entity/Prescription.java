@@ -35,7 +35,7 @@ public class Prescription implements IPrescription, ILogger {
     private Date _issueDate;
     private Date _lastPrint;
     private IPatient _patient;
-    private Collection<PrescriptionEntry> _prescriptionEntries;
+    private Collection<IPrescriptionEntry> _prescriptionEntries;
 
     public Prescription() {
         _issueDate = new Timestamp(new Date().getTime());
@@ -74,7 +74,7 @@ public class Prescription implements IPrescription, ILogger {
         _patient = iPatient;
     }
 
-
+    @SuppressWarnings("unchecked")
     public Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException {
         if (_prescriptionEntries == null) {
             try {
@@ -84,10 +84,11 @@ public class Prescription implements IPrescription, ILogger {
                 throw new CantGetPresciptionEntriesException();
             }
         }
+
         return (Collection<IPrescriptionEntry>) (Collection<?>) _prescriptionEntries;
     }
 
-    public void setPrescriptionEntries(Collection<PrescriptionEntry> prescriptionEntries) {
+    public void setPrescriptionEntries(Collection<IPrescriptionEntry> prescriptionEntries) {
         _prescriptionEntries = prescriptionEntries;
     }
 
@@ -101,7 +102,7 @@ public class Prescription implements IPrescription, ILogger {
             throws CouldNotAddPrescriptionEntryException {
         if (prescriptionEntry != null) {
             if (_prescriptionEntries == null) {
-                _prescriptionEntries = new LinkedList<PrescriptionEntry>();
+                _prescriptionEntries = new LinkedList<>();
             }
 
             PrescriptionEntry entry = (PrescriptionEntry) prescriptionEntry;
@@ -109,7 +110,7 @@ public class Prescription implements IPrescription, ILogger {
             _prescriptionEntries.add(entry);
 
             try {
-                for (PrescriptionEntry p : _prescriptionEntries) {
+                for (IPrescriptionEntry p : _prescriptionEntries) {
                     log.debug("saving prescription entry with id " + p.getId());
                     Facade.getInstance().save(p);
                 }

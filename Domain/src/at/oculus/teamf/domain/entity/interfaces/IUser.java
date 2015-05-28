@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by oculus on 16.04.15.
  */
-public interface IUser {
+public interface IUser extends IDomain {
     //<editor-fold desc="Getter/Setter">
     int getTeamFUserId();
 

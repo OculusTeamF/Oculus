@@ -32,10 +32,10 @@ import java.util.LinkedList;
 /**
  * MedicineBroker.java Created by oculus on 08.05.15.
  */
-public class MedicineBroker extends EntityBroker implements ISearch {
+class MedicineBroker extends EntityBroker implements ISearch {
 	public MedicineBroker() {
 		super(Medicine.class, MedicineEntity.class);
-		addDomainClass(IMedicine.class);
+		addDomainClassMapping(IMedicine.class);
 	}
 
 	/**

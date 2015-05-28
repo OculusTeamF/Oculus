@@ -9,8 +9,6 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.EventType;
 import at.oculus.teamf.domain.entity.RegularAppointment;
 import at.oculus.teamf.persistence.Facade;

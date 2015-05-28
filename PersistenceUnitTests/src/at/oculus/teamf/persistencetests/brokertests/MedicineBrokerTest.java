@@ -39,13 +39,7 @@ public class MedicineBrokerTest extends BrokerTest {
 		Medicine medicine = null;
 		try {
 			medicine = Facade.getInstance().getById(Medicine.class, 1);
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (DatabaseOperationException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -58,13 +52,7 @@ public class MedicineBrokerTest extends BrokerTest {
 		Collection<Medicine> medicineCollection = null;
 		try {
 			medicineCollection = Facade.getInstance().getAll(Medicine.class);
-		} catch (BadConnectionException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (NoBrokerMappedException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		} catch (DatabaseOperationException e) {
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}

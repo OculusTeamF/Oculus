@@ -24,7 +24,7 @@ public class VisualAid implements IVisualAid {
 	private Date _lastPrint;
 	private Float _dioptreLeft;
 	private Float _dioptreRight;
-	private Diagnosis _diagnosis;
+	private IDiagnosis _diagnosis;
 
 	public VisualAid() {
 	}
@@ -77,7 +77,7 @@ public class VisualAid implements IVisualAid {
 		_dioptreRight = dioptreRight;
 	}
 
-	public Diagnosis getDiagnosis() {
+	public IDiagnosis getDiagnosis() {
 		return _diagnosis;
 	}
 
@@ -128,20 +128,6 @@ public class VisualAid implements IVisualAid {
 
 	@Override
 	public String toString(){
-		/*String visualAid = null;
-		if(_dioptreLeft!=null){
-			visualAid = "L " + _dioptreLeft + " ";
-		}
-		if(_dioptreRight!=null){
-			visualAid = visualAid + "R " + _dioptreRight + " ";
-		}
-		if(_description!=null){
-			if(_description.length()>20){
-				visualAid = visualAid + _description.substring(0,20) + "...";
-			} else {
-				visualAid = visualAid + _description;
-			}
-		}*/
         String visualAid = _issueDate.toString();
         if(_lastPrint!=null){
             visualAid += " last printed on " + _lastPrint.toString();

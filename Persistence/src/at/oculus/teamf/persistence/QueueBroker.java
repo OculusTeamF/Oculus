@@ -16,6 +16,7 @@ import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
+import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -25,17 +26,17 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
-import javax.print.Doc;
 import java.util.Collection;
 import java.util.LinkedList;
 
 /**
  * queue broker translating domain objects to persistence entities
  */
-public class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
+class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISearch<QueueEntry> {
 
     public QueueBroker() {
         super(QueueEntry.class, QueueEntity.class);
+        addDomainClassMapping(IQueueEntry.class);
     }
 
     /**

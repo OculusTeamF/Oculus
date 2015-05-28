@@ -9,19 +9,21 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.interfaces.IWorkingHours;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 
 /**
  * CalendarWorkingHours.java
  * Created by oculus on 27.05.15.
  */
-public class CalendarWorkingHours implements IDomain {
+public class CalendarWorkingHours implements ICalendarWorkingHours {
     private int _id;
     private int _workingHoursId;
     private int _calendarId;
-    private WorkingHours _workinghours;
-    private Calendar _calendar;
+    private IWorkingHours _workinghours;
+    private ICalendar _calendar;
     private WeekDayKey _weekday;
 
 	@Override
@@ -34,42 +36,52 @@ public class CalendarWorkingHours implements IDomain {
 		_id = id;
 	}
 
+	@Override
 	public int getWorkingHoursId() {
 		return _workingHoursId;
 	}
 
+	@Override
 	public void setWorkingHoursId(int workingHoursId) {
 		_workingHoursId = workingHoursId;
 	}
 
+	@Override
 	public int getCalendarId() {
 		return _calendarId;
 	}
 
+	@Override
 	public void setCalendarId(int calendarId) {
 		_calendarId = calendarId;
 	}
 
-	public WorkingHours getWorkinghours() {
+	@Override
+	public IWorkingHours getWorkinghours() {
 		return _workinghours;
 	}
 
-	public void setWorkinghours(WorkingHours workinghours) {
+	@Override
+	public void setWorkinghours(IWorkingHours workinghours) {
 		_workinghours = workinghours;
 	}
 
-	public Calendar getCalendar() {
+	@Override
+	public ICalendar getCalendar() {
 		return _calendar;
 	}
 
-	public void setCalendar(Calendar calendar) {
+	@Override
+	public void setCalendar(ICalendar calendar) {
 		_calendar = calendar;
 	}
 
+	@Override
 	public WeekDayKey getWeekday() {
 		return _weekday;
 	}
 
+	@Override
 	public void setWeekday(WeekDayKey weekday) {
 		_weekday = weekday;
 	}
@@ -78,7 +90,7 @@ public class CalendarWorkingHours implements IDomain {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (!(o instanceof CalendarWorkingHours))
+		if (!(o instanceof ICalendarWorkingHours))
 			return false;
 
 		CalendarWorkingHours that = (CalendarWorkingHours) o;

@@ -18,8 +18,8 @@ import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
  */
 public class PrescriptionEntry implements IPrescriptionEntry {
 	private int _id;
-	private Prescription _prescription;
-	private Medicine _medicine;
+	private IPrescription _prescription;
+	private IMedicine _medicine;
 
 	public PrescriptionEntry() {
 	}
@@ -45,7 +45,7 @@ public class PrescriptionEntry implements IPrescriptionEntry {
     }
 
 	public void setMedicine(IMedicine medicine) {
-		_medicine = (Medicine) medicine;
+		_medicine = medicine;
 	}
 
 	@Override

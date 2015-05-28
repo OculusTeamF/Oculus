@@ -24,7 +24,6 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,8 +37,8 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
     private String _description;
 	private Integer _doctorId;
 	private IDoctor _doctor;
-	private Collection<Medicine> _medicine;
-	private Collection<VisualAid> _visualAid;
+	private Collection<IMedicine> _medicine;
+	private Collection<IVisualAid> _visualAid;
 
 	public Diagnosis() {}
 
@@ -77,7 +76,7 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 
     @Override
     public List<? extends IMedicineTb2> getMedicines() {
-        return (List<? extends IMedicineTb2>) _medicine;
+        return (List<? extends IMedicineTb2>) (Collection<?>)_medicine;
     }
 
     public void setDescription(String description) {
@@ -95,7 +94,6 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 		return _doctor;
 	}
     public void setDoctor(IDoctor doctor) {
-		_doctor = (Doctor) doctor;
 		if(doctor!=null) {
 			_doctorId = doctor.getId();
 		}
@@ -111,9 +109,6 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
         return (Collection<IMedicine>) (Collection<?>) _medicine;
     }
 
-	public void setMedicine(Collection<Medicine> medicine) {
-		_medicine = medicine;
-	}
 
 	/**
 	 * add medicine to diagnosis
@@ -161,11 +156,11 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 			log.error(e.getMessage());
 			throw new CouldNotGetVisualAidException();
 		}
-        return (Collection<IVisualAid>) (Collection<?>) _visualAid;
+        return _visualAid;
     }
 
     public void setVisualAid(Collection<IVisualAid> visualAid) {
-        _visualAid = (Collection<VisualAid>) (Collection<?>) visualAid;
+        _visualAid =  visualAid;
     }
 
 	@Override
@@ -224,4 +219,8 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
 
         }
     }
+
+	public void setMedicine(Collection<Medicine> medicines) {
+		_medicine =(Collection<IMedicine>) (Collection<?>) medicines;
+	}
 }

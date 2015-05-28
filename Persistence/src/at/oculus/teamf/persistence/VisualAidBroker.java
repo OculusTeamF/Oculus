@@ -32,10 +32,10 @@ import java.util.LinkedList;
 /**
  * VisualAidBroker.java Created by oculus on 11.05.15.
  */
-public class VisualAidBroker extends EntityBroker implements ISearch {
+class VisualAidBroker extends EntityBroker implements ISearch {
     public VisualAidBroker() {
 		super(VisualAid.class, VisualAidEntity.class);
-		addDomainClass(IVisualAid.class);
+		addDomainClassMapping(IVisualAid.class);
 	}
 
 	@Override

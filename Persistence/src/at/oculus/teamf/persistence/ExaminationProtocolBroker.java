@@ -28,10 +28,10 @@ import java.util.Collection;
 /**
  * examination protocol broker translating domain objects to persistence entities
  */
-public class ExaminationProtocolBroker extends EntityBroker implements ICollectionReload {
+class ExaminationProtocolBroker extends EntityBroker implements ICollectionReload {
     public ExaminationProtocolBroker() {
         super(ExaminationProtocol.class, ExaminationProtocolEntity.class);
-        addDomainClass(IExaminationProtocol.class);
+        addDomainClassMapping(IExaminationProtocol.class);
     }
 
     /**

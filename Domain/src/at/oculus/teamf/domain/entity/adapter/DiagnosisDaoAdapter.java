@@ -13,7 +13,6 @@ import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
 import at.oculus.teamE.persistence.PersistenceExceptionTb2;
 import at.oculus.teamE.persistence.api.IDiagnosisDaoTb2;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

@@ -15,9 +15,9 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
-import at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -34,130 +34,78 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 
 	public CalendarBroker() {
 		super(Calendar.class, CalendarEntity.class);
+        addDomainClassMapping(ICalendar.class);
 	}
 
-	/**
-	 * converts a persitency entity to a domain object
-	 *
-	 * @param entity
-	 * 		that needs to be converted
-	 *
-	 * @return domain object that is created from entity
-	 *
-	 * @throws NoBrokerMappedException
-	 * @throws BadConnectionException
-	 */
-	@Override
+    /**
+     * converts a persitency entity to a domain object
+     *
+     * @param entity that needs to be converted
+     * @return domain object that is created from entity
+     * @throws NoBrokerMappedException
+     * @throws BadConnectionException
+     */
+    @Override
 	protected Calendar persistentToDomain(CalendarEntity entity) {
-		log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " +
-		          _domainClass.getClass());
-		Calendar calendar = new Calendar();
-		calendar.setId(entity.getId());
+        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+        Calendar calendar = new Calendar();
+        calendar.setId(entity.getId());
 		return calendar;
-	}
+    }
 
-	/**
-	 * Converts a domain object to persitency entity
-	 *
-	 * @param obj
-	 * 		that needs to be converted
-	 *
-	 * @return return a persitency entity
-	 */
-	@Override
+    /**
+     * Converts a domain object to persitency entity
+     * @param obj that needs to be converted
+     * @return return a persitency entity
+     */
+    @Override
 	protected CalendarEntity domainToPersistent(Calendar obj) {
-		log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " +
-		          _entityClass.getClass());
-		CalendarEntity calendarEntity = new CalendarEntity();
-		calendarEntity.setId(obj.getId());
+        log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
+        CalendarEntity calendarEntity = new CalendarEntity();
+        calendarEntity.setId(obj.getId());
 		return calendarEntity;
-	}
+    }
 
-	/**
-	 * reload collections of a calendar
-	 *
-	 * @param session
-	 * 		session to be used
-	 * @param obj
-	 * 		patient
-	 * @param clazz
-	 * 		to be reloaded
-	 *
-	 * @throws BadConnectionException
-	 * @throws NoBrokerMappedException
-	 * @throws InvalidReloadClassException
-	 */
-	@Override
-	public void reload(ISession session, Object obj, Class clazz)
-			throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException,
-			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
-			       InvalidSearchParameterException {
+    /**
+     * reload collections of a calendar
+     * @param session session to be used
+     * @param obj patient
+     * @param clazz to be reloaded
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     * @throws InvalidReloadClassException
+     */
+    @Override
+	public void reload(ISession session, Object obj, Class clazz) throws BadConnectionException, NoBrokerMappedException, InvalidReloadClassException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		if (clazz == CalendarEvent.class) {
 			((Calendar) obj).setEvents(reloadCalendarEvents(session, obj));
-		} else if (clazz == CalendarWorkingHours.class) {
-			((Calendar) obj).setWorkingHours(reloadCalendarWorkingHours(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
-		}
-	}
+        }
+    }
 
-	/**
-	 * reload the calendar events of a calendar
-	 *
-	 * @param session
-	 * 		session to be used
-	 * @param obj
-	 * 		patient
-	 *
-	 * @return collection of examnation protocols
-	 *
-	 * @throws BadConnectionException
-	 * @throws NoBrokerMappedException
-	 */
-	private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj)
-			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
-			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-		log.debug("reloading calendar events");
-		ReloadComponent reloadComponent = new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
+    /**
+     * reload the calendar events of a calendar
+     *
+     * @param session session to be used
+     * @param obj     patient
+     * @return collection of examnation protocols
+     * @throws BadConnectionException
+     * @throws NoBrokerMappedException
+     */
+    private Collection<CalendarEvent> reloadCalendarEvents(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+        log.debug("reloading calendar events");
+        ReloadComponent reloadComponent =
+                new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
 
-		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
-	}
+        return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
+    }
 
 	private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {
 
 		@Override
 		public Collection<CalendarEventEntity> load(Object databaseEntity) {
 			return ((CalendarEntity) databaseEntity).getCalendarEvents();
-		}
-	}
-
-	/**
-	 * reload the working hours of a calendar
-	 *
-	 * @param session
-	 * 		session to be used
-	 * @param obj
-	 * 		patient
-	 *
-	 * @return collection of examnation protocols
-	 *
-	 * @throws BadConnectionException
-	 * @throws NoBrokerMappedException
-	 */
-	private Collection<CalendarWorkingHours> reloadCalendarWorkingHours(ISession session, Object obj)
-			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
-			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-		log.debug("reloading calendar events");
-		ReloadComponent reloadComponent = new ReloadComponent(CalendarEntity.class, CalendarWorkingHours.class);
-
-		return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarWorkingHoursLoader());
-	}
-
-	private class CalendarWorkingHoursLoader implements ICollectionLoader<CalendarWorkingHoursEntity> {
-
-		@Override
-		public Collection<CalendarWorkingHoursEntity> load(Object databaseEntity) {
-			return ((CalendarEntity) databaseEntity).getCalendarWorkingHours();
 		}
 	}
 }
