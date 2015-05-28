@@ -37,6 +37,7 @@ public class LoginControllerTest {
         //TODO implement tearDown()
     }
 
+    /*
     @org.junit.Test
     public void validateEmail(){
         Assert.assertEquals(loginController.validateEmail("spitze.biene@hotmail.com"), true);
@@ -44,6 +45,7 @@ public class LoginControllerTest {
         Assert.assertEquals(loginController.validateEmail("test123@.com"), false);
         Assert.assertEquals(loginController.validateEmail("patient111@gmail.com"), true);
     }
+    */
 
     @org.junit.Test
     public void checkLoginData(){
