@@ -9,6 +9,12 @@
 
 package at.oculus.teamf.domain.entity.criteria;
 
+import at.oculus.teamf.domain.entity.CalendarEvent;
+
+import java.util.Calendar;
+import java.util.Date;
+
+
 /**
  * Created by Karo on 28.05.2015.
  */
@@ -16,7 +22,21 @@ public class WeekdayCriteria implements Criteria {
 
 
     @Override
-    public boolean isValidEvent(Criteria criteria) {
+    public boolean isValidEvent(CalendarEvent event) {
+
+        Date date = event.getEventStart();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        int weekday = cal.get(Calendar.DAY_OF_WEEK);
+
+       /* if(weekday == ){
+
+            return true;
+        }*/
+
         return false;
     }
+
+
 }
