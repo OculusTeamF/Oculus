@@ -9,8 +9,12 @@
 
 package at.oculus.teamf.application.controller;
 
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
+
+import java.util.Collection;
 
 /**
  * <h1>$EventChooserController.java</h1>
@@ -40,6 +44,69 @@ public class EventChooserController implements ILogger {
         iPatient = patient;
     }
 
-    
+    /**
+     * <h3>$deleteExistingEvent</h3>
+     * <p/>
+     * <b>Description:</b>
+     * This method deletes the existing event from a patient. If the event can not be deleted (for whatever reason),
+     * an exception is thrown or the method returns the value false. If the Event is deleted successfully, the method
+     * returns the value true.
+     * <p/>
+     */
+    public boolean deleteExistingEvent(){
+        //TODO implement deleteExistingEvent()
 
+        //check if the event can be deleted
+        //return false if not
+        //else
+
+        //delete the event
+
+        //save the updated patient object
+
+        return true;
+    }
+
+    /**
+     *<h3>$getAvailableEvents</h3>
+     *
+     * <b>Description:</b>
+     * this method gets all available information in the parameters, with which some suitable calendar-events are searched.
+     * It returns a collection of calendar-events, or an empty collection, if there are no fitting events available.
+     *
+     *<b>Parameter</b>
+     * @param
+     */
+    public void getAvailableEvents(){
+        //TODO implement getAvailableEvents()
+        //parameters!
+    }
+
+    /**
+     *<h3>$saveChosenEvent</h3>
+     *
+     * <b>Description:</b>
+     *this method saves the given Calendar-event to the specified patient into the database and returns the value true,
+     * if everything works.
+     *
+     *<b>Parameter</b>
+     * @param iCalendarEvent this is the chosen calendar-event, which should be fixed
+     */
+    public void saveChosenEvent(ICalendarEvent iCalendarEvent){
+        //TODO implement saveChosenEvent()
+
+    }
+
+    /**
+     *<h3>$checkPatientAppointments</h3>
+     *
+     * <b>Description:</b>
+     *this method checks if the specified patient already has an appointment.
+     *
+     *<b>Parameter</b>
+     * @param
+     */
+    public void checkPatientsAppointments() throws CouldNotGetCalendarEventsException {
+        //TODO implement checkPatientsAppointments()
+    }
 }

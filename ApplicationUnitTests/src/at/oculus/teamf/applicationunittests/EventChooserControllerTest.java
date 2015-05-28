@@ -12,7 +12,7 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.controller.EventChooserController;
 
 /**
- * Created by oculus on 28.05.15.
+ * Created by jpo2433 on 28.05.15.
  */
 public class EventChooserControllerTest {
 
@@ -26,6 +26,26 @@ public class EventChooserControllerTest {
     @org.junit.After
     public void tearDown() throws Exception{
         //TODO implement tearDown()
+    }
+
+    @org.junit.Test
+    public void deleteExistingEvent(){
+        //TODO implement deleteExistingEvent()
+    }
+
+    @org.junit.Test
+    public void getAvailableEvents(){
+        //TODO implement getAvailableEvents()
+    }
+
+    @org.junit.Test
+    public void saveChosenEvent(){
+        //TODO implement saveChosenEvent()
+    }
+
+    @org.junit.Test
+    public void checkPatientsAppointments(){
+        //TODO implement checkPatientsAppointments()
     }
 
 }
