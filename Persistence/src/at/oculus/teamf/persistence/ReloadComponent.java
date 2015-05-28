@@ -33,9 +33,8 @@ import java.util.Collection;
  *
  * @author Simon Angerer
  * @version 1.0
- * @date 12.04.2015
  */
-public class ReloadComponent implements ILogger{
+ class ReloadComponent implements ILogger{
 
     private Class _entityClazz;
     private Class _clazzToLoad;
@@ -54,13 +53,12 @@ public class ReloadComponent implements ILogger{
      * @param id      of the object to reload
      * @param loader  that will load the collection
      * @return collection of domain objects
-     * @throws FacadeException gets thrown if an error occures
      */
     public Collection reloadCollection(ISession session, int id, ICollectionLoader loader) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         Facade facade = Facade.getInstance();
 
         //load database entity that has the collection that needs to be reloaded
-        Object databaseEntity = null;
+        Object databaseEntity;
 
         try {
             databaseEntity = session.getByID(_entityClazz, id);
@@ -77,7 +75,7 @@ public class ReloadComponent implements ILogger{
 
 
         //get domain object broker
-        EntityBroker toLoadClassDomainBroker = null;
+        EntityBroker toLoadClassDomainBroker;
         toLoadClassDomainBroker = facade.getBroker(_clazzToLoad);
 
 

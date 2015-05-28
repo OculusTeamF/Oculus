@@ -22,7 +22,7 @@ import java.util.Date;
  */
 public class Medicine implements IMedicine, IMedicineTb2 {
 	private int _id;
-	private Diagnosis _diagnosis;
+	private IDiagnosis _diagnosis;
 	private String _name;
 	private String _dose;
     private LocalDate _startDate;
@@ -43,7 +43,6 @@ public class Medicine implements IMedicine, IMedicineTb2 {
         _diagnosis = (Diagnosis) diagnosis;
     }
     public Medicine(){
-
     }
 
 	public IDiagnosis getTeamFDiagnosis() {
@@ -52,7 +51,7 @@ public class Medicine implements IMedicine, IMedicineTb2 {
 
     @Override
     public IDiagnosisTb2 getDiagnosis() {
-        return _diagnosis;
+        return (IDiagnosisTb2) _diagnosis;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class Medicine implements IMedicine, IMedicineTb2 {
     }
 
     public void setDiagnosis(IDiagnosis diagnosis) {
-        _diagnosis = (Diagnosis) diagnosis;
+        _diagnosis = diagnosis;
     }
 
     @Override

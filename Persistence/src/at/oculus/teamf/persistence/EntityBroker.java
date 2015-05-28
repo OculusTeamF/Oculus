@@ -256,7 +256,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * Adds additional entity class mappings to the broker.
      * @param clazz that needs to map
      */
-    protected void addClassMapping(Class clazz) {
+    protected void addEntityClassMapping(Class clazz) {
         _entityClasses.add(clazz);
     }
 
@@ -264,7 +264,7 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * Adds additional domain class mappings to the broker only. Can be used to map muliple domain classes to one broker.
      * @param clazz that needs to map
      */
-    protected void addDomainClass(Class clazz) {
+    protected void addDomainClassMapping(Class clazz) {
         _domainClasses.add(clazz);
     }
 

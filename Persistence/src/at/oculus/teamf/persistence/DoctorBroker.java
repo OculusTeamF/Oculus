@@ -33,10 +33,10 @@ import java.util.LinkedList;
 /**
  * doctor broker translating domain objects to persistence entities
  */
-public class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload, ISearch {
+class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload, ISearch {
     public DoctorBroker() {
         super(Doctor.class, DoctorEntity.class);
-        addClassMapping(UserEntity.class);
+        addEntityClassMapping(UserEntity.class);
     }
 
     /**

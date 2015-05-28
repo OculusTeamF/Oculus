@@ -12,8 +12,6 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamE.domain.interfaces.*;
 import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
 import at.oculus.teamE.domain.readonly.IRUserTb2;
-import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -25,7 +23,6 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -45,11 +42,11 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 	private Date _startTime;
 	private Date _endTime;
 	private String _description;
-	private Doctor _doctor;
-	private Orthoptist _orthoptist;
-	private Diagnosis _diagnosis;
-	private Patient _patient;
-	private Collection<ExaminationResult> _results;
+	private IDoctor _doctor;
+	private IOrthoptist _orthoptist;
+	private IDiagnosis _diagnosis;
+	private IPatient _patient;
+	private Collection<IExaminationResult> _results;
 
 	public ExaminationProtocol() {}
 
@@ -62,8 +59,8 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
     }
 
-	public ExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
-	                           Orthoptist orthoptist, Diagnosis diagnosis) {
+	public ExaminationProtocol(int id, Date startTime, Date endTime, String description, IPatient patient, IDoctor doctor,
+	                           IOrthoptist orthoptist, IDiagnosis diagnosis) {
 		_id = id;
 		_startTime = startTime;
 		_endTime = endTime;
@@ -129,14 +126,14 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 		}
 
 		if (_results == null) {
-            _results = new LinkedList<ExaminationResult>();
+            _results = new LinkedList<>();
         }
-        _results.add((ExaminationResult)result);
+        _results.add(result);
     }
 
     @Override
     public List<? extends IExaminationTb2> getExaminations() {
-        return (List<? extends IExaminationTb2>) _results;
+        return new LinkedList<>((Collection<IExaminationTb2>)(Collection<?>)_results);
     }
 
     @Override
@@ -155,7 +152,7 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 	}
 
     @Override
-    public Doctor getDoctor() {
+    public IDoctor getDoctor() {
 		return _doctor;
 	}
 
@@ -165,17 +162,17 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 	}
 	@Override
 	public void setDoctor(IDoctor doctor) {
-		_doctor = (Doctor) doctor;
+		_doctor =  doctor;
 	}
 
 	@Override
-    public Orthoptist getOrthoptist() {
+    public IOrthoptist getOrthoptist() {
 		return _orthoptist;
 	}
 
 	@Override
 	public void setOrthoptist(IOrthoptist orthoptist) {
-		_orthoptist = (Orthoptist) orthoptist;
+		_orthoptist = orthoptist;
 	}
 
     @Override
@@ -186,16 +183,16 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
     @Override
     public IRUserTb2 getCreator() {
         if(_orthoptist != null){
-            return _orthoptist;
+            return (IRUserTb2) _orthoptist;
         }else if(_doctor != null){
-            return _doctor;
+            return (IRUserTb2) _doctor;
         }
        return null;
     }
 
     @Override
     public IRDiagnosisTb2 getDiagnosis() {
-        return _diagnosis;
+        return (IRDiagnosisTb2) _diagnosis;
     }
 
     @Override
@@ -222,17 +219,17 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
     @Override
     public void setDiagnosis(IDiagnosis diagnosis) {
-		_diagnosis = (Diagnosis) diagnosis;
+		_diagnosis = diagnosis;
 	}
 
 	@Override
-    public Patient getPatient() {
+    public IPatient getPatient() {
 		return _patient;
 	}
 
 	@Override
 	public void setPatient(IPatient patient) {
-		_patient = (Patient) patient;
+		_patient = patient;
 	}
 
 	public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
@@ -247,11 +244,7 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 			}
 		}
 
-		return (Collection<IExaminationResult>)(Collection<?>) _results;
-	}
-
-	public void setResults(Collection<ExaminationResult> results) {
-		_results = results;
+		return  _results;
 	}
 
 	@Override
@@ -299,5 +292,9 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 		result = 31 * result + (_diagnosis != null ? _diagnosis.hashCode() : 0);
 		result = 31 * result + (_patient != null ? _patient.hashCode() : 0);
 		return result;
+	}
+
+	public void setResults(Collection<ExaminationResult> examinationResults) {
+		_results = (Collection<IExaminationResult>) (Collection<?>) examinationResults;
 	}
 }

@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.criteria.Criteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -28,109 +29,79 @@ import java.util.Date;
  */
 public class Calendar implements ICalendar {
 
-	//<editor-fold desc="Attributes">
-	private int _id;
-	private Collection<CalendarEvent> _events;
-	private Collection<CalendarWorkingHours> _workinghours;
+    //<editor-fold desc="Attributes">
+    private int _id;
+    private Collection<CalendarEvent> _events;
 
-	//excluded because of circular dependencies
-	//private User _user;
-	//</editor-fold>
+    //excluded because of circular dependencies
+    //private User _user;
+    //</editor-fold>
 
-	public Calendar() {
-	}
+	public Calendar() {	}
 
 	//<editor-fold desc="Getter/Setter">
-	public int getId() {
-		return _id;
-	}
+    public int getId() {
+        return _id;
+    }
 
-	public void setId(int calendarID) {
-		_id = calendarID;
-	}
+    public void setId(int calendarID) {
+        _id = calendarID;
+    }
 
-	public Collection<CalendarEvent> getEvents()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
-		if(_events==null) {
-			Facade facade = Facade.getInstance();
-			facade.reloadCollection(this, CalendarEvent.class);
-		}
+    public Collection<CalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        Facade facade = Facade.getInstance();
 
-		return _events;
-	}
+        facade.reloadCollection(this, CalendarEvent.class);
 
-	public void setEvents(Collection<CalendarEvent> events) {
-		_events = events;
-	}
+        return _events;
+    }
 
-	public Collection<CalendarWorkingHours> getWorkingHours()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
-		if(_workinghours==null) {
-			Facade facade = Facade.getInstance();
-			facade.reloadCollection(this, CalendarWorkingHours.class);
-		}
+    public void setEvents(Collection<CalendarEvent> events) {
+        _events =events;
+    }
 
-		return _workinghours;
-	}
+    //</editor-fold>
 
-	public void setWorkingHours(Collection<CalendarWorkingHours> workinghours) {
-		_workinghours = workinghours;
-	}
+    public boolean isAvailableEvent(Date from, Date to){
+        // alle vorhandenen Termine ueberpruefen
+        for(ICalendarEvent calendarEvent : _events){
+            // wenn Startzeitpunnkt innerhalb eines Termins
+            if(calendarEvent.getEventStart().before(from) && calendarEvent.getEventEnd().after(from)){
+                return false;
+            }
+            // wenn Endzeitpunkt innerhalb eines Termins
+            if(calendarEvent.getEventStart().before(to) && calendarEvent.getEventEnd().after(to)){
+                return false;
+            }
+            // wenn genau der selbe Termin
+            if(calendarEvent.getEventStart().equals(from) && calendarEvent.getEventEnd().equals(to)){
+                return false;
+            }
+        }
+        return true;
+    }
 
-	//</editor-fold>
+    public Iterator<CalendarEvent> getAvailableEvents(Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
 
-	public boolean isAvailableEvent(Date from, Date to) {
-		// alle vorhandenen Termine ueberpruefen
-		for (CalendarEvent calendarEvent : _events) {
-			// wenn Startzeitpunnkt innerhalb eines Termins
-			if (calendarEvent.getEventStart().before(from) && calendarEvent.getEventEnd().after(from)) {
-				return false;
-			}
-			// wenn Endzeitpunkt innerhalb eines Termins
-			if (calendarEvent.getEventStart().before(to) && calendarEvent.getEventEnd().after(to)) {
-				return false;
-			}
-			// wenn genau der selbe Termin
-			if (calendarEvent.getEventStart().equals(from) && calendarEvent.getEventEnd().equals(to)) {
-				return false;
-			}
-		}
-		return true;
-	}
+        return iterator;
+    }
 
-	public boolean isInWorkingTime(CalendarEvent calendarEvent) {
+    public class CalendarEventIterator implements Iterator<CalendarEvent>{
+        private Collection<CalendarEvent> _calendarEvents;
 
+        public CalendarEventIterator(Calendar calendar, Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+            _calendarEvents = calendar.getEvents();
+        }
 
-		return true;
-	}
+        @Override
+        public boolean hasNext() {
+            return _calendarEvents.isEmpty();
+        }
 
-	public Iterator<CalendarEvent> getAvailableEvents(Collection<Criteria> criterias)
-			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
-		Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
-
-		return iterator;
-	}
-
-	public class CalendarEventIterator implements Iterator<CalendarEvent> {
-		private Collection<CalendarEvent> _calendarEvents;
-
-		public CalendarEventIterator(Calendar calendar, Collection<Criteria> criterias)
-				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-				       NoBrokerMappedException, DatabaseOperationException {
-			_calendarEvents = calendar.getEvents();
-		}
-
-		@Override
-		public boolean hasNext() {
-			return _calendarEvents.isEmpty();
-		}
-
-		@Override
-		public CalendarEvent next() {
-			return ((LinkedList<CalendarEvent>) _calendarEvents).removeFirst();
-		}
-	}
+        @Override
+        public CalendarEvent next() {
+            return ((LinkedList<CalendarEvent>) _calendarEvents).removeFirst();
+        }
+    }
 }
