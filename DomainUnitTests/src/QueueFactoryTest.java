@@ -7,13 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.entity.QueueEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;

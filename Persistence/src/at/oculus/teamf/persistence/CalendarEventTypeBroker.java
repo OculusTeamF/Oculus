@@ -18,15 +18,15 @@ import at.oculus.teamf.persistence.entity.EventtypeEntity;
 /**
  * calendar event typ broker translating domain objects to persistence entities
  */
-public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEntity> {
+class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEntity> {
 
 	public CalendarEventTypeBroker() {
 		super(EventType.class, EventtypeEntity.class);
 
 		// add domain subclasses to broker
-		addDomainClass(FirstAppointment.class);
-		addDomainClass(OrthoptistAppointment.class);
-		addDomainClass(RegularAppointment.class);
+		addDomainClassMapping(FirstAppointment.class);
+		addDomainClassMapping(OrthoptistAppointment.class);
+		addDomainClassMapping(RegularAppointment.class);
 	}
 
     /**
@@ -38,7 +38,7 @@ public class CalendarEventTypeBroker extends EntityBroker<EventType, EventtypeEn
     @Override
 	protected EventType persistentToDomain(EventtypeEntity entity) {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
-        EventType eventType = null;
+        EventType eventType;
 
 		switch (entity.getEventTypeName()) {
 			case ("Ersttermin"):

@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.criteria.Criteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -63,7 +64,7 @@ public class Calendar implements ICalendar {
 
     public boolean isAvailableEvent(Date from, Date to){
         // alle vorhandenen Termine ueberpruefen
-        for(CalendarEvent calendarEvent : _events){
+        for(ICalendarEvent calendarEvent : _events){
             // wenn Startzeitpunnkt innerhalb eines Termins
             if(calendarEvent.getEventStart().before(from) && calendarEvent.getEventEnd().after(from)){
                 return false;

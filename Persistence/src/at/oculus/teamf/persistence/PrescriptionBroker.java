@@ -17,6 +17,7 @@ import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.entity.PrescriptionEntity;
@@ -34,10 +35,10 @@ import java.util.Collection;
 /**
  * PrescriptionBroker.java Created by oculus on 08.05.15.
  */
-public class PrescriptionBroker extends EntityBroker implements ICollectionReload {
+class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 	public PrescriptionBroker() {
 		super(Prescription.class, PrescriptionEntity.class);
-		addDomainClass(IPrescription.class);
+		addDomainClassMapping(IPrescription.class);
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class PrescriptionBroker extends EntityBroker implements ICollectionReloa
 			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
 			       InvalidSearchParameterException {
         if (clazz == PrescriptionEntry.class) {
-            ((Prescription) obj).setPrescriptionEntries(reloadPrescriptionEntries(session, obj));
+            ((Prescription) obj).setPrescriptionEntries((Collection<IPrescriptionEntry>)(Collection<?>)reloadPrescriptionEntries(session, obj));
         } else {
 			throw new InvalidReloadClassException();
 		}

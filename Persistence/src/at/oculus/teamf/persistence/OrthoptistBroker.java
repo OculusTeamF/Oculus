@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Orthoptist;
+import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -29,11 +30,12 @@ import java.util.LinkedList;
 /**
  * orthoptist broker translating domain objects to persistence entities
  */
-public class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implements ISearch{
+class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implements ISearch {
 
 	public OrthoptistBroker() {
 		super(Orthoptist.class, OrthoptistEntity.class);
-		addClassMapping(UserEntity.class);
+		addEntityClassMapping(UserEntity.class);
+		addEntityClassMapping(IOrthoptist.class);
 	}
 
     /**

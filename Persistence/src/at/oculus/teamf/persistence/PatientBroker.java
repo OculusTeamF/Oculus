@@ -15,6 +15,7 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -32,10 +33,11 @@ import java.util.LinkedList;
 /**
  * patient broker translating domain objects to persistence entities
  */
-public class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload, ISearch<Patient>, ILogger {
+class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload, ISearch<Patient>, ILogger {
 
     public PatientBroker() {
         super(Patient.class, PatientEntity.class);
+		addDomainClassMapping(IPatient.class);
     }
 
 	/**

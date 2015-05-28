@@ -39,16 +39,14 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
 	private String _device;
 	private byte[] _deviceData;
 
-	public ExaminationResult() {
-	}
     public ExaminationResult(IUserTb2 iUserTb2, IExaminationProtocolTb2 iExaminationProtocolTb2){
         _user = (User) iUserTb2;
         _examinationProtocol = (ExaminationProtocol) iExaminationProtocolTb2;
         _createDate = new Timestamp(new Date().getTime());
     }
 
-	public ExaminationResult(int id, ExaminationProtocol examinationProtocol,
-	                         User user, String result, Date createDate, String device,
+	public ExaminationResult(int id, IExaminationProtocol examinationProtocol,
+	                         IUser user, String result, Date createDate, String device,
 	                         byte[] deviceData) {
 		_id = id;
 		if(examinationProtocol!=null){
@@ -79,15 +77,6 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
 	@Override
     public void setExaminationProtocol(IExaminationProtocol examinationProtocolEntity) {
 		_examinationProtocol = examinationProtocolEntity;
-	}
-
-
-    public Integer getExaminationProtocolId() {
-		return _examinationProtocolId;
-	}
-
-    public void setExaminationProtocolId(Integer examinationProtocolId) {
-		_examinationProtocolId = examinationProtocolId;
 	}
 
 	@Override

@@ -9,14 +9,14 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IWorkingHours;
 
 import java.time.LocalTime;
 
 /**
  * WorkingHours.java Created by oculus on 27.05.15.
  */
-public class WorkingHours implements IDomain {
+public class WorkingHours implements IWorkingHours {
 	private int _id;
 	private LocalTime _morningFrom;
 	private LocalTime _morningTo;
@@ -33,34 +33,42 @@ public class WorkingHours implements IDomain {
 		_id = id;
 	}
 
+	@Override
 	public LocalTime getMorningFrom() {
 		return _morningFrom;
 	}
 
+	@Override
 	public void setMorningFrom(LocalTime morningFrom) {
 		_morningFrom = morningFrom;
 	}
 
+	@Override
 	public LocalTime getMorningTo() {
 		return _morningTo;
 	}
 
+	@Override
 	public void setMorningTo(LocalTime morningTo) {
 		_morningTo = morningTo;
 	}
 
+	@Override
 	public LocalTime getAfternoonFrom() {
 		return _afternoonFrom;
 	}
 
+	@Override
 	public void setAfternoonFrom(LocalTime afternoonFrom) {
 		_afternoonFrom = afternoonFrom;
 	}
 
+	@Override
 	public LocalTime getAfternoonTo() {
 		return _afternoonTo;
 	}
 
+	@Override
 	public void setAfternoonTo(LocalTime afternoonTo) {
 		_afternoonTo = afternoonTo;
 	}
