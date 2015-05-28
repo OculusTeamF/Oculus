@@ -17,13 +17,14 @@ import java.sql.Time;
  */
 @Entity
 @Table(name = "workinghours", schema = "", catalog = "oculus_f")
-public class WorkinghoursEntity implements IEntity {
+public class WorkingHoursEntity implements IEntity {
     private int _id;
     private Time _morningFrom;
     private Time _morningTo;
     private Time _afternoonFrom;
     private Time _afternoonTo;
-    //private Collection<CalendarworkinghoursEntity> _calendarworkinghoursesByWorkingHoursId;
+
+	public WorkingHoursEntity(){}
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -81,7 +82,7 @@ public class WorkinghoursEntity implements IEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WorkinghoursEntity that = (WorkinghoursEntity) o;
+        WorkingHoursEntity that = (WorkingHoursEntity) o;
 
         if (_id != that._id) return false;
         if (_morningFrom != null ? !_morningFrom.equals(that._morningFrom) : that._morningFrom != null) return false;
@@ -102,14 +103,4 @@ public class WorkinghoursEntity implements IEntity {
         result = 31 * result + (_afternoonTo != null ? _afternoonTo.hashCode() : 0);
         return result;
     }
-
-    /*
-    @OneToMany(mappedBy = "_workinghours")
-    public Collection<CalendarworkinghoursEntity> getCalendarworkinghoursesByWorkingHoursId() {
-        return _calendarworkinghoursesByWorkingHoursId;
-    }
-
-    public void setCalendarworkinghoursesByWorkingHoursId(Collection<CalendarworkinghoursEntity> calendarworkinghoursesByWorkingHoursId) {
-        this._calendarworkinghoursesByWorkingHoursId = calendarworkinghoursesByWorkingHoursId;
-    }*/
 }
