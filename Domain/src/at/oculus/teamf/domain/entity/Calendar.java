@@ -80,7 +80,7 @@ public class Calendar implements ICalendar {
         return true;
     }
 
-    public Iterator<CalendarEvent> getAvailableEvents(Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+    public Iterator<CalendarEvent> getAvailableEvents(Collection<Criteria> criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
 
         return iterator;
@@ -89,7 +89,7 @@ public class Calendar implements ICalendar {
     public class CalendarEventIterator implements Iterator<CalendarEvent>{
         private Collection<CalendarEvent> _calendarEvents;
 
-        public CalendarEventIterator(Calendar calendar, Criteria... criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        public CalendarEventIterator(Calendar calendar, Collection<Criteria> criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
             _calendarEvents = calendar.getEvents();
         }
 
