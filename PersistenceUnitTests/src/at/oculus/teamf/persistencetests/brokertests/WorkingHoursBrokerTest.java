@@ -16,8 +16,6 @@ import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
@@ -52,6 +50,7 @@ public class WorkingHoursBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 		assertTrue(workingHours.size() > 0);
+
 		/*for(WorkingHours w : workingHours){
 			System.out.println(w);
 		}*/
