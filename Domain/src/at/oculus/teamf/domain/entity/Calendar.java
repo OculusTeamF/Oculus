@@ -115,49 +115,11 @@ public class Calendar implements ICalendar {
 	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		WeekDayKey weekDayKey = WeekDayKey.getWeekDayKey(calendarEvent.getEventStart());
-
-		// event start date to localtime
-		Instant instant = Instant.ofEpochSecond(calendarEvent.getEventStart().getTime());
-		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-		LocalTime eventStart = localDateTime.toLocalTime();
-
-		// event end date to localtime
-		instant = Instant.ofEpochSecond(calendarEvent.getEventEnd().getTime());
-		localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-		LocalTime eventEnd = localDateTime.toLocalTime();
-
 		for (CalendarWorkingHours c : getWorkingHours()) {
-			// wenn wochentag stimmt
-			if (c.getWeekday() == weekDayKey) {
-				// und morgen oeffnungszeiten vorhanden
-				if (c.getWorkinghours().getMorningFrom() != null) {
-					// start nach oeffnung
-					if (c.getWorkinghours().getMorningFrom().isAfter(eventStart)) {
-						if (c.getWorkinghours().getMorningTo() != null) {
-							// ende vor schliessung
-							if (c.getWorkinghours().getMorningTo().isBefore(eventEnd)) {
-								return true;
-							}
-						}
-					}
-				}
-
-				// wenn nachmittagszeiten vorhanden
-				if (c.getWorkinghours().getAfternoonFrom() != null) {
-					// start nach oeffnung
-					if (c.getWorkinghours().getAfternoonFrom().isAfter(eventStart)) {
-						if (c.getWorkinghours().getAfternoonTo() != null) {
-							// ende vor schliessung
-							if (c.getWorkinghours().getAfternoonTo().isBefore(eventEnd)) {
-								return true;
-							}
-						}
-					}
-				}
-			}
+			if(c.contains(calendarEvent)){
+                return true;
+            }
 		}
-
 		return false;
 	}
 
@@ -185,6 +147,8 @@ public class Calendar implements ICalendar {
 			calendarRound.setTime(new Date());
 			calendarRound.add(java.util.Calendar.HOUR, 1);
 			calendarRound.set(java.util.Calendar.MINUTE, 0);
+            calendarRound.set(java.util.Calendar.SECOND, 0);
+            calendarRound.set(java.util.Calendar.MILLISECOND, 0);
 			Date nextHour = calendarRound.getTime();
 
 			// set attributes

@@ -10,21 +10,26 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
 import at.oculus.teamf.domain.entity.interfaces.IWorkingHours;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+
 /**
- * CalendarWorkingHours.java
- * Created by oculus on 27.05.15.
+ * CalendarWorkingHours.java Created by oculus on 27.05.15.
  */
 public class CalendarWorkingHours implements ICalendarWorkingHours {
-    private int _id;
-    private int _workingHoursId;
-    private int _calendarId;
-    private IWorkingHours _workinghours;
-    private ICalendar _calendar;
-    private WeekDayKey _weekday;
+	private int _id;
+	private int _workingHoursId;
+	private int _calendarId;
+	private IWorkingHours _workinghours;
+	private ICalendar _calendar;
+	private WeekDayKey _weekday;
 
 	@Override
 	public int getId() {
@@ -123,7 +128,58 @@ public class CalendarWorkingHours implements ICalendarWorkingHours {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return _weekday + ", " + _workinghours;
+	}
+
+	public boolean contains(ICalendarEvent calendarEvent) {
+		WeekDayKey weekDayKey = WeekDayKey.getWeekDayKey(calendarEvent.getEventStart());
+
+		// event start date to localtime
+		Instant instant = Instant.ofEpochMilli(calendarEvent.getEventStart().getTime());
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		LocalTime eventStart = localDateTime.toLocalTime();
+
+		// event end date to localtime
+		instant = Instant.ofEpochMilli(calendarEvent.getEventEnd().getTime());
+		localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		LocalTime eventEnd = localDateTime.toLocalTime();
+
+		// wenn wochentag stimmt
+		if (getWeekday() == weekDayKey) {
+			// und morgen oeffnungszeiten vorhanden
+			if (getWorkinghours().getMorningFrom() != null) {
+				// start nach oeffnung
+				if ((getWorkinghours().getMorningFrom().isBefore(eventStart) &&
+				     getWorkinghours().getMorningFrom().isBefore(eventEnd)) ||
+				    getWorkinghours().getMorningFrom().equals(eventStart)) {
+					if (getWorkinghours().getMorningTo() != null) {
+						// ende vor schliessung
+						if (getWorkinghours().getMorningTo().isAfter(eventEnd) ||
+						    getWorkinghours().getMorningTo().equals(eventEnd)) {
+							return true;
+						}
+					}
+				}
+			}
+
+			// wenn nachmittagszeiten vorhanden
+			if (getWorkinghours().getAfternoonFrom() != null) {
+				// start nach oeffnung
+				if ((getWorkinghours().getAfternoonFrom().isBefore(eventStart) &&
+				     getWorkinghours().getAfternoonFrom().isBefore(eventEnd)) ||
+				    getWorkinghours().getAfternoonFrom().equals(eventStart)) {
+					if (getWorkinghours().getAfternoonTo() != null) {
+						// ende vor schliessung
+						if (getWorkinghours().getAfternoonTo().isAfter(eventEnd) ||
+						    getWorkinghours().getAfternoonTo().equals(eventEnd)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }
