@@ -10,8 +10,12 @@
 package at.oculus.teamf.domain.entity.criteria;
 
 /**
- * IFilter.java
- * Created by oculus on 27.05.15.
+ * Created by Karo on 28.05.2015.
  */
-public interface IFilter {
+public class DaytimePeriodCriteria implements Criteria {
+
+    @Override
+    public boolean isValidEvent(Criteria criteria) {
+        return false;
+    }
 }
