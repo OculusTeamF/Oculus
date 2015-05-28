@@ -81,6 +81,7 @@ public class Calendar implements ICalendar {
     }
 
     public Iterator<CalendarEvent> getAvailableEvents(Collection<Criteria> criterias) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+
         Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
 
         return iterator;
