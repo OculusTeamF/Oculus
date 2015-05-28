@@ -140,10 +140,10 @@ public class CalendarBrokerTest extends BrokerTest{
             assertTrue(false);
             e.printStackTrace();
         }
-        iterator.hasNext();
+        /*iterator.hasNext();
         for(int i = 0; i<10; i++) {
             System.out.println("next available event: " + iterator.next());
-        }
+        }*/
     }
 
 }

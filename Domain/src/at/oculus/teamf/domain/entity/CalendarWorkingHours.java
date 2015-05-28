@@ -163,7 +163,7 @@ public class CalendarWorkingHours implements ICalendarWorkingHours {
 				}
 			}
 
-			// wenn nachmittagszeiten vorhanden
+			// oder nachmittagszeiten vorhanden
 			if (getWorkinghours().getAfternoonFrom() != null) {
 				// start nach oeffnung
 				if ((getWorkinghours().getAfternoonFrom().isBefore(eventStart) &&
