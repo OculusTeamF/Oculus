@@ -28,13 +28,7 @@ public class LoginControllerTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        //TODO implement setUp()
         loginController = new LoginController();
-    }
-
-    @org.junit.After
-    public void tearDown() throws Exception {
-        //TODO implement tearDown()
     }
 
     /*
@@ -49,7 +43,6 @@ public class LoginControllerTest {
 
     @org.junit.Test
     public void checkLoginData(){
-        //TODO implement test method checkLoginData()
 
         IPatient result = null;
         IPatient patient = null;
