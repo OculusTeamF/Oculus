@@ -32,6 +32,8 @@
       <element id="library" level="project" name="Presentation" />
       <element id="file-copy" path="$PROJECT_DIR$/Ressource/config.properties" />
       <element id="library" level="project" name="oculus-tb2-0.1-SNAPSHOT" />
+      <element id="javaee-facet-resources" facet="PresentationWeb/web/Web" />
+      <element id="module-output" name="PresentationWeb" />
     </root>
   </artifact>
 </component>

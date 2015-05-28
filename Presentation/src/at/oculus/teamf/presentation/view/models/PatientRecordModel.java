@@ -116,6 +116,7 @@ public class PatientRecordModel {
 
         Group root = new Group();
         Scene scene = new Scene(root, 400, 300, Color.WHITE);
+        scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
 
         GridPane pane = new GridPane();
         for(int i = 0; i < 3; i++){
@@ -178,7 +179,6 @@ public class PatientRecordModel {
             @Override
             public void handle(ActionEvent event) {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
-
                 //TODO: _prescriptionController.deletePrescription();
             }
         });
