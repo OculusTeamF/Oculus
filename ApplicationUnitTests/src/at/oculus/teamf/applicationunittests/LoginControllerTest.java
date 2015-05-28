@@ -70,5 +70,28 @@ public class LoginControllerTest {
         }
 
         Assert.assertEquals(patient, result);
+        result = null;
+
+        try {
+            result = loginController.checkLoginData("donald.duck@quack.eh", "lemein");
+        } catch (EmailNotFoundException e) {
+            e.printStackTrace();
+        } catch (PasswordIncorrectException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(null, result);
+
+        result = null;
+
+        try {
+            result = loginController.checkLoginData("donald.duckquack.eh", "letmein");
+        } catch (EmailNotFoundException e) {
+            e.printStackTrace();
+        } catch (PasswordIncorrectException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(null, result);
     }
 }
