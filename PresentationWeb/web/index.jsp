@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>TEEEST</title>
+    <title>OCULUS WEB INDEX</title>
   </head>
   <body>
-
+        Hallo!
   </body>
 </html>

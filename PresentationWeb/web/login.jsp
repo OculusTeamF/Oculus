@@ -17,10 +17,10 @@
 	<div class="container">
 		<h1>Welcome to Oculus</h1>
 		
-		<form class="form">
+		<form class="form" method="POST" action="RedirectServlet?dispatchto=login">
 			<input type="text" placeholder="Email">
 			<input type="password" placeholder="Password">
-			<button type="submit" id="login-button">Login</button>
+			<button type="submit">Login</button>
 		</form>
 	</div>
 	

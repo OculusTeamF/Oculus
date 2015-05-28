@@ -9,8 +9,12 @@
 
 package beans;
 
+import javax.annotation.ManagedBean;
+
 /**
  * Created by FabianLaptop on 28.05.2015.
  */
+
+//@ManagedBean(name = "loginController")
 public class LoginBean {
 }
