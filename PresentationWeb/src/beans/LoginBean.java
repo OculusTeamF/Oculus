@@ -7,17 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.criteria;
+package beans;
 
-import at.oculus.teamf.domain.entity.CalendarEvent;
+import javax.annotation.ManagedBean;
 
 /**
- * Created by Karo on 28.05.2015.
+ * Created by FabianLaptop on 28.05.2015.
  */
-public class DatePeriodCriteria implements Criteria {
 
-    @Override
-    public boolean isValidEvent(CalendarEvent event) {
-        return false;
-    }
+//@ManagedBean(name = "loginController")
+public class LoginBean {
 }

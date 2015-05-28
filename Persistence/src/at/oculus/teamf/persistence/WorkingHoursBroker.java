@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.interfaces.IWorkingHours;
 import at.oculus.teamf.domain.entity.WorkingHours;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.IEntity;
@@ -25,9 +26,10 @@ import java.sql.Time;
 /**
  * WorkingHoursBroker.java Created by oculus on 27.05.15.
  */
-public class WorkingHoursBroker extends EntityBroker {
+class WorkingHoursBroker extends EntityBroker {
 	public WorkingHoursBroker() {
 		super(WorkingHours.class, WorkingHoursEntity.class);
+		addDomainClassMapping(IWorkingHours.class);
 	}
 
 	@Override

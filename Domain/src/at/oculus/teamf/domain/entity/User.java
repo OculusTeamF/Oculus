@@ -33,7 +33,6 @@ public abstract class User implements IUser, IDomain, IUserTb2 {
 	private String _email;
 	private Date _createDate;
 	private Date _idleDate;
-	private UsergroupEntity _usergroup;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -169,9 +168,6 @@ public abstract class User implements IUser, IDomain, IUserTb2 {
 			return false;
 		if (_userName != null ? !_userName.equals(user._userName) : user._userName != null)
 			return false;
-		if (_usergroup != null ? !_usergroup.equals(user._usergroup) : user._usergroup != null)
-			return false;
-
 		return true;
 	}
 
@@ -187,7 +183,6 @@ public abstract class User implements IUser, IDomain, IUserTb2 {
 		result = 31 * result + (_email != null ? _email.hashCode() : 0);
 		result = 31 * result + (_createDate != null ? _createDate.hashCode() : 0);
 		result = 31 * result + (_idleDate != null ? _idleDate.hashCode() : 0);
-		result = 31 * result + (_usergroup != null ? _usergroup.hashCode() : 0);
 		return result;
 	}
 }

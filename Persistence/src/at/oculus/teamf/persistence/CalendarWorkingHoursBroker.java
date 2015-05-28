@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
 import at.oculus.teamf.domain.entity.WorkingHours;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity;
@@ -25,16 +26,17 @@ import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplemente
 /**
  * CalendarWorkingHoursBroker.java Created by oculus on 27.05.15.
  */
-public class CalendarWorkingHoursBroker extends EntityBroker {
+class CalendarWorkingHoursBroker extends EntityBroker {
 	public CalendarWorkingHoursBroker() {
 		super(CalendarWorkingHours.class, CalendarWorkingHoursEntity.class);
+		addDomainClassMapping(ICalendarWorkingHours.class);
 	}
 
 	@Override
 	protected IDomain persistentToDomain(IEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-		CalendarWorkingHours calendarWorkingHours = new CalendarWorkingHours();
+		ICalendarWorkingHours calendarWorkingHours = new CalendarWorkingHours();
 		CalendarWorkingHoursEntity calendarWorkingHoursEntity = (CalendarWorkingHoursEntity) entity;
 
 		calendarWorkingHours.setId(calendarWorkingHoursEntity.getId());

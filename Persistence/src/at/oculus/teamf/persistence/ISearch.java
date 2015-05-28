@@ -24,5 +24,5 @@ import java.util.Collection;
  * ISearch.java Created by oculus on 17.04.15.
  */
 interface ISearch<T> {
-	public Collection<T> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, ClassNotMappedException, DatabaseOperationException, SearchInterfaceNotImplementedException;
+	Collection<T> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, ClassNotMappedException, DatabaseOperationException, SearchInterfaceNotImplementedException;
 }

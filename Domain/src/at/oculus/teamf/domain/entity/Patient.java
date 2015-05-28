@@ -31,7 +31,6 @@ import java.util.List;
 
 /**
  * @author Simon Angerer
- * @date 03.4.2015
  */
 public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 
@@ -42,7 +41,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     private Gender _gender;
     private String _socialInsuranceNr;
     private IDoctor _doctor;
-    private Collection<CalendarEvent> _calendarEvents;
+    private Collection<ICalendarEvent> _calendarEvents;
     private Date _birthDay;
     private String _street;
     private String _postalCode;
@@ -95,9 +94,9 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		if (_examinationProtocol == null) {
-			_examinationProtocol = new LinkedList<IExaminationProtocol>();
+			_examinationProtocol = new LinkedList<>();
 		}
-		_examinationProtocol.add((ExaminationProtocol) examinationProtocol);
+		_examinationProtocol.add(examinationProtocol);
 		try {
 			Facade.getInstance().save(examinationProtocol);
 		} catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
@@ -225,6 +224,8 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
         }
     }
 
+
+    @SuppressWarnings("unchecked")
 	public Collection<ICalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
 
         try {
@@ -238,7 +239,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     }
 
     public void setCalendarEvents(Collection<ICalendarEvent> calendarEvents) {
-        _calendarEvents = (Collection<CalendarEvent>) (Collection<?>) calendarEvents;
+        _calendarEvents = (Collection<ICalendarEvent>) (Collection<?>) calendarEvents;
     }
 
     @Override

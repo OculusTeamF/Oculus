@@ -11,7 +11,6 @@ package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.WorkingHours;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.entity.WeekDayKey;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;

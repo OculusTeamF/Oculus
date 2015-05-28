@@ -10,7 +10,6 @@
 package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
-import at.oculus.teamE.domain.interfaces.IUserTb2;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
@@ -28,7 +27,6 @@ import at.oculus.teamf.technical.loggin.ILogger;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * @author Simon Angerer
@@ -36,17 +34,17 @@ import java.util.function.Supplier;
 public class Doctor extends User implements IDoctor, ILogger{
     //<editor-fold desc="Attributes">
     private int _id;
-    private Calendar _calendar;
-    private PatientQueue _queue;
-    private Collection<Patient> _patients;
-    private Doctor _doctorSubstitude;
+    private ICalendar _calendar;
+    private IPatientQueue _queue;
+    private Collection<IPatient> _patients;
+    private IDoctor _doctorSubstitude;
     //</editor-fold>
 
     public Doctor() {
     }
 
-    public Doctor(int id, Calendar calendar, PatientQueue queue, Collection<Patient> patients,
-                  Doctor doctorSubstitude) {
+    public Doctor(int id, ICalendar calendar, IPatientQueue queue, Collection<IPatient> patients,
+                  IDoctor doctorSubstitude) {
         _id = id;
         _calendar = calendar;
 		_queue = queue;
@@ -117,7 +115,7 @@ public class Doctor extends User implements IDoctor, ILogger{
 
 	@Override
     public void setPatients(Collection<IPatient> patients) {
-		_patients = (Collection<Patient>)(Collection<?>)patients;
+		_patients = (Collection<IPatient>)(Collection<?>)patients;
 	}
 
     @Override

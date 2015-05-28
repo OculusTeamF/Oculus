@@ -37,7 +37,7 @@ import java.util.LinkedList;
  * @author Simon Angerer
  * @version 0.1
  */
-public class Facade implements ILogger, IFacade{
+public class Facade implements ILogger, IFacade {
     private static Facade _self;
     private HashMap<Class, EntityBroker> _entityBrokers;
     private ISessionBroker _sessionBroker;

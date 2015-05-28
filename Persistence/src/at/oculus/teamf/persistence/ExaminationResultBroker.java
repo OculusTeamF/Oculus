@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -22,16 +23,16 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
 /**
  * ExaminationResultBroker.java Created by oculus on 30.04.15.
  */
-public class ExaminationResultBroker extends EntityBroker implements ISearch {
+class ExaminationResultBroker extends EntityBroker implements ISearch {
 	public ExaminationResultBroker() {
 		super(ExaminationResult.class, ExaminationResultEntity.class);
+		addDomainClassMapping(IExaminationResult.class);
 	}
 
 	@Override

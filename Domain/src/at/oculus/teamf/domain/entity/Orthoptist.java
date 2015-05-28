@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * domain orthoptist class
  */
-public class Orthoptist extends User implements IDomain, IOrthoptist {
+public class Orthoptist extends User implements IOrthoptist {
 	//<editor-fold desc="Attributes">
 	private int _id;
     private ICalendar _calendar;

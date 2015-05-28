@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.domain.entity.Receptionist;
+import at.oculus.teamf.domain.entity.interfaces.IReceptionist;
 import at.oculus.teamf.persistence.entity.ReceptionistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 
@@ -18,10 +19,11 @@ import java.sql.Timestamp;
 /**
  * patient broker translating domain objects to persistence entities
  */
-public class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity> {
+class ReceptionistBroker extends EntityBroker<Receptionist, ReceptionistEntity> {
 	public ReceptionistBroker() {
 		super(Receptionist.class, ReceptionistEntity.class);
-		addClassMapping(UserEntity.class);
+		addEntityClassMapping(UserEntity.class);
+		addEntityClassMapping(IReceptionist.class);
 	}
 
     /**
