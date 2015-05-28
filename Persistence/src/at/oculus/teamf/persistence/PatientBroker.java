@@ -15,6 +15,7 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -36,6 +37,7 @@ public class PatientBroker extends EntityBroker<Patient, PatientEntity> implemen
 
     public PatientBroker() {
         super(Patient.class, PatientEntity.class);
+	    addDomainClass(IPatient.class);
     }
 
 	/**
