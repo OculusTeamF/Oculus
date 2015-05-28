@@ -19,6 +19,7 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalTime;
 import java.util.Collection;
@@ -145,31 +146,98 @@ public class Calendar implements ICalendar {
         return false;
     }
 
-    public Iterator<CalendarEvent> getAvailableEvents(Collection<Criteria> criterias)
+    public Iterator<CalendarEvent> availableEventsIterator(Collection<Criteria> criterias, int duration)
             throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
             NoBrokerMappedException, DatabaseOperationException {
-        Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias);
+        Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias, duration);
 
         return iterator;
     }
 
-    public class CalendarEventIterator implements Iterator<CalendarEvent> {
-        private Collection<CalendarEvent> _calendarEvents;
+    public class CalendarEventIterator implements Iterator<CalendarEvent>, ILogger {
+        private Calendar _calendar;
+        private int _duration;
+        private Collection<Criteria> _criterias;
+        private CalendarEvent _lastEvent;
+        private CalendarEvent _nextEvent;
 
-        public CalendarEventIterator(Calendar calendar, Collection<Criteria> criterias)
+        public CalendarEventIterator(Calendar calendar, Collection<Criteria> criterias, int duration)
                 throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
                 NoBrokerMappedException, DatabaseOperationException {
-            _calendarEvents = calendar.getEvents();
+            _calendar = calendar;
+            _duration = duration;
+            _lastEvent = new CalendarEvent();
+            _lastEvent.setEventEnd(new Date());
+            _lastEvent.setEventStart(new Date());
+            _criterias = criterias;
         }
 
         @Override
         public boolean hasNext() {
-            return _calendarEvents.isEmpty();
+            if(_nextEvent!=null) {
+                return true;
+            } else {
+                return setNextEvent();
+            }
         }
 
         @Override
         public CalendarEvent next() {
-            return ((LinkedList<CalendarEvent>) _calendarEvents).removeFirst();
+            if(_nextEvent==null){
+                setNextEvent();
+            }
+
+            _lastEvent = _nextEvent;
+            _nextEvent = null;
+
+            return _lastEvent;
+        }
+
+        private boolean setNextEvent(){
+            CalendarEvent calendarEvent = null;
+
+            while(calendarEvent==null) {
+                // Startzeitpunkt setzen
+                //TODO ganze stunden setzen
+                calendarEvent = new CalendarEvent();
+                calendarEvent.setEventStart(_lastEvent.getEventEnd());
+
+                // Endzeitpunkt setzen
+                Date eventEnd = _lastEvent.getEventEnd();
+                java.util.Calendar calendar = java.util.Calendar.getInstance();
+                calendar.setTime(eventEnd);
+                calendar.add(java.util.Calendar.MINUTE, _duration);
+                eventEnd = calendar.getTime();
+                calendarEvent.setEventEnd(eventEnd);
+
+                // innerhalb der Ordinationszeiten
+                try {
+                    if(!isInWorkingTime(calendarEvent)){
+                        calendarEvent = null;
+                    }
+                } catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException | InvalidReloadClassException | NoBrokerMappedException e) {
+                    //TODO Exception??
+                    log.error(e.getMessage());
+                    return false;
+                }
+
+                // nicht belegt
+                if(!isAvailableEvent(calendarEvent)){
+                    calendarEvent = null;
+                }
+
+                // Kriterienn
+                for(Criteria c : _criterias){
+                    if(!c.isValidEvent(calendarEvent)){
+                        calendarEvent = null;
+                    }
+                }
+            }
+
+            // CalendarEvent setzen
+            _nextEvent = calendarEvent;
+
+            return true;
         }
     }
 }
