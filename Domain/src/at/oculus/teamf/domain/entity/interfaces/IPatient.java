@@ -26,7 +26,7 @@ public interface IPatient extends IDomain {
     void setFirstName(String firstName);
 
     String getLastName();
-    IPatient setLastName(String lastName);
+    void setLastName(String lastName);
 
     Gender getGender();
     void setGender(Gender gender);

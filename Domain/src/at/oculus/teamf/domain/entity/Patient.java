@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * @author Simon Angerer
+ * @date 03.4.2015
  */
 public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 
@@ -41,7 +42,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     private Gender _gender;
     private String _socialInsuranceNr;
     private IDoctor _doctor;
-    private Collection<ICalendarEvent> _calendarEvents;
+    private Collection<CalendarEvent> _calendarEvents;
     private Date _birthDay;
     private String _street;
     private String _postalCode;
@@ -63,7 +64,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		return _doctor;
 	}
 
-	public void setDoctor(Doctor doctor) {
+	public void setDoctor(IDoctor doctor) {
 		_doctor = doctor;
 	}
 
@@ -94,9 +95,9 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		log.debug("adding examination protocol to patient " + this);
 		examinationProtocol.setPatient(this);
 		if (_examinationProtocol == null) {
-			_examinationProtocol = new LinkedList<>();
+			_examinationProtocol = new LinkedList<IExaminationProtocol>();
 		}
-		_examinationProtocol.add(examinationProtocol);
+		_examinationProtocol.add((ExaminationProtocol) examinationProtocol);
 		try {
 			Facade.getInstance().save(examinationProtocol);
 		} catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
@@ -174,18 +175,6 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
 	}
 
-	public void addPrescription(IPrescription prescription) throws CouldNotAddPrescriptionException {
-		Prescription p = (Prescription) prescription;
-		p.setPatient(this);
-		try {
-			Facade.getInstance().save(p);
-		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
-			log.error(e.getMessage());
-			throw new CouldNotAddPrescriptionException();
-		}
-		_prescriptions.add(p);
-	}
-
 	public String getFirstName() {
 		return _firstName;
     }
@@ -203,9 +192,8 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
         return null;
     }
 
-    public IPatient setLastName(String lastName) {
+    public void setLastName(String lastName) {
 		_lastName = lastName;
-        return this;
     }
 
     public Gender getGender() {
@@ -224,8 +212,6 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
         }
     }
 
-
-    @SuppressWarnings("unchecked")
 	public Collection<ICalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
 
         try {
@@ -239,7 +225,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     }
 
     public void setCalendarEvents(Collection<ICalendarEvent> calendarEvents) {
-        _calendarEvents = (Collection<ICalendarEvent>) (Collection<?>) calendarEvents;
+        _calendarEvents = (Collection<CalendarEvent>) (Collection<?>) calendarEvents;
     }
 
     @Override
@@ -262,7 +248,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 
     @Override
     public void setIDoctor(IDoctor idoctor) {
-        _doctor = (Doctor) idoctor;
+        _doctor = idoctor;
     }
 
     public Date getBirthDay() {

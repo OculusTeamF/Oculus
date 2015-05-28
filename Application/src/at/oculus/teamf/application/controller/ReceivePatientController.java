@@ -97,8 +97,8 @@ public class ReceivePatientController implements ILogger {
      */
 
     public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws CouldNotRemovePatientFromQueueException {
-        Patient patient = (Patient) ipatient;
-        PatientQueue queue = (PatientQueue) iqueue;
+        IPatient patient = ipatient;
+        IPatientQueue queue = (PatientQueue) iqueue;
 
         queue.removePatient(patient);
         log.info("Patient has been removed from queue.");
