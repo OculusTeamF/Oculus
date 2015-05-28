@@ -10,11 +10,12 @@
 package at.oculus.teamf.domain.entity.criteria;
 
 /**
- * Criteria.java
- * Created by oculus on 27.05.15.
+ * Created by Karo on 28.05.2015.
  */
-public interface  Criteria {
+public class DatePeriodCriteria implements Criteria {
 
-    boolean isValidEvent(Criteria criteria);
-
+    @Override
+    public boolean isValidEvent(Criteria criteria) {
+        return false;
+    }
 }

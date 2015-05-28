@@ -7,14 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.criteria;
+package at.oculus.teamf.application.controller.exceptions;
 
 /**
- * Criteria.java
  * Created by oculus on 27.05.15.
  */
-public interface  Criteria {
-
-    boolean isValidEvent(Criteria criteria);
-
+public class EmailNotFoundException extends LoginControllerException {
 }

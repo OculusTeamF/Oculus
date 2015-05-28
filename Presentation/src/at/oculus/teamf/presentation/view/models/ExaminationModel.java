@@ -31,14 +31,16 @@ import java.util.Date;
  * Created by Fabian on 10.05.2015.
  */
 public class ExaminationModel {
+
     private static ExaminationModel _examinationmodel = new ExaminationModel();
     private Model _model;
 
     private IExaminationProtocol _eximationprotocol;
-    private CreateDiagnosisController _createDiagnosisController;
 
     public static ExaminationModel getInstance() {
-        if(_examinationmodel == null) {
+
+        if(_examinationmodel == null)
+        {
             _examinationmodel = new ExaminationModel();
         }
 
@@ -54,9 +56,8 @@ public class ExaminationModel {
     public Collection<IExaminationProtocol> getAllExaminationProtcols(IPatient patient) throws CouldNotGetExaminationProtolException
     {
         _model = Model.getInstance();
-        Collection<IExaminationProtocol> protocols = _model.getReceivePatientController().getAllExaminationProtocols(patient);
 
-        return protocols;
+        return _model.getReceivePatientController().getAllExaminationProtocols(patient);
     }
 
     /**
@@ -67,9 +68,10 @@ public class ExaminationModel {
      * @param patient
      * @param doctor
      * @param orthoptist
-     * @return
+     * @return IExaminationProtocol
      */
-    public IExaminationProtocol newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) throws CouldNotAddExaminationProtocol{
+    public IExaminationProtocol newExaminationProtocol(Date startdate, Date enddate, String examinationDocumentation,IPatient patient, IDoctor doctor, IOrthoptist orthoptist) throws CouldNotAddExaminationProtocol
+    {
         _model = Model.getInstance();
 
         return _model.getReceivePatientController().createNewExaminationProtocol(startdate, enddate, examinationDocumentation, patient, doctor, orthoptist);
@@ -78,7 +80,7 @@ public class ExaminationModel {
 
     public void addNewPatientDiagnosis(String title, String description, IDoctor doc, IExaminationProtocol exp) throws NoExaminationProtocolException, NotInitiatedExceptions, BadConnectionException, RequirementsUnfulfilledException, CriticalDatabaseException, CriticalClassException{
 
-        _createDiagnosisController = CreateDiagnosisController.CreateController(exp);
+        CreateDiagnosisController _createDiagnosisController = CreateDiagnosisController.CreateController(exp);
         _createDiagnosisController.createDiagnosis(title,description, doc);
 
     }

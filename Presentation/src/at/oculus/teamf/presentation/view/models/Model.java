@@ -98,6 +98,7 @@ public class Model implements Serializable, ILogger{
             _userlist = _startupController.getAllDoctorsAndOrthoptists();
             _queueTitledPaneFromUser = new HashMap<>();
             _patientsInQueue = new HashMap<>();
+
         } catch (NoBrokerMappedException noBrokerMappedException) {
             noBrokerMappedException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("NoBrokerMappedException", "Please contact support");
@@ -241,7 +242,6 @@ public class Model implements Serializable, ILogger{
 
     /**
      * Refreshes the Queue after a patient was removed from queue or added
-     * @return
      */
     public void refreshQueue(IUser user) {
 
@@ -258,12 +258,10 @@ public class Model implements Serializable, ILogger{
 
         _patientsInQueue.clear();
         _userWaitingList.clear();
-        //_queueTitledPaneFromUser.remove(user);
 
-        //actual list from the given user //hier ist problem!!!
+        //actual waiting list from the given user
         ObservableList<QueueEntry> entries = FXCollections.observableArrayList((List) QueueModel.getInstance().getEntriesFromQueue(user));
 
-        //ObservableList<HBoxCell> olist = FXCollections.observableArrayList();
         for(QueueEntry entry : entries){
 
             _patientsInQueue.put(entry.getPatient().toString(), entry.getPatient());
@@ -282,23 +280,14 @@ public class Model implements Serializable, ILogger{
         userTitledPane.setText(header);
         userTitledPane.setTooltip(new Tooltip("Patient queue for " + user.getLastName()));
         userTitledPane.setExpanded(true);
-
-
-        /*//the entries of the Queue from the given user which is not actual
-        ObservableList<IPatient> observableList = _userWaitingList.get(user);
-
-        if (observableList != null) {
-            observableList.remove(0, observableList.size());
-        } else {
-            DialogBoxController.getInstance().showErrorDialog("Error", "ObservableList == null");
-        }*/
     }
 
     public boolean isPatientInQueue(String patient){
 
         Boolean isInQueue = false;
 
-        if(_patientsInQueue.get(patient) != null){
+        if(_patientsInQueue.get(patient) != null)
+        {
             isInQueue = true;
         }
         return isInQueue;
@@ -306,8 +295,8 @@ public class Model implements Serializable, ILogger{
 
     /**
      * returns the title of the TitledPanes in the Waiting List
-     * @param user
-     * @param sizeOfQueue
+     * @param user - Doctors name
+     * @param sizeOfQueue - count of waiting patients
      * @return String titleOfTitledPanes
      */
     private String buildTitledPaneHeader(IUser user, int sizeOfQueue)
@@ -325,7 +314,7 @@ public class Model implements Serializable, ILogger{
     }
 
     /**
-     * is used by QueueController to set the vBoxes. VBoxes are nessecary for the buildQueueLists method
+     * is used by QueueController to set the vBoxes. VBoxes are necessary for the buildQueueLists method
      * @param vboxQueues
      */
     public void setVboxQueues(VBox vboxQueues){
@@ -406,7 +395,6 @@ public class Model implements Serializable, ILogger{
             _startexaminationbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                   // _startexaminationbutton.setText("Start Examination");
                     _startexaminationbutton.setContentDisplay(ContentDisplay.RIGHT);
                     _startexaminationbutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -421,7 +409,6 @@ public class Model implements Serializable, ILogger{
             _deletebutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                   // _deletebutton.setText("Delete from queue");
                     _deletebutton.setContentDisplay(ContentDisplay.RIGHT);
                     _deletebutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -436,7 +423,6 @@ public class Model implements Serializable, ILogger{
             _openbutton.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                   // _openbutton.setText("Open patient record");
                     _openbutton.setContentDisplay(ContentDisplay.RIGHT);
                     _openbutton.setTextAlignment(TextAlignment.LEFT);
                 }
@@ -451,7 +437,6 @@ public class Model implements Serializable, ILogger{
             String labeltext = "NAME:\t" + entry.getPatient().getLastName() + ", " + entry.getPatient().getFirstName() +
                     "\n" + "SVN:  \t" + entry.getPatient().getSocialInsuranceNr();
             _label = new Label(labeltext);
-            //_label = new Label(entry.getPatient().toString());
             _label.setMaxWidth(Double.MAX_VALUE);
             _label.setMinHeight(QUEUE_LABEL_SIZE);
             _startexaminationbutton.setMinHeight(QUEUE_LABEL_SIZE);
@@ -468,10 +453,6 @@ public class Model implements Serializable, ILogger{
          */
         public IQueueEntry getQueueEntry(){
             return this._entry;
-        }
-
-        public IUser getUserFromQueueEntry(){
-            return this._user;
         }
     }
 }
