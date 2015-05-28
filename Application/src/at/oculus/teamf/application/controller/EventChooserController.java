@@ -80,6 +80,9 @@ public class EventChooserController implements ILogger {
     public void getAvailableEvents(){
         //TODO implement getAvailableEvents()
         //parameters!
+
+        //Criteria erstellen!
+
     }
 
     /**
