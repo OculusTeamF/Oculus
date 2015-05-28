@@ -11,7 +11,6 @@ package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.ILogin;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
