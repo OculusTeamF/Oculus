@@ -11,7 +11,7 @@ package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EventCanNotBeDeletedException;
 import at.oculus.teamf.application.controller.exceptions.EventCanNotBeNullException;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerException;
+import at.oculus.teamf.application.controller.exceptions.NotAllowedToChooseEventException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
@@ -70,17 +70,11 @@ public class EventChooserController implements ILogger {
      * @param event this is the calendar-event, which should be deleted
      */
     public Collection<ICalendarEvent> deleteExistingEvent(ICalendarEvent event) throws EventCanNotBeNullException, EventCanNotBeDeletedException {
-        //TODO implement deleteExistingEvent()
         if(event == null){
             throw new EventCanNotBeNullException();
         }
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.DAY_OF_YEAR, 2);
-
-        Date checkDate = cal.getTime();
-        if(!event.getEventStart().after(checkDate)){
+        if(!checkDate(event.getEventStart())){
             throw new EventCanNotBeDeletedException();
         }else{
             if(futureEvents.contains(event)){
@@ -101,6 +95,29 @@ public class EventChooserController implements ILogger {
     }
 
     /**
+     * <h3>$checkDate</h3>
+     * <p/>
+     * <b>Description:</b>
+     * This method checks if the given date is at least 2 days in the future. If not, the method returns the value false
+     * <p/>
+     * *<b>Parameter</b>
+     * @param date this is the date, which should be checked
+     */
+    private boolean checkDate(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DAY_OF_YEAR, 2);
+
+        Date checkDate = cal.getTime();
+
+        if(!date.after(checkDate)){
+            return  false;
+        }
+
+        return true;
+    }
+
+    /**
      *<h3>$getAvailableEvents</h3>
      *
      * <b>Description:</b>
@@ -111,13 +128,20 @@ public class EventChooserController implements ILogger {
      *<b>Parameter</b>
      * @param
      */
-    public void getAvailableEvents(){
+    public void getAvailableEvents() throws NotAllowedToChooseEventException {
         //TODO implement getAvailableEvents()
         //parameters!
 
         if(futureEvents.size() > 0){
-            //throw exception
+            for(ICalendarEvent event : futureEvents){
+                if(!checkDate(event.getEventStart())){
+                    throw new NotAllowedToChooseEventException();
+                }
+            }
         }
+
+        
+
 
         //Criteria erstellen!
 
