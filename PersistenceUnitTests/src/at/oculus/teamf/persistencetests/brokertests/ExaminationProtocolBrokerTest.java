@@ -35,15 +35,15 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 	@Override
 	public void setUp() {
 		try {
-			_patient = Facade.getInstance().getById(Patient.class,1);
-			_doctor = Facade.getInstance().getById(Doctor.class,1);
-			_orthoptist = Facade.getInstance().getById(Orthoptist.class,1);
+			_patient = Facade.getInstance().getById(Patient.class, 1);
+			_doctor = Facade.getInstance().getById(Doctor.class, 1);
+			_orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 
-        _examinationProtocolDoctor = new ExaminationProtocol();
+		_examinationProtocolDoctor = new ExaminationProtocol();
 		_examinationProtocolDoctor.setStartTime(new Date());
 		_examinationProtocolDoctor.setEndTime(new Date());
 		_examinationProtocolDoctor.setDescription("Untersuchungsprotokoll Unit Test");
@@ -64,7 +64,7 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-    }
+	}
 
 	@Override
 	public void tearDown() {
@@ -75,33 +75,34 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-    }
+	}
 
 	@Override
 	public void testGetById() {
 		ExaminationProtocol examinationProtocolDoctor = null;
 		ExaminationProtocol examinationProtocolOrthoptist = null;
 		try {
-			examinationProtocolDoctor = Facade.getInstance().getById(ExaminationProtocol.class,_examinationProtocolDoctor.getId());
-			examinationProtocolOrthoptist = Facade.getInstance().getById(ExaminationProtocol.class,_examinationProtocolOrthoptist.getId());
+			examinationProtocolDoctor =
+					Facade.getInstance().getById(ExaminationProtocol.class, _examinationProtocolDoctor.getId());
+			examinationProtocolOrthoptist =
+					Facade.getInstance().getById(ExaminationProtocol.class, _examinationProtocolOrthoptist.getId());
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-        assertTrue(examinationProtocolDoctor!=null);
-//		assertTrue(examinationProtocolDoctor.getDoctor().getId()==1);
-		assertTrue(examinationProtocolDoctor.getPatient().getId()==1);
+		assertTrue(examinationProtocolDoctor != null);
+		//		assertTrue(examinationProtocolDoctor.getDoctor().getId()==1);
+		assertTrue(examinationProtocolDoctor.getPatient().getId() == 1);
 		assertTrue(examinationProtocolDoctor.getDescription().equals("Untersuchungsprotokoll Unit Test"));
-		assertTrue(examinationProtocolDoctor.getStartTime()!=null);
-		assertTrue(examinationProtocolDoctor.getEndTime()!=null);
-		assertTrue(examinationProtocolOrthoptist!=null);
-//		assertTrue(examinationProtocolOrthoptist.getOrthoptist().getId()==1);
-		assertTrue(examinationProtocolOrthoptist.getPatient().getId()==1);
+		assertTrue(examinationProtocolDoctor.getStartTime() != null);
+		assertTrue(examinationProtocolDoctor.getEndTime() != null);
+		assertTrue(examinationProtocolOrthoptist != null);
+		//		assertTrue(examinationProtocolOrthoptist.getOrthoptist().getId()==1);
+		assertTrue(examinationProtocolOrthoptist.getPatient().getId() == 1);
 		assertTrue(examinationProtocolOrthoptist.getDescription().equals("Untersuchungsprotokoll Unit Test"));
-		assertTrue(examinationProtocolOrthoptist.getStartTime()!=null);
-		assertTrue(examinationProtocolOrthoptist.getEndTime()!=null);
+		assertTrue(examinationProtocolOrthoptist.getStartTime() != null);
+		assertTrue(examinationProtocolOrthoptist.getEndTime() != null);
 	}
-
 
 
 	@Override
@@ -137,6 +138,6 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 			Assert.assertTrue(false);
 		}
 
-		assertTrue(examinationResults.size()==1);
+		assertTrue(examinationResults.size() == 1);
 	}
 }

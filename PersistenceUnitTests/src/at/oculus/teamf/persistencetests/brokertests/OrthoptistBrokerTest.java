@@ -31,33 +31,33 @@ public class OrthoptistBrokerTest extends BrokerTest {
 	}
 
 	@Test
-    @Override
-    public void testGetById() {
-        Facade facade = Facade.getInstance();
-        Orthoptist orthoptist = null;
-        try {
-            orthoptist = facade.getById(Orthoptist.class, 1);
-        } catch (FacadeException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-        assertTrue(orthoptist != null);
-        assertTrue(orthoptist.getTeamFUserId() > 0);
-    }
+	@Override
+	public void testGetById() {
+		Facade facade = Facade.getInstance();
+		Orthoptist orthoptist = null;
+		try {
+			orthoptist = facade.getById(Orthoptist.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+		assertTrue(orthoptist != null);
+		assertTrue(orthoptist.getTeamFUserId() > 0);
+	}
 
-    @Test
-    @Override
-    public void testGetAll() {
-	    Collection<Orthoptist> orthoptists = null;
+	@Test
+	@Override
+	public void testGetAll() {
+		Collection<Orthoptist> orthoptists = null;
 
-	    try {
-		    orthoptists = Facade.getInstance().getAll(Orthoptist.class);
-	    } catch (FacadeException e) {
-		    assertTrue(false);
-            e.printStackTrace();
-	    }
+		try {
+			orthoptists = Facade.getInstance().getAll(Orthoptist.class);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
 
-        Assert.assertTrue(orthoptists != null);
-	    Assert.assertTrue(orthoptists.size() > 1);
-    }
+		Assert.assertTrue(orthoptists != null);
+		Assert.assertTrue(orthoptists.size() > 1);
+	}
 }

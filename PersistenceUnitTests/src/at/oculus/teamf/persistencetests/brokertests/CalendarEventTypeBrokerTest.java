@@ -18,12 +18,12 @@ import java.util.Collection;
 
 import static junit.framework.Assert.assertTrue;
 
-public class CalendarEventTypeBrokerTest extends BrokerTest{
+public class CalendarEventTypeBrokerTest extends BrokerTest {
 	private EventType _eventType;
 
 	@Override
 	public void setUp() {
-		_eventType = new RegularAppointment(0,"Daniels Spezialtermin",45,"blabla wow");
+		_eventType = new RegularAppointment(0, "Daniels Spezialtermin", 45, "blabla wow");
 		try {
 			assertTrue(Facade.getInstance().save(_eventType));
 		} catch (FacadeException e) {
@@ -53,7 +53,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 			e.printStackTrace();
 		}
 
-        assertTrue(eventType != null);
+		assertTrue(eventType != null);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class CalendarEventTypeBrokerTest extends BrokerTest{
 			e.printStackTrace();
 		}
 
-        assertTrue(eventTypes != null);
+		assertTrue(eventTypes != null);
 		assertTrue(eventTypes.size() > 0);
 	}
 }

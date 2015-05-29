@@ -64,26 +64,30 @@ public class QueueBrokerTest extends BrokerTest {
 			generatePatient("UnitTestPatient2", "999999992");
 			generatePatient("UnitTestPatient3", "999999993");
 
-                Collection<Patient> patients = Facade.getInstance().getAll(Patient.class);
-                patientOne = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient1")).get(0);
-                patientTwo = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient2")).get(0);
-                patientThree = (Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient3")).get(0);
-                doctor = Facade.getInstance().getById(Doctor.class, 1);
-                orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
+			Collection<Patient> patients = Facade.getInstance().getAll(Patient.class);
+			patientOne = (Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient1"))
+					.get(0);
+			patientTwo = (Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient2"))
+					.get(0);
+			patientThree =
+					(Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient3"))
+							.get(0);
+			doctor = Facade.getInstance().getById(Doctor.class, 1);
+			orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-        assertTrue(patientOne!=null);
-		assertTrue(patientTwo!=null);
-		assertTrue(patientThree!=null);
-        assertTrue(doctor!=null);
-        assertTrue(orthoptist!=null);
+		assertTrue(patientOne != null);
+		assertTrue(patientTwo != null);
+		assertTrue(patientThree != null);
+		assertTrue(doctor != null);
+		assertTrue(orthoptist != null);
 
-		_newDoctorEntry = new QueueEntry(0,patientOne,doctor,0,new Timestamp(new Date().getTime()));
-		_newOrthoptistEntry = new QueueEntry(0,patientTwo,orthoptist,0,new Timestamp(new Date().getTime()));
-		_newEntry = new QueueEntry(0,patientThree,null,0,new Timestamp(new Date().getTime()));
+		_newDoctorEntry = new QueueEntry(0, patientOne, doctor, 0, new Timestamp(new Date().getTime()));
+		_newOrthoptistEntry = new QueueEntry(0, patientTwo, orthoptist, 0, new Timestamp(new Date().getTime()));
+		_newEntry = new QueueEntry(0, patientThree, null, 0, new Timestamp(new Date().getTime()));
 
 		try {
 			assertTrue(Facade.getInstance().save(_newDoctorEntry));
@@ -93,7 +97,7 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-    }
+	}
 
 	@Override
 	public void tearDown() {
@@ -102,14 +106,23 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(_newOrthoptistEntry));
 			assertTrue(Facade.getInstance().delete(_newEntry));
 
-			assertTrue(Facade.getInstance().delete((Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient1")).get(0)));
-			assertTrue(Facade.getInstance().delete((Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient2")).get(0)));
-			assertTrue(Facade.getInstance().delete((Patient)((LinkedList<Object>)Facade.getInstance().search(Patient.class, "UnitTestPatient3")).get(0)));
+			assertTrue(Facade.getInstance().delete((Patient) ((LinkedList<Object>) Facade.getInstance()
+			                                                                             .search(Patient.class,
+			                                                                                     "UnitTestPatient1"))
+					.get(0)));
+			assertTrue(Facade.getInstance().delete((Patient) ((LinkedList<Object>) Facade.getInstance()
+			                                                                             .search(Patient.class,
+			                                                                                     "UnitTestPatient2"))
+					.get(0)));
+			assertTrue(Facade.getInstance().delete((Patient) ((LinkedList<Object>) Facade.getInstance()
+			                                                                             .search(Patient.class,
+			                                                                                     "UnitTestPatient3"))
+					.get(0)));
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-    }
+	}
 
 	@Test
 	@Override
@@ -122,7 +135,7 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-        assertTrue(queueEntry != null);
+		assertTrue(queueEntry != null);
 	}
 
 	@Test
@@ -137,7 +150,7 @@ public class QueueBrokerTest extends BrokerTest {
 			e.printStackTrace();
 		}
 
-        assertTrue(queueEntries != null);
+		assertTrue(queueEntries != null);
 		assertTrue(queueEntries.size() > 1);
 	}
 
