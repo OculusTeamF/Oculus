@@ -9,12 +9,25 @@
 
 package at.oculus.teamf.application.controller;
 
+import at.oculus.teamf.application.controller.exceptions.EventCanNotBeDeletedException;
+import at.oculus.teamf.application.controller.exceptions.EventCanNotBeNullException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * <h1>$EventChooserController.java</h1>
@@ -29,6 +42,7 @@ import java.util.Collection;
 public class EventChooserController implements ILogger {
 
     private IPatient iPatient;
+    private Collection<ICalendarEvent> futureEvents;
 
     /**
      *<h3>$EventChooserController</h3>
@@ -52,19 +66,38 @@ public class EventChooserController implements ILogger {
      * an exception is thrown or the method returns the value false. If the Event is deleted successfully, the method
      * returns the value true.
      * <p/>
+     * *<b>Parameter</b>
+     * @param event this is the calendar-event, which should be deleted
      */
-    public boolean deleteExistingEvent(){
+    public Collection<ICalendarEvent> deleteExistingEvent(ICalendarEvent event) throws EventCanNotBeNullException, EventCanNotBeDeletedException {
         //TODO implement deleteExistingEvent()
+        if(event == null){
+            throw new EventCanNotBeNullException();
+        }
 
-        //check if the event can be deleted
-        //return false if not
-        //else
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DAY_OF_YEAR, 2);
 
-        //delete the event
+        Date checkDate = cal.getTime();
+        if(!event.getEventStart().after(checkDate)){
+            throw new EventCanNotBeDeletedException();
+        }else{
+            if(futureEvents.contains(event)){
+                futureEvents.remove(event);
+            }
 
-        //save the updated patient object
+            IFacade facade = Facade.getInstance();
+            try {
+                facade.delete(event);
+                log.info("Event deleted successfully");
+            } catch (BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
+                log.error("Facade exception caught! Event can not be deleted" + e.getMessage());
+                throw new EventCanNotBeDeletedException();
+            }
 
-        return true;
+            return futureEvents;
+        }
     }
 
     /**
@@ -72,6 +105,7 @@ public class EventChooserController implements ILogger {
      *
      * <b>Description:</b>
      * this method gets all available information in the parameters, with which some suitable calendar-events are searched.
+     * First it checks if the patient is allowed to choose a new appointment, by checking his or her future appointments again.
      * It returns a collection of calendar-events, or an empty collection, if there are no fitting events available.
      *
      *<b>Parameter</b>
@@ -80,6 +114,10 @@ public class EventChooserController implements ILogger {
     public void getAvailableEvents(){
         //TODO implement getAvailableEvents()
         //parameters!
+
+        if(futureEvents.size() > 0){
+            //throw exception
+        }
 
         //Criteria erstellen!
 
@@ -104,12 +142,21 @@ public class EventChooserController implements ILogger {
      *<h3>$checkPatientAppointments</h3>
      *
      * <b>Description:</b>
-     *this method checks if the specified patient already has an appointment.
-     *
-     *<b>Parameter</b>
-     * @param
+     *this method checks if the specified patient already has future appointments.
+     * The method returns a collection of ICalendarEvents. The collectioin is empty, if there is no
+     * future appointment saved for the patient. If the size of the collection is bigger than 0, the patient already
+     * has future appointments, and is not allowed to choose another one.
      */
-    public void checkPatientsAppointments() throws CouldNotGetCalendarEventsException {
-        //TODO implement checkPatientsAppointments()
+    public Collection<ICalendarEvent> checkPatientsAppointments() throws CouldNotGetCalendarEventsException {
+        Collection<ICalendarEvent> events =  iPatient.getCalendarEvents();
+        futureEvents = new LinkedList<>();
+
+        for(ICalendarEvent event : events){
+            Date date = event.getEventStart();
+            if(date.after(new Date())){
+                futureEvents.add(event);
+            }
+        }
+        return futureEvents;
     }
 }
