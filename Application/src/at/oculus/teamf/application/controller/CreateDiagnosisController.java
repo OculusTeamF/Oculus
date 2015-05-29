@@ -24,8 +24,8 @@ package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoExaminationProtocolException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsUnfulfilledException;
+import at.oculus.teamf.application.controller.exceptions.CreateDiagnosisControllerExceptions.NoExaminationProtocolException;
+import at.oculus.teamf.application.controller.exceptions.CreateDiagnosisControllerExceptions.RequirementsUnfulfilledException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.interfaces.*;

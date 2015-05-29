@@ -7,10 +7,23 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+/**<h1>$UserNotFoundException.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $13.04.15
+ *
+ * Description:
+ * In this file is a class which extends the CheckinControllerException
+ **/
+package at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.CheckinControllerException;
 
 /**
- * Created by oculus on 29.05.15.
- */
-public class EventCanNotBeDeletedException extends EventChooserControllerException{
+ * <h2>$UserNotFoundException</h2>
+ *
+ * <b>Description:</b>
+ * This Exception is thrown, if the given user is null.
+ **/
+public class UserNotFoundException extends CheckinControllerException {
 }

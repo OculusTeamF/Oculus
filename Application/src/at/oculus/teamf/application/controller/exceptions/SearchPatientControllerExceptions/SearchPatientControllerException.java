@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.SearchPatientControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.ApplicationException;
 
 /**
- * Created by oculus on 22.04.15.
+ * Created by oculus on 23.04.15.
  */
-public class CreatePatientControllerException extends ApplicationException {
+public class SearchPatientControllerException extends ApplicationException {
 }

@@ -10,8 +10,8 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.LoginController;
-import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
-import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

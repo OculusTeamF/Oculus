@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.CreateDiagnosisControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.CreateDiagnosisControllerExceptions.CreateDiagnosisControllerException;
 
 /**
  * Created by oculus on 08.05.15.
  */
-public class NoPatientException extends PrescriptionControllerException {
+public class NoExaminationProtocolException extends CreateDiagnosisControllerException {
 }

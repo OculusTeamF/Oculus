@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventChooserControllerException;
 
 /**
- * Created by jpo2433 on 30.04.15.
+ * Created by oculus on 29.05.15.
  */
-public class RequirementsUnfulfilledException extends CreateDiagnosisControllerException{
+public class NoDoctorException extends EventChooserControllerException {
 }

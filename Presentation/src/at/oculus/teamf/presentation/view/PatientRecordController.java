@@ -14,10 +14,10 @@ package at.oculus.teamf.presentation.view;
 
 import at.oculus.teamf.application.controller.PrescriptionController;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.exceptions.PrescriptionControllerExceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;

@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.presentation.view.models;
 
-import at.oculus.teamf.application.controller.exceptions.CheckinControllerException;
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.CheckinControllerException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;

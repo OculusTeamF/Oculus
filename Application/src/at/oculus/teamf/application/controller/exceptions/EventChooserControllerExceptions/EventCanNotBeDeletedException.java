@@ -7,10 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions;
 
 /**
  * Created by oculus on 29.05.15.
  */
-public class NoDoctorException extends EventChooserControllerException {
+public class EventCanNotBeDeletedException extends EventChooserControllerException {
 }
