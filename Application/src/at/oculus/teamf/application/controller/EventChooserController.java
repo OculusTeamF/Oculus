@@ -9,12 +9,11 @@
 
 package at.oculus.teamf.application.controller;
 
-import at.oculus.teamf.application.controller.exceptions.EventCanNotBeDeletedException;
-import at.oculus.teamf.application.controller.exceptions.EventCanNotBeNullException;
-import at.oculus.teamf.application.controller.exceptions.NotAllowedToChooseEventException;
+import at.oculus.teamf.application.controller.exceptions.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
@@ -54,8 +53,15 @@ public class EventChooserController implements ILogger {
      *<b>Parameter</b>
      * @param patient this parameter shows the interface of the patient, who wants to choose an event
      */
-    public EventChooserController(IPatient patient){
+    private EventChooserController(IPatient patient){
         iPatient = patient;
+    }
+
+    public static EventChooserController createEventChooserController(IPatient iPatient) throws PatientCanNotBeNullException {
+        if(iPatient == null){
+            throw new PatientCanNotBeNullException();
+        }
+        return new EventChooserController(iPatient);
     }
 
     /**
@@ -128,23 +134,33 @@ public class EventChooserController implements ILogger {
      *<b>Parameter</b>
      * @param
      */
-    public void getAvailableEvents() throws NotAllowedToChooseEventException {
-        //TODO implement getAvailableEvents()
-        //parameters!
+    public Collection<ICalendarEvent> getAvailableEvents() throws NotAllowedToChooseEventException, NoDoctorException {
+        //TODO add parameters
 
         if(futureEvents.size() > 0){
             for(ICalendarEvent event : futureEvents){
                 if(!checkDate(event.getEventStart())){
+                    log.error("Patient has a future appointment. - not allowed to choose another one!");
                     throw new NotAllowedToChooseEventException();
                 }
             }
         }
 
-        
+        IDoctor iDoctor = iPatient.getIDoctor();
+        if(iDoctor == null){
+            log.error("Patient has no Doctor!");
+            throw new NoDoctorException();
+        }
+        ICalendar iCalendar = iDoctor.getCalendar();
 
 
-        //Criteria erstellen!
+        //TODO check input --> create criterias
 
+        //TODO getAvailableEvents from ICalendar
+
+        //TODO return 3 ICalendarEvents as Collection
+
+        return null;
     }
 
     /**
@@ -157,8 +173,16 @@ public class EventChooserController implements ILogger {
      *<b>Parameter</b>
      * @param iCalendarEvent this is the chosen calendar-event, which should be fixed
      */
-    public void saveChosenEvent(ICalendarEvent iCalendarEvent){
-        //TODO implement saveChosenEvent()
+    public void saveChosenEvent(ICalendarEvent iCalendarEvent) throws EventChooserControllerException {
+        //TODO further checkup of the given calendarevent before saving?
+
+        IFacade facade = Facade.getInstance();
+        try {
+            facade.save(iCalendarEvent);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+            log.error("Facade exception caught! Calendarevent could not be saved - " + e.getMessage());
+            throw new EventChooserControllerException();
+        }
 
     }
 
