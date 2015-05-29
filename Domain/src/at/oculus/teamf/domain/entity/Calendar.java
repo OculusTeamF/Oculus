@@ -123,15 +123,15 @@ public class Calendar implements ICalendar {
 		return false;
 	}
 
-	public Iterator<CalendarEvent> availableEventsIterator(Collection<Criteria> criterias, int duration)
+	public Iterator<ICalendarEvent> availableEventsIterator(Collection<Criteria> criterias, int duration)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		Iterator<CalendarEvent> iterator = new CalendarEventIterator(this, criterias, duration);
+		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(this, criterias, duration);
 
 		return iterator;
 	}
 
-	public class CalendarEventIterator implements Iterator<CalendarEvent>, ILogger {
+	public class CalendarEventIterator implements Iterator<ICalendarEvent>, ILogger {
 		private Calendar _calendar;
 		private int _duration;
 		private Collection<Criteria> _criterias;
@@ -176,7 +176,7 @@ public class Calendar implements ICalendar {
 		}
 
 		@Override
-		public CalendarEvent next() {
+		public ICalendarEvent next() {
 			if (_nextEvent == null) {
 				try {
 					setNextEvent();
