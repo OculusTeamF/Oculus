@@ -28,9 +28,10 @@ public class WeekdayCriteria implements Criteria {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
+        //Sunday is weekday 1
         int weekday = cal.get(Calendar.DAY_OF_WEEK);
 
-       /* if(weekday == ){
+       /* if(weekday == this.getValue){
 
             return true;
         }*/
