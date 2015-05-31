@@ -1,10 +1,8 @@
-import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  *
@@ -13,36 +11,35 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RedirectServlet extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String dispatchto = request.getParameter("dispatchto");
 
+        // null redirect (go back to login page)
         if (dispatchto == null) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("login.jsp");
         }
 
+        // redirect to user login servlet
         if (dispatchto.equals("login")) {
-            //UserLogin ulogin = new UserLogin();
-            response.sendRedirect("index.jsp");
+            UserController ulogin = new UserController();
+            ulogin.service(request, response);
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Redirect Controller";
     }
 
 }
