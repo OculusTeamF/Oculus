@@ -5,6 +5,20 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="PresentationWeb" />
+          <element id="module-output" name="Domain" />
+          <element id="module-output" name="Persistence" />
+          <element id="module-output" name="DatabaseConnection" />
+          <element id="module-output" name="Technical" />
+          <element id="module-output" name="Application" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Hibernate 4.2.2-4.2.2" />
+          <element id="library" level="project" name="Technical" />
+          <element id="library" level="project" name="hibernate-entitymanager-4.2.2.Final" />
+          <element id="library" level="project" name="JPA 2.0-2.0" />
+          <element id="library" level="module" name="JUnit4" module-name="Persistence" />
+          <element id="library" level="project" name="oculus-tb2-0.1-SNAPSHOT" />
+          <element id="library" level="module" name="JUnit4" module-name="Domain" />
         </element>
       </element>
     </root>

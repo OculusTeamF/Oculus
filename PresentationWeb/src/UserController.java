@@ -8,8 +8,8 @@
  */
 
 import at.oculus.teamf.application.controller.LoginController;
-import at.oculus.teamf.application.controller.exceptions.EmailNotFoundException;
-import at.oculus.teamf.application.controller.exceptions.PasswordIncorrectException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
@@ -44,6 +44,7 @@ public class UserController extends HttpServlet implements ILogger {
 
         log.debug("RECEIVED LOGIN DATA email: [" + userEmail + "] pw: [" + userPassword + "]");
 
+
         try {
             _loginpatient  = _loginapp.checkLoginData(userEmail,userPassword);
             UserBean user = new UserBean();
@@ -53,6 +54,7 @@ public class UserController extends HttpServlet implements ILogger {
         } catch (PasswordIncorrectException e) {
             e.printStackTrace();
         }
+
 
         if (_loginpatient != null){
             // user found
