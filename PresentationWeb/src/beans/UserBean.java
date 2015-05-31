@@ -9,12 +9,32 @@
 
 package beans;
 
+import at.oculus.teamf.domain.entity.interfaces.IPatient;
+
 import javax.annotation.ManagedBean;
 
 /**
- * Created by FabianLaptop on 28.05.2015.
+ * Created by Fabian on 31.05.2015.
  */
 
-//@ManagedBean(name = "loginController")
-public class LoginBean {
+@ManagedBean
+public class UserBean implements java.io.Serializable {
+    private IPatient patient;
+    private String firstName = null;
+
+    public UserBean() {
+    }
+
+    public void loadUserPatient(IPatient patient){
+        this.patient = patient;
+        firstName = patient.getFirstName();
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
 }
