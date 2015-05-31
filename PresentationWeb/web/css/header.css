@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) 2015 Team F
+ *
+ * This file is part of Oculus.
+ * Oculus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * Oculus is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.header_outherHeader
+{
+    min-width: 1030px;
+    background-color: #87cefa;
+    height: 120px;
+}
+
+
+.wrapper {
+    width: 1000px;
+    vertical-align: middle;
+    margin: auto;
+}
+
+.mainBox {
+    width: 920px;
+    min-height: 258px;
+    background-color: #ffffff;
+    margin-top: 30px;
+    padding: 40px;
+    border: 1px solid #dbdbdb;
+}
+
+
+ul, li {
+    list-style-type:none;
+    padding:0;
+    margin:0;
+}
+#crumbs {
+    height:2.3em;
+    border:1px solid #dedede;
+}
+#crumbs li {
+    float:left;
+    line-height:2.3em;
+    color:#777;
+    padding-left:.75em;
+}
+#crumbs li a {
+    background:url(images/crumbs.gif) no-repeat right center;
+    display:block;
+    padding:0 15px 0 0;
+}
+#crumbs li a:link,
+#crumbs li a:visited {
+    color:#777;
+    text-decoration:none;
+}
+a:link, a:visited,
+#crumbs li a:hover,
+#crumbs li a:focus {
+    color:#dd2c0d;
+}

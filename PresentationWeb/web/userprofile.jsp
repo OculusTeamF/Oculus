@@ -9,16 +9,30 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="css/header.css"/>
     <title></title>
 </head>
 <body>
-Logged in User: <br><br>
+<div class="header_outherHeader">
+    Logged in User: <br><br>
 
-First Name: ${user.firstName}
-<br>
-Last Name: ${user.lastName}
-<br>
-SV Number: ${user.svNumber}
+    First Name: ${user.firstName}
+    <br>
+    Last Name: ${user.lastName}
+    <br>
+    SV Number: ${user.svNumber}
+</div>
 
+<br>
+<div class="wrapper">
+    <div class="mainBox">
+        <ul id="crumbs">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Main section</a></li>
+            <li><a href="#">Sub section</a></li>
+            <li><a href="#">Sub sub section</a></li>
+            <li>Home section...</li>
+        </ul>
+    </div>
 </body>
 </html>
