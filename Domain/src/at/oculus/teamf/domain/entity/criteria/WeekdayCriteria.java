@@ -17,9 +17,11 @@ import java.util.Date;
 
 /**
  * Created by Karo on 28.05.2015.
+ * Description: Check if the available Event is at the same weekday as the given weekday
  */
 public class WeekdayCriteria implements Criteria {
 
+    private int _value; //weekday, Sunday = 1
 
     @Override
     public boolean isValidEvent(CalendarEvent event) {
@@ -31,13 +33,19 @@ public class WeekdayCriteria implements Criteria {
         //Sunday is weekday 1
         int weekday = cal.get(Calendar.DAY_OF_WEEK);
 
-       /* if(weekday == this.getValue){
+        if(weekday == this._value){
 
             return true;
-        }*/
+        }
 
         return false;
     }
 
 
+    public void setValue(int weekday){
+        this._value = weekday;
+    }
+    public int getValue(){
+        return _value;
+    }
 }
