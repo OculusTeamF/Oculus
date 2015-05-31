@@ -7,15 +7,16 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:useBean id="user" class="beans.UserBean" scope="session"/>
 <html>
 <head>
     <title></title>
 </head>
 <body>
+Logged in User: <br><br>
 
-<p>Patient First Name: <%= user.getFirstName() %>
-</p>
+First Name: ${user.firstName}
+<br>
+Last Name: ${user.lastName}
 
 </body>
 </html>

@@ -14,6 +14,7 @@ import at.oculus.teamf.domain.entity.interfaces.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +48,7 @@ public class UserController extends HttpServlet implements ILogger {
 
         try {
             _loginpatient  = _loginapp.checkLoginData(userEmail,userPassword);
-            UserBean user = new UserBean();
-            user.loadUserPatient(_loginpatient);
+
         } catch (EmailNotFoundException e) {
             e.printStackTrace();
         } catch (PasswordIncorrectException e) {
@@ -57,9 +57,14 @@ public class UserController extends HttpServlet implements ILogger {
 
 
         if (_loginpatient != null){
-            // user found
-            //toLogin.setSession(request.getSession());
-            //request.getSession().setAttribute("User", toLogin);
+            UserBean user = new UserBean();
+            user.loadUserPatient(_loginpatient);
+
+
+            request.setAttribute("user", user);
+            RequestDispatcher view = request.getRequestDispatcher("userprofile.jsp");
+            view.forward(request, response);
+
             response.sendRedirect(response.encodeRedirectURL("userprofile.jsp"));
         } else {
             // user not found

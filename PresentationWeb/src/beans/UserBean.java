@@ -18,23 +18,28 @@ import javax.annotation.ManagedBean;
  */
 
 @ManagedBean
-public class UserBean implements java.io.Serializable {
+public class UserBean {
     private IPatient patient;
     private String firstName = null;
+    private String lastName = null;
 
     public UserBean() {
     }
 
     public void loadUserPatient(IPatient patient){
         this.patient = patient;
-        firstName = patient.getFirstName();
+        firstName = this.patient.getFirstName();
+        lastName = this.patient.getLastName();
     }
 
     public String getFirstName(){
         return firstName;
     }
-
-    public void setFirstName(String firstName){
+    private void setFirstName(String firstName){
         this.firstName = firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 }
