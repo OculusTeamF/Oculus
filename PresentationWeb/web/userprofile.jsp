@@ -13,8 +13,15 @@
     <title></title>
 </head>
 <body>
+
 <div class="header_outherHeader">
-    Logged in User: <br><br>
+
+</div>
+
+<br>
+<div class="userInfo">
+
+    <strong>Logged in User:  <br /></strong><br>
 
     First Name: ${user.firstName}
     <br>
@@ -23,7 +30,6 @@
     SV Number: ${user.svNumber}
 </div>
 
-<br>
 <div class="wrapper">
     <div class="mainBox">
         <ul id="crumbs">
