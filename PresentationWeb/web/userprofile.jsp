@@ -17,6 +17,8 @@ Logged in User: <br><br>
 First Name: ${user.firstName}
 <br>
 Last Name: ${user.lastName}
+<br>
+SV Number: ${user.svNumber}
 
 </body>
 </html>

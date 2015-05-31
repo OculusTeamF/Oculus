@@ -19,27 +19,29 @@ import javax.annotation.ManagedBean;
 
 @ManagedBean
 public class UserBean {
-    private IPatient patient;
+    private IPatient _patient;
     private String firstName = null;
     private String lastName = null;
+    private String svNumber = null;
 
     public UserBean() {
     }
 
     public void loadUserPatient(IPatient patient){
-        this.patient = patient;
-        firstName = this.patient.getFirstName();
-        lastName = this.patient.getLastName();
+        _patient = patient;
+
+        firstName = _patient.getFirstName();
+        lastName = _patient.getLastName();
+        svNumber = _patient.getSocialInsuranceNr();
     }
 
     public String getFirstName(){
         return firstName;
     }
-    private void setFirstName(String firstName){
-        this.firstName = firstName;
-    }
-
     public String getLastName(){
         return lastName;
+    }
+    public String getSvNumber(){
+        return svNumber;
     }
 }
