@@ -88,16 +88,16 @@ public class PrescriptionBrokerTest extends BrokerTest {
 		assertTrue(prescriptions.size() > 0);
 	}
 
-    @Test
-    public void testReload() {
-        Prescription prescription = null;
-        Collection<IPrescriptionEntry> prescriptionEntries = null;
-        try {
-            prescription = Facade.getInstance().getById(Prescription.class, 1);
-            prescriptionEntries = prescription.getPrescriptionEntries();
-        } catch (BadConnectionException | NoBrokerMappedException | CantGetPresciptionEntriesException | DatabaseOperationException e) {
-            e.printStackTrace();
-        }
-        assertTrue(prescriptionEntries.size() > 0);
-    }
+	@Test
+	public void testReload() {
+		Prescription prescription = null;
+		Collection<IPrescriptionEntry> prescriptionEntries = null;
+		try {
+			prescription = Facade.getInstance().getById(Prescription.class, 1);
+			prescriptionEntries = prescription.getPrescriptionEntries();
+		} catch (BadConnectionException | NoBrokerMappedException | CantGetPresciptionEntriesException | DatabaseOperationException e) {
+			e.printStackTrace();
+		}
+		assertTrue(prescriptionEntries.size() > 0);
+	}
 }

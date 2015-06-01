@@ -7,21 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**<h1>$UserNotFoundException.java</h1>
- * @author $jpo2433
- * @author $sha9939
- * @since $13.04.15
- *
- * Description:
- * In this file is a class which extends the CheckinControllerException
- **/
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.LoginControllerException;
 
 /**
- * <h2>$UserNotFoundException</h2>
- *
- * <b>Description:</b>
- * This Exception is thrown, if the given user is null.
- **/
-public class UserNotFoundException extends CheckinControllerException {
+ * Created by oculus on 27.05.15.
+ */
+public class PasswordIncorrectException extends LoginControllerException {
 }

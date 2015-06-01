@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.application.controller;
 
-import at.oculus.teamf.application.controller.exceptions.PatientNotFoundException;
-import at.oculus.teamf.application.controller.exceptions.QueueNotFoundException;
-import at.oculus.teamf.application.controller.exceptions.UserNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.PatientNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.QueueNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.UserNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;

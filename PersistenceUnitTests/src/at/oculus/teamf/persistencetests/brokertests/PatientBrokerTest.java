@@ -231,7 +231,7 @@ public class PatientBrokerTest extends BrokerTest {
 	}
 
 	@Test
-	public void testLogin(){
+	public void testLogin() {
 		Patient patient = null;
 		try {
 			for (Object p : Facade.getInstance().search(Patient.class, "spitze.biene@hotmail.com")) {
@@ -241,12 +241,12 @@ public class PatientBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		if(patient == null){
+		if (patient == null) {
 			assertTrue(false);
 		}
 
 		try {
-			if(!Login.login(patient,"letmein")){
+			if (!Login.login(patient, "letmein")) {
 				assertTrue(false);
 			}
 		} catch (HashGenerationException e) {

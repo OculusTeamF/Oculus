@@ -44,7 +44,7 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-        _diagnosis = new Diagnosis();
+		_diagnosis = new Diagnosis();
 		_diagnosis.setDoctor(_doctor);
 		_diagnosis.setTitle("Diagnose Test");
 		_diagnosis.setDescription("Testbeschreibung");
@@ -55,8 +55,8 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-        assertTrue(_doctor.getId()>0);
-		assertTrue(_diagnosis.getId()>0);
+		assertTrue(_doctor.getId() > 0);
+		assertTrue(_diagnosis.getId() > 0);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-    }
+	}
 
 	@Override
 	public void testGetById() {
@@ -78,11 +78,11 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(diagnosis!=null);
-		assertTrue(diagnosis.getId()>0);
+		assertTrue(diagnosis != null);
+		assertTrue(diagnosis.getId() > 0);
 		assertTrue(diagnosis.getTitle().equals("Diagnose Test"));
 		assertTrue(diagnosis.getDescription().equals("Testbeschreibung"));
-		assertTrue(diagnosis.getDoctor().getId()==_doctor.getId());
+		assertTrue(diagnosis.getDoctor().getId() == _doctor.getId());
 	}
 
 	@Override
@@ -94,21 +94,21 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-        assertTrue(diagnoses!=null);
-		assertTrue(diagnoses.size()>1);
+		assertTrue(diagnoses != null);
+		assertTrue(diagnoses.size() > 1);
 	}
 
-    @Test
-    public void testSearchByPatient() {
-        Collection<Diagnosis> diagnoses = null;
-        try {
-            diagnoses = Facade.getInstance().search(Diagnosis.class, "59");
-        } catch (DatabaseOperationException | NoBrokerMappedException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+	@Test
+	public void testSearchByPatient() {
+		Collection<Diagnosis> diagnoses = null;
+		try {
+			diagnoses = Facade.getInstance().search(Diagnosis.class, "59");
+		} catch (DatabaseOperationException | NoBrokerMappedException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 		assertTrue(diagnoses.size() == 3);
-    }
+	}
 
 	@Test
 	public void testReload() {
@@ -121,9 +121,9 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-        Collection<IMedicine> medicine = null;
-        Collection<IVisualAid> visualAid = null;
-        try {
+		Collection<IMedicine> medicine = null;
+		Collection<IVisualAid> visualAid = null;
+		try {
 			medicine = diagnosis.getMedicine();
 			visualAid = diagnosis.getVisualAid();
 		} catch (CouldNotGetVisualAidException | CouldNotGetMedicineException e) {

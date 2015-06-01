@@ -7,10 +7,24 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+/**<h1>$QueueNotFoundException.java</h1>
+ * @author $jpo2433
+ * @author $sha9939
+ * @since $13.04.15
+ *
+ * Description:
+ * In this file is a class which extends the CheckinControllerException
+ **/
+package at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.CheckinControllerException;
 
 /**
- * Created by jpo2433 on 30.04.15.
- */
-public class RequirementsUnfulfilledException extends CreateDiagnosisControllerException{
+ * <h2>$QueueNotFoundException</h2>
+ *
+ * <b>Description:</b>
+ * This Exception is thrown, if the given queue is null.
+ **/
+public class QueueNotFoundException extends CheckinControllerException {
+
 }

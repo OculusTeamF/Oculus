@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.ApplicationException;
 
 /**
- * Created by oculus on 08.05.15.
+ * Created by oculus on 29.05.15.
  */
-public class PrescriptionControllerException extends ApplicationException {
+public class EventChooserControllerException extends ApplicationException {
 }

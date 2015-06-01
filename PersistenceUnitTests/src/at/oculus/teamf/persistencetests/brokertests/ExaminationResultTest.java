@@ -68,7 +68,7 @@ public class ExaminationResultTest extends BrokerTest {
 	public void testGetById() {
 		ExaminationResult examinationResult = null;
 		try {
-			examinationResult = Facade.getInstance().getById(ExaminationResult.class,_examinationResult.getId());
+			examinationResult = Facade.getInstance().getById(ExaminationResult.class, _examinationResult.getId());
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -76,14 +76,14 @@ public class ExaminationResultTest extends BrokerTest {
 		assertTrue(_examinationResult.getId() == examinationResult.getId());
 		assertTrue(_examinationResult.getExaminationProtocol().equals(examinationResult.getExaminationProtocol()));
 		assertTrue(_examinationResult.getUser().equals(examinationResult.getUser()));
-        assertTrue(_examinationResult.getResult().equals(examinationResult.getResult()));
+		assertTrue(_examinationResult.getResult().equals(examinationResult.getResult()));
 		assertTrue(_examinationResult.getDevice().equals(examinationResult.getDevice()));
 		assertTrue(_examinationResult.getDeviceData() == examinationResult.getDeviceData());
 	}
 
 	@Override
 	public void testGetAll() {
-        /*Collection<ExaminationResult> examinationResults = null;
+	    /*Collection<ExaminationResult> examinationResults = null;
 		try {
             examinationResults = Facade.getInstance().getAll(ExaminationResult.class);
 		} catch (BadConnectionException e) {
@@ -94,19 +94,19 @@ public class ExaminationResultTest extends BrokerTest {
             e.printStackTrace();
         }
         assertTrue(examinationResults.size()>0);*/
-    }
+	}
 
-    @Test
-    public void testSearch(){
-        Collection<ExaminationResult> examinationResults = null;
+	@Test
+	public void testSearch() {
+		Collection<ExaminationResult> examinationResults = null;
 
-        try {
-            examinationResults = Facade.getInstance().search(ExaminationResult.class, "1");
-        } catch (SearchInterfaceNotImplementedException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException | BadConnectionException e) {
+		try {
+			examinationResults = Facade.getInstance().search(ExaminationResult.class, "1");
+		} catch (SearchInterfaceNotImplementedException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException | BadConnectionException e) {
 			e.printStackTrace();
 			assertTrue(false);
-        }
+		}
 
-		assertTrue(examinationResults.size()==21);
-    }
+		assertTrue(examinationResults.size() == 21);
+	}
 }

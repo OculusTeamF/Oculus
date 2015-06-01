@@ -49,6 +49,7 @@ public class WorkingHoursBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 		assertTrue(workingHours.size() > 0);
+
 		/*for(WorkingHours w : workingHours){
 			System.out.println(w);
 		}*/

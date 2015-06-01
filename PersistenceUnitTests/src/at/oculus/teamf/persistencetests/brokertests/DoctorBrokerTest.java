@@ -39,25 +39,25 @@ public class DoctorBrokerTest extends BrokerTest {
 	}
 
 	@Test
-    @Override
-    public void testGetById() {
-        Facade facade = Facade.getInstance();
-        Doctor doctor = null;
-        try {
-	        long startTime = System.nanoTime();
-            doctor = facade.getById(Doctor.class, 1);
-	        System.out.println("Doctor with ID=1 loaded in " + ((System.nanoTime() - startTime)/1000000) + "ms");
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-        assertTrue(doctor != null);
-    }
+	@Override
+	public void testGetById() {
+		Facade facade = Facade.getInstance();
+		Doctor doctor = null;
+		try {
+			long startTime = System.nanoTime();
+			doctor = facade.getById(Doctor.class, 1);
+			System.out.println("Doctor with ID=1 loaded in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(doctor != null);
+	}
 
-    @Test
-    @Override
-    public void testGetAll() {
-        /*Collection<Doctor> doctors = null;
+	@Test
+	@Override
+	public void testGetAll() {
+	    /*Collection<Doctor> doctors = null;
 
 	    try {
 		    doctors = Facade.getInstance().getAll(Doctor.class);
@@ -68,46 +68,46 @@ public class DoctorBrokerTest extends BrokerTest {
 
         assertTrue(doctors != null);
 	    assertTrue(doctors.size() > 1);*/
-    }
+	}
 
 	@Test
-    public void testReload() {
-        Facade facade = Facade.getInstance();
-        Doctor doctor = null;
-        try {
-            doctor = facade.getById(Doctor.class, 1);
-        } catch (FacadeException e) {
-            assertTrue(false);
-            e.printStackTrace();
-        }
-        assertTrue(doctor != null);
-		assertTrue(doctor.getCalendar()!=null);
-		assertTrue(doctor.getDoctorSubstitude()==null);
+	public void testReload() {
+		Facade facade = Facade.getInstance();
+		Doctor doctor = null;
+		try {
+			doctor = facade.getById(Doctor.class, 1);
+		} catch (FacadeException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+		assertTrue(doctor != null);
+		assertTrue(doctor.getCalendar() != null);
+		assertTrue(doctor.getDoctorSubstitude() == null);
 
-        try {
-            facade.reloadCollection(doctor, Patient.class);
-        } catch (FacadeException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+		try {
+			facade.reloadCollection(doctor, Patient.class);
+		} catch (FacadeException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 
-        try {
-            assertTrue(doctor.getPatients() != null);
-            assertTrue(doctor.getPatients().size() > 0);
-        } catch (CantLoadPatientsException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-    }
+		try {
+			assertTrue(doctor.getPatients() != null);
+			assertTrue(doctor.getPatients().size() > 0);
+		} catch (CantLoadPatientsException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 
-    @Test
-    public void testSearch() {
-        Collection<VisualAid> visualAid = null;
-        try {
-            visualAid = Facade.getInstance().search(VisualAid.class, "1");
-        } catch (SearchInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException e) {
-            e.printStackTrace();
-        }
-        assertTrue(visualAid.size() > 0);
-    }
+	@Test
+	public void testSearch() {
+		Collection<VisualAid> visualAid = null;
+		try {
+			visualAid = Facade.getInstance().search(VisualAid.class, "1");
+		} catch (SearchInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException | InvalidSearchParameterException | NoBrokerMappedException e) {
+			e.printStackTrace();
+		}
+		assertTrue(visualAid.size() > 0);
+	}
 }

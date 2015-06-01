@@ -37,7 +37,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 
     public PatientBroker() {
         super(Patient.class, PatientEntity.class);
-		addDomainClassMapping(IPatient.class);
+        addDomainClassMapping(IPatient.class);
     }
 
 	/**

@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.application.controller;
 
-import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.Doctor;

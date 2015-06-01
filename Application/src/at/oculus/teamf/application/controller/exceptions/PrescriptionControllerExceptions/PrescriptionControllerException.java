@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.PrescriptionControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.ApplicationException;
 
 /**
- * Created by oculus on 22.04.15.
+ * Created by oculus on 08.05.15.
  */
-public class PatientCouldNotBeSavedException extends CreatePatientControllerException {
+public class PrescriptionControllerException extends ApplicationException {
 }

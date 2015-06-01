@@ -9,9 +9,16 @@
 
 package at.oculus.teamf.domain.entity.criteria;
 
+import at.oculus.teamf.domain.entity.CalendarEvent;
+
 /**
  * Criteria.java
  * Created by oculus on 27.05.15.
  */
-public abstract class Criteria {
+public interface Criteria {
+
+
+
+    boolean isValidEvent(CalendarEvent event);
+
 }

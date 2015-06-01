@@ -7,21 +7,24 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**<h1>$PatientNotFoundException.java</h1>
+/**<h1>$RequirementsNotMetException.java</h1>
  * @author $jpo2433
  * @author $sha9939
  * @since $13.04.15
  *
  * Description:
- * In this file is a class which extends the CheckinControllerException
+ * In this file is  the RequirementsNotMetException-class which extends Exception
  **/
-package at.oculus.teamf.application.controller.exceptions;
+package at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions;
+
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.CreatePatientControllerException;
 
 /**
- * <h2>$PatientNotFoundException</h2>
+ * <h2>$RequirementsNotMetException</h2>
  *
  * <b>Description:</b>
- * This Exception is thrown, if the given patient is null.
+ * This Exception is thrown, if the requirements of given data, when a new patient is created, are unfulfilled.
  **/
-public class PatientNotFoundException extends CheckinControllerException {
+public class RequirementsNotMetException extends CreatePatientControllerException {
+
 }

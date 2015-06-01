@@ -21,7 +21,7 @@ public class CalendarEntity implements IEntity {
     private int _id;
     private String _title;
     private Collection<CalendarEventEntity> _calendarevents;
-    //private Collection<CalendarworkinghoursEntity> _calendarworkinghours;
+    private Collection<CalendarWorkingHoursEntity> _calendarworkinghours;
     private DoctorEntity _doctor;
     private OrthoptistEntity _orthoptist;
 
@@ -77,16 +77,15 @@ public class CalendarEntity implements IEntity {
         _calendarevents = calendarEvents;
     }
 
-    /*
     @OneToMany(mappedBy = "calendar")
-    public Collection<CalendarworkinghoursEntity> getCalendarWorkingHours() {
+    public Collection<CalendarWorkingHoursEntity> getCalendarWorkingHours() {
         return _calendarworkinghours;
     }
 
-    public void setCalendarWorkingHours(Collection<CalendarworkinghoursEntity> calendarworkinghourses) {
+    public void setCalendarWorkingHours(Collection<CalendarWorkingHoursEntity> calendarworkinghourses) {
         _calendarworkinghours = calendarworkinghourses;
     }
-    */
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "calendarId", nullable = false)
     public DoctorEntity getDoctor() {

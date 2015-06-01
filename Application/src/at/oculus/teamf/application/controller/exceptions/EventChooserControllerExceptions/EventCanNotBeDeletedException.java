@@ -7,11 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.criteria;
+package at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions;
 
 /**
- * IFilter.java
- * Created by oculus on 27.05.15.
+ * Created by oculus on 29.05.15.
  */
-public interface IFilter {
+public class EventCanNotBeDeletedException extends EventChooserControllerException {
 }

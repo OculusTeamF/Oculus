@@ -21,7 +21,7 @@ package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoPatientException;
+import at.oculus.teamf.application.controller.exceptions.PrescriptionControllerExceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IPatient;

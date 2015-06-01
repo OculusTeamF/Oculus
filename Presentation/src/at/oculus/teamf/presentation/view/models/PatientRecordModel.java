@@ -11,9 +11,9 @@ package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.controller.PrescriptionController;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.application.controller.exceptions.NoPatientException;
-import at.oculus.teamf.application.controller.exceptions.PatientCouldNotBeSavedException;
-import at.oculus.teamf.application.controller.exceptions.RequirementsNotMetException;
+import at.oculus.teamf.application.controller.exceptions.PrescriptionControllerExceptions.NoPatientException;
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.PatientCouldNotBeSavedException;
+import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
@@ -56,7 +56,8 @@ public class PatientRecordModel {
     private static PatientRecordModel _patientmodel = new PatientRecordModel();
     private Model _model;
 
-    public static PatientRecordModel getInstance() {
+    public static PatientRecordModel getInstance()
+    {
         if(_patientmodel == null) {
             _patientmodel = new PatientRecordModel();
         }
@@ -66,6 +67,12 @@ public class PatientRecordModel {
 
     /**
      * saves a updated Patient object
+     * @param patient - saves the patient if something have changed
+     * @throws RequirementsNotMetException
+     * @throws PatientCouldNotBeSavedException
+     * @throws BadConnectionException
+     * @throws CriticalDatabaseException
+     * @throws CriticalClassException
      */
     public void savePatient(IPatient patient)throws RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException, CriticalDatabaseException, CriticalClassException{
 
@@ -75,6 +82,19 @@ public class PatientRecordModel {
 
     /**
      * creates & saves a new Patient object
+     * @param gender -
+     * @param lastname -
+     * @param firstname -
+     * @param svn - 11 numbers
+     * @param bday -
+     * @param street -
+     * @param postalcode -
+     * @param city -
+     * @param phone -
+     * @param email -
+     * @param doctor -
+     * @param countryIsoCode -
+     * @return -
      */
     public boolean saveNewPatient(String gender, String lastname, String firstname, String svn, Date bday, String street, String postalcode, String city, String phone, String email, IDoctor doctor, String countryIsoCode)
     {
@@ -105,17 +125,16 @@ public class PatientRecordModel {
 
     /**
      * opens a popupwindow with the not printed prescriptions
-     * @param patient
+     * @param patient - actual patient from the patient record
      */
     public void openPrescriptionsToPrint(final PrescriptionController prescriptionController, IPatient patient) {
-
-        IPatient currPatient = patient;
 
         Stage stage = new Stage();
         stage.setTitle("Open Prescriptions");
 
         Group root = new Group();
         Scene scene = new Scene(root, 400, 300, Color.WHITE);
+        scene.getStylesheets().addAll(this.getClass().getResource("/styles/stylesheet_default.css").toExternalForm());
 
         GridPane pane = new GridPane();
         for(int i = 0; i < 3; i++){
@@ -178,14 +197,13 @@ public class PatientRecordModel {
             @Override
             public void handle(ActionEvent event) {
                 IPrescription prescription = openPrescriptions.getSelectionModel().getSelectedItem();
-
                 //TODO: _prescriptionController.deletePrescription();
             }
         });
 
         try {
            
-            prescriptionController.getNotPrintedPrescriptions(currPatient);
+            prescriptionController.getNotPrintedPrescriptions(patient);
         } catch (CouldNotGetPrescriptionException couldNotGetPrescriptionException) {
             couldNotGetPrescriptionException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("CouldNotGetPrescriptionException", "Please contact support");
@@ -207,8 +225,8 @@ public class PatientRecordModel {
 
         try {
             try {
-                PrescriptionController _prescriptionController = PrescriptionController.createController(currPatient);
-                ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(currPatient));
+                PrescriptionController _prescriptionController = PrescriptionController.createController(patient);
+                ObservableList<IPrescription> prescriptionList = FXCollections.observableList((List) _prescriptionController.getNotPrintedPrescriptions(patient));
                 openPrescriptions.setItems(prescriptionList);
 
             } catch (NoPatientException noPatientException) {
