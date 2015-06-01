@@ -43,4 +43,6 @@ public interface ICalendarWorkingHours extends IDomain {
     WeekDayKey getWeekday();
 
     void setWeekday(WeekDayKey weekday);
+
+    boolean contains(ICalendarEvent calendarEvent);
 }
