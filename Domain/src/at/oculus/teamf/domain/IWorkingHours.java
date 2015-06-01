@@ -7,13 +7,44 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.appointment;
+package at.oculus.teamf.domain;
 
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.IEventType;
+
+import java.time.LocalTime;
 
 /**
- * Created by oculus on 20.04.15.
+ * Created by Simon Angerer on 28.05.2015.
  */
-public interface IFirstAppointment extends IDomain, IEventType {
+public interface IWorkingHours extends IDomain {
+    @Override
+    int getId();
+
+    @Override
+    void setId(int id);
+
+    LocalTime getMorningFrom();
+
+    void setMorningFrom(LocalTime morningFrom);
+
+    LocalTime getMorningTo();
+
+    void setMorningTo(LocalTime morningTo);
+
+    LocalTime getAfternoonFrom();
+
+    void setAfternoonFrom(LocalTime afternoonFrom);
+
+    LocalTime getAfternoonTo();
+
+    void setAfternoonTo(LocalTime afternoonTo);
+
+    @Override
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
+
+    @Override
+    String toString();
 }

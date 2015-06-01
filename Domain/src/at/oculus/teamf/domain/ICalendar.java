@@ -7,51 +7,34 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokertests;
+package at.oculus.teamf.domain;
 
-import at.oculus.teamf.domain.WorkingHours;
-import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
-
-import static org.junit.Assert.assertTrue;
-
+import java.util.Iterator;
 
 /**
- * WorkingHoursBrokerTest.java Created by oculus on 27.05.15.
+ * Created by FabianLaptop on 08.04.2015.
  */
-public class WorkingHoursBrokerTest extends BrokerTest {
-	@Override
-	public void setUp() {
+public interface ICalendar extends IDomain {
+    int getId();
 
-	}
+    void setWorkingHours(Collection<ICalendarWorkingHours> calendarWorkingHourses);
 
-	@Override
-	public void tearDown() {
+    void setEvents(Collection<ICalendarEvent> iCalendarEvents);
 
-	}
+    Iterator<ICalendarEvent> availableEventsIterator(Object o, int i) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+            NoBrokerMappedException, DatabaseOperationException;
 
-	@Override
-	public void testGetById() {
+    /*
+    void setId(int calendarID);
 
-	}
-
-	@Override
-	public void testGetAll() {
-		Collection<WorkingHours> workingHours = null;
-		try {
-			workingHours = Facade.getInstance().getAll(WorkingHours.class);
-		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-		assertTrue(workingHours.size() > 0);
-
-		/*for(WorkingHours w : workingHours){
-			System.out.println(w);
-		}*/
-	}
+    void setEvents(Collection<CalendarEvent> events);
+    */
 }

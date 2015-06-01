@@ -9,11 +9,9 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.calendar.Calendar;
+import at.oculus.teamf.domain.Calendar;
 import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.medicine.IMedicine;
 import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 import at.oculus.teamf.persistence.Facade;

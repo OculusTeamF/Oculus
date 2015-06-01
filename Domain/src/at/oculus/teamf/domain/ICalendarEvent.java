@@ -7,13 +7,33 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.appointment;
+package at.oculus.teamf.domain;
 
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.IEventType;
+import at.oculus.teamf.domain.entity.patient.IPatient;
+
+import java.util.Date;
 
 /**
  * Created by oculus on 20.04.15.
  */
-public interface IFirstAppointment extends IDomain, IEventType {
+public interface ICalendarEvent extends IDomain {
+    //<editor-fold desc="Getter/Setter">
+    int getId();
+
+    void setId(int id);
+
+    String getDescription();
+
+    void setDescription(String description);
+
+    Date getEventStart();
+
+    void setEventStart(Date eventStart);
+
+    Date getEventEnd();
+
+    void setEventEnd(Date eventEnd);
+
+    void setPatient(IPatient patient);
 }

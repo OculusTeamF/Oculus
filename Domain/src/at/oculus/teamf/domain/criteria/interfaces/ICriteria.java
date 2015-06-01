@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.criteria.interfaces;
 
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.ICalendarEvent;
 
 /**
  * Criteria.java
