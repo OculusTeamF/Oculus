@@ -11,7 +11,7 @@ package at.oculus.teamf.domain.entity.user.orthoptist;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
-import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.ICalendar;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

@@ -7,28 +7,39 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.user.orthoptist;
+package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.ICalendar;
-import at.oculus.teamf.domain.entity.queue.IPatientQueue;
-import at.oculus.teamf.domain.entity.user.IUser;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.entity.WeekDayKey;
 
 /**
- * orthoptist interface for presentation layer
+ * Created by Simon Angerer on 28.05.2015.
  */
-public interface IOrthoptist extends IUser {
-
+public interface ICalendarWorkingHours extends IDomain {
+    @Override
     int getId();
 
+    @Override
     void setId(int id);
+
+    int getWorkingHoursId();
+
+    void setWorkingHoursId(int workingHoursId);
+
+    int getCalendarId();
+
+    void setCalendarId(int calendarId);
+
+    IWorkingHours getWorkinghours();
+
+    void setWorkinghours(IWorkingHours workinghours);
 
     ICalendar getCalendar();
 
     void setCalendar(ICalendar calendar);
 
-    IPatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException;
+    WeekDayKey getWeekday();
 
-    void setQueue(IPatientQueue queue);
+    void setWeekday(WeekDayKey weekday);
+
+    boolean contains(ICalendarEvent calendarEvent);
 }

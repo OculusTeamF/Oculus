@@ -7,13 +7,26 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.appointment;
-
-import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.IEventType;
+package at.oculus.teamf.domain.entity;
 
 /**
  * Created by oculus on 20.04.15.
  */
-public interface IOrthoptistAppointment extends IDomain, IEventType {
+public interface IEventType extends IDomain {
+    //<editor-fold desc="Getter/Setter">
+    int getId();
+
+    void setId(int id);
+
+    String getEventTypeName();
+
+    void setEventTypeName(String eventTypeName);
+
+    int getEstimatedTime();
+
+    void setEstimatedTime(int estimatedTime);
+
+    String getDescription();
+
+    void setDescription(String description);
 }

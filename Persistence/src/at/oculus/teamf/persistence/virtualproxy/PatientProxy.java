@@ -11,8 +11,8 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.readonly.IRPatientTb2;
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.ICalendarEvent;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.ExaminationResult;

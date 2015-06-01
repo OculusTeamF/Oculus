@@ -11,7 +11,7 @@ package at.oculus.teamf.domain.criteria;
 
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.ICalendarEvent;
 import java.util.Collection;
 
 /**
