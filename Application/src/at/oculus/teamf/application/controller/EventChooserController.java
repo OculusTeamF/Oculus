@@ -10,9 +10,13 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
-import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
+import at.oculus.teamf.domain.criteria.DatePeriodICriteria;
 import at.oculus.teamf.domain.criteria.WeekDayTime;
 import at.oculus.teamf.domain.criteria.WeekDayTimeCriteria;
+import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
+import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
@@ -20,6 +24,7 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
+import at.oculus.teamf.persistence.entity.WeekDayKey;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -28,6 +33,7 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -45,6 +51,7 @@ public class EventChooserController implements ILogger {
     private IPatient iPatient;
     private Collection<ICalendarEvent> futureEvents;
     private String description;
+    private Collection<IWeekDayTime> weekDayTimeCollection;
 
     /**
      *<h3>$EventChooserController</h3>
@@ -58,6 +65,7 @@ public class EventChooserController implements ILogger {
      */
     private EventChooserController(IPatient patient){
         iPatient = patient;
+        weekDayTimeCollection = new LinkedList<>();
     }
 
     public static EventChooserController createEventChooserController(IPatient iPatient) throws PatientCanNotBeNullException {
@@ -135,10 +143,11 @@ public class EventChooserController implements ILogger {
      * It returns a collection of calendar-events, or an empty collection, if there are no fitting events available.
      *
      *<b>Parameter</b>
-     * @param
+     * @param start this is the startdate of the time period in which the patient doesn't have time
+     * @param end this is the enddate of the time period in which the patient doesn't have time
+     * @param weekDayTimes these are the restrictions, when the patient wants to come
      */
-    public Collection<ICalendarEvent> getAvailableEvents() throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
-        //TODO add parameters
+    public Collection<ICalendarEvent> getAvailableEvents(Date start, Date end, Collection<IWeekDayTime> weekDayTimes) throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         if(futureEvents.size() > 0){
             for(ICalendarEvent event : futureEvents){
                 if(!checkDate(event.getEventStart())){
@@ -155,31 +164,16 @@ public class EventChooserController implements ILogger {
         }
         ICalendar iCalendar = iDoctor.getCalendar();
 
+        IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
+        IDatePeriodCriteria datePeriodICriteria = new DatePeriodICriteria(start, end);
 
-        //TODO check input --> create criterias
-
-        Collection<WeekDayTime> weekDayTimes = new LinkedList<>();
-
-        //TODO für alle ausgewählten Tage
-            WeekDayTime weekDayTime = new WeekDayTime(null, null, null);
-            weekDayTimes.add(weekDayTime);
-
-
-        WeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
-
-        //DatePeriodCriteria erstellen
-
-        //beide in eine Collection und als parameter übergeben
         Collection<ICriteria> criterias = new LinkedList<>();
         criterias.add(weekDayTimeCriteria);
-
-
-
-        //TODO criterias instead of null in method signature
+        criterias.add(datePeriodICriteria);
 
         Iterator<ICalendarEvent> iterator = null;
         try {
-            iterator = iCalendar.availableEventsIterator(null, 30);
+            iterator = iCalendar.availableEventsIterator(criterias, 30);
         } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
             log.error("Facade exception caught! Could not get Events - " + e.getMessage());
             throw e;
@@ -194,6 +188,51 @@ public class EventChooserController implements ILogger {
         }
 
         return results;
+    }
+
+    /**
+     *<h3>$getAvailableEvents</h3>
+     *
+     * <b>Description:</b>
+     * this method creates new criterias. It creates a new WeekDayTime when the patient wants to come and adds it to a collection
+     * which is returned. 
+     *
+     *<b>Parameter</b>
+     * @param start this is the starttime of the period in which the patient wants to come
+     * @param end this is the endtime of the period in which the patient wants to come
+     * @param weekDay this is the weekday on which the patient wants to come
+     */
+    public Collection<IWeekDayTime> addCriteria(String weekDay, LocalTime start, LocalTime end){
+        WeekDayKey key;
+        switch(weekDay){
+            case "SUN":
+                key = WeekDayKey.SUN;
+                break;
+            case "MON":
+                key = WeekDayKey.MON;
+                break;
+            case "TUE":
+                key = WeekDayKey.TUE;
+                break;
+            case "WED":
+                key = WeekDayKey.WED;
+                break;
+            case "THU":
+                key = WeekDayKey.THU;
+                break;
+            case "FRI":
+                key = WeekDayKey.FRI;
+                break;
+            case "SAT":
+                key = WeekDayKey.SAT;
+                break;
+            default:
+                key = WeekDayKey.NULL;
+        }
+
+        IWeekDayTime weekDayTime = new WeekDayTime(key, start, end);
+        weekDayTimeCollection.add(weekDayTime);
+        return weekDayTimeCollection;
     }
 
     /**
