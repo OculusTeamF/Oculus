@@ -10,6 +10,7 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
+import at.oculus.teamf.domain.entity.criteria.DatePeriodICriteria;
 import at.oculus.teamf.domain.entity.criteria.ICriteria;
 import at.oculus.teamf.domain.entity.criteria.WeekDayTime;
 import at.oculus.teamf.domain.entity.criteria.WeekDayTimeCriteria;
@@ -167,19 +168,18 @@ public class EventChooserController implements ILogger {
 
         WeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
 
-        //DatePeriodCriteria erstellen
+        //TODO Start- und End-Datum statt null einfügen
+        DatePeriodICriteria datePeriodICriteria = new DatePeriodICriteria(null, null);
 
-        //beide in eine Collection und als parameter übergeben
         Collection<ICriteria> criterias = new LinkedList<>();
         criterias.add(weekDayTimeCriteria);
-
-
+        criterias.add(datePeriodICriteria);
 
         //TODO criterias instead of null in method signature
 
         Iterator<ICalendarEvent> iterator = null;
         try {
-            iterator = iCalendar.availableEventsIterator(null, 30);
+            iterator = iCalendar.availableEventsIterator(criterias, 30);
         } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
             log.error("Facade exception caught! Could not get Events - " + e.getMessage());
             throw e;
