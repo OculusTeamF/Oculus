@@ -10,6 +10,9 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
+import at.oculus.teamf.domain.entity.criteria.ICriteria;
+import at.oculus.teamf.domain.entity.criteria.WeekDayTime;
+import at.oculus.teamf.domain.entity.criteria.WeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
@@ -154,6 +157,23 @@ public class EventChooserController implements ILogger {
 
 
         //TODO check input --> create criterias
+
+        Collection<WeekDayTime> weekDayTimes = new LinkedList<>();
+
+        //TODO für alle ausgewählten Tage
+            WeekDayTime weekDayTime = new WeekDayTime(null, null, null);
+            weekDayTimes.add(weekDayTime);
+
+
+        WeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
+
+        //DatePeriodCriteria erstellen
+
+        //beide in eine Collection und als parameter übergeben
+        Collection<ICriteria> criterias = new LinkedList<>();
+        criterias.add(weekDayTimeCriteria);
+
+
 
         //TODO criterias instead of null in method signature
 
