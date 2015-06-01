@@ -46,6 +46,8 @@
                         Description: ${user.description}
                     </p>
                     <button type="button" onclick="alert('Delete!')">Delete appointment</button>
+                    <br/><br/>
+                    <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
                 <div id="tabs-2">
                     <div id="datetimepicker"></div>
@@ -70,9 +72,9 @@
                             <br/>
                             <strong>First Name:</strong> ${user.firstName}
                             <br/>
-                            Last Name: ${user.lastName}
+                            <strong>Last Name:</strong> ${user.lastName}
                             <br/>
-                            SV Number: ${user.svNumber}
+                                <strong>SV Number:</strong> ${user.svNumber}
                             <br/><br/>
                         </p>
                         <h3><strong>Current Appointment:<br/></strong></h3>
@@ -81,11 +83,11 @@
 
                                 <p>
                                     <br/>
-                                    Date start: ${user.dateStart}
+                                    <strong>Date start:</strong> ${user.dateStart}
                                     <br/>
-                                    Date end: ${user.dateEnd}
+                                    <strong>Date end:</strong> ${user.dateEnd}
                                     <br/>
-                                    Description: ${user.description}
+                                    <strong>Description:</strong> ${user.description}
                                 </p>
                             </c:when>
                         </c:choose>
@@ -132,6 +134,13 @@
             $('#MyTabSelector').disableTab(3);
         }
 
+    });
+
+    $("#activate-tabs").click(function(event){
+        $('#MyTabSelector').enableTab(0);
+        $('#MyTabSelector').enableTab(1);
+        $('#MyTabSelector').enableTab(2);
+        $('#MyTabSelector').enableTab(3);
     });
 </script>
 </html>
