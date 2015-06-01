@@ -14,6 +14,8 @@ import at.oculus.teamf.application.controller.exceptions.CheckinControllerExcept
 import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.UserNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;

@@ -18,7 +18,7 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

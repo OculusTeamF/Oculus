@@ -22,6 +22,8 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;

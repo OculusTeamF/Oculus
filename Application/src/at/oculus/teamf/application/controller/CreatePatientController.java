@@ -13,10 +13,10 @@ import at.oculus.teamf.application.controller.exceptions.CreatePatientController
 import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.doctor.Doctor;
 import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;

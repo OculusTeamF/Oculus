@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 

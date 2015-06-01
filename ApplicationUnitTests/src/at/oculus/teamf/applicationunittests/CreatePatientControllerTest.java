@@ -14,7 +14,7 @@ import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.application.controller.StartupController;
 import at.oculus.teamf.application.controller.additional.RemovePatientController;
 import at.oculus.teamf.domain.entity.DomainFactory;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Date;

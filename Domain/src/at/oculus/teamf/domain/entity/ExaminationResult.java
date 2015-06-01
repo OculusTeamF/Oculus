@@ -12,6 +12,8 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IExaminationTb2;
 import at.oculus.teamE.domain.interfaces.IUserTb2;
+import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.technical.loggin.ILogger;
 

@@ -9,10 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.User;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 
 import java.util.Date;
 

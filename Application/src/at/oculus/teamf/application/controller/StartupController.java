@@ -30,6 +30,8 @@ import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.domain.entity.adapter.FacadeAdapter;
 import at.oculus.teamf.domain.entity.adapter.FactoryAdapter;
+import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -38,7 +40,7 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.FactoryTB2;
+import at.oculus.teamf.domain.entity.adapter.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

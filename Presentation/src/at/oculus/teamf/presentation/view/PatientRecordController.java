@@ -20,6 +20,7 @@ import at.oculus.teamf.application.controller.exceptions.CreatePatientController
 import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.RequirementsNotMetException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetDiagnoseException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;

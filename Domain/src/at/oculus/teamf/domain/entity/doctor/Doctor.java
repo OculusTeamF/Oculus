@@ -7,13 +7,15 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.doctor;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamf.domain.entity.Calendar;
+import at.oculus.teamf.domain.entity.PatientQueue;
+import at.oculus.teamf.domain.entity.User;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
