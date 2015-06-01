@@ -7,10 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IPatientTb2;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -31,9 +32,9 @@ import java.util.List;
 
 /**
  * @author Simon Angerer
+ * @date 03.4.2015
  */
 public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
-
     //<editor-fold desc="Attributes">
     private int _id;
     private String _firstName;
@@ -41,7 +42,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     private Gender _gender;
     private String _socialInsuranceNr;
     private IDoctor _doctor;
-    private Collection<ICalendarEvent> _calendarEvents;
+    private Collection<CalendarEvent> _calendarEvents;
     private Date _birthDay;
     private String _street;
     private String _postalCode;
@@ -54,8 +55,11 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     private String _childhoodAilments;
     private String _medicineIntolerance;
     private Collection<IExaminationProtocol> _examinationProtocol;
+    private Collection<IExaminationResult> _examinationResults;
 	private Collection<IPrescription> _prescriptions;
-    private Collection<IVisualAid> _visualAid;
+    private Collection<IVisualAid> _visualAids;
+    private Collection<IDiagnosis> _diagnosis;
+    private Collection<IMedicine> _medicine;
 
     //<editor-fold desc="Getter/Setter">
 
@@ -63,7 +67,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		return _doctor;
 	}
 
-	public void setDoctor(Doctor doctor) {
+	public void setDoctor(IDoctor doctor) {
 		_doctor = doctor;
 	}
 
@@ -96,13 +100,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 		if (_examinationProtocol == null) {
 			_examinationProtocol = new LinkedList<>();
 		}
-		_examinationProtocol.add(examinationProtocol);
-		try {
-			Facade.getInstance().save(examinationProtocol);
-		} catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
-			log.error(e.getMessage());
-			throw new CouldNotAddExaminationProtocol();
-		}
+		_examinationProtocol.add( examinationProtocol);
 	}
 
 	@Override
@@ -161,7 +159,6 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 	}
 
 	public int getId() {
-
 		return _id;
 	}
 
@@ -172,18 +169,6 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 	@Override
 	public String toString() {
 		return getFirstName() + " " + getLastName() + ", " + getSocialInsuranceNr();
-	}
-
-	public void addPrescription(IPrescription prescription) throws CouldNotAddPrescriptionException {
-		Prescription p = (Prescription) prescription;
-		p.setPatient(this);
-		try {
-			Facade.getInstance().save(p);
-		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
-			log.error(e.getMessage());
-			throw new CouldNotAddPrescriptionException();
-		}
-		_prescriptions.add(p);
 	}
 
 	public String getFirstName() {
@@ -203,9 +188,8 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
         return null;
     }
 
-    public IPatient setLastName(String lastName) {
+    public void setLastName(String lastName) {
 		_lastName = lastName;
-        return this;
     }
 
     public Gender getGender() {
@@ -224,22 +208,12 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
         }
     }
 
-
-    @SuppressWarnings("unchecked")
 	public Collection<ICalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
-
-        try {
-            Facade.getInstance().reloadCollection(this, CalendarEvent.class);
-        } catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException  | DatabaseOperationException e) {
-            log.error(e.getMessage());
-            throw new CouldNotGetCalendarEventsException();
-        }
-
         return (Collection<ICalendarEvent>) (Collection<?>) _calendarEvents;
     }
 
     public void setCalendarEvents(Collection<ICalendarEvent> calendarEvents) {
-        _calendarEvents = (Collection<ICalendarEvent>) (Collection<?>) calendarEvents;
+        _calendarEvents = (Collection<CalendarEvent>) (Collection<?>) calendarEvents;
     }
 
     @Override
@@ -262,7 +236,7 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 
     @Override
     public void setIDoctor(IDoctor idoctor) {
-        _doctor = (Doctor) idoctor;
+        _doctor = idoctor;
     }
 
     public Date getBirthDay() {
@@ -366,16 +340,6 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
     }
 
 	public Collection<IExaminationProtocol> getExaminationProtocol() throws CouldNotGetExaminationProtolException {
-
-		if(_examinationProtocol == null) {
-			try {
-				Facade.getInstance().reloadCollection(this, ExaminationProtocol.class);
-			} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
-				log.error(e.getMessage());
-				throw new CouldNotGetExaminationProtolException();
-			}
-		}
-
         return (Collection<IExaminationProtocol>) (Collection<?>) _examinationProtocol;
     }
 
@@ -391,16 +355,12 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
      * @throws CouldNotGetExaminationResultException
      */
     public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
-        Collection<IExaminationResult> examinationResults = null;
+        return _examinationResults;
+    }
 
-        try {
-            examinationResults = Facade.getInstance().search(ExaminationResult.class, this.getId() + "");
-        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
-            log.error(e.getMessage());
-            throw new CouldNotGetExaminationResultException();
-        }
-
-        return examinationResults;
+    @Override
+    public void setExaminationResults(Collection<IExaminationResult> results) {
+        _examinationResults = results;
     }
 
     //</editor-fold>
@@ -411,13 +371,6 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 	 * @throws CouldNotGetPrescriptionException
 	 */
 	public Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException {
-		try {
-			Facade.getInstance().reloadCollection(this, Prescription.class);
-		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidReloadClassException | ReloadInterfaceNotImplementedException e) {
-			log.error(e.getMessage());
-			throw new CouldNotGetPrescriptionException();
-		}
-
 		return (Collection<IPrescription>) (Collection<?>) _prescriptions;
     }
 
@@ -431,15 +384,8 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 	 * @throws CouldNotGetDiagnoseException
 	 */
 	public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
-        Collection<IDiagnosis> diagnoses = null;
-        try {
-            diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
-        } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
-            log.error(e.getMessage());
-            throw new CouldNotGetDiagnoseException();
-        }
-
-	    return diagnoses;
+	    _diagnosis = null;
+        return _diagnosis;
     }
 
 	/**
@@ -448,28 +394,18 @@ public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
 	 * @throws CouldNotGetMedicineException
 	 */
 	public Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException {
-		Collection<IMedicine> medicine = null;
-
-		try {
-			medicine = Facade.getInstance().search(Medicine.class, this.getId() + "");
-		} catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
-			log.error(e.getMessage());
-			throw new CouldNotGetMedicineException();
-		}
-
-		return medicine;
+		_medicine = null;
+        return _medicine;
     }
 
     public Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException {
-        if (_visualAid == null) {
-            try {
-                _visualAid = Facade.getInstance().search(VisualAid.class, "1");
-            } catch (NoBrokerMappedException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException e) {
-                e.printStackTrace();
-                throw new CouldNotGetVisualAidException();
-            }
-        }
-        return (Collection<IVisualAid>) (Collection<?>) _visualAid;
+        _visualAids = null;
+        return _visualAids;
+    }
+
+    @Override
+    public void setVisualAid(Collection<IVisualAid> visualAids) {
+        _visualAids = visualAids;
     }
 
     @Override

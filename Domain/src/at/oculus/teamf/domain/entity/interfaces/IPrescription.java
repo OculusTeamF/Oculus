@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity.interfaces;
 
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Collection;
 import java.util.Date;

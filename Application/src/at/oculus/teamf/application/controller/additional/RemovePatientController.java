@@ -21,8 +21,7 @@ package at.oculus.teamf.application.controller.additional;
 
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -52,7 +51,7 @@ public class RemovePatientController implements ILogger{
     public void removePatientFromDatabase (IPatient iPatient) throws CriticalClassException, CriticalDatabaseException, InvalidSearchParameterException, BadConnectionException {
         Facade facade = Facade.getInstance();
         try {
-            facade.delete((Patient) iPatient);
+            facade.delete(iPatient);
             log.info("Patient has been deleted.");
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());

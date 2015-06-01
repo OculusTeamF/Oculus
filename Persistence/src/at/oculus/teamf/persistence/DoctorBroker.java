@@ -13,8 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -123,7 +122,7 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
      */
     @Override
     public void reload(ISession session, Object obj, Class clazz) throws InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, ClassNotMappedException, DatabaseOperationException, InvalidSearchParameterException, SearchInterfaceNotImplementedException {
-        if (clazz == Patient.class) {
+        if (clazz == IPatient.class) {
             ((Doctor) obj).setPatients((Collection<IPatient>) (Collection<?>) reloadPatients(session, obj));
         } else {
             throw new InvalidReloadClassException();
@@ -138,10 +137,10 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
      * @throws BadConnectionException
      * @throws NoBrokerMappedException
      */
-    private Collection<Patient> reloadPatients(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, SearchInterfaceNotImplementedException, InvalidSearchParameterException, ClassNotMappedException {
+    private Collection<IPatient> reloadPatients(ISession session, Object obj) throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, SearchInterfaceNotImplementedException, InvalidSearchParameterException, ClassNotMappedException {
         log.debug("reloading patients");
         ReloadComponent reloadComponent =
-                new ReloadComponent(DoctorEntity.class, Patient.class);
+                new ReloadComponent(DoctorEntity.class, IPatient.class);
 
         return reloadComponent.reloadCollection(session, ((Doctor) obj).getId(), new PatientsLoader());
     }

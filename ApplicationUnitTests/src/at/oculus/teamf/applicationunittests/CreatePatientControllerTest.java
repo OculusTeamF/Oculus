@@ -13,9 +13,9 @@ import at.oculus.teamf.application.controller.CreatePatientController;
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.application.controller.StartupController;
 import at.oculus.teamf.application.controller.additional.RemovePatientController;
+import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -33,9 +33,9 @@ public class CreatePatientControllerTest {
 
         SearchPatientController searchPatientController = new SearchPatientController();
         LinkedList <IPatient> patients = (LinkedList<IPatient>) searchPatientController.searchPatients("gruber");
-        Patient temppatient = new Patient();
+        IPatient temppatient = (IPatient) DomainFactory.getFactory(IPatient.class).create();
         for (IPatient patient : patients){
-            Patient patient1 = (Patient) patient;
+            IPatient patient1 =  patient;
             if (patient1.getFirstName().equals("Hans")){
                 temppatient = patient1;
             }

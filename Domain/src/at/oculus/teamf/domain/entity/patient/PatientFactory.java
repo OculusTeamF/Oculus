@@ -7,32 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.patient;
 
-import at.oculus.teamf.domain.entity.patient.IPatient;
-
-import java.util.Date;
+import at.oculus.teamf.domain.entity.DomainFactory;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 
 /**
- * Created by oculus on 20.04.15.
+ * Created by Simon Angerer on 01.06.2015.
  */
-public interface ICalendarEvent extends IDomain {
-    //<editor-fold desc="Getter/Setter">
-    int getId();
+final public class PatientFactory extends DomainFactory {
+    public PatientFactory() {
+        super(IPatient.class);
+    }
 
-    void setId(int id);
-
-    String getDescription();
-
-    void setDescription(String description);
-
-    Date getEventStart();
-
-    void setEventStart(Date eventStart);
-
-    Date getEventEnd();
-
-    void setEventEnd(Date eventEnd);
-
-    void setPatient(IPatient patient);
+    @Override
+    public IDomain create() {
+        return new Patient();
+    }
 }

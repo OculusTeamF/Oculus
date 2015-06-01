@@ -10,7 +10,7 @@
 import at.oculus.teamf.application.controller.LoginController;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
 

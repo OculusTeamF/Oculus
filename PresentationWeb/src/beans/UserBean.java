@@ -9,7 +9,7 @@
 
 package beans;
 
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import javax.annotation.ManagedBean;
 

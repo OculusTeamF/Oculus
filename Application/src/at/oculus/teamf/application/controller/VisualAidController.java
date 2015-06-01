@@ -24,7 +24,7 @@ import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.N
 import at.oculus.teamf.application.controller.exceptions.PrescriptionControllerExceptions.NoPatientException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

@@ -14,19 +14,18 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsExceptio
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * <h1>$EventChooserController.java</h1>
@@ -42,6 +41,7 @@ public class EventChooserController implements ILogger {
 
     private IPatient iPatient;
     private Collection<ICalendarEvent> futureEvents;
+    private String description;
 
     /**
      *<h3>$EventChooserController</h3>
@@ -134,9 +134,8 @@ public class EventChooserController implements ILogger {
      *<b>Parameter</b>
      * @param
      */
-    public Collection<ICalendarEvent> getAvailableEvents() throws NotAllowedToChooseEventException, NoDoctorException {
+    public Collection<ICalendarEvent> getAvailableEvents() throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         //TODO add parameters
-
         if(futureEvents.size() > 0){
             for(ICalendarEvent event : futureEvents){
                 if(!checkDate(event.getEventStart())){
@@ -156,11 +155,25 @@ public class EventChooserController implements ILogger {
 
         //TODO check input --> create criterias
 
-        //TODO getAvailableEvents from ICalendar
+        //TODO criterias instead of null in method signature
 
-        //TODO return 3 ICalendarEvents as Collection
+        Iterator<ICalendarEvent> iterator = null;
+        try {
+            iterator = iCalendar.availableEventsIterator(null, 30);
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+            log.error("Facade exception caught! Could not get Events - " + e.getMessage());
+            throw e;
+        }
 
-        return null;
+        Collection<ICalendarEvent> results = new LinkedList<>();
+
+        if(iterator != null){
+           while(results.size() < 3){
+               results.add(iterator.next());
+           }
+        }
+
+        return results;
     }
 
     /**
@@ -173,9 +186,10 @@ public class EventChooserController implements ILogger {
      *<b>Parameter</b>
      * @param iCalendarEvent this is the chosen calendar-event, which should be fixed
      */
-    public void saveChosenEvent(ICalendarEvent iCalendarEvent) throws EventChooserControllerException {
-        //TODO further checkup of the given calendarevent before saving?
-
+    public void saveChosenEvent(ICalendarEvent iCalendarEvent, String reason) throws EventChooserControllerException {
+        description = reason;
+        iCalendarEvent.setPatient(iPatient);
+        iCalendarEvent.setDescription(description);
         IFacade facade = Facade.getInstance();
         try {
             facade.save(iCalendarEvent);

@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -68,9 +69,9 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
                     .persistentToDomain(examinationProtocolEntity.getDiagnosis());
         }
 
-        Patient patient = null;
+        IPatient patient = null;
         if (examinationProtocolEntity.getPatientId() != null) {
-            patient = (Patient) Facade.getInstance().getBroker(Patient.class)
+            patient = (IPatient) Facade.getInstance().getBroker(IPatient.class)
                     .persistentToDomain(examinationProtocolEntity.getPatient());
         }
 
@@ -92,7 +93,7 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
         PatientEntity patientEntity = null;
         if (examinationProtocol.getPatient() != null) {
 
-            patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class)
+            patientEntity = (PatientEntity) Facade.getInstance().getBroker(IPatient.class)
                     .domainToPersistent(examinationProtocol.getPatient());
         }
 

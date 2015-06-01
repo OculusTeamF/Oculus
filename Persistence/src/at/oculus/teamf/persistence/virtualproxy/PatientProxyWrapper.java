@@ -7,32 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.persistence.virtualproxy;
 
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
-import java.util.Date;
-
 /**
- * Created by oculus on 20.04.15.
+ * Created by Simon Angerer on 28.05.2015.
  */
-public interface ICalendarEvent extends IDomain {
-    //<editor-fold desc="Getter/Setter">
-    int getId();
+public class PatientProxyWrapper extends VirtualProxyWrapper{
+    protected PatientProxyWrapper() {
+        super(IPatient.class);
+    }
 
-    void setId(int id);
-
-    String getDescription();
-
-    void setDescription(String description);
-
-    Date getEventStart();
-
-    void setEventStart(Date eventStart);
-
-    Date getEventEnd();
-
-    void setEventEnd(Date eventEnd);
-
-    void setPatient(IPatient patient);
+    @Override
+    public IDomain wrap(IDomain domain) {
+        return new PatientProxy((IPatient) domain);
+    }
 }
