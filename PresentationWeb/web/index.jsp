@@ -34,11 +34,11 @@
                 <li><a href="#tabs-3">Third</a></li>
             </ul>
             <div id="tabs-1">
-                <div id="widget"></div>
+                lol 1
             </div>
-            <div id="tabs-2">
-                lol 2
-            </div>
+          <div id="tabs-2">
+            <div id="widget"></div>
+          </div>
             <div id="tabs-3">
                 lol 3
             </div>
@@ -51,14 +51,20 @@
       <div class="content">
         <ul>
           <li>
-            <h3><strong>Logged in User:  <br /></strong></h3>
+            <h3><strong>Logged in User:<br/></strong></h3>
             <p>
-              <br>
+              <br/>
               First Name: ${user.firstName}
-              <br>
+              <br/>
               Last Name: ${user.lastName}
-              <br>
+              <br/>
               SV Number: ${user.svNumber}
+              <br/><br/>
+              Date start: ${user.dateStart}
+              <br/>
+              Date end: ${user.dateEnd}
+              <br/>
+              Description: ${user.description}
           </p>
           </li>
         </ul>
