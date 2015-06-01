@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.criteria;
 
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 import java.time.Instant;
@@ -21,7 +22,7 @@ import java.time.ZoneId;
  * Created by Karo on 28.05.2015.
  * Description: Check if the available Event is at the same weekday as the given weekday
  */
-public class WeekDayTime {
+public class WeekDayTime implements IWeekDayTime {
     private WeekDayKey _weekDay;
     private LocalTime _from;
     private LocalTime _to;

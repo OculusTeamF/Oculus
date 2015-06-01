@@ -10,24 +10,28 @@
 package at.oculus.teamf.domain.criteria;
 
 import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
-import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
-
 import java.util.Collection;
 
 /**
  * Created by Karo on 28.05.2015.
  */
-public class WeekDayTimeCriteria implements ICriteria {
-    
-    private Collection<WeekDayTime> _weekDayTimes;
+public class WeekDayTimeCriteria implements IWeekDayTimeCriteria {
+    private Collection<IWeekDayTime> _weekDayTimes;
 
-    public WeekDayTimeCriteria(Collection<WeekDayTime> _weekDayTimes) {
+    public WeekDayTimeCriteria(Collection<IWeekDayTime> _weekDayTimes) {
         this._weekDayTimes = _weekDayTimes;
     }
 
     @Override
     public boolean isValidEvent(ICalendarEvent event) {
+        for(IWeekDayTime w : _weekDayTimes){
+            if(w.isInTime(event)){
+                return true;
+            }
+        }
         return false;
     }
 }
