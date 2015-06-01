@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.Patient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Date;
 
@@ -33,8 +33,6 @@ public interface ICalendarEvent extends IDomain {
     Date getEventEnd();
 
     void setEventEnd(Date eventEnd);
-
-    //Patient getPatient();
 
     void setPatient(IPatient patient);
 }
