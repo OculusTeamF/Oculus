@@ -7,10 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.exception.*;
+import at.oculus.teamf.domain.entity.interfaces.*;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -85,4 +87,14 @@ public interface IPatient extends IDomain {
 	Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException;
 
     Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException;
+
+    void setDoctor(IDoctor idoctor);
+
+    void setPrescriptions(Collection<IPrescription> iPrescriptions);
+
+    void setPasswordHash(String password);
+
+    IDomain getDoctor();
+
+    String getPasswordHash();
 }

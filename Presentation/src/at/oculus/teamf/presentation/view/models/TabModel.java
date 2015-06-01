@@ -14,7 +14,7 @@ import at.oculus.teamE.presentation.ViewLoaderTb2;
 import at.oculus.teamE.presentation.controllers.ExaminationDataWidgetController;
 import at.oculus.teamE.presentation.controllers.MedicineAttachDialog;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.presentation.view.DialogBoxController;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.event.Event;

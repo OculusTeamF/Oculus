@@ -7,21 +7,31 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.virtualproxy;
+package at.oculus.teamf.persistence.factory;
 
+import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.persistence.virtualproxy.VirtualProxyWrapper;
 
 /**
- * Created by Simon Angerer on 28.05.2015.
+ * Created by Simon Angerer on 01.06.2015.
  */
-public class PatientProxyWrapper extends VirtualProxyWrapper{
-    protected PatientProxyWrapper() {
-        super(IPatient.class);
+public class DomainWrapperFactory {
+    private static DomainWrapperFactory _selfe;
+
+    private DomainWrapperFactory() {
+    //Singelton
     }
 
-    @Override
-    public IDomain wrap(IDomain domain) {
-        return new PatientProxy((IPatient) domain);
+    public static DomainWrapperFactory getInstance() {
+        if(_selfe == null) {
+            _selfe = new DomainWrapperFactory();
+        }
+
+        return _selfe;
+    }
+
+    public IDomain create(Class<? extends IDomain> clazz) {
+        return VirtualProxyWrapper.getWrapper(clazz).wrap(DomainFactory.getFactory(clazz).create());
     }
 }

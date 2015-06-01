@@ -15,8 +15,9 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
+import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -24,6 +25,7 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Date;
@@ -33,11 +35,11 @@ import java.util.LinkedList;
 /**
  * patient broker translating domain objects to persistence entities
  */
-class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICollectionReload, ISearch<Patient>, ILogger {
+class PatientBroker extends EntityBroker<IPatient, PatientEntity> implements ICollectionReload, ISearch<IPatient>, ILogger {
 
     public PatientBroker() {
-        super(Patient.class, PatientEntity.class);
-        addDomainClassMapping(IPatient.class);
+        super(IPatient.class, PatientEntity.class);
+		addDomainClassMapping(Patient.class);
     }
 
 	/**
@@ -60,11 +62,11 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
 			       InvalidSearchParameterException, BadSessionException {
 		if (clazz == CalendarEvent.class) {
-			((Patient) obj).setCalendarEvents((Collection<ICalendarEvent>) (Collection<?>) reloadCalendarEvents(session, obj));
+			((IPatient) obj).setCalendarEvents((Collection<ICalendarEvent>) (Collection<?>) reloadCalendarEvents(session, obj));
 		} else if (clazz == ExaminationProtocol.class) {
-            ((Patient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
+            ((IPatient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
         } else if (clazz == Prescription.class) {
-			((Patient) obj).setPrescriptions((Collection<IPrescription>)(Collection<?>)reloadPrescriptions(session, obj));
+			((IPatient) obj).setPrescriptions((Collection<IPrescription>)(Collection<?>)reloadPrescriptions(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
 		}
@@ -83,7 +85,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, CalendarEvent.class);
 		log.debug("reloading calendar events");
-		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new CalendarEventsLoader());
+		return reloadComponent.reloadCollection(session, ((IPatient) obj).getId(), new CalendarEventsLoader());
 	}
 
 	/**
@@ -99,7 +101,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("reloading examination protocols");
 		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, ExaminationProtocol.class);
-		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new ExaminationProtocolLoader());
+		return reloadComponent.reloadCollection(session, ((IPatient) obj).getId(), new ExaminationProtocolLoader());
 	}
 
 	private Collection<Prescription> reloadPrescriptions(ISession session, Object obj)
@@ -107,7 +109,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("reloading prescriptions");
 		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, Prescription.class);
-		return reloadComponent.reloadCollection(session, ((Patient) obj).getId(), new PrescriptionLoader());
+		return reloadComponent.reloadCollection(session, ((IPatient) obj).getId(), new PrescriptionLoader());
 	}
 
     /**
@@ -117,7 +119,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
      * @return collection of search results
      */
     @Override
-    public Collection<Patient> search(ISession session, String... params)
+    public Collection<IPatient> search(ISession session, String... params)
 		    throws InvalidSearchParameterException, BadConnectionException, NoBrokerMappedException,
 		           DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
 		           BadSessionException {
@@ -150,7 +152,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 
 	    searchResult = session.search(query, params);
 
-	    Collection<Patient> result = new LinkedList<>();
+	    Collection<IPatient> result = new LinkedList<>();
 	    for (Object o : searchResult) {
 		    result.add(persistentToDomain((PatientEntity) o));
 	    }
@@ -167,12 +169,12 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 	 * @throws BadConnectionException
 	 */
 	@Override
-	protected Patient persistentToDomain(PatientEntity entity)
+	protected IPatient persistentToDomain(PatientEntity entity)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " +
-		          _domainClass.getClass());
-		Patient patient = new Patient();
+				_domainClass.getClass());
+		IPatient patient = (IPatient) DomainWrapperFactory.getInstance().create(getDomainClass());
 		patient.setId(entity.getId());
 		patient.setFirstName(entity.getFirstName());
 		patient.setLastName(entity.getLastName());
@@ -210,7 +212,7 @@ class PatientBroker extends EntityBroker<Patient, PatientEntity> implements ICol
 	 * @return return a persitency entity
 	 */
 	@Override
-	protected PatientEntity domainToPersistent(Patient obj)
+	protected PatientEntity domainToPersistent(IPatient obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
 			       ClassNotMappedException {
 		log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " +

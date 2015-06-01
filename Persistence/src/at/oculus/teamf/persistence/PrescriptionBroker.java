@@ -12,12 +12,12 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
 import at.oculus.teamf.persistence.entity.PrescriptionEntity;
@@ -63,7 +63,7 @@ class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 		PrescriptionEntity prescriptionEntity = (PrescriptionEntity) entity;
         Prescription prescription = new Prescription();
         prescription.setId(prescriptionEntity.getId());
-		prescription.setPatient((Patient) Facade.getInstance().getBroker(Patient.class)
+		prescription.setPatient((IPatient) Facade.getInstance().getBroker(IPatient.class)
 		                                        .persistentToDomain(prescriptionEntity.getPatient()));
 		prescription.setIssueDate(prescriptionEntity.getIssueDate());
 		prescription.setLastPrint(prescriptionEntity.getLastPrint());
@@ -88,7 +88,7 @@ class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 		Prescription prescription = (Prescription) obj;
 		PrescriptionEntity prescriptionEntity = new PrescriptionEntity();
 		prescriptionEntity.setId(prescription.getId());
-		prescriptionEntity.setPatient((PatientEntity) Facade.getInstance().getBroker(Patient.class)
+		prescriptionEntity.setPatient((PatientEntity) Facade.getInstance().getBroker(IPatient.class)
 		                                                    .domainToPersistent(prescription.getPatient()));
 		if (prescription.getIssueDate() != null) {
 			prescriptionEntity.setIssueDate(new Timestamp(prescription.getIssueDate().getTime()));

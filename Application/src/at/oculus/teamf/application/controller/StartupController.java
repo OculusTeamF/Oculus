@@ -30,6 +30,7 @@ import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.domain.entity.adapter.FacadeAdapter;
 import at.oculus.teamf.domain.entity.adapter.FactoryAdapter;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
 
@@ -37,7 +38,7 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.factory.FactoryTB2;
+import at.oculus.teamf.domain.entity.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -276,7 +277,7 @@ public class StartupController implements ILogger {
      * This method returns all available calendar entries for a single patient.
      */
     public Collection<ICalendarEvent> getEventsFromPatient(IPatient iPatient) throws CouldNotGetCalendarEventsException {
-        Patient patient = (Patient) iPatient;
+        IPatient patient = iPatient;
         Collection<CalendarEvent> events = null;
 
         events = (Collection<CalendarEvent>) (Collection<?>) patient.getCalendarEvents();

@@ -11,6 +11,8 @@ package at.oculus.teamf.domain.entity.interfaces;
 
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
+import at.oculus.teamf.domain.entity.patient.IPatient;
+
 import java.sql.Timestamp;
 import java.util.Collection;
 

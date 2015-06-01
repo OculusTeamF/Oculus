@@ -11,9 +11,9 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -28,8 +28,8 @@ import java.util.Date;
 /**
  * Created by Simon Angerer on 28.05.2015.
  */
-public class PatientProxy extends VirtualProxy<Patient> implements IPatient, ILogger {
-    protected PatientProxy(Patient real) {
+public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger {
+    protected PatientProxy(IPatient real) {
         super(real);
     }
 
@@ -250,5 +250,35 @@ public class PatientProxy extends VirtualProxy<Patient> implements IPatient, ILo
     @Override
     public Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException {
         return _real.getVisualAid();
+    }
+
+    @Override
+    public void setDoctor(IDoctor idoctor) {
+        _real.setDoctor(idoctor);
+    }
+
+    @Override
+    public void setPrescriptions(Collection<IPrescription> iPrescriptions) {
+        _real.setPrescriptions(iPrescriptions);
+    }
+
+    @Override
+    public void setPasswordHash(String password) {
+        _real.setPasswordHash(password);
+    }
+
+    @Override
+    public IDomain getDoctor() {
+        return _real.getDoctor();
+    }
+
+    @Override
+    public String getPasswordHash() {
+        return _real.getPasswordHash();
+    }
+
+    @Override
+    public String toString() {
+        return _real.toString();
     }
 }

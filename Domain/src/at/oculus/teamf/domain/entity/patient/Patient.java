@@ -7,10 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IPatientTb2;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
@@ -34,7 +35,6 @@ import java.util.List;
  * @date 03.4.2015
  */
 public class Patient implements IPatient, ILogger, IPatientTb2, ILogin {
-
     //<editor-fold desc="Attributes">
     private int _id;
     private String _firstName;
