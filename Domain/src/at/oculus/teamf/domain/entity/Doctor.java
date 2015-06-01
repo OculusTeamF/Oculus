@@ -14,7 +14,7 @@ import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -95,7 +95,7 @@ public class Doctor extends User implements IDoctor, ILogger{
     @Override
     public void addPatient(IPatient patient) {
         if (patient != null) {
-            _patients.add((Patient)patient);
+            _patients.add(patient);
         }
     }
 
@@ -104,7 +104,7 @@ public class Doctor extends User implements IDoctor, ILogger{
         Facade facade = Facade.getInstance();
 
         try {
-            facade.reloadCollection(this, Patient.class);
+            facade.reloadCollection(this, IPatient.class);
         } catch (BadConnectionException | NoBrokerMappedException | ReloadInterfaceNotImplementedException | DatabaseOperationException | InvalidReloadClassException e) {
             log.error(e.getMessage());
             throw new CantLoadPatientsException();

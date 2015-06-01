@@ -7,15 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.interfaces.IRegularAppointment;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 
 /**
- * Created by Norskan on 03.04.2015.
+ * Created by Simon Angerer on 28.05.2015.
  */
-public class RegularAppointment extends EventType implements IRegularAppointment {
-	public RegularAppointment(int id, String eventTypeName, int estimatedTime, String description) {
-		super(id, eventTypeName, estimatedTime, description);
-	}
+class DefaultWrapper extends VirtualProxyWrapper {
+
+    public DefaultWrapper() {
+        super(null);
+    }
+
+    @Override
+    public IDomain wrap(IDomain domain) {
+        return domain;
+    }
 }

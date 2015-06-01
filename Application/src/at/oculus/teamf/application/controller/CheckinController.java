@@ -16,6 +16,7 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -53,7 +54,7 @@ public class CheckinController implements ILogger {
      *
      */
     public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CouldNotAddPatientToQueueException, UserNotFoundException, PatientNotFoundException, CriticalClassException, BadConnectionException, QueueNotFoundException {
-        Patient patient = (Patient) ipatient;
+        IPatient patient =ipatient;
         log.info("Patient object has been created and assigned from interface.");
         User user = (User) iuser;
         log.info("User object has been created and assigned from interface.");

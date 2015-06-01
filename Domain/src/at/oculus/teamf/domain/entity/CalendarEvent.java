@@ -27,7 +27,7 @@ public class CalendarEvent implements ICalendarEvent {
     private String _description;
     private Date _eventStart;
     private Date _eventEnd;
-    private Patient _patient;
+    private IPatient _patient;
     private EventType _type;
     //</editor-fold>
 
@@ -72,10 +72,10 @@ public class CalendarEvent implements ICalendarEvent {
         _eventEnd = eventEnd;
     }
 
-    public Patient getPatient(){return _patient; }
+    public IPatient getPatient(){return _patient; }
 
     public void setPatient(IPatient patient) {
-        _patient = (Patient) patient;
+        _patient = patient;
     }
 
 	//</editor-fold>

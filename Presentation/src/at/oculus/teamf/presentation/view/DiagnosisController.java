@@ -16,7 +16,7 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;

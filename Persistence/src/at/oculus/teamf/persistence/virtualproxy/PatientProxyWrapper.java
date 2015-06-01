@@ -7,37 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
-import java.util.Collection;
-
-public interface IDoctor extends IUser, IDomain {
-    //<editor-fold desc="Getter/Setter">
-    int getId();
-
-    void setId(int id);
-
-    ICalendar getCalendar();
-
-    void setCalendar(ICalendar _calendar);
-
-    IPatientQueue getQueue();
-
-    void setQueue(IPatientQueue _queue);
-
-    IDoctor getDoctorSubstitude();
-
-    void setDoctorSubstitude(IDoctor doctorSubstitude);
-
-    void addPatient(IPatient patient);
-
-    Collection<IPatient> getPatients() throws CantLoadPatientsException;
-
-    void setPatients(Collection<IPatient> patients);
+/**
+ * Created by Simon Angerer on 28.05.2015.
+ */
+public class PatientProxyWrapper extends VirtualProxyWrapper{
+    protected PatientProxyWrapper() {
+        super(IPatient.class);
+    }
 
     @Override
-    String toString();
+    public IDomain wrap(IDomain domain) {
+        return new PatientProxy((IPatient) domain);
+    }
 }

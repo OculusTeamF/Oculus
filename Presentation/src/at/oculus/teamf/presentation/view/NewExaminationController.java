@@ -16,6 +16,7 @@ import at.oculus.teamE.presentation.controllers.ExaminationDataWidgetController;
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.animation.KeyFrame;
