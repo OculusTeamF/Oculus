@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
 import at.oculus.teamE.domain.interfaces.IMedicineTb2;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;

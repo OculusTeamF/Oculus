@@ -10,11 +10,10 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.exception.*;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.ILogin;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.patient.Patient;
@@ -44,7 +43,7 @@ public class PatientBrokerTest extends BrokerTest {
 	public void setUp() {
 		_patient = new Patient();
 		try {
-			_patient.setDoctor(Facade.getInstance().getById(Doctor.class, 1));
+			_patient.setDoctor(Facade.getInstance().getById(IDoctor.class, 1));
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 		}

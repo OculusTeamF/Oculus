@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.readonly.IRPatientTb2;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;

@@ -7,31 +7,41 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.factory;
+package at.oculus.teamf.domain.entity.factory;
 
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.doctor.DoctorFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.persistence.virtualproxy.VirtualProxyWrapper;
+import at.oculus.teamf.domain.entity.patient.PatientFactory;
+
+import java.util.HashMap;
 
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public class DomainWrapperFactory {
-    private static DomainWrapperFactory _selfe;
+public abstract class DomainFactory {
 
-    private DomainWrapperFactory() {
-    //Singelton
+    private static HashMap<Class<? extends IDomain>, DomainFactory> _factoryMapping;
+
+    protected DomainFactory(Class<? extends IDomain> clazz) {
+        _factoryMapping.put(clazz, this);
     }
 
-    public static DomainWrapperFactory getInstance() {
-        if(_selfe == null) {
-            _selfe = new DomainWrapperFactory();
+    private static void initMapping() {
+        _factoryMapping = new HashMap<>();
+
+        new PatientFactory();
+        new DoctorFactory();
+    }
+
+    public static DomainFactory getFactory(Class<? extends IDomain> clazz) {
+        if(_factoryMapping == null) {
+            initMapping();
         }
 
-        return _selfe;
+        return _factoryMapping.get(clazz);
     }
 
-    public IDomain create(Class<? extends IDomain> clazz) {
-        return VirtualProxyWrapper.getWrapper(clazz).wrap(DomainFactory.getFactory(clazz).create());
-    }
+    public abstract IDomain create();
+
+
 }

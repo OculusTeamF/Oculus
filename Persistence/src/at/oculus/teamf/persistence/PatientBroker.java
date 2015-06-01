@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.patient.IPatient;
@@ -182,7 +183,7 @@ class PatientBroker extends EntityBroker<IPatient, PatientEntity> implements ICo
 
 		if (entity.getDoctor() != null) {
 			patient.setDoctor(
-					(Doctor) Facade.getInstance().getBroker(Doctor.class).persistentToDomain(entity.getDoctor()));
+					(IDoctor) Facade.getInstance().getBroker(IDoctor.class).persistentToDomain(entity.getDoctor()));
 		}
 
 		if (entity.getGender().equals("M")) {
@@ -231,7 +232,7 @@ class PatientBroker extends EntityBroker<IPatient, PatientEntity> implements ICo
 		patientEntity.setCountryIsoCode(obj.getCountryIsoCode());
 		if (obj.getDoctor() != null) {
 			patientEntity.setDoctor(
-					(DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(obj.getDoctor()));
+					(DoctorEntity) Facade.getInstance().getBroker(IDoctor.class).domainToPersistent(obj.getDoctor()));
 		}
 		patientEntity.setEmail(obj.getEmail());
 		patientEntity.setPassword(obj.getPasswordHash());

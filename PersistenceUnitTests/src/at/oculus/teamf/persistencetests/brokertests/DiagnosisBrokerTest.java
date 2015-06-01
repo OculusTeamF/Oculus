@@ -11,7 +11,7 @@ package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
@@ -31,14 +31,14 @@ import static org.junit.Assert.assertTrue;
 
 public class DiagnosisBrokerTest extends BrokerTest {
 	private Calendar _calendar;
-	private Doctor _doctor;
+	private IDoctor _doctor;
 	private Diagnosis _diagnosis;
 
 	@Override
 	public void setUp() {
 		_doctor = null;
 		try {
-			_doctor = Facade.getInstance().getById(Doctor.class, 1);
+			_doctor = Facade.getInstance().getById(IDoctor.class, 1);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);

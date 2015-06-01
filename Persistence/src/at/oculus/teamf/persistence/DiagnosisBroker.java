@@ -13,9 +13,9 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
@@ -52,9 +52,9 @@ class DiagnosisBroker extends EntityBroker implements ISearch, ICollectionReload
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         DiagnosisEntity diagnosisEntity = (DiagnosisEntity) entity;
 
-        Doctor doctor = null;
+        IDoctor doctor = null;
         if (diagnosisEntity.getDoctor() != null) {
-            doctor = Facade.getInstance().getById(Doctor.class, diagnosisEntity.getDoctorId());
+            doctor = Facade.getInstance().getById(IDoctor.class, diagnosisEntity.getDoctorId());
         }
 
         Diagnosis diagnosis = new Diagnosis(diagnosisEntity.getTitle(), diagnosisEntity.getDescription(), doctor);
@@ -77,7 +77,7 @@ class DiagnosisBroker extends EntityBroker implements ISearch, ICollectionReload
         DoctorEntity doctorEntity = null;
         if (diagnosis.getDoctor() != null) {
 
-            doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(diagnosis.getDoctor());
+            doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(IDoctor.class).domainToPersistent(diagnosis.getDoctor());
 
         }
 
