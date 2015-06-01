@@ -10,7 +10,7 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
-import at.oculus.teamf.domain.criteria.DatePeriodICriteria;
+import at.oculus.teamf.domain.criteria.DatePeriodCriteria;
 import at.oculus.teamf.domain.criteria.WeekDayTime;
 import at.oculus.teamf.domain.criteria.WeekDayTimeCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
@@ -165,7 +165,7 @@ public class EventChooserController implements ILogger {
         ICalendar iCalendar = iDoctor.getCalendar();
 
         IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
-        IDatePeriodCriteria datePeriodICriteria = new DatePeriodICriteria(start, end);
+        IDatePeriodCriteria datePeriodICriteria = new DatePeriodCriteria(start, end);
 
         Collection<ICriteria> criterias = new LinkedList<>();
         criterias.add(weekDayTimeCriteria);

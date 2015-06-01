@@ -82,12 +82,6 @@ public class Calendar implements ICalendar {
 		_workinghours = workinghours;
 	}
 
-
-	@Override
-	public Iterator<ICalendarEvent> availableEventsIterator(Object o, int i) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
-		return null;
-	}
-
 	//</editor-fold>
 
 	public boolean isAvailableEvent(ICalendarEvent calendarEvent)
@@ -125,10 +119,11 @@ public class Calendar implements ICalendar {
 		return false;
 	}
 
-	public Iterator<ICalendarEvent> availableEventsIterator(Collection<ICriteria> ICriterias, int duration)
+	@Override
+	public Iterator<ICalendarEvent> availableEventsIterator(Collection<ICriteria> criterias, int duration)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(this, ICriterias, duration);
+		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(this, criterias, duration);
 
 		return iterator;
 	}
@@ -139,12 +134,13 @@ public class Calendar implements ICalendar {
 		private Collection<ICriteria> _I_criterias;
 		private CalendarEvent _lastEvent;
 		private CalendarEvent _nextEvent;
-		private final int _interval = 15;
+		private final int INTERVAL = 15;
 
 		public CalendarEventIterator(Calendar calendar, Collection<ICriteria> ICriterias, int duration)
 				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 				       NoBrokerMappedException, DatabaseOperationException {
 			// round up to next hour
+			_lastEvent = new CalendarEvent();
 			java.util.Calendar calendarRound = java.util.Calendar.getInstance();
 			calendarRound.setTime(new Date());
 			calendarRound.add(java.util.Calendar.HOUR, 1);
@@ -152,13 +148,15 @@ public class Calendar implements ICalendar {
             calendarRound.set(java.util.Calendar.SECOND, 0);
             calendarRound.set(java.util.Calendar.MILLISECOND, 0);
 			Date nextHour = calendarRound.getTime();
+			_lastEvent.setEventStart(nextHour);
+
 
 			// set attributes
 			_calendar = calendar;
 			_duration = duration;
-			_lastEvent = new CalendarEvent();
+
 			_lastEvent.setEventEnd(nextHour);
-			_lastEvent.setEventStart(nextHour);
+
 			_I_criterias = ICriterias;
 		}
 
@@ -198,7 +196,7 @@ public class Calendar implements ICalendar {
 				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 				       NoBrokerMappedException, DatabaseOperationException {
 			CalendarEvent calendarEvent = null;
-			CalendarEvent calendarEventLast = _lastEvent;
+			CalendarEvent calendarEventLast = (CalendarEvent) _lastEvent.clone();
 
 			while (calendarEvent == null) {
 				// set start date
@@ -246,11 +244,12 @@ public class Calendar implements ICalendar {
 					Date newDate = calendarEventLast.getEventStart();
 					java.util.Calendar calendarNext = java.util.Calendar.getInstance();
 					calendarNext.setTime(newDate);
-					calendarNext.add(java.util.Calendar.MINUTE, _interval);
+					calendarNext.add(java.util.Calendar.MINUTE, INTERVAL);
 					newDate = calendarNext.getTime();
 					calendarEventLast.setEventStart(newDate);
 					calendarEventLast.setEventEnd(newDate);
 				}
+
 			}
 
 			// set next event
