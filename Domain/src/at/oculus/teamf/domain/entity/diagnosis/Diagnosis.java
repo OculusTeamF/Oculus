@@ -46,13 +46,6 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
     public Diagnosis() {
     }
 
-    public Diagnosis(String title, String description, IDoctor doctor) {
-        _id = 0;
-        _title = title;
-        _description = description;
-        _doctor = doctor;
-    }
-
     @Override
     public int getId() {
         return _id;
@@ -102,9 +95,8 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
     }
 
     public void setDoctor(IDoctor doctor) {
-        if (doctor != null) {
-            _doctorId = doctor.getId();
-        }
+        _doctor = doctor;
+        _doctorId = doctor.getId();
     }
 
     public Collection<IMedicine> getMedicine() {

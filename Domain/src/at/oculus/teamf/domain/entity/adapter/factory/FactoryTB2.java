@@ -29,7 +29,12 @@ public class FactoryTB2 implements IFactoryTB2 {
 
     @Override
     public IDiagnosis createDiagnos(String title, String description, IDoctor doctor) {
-        return (IDiagnosis) DomainFactory.getFactory(IDiagnosis.class).create();
+        IDiagnosis diagnosis = (IDiagnosis) DomainFactory.getFactory(IDiagnosis.class).create();
+        diagnosis.setTitle(title);
+        diagnosis.setDescription(description);
+        diagnosis.setDoctor(doctor);
+
+        return diagnosis;
     }
 
     @Override
