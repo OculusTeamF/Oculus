@@ -7,26 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.criteria;
-
-import at.oculus.teamf.domain.entity.CalendarEvent;
-
-import java.util.Date;
+package at.oculus.teamf.domain.criteria.interfaces;
 
 /**
- * Created by Karo on 28.05.2015.
+ * IDatePeriodCriteria.java
+ * Created by oculus on 01.06.15.
  */
-public class DatePeriodICriteria implements ICriteria {
-    private Date _from;
-    private Date _to;
-
-    public DatePeriodICriteria(Date _from, Date _to) {
-        this._from = _from;
-        this._to = _to;
-    }
-
-    @Override
-    public boolean isValidEvent(CalendarEvent event) {
-        return false;
-    }
+public interface IDatePeriodCriteria extends ICriteria {
 }
