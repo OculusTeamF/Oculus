@@ -9,6 +9,7 @@
 
 package beans;
 
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import javax.annotation.ManagedBean;
@@ -23,6 +24,7 @@ public class UserBean {
     private String firstName = null;
     private String lastName = null;
     private String svNumber = null;
+    private ICalendarEvent _calendarEvent;
 
     public UserBean() {
     }
@@ -35,6 +37,10 @@ public class UserBean {
         svNumber = _patient.getSocialInsuranceNr();
     }
 
+    public void loadCalendarEvent (ICalendarEvent calendarEvent){
+        _calendarEvent = calendarEvent;
+    }
+
     public String getFirstName(){
         return firstName;
     }
@@ -43,5 +49,9 @@ public class UserBean {
     }
     public String getSvNumber(){
         return svNumber;
+    }
+
+    public String getCalendarEvent (){
+        return _calendarEvent.toString();
     }
 }
