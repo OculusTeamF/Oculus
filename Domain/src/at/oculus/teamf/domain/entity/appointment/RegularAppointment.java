@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity.appointment;
 
-import at.oculus.teamf.domain.entity.EventType;
+import at.oculus.teamf.domain.entity.calendar.EventType;
 
 /**
  * Created by Norskan on 03.04.2015.

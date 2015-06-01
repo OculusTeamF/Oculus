@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.criteria;
 
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
-import at.oculus.teamf.domain.entity.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 import java.time.Instant;
 import java.time.LocalDateTime;

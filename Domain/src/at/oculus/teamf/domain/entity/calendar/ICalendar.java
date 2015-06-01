@@ -7,9 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.calendar;
 
 import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -22,7 +23,7 @@ import java.util.Iterator;
 /**
  * Created by FabianLaptop on 08.04.2015.
  */
-public interface ICalendar extends IDomain{
+public interface ICalendar extends IDomain {
     int getId();
 
     void setWorkingHours(Collection<ICalendarWorkingHours> calendarWorkingHourses);

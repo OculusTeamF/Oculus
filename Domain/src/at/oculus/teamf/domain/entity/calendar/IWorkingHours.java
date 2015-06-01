@@ -7,33 +7,45 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.calendar;
 
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.patient.IPatient;
 
-import java.util.Date;
+import at.oculus.teamf.domain.entity.IDomain;
+
+import java.time.LocalTime;
 
 /**
- * Created by oculus on 20.04.15.
+ * Created by Simon Angerer on 28.05.2015.
  */
-public interface ICalendarEvent extends IDomain {
-    //<editor-fold desc="Getter/Setter">
+public interface IWorkingHours extends IDomain {
+    @Override
     int getId();
 
+    @Override
     void setId(int id);
 
-    String getDescription();
+    LocalTime getMorningFrom();
 
-    void setDescription(String description);
+    void setMorningFrom(LocalTime morningFrom);
 
-    Date getEventStart();
+    LocalTime getMorningTo();
 
-    void setEventStart(Date eventStart);
+    void setMorningTo(LocalTime morningTo);
 
-    Date getEventEnd();
+    LocalTime getAfternoonFrom();
 
-    void setEventEnd(Date eventEnd);
+    void setAfternoonFrom(LocalTime afternoonFrom);
 
-    void setPatient(IPatient patient);
+    LocalTime getAfternoonTo();
+
+    void setAfternoonTo(LocalTime afternoonTo);
+
+    @Override
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
+
+    @Override
+    String toString();
 }

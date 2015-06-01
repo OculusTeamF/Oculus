@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity.user.orthoptist;
 
-import at.oculus.teamf.domain.entity.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

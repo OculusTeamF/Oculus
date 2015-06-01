@@ -10,12 +10,12 @@
 package at.oculus.teamf.domain.entity.user.doctor;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
-import at.oculus.teamf.domain.entity.Calendar;
+import at.oculus.teamf.domain.entity.calendar.Calendar;
 import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
-import at.oculus.teamf.domain.entity.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.technical.loggin.ILogger;

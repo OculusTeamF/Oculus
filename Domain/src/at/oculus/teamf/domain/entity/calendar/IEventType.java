@@ -7,45 +7,28 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
-
+package at.oculus.teamf.domain.entity.calendar;
 
 import at.oculus.teamf.domain.entity.IDomain;
 
-import java.time.LocalTime;
-
 /**
- * Created by Simon Angerer on 28.05.2015.
+ * Created by oculus on 20.04.15.
  */
-public interface IWorkingHours extends IDomain {
-    @Override
+public interface IEventType extends IDomain {
+    //<editor-fold desc="Getter/Setter">
     int getId();
 
-    @Override
     void setId(int id);
 
-    LocalTime getMorningFrom();
+    String getEventTypeName();
 
-    void setMorningFrom(LocalTime morningFrom);
+    void setEventTypeName(String eventTypeName);
 
-    LocalTime getMorningTo();
+    int getEstimatedTime();
 
-    void setMorningTo(LocalTime morningTo);
+    void setEstimatedTime(int estimatedTime);
 
-    LocalTime getAfternoonFrom();
+    String getDescription();
 
-    void setAfternoonFrom(LocalTime afternoonFrom);
-
-    LocalTime getAfternoonTo();
-
-    void setAfternoonTo(LocalTime afternoonTo);
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
-
-    @Override
-    String toString();
+    void setDescription(String description);
 }

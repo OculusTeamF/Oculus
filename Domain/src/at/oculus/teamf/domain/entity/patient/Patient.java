@@ -11,8 +11,8 @@ package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IPatientTb2;
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.IExaminationResult;

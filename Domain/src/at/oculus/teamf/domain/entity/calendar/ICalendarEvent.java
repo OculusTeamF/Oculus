@@ -7,39 +7,33 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.calendar;
 
-import at.oculus.teamf.persistence.entity.WeekDayKey;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.patient.IPatient;
+
+import java.util.Date;
 
 /**
- * Created by Simon Angerer on 28.05.2015.
+ * Created by oculus on 20.04.15.
  */
-public interface ICalendarWorkingHours extends IDomain {
-    @Override
+public interface ICalendarEvent extends IDomain {
+    //<editor-fold desc="Getter/Setter">
     int getId();
 
-    @Override
     void setId(int id);
 
-    int getWorkingHoursId();
+    String getDescription();
 
-    void setWorkingHoursId(int workingHoursId);
+    void setDescription(String description);
 
-    int getCalendarId();
+    Date getEventStart();
 
-    void setCalendarId(int calendarId);
+    void setEventStart(Date eventStart);
 
-    IWorkingHours getWorkinghours();
+    Date getEventEnd();
 
-    void setWorkinghours(IWorkingHours workinghours);
+    void setEventEnd(Date eventEnd);
 
-    ICalendar getCalendar();
-
-    void setCalendar(ICalendar calendar);
-
-    WeekDayKey getWeekday();
-
-    void setWeekday(WeekDayKey weekday);
-
-    boolean contains(ICalendarEvent calendarEvent);
+    void setPatient(IPatient patient);
 }
