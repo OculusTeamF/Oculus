@@ -10,42 +10,38 @@
 package at.oculus.teamf.domain.entity.criteria;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.persistence.entity.WeekDayKey;
 
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
-
 /**
  * Created by Karo on 28.05.2015.
- * Description: Check if the available Event is at the same weekday as the given weekday
  */
-public class WeekdayCriteria implements Criteria {
+public class WeekdayTime {
 
-    private int _value; //weekday, Sunday = 1
+    private WeekDayKey _weekday;
+    private LocalTime _from;
+    private LocalTime _to;
 
-    @Override
-    public boolean isValidEvent(CalendarEvent event) {
+    public WeekdayTime() {
 
-        Date date = event.getEventStart();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
 
-        //Sunday is weekday 1
-        int weekday = cal.get(Calendar.DAY_OF_WEEK);
-
-        if(weekday == this._value){
-
-            return true;
-        }
-
-        return false;
     }
 
+   /* Date date = event.getEventStart();
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
 
-    public void setValue(int weekday){
-        this._value = weekday;
+    //Sunday is weekday 1
+    int weekday = cal.get(Calendar.DAY_OF_WEEK);
+
+    if(weekday == this._value){
+
+        return true;
     }
-    public int getValue(){
-        return _value;
-    }
+
+    return false;*/
+
 }

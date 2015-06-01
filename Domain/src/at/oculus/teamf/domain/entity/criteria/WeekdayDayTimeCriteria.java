@@ -11,13 +11,27 @@ package at.oculus.teamf.domain.entity.criteria;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
 
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+
+
 /**
  * Created by Karo on 28.05.2015.
+ * Description: Check if the available Event is at the same weekday as the given weekday
  */
-public class DaytimePeriodCriteria implements Criteria {
+public class WeekdayDayTimeCriteria implements Criteria {
+
+    private Collection<WeekdayTime> _weekdayTime;
+
+    public WeekdayDayTimeCriteria(Collection<WeekdayTime> weekdayTimes){
+        _weekdayTime = weekdayTimes;
+    }
+
 
     @Override
     public boolean isValidEvent(CalendarEvent event) {
+
         return false;
     }
 }

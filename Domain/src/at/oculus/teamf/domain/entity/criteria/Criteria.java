@@ -21,4 +21,5 @@ public interface Criteria {
 
     boolean isValidEvent(CalendarEvent event);
 
+
 }

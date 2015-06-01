@@ -11,10 +11,20 @@ package at.oculus.teamf.domain.entity.criteria;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
 
+import java.util.Date;
+
 /**
  * Created by Karo on 28.05.2015.
  */
 public class DatePeriodCriteria implements Criteria {
+
+    private Date _from;
+    private Date _to;
+
+    public DatePeriodCriteria(Date from, Date to){
+        _from = from;
+
+    }
 
     @Override
     public boolean isValidEvent(CalendarEvent event) {
