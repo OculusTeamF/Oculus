@@ -31,7 +31,7 @@ import java.util.Date;
 /**
  * Created by Simon Angerer on 28.05.2015.
  */
-public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger, IRPatientTb2 {
+public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger, IRPatientTb2, ILogin {
     protected PatientProxy(IPatient real) {
         super(real);
     }
@@ -370,6 +370,11 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     @Override
     public String getPasswordHash() {
         return _real.getPasswordHash();
+    }
+
+    @Override
+    public String getUserName() {
+        return ((ILogin)_real).getUserName();
     }
 
     @Override

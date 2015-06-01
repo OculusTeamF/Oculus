@@ -12,6 +12,7 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamf.domain.entity.criteria.ICriteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -31,8 +32,8 @@ public class Calendar implements ICalendar {
 
 	//<editor-fold desc="Attributes">
 	private int _id;
-	private Collection<CalendarEvent> _events;
-	private Collection<CalendarWorkingHours> _workinghours;
+	private Collection<ICalendarEvent> _events;
+	private Collection<ICalendarWorkingHours> _workinghours;
 
 	//excluded because of circular dependencies
 	//private User _user;
@@ -50,7 +51,7 @@ public class Calendar implements ICalendar {
 		_id = calendarID;
 	}
 
-	public Collection<CalendarEvent> getEvents()
+	public Collection<ICalendarEvent> getEvents()
 			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
 		if (_events == null) {
@@ -61,11 +62,12 @@ public class Calendar implements ICalendar {
 		return _events;
 	}
 
-	public void setEvents(Collection<CalendarEvent> events) {
+	@Override
+	public void setEvents(Collection<ICalendarEvent> events) {
 		_events = events;
 	}
 
-	public Collection<CalendarWorkingHours> getWorkingHours()
+	public Collection<ICalendarWorkingHours> getWorkingHours()
 			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
 		if (_workinghours == null) {
@@ -76,8 +78,14 @@ public class Calendar implements ICalendar {
 		return _workinghours;
 	}
 
-	public void setWorkingHours(Collection<CalendarWorkingHours> workinghours) {
+	public void setWorkingHours(Collection<ICalendarWorkingHours> workinghours) {
 		_workinghours = workinghours;
+	}
+
+
+	@Override
+	public Iterator<ICalendarEvent> availableEventsIterator(Object o, int i) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+		return null;
 	}
 
 	//</editor-fold>
@@ -89,7 +97,7 @@ public class Calendar implements ICalendar {
 		Date to = calendarEvent.getEventEnd();
 
 		// alle vorhandenen Termine ueberpruefen
-		for (CalendarEvent c : getEvents()) {
+		for (ICalendarEvent c : getEvents()) {
 			// wenn Startzeitpunnkt innerhalb eines Termins
 			if (c.getEventStart().before(from) && c.getEventEnd().after(from)) {
 				return false;
@@ -109,7 +117,7 @@ public class Calendar implements ICalendar {
 	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		for (CalendarWorkingHours c : getWorkingHours()) {
+		for (ICalendarWorkingHours c : getWorkingHours()) {
 			if(c.contains(calendarEvent)){
                 return true;
             }

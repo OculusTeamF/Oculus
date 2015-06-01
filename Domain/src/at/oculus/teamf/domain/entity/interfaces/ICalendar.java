@@ -9,7 +9,8 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
-import at.oculus.teamf.domain.entity.criteria.Criteria;
+import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.CalendarWorkingHours;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -24,8 +25,12 @@ import java.util.Iterator;
  */
 public interface ICalendar extends IDomain{
     int getId();
-    Iterator<ICalendarEvent> availableEventsIterator(Collection<Criteria> criterias, int duration)
-            throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+
+    void setWorkingHours(Collection<ICalendarWorkingHours> calendarWorkingHourses);
+
+    void setEvents(Collection<ICalendarEvent> iCalendarEvents);
+
+    Iterator<ICalendarEvent> availableEventsIterator(Object o, int i) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
             NoBrokerMappedException, DatabaseOperationException;
 
     /*

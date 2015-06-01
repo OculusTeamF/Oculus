@@ -10,9 +10,9 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.VisualAid;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -85,7 +85,7 @@ public class DoctorBrokerTest extends BrokerTest {
 		assertTrue(doctor.getDoctorSubstitude() == null);
 
 		try {
-			facade.reloadCollection(doctor, Patient.class);
+			facade.reloadCollection(doctor, IPatient.class);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
