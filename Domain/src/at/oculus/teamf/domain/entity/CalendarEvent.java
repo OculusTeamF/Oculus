@@ -81,11 +81,24 @@ public class CalendarEvent implements ICalendarEvent {
 	//</editor-fold>
 
     @Override
-    public String toString(){
-        String eventDate = (new SimpleDateFormat("dd.MM.yyyy").format(_eventStart)) + " from " + (new SimpleDateFormat("HH:mm").format(_eventStart) + " to " + (new SimpleDateFormat("HH:mm").format(_eventEnd)));
-        if(_description!=null && !_description.isEmpty()){
-            eventDate = eventDate + ", " + _description;
-        }
-        return eventDate;
+    public String toString() {
+	    String eventDate = (new SimpleDateFormat("dd.MM.yyyy").format(_eventStart)) + " from " +
+	                       (new SimpleDateFormat("HH:mm").format(_eventStart) + " to " +
+	                        (new SimpleDateFormat("HH:mm").format(_eventEnd)));
+	    if (_description != null && !_description.isEmpty()) {
+		    eventDate = eventDate + ", " + _description;
+	    }
+	    return eventDate;
     }
+
+	@Override
+	public Object clone() {
+		ICalendarEvent calendarEvent = new CalendarEvent();
+		calendarEvent.setId(_id);
+		calendarEvent.setEventStart(_eventStart);
+		calendarEvent.setEventEnd(_eventEnd);
+		calendarEvent.setDescription(_description);
+		calendarEvent.setPatient(_patient);
+		return calendarEvent;
+	}
 }

@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Date;
