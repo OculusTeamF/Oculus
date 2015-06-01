@@ -50,7 +50,15 @@
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
                 <div id="tabs-2">
-                    <div id="datetimepicker"></div>
+                    <%--<div id="datetimepicker"></div>--%>
+
+                        <div>
+                            <p>Choose Date & Time:</p>
+                            <input type="text" name="choose_date" id="choose_date" value="" />
+                            <br/><br/>
+                            <p>Choose Endtime:</p>
+                            <input type="text" name="choose_time" id="choose_time" value="" />
+                        </div>
                 </div>
                 <div id="tabs-3">
                     lol 3
@@ -119,6 +127,18 @@
         timeFormat: 'HH:mm',
         stepMinute: 10
     });
+
+    $('#choose_date').datetimepicker({
+        timeFormat: 'HH:mm',
+        stepMinute: 10
+    });
+
+    $('#choose_time').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'hh:mm tt'
+    });
+
 
     $(document).ready(function(){
 
