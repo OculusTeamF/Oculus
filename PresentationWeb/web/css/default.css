@@ -371,4 +371,6 @@ img {
 
 #appointments {
 	background-color: black;
+}li.ui-state-default.ui-state-hidden[role=tab]:not(.ui-tabs-active) {
+    display: none;
 }
