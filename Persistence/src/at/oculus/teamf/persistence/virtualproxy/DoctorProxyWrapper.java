@@ -7,26 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.factory;
+package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.domain.entity.patient.IPatient;
-
-import java.util.Date;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 
 /**
- * Created by Simon Angerer on 13.05.2015.
+ * Created by Simon Angerer on 01.06.2015.
  */
-public interface IFactoryTB2{
+public class DoctorProxyWrapper extends VirtualProxyWrapper {
+    protected DoctorProxyWrapper() {
+        super(IDoctor.class);
+    }
 
-    IVisualAid createVisualAid();
-
-    IDiagnosis createDiagnos(String title, String description, IDoctor doctor);
-
-    IPrescription createPrescription();
-
-    IPrescriptionEntry createPrescriptionEntry();
+    @Override
+    public IDomain wrap(IDomain domain) {
+        return new DoctorProxy((IDoctor) domain);
+    }
 }

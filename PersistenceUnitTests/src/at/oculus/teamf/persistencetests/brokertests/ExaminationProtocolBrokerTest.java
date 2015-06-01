@@ -10,6 +10,7 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.domain.entity.patient.Patient;
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ExaminationProtocolBrokerTest extends BrokerTest {
 	private Patient _patient;
-	private Doctor _doctor;
+	private IDoctor _doctor;
 	private Orthoptist _orthoptist;
 	private ExaminationProtocol _examinationProtocolDoctor;
 	private ExaminationProtocol _examinationProtocolOrthoptist;
@@ -37,7 +38,7 @@ public class ExaminationProtocolBrokerTest extends BrokerTest {
 	public void setUp() {
 		try {
 			_patient = Facade.getInstance().getById(Patient.class, 1);
-			_doctor = Facade.getInstance().getById(Doctor.class, 1);
+			_doctor = Facade.getInstance().getById(IDoctor.class, 1);
 			_orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 		} catch (FacadeException e) {
 			e.printStackTrace();

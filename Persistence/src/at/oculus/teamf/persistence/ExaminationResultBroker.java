@@ -13,6 +13,7 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
 import at.oculus.teamf.persistence.entity.*;
@@ -49,14 +50,14 @@ class ExaminationResultBroker extends EntityBroker implements ISearch {
         }
 
 		User user = null;
-		Doctor doctor = null;
+		IDoctor doctor = null;
 		Orthoptist orthoptist = null;
 		if (examinationResultEntity.getUserId() != null) {
-	                for(Doctor d : ((LinkedList<Doctor>) (LinkedList<?>) Facade.getInstance().search(Doctor.class, examinationResultEntity.getUserId()+""))){
+	                for(IDoctor d : ((LinkedList<IDoctor>) (LinkedList<?>) Facade.getInstance().search(IDoctor.class, examinationResultEntity.getUserId()+""))){
 		                doctor = d;
 	                }
 	                if(doctor!=null){
-		                user = doctor;
+		                user = (User) doctor;
 	                }
 	                for(Orthoptist o : ((LinkedList<Orthoptist>) (LinkedList<?>) Facade.getInstance().search(
 			                Orthoptist.class, examinationResultEntity.getUserId() + ""))){
@@ -87,7 +88,7 @@ class ExaminationResultBroker extends EntityBroker implements ISearch {
 		UserEntity userEntity = null;
 		if (examinationResult.getUser() != null) {
                 if(examinationResult.getDoctor()!=null){
-                    DoctorEntity doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+                    DoctorEntity doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(IDoctor.class)
 	                                                     .domainToPersistent(examinationResult.getDoctor());
 	                if(doctorEntity!=null) {
 		                userEntity = doctorEntity.getUser();

@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
@@ -38,8 +39,8 @@ public class QueueEntry implements IQueueEntry {
     public QueueEntry(int id, IPatient patient, IUser user, Integer queueIdParent,
                       Timestamp arrivalTime) {
         _id = id;
-        if(user instanceof Doctor){
-            _doctor = (Doctor) user;
+        if(user instanceof IDoctor){
+            _doctor = (IDoctor) user;
         } else if (user instanceof Orthoptist) {
             _orthoptist = (Orthoptist) user;
         }

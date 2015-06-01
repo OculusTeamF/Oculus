@@ -10,6 +10,8 @@
 package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 

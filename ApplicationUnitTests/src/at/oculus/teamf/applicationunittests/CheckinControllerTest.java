@@ -12,6 +12,7 @@ package at.oculus.teamf.applicationunittests;
 import at.oculus.teamf.application.controller.CheckinController;
 import at.oculus.teamf.application.controller.ReceivePatientController;
 import at.oculus.teamf.application.controller.SearchPatientController;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;

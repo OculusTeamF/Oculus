@@ -30,6 +30,7 @@ import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.domain.entity.adapter.FacadeAdapter;
 import at.oculus.teamf.domain.entity.adapter.FactoryAdapter;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -38,7 +39,7 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.FactoryTB2;
+import at.oculus.teamf.domain.entity.adapter.factory.FactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -95,7 +96,7 @@ public class StartupController implements ILogger {
 
                 IUserTb2 user = null;
                 try {
-                     user = Facade.getInstance().getById(Doctor.class, 1);
+                     user = Facade.getInstance().getById(IDoctor.class, 1);
                 } catch (DatabaseOperationException | NoBrokerMappedException | BadConnectionException e) {
                     e.printStackTrace();
                     //Todo: Handling
@@ -135,11 +136,11 @@ public class StartupController implements ILogger {
      */
     public Collection<IPatientQueue> getAllQueues() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
 
-        Collection<Doctor> doctors = null;
+        Collection<IDoctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
-            doctors = facade.getAll(Doctor.class);
+            doctors = facade.getAll(IDoctor.class);
             log.info("All doctors have been acquired.");
         } catch (NoBrokerMappedException e) {
             throw new CriticalClassException();
@@ -150,7 +151,7 @@ public class StartupController implements ILogger {
         Collection<IPatientQueue> queues = new LinkedList<IPatientQueue>();
 
         if (doctors != null) {
-            for (Doctor doctor : doctors) {
+            for (IDoctor doctor : doctors) {
                 queues.add(doctor.getQueue());
             }
         }
@@ -168,11 +169,11 @@ public class StartupController implements ILogger {
      * convert it into Interfaces and return it.
      */
     public Collection<IDoctor> getAllDoctors() throws NoBrokerMappedException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
-        Collection<Doctor> doctors = null;
+        Collection<IDoctor> doctors = null;
         Facade facade = Facade.getInstance();
 
         try {
-            doctors = facade.getAll(Doctor.class);
+            doctors = facade.getAll(IDoctor.class);
             log.info("All doctors have been acquired.");
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
@@ -278,14 +279,14 @@ public class StartupController implements ILogger {
      */
     public Collection<ICalendarEvent> getEventsFromPatient(IPatient iPatient) throws CouldNotGetCalendarEventsException {
         IPatient patient = iPatient;
-        Collection<CalendarEvent> events = null;
+        Collection<ICalendarEvent> events = null;
 
-        events = (Collection<CalendarEvent>) (Collection<?>) patient.getCalendarEvents();
+        events = (Collection<ICalendarEvent>) (Collection<?>) patient.getCalendarEvents();
 
         Collection<ICalendarEvent> iEvents = new LinkedList<ICalendarEvent>();
 
         if (events != null) {
-            for (CalendarEvent event : events) {
+            for (ICalendarEvent event : events) {
                 iEvents.add(event);
             }
         }
@@ -318,10 +319,10 @@ public class StartupController implements ILogger {
         }
         log.info("All orthoptists have been acquired.");
 
-        Collection<Doctor> doctors;
+        Collection<IDoctor> doctors;
 
         try {
-            doctors = facade.getAll(Doctor.class);
+            doctors = facade.getAll(IDoctor.class);
             log.info("All doctors have been acquired.");
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
@@ -339,7 +340,7 @@ public class StartupController implements ILogger {
             }
         }
         if (doctors != null) {
-            for (Doctor doc : doctors) {
+            for (IDoctor doc : doctors) {
                 iUsers.add(doc);
             }
         }
@@ -366,10 +367,10 @@ public class StartupController implements ILogger {
         IPatientQueue queue = null;
 
         if (iUser != null) {
-            if (iUser instanceof Doctor) {
-                doctor = (Doctor) iUser;
-                queue = (PatientQueue) doctor.getQueue();
-            } else if (iUser instanceof Orthoptist) {
+            if (iUser instanceof IDoctor) {
+                doctor = (IDoctor) iUser;
+                queue = doctor.getQueue();
+            } else if (iUser instanceof IOrthoptist) {
                 orthoptist = (Orthoptist) iUser;
                 queue = orthoptist.getQueue();
             }

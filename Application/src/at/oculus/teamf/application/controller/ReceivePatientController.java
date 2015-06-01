@@ -22,6 +22,7 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
@@ -56,7 +57,7 @@ public class ReceivePatientController implements ILogger {
      */
     public IExaminationProtocol createNewExaminationProtocol(Date starttime, Date endtime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws CouldNotAddExaminationProtocol {
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(
-                0, starttime, endtime, description,iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
+                0, starttime, endtime, description,iPatient,iDoctor, iOrthoptist, null
         );
         IPatient patient =  iPatient;
         patient.addExaminationProtocol(examinationProtocol);
