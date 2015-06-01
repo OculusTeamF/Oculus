@@ -18,7 +18,6 @@
  */
 (function ($) {
     $.fn.disableTab = function (tabIndex, hide) {
-
         // Get the array of disabled tabs, if any
         var disabledTabs = this.tabs("option", "disabled");
 
@@ -48,29 +47,8 @@
         this.tabs("enable", tabIndex);
         return this;
 
-        /* Old way, not really necessary
-
-         // Get the array of disabled tabs, if any
-         var disabledTabs = this.tabs("option", "disabled");
-
-         var pos = $.inArray(tabIndex, disabledTabs);
-
-         // If the tab we want is in the disabled list, remove it
-         if (pos > -1) {
-         disabledTabs.splice(pos);
-
-         // Remove the hidden class just in case
-         $(this).find('li:eq(' + tabIndex + ')').removeClass('ui-state-hidden');
-
-         // Set the list of disabled tabs, without the one we just enabled
-         this.tabs("option", "disabled", disabledTabs);
-         }
-
-         // Enable chaining
-         return this;
-         */
     };
 
 
 })(jQuery);
-$('#tabs').tabs();
+$('#MyTabSelector').tabs();

@@ -10,6 +10,7 @@
 	<meta charset="UTF-8">
 	<title>Oculus Login</title>
 	<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/hexdots.css" type="text/css">
 </head>
 <body>
 <div class="wrapper">
@@ -21,6 +22,9 @@
             <button type="submit" value="UserLogin">Login</button>
 		</form>
 	</div>
+    <div class="hexdots-loader">
+        Loading…
+    </div>
 	<div class="bg-bubbles">
         <li></li>
         <li></li>
