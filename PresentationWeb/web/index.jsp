@@ -36,26 +36,20 @@
                     <li><a href="#tabs-4">Confirmation</a></li>
                 </ul>
                 <div id="tabs-1">
-                    <a href="#" onclick="$('#tabs').disableTab(1);">Disable Tab 1</a><br />
+                    <a href="#" onclick="$('#tabs').disableTab(1);">Disable Tab 1</a><br/>
                     <a href="#" onclick="$('#tabs').disableTab(1, true);">Hide Tab 1</a>
-                    <br />
+                    <br/>
                     <a href="#" onclick="$('#tabs').enableTab(1);">Show/Enable Tab 1</a>
                 </div>
                 <div id="tabs-2">
-                    lalala
+                    <div id="datetimepicker"></div>
                 </div>
                 <div id="tabs-3">
-                    <div id="widget"></div>
+                    lol 3
                 </div>
                 <div id="tabs-4">
                     Termin best&auml;tigen
                 </div>
-            </div>
-            <div id="tabs-2">
-              <div id="datetimepicker"></div>
-            </div>
-            <div id="tabs-3">
-                lol 3
             </div>
         </div>
     </div>
