@@ -17,6 +17,7 @@ import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
 import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -50,7 +51,7 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
     @Override
     protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
-        Patient patient = Facade.getInstance().getById(Patient.class, entity.getPatientId());
+        IPatient patient = Facade.getInstance().getById(IPatient.class, entity.getPatientId());
         User user = null;
         if (entity.getDoctorId() != null) {
             user = (User) Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
@@ -92,7 +93,7 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
 
         PatientEntity patientEntity = null;
 
-        patientEntity = (PatientEntity) Facade.getInstance().getBroker(Patient.class).domainToPersistent(
+        patientEntity = (PatientEntity) Facade.getInstance().getBroker(IPatient.class).domainToPersistent(
                     queueEntry.getPatient());
 
 

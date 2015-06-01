@@ -10,9 +10,11 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailValidationFailedException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.LoginControllerException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.interfaces.ILogin;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -54,14 +56,14 @@ public class LoginController implements ILogger{
      * @param email this is the email address/the username of the patient who wants to log in
      * @param password this is the matching password of the patient who wants to log in
      */
-    public IPatient checkLoginData(String email, String password) throws EmailNotFoundException, PasswordIncorrectException {
+    public IPatient checkLoginData(String email, String password) throws InvalidSearchParameterException, DatabaseOperationException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, EmailValidationFailedException, EmailNotFoundException, PasswordIncorrectException {
 
         if(email == null || email.equals("")){
             throw new EmailNotFoundException();
         }else{
             if(!validateEmail(email)){
                 log.error("Email validation failed");
-                throw new EmailNotFoundException();
+                throw new EmailValidationFailedException();
             }
 
             IFacade facade = Facade.getInstance();
@@ -71,7 +73,7 @@ public class LoginController implements ILogger{
                 }
             } catch (SearchInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
                 log.error("Facade Exception caught while searching patient - " + e.getMessage());
-                throw new EmailNotFoundException();
+                throw e;
             }
         }
 

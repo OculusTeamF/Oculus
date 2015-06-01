@@ -10,7 +10,7 @@
 import at.oculus.teamf.application.controller.LoginController;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
 
@@ -50,9 +50,11 @@ public class UserController extends HttpServlet implements ILogger {
             _loginpatient  = _loginapp.checkLoginData(userEmail,userPassword);
 
         } catch (EmailNotFoundException e) {
-            e.printStackTrace();
+            log.error("No user with this e-mail available. " + e.getMessage());
+            request.getRequestDispatcher("errorPages/emailNotFound.jsp").forward(request, response);
         } catch (PasswordIncorrectException e) {
-            e.printStackTrace();
+            log.error("Password is incorrect. " + e.getMessage());
+            request.getRequestDispatcher("errorPages/passwordIncorrect.jsp").forward(request, response);
         }
 
 

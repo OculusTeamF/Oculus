@@ -9,11 +9,11 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.criteria.Criteria;
+import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.entity.WeekDayKey;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -21,13 +21,8 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Date;
 
 /**
@@ -37,8 +32,8 @@ public class Calendar implements ICalendar {
 
 	//<editor-fold desc="Attributes">
 	private int _id;
-	private Collection<CalendarEvent> _events;
-	private Collection<CalendarWorkingHours> _workinghours;
+	private Collection<ICalendarEvent> _events;
+	private Collection<ICalendarWorkingHours> _workinghours;
 
 	//excluded because of circular dependencies
 	//private User _user;
@@ -56,7 +51,7 @@ public class Calendar implements ICalendar {
 		_id = calendarID;
 	}
 
-	public Collection<CalendarEvent> getEvents()
+	public Collection<ICalendarEvent> getEvents()
 			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
 		if (_events == null) {
@@ -67,11 +62,12 @@ public class Calendar implements ICalendar {
 		return _events;
 	}
 
-	public void setEvents(Collection<CalendarEvent> events) {
+	@Override
+	public void setEvents(Collection<ICalendarEvent> events) {
 		_events = events;
 	}
 
-	public Collection<CalendarWorkingHours> getWorkingHours()
+	public Collection<ICalendarWorkingHours> getWorkingHours()
 			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
 		if (_workinghours == null) {
@@ -82,8 +78,14 @@ public class Calendar implements ICalendar {
 		return _workinghours;
 	}
 
-	public void setWorkingHours(Collection<CalendarWorkingHours> workinghours) {
+	public void setWorkingHours(Collection<ICalendarWorkingHours> workinghours) {
 		_workinghours = workinghours;
+	}
+
+
+	@Override
+	public Iterator<ICalendarEvent> availableEventsIterator(Object o, int i) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+		return null;
 	}
 
 	//</editor-fold>
@@ -95,7 +97,7 @@ public class Calendar implements ICalendar {
 		Date to = calendarEvent.getEventEnd();
 
 		// alle vorhandenen Termine ueberpruefen
-		for (CalendarEvent c : getEvents()) {
+		for (ICalendarEvent c : getEvents()) {
 			// wenn Startzeitpunnkt innerhalb eines Termins
 			if (c.getEventStart().before(from) && c.getEventEnd().after(from)) {
 				return false;
@@ -115,7 +117,7 @@ public class Calendar implements ICalendar {
 	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		for (CalendarWorkingHours c : getWorkingHours()) {
+		for (ICalendarWorkingHours c : getWorkingHours()) {
 			if(c.contains(calendarEvent)){
                 return true;
             }
@@ -123,10 +125,10 @@ public class Calendar implements ICalendar {
 		return false;
 	}
 
-	public Iterator<ICalendarEvent> availableEventsIterator(Collection<Criteria> criterias, int duration)
+	public Iterator<ICalendarEvent> availableEventsIterator(Collection<ICriteria> ICriterias, int duration)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(this, criterias, duration);
+		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(this, ICriterias, duration);
 
 		return iterator;
 	}
@@ -134,12 +136,12 @@ public class Calendar implements ICalendar {
 	public class CalendarEventIterator implements Iterator<ICalendarEvent>, ILogger {
 		private Calendar _calendar;
 		private int _duration;
-		private Collection<Criteria> _criterias;
+		private Collection<ICriteria> _I_criterias;
 		private CalendarEvent _lastEvent;
 		private CalendarEvent _nextEvent;
 		private final int _interval = 15;
 
-		public CalendarEventIterator(Calendar calendar, Collection<Criteria> criterias, int duration)
+		public CalendarEventIterator(Calendar calendar, Collection<ICriteria> ICriterias, int duration)
 				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 				       NoBrokerMappedException, DatabaseOperationException {
 			// round up to next hour
@@ -157,7 +159,7 @@ public class Calendar implements ICalendar {
 			_lastEvent = new CalendarEvent();
 			_lastEvent.setEventEnd(nextHour);
 			_lastEvent.setEventStart(nextHour);
-			_criterias = criterias;
+			_I_criterias = ICriterias;
 		}
 
 		@Override
@@ -230,8 +232,8 @@ public class Calendar implements ICalendar {
 				}
 
 				// check criterias
-				if (calendarEvent != null && _criterias!=null) {
-					for (Criteria c : _criterias) {
+				if (calendarEvent != null && _I_criterias !=null) {
+					for (ICriteria c : _I_criterias) {
 						if (!c.isValidEvent(calendarEvent)) {
 							calendarEvent = null;
 							break;

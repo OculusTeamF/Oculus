@@ -9,7 +9,7 @@
 
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPrescription;
 import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;

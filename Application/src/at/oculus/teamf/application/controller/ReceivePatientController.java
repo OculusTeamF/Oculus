@@ -26,11 +26,11 @@ import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
 
 /**
  * <h2>$ReceivePatientController</h2>
@@ -56,9 +56,9 @@ public class ReceivePatientController implements ILogger {
      */
     public IExaminationProtocol createNewExaminationProtocol(Date starttime, Date endtime, String description, IPatient iPatient, IDoctor iDoctor, IOrthoptist iOrthoptist) throws CouldNotAddExaminationProtocol {
         ExaminationProtocol examinationProtocol = new ExaminationProtocol(
-                0, starttime, endtime, description, (Patient) iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
+                0, starttime, endtime, description,iPatient, (Doctor) iDoctor, (Orthoptist) iOrthoptist, null
         );
-        Patient patient = (Patient) iPatient;
+        IPatient patient =  iPatient;
         patient.addExaminationProtocol(examinationProtocol);
 
         log.info("New Examination Protocol has been created!");
@@ -75,7 +75,7 @@ public class ReceivePatientController implements ILogger {
      * @param iPatient the patient who is being examined
      */
     public Collection<IExaminationProtocol> getAllExaminationProtocols(IPatient iPatient) throws CouldNotGetExaminationProtolException {
-        Patient patient = (Patient) iPatient;
+        IPatient patient = iPatient;
         Collection<IExaminationProtocol> protocols = null;
 
         protocols = patient.getExaminationProtocol();
@@ -97,8 +97,8 @@ public class ReceivePatientController implements ILogger {
      */
 
     public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws CouldNotRemovePatientFromQueueException {
-        Patient patient = (Patient) ipatient;
-        PatientQueue queue = (PatientQueue) iqueue;
+        IPatient patient = ipatient;
+        IPatientQueue queue = (PatientQueue) iqueue;
 
         queue.removePatient(patient);
         log.info("Patient has been removed from queue.");

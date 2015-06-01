@@ -11,8 +11,8 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -46,7 +46,7 @@ class CalendarEventBroker extends EntityBroker<CalendarEvent, CalendarEventEntit
 
 		Integer patientID = entity.getPatientId();
 		if(patientID != null) {
-			event.setPatient((Patient) Facade.getInstance().getById(Patient.class, entity.getPatientId()));
+			event.setPatient(Facade.getInstance().getById(IPatient.class, entity.getPatientId()));
 		}
 
 		return event;

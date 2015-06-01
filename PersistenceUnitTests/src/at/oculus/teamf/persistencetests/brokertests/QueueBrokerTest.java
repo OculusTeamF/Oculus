@@ -11,8 +11,9 @@ package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.QueueEntry;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -106,15 +107,15 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(_newOrthoptistEntry));
 			assertTrue(Facade.getInstance().delete(_newEntry));
 
-			assertTrue(Facade.getInstance().delete((Patient) ((LinkedList<Object>) Facade.getInstance()
+			assertTrue(Facade.getInstance().delete((IDomain) ((LinkedList<Object>) Facade.getInstance()
 			                                                                             .search(Patient.class,
 			                                                                                     "UnitTestPatient1"))
 					.get(0)));
-			assertTrue(Facade.getInstance().delete((Patient) ((LinkedList<Object>) Facade.getInstance()
+			assertTrue(Facade.getInstance().delete((IDomain) ((LinkedList<Object>) Facade.getInstance()
 			                                                                             .search(Patient.class,
 			                                                                                     "UnitTestPatient2"))
 					.get(0)));
-			assertTrue(Facade.getInstance().delete((Patient) ((LinkedList<Object>) Facade.getInstance()
+			assertTrue(Facade.getInstance().delete((IDomain) ((LinkedList<Object>) Facade.getInstance()
 			                                                                             .search(Patient.class,
 			                                                                                     "UnitTestPatient3"))
 					.get(0)));

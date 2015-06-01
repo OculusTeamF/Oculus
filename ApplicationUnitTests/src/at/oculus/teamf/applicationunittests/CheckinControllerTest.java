@@ -13,6 +13,7 @@ import at.oculus.teamf.application.controller.CheckinController;
 import at.oculus.teamf.application.controller.ReceivePatientController;
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 import org.junit.After;
 import org.junit.Before;

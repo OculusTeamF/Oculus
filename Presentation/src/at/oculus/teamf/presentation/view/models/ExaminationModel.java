@@ -20,7 +20,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolExcep
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 
 import java.util.Collection;
