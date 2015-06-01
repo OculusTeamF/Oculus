@@ -1,45 +1,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Oculus</title>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <link href="css/default.css" rel="stylesheet" type="text/css" />
+    <title>Oculus</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="css/default.css" rel="stylesheet" type="text/css" />
+
     <link href="css/jquery-ui.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.css">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
 <div id="header">
-  <div id="topmenu">
-    <ul>
-      <li><a href="#" id="topmenu1" accesskey="1">Home</a></li>
-      <li><a href="#" id="topmenu2" accesskey="2">Contact</a></li>
-      <li><a href="#" id="topmenu3" accesskey="3">Sitemap</a></li>
-    </ul>
-  </div>
-  <div id="logo">
-    <h1><a href="index.jsp">Oculus Appointment Creator</a></h1>
-  </div>
+    <div id="topmenu">
+        <ul>
+            <li><a href="#" id="topmenu1" accesskey="1">Home</a></li>
+            <li><a href="#" id="topmenu2" accesskey="2">Contact</a></li>
+            <li><a href="#" id="topmenu3" accesskey="3">Sitemap</a></li>
+        </ul>
+    </div>
+    <div id="logo">
+        <h1><a href="index.jsp">Oculus Appointment Creator</a></h1>
+    </div>
 </div>
 <div id="menu">
 </div>
 <div id="content">
     <div id="main">
         <div id="welcome">
-            <div id="tabs">
+            <div id='MyTabSelector'>
                 <ul>
-                    <li><a href="#tabs-1">Actual appointment</a></li>
+                    <li><a href="#tabs-1">Current appointment</a></li>
                     <li><a href="#tabs-2">New appointment</a></li>
                     <li><a href="#tabs-3">Available appointments</a></li>
                     <li><a href="#tabs-4">Confirmation</a></li>
                 </ul>
                 <div id="tabs-1">
-                    <a href="#" onclick="$('#tabs').disableTab(1);">Disable Tab 1</a><br/>
-                    <a href="#" onclick="$('#tabs').disableTab(1, true);">Hide Tab 1</a>
-                    <br/>
-                    <a href="#" onclick="$('#tabs').enableTab(1);">Show/Enable Tab 1</a>
+                    <p>
+                        <br/>
+                        Date start: ${user.dateStart}
+                        <br/>
+                        Date end: ${user.dateEnd}
+                        <br/>
+                        Description: ${user.description}
+                    </p>
+                    <button type="button" onclick="alert('Delete!')">Delete appointment</button>
                 </div>
                 <div id="tabs-2">
                     <div id="datetimepicker"></div>
@@ -62,14 +68,14 @@
                         <h3><strong>Logged in User:<br/></strong></h3>
                         <p>
                             <br/>
-                            First Name: ${user.firstName}
+                            <strong>First Name:</strong> ${user.firstName}
                             <br/>
                             Last Name: ${user.lastName}
                             <br/>
                             SV Number: ${user.svNumber}
                             <br/><br/>
                         </p>
-                        <h3><strong>Appointment:<br/></strong></h3>
+                        <h3><strong>Current Appointment:<br/></strong></h3>
                         <c:choose>
                             <c:when test="${user.appointAvailable}">
 
@@ -99,15 +105,33 @@
 <script src="js/jquery-ui.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 
-<script src="js/Query-ui-tab-utils.js"></script>
+<script src="js/jquery-tabs.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 
 <script>
-    $( "#tabs" ).tabs();
+    $('#MyTabSelector').tabs({
+        heightStyle: "fill"
+    });
 
     $('#datetimepicker').datetimepicker({
         timeFormat: 'HH:mm',
         stepMinute: 10
+    });
+
+    $(document).ready(function(){
+
+        if (${user.appointAvailable}) {
+            $('#MyTabSelector').enableTab(0);
+            $('#MyTabSelector').disableTab(1);
+            $('#MyTabSelector').disableTab(2);
+            $('#MyTabSelector').disableTab(3);
+        }
+        else {
+            $('#MyTabSelector').disableTab(0, true)
+            $('#MyTabSelector').disableTab(2);
+            $('#MyTabSelector').disableTab(3);
+        }
+
     });
 </script>
 </html>
