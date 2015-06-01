@@ -9,8 +9,14 @@
 
 import at.oculus.teamf.application.controller.LoginController;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailValidationFailedException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
 
@@ -55,6 +61,19 @@ public class UserController extends HttpServlet implements ILogger {
         } catch (PasswordIncorrectException e) {
             log.error("Password is incorrect. " + e.getMessage());
             request.getRequestDispatcher("errorPages/passwordIncorrect.jsp").forward(request, response);
+        } catch (EmailValidationFailedException e) {
+            log.error("E-Mail validation failed. " + e.getMessage());
+            request.getRequestDispatcher("errorPages/noVerifiedEmail.jsp").forward(request, response);
+        } catch (InvalidSearchParameterException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (SearchInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
         }
 
 
