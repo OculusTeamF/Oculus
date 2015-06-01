@@ -10,9 +10,9 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.interfaces.IWorkingHours;
-import at.oculus.teamf.domain.entity.WorkingHours;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.calendar.IWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.WorkingHours;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.WorkingHoursEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

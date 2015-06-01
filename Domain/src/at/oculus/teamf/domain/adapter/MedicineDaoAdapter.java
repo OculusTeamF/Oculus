@@ -7,51 +7,30 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistencetests.brokertests;
+package at.oculus.teamf.domain.adapter;
 
-import at.oculus.teamf.domain.entity.calendar.WorkingHours;
+import at.oculus.teamE.domain.interfaces.IMedicineTb2;
+import at.oculus.teamE.persistence.PersistenceExceptionTb2;
+import at.oculus.teamE.persistence.api.IMedicineDaoTb2;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-
-import java.util.Collection;
-
-import static org.junit.Assert.assertTrue;
-
+import at.oculus.teamf.technical.loggin.ILogger;
 
 /**
- * WorkingHoursBrokerTest.java Created by oculus on 27.05.15.
+ * Created by oculus on 18.05.15.
  */
-public class WorkingHoursBrokerTest extends BrokerTest {
-	@Override
-	public void setUp() {
-
-	}
-
-	@Override
-	public void tearDown() {
-
-	}
-
-	@Override
-	public void testGetById() {
-
-	}
-
-	@Override
-	public void testGetAll() {
-		Collection<WorkingHours> workingHours = null;
-		try {
-			workingHours = Facade.getInstance().getAll(WorkingHours.class);
-		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-		assertTrue(workingHours.size() > 0);
-
-		/*for(WorkingHours w : workingHours){
-			System.out.println(w);
-		}*/
-	}
+public class MedicineDaoAdapter implements IMedicineDaoTb2, ILogger {
+    @Override
+    public void saveOrUpdate(IMedicineTb2 iMedicineTb2) throws PersistenceExceptionTb2 {
+        Facade facade = Facade.getInstance();
+        try {
+            facade.save((IMedicine)iMedicineTb2);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+            log.error("Exception caught! " + e.getMessage());
+            throw new PersistenceExceptionTb2();
+        }
+    }
 }

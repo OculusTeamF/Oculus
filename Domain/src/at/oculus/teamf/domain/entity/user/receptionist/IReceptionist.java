@@ -7,13 +7,28 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.user.receptionist;
+
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.queue.IPatientQueue;
+
+import java.util.Collection;
 
 /**
- * ILogin.java
- * Created by oculus on 27.05.15.
+ * Created by oculus on 16.04.15.
  */
-public interface ILogin {
-    String getPasswordHash();
-    String getUserName();
+public interface IReceptionist extends IDomain {
+    //<editor-fold desc="Getter/Setter">
+    int getId();
+
+    void setId(int _id);
+
+    Collection<ICalendar> getCalendars();
+
+    void setCalendars(Collection<ICalendar> calendars);
+
+    Collection<IPatientQueue> getQueues();
+
+    void setQueues(Collection<IPatientQueue> queues);
 }

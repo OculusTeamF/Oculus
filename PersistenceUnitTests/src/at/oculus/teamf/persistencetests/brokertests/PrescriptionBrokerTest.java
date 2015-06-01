@@ -10,8 +10,8 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
-import at.oculus.teamf.domain.entity.Prescription;
-import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.Prescription;
+import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
 import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

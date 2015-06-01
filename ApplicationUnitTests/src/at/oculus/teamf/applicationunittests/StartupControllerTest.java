@@ -11,10 +11,14 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.application.controller.StartupController;
-import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.queue.IPatientQueue;
+import at.oculus.teamf.domain.entity.user.IUser;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
+import at.oculus.teamf.domain.entity.user.receptionist.Receptionist;
 
 import java.util.Collection;
 import java.util.LinkedList;

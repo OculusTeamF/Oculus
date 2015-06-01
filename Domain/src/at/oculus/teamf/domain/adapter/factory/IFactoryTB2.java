@@ -7,9 +7,24 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.adapter.factory;
 
-public enum Gender {
-    Male,
-    Female
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
+
+/**
+ * Created by Simon Angerer on 13.05.2015.
+ */
+public interface IFactoryTB2{
+
+    IVisualAid createVisualAid();
+
+    IDiagnosis createDiagnos(String title, String description, IDoctor doctor);
+
+    IPrescription createPrescription();
+
+    IPrescriptionEntry createPrescriptionEntry();
 }

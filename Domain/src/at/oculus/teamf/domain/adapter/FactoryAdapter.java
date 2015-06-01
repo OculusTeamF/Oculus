@@ -7,12 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.adapter;
+package at.oculus.teamf.domain.adapter;
 
 import at.oculus.teamE.domain.interfaces.*;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.ExaminationResult;
-import at.oculus.teamf.domain.entity.Medicine;
+import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.ExaminationResult;
+import at.oculus.teamf.domain.entity.medicine.Medicine;
 
 import java.time.LocalDate;
 

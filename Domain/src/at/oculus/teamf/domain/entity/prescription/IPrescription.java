@@ -7,23 +7,28 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.prescription;
 
-import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
-import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
+import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
-import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
- * interface patient queue for presentation layer
+ * Created by Simon Angerer on 08.05.2015.
  */
-public interface IPatientQueue {
+public interface IPrescription extends IDomain {
 
-    Collection<IQueueEntry> getEntries();
+    IPatient getPatient();
 
-    void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException;
+    void setPatient(IPatient iPatient);
+    void setLastPrint(Date lastPrint);
+    Date getLastPrint();
 
-    void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException;
+	Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException;
+
+	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
 }

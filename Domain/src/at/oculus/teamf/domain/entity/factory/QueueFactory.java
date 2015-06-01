@@ -10,9 +10,12 @@
 package at.oculus.teamf.domain.entity.factory;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.doctor.Doctor;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.domain.entity.queue.PatientQueue;
+import at.oculus.teamf.domain.entity.queue.QueueEntry;
+import at.oculus.teamf.domain.entity.user.User;
+import at.oculus.teamf.domain.entity.user.doctor.Doctor;
+import at.oculus.teamf.domain.entity.user.IUser;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

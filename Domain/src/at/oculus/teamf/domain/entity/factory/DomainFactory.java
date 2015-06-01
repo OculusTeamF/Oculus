@@ -10,8 +10,8 @@
 package at.oculus.teamf.domain.entity.factory;
 
 import at.oculus.teamf.domain.entity.diagnosis.DiagnosisFactory;
-import at.oculus.teamf.domain.entity.doctor.DoctorFactory;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.user.doctor.DoctorFactory;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.patient.PatientFactory;
 
 import java.util.HashMap;

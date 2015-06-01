@@ -7,16 +7,13 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.technical.accessrights;
 
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * ILogin.java
+ * Created by oculus on 27.05.15.
  */
-public interface IPrescriptionEntry extends IDomain {
-
-    IPrescription getPrescription();
-
-    IMedicine getMedicine();
-
-	void setMedicine(IMedicine medicine);
+public interface ILogin {
+    String getPasswordHash();
+    String getUserName();
 }
