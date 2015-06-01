@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity.appointment;
 
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.IEventType;
+import at.oculus.teamf.domain.entity.calendar.IEventType;
 
 /**
  * Created by oculus on 20.04.15.

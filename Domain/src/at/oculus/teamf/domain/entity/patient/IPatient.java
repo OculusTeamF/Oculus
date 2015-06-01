@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.IExaminationResult;
 import at.oculus.teamf.domain.entity.medicine.IMedicine;

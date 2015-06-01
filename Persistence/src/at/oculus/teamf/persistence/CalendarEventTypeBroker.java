@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.domain.EventType;
+import at.oculus.teamf.domain.entity.calendar.EventType;
 import at.oculus.teamf.domain.entity.appointment.FirstAppointment;
 import at.oculus.teamf.domain.entity.appointment.OrthoptistAppointment;
 import at.oculus.teamf.domain.entity.appointment.RegularAppointment;

@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.entity.user.doctor;
 
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
-import at.oculus.teamf.domain.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;

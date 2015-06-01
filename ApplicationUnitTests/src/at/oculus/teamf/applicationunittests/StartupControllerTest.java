@@ -11,8 +11,8 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.application.controller.StartupController;
-import at.oculus.teamf.domain.ICalendar;
-import at.oculus.teamf.domain.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
