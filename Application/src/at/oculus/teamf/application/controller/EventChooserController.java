@@ -10,9 +10,9 @@
 package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
-import at.oculus.teamf.domain.entity.criteria.ICriteria;
-import at.oculus.teamf.domain.entity.criteria.WeekDayTime;
-import at.oculus.teamf.domain.entity.criteria.WeekDayTimeCriteria;
+import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
+import at.oculus.teamf.domain.criteria.WeekDayTime;
+import at.oculus.teamf.domain.criteria.WeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
