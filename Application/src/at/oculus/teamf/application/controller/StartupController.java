@@ -248,7 +248,7 @@ public class StartupController implements ILogger {
      */
     public Collection<ICalendarEvent> getAllEntries(ICalendar iCalendar) throws CriticalClassException, BadConnectionException, CriticalDatabaseException {
         Calendar calendar = (Calendar) iCalendar;
-        Collection<CalendarEvent> calendarEvents = null;
+        Collection<ICalendarEvent> calendarEvents = null;
         try {
             calendarEvents = calendar.getEvents();
         } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException e) {
@@ -261,7 +261,7 @@ public class StartupController implements ILogger {
         Collection<ICalendarEvent> iCalendarEvents = new LinkedList<ICalendarEvent>();
 
         if (calendarEvents != null) {
-            for (CalendarEvent event : calendarEvents) {
+            for (ICalendarEvent event : calendarEvents) {
                 iCalendarEvents.add(event);
             }
         }
