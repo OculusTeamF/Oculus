@@ -9,15 +9,15 @@
 
 package at.oculus.teamf.domain.entity.diagnosis;
 
-import at.oculus.teamf.domain.entity.Medicine;
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.medicine.Medicine;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IMedicine;
-import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 
 import java.util.Collection;
 

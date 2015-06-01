@@ -11,11 +11,11 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IUserTb2;
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
-import at.oculus.teamf.domain.entity.interfaces.ICalendar;
-import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.domain.entity.interfaces.IUser;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.queue.IPatientQueue;
+import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

@@ -10,11 +10,11 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.user.Gender;
 import at.oculus.teamf.domain.entity.exception.*;
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.ILogin;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
+import at.oculus.teamf.technical.accessrights.ILogin;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;

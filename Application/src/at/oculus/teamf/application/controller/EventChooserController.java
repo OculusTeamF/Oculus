@@ -18,9 +18,9 @@ import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.interfaces.ICalendar;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.IFacade;
@@ -239,7 +239,7 @@ public class EventChooserController implements ILogger {
      *<h3>$saveChosenEvent</h3>
      *
      * <b>Description:</b>
-     *this method saves the given Calendar-event to the specified patient into the database and returns the value true,
+     *this method saves the given calendar-event to the specified patient into the database and returns the value true,
      * if everything works.
      *
      *<b>Parameter</b>

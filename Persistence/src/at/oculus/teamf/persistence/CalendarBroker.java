@@ -11,12 +11,12 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.CalendarWorkingHours;
-import at.oculus.teamf.domain.entity.interfaces.ICalendar;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.Calendar;
+import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity;

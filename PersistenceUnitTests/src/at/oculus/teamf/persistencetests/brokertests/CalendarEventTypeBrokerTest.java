@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.EventType;
-import at.oculus.teamf.domain.entity.RegularAppointment;
+import at.oculus.teamf.domain.entity.calendar.EventType;
+import at.oculus.teamf.domain.entity.appointment.RegularAppointment;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
 

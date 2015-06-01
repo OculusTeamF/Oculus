@@ -12,7 +12,7 @@ package at.oculus.teamf.presentation.view;
  * Created by Karo on 09.04.2015.
  */
 
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.presentation.view.models.Model;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;

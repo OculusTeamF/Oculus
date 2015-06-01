@@ -9,9 +9,9 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Medicine;
-import at.oculus.teamf.domain.entity.Prescription;
-import at.oculus.teamf.domain.entity.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.medicine.Medicine;
+import at.oculus.teamf.domain.entity.prescription.Prescription;
+import at.oculus.teamf.domain.entity.prescription.PrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

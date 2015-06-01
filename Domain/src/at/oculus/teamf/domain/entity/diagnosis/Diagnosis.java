@@ -11,20 +11,17 @@ package at.oculus.teamf.domain.entity.diagnosis;
 
 import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
 import at.oculus.teamE.domain.interfaces.IMedicineTb2;
-import at.oculus.teamf.domain.entity.Medicine;
-import at.oculus.teamf.domain.entity.VisualAid;
-import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.medicine.Medicine;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
+import at.oculus.teamf.domain.entity.visualadi.VisualAid;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
-import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;

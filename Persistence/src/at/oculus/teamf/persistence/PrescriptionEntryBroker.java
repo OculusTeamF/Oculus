@@ -10,11 +10,11 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.Medicine;
-import at.oculus.teamf.domain.entity.Prescription;
-import at.oculus.teamf.domain.entity.PrescriptionEntry;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.medicine.Medicine;
+import at.oculus.teamf.domain.entity.prescription.Prescription;
+import at.oculus.teamf.domain.entity.prescription.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.MedicineEntity;
 import at.oculus.teamf.persistence.entity.PrescriptionEntity;

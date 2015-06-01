@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.persistence;
 
-import at.oculus.teamf.domain.entity.Receptionist;
-import at.oculus.teamf.domain.entity.interfaces.IReceptionist;
+import at.oculus.teamf.domain.entity.user.receptionist.Receptionist;
+import at.oculus.teamf.domain.entity.user.receptionist.IReceptionist;
 import at.oculus.teamf.persistence.entity.ReceptionistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 

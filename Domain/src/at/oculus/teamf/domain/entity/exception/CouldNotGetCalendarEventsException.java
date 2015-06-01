@@ -9,10 +9,6 @@
 
 package at.oculus.teamf.domain.entity.exception;
 
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.exception.DomainException;
-import at.oculus.teamf.domain.entity.exception.calendar.CalendarException;
-
 /**
  * Created by Simon Angerer on 02.05.2015.
  */
