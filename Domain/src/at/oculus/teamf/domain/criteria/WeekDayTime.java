@@ -58,7 +58,7 @@ public class WeekDayTime implements IWeekDayTime {
     public boolean isInTime(ICalendarEvent calendarEvent){
         WeekDayKey weekDayKey = WeekDayKey.getWeekDayKey(calendarEvent.getEventStart());
 
-        // start and ent dat not the same day
+        // start and end date not the same day
         if(!weekDayKey.equals(WeekDayKey.getWeekDayKey(calendarEvent.getEventEnd()))) {
             return false;
         }
