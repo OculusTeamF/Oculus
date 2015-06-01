@@ -12,6 +12,7 @@ package at.oculus.teamf.domain.entity.factory;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.interfaces.IUser;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -48,7 +49,7 @@ public class QueueFactory implements ILogger{
         _userQueues = new HashMap<>();
 
         _keyWordMap = new HashMap<>();
-        _keyWordMap.put(Orthoptist.class, "Orthopist");
+        _keyWordMap.put(Orthoptist.class, "Orthopist"); //TODO: set to interface
         _keyWordMap.put(Doctor.class, "Doctor");
 
 
@@ -88,15 +89,8 @@ public class QueueFactory implements ILogger{
      * @throws SearchInterfaceNotImplementedException
      * @throws NoBrokerMappedException
      */
-    private Collection<QueueEntry> searchForQueueEntries(User user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
-        int id;
-
-        if(user instanceof Doctor) {
-            id = ((Doctor) user).getId();
-        } else {
-            id = ((Orthoptist)user).getId();
-        }
-        return  Facade.getInstance().search(QueueEntry.class, _keyWordMap.get(user.getClass()), Integer.toString(id));
+    private Collection<QueueEntry> searchForQueueEntries(IUser user) throws InvalidSearchParameterException, BadConnectionException, SearchInterfaceNotImplementedException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException {
+        return  Facade.getInstance().search(QueueEntry.class, _keyWordMap.get(user.getClass()), Integer.toString(user.getId()));
     }
 
     /**

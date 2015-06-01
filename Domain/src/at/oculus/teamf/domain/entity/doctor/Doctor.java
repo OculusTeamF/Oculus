@@ -18,12 +18,6 @@ import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.interfaces.IPatientQueue;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalDateTime;
@@ -103,15 +97,6 @@ public class Doctor extends User implements IDoctor, ILogger{
 
     @Override
     public Collection<IPatient> getPatients() throws CantLoadPatientsException {
-        Facade facade = Facade.getInstance();
-
-        try {
-            facade.reloadCollection(this, IPatient.class);
-        } catch (BadConnectionException | NoBrokerMappedException | ReloadInterfaceNotImplementedException | DatabaseOperationException | InvalidReloadClassException e) {
-            log.error(e.getMessage());
-            throw new CantLoadPatientsException();
-        }
-
         return (Collection<IPatient>)(Collection<?>)_patients;
     }
 

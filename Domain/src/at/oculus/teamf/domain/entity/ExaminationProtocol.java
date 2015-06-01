@@ -12,7 +12,6 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamE.domain.interfaces.*;
 import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
 import at.oculus.teamE.domain.readonly.IRUserTb2;
-import at.oculus.teamf.domain.entity.doctor.Doctor;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.*;
@@ -55,7 +54,7 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 
     public ExaminationProtocol(IPatientTb2 iPatientTb2, IUserTb2 iUserTb2){
         _patient = (IPatient) iPatientTb2;
-        _doctor = (Doctor) iUserTb2;
+        _doctor = (IDoctor) iUserTb2;
 		_startTime = new java.sql.Timestamp(new Date().getTime());
 		_endTime = new java.sql.Timestamp(new Date().getTime());
 		_description = "";

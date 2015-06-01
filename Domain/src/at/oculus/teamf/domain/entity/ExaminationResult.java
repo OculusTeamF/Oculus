@@ -12,7 +12,6 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IExaminationTb2;
 import at.oculus.teamE.domain.interfaces.IUserTb2;
-import at.oculus.teamf.domain.entity.doctor.Doctor;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -90,8 +89,8 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
         if(user!=null){
             _user = user;
             _userId = user.getTeamFUserId();
-            if(user instanceof Doctor){
-                _doctor = (Doctor) user;
+            if(user instanceof IDoctor){
+                _doctor = (IDoctor) user;
             } else if (user instanceof Orthoptist) {
                 _orthoptist = (Orthoptist) user;
             }
@@ -153,7 +152,7 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
 
     @Override
     public void setCreator(IUserTb2 iUserTb2) {
-        _doctor = (Doctor) iUserTb2;
+        _doctor = (IDoctor) iUserTb2;
     }
 
     @Override
