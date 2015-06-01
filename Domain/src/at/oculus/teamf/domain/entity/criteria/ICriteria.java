@@ -12,12 +12,11 @@ package at.oculus.teamf.domain.entity.criteria;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 
 /**
- * Created by Karo on 28.05.2015.
+ * Criteria.java
+ * Created by oculus on 27.05.15.
  */
-public class DaytimePeriodCriteria implements Criteria {
+public interface ICriteria {
 
-    @Override
-    public boolean isValidEvent(CalendarEvent event) {
-        return false;
-    }
+    boolean isValidEvent(CalendarEvent event);
+
 }

@@ -11,14 +11,22 @@ package at.oculus.teamf.domain.entity.criteria;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
 
+import java.util.Date;
+
 /**
- * Criteria.java
- * Created by oculus on 27.05.15.
+ * Created by Karo on 28.05.2015.
  */
-public interface Criteria {
+public class DatePeriodICriteria implements ICriteria {
+    private Date _from;
+    private Date _to;
 
+    public DatePeriodICriteria(Date _from, Date _to) {
+        this._from = _from;
+        this._to = _to;
+    }
 
-
-    boolean isValidEvent(CalendarEvent event);
-
+    @Override
+    public boolean isValidEvent(CalendarEvent event) {
+        return false;
+    }
 }

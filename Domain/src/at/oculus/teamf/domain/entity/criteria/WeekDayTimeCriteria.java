@@ -11,10 +11,17 @@ package at.oculus.teamf.domain.entity.criteria;
 
 import at.oculus.teamf.domain.entity.CalendarEvent;
 
+import java.util.Collection;
+
 /**
  * Created by Karo on 28.05.2015.
  */
-public class DatePeriodCriteria implements Criteria {
+public class WeekDayTimeCriteria implements ICriteria {
+    private Collection<WeekDayTime> _weekDayTimes;
+
+    public WeekDayTimeCriteria(Collection<WeekDayTime> _weekDayTimes) {
+        this._weekDayTimes = _weekDayTimes;
+    }
 
     @Override
     public boolean isValidEvent(CalendarEvent event) {
