@@ -18,7 +18,7 @@
 <html>
 <head>
 <title>E-Mail Not Verified</title>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/errorMessages.css">
 </head>
 <body>
 <div class="error">
