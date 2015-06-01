@@ -365,3 +365,6 @@ img {
 	text-align: center;
 }
 
+li.ui-state-default.ui-state-hidden[role=tab]:not(.ui-tabs-active) {
+    display: none;
+}
