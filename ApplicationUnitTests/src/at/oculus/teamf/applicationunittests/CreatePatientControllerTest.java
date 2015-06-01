@@ -16,7 +16,6 @@ import at.oculus.teamf.application.controller.additional.RemovePatientController
 import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
-import at.oculus.teamf.domain.entity.Patient;
 
 import java.util.Date;
 import java.util.LinkedList;

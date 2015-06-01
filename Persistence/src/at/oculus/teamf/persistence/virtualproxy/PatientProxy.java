@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamE.domain.readonly.IRPatientTb2;
+import at.oculus.teamf.domain.entity.*;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
@@ -20,15 +20,18 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 
 /**
  * Created by Simon Angerer on 28.05.2015.
  */
-public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger {
+public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger, IRPatientTb2 {
     protected PatientProxy(IPatient real) {
         super(real);
     }
@@ -59,8 +62,13 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     }
 
     @Override
+    public LocalDate getBirthDate() {
+        return null;
+    }
+
+    @Override
     public void setLastName(String lastName) {
-         _real.setFirstName(lastName);
+         _real.setLastName(lastName);
     }
 
     @Override
@@ -71,6 +79,11 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     @Override
     public void setGender(Gender gender) {
         _real.setGender(gender);
+    }
+
+    @Override
+    public Integer getPatientId() {
+        return _real.getId();
     }
 
     @Override
@@ -95,6 +108,15 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
 
     @Override
     public Collection<ICalendarEvent> getCalendarEvents() throws CouldNotGetCalendarEventsException {
+        if(_real.getCalendarEvents() == null) {
+            try {
+                Facade.getInstance().reloadCollection(_real, CalendarEvent.class);
+            } catch (BadConnectionException | NoBrokerMappedException | InvalidReloadClassException | ReloadInterfaceNotImplementedException  | DatabaseOperationException e) {
+                log.error(e.getMessage());
+                throw new CouldNotGetCalendarEventsException();
+            }
+        }
+
         return _real.getCalendarEvents();
     }
 
@@ -146,6 +168,16 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     @Override
     public String getCountryIsoCode() {
         return _real.getCountryIsoCode();
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return _real.getPhone();
+    }
+
+    @Override
+    public String getEmailAddress() {
+        return _real.getEmail();
     }
 
     @Override
@@ -213,7 +245,7 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
                 throw new CouldNotGetExaminationProtolException();
             }
         }
-
+        System.out.println(_real.getExaminationProtocol());
         return _real.getExaminationProtocol();
     }
 
@@ -225,31 +257,94 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     @Override
     public void addExaminationProtocol(IExaminationProtocol examinationProtocol) throws CouldNotAddExaminationProtocol {
         _real.addExaminationProtocol(examinationProtocol);
+
+        try {
+            Facade.getInstance().save(examinationProtocol);
+        } catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
+            log.error(e.getMessage());
+            throw new CouldNotAddExaminationProtocol();
+        }
     }
 
     @Override
     public Collection<IDiagnosis> getDiagnoses() throws CouldNotGetDiagnoseException {
-        return _real.getDiagnoses();
+        Collection<IDiagnosis> diagnoses = null;
+        if(_real.getDiagnoses() == null) {
+            try {
+                diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
+            } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
+                log.error(e.getMessage());
+                throw new CouldNotGetDiagnoseException();
+            }
+        }
+
+        return diagnoses;
     }
 
     @Override
     public Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException {
-        return _real.getMedicine();
+        Collection<IMedicine> medicine;
+
+        try {
+            medicine = Facade.getInstance().search(Medicine.class, this.getId() + "");
+        } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
+            log.error(e.getMessage());
+            throw new CouldNotGetMedicineException();
+        }
+
+        return medicine;
     }
 
     @Override
     public Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException {
+        if(_real.getExaminationResults() == null) {
+            try {
+                _real.setExaminationResults(Facade.getInstance().search(ExaminationResult.class, this.getId() + ""));
+            } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
+                log.error(e.getMessage());
+                throw new CouldNotGetExaminationResultException();
+            }
+        }
+
         return _real.getExaminationResults();
     }
 
     @Override
+    public void setExaminationResults(Collection<IExaminationResult> results) {
+        _real.setExaminationResults(results);
+    }
+
+    @Override
     public Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException {
+        if(_real.getPrescriptions() == null) {
+            try {
+                Facade.getInstance().reloadCollection(_real, Prescription.class);
+            } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidReloadClassException | ReloadInterfaceNotImplementedException e) {
+                log.error(e.getMessage());
+                throw new CouldNotGetPrescriptionException();
+            }
+        }
+
         return _real.getPrescriptions();
     }
 
     @Override
     public Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException {
+        if(_real.getVisualAid() == null) {
+            try {
+                 _real.setVisualAid(Facade.getInstance().search(VisualAid.class, "1"));
+            } catch (NoBrokerMappedException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException e) {
+                log.error(e.getMessage());
+                throw new CouldNotGetVisualAidException();
+            }
+        }
+
         return _real.getVisualAid();
+    }
+
+    @Override
+    public void setVisualAid(Collection<IVisualAid> visualAids) {
+        _real.setVisualAid(visualAids);
     }
 
     @Override

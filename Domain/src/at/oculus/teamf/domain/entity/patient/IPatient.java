@@ -84,9 +84,13 @@ public interface IPatient extends IDomain {
 
     Collection<IExaminationResult> getExaminationResults() throws CouldNotGetExaminationResultException;
 
+    void setExaminationResults(Collection<IExaminationResult> results);
+
 	Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException;
 
     Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException;
+
+    void setVisualAid(Collection<IVisualAid> visualAids);
 
     void setDoctor(IDoctor idoctor);
 
