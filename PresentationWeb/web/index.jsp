@@ -72,6 +72,8 @@
                 </div>
                 <div id="tabs-4">
                     Termin best&auml;tigen
+                    <br/><br/>
+                    <button type="button" id="confirm-appointment">Confirm</button>
                 </div>
             </div>
         </div>
@@ -173,6 +175,13 @@
 
     $("#add-time").click(function(event){
         $('#appoint-list').append('<li>This is the text in new element. (with jQuery)</li>');
+    });
+
+    $("#confirm-appointment").click(function(event){
+        $('#MyTabSelector').enableTab(0);
+        $('#MyTabSelector').disableTab(1, true);
+        $('#MyTabSelector').disableTab(2, true);
+        $("#confirm-appointment").hide();
     });
 </script>
 </html>
