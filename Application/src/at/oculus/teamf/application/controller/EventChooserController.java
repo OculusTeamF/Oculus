@@ -14,6 +14,9 @@ import at.oculus.teamf.domain.criteria.DatePeriodICriteria;
 import at.oculus.teamf.domain.criteria.WeekDayTime;
 import at.oculus.teamf.domain.criteria.WeekDayTimeCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
+import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
@@ -48,7 +51,7 @@ public class EventChooserController implements ILogger {
     private IPatient iPatient;
     private Collection<ICalendarEvent> futureEvents;
     private String description;
-    private Collection<WeekDayTime> weekDayTimeCollection;
+    private Collection<IWeekDayTime> weekDayTimeCollection;
 
     /**
      *<h3>$EventChooserController</h3>
@@ -144,7 +147,7 @@ public class EventChooserController implements ILogger {
      * @param end this is the enddate of the time period in which the patient doesn't have time
      * @param weekDayTimes these are the restrictions, when the patient wants to come
      */
-    public Collection<ICalendarEvent> getAvailableEvents(Date start, Date end, Collection<WeekDayTime> weekDayTimes) throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+    public Collection<ICalendarEvent> getAvailableEvents(Date start, Date end, Collection<IWeekDayTime> weekDayTimes) throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         if(futureEvents.size() > 0){
             for(ICalendarEvent event : futureEvents){
                 if(!checkDate(event.getEventStart())){
@@ -161,8 +164,8 @@ public class EventChooserController implements ILogger {
         }
         ICalendar iCalendar = iDoctor.getCalendar();
 
-        WeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
-        DatePeriodICriteria datePeriodICriteria = new DatePeriodICriteria(start, end);
+        IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
+        IDatePeriodCriteria datePeriodICriteria = new DatePeriodICriteria(start, end);
 
         Collection<ICriteria> criterias = new LinkedList<>();
         criterias.add(weekDayTimeCriteria);
@@ -199,7 +202,7 @@ public class EventChooserController implements ILogger {
      * @param end this is the endtime of the period in which the patient wants to come
      * @param weekDay this is the weekday on which the patient wants to come
      */
-    public Collection<WeekDayTime> addCriteria(String weekDay, LocalTime start, LocalTime end){
+    public Collection<IWeekDayTime> addCriteria(String weekDay, LocalTime start, LocalTime end){
         WeekDayKey key;
         switch(weekDay){
             case "SUN":
@@ -227,7 +230,7 @@ public class EventChooserController implements ILogger {
                 key = WeekDayKey.NULL;
         }
 
-        WeekDayTime weekDayTime = new WeekDayTime(key, start, end);
+        IWeekDayTime weekDayTime = new WeekDayTime(key, start, end);
         weekDayTimeCollection.add(weekDayTime);
         return weekDayTimeCollection;
     }
