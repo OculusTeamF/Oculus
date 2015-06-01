@@ -24,6 +24,8 @@ public class UserBean {
     private String firstName = null;
     private String lastName = null;
     private String svNumber = null;
+    private String doctor = null;
+
     private ICalendarEvent _calendarEvent;
     private String dateStart = null;
     private String dateEnd = null;
@@ -39,6 +41,7 @@ public class UserBean {
         firstName = _patient.getFirstName();
         lastName = _patient.getLastName();
         svNumber = _patient.getSocialInsuranceNr();
+        doctor = _patient.getDoctor().toString();
     }
 
     public void loadCalendarEvent (ICalendarEvent calendarEvent){
@@ -77,5 +80,9 @@ public class UserBean {
 
     public String getDateEnd() {
         return dateEnd;
+    }
+
+    public String getDoctor() {
+        return doctor;
     }
 }

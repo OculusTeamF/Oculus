@@ -59,6 +59,13 @@
                             <p>Choose Endtime:</p>
                             <input type="text" name="choose_time" id="choose_time" value="" />
                         </div>
+                        <br/><br/>
+                        <button type="button" id="add-time">add time</button>
+                        <br/><br/>
+                        <button type="button" onclick="alert('check appointments!')">check appointments</button>
+
+                        <ul id="appoint-list">
+                        </ul>
                 </div>
                 <div id="tabs-3">
                     lol 3
@@ -82,7 +89,9 @@
                             <br/>
                             <strong>Last Name:</strong> ${user.lastName}
                             <br/>
-                                <strong>SV Number:</strong> ${user.svNumber}
+                            <strong>SV Number:</strong> ${user.svNumber}
+                            <br/>
+                            <strong>Doctor:</strong> ${user.doctor}
                             <br/><br/>
                         </p>
                         <h3><strong>Current Appointment:<br/></strong></h3>
@@ -139,7 +148,6 @@
         timeFormat: 'hh:mm tt'
     });
 
-
     $(document).ready(function(){
 
         if (${user.appointAvailable}) {
@@ -161,6 +169,10 @@
         $('#MyTabSelector').enableTab(1);
         $('#MyTabSelector').enableTab(2);
         $('#MyTabSelector').enableTab(3);
+    });
+
+    $("#add-time").click(function(event){
+        $('#appoint-list').append('<li>This is the text in new element. (with jQuery)</li>');
     });
 </script>
 </html>
