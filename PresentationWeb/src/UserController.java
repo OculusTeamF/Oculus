@@ -50,9 +50,11 @@ public class UserController extends HttpServlet implements ILogger {
             _loginpatient  = _loginapp.checkLoginData(userEmail,userPassword);
 
         } catch (EmailNotFoundException e) {
-            e.printStackTrace();
+            log.error("No user with this e-mail available. " + e.getMessage());
+            request.getRequestDispatcher("errorPages/emailNotFound.jsp").forward(request, response);
         } catch (PasswordIncorrectException e) {
-            e.printStackTrace();
+            log.error("Password is incorrect. " + e.getMessage());
+            request.getRequestDispatcher("errorPages/passwordIncorrect.jsp").forward(request, response);
         }
 
 

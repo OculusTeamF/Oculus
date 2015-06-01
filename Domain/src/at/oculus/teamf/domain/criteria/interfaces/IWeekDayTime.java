@@ -7,16 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.criteria;
+package at.oculus.teamf.domain.criteria.interfaces;
 
-import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 
 /**
- * Criteria.java
- * Created by oculus on 27.05.15.
+ * IWeekDayTime.java
+ * Created by oculus on 01.06.15.
  */
-public interface ICriteria {
-
-    boolean isValidEvent(CalendarEvent event);
-
+public interface IWeekDayTime {
+    public boolean isInTime(ICalendarEvent calendarEvent);
 }

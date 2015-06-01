@@ -7,26 +7,30 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.criteria;
+package at.oculus.teamf.domain.criteria;
 
-import at.oculus.teamf.domain.entity.CalendarEvent;
-
-import java.util.Date;
+import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
+import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import java.util.Collection;
 
 /**
  * Created by Karo on 28.05.2015.
  */
-public class DatePeriodICriteria implements ICriteria {
-    private Date _from;
-    private Date _to;
+public class WeekDayTimeCriteria implements IWeekDayTimeCriteria {
+    private Collection<WeekDayTime> _weekDayTimes;
 
-    public DatePeriodICriteria(Date _from, Date _to) {
-        this._from = _from;
-        this._to = _to;
+    public WeekDayTimeCriteria(Collection<WeekDayTime> _weekDayTimes) {
+        this._weekDayTimes = _weekDayTimes;
     }
 
     @Override
-    public boolean isValidEvent(CalendarEvent event) {
+    public boolean isValidEvent(ICalendarEvent event) {
+        for(WeekDayTime w : _weekDayTimes){
+            if(w.isInTime(event)){
+                return true;
+            }
+        }
         return false;
     }
 }

@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.criteria.ICriteria;
+import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
