@@ -7,14 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.factory;
+package at.oculus.teamf.domain.entity;
 
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Prescription;
-import at.oculus.teamf.domain.entity.PrescriptionEntry;
-import at.oculus.teamf.domain.entity.VisualAid;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.factory.IFactoryTB2;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Date;
 
@@ -41,12 +38,6 @@ public class FactoryTB2 implements IFactoryTB2 {
     @Override
     public IPrescriptionEntry createPrescriptionEntry() {
         return new PrescriptionEntry();
-    }
-
-    @Override
-    public IExaminationProtocol createExaminationProtocol(int id, Date startTime, Date endTime, String description, Patient patient, Doctor doctor,
-                                                          Orthoptist orthoptist, Diagnosis diagnosis) {
-        return null;
     }
 
 }

@@ -21,8 +21,7 @@ package at.oculus.teamf.application.controller;
 
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.Patient;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -63,10 +62,10 @@ public class SearchPatientController implements ILogger{
     public Collection <IPatient> searchPatients (String data) throws BadConnectionException, CriticalClassException, InvalidSearchParameterException, CriticalDatabaseException {
 
         Facade facade = Facade.getInstance();
-        Collection<Patient> patients = new LinkedList<Patient>();
+        Collection<IPatient> patients = new LinkedList<>();
 
         try {
-            patients = facade.search(Patient.class, "%" + data.replace(" ", "%") + "%");
+            patients = facade.search(IPatient.class, "%" + data.replace(" ", "%") + "%");
         } catch (SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
             throw new CriticalClassException();
@@ -76,7 +75,7 @@ public class SearchPatientController implements ILogger{
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
-        for(Patient patient : patients){
+        for(IPatient patient : patients){
             selectedPatients.add(patient);
         }
         log.info("All patients have been added to IPatient Collection.");
@@ -102,10 +101,10 @@ public class SearchPatientController implements ILogger{
     public Collection<IPatient> searchPatients(String svn, String firstName, String lastName) throws InvalidSearchParameterException, BadConnectionException, CriticalClassException, CriticalDatabaseException {
 
         Facade facade = Facade.getInstance();
-        Collection<Patient> patients = new LinkedList<Patient>();
+        Collection<IPatient> patients = new LinkedList<>();
 
         try {
-            patients = facade.search(Patient.class, "%" + svn + "%", "%" + firstName + "%", "%" + lastName + "%"); //Todo: remove %
+            patients = facade.search(IPatient.class, "%" + svn + "%", "%" + firstName + "%", "%" + lastName + "%"); //Todo: remove %
         } catch (SearchInterfaceNotImplementedException | NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
             throw new CriticalClassException();
@@ -115,7 +114,7 @@ public class SearchPatientController implements ILogger{
         }
 
         Collection<IPatient> selectedPatients = new LinkedList<IPatient>();
-        for(Patient patient : patients){
+        for(IPatient patient : patients){
             selectedPatients.add(patient);
         }
         log.info("All patients have been added to IPatient Collection.");

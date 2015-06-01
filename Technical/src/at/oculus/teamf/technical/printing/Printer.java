@@ -21,7 +21,7 @@
 
         import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
         import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-        import at.oculus.teamf.domain.entity.interfaces.IPatient;
+        import at.oculus.teamf.domain.entity.patient.IPatient;
         import at.oculus.teamf.domain.entity.interfaces.IPrescription;
         import at.oculus.teamf.domain.entity.interfaces.IPrescriptionEntry;
         import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
@@ -33,17 +33,12 @@
         import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
         import org.apache.pdfbox.pdmodel.font.PDFont;
         import org.apache.pdfbox.pdmodel.font.PDType1Font;
-        import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
-        import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
-        import javax.imageio.ImageIO;
         import java.awt.*;
-        import java.awt.image.BufferedImage;
         import java.io.File;
         import java.io.IOException;
         import java.sql.Timestamp;
         import java.util.Date;
-        import java.util.Random;
 
 /**
  * <h2>$Printer</h2>

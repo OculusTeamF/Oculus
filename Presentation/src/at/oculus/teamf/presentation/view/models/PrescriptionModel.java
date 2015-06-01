@@ -17,6 +17,7 @@ import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesExceptio
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;

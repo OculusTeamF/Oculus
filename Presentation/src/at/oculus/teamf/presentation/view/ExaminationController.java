@@ -13,7 +13,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolExcep
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationResult;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.collections.FXCollections;

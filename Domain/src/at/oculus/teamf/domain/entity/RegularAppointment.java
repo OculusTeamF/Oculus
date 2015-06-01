@@ -15,9 +15,6 @@ import at.oculus.teamf.domain.entity.interfaces.IRegularAppointment;
  * Created by Norskan on 03.04.2015.
  */
 public class RegularAppointment extends EventType implements IRegularAppointment {
-	public RegularAppointment() {
-	}
-
 	public RegularAppointment(int id, String eventTypeName, int estimatedTime, String description) {
 		super(id, eventTypeName, estimatedTime, description);
 	}

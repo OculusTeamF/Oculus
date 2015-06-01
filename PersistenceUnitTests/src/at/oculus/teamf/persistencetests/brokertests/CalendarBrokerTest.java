@@ -12,6 +12,8 @@ package at.oculus.teamf.persistencetests.brokertests;
 import at.oculus.teamf.domain.entity.Calendar;
 import at.oculus.teamf.domain.entity.CalendarEvent;
 import at.oculus.teamf.domain.entity.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.interfaces.ICalendar;
+import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -121,7 +123,7 @@ public class CalendarBrokerTest extends BrokerTest {
 	@Test
 	public void testNextAvailEvent() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = null;
+		ICalendar cal = null;
 		try {
 			cal = facade.getById(Calendar.class, 1);
 		} catch (FacadeException e) {
@@ -130,7 +132,7 @@ public class CalendarBrokerTest extends BrokerTest {
 		}
 		assertTrue(cal != null);
 
-		Iterator<CalendarEvent> iterator = null;
+		Iterator<ICalendarEvent> iterator = null;
 		try {
 			iterator = cal.availableEventsIterator(null, 30);
 		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {

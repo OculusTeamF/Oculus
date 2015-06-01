@@ -14,11 +14,11 @@ import at.oculus.teamf.application.controller.exceptions.CreatePatientController
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
 import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.Gender;
 import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -67,7 +67,7 @@ public class CreatePatientController implements ILogger {
      */
     public void createPatient(String gender, String lastName, String firstName, String svn, Date bday, String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws CriticalDatabaseException, RequirementsNotMetException, CriticalClassException, PatientCouldNotBeSavedException, BadConnectionException {
 
-        Patient patient = new Patient();
+        IPatient patient = (IPatient) DomainFactory.getFactory(IPatient.class).create();
         log.info("New patient object has been created.");
         if (gender.equals("female")) {
             patient.setGender(Gender.Female);
@@ -106,7 +106,7 @@ public class CreatePatientController implements ILogger {
      * @param iPatient this is the interface of Patient-object, which should be saved in the database
      */
     public void saveIPatient(IPatient iPatient) throws CriticalClassException, CriticalDatabaseException, RequirementsNotMetException, PatientCouldNotBeSavedException, BadConnectionException {
-        Patient patient = (Patient) iPatient;
+        IPatient patient = iPatient;
 
         savePatient(patient);
         log.info("Patient object has been saved!");
@@ -125,7 +125,7 @@ public class CreatePatientController implements ILogger {
      *
      * @param patient this is the Patient-object, which should be saved in the database
      */
-    private void savePatient(Patient patient) throws PatientCouldNotBeSavedException, BadConnectionException, CriticalClassException, CriticalDatabaseException, RequirementsNotMetException {
+    private void savePatient(IPatient patient) throws PatientCouldNotBeSavedException, BadConnectionException, CriticalClassException, CriticalDatabaseException, RequirementsNotMetException {
 
         if (checkRequirements(patient)) {
             log.info("Requirements are fulfilled!");
@@ -161,7 +161,7 @@ public class CreatePatientController implements ILogger {
      *
      * @param patient this is the Patient-object, which should be checked before it is saved
      */
-    private boolean checkRequirements(Patient patient) {
+    private boolean checkRequirements(IPatient patient) {
         if (patient.getSocialInsuranceNr().equals("") || patient.getLastName().equals("") || patient.getFirstName().equals("") ||
                 patient.getBirthDay().equals(null)) {
             return false;

@@ -11,7 +11,7 @@ package at.oculus.teamf.presentation.view.models;
 
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalDatabaseException;
-import at.oculus.teamf.domain.entity.interfaces.IPatient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.presentation.view.DialogBoxController;
