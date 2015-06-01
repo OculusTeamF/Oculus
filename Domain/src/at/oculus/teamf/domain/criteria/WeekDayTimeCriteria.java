@@ -7,17 +7,17 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.criteria;
+package at.oculus.teamf.domain.entity.criteria;
 
-import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
-import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
+import at.oculus.teamf.domain.entity.CalendarEvent;
+
 import java.util.Collection;
 
 /**
  * Created by Karo on 28.05.2015.
  */
-public class WeekDayTimeCriteria implements IWeekDayTimeCriteria {
+public class WeekDayTimeCriteria implements ICriteria {
+    
     private Collection<WeekDayTime> _weekDayTimes;
 
     public WeekDayTimeCriteria(Collection<WeekDayTime> _weekDayTimes) {
@@ -25,12 +25,7 @@ public class WeekDayTimeCriteria implements IWeekDayTimeCriteria {
     }
 
     @Override
-    public boolean isValidEvent(ICalendarEvent event) {
-        for(WeekDayTime w : _weekDayTimes){
-            if(w.isInTime(event)){
-                return true;
-            }
-        }
+    public boolean isValidEvent(CalendarEvent event) {
         return false;
     }
 }
