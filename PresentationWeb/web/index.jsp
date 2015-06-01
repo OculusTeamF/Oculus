@@ -4,9 +4,8 @@
   <title>Oculus</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <link href="css/default.css" rel="stylesheet" type="text/css" />
-
     <link href="css/jquery-ui.css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/jquery.weekSchedulerWidget.css">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.css">
 </head>
 <body>
 <div id="header">
@@ -18,8 +17,7 @@
     </ul>
   </div>
   <div id="logo">
-    <h1><a href="#">Oculus Appointment Creator</a></h1>
-    <h2><a href="#"> </a></h2>
+    <h1><a href="index.jsp">Oculus Appointment Creator</a></h1>
   </div>
 </div>
 <div id="menu">
@@ -36,9 +34,9 @@
             <div id="tabs-1">
                 lol 1
             </div>
-          <div id="tabs-2">
-            <div id="widget"></div>
-          </div>
+            <div id="tabs-2">
+              <div id="datetimepicker"></div>
+            </div>
             <div id="tabs-3">
                 lol 3
             </div>
@@ -82,33 +80,13 @@
 <script src="js/jquery-ui.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 
-<script src="js/jquery.weekSchedulerWidget.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 
 <script>
     $( "#tabs" ).tabs();
-
-    $( "#slider" ).slider({
-        range: true,
-        values: [ 17, 67 ]
-    });
-
-    // initialize the widget
-    $("#widget").weekSchedulerWidget({
-        startDate: new Date(),
-        endDate: new Date(2016, 12, 5)
-    });
-
-    // do something when the user selects the dates
-    $("#widget").on("onConfirm.weekSchedulerWidget", function () {
-        var $widget = $(this);
-
-        // hide widget
-        $widget.weekSchedulerWidget('hide');
-
-        // get selected dates
-        var selectedDates = $widget.weekSchedulerWidget('getSelectedDates');
-
-        // do something...
+    $('#datetimepicker').datetimepicker({
+        timeFormat: 'HH:mm',
+        stepMinute: 10
     });
 </script>
 </html>

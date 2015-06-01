@@ -365,3 +365,10 @@ img {
 	text-align: center;
 }
 
+/*additional settings*/
+
+/*selected appointments */
+
+#appointments {
+	background-color: black;
+}

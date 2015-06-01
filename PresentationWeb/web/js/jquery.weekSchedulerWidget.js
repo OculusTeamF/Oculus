@@ -936,7 +936,7 @@
 
             var settings = $.extend({
                 localization: {
-                    title: 'Schedule item',
+                    title: 'choose possible appointments',
                     week: 'Week',
                     days: 'Days',
                     time: 'Time',

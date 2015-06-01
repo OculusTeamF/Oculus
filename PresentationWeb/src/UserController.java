@@ -62,10 +62,8 @@ public class UserController extends HttpServlet implements ILogger {
             _loginpatient = _loginapp.checkLoginData(userEmail, userPassword);
             _eventChooserController = EventChooserController.createEventChooserController(_loginpatient);
             LinkedList <ICalendarEvent> events = (LinkedList<ICalendarEvent>) _eventChooserController.checkPatientsAppointments();
-            System.out.println(events.size());
             if (events.size() > 0){
                 _calendarEvent = events.getFirst();
-                System.out.println(_calendarEvent.getDescription());
             }
         } catch (EmailNotFoundException e) {
             log.error("No user with this e-mail available. " + e.getMessage());
