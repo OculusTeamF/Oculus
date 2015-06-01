@@ -7,22 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
 
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * Created by Simon Angerer on 01.06.2015.
  */
-public interface IMedicine extends IDomain {
+public class DiagnosisProxyWrapper extends VirtualProxyWrapper {
+    protected DiagnosisProxyWrapper() {
+        super(IDiagnosis.class);
+    }
 
-    IDiagnosis getTeamFDiagnosis();
-    void setDiagnosis(IDiagnosis diagnosis);
-
-    String getName();
-    void setName(String name);
-
-    String getDose();
-    void setDose(String dose);
-
+    @Override
+    public IDomain wrap(IDomain domain) {
+        return new DiagnosisProxy((IDiagnosis) domain);
+    }
 }

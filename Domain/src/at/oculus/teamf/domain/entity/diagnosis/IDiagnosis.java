@@ -7,13 +7,17 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.interfaces;
+package at.oculus.teamf.domain.entity.diagnosis;
 
+import at.oculus.teamf.domain.entity.Medicine;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddVisualAidException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
+import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.interfaces.IMedicine;
+import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
 
 import java.util.Collection;
 
@@ -46,10 +50,13 @@ public interface IDiagnosis extends IDomain {
     Collection<IMedicine> getMedicine() throws CouldNotGetMedicineException;
 
     void addMedicine(IMedicine medicine)
-            throws CouldNotAddMedicineException;
+            throws CouldNotAddMedicineException, CouldNotGetMedicineException;
 
-    void addVisualAid(IVisualAid visualAid)
-            throws CouldNotAddVisualAidException;
+    void addVisualAid(IVisualAid visualAid) throws CouldNotGetVisualAidException, CouldNotAddVisualAidException;
 
     Collection<IVisualAid> getVisualAid() throws CouldNotGetVisualAidException;
+
+    void setMedicine(Collection<Medicine> medicines);
+
+    void setVisualAid(Collection<IVisualAid> iVisualAids);
 }

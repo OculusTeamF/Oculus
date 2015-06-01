@@ -12,6 +12,7 @@ package at.oculus.teamf.domain.entity;
 import at.oculus.teamE.domain.interfaces.*;
 import at.oculus.teamE.domain.readonly.IRDiagnosisTb2;
 import at.oculus.teamE.domain.readonly.IRUserTb2;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.interfaces.*;

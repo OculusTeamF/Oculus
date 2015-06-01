@@ -15,13 +15,13 @@ import at.oculus.teamf.domain.entity.interfaces.IDomain;
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-final public class PatientFactory extends DomainFactory {
+final public class PatientFactory extends DomainFactory<IPatient> {
     public PatientFactory() {
         super(IPatient.class);
     }
 
     @Override
-    public IDomain create() {
+    public IPatient create() {
         return new Patient();
     }
 }

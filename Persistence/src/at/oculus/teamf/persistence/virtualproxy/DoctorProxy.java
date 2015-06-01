@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
+import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
+import at.oculus.teamE.domain.interfaces.IUserTb2;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.interfaces.ICalendar;
@@ -23,13 +25,15 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogger, IUser {
+public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogger, IUser, IUserTb2 {
 
     protected DoctorProxy(IDoctor real) {
         super(real);
@@ -124,6 +128,11 @@ public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogg
     }
 
     @Override
+    public Integer getUserId() {
+        return _real.getId();
+    }
+
+    @Override
     public String getUserName() {
         return _real.getUserName();
     }
@@ -136,6 +145,16 @@ public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogg
     @Override
     public String getPassword() {
         return _real.getPassword();
+    }
+
+    @Override
+    public LocalDateTime getCreationDate() {
+        return ((IUserTb2)_real).getCreationDate();
+    }
+
+    @Override
+    public LocalDateTime getIdleDate() {
+        return ((IUserTb2)_real).getIdleDate();
     }
 
     @Override
@@ -206,5 +225,10 @@ public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogg
     @Override
     public String toString() {
         return _real.toString();
+    }
+
+    @Override
+    public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
+        return ((IUserTb2)_real).getExaminationProtocols();
     }
 }

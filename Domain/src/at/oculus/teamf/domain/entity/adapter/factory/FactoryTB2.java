@@ -9,11 +9,12 @@
 
 package at.oculus.teamf.domain.entity.adapter.factory;
 
-import at.oculus.teamf.domain.entity.Diagnosis;
 import at.oculus.teamf.domain.entity.Prescription;
 import at.oculus.teamf.domain.entity.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
 import at.oculus.teamf.domain.entity.interfaces.*;
 
 /**
@@ -28,7 +29,7 @@ public class FactoryTB2 implements IFactoryTB2 {
 
     @Override
     public IDiagnosis createDiagnos(String title, String description, IDoctor doctor) {
-        return new Diagnosis(title, description, doctor);
+        return (IDiagnosis) DomainFactory.getFactory(IDiagnosis.class).create();
     }
 
     @Override

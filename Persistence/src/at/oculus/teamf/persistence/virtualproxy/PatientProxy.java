@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.readonly.IRPatientTb2;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
@@ -272,7 +273,7 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
         Collection<IDiagnosis> diagnoses = null;
         if(_real.getDiagnoses() == null) {
             try {
-                diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
+                diagnoses = Facade.getInstance().search(IDiagnosis.class, this.getId() + "");
             } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
                 log.error(e.getMessage());
                 throw new CouldNotGetDiagnoseException();

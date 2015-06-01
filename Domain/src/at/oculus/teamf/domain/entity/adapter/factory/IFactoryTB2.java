@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.adapter.factory;
 
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
 

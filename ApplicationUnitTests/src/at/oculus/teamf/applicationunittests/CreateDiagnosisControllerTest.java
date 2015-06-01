@@ -14,7 +14,7 @@ import at.oculus.teamf.application.controller.ReceivePatientController;
 import at.oculus.teamf.application.controller.SearchPatientController;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.domain.entity.adapter.factory.FactoryTB2;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.patient.IPatient;

@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
@@ -64,9 +65,9 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
             }
         }
 
-        Diagnosis diagnosis = null;
+        IDiagnosis diagnosis = null;
         if (examinationProtocolEntity.getDiagnosisId() != null) {
-            diagnosis = (Diagnosis) Facade.getInstance().getBroker(Diagnosis.class)
+            diagnosis = (IDiagnosis) Facade.getInstance().getBroker(IDiagnosis.class)
                     .persistentToDomain(examinationProtocolEntity.getDiagnosis());
         }
 
@@ -112,7 +113,7 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
 
         DiagnosisEntity diagnosisEntity = null;
         if (examinationProtocol.getTeamFDiagnosis() != null) {
-            diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
+            diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(IDiagnosis.class)
                     .domainToPersistent(examinationProtocol.getTeamFDiagnosis());
         }
 
