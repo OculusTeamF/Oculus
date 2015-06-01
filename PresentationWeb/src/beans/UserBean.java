@@ -25,6 +25,10 @@ public class UserBean {
     private String lastName = null;
     private String svNumber = null;
     private ICalendarEvent _calendarEvent;
+    private String dateStart = null;
+    private String dateEnd = null;
+    private String description = null;
+    private boolean appointAvailable = false;
 
     public UserBean() {
     }
@@ -39,6 +43,10 @@ public class UserBean {
 
     public void loadCalendarEvent (ICalendarEvent calendarEvent){
         _calendarEvent = calendarEvent;
+        dateStart = _calendarEvent.getEventStart().toString();
+        dateEnd = _calendarEvent.getEventEnd().toString();
+        description = _calendarEvent.getDescription();
+        appointAvailable = true;
     }
 
     public String getFirstName(){
@@ -51,7 +59,23 @@ public class UserBean {
         return svNumber;
     }
 
-    public String getCalendarEvent (){
-        return _calendarEvent.toString();
+    public boolean getAppointAvailable(){
+        return appointAvailable;
+    }
+
+    public void setAppointAvailable(boolean available){
+        appointAvailable = available;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
     }
 }

@@ -36,6 +36,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
 
     public CalendarBroker() {
         super(Calendar.class, CalendarEntity.class);
+	    addDomainClassMapping(ICalendar.class);
     }
 
     /**

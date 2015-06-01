@@ -109,7 +109,6 @@ img {
 
 .boxed .content {
 	padding: 10px;
-	height: 300px; 
 }
 
 /* Header */
@@ -251,8 +250,7 @@ img {
 
 #welcome {
 	margin: 0 0 3em 0;
-	padding: 10px 0 1.5em 0;
-	border-bottom: 1px solid #CCCCCC;
+	padding: 0px 0 1.5em 0;
 }
 
 /* Content > Sidebar */
@@ -299,6 +297,7 @@ img {
 /* Content > Sidebar > Updates*/
 
 #updates {
+	height: 500px;
 }
 
 #updates ul {
@@ -365,3 +364,12 @@ img {
 	text-align: center;
 }
 
+/*additional settings*/
+
+/*selected appointments */
+
+#appointments {
+	background-color: black;
+}li.ui-state-default.ui-state-hidden[role=tab]:not(.ui-tabs-active) {
+    display: none;
+}

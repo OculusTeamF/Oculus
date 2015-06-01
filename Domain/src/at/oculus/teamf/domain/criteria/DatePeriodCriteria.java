@@ -17,19 +17,19 @@ import java.util.Date;
 /**
  * Created by Karo on 28.05.2015.
  */
-public class DatePeriodICriteria implements IDatePeriodCriteria {
+public class DatePeriodCriteria implements IDatePeriodCriteria {
     private Date _from;
     private Date _to;
 
-    public DatePeriodICriteria(Date _from, Date _to) {
+    public DatePeriodCriteria(Date _from, Date _to) {
         this._from = _from;
         this._to = _to;
     }
 
     @Override
     public boolean isValidEvent(ICalendarEvent event) {
-        if(event.getEventStart().before(_from) || event.getEventStart().equals(_from)){
-            if(event.getEventEnd().after(_to) || event.getEventEnd().equals(_to)){
+        if(event.getEventStart().after(_from) || event.getEventStart().equals(_from)){
+            if(event.getEventEnd().before(_to) || event.getEventEnd().equals(_to)){
                 return false;
             }
         }
