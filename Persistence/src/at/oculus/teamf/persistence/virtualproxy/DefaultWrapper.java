@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.IDomain;
 
 /**
  * Created by Simon Angerer on 28.05.2015.

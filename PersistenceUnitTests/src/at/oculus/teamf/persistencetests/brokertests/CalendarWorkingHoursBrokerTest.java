@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.CalendarWorkingHours;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

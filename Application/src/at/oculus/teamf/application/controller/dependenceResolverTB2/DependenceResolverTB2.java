@@ -10,7 +10,7 @@
 package at.oculus.teamf.application.controller.dependenceResolverTB2;
 
 import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
-import at.oculus.teamf.domain.entity.adapter.factory.IFactoryTB2;
+import at.oculus.teamf.domain.adapter.factory.IFactoryTB2;
 import at.oculus.teamf.persistence.IFacade;
 
 /**

@@ -10,7 +10,7 @@
 package at.oculus.teamf.persistence.factory;
 
 import at.oculus.teamf.domain.entity.factory.DomainFactory;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.virtualproxy.VirtualProxyWrapper;
 
 /**

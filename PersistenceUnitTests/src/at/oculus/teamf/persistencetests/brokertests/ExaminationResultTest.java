@@ -9,10 +9,10 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.ExaminationResult;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.User;
+import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.ExaminationResult;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
