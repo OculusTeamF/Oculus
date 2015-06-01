@@ -7,8 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.factory;
 
+import at.oculus.teamf.domain.entity.diagnosis.DiagnosisFactory;
+import at.oculus.teamf.domain.entity.doctor.DoctorFactory;
 import at.oculus.teamf.domain.entity.interfaces.IDomain;
 import at.oculus.teamf.domain.entity.patient.PatientFactory;
 
@@ -17,7 +19,7 @@ import java.util.HashMap;
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public abstract class DomainFactory {
+public abstract class DomainFactory<T extends IDomain> {
 
     private static HashMap<Class<? extends IDomain>, DomainFactory> _factoryMapping;
 
@@ -29,6 +31,8 @@ public abstract class DomainFactory {
         _factoryMapping = new HashMap<>();
 
         new PatientFactory();
+        new DoctorFactory();
+        new DiagnosisFactory();
     }
 
     public static DomainFactory getFactory(Class<? extends IDomain> clazz) {
@@ -39,7 +43,7 @@ public abstract class DomainFactory {
         return _factoryMapping.get(clazz);
     }
 
-    public abstract IDomain create();
+    public abstract T create();
 
 
 }

@@ -9,6 +9,8 @@
 
 package at.oculus.teamf.domain.entity.interfaces;
 
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+
 /**
  * Created by Simon Angerer on 08.05.2015.
  */

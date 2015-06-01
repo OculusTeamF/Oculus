@@ -12,7 +12,8 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.doctor.Doctor;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
@@ -24,6 +25,7 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -32,9 +34,9 @@ import java.util.LinkedList;
 /**
  * doctor broker translating domain objects to persistence entities
  */
-class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollectionReload, ISearch {
+class DoctorBroker extends EntityBroker<IDoctor, DoctorEntity> implements ICollectionReload, ISearch {
     public DoctorBroker() {
-        super(Doctor.class, DoctorEntity.class);
+        super(IDoctor.class, DoctorEntity.class);
         addEntityClassMapping(UserEntity.class);
     }
 
@@ -47,16 +49,16 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
      * @throws BadConnectionException
      */
     @Override
-    protected Doctor persistentToDomain(DoctorEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, SearchInterfaceNotImplementedException, InvalidSearchParameterException, ClassNotMappedException {
+    protected IDoctor persistentToDomain(DoctorEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, SearchInterfaceNotImplementedException, InvalidSearchParameterException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
-        Doctor doctor = new Doctor();
+        IDoctor doctor = (IDoctor) DomainWrapperFactory.getInstance().create(IDoctor.class);
         doctor.setId(entity.getId());
 
         doctor.setCalendar(
                 (Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(entity.getCalendar()));
 
         if (doctor.getDoctorSubstitude() != null) {
-            doctor.setDoctorSubstitude((Doctor) Facade.getInstance().getBroker(Doctor.class)
+            doctor.setDoctorSubstitude((IDoctor) Facade.getInstance().getBroker(IDoctor.class)
                     .persistentToDomain(entity.getDoctorSubstitute()));
         }
         doctor.setQueue(null);
@@ -83,9 +85,9 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
      * @return return a persitency entity
      */
     @Override
-    protected DoctorEntity domainToPersistent(Doctor obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
+    protected DoctorEntity domainToPersistent(IDoctor obj) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
-        Doctor entity = obj;
+        IDoctor entity = obj;
         DoctorEntity doctorEntity = new DoctorEntity();
         doctorEntity.setId(entity.getId());
         CalendarEntity calendarEntity = null;
@@ -123,7 +125,7 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
     @Override
     public void reload(ISession session, Object obj, Class clazz) throws InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, ClassNotMappedException, DatabaseOperationException, InvalidSearchParameterException, SearchInterfaceNotImplementedException {
         if (clazz == IPatient.class) {
-            ((Doctor) obj).setPatients((Collection<IPatient>) (Collection<?>) reloadPatients(session, obj));
+            ((IDoctor) obj).setPatients((Collection<IPatient>) (Collection<?>) reloadPatients(session, obj));
         } else {
             throw new InvalidReloadClassException();
         }
@@ -142,7 +144,7 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
         ReloadComponent reloadComponent =
                 new ReloadComponent(DoctorEntity.class, IPatient.class);
 
-        return reloadComponent.reloadCollection(session, ((Doctor) obj).getId(), new PatientsLoader());
+        return reloadComponent.reloadCollection(session, ((IDoctor) obj).getId(), new PatientsLoader());
     }
 
     /**
@@ -153,7 +155,7 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
      * @return {@code true} if the object was saved, {@code false} if the object could not be saved
      */
     @Override
-    public void saveEntity(ISession session, Doctor domainObj) throws BadConnectionException, NoBrokerMappedException, ClassNotMappedException, DatabaseOperationException {
+    public void saveEntity(ISession session, IDoctor domainObj) throws BadConnectionException, NoBrokerMappedException, ClassNotMappedException, DatabaseOperationException {
         log.info("save " + _domainClass.toString() + " with ID " + domainObj.getId());
         DoctorEntity entity = null;
 
@@ -191,11 +193,11 @@ class DoctorBroker extends EntityBroker<Doctor, DoctorEntity> implements ICollec
     }
 
     @Override
-    public Collection<Doctor> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException {
+    public Collection<IDoctor> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException {
         if (params.length == 1) {
             Collection<DoctorEntity> result = (Collection<DoctorEntity>)(Collection<?>)session.search("getDoctorByUserId", params[0]);
 
-	        LinkedList<Doctor> domainDoctors = new LinkedList<>();
+	        LinkedList<IDoctor> domainDoctors = new LinkedList<>();
 
 	        for(DoctorEntity de : result) {
 		        domainDoctors.add(persistentToDomain(de));

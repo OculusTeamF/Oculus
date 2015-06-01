@@ -7,37 +7,22 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.adapter.factory;
 
-import at.oculus.teamf.domain.entity.factory.IFactoryTB2;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.domain.entity.patient.IPatient;
-
-import java.util.Date;
 
 /**
  * Created by Simon Angerer on 13.05.2015.
  */
-public class FactoryTB2 implements IFactoryTB2 {
+public interface IFactoryTB2{
 
-    @Override
-    public IVisualAid createVisualAid() {
-        return new VisualAid();
-    }
+    IVisualAid createVisualAid();
 
-    @Override
-    public IDiagnosis createDiagnos(String title, String description, IDoctor doctor) {
-        return new Diagnosis(title, description, doctor);
-    }
+    IDiagnosis createDiagnos(String title, String description, IDoctor doctor);
 
-    @Override
-    public IPrescription createPrescription() {
-        return new Prescription();
-    }
+    IPrescription createPrescription();
 
-    @Override
-    public IPrescriptionEntry createPrescriptionEntry() {
-        return new PrescriptionEntry();
-    }
-
+    IPrescriptionEntry createPrescriptionEntry();
 }

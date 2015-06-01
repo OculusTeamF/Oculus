@@ -30,6 +30,8 @@ public abstract class VirtualProxyWrapper {
         //init all wrapper
         new DefaultWrapper();
         new PatientProxyWrapper();
+        new DoctorProxyWrapper();
+        new DiagnosisProxyWrapper();
     }
 
     public abstract IDomain wrap(IDomain domain);

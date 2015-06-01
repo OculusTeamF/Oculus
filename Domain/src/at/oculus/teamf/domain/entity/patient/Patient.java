@@ -12,16 +12,11 @@ package at.oculus.teamf.domain.entity.patient;
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IPatientTb2;
 import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalDate;

@@ -11,11 +11,10 @@ package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamE.domain.interfaces.IDiagnosisTb2;
 import at.oculus.teamE.domain.interfaces.IMedicineTb2;
-import at.oculus.teamf.domain.entity.interfaces.IDiagnosis;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.interfaces.IMedicine;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
@@ -40,7 +39,7 @@ public class Medicine implements IMedicine, IMedicineTb2 {
         _dose = dose;
         _startDate = start;
         _endDate = end;
-        _diagnosis = (Diagnosis) diagnosis;
+        _diagnosis = (IDiagnosis) diagnosis;
     }
     public Medicine(){
     }
@@ -56,7 +55,7 @@ public class Medicine implements IMedicine, IMedicineTb2 {
 
     @Override
     public void setDiagnosis(IDiagnosisTb2 iDiagnosisTb2) {
-        _diagnosis = (Diagnosis) iDiagnosisTb2;
+        _diagnosis = (IDiagnosis) iDiagnosisTb2;
     }
 
     public void setDiagnosis(IDiagnosis diagnosis) {
