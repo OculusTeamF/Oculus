@@ -83,10 +83,10 @@ public class UserController extends HttpServlet implements ILogger {
 
 
             request.setAttribute("user", user);
-            RequestDispatcher view = request.getRequestDispatcher("userprofile.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("index.jsp");
             view.forward(request, response);
 
-            response.sendRedirect(response.encodeRedirectURL("userprofile.jsp"));
+            response.sendRedirect(response.encodeRedirectURL("index.jsp"));
         } else {
             // user not found
             response.sendRedirect(response.encodeRedirectURL("login.jsp"));
