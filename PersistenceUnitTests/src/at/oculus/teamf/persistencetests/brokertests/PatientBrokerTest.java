@@ -10,10 +10,14 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.Diagnosis;
+import at.oculus.teamf.domain.entity.Doctor;
 import at.oculus.teamf.domain.entity.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.Gender;
-import at.oculus.teamf.domain.entity.Patient;
 import at.oculus.teamf.domain.entity.exception.*;
+import at.oculus.teamf.domain.entity.interfaces.IDoctor;
+import at.oculus.teamf.domain.entity.interfaces.ILogin;
+import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -34,11 +38,16 @@ import static junit.framework.Assert.assertTrue;
  * Created by Norskan on 10.04.2015.
  */
 public class PatientBrokerTest extends BrokerTest {
-	private Patient _patient;
+	private IPatient _patient;
 
 	@Override
 	public void setUp() {
 		_patient = new Patient();
+		try {
+			_patient.setDoctor(Facade.getInstance().getById(Doctor.class, 1));
+		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+			e.printStackTrace();
+		}
 		_patient.setFirstName("Donald");
 		_patient.setLastName("Ahoi");
 		_patient.setSocialInsuranceNr("1234567890");
@@ -74,7 +83,7 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Override
 	public void testGetById() {
-		Patient patient = null;
+		IPatient patient = null;
 		try {
 			patient = Facade.getInstance().getById(Patient.class, _patient.getId());
 		} catch (FacadeException e) {
@@ -99,7 +108,7 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Override
 	public void testGetAll() {
-		Collection<Patient> patients = null;
+		Collection<IPatient> patients = null;
 		try {
 			patients = Facade.getInstance().getAll(Patient.class);
 		} catch (FacadeException e) {
@@ -114,10 +123,10 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Test
 	public void testReload() {
-		Patient patient = null;
+		IPatient patient = null;
 		try {
 			for (Object p : Facade.getInstance().search(Patient.class, "5678151082")) {
-				patient = (Patient) p;
+				patient = (IPatient) p;
 			}
 		} catch (FacadeException e) {
 			e.printStackTrace();
@@ -144,7 +153,7 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Test
 	public void testSearchPatient() {
-		Collection<Patient> patients = null;
+		Collection<IPatient> patients = null;
 		// SVN only
 		try {
 			patients = Facade.getInstance().search(Patient.class, "5947053957");
@@ -182,10 +191,10 @@ public class PatientBrokerTest extends BrokerTest {
 	@Test
 	public void testAddExaminationProtocol() {
 		// load patient and doctor
-		Patient patient = null;
+		IPatient patient = null;
 		try {
 			for (Object p : Facade.getInstance().search(Patient.class, "5678151082")) {
-				patient = (Patient) p;
+				patient = (IPatient) p;
 			}
 		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
 			e.printStackTrace();
@@ -194,7 +203,7 @@ public class PatientBrokerTest extends BrokerTest {
 
 		// create diagnosis
 		Diagnosis diagnosis = new Diagnosis();
-		diagnosis.setDoctor(patient.getDoctor());
+		diagnosis.setDoctor((IDoctor) patient.getDoctor());
 		diagnosis.setTitle("Test Diagnosis");
 		diagnosis.setDescription("Test Text einer Diagnose.");
 		try {
@@ -206,7 +215,7 @@ public class PatientBrokerTest extends BrokerTest {
 
 		// create examination protocol
 		ExaminationProtocol examinationProtocol = new ExaminationProtocol();
-		examinationProtocol.setDoctor(patient.getDoctor());
+		examinationProtocol.setDoctor((IDoctor) patient.getDoctor());
 		examinationProtocol.setOrthoptist(null);
 		examinationProtocol.setDescription("Test Text eines Protokolls.");
 		examinationProtocol.setStartTime(new Date());
@@ -232,10 +241,10 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Test
 	public void testLogin() {
-		Patient patient = null;
+		IPatient patient = null;
 		try {
 			for (Object p : Facade.getInstance().search(Patient.class, "spitze.biene@hotmail.com")) {
-				patient = (Patient) p;
+				patient = (IPatient) p;
 			}
 		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
 			e.printStackTrace();
@@ -246,7 +255,7 @@ public class PatientBrokerTest extends BrokerTest {
 		}
 
 		try {
-			if (!Login.login(patient, "letmein")) {
+			if (!Login.login((ILogin) patient, "letmein")) {
 				assertTrue(false);
 			}
 		} catch (HashGenerationException e) {
