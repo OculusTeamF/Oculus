@@ -8,8 +8,7 @@
     <link href="css/jquery-ui.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.css">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">
 </head>
 <body>
 <div id="header">
@@ -127,6 +126,7 @@
 <script src="js/jquery-ui.min.js"></script>
 
 <script src="js/jquery-tabs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 
 <script>
@@ -174,7 +174,9 @@
     });
 
     $("#add-time").click(function(event){
-        $('#appoint-list').append('<li>This  is the text in new element. (with jQuery)</li>');
+        var newDateAsObject = $('#choose_date').datepicker( 'getDate' );
+        var newDateAsString = $('#choose_date').datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
+        $('#appoint-list').append('<li> Added Date: ' +  newDateAsString + '</li>');
     });
 
     $("#confirm-appointment").click(function(event){
