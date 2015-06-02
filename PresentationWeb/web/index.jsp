@@ -174,7 +174,7 @@
     });
 
     $("#add-time").click(function(event){
-        $('#appoint-list').append('<li>This is the text in new element. (with jQuery)</li>');
+        $('#appoint-list').append('<li>This  is the text in new element. (with jQuery)</li>');
     });
 
     $("#confirm-appointment").click(function(event){
