@@ -25,6 +25,12 @@ public class RedirectServlet extends HttpServlet {
             UserController ulogin = new UserController();
             ulogin.service(request, response);
         }
+
+        // redirect to appointment servlet
+        if (dispatchto.equals("appointment")) {
+            AppointmentController appoint = new AppointmentController();
+            appoint.service(request, response);
+        }
     }
 
     @Override
