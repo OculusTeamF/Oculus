@@ -53,7 +53,12 @@
                 <div id="tabs-2">
                     <%--<div id="datetimepicker"></div>--%>
 
-                        <div class="datetimepicker">
+                        <div id="alist">
+                            <ul id="appoint-list">
+                            </ul>
+                        </div>
+
+                        <div id="picker">
                             <p>Choose Date & Time:</p>
                             <input type="text" name="choose_date" id="choose_date" value="" />
                             <br/><br/>
@@ -64,28 +69,23 @@
                         </div>
                         <br/><br/>
                         <button type="button" id="add-time">add time</button>
+                        <br/><br/>
                         <form class="form" method="POST" action="RedirectServlet?dispatchto=checkappointments">
-                            <input type="text" name="date0" id="date0" value="null" />
-                            <input type="text" name="date1" id="date1" value="null" />
-                            <input type="text" name="date2" id="date2" value="null" />
-                            <input type="text" name="date3" id="date3" value="null" />
-                            <input type="text" name="date4" id="date4" value="null" />
-                            <input type="text" name="date5" id="date5" value="null" />
-                            <input type="text" name="date6" id="date6" value="null" />
-                            <input type="text" name="date7" id="date7" value="null" />
-                            <input type="text" name="date8" id="date8" value="null" />
-                            <input type="text" name="date9" id="date9" value="null" />
+                            <input type="hidden" name="date0" id="date0" value="null" />
+                            <input type="hidden" name="date1" id="date1" value="null" />
+                            <input type="hidden" name="date2" id="date2" value="null" />
+                            <input type="hidden" name="date3" id="date3" value="null" />
+                            <input type="hidden" name="date4" id="date4" value="null" />
+                            <input type="hidden" name="date5" id="date5" value="null" />
+                            <input type="hidden" name="date6" id="date6" value="null" />
+                            <input type="hidden" name="date7" id="date7" value="null" />
+                            <input type="hidden" name="date8" id="date8" value="null" />
+                            <input type="hidden" name="date9" id="date9" value="null" />
                             <button type="submit" id="check-appointments">check appointments</button>
                         </form>
-
-                        <ul id="appoint-list">
-                        </ul>
                 </div>
                 <div id="tabs-3">
-                    <div class="datetimepicker">
-                        <p>Choose Date & Time:</p>
-                        <input type="text" name="choose_time" id="choose_time" value="" />
-                    </div>
+                    LOL
                 </div>
                 <div id="tabs-4">
                     Termin best&auml;tigen

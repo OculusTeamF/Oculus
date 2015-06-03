@@ -54,6 +54,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
             }
         }
 
+        // TODO: send back available dates
         RequestDispatcher view = request.getRequestDispatcher("index.jsp");
         view.forward(request, response);
 
