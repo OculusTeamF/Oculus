@@ -130,6 +130,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 
 <script>
+
+    var dates = [];
+
     $('#MyTabSelector').tabs({
         heightStyle: "fill"
     });
@@ -177,6 +180,7 @@
         var newDateAsObject = $('#choose_date').datepicker( 'getDate' );
         var newDateAsString = $('#choose_date').datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
         $('#appoint-list').append('<li> Added Date: ' +  newDateAsString + '</li>');
+        dates[dates.length] = newDateAsObject;
     });
 
     $("#confirm-appointment").click(function(event){
