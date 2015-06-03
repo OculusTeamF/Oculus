@@ -80,11 +80,11 @@ import java.util.Collection;
 
 
         //convert database entity collection to domain entity collection
-        Collection objects = new ArrayList();
+        Collection calendarEvents = new ArrayList();
         for (Object obj : entities) {
-            objects.add(toLoadClassDomainBroker.persistentToDomain((IEntity) obj));
+            calendarEvents.add(toLoadClassDomainBroker.persistentToDomain((IEntity) obj));
         }
 
-        return objects;
+        return calendarEvents;
     }
 }

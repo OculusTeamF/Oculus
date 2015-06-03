@@ -26,6 +26,8 @@ import java.util.Iterator;
 public interface ICalendar extends IDomain {
     int getId();
 
+    Collection<ICalendarWorkingHours> getWorkingHours() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException;
+
     void setWorkingHours(Collection<ICalendarWorkingHours> calendarWorkingHourses);
 
     void setEvents(Collection<ICalendarEvent> iCalendarEvents);

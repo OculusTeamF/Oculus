@@ -30,7 +30,6 @@ import at.oculus.teamE.support.DependencyResolver;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceResolverTB2;
 import at.oculus.teamf.domain.adapter.FacadeAdapter;
 import at.oculus.teamf.domain.adapter.FactoryAdapter;
-import at.oculus.teamf.domain.entity.calendar.Calendar;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
@@ -231,9 +230,9 @@ public class StartupController implements ILogger {
     public Collection<ICalendar> getAllCalendars() throws CriticalClassException, CriticalDatabaseException, BadConnectionException {
         Facade facade = Facade.getInstance();
 
-        Collection<Calendar> calendars = null;
+        Collection<ICalendar> calendars = null;
         try {
-            calendars = facade.getAll(Calendar.class);
+            calendars = facade.getAll(ICalendar.class);
             log.info("All calendars have been acquired.");
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
@@ -255,7 +254,7 @@ public class StartupController implements ILogger {
      * layer and return a list of interfaces.
      */
     public Collection<ICalendarEvent> getAllEntries(ICalendar iCalendar) throws CriticalClassException, BadConnectionException, CriticalDatabaseException {
-        Calendar calendar = (Calendar) iCalendar;
+        ICalendar calendar = iCalendar;
         Collection<ICalendarEvent> calendarEvents = null;
         try {
             calendarEvents = calendar.getEvents();

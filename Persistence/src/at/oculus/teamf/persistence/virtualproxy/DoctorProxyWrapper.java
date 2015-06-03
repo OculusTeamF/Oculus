@@ -21,7 +21,7 @@ public class DoctorProxyWrapper extends VirtualProxyWrapper {
     }
 
     @Override
-    public IDomain wrap(IDomain domain) {
+    public DoctorProxy wrap(IDomain domain) {
         return new DoctorProxy((IDoctor) domain);
     }
 }

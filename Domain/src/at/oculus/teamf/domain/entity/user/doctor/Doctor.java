@@ -10,7 +10,6 @@
 package at.oculus.teamf.domain.entity.user.doctor;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
-import at.oculus.teamf.domain.entity.calendar.Calendar;
 import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * @author Simon Angerer
  */
-public class Doctor extends User implements IDoctor, ILogger{
+ public class Doctor extends User implements IDoctor, ILogger{
     //<editor-fold desc="Attributes">
     private int _id;
     private ICalendar _calendar;
@@ -64,7 +63,7 @@ public class Doctor extends User implements IDoctor, ILogger{
     }
     @Override
     public void setCalendar(ICalendar _calendar) {
-        this._calendar = (Calendar) _calendar;
+        this._calendar = _calendar;
     }
 
     @Override

@@ -32,6 +32,6 @@ public class DomainWrapperFactory {
     }
 
     public IDomain create(Class<? extends IDomain> clazz) {
-        return VirtualProxyWrapper.getWrapper(clazz).wrap(DomainFactory.getFactory(clazz).create());
+        return (IDomain) VirtualProxyWrapper.getWrapper(clazz).wrap(DomainFactory.getFactory(clazz).create());
     }
 }
