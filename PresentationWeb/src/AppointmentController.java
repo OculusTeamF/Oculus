@@ -48,8 +48,11 @@ public class AppointmentController extends HttpServlet implements ILogger{
             _eventchooserController = EventChooserController.createEventChooserController(_patient);
             _events = new LinkedList<>();
 
-            LinkedList <String> appointmentList = new LinkedList<>();
-            appointmentList.add(request.getParameter("appoint-list"));
+            LinkedList <Date> appointmentList = new LinkedList<>();
+
+            for (int i = 0; i < 10; ++i){
+                appointmentList.add(Date.valueOf(request.getParameter("dates[" + String.valueOf(i) + "]")));
+            }
 
             LinkedList <IWeekDayTime> weekDayTimes = new LinkedList<>();
 

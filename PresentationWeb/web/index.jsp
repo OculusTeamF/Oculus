@@ -55,13 +55,15 @@
                             <p>Choose Date & Time:</p>
                             <input type="text" name="choose_date" id="choose_date" value="" />
                             <br/><br/>
-                            <p>Choose Endtime:</p>
+                            <p>Choose Endtime: (optional)</p>
                             <input type="text" name="choose_time" id="choose_time" value="" />
                         </div>
                         <br/><br/>
                         <button type="button" id="add-time">add time</button>
                         <br/><br/>
-                        <button type="button" onclick="alert('check appointments!')">check appointments</button>
+                        <form class="form" method="POST" action="RedirectServlet?dispatchto=appointment">
+                            <button type="button" onclick="alert('check appointments!')">check appointments</button>
+                        </form>
 
                         <ul id="appoint-list">
                         </ul>

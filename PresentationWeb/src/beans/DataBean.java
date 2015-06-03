@@ -20,14 +20,26 @@ import java.util.LinkedList;
  */
 @ManagedBean
 public class DataBean {
-    private LinkedList <ICalendarEvent> _events;
+    private LinkedList <ICalendarEvent> loadedEvents;
+    private LinkedList <ICalendarEvent> eventsToLoad;
 
     public void loadAvailableAppointments (Collection <ICalendarEvent> events){
-        _events = new LinkedList<>();
-        _events.add((ICalendarEvent) events);
+        loadedEvents = new LinkedList<>();
+        loadedEvents.add((ICalendarEvent) events);
     }
 
-    public LinkedList<ICalendarEvent> getEvents() {
-        return _events;
+    public LinkedList<ICalendarEvent> getLoadedEvents() {
+        return loadedEvents;
+    }
+
+    public void addEvent (ICalendarEvent event){
+        if (eventsToLoad == null){
+            eventsToLoad = new LinkedList<>();
+        }
+        eventsToLoad.add(event);
+    }
+
+    public LinkedList<ICalendarEvent> getEventsToLoad() {
+        return eventsToLoad;
     }
 }
