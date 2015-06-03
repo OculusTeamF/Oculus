@@ -12,7 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.calendar.Calendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
@@ -52,7 +52,7 @@ class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implem
         Orthoptist orthoptist = new Orthoptist();
         orthoptist.setId(entity.getId());
 
-		orthoptist.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(
+		orthoptist.setCalendar((ICalendar) Facade.getInstance().getBroker(ICalendar.class).persistentToDomain(
 					entity.getCalendar()));
 
 		orthoptist.setQueue(null); // reload when needed!

@@ -9,17 +9,19 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
-/**
- * Created by Simon Angerer on 28.05.2015.
- */
-public abstract class VirtualProxy<D>  {
-    protected D _real;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 
-    protected VirtualProxy(D real) {
-        _real = real;
+/**
+ * Created by Simon Angerer on 03.06.2015.
+ */
+public class CalendarProxyWrapper extends VirtualProxyWrapper {
+    protected CalendarProxyWrapper() {
+        super(ICalendar.class);
     }
 
-    public D getReal() {
-        return _real;
+    @Override
+    public IDomain wrap(IDomain domain) {
+        return new CalendarProxy((ICalendar) domain);
     }
 }

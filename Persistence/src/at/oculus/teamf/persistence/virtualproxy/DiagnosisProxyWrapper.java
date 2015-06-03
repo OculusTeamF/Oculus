@@ -21,7 +21,7 @@ public class DiagnosisProxyWrapper extends VirtualProxyWrapper {
     }
 
     @Override
-    public IDomain wrap(IDomain domain) {
+    public DiagnosisProxy wrap(IDomain domain) {
         return new DiagnosisProxy((IDiagnosis) domain);
     }
 }

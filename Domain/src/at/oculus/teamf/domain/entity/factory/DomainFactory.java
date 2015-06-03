@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.factory;
 
+import at.oculus.teamf.domain.entity.calendar.CalendarFactory;
 import at.oculus.teamf.domain.entity.diagnosis.DiagnosisFactory;
 import at.oculus.teamf.domain.entity.user.doctor.DoctorFactory;
 import at.oculus.teamf.domain.entity.IDomain;
@@ -33,6 +34,7 @@ public abstract class DomainFactory<T extends IDomain> {
         new PatientFactory();
         new DoctorFactory();
         new DiagnosisFactory();
+        new CalendarFactory();
     }
 
     public static DomainFactory getFactory(Class<? extends IDomain> clazz) {

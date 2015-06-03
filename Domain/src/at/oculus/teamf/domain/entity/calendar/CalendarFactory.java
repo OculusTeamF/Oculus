@@ -7,19 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.persistence.virtualproxy;
+package at.oculus.teamf.domain.entity.calendar;
+
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
 
 /**
- * Created by Simon Angerer on 28.05.2015.
+ * Created by Simon Angerer on 03.06.2015.
  */
-public abstract class VirtualProxy<D>  {
-    protected D _real;
-
-    protected VirtualProxy(D real) {
-        _real = real;
+public class CalendarFactory extends DomainFactory<ICalendar> {
+    public CalendarFactory() {
+        super(ICalendar.class);
     }
 
-    public D getReal() {
-        return _real;
+    @Override
+    public ICalendar create() {
+        return new Calendar();
     }
 }

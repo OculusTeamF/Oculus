@@ -11,7 +11,7 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
-import at.oculus.teamf.domain.entity.calendar.Calendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
@@ -54,7 +54,7 @@ class DoctorBroker extends EntityBroker<IDoctor, DoctorEntity> implements IColle
         doctor.setId(entity.getId());
 
         doctor.setCalendar(
-                (Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(entity.getCalendar()));
+                (ICalendar) Facade.getInstance().getBroker(ICalendar.class).persistentToDomain(entity.getCalendar()));
 
         if (doctor.getDoctorSubstitude() != null) {
             doctor.setDoctorSubstitude((IDoctor) Facade.getInstance().getBroker(IDoctor.class)
@@ -91,7 +91,7 @@ class DoctorBroker extends EntityBroker<IDoctor, DoctorEntity> implements IColle
         doctorEntity.setId(entity.getId());
         CalendarEntity calendarEntity = null;
         if (entity.getCalendar() != null) {
-                calendarEntity = (CalendarEntity) Facade.getInstance().getBroker(Calendar.class).domainToPersistent(entity.getCalendar());
+                calendarEntity = (CalendarEntity) Facade.getInstance().getBroker(ICalendar.class).domainToPersistent(entity.getCalendar());
 
         }
         doctorEntity.setCalendar(calendarEntity);

@@ -48,14 +48,7 @@ public class Calendar implements ICalendar {
 		_id = calendarID;
 	}
 
-	public Collection<ICalendarEvent> getEvents()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
-		if (_events == null) {
-			Facade facade = Facade.getInstance();
-			facade.reloadCollection(this, CalendarEvent.class);
-		}
-
+	public Collection<ICalendarEvent> getEvents() {
 		return _events;
 	}
 
@@ -64,14 +57,7 @@ public class Calendar implements ICalendar {
 		_events = events;
 	}
 
-	public Collection<ICalendarWorkingHours> getWorkingHours()
-			throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
-		if (_workinghours == null) {
-			Facade facade = Facade.getInstance();
-			facade.reloadCollection(this, CalendarWorkingHours.class);
-		}
-
+	public Collection<ICalendarWorkingHours> getWorkingHours() {
 		return _workinghours;
 	}
 

@@ -13,8 +13,8 @@ import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedExcept
 import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.queue.QueueEntry;
 import at.oculus.teamf.domain.entity.user.User;
-import at.oculus.teamf.domain.entity.user.doctor.Doctor;
 import at.oculus.teamf.domain.entity.user.IUser;
+import at.oculus.teamf.domain.entity.user.doctor.Doctor;
 import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
