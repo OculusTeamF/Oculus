@@ -105,7 +105,7 @@ public class UserController extends HttpServlet implements ILogger {
             RequestDispatcher view = request.getRequestDispatcher("index.jsp");
             view.forward(request, response);
 
-            response.sendRedirect(response.encodeRedirectURL("index.jsp"));
+            //response.sendRedirect(response.encodeRedirectURL("index.jsp"));
         } else {
             log.error("User not found.");
             request.getRequestDispatcher("errorPages/noVerifiedEmail.jsp").forward(request, response);

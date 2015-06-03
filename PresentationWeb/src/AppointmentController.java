@@ -8,19 +8,10 @@
  */
 
 import at.oculus.teamf.application.controller.EventChooserController;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NoDoctorException;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NotAllowedToChooseEventException;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
-import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
-import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
-import beans.DataBean;
+import beans.UserBean;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,9 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
+import java.util.Locale;
 
 /**
  * Created by KYUSS on 02.06.2015.
@@ -41,9 +33,33 @@ public class AppointmentController extends HttpServlet implements ILogger{
     EventChooserController _eventchooserController;
     IPatient _patient;
     LinkedList <ICalendarEvent> _events;
+    LocalDateTime[] dates = new LocalDateTime[9];
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+        IPatient currentp = UserBean._patient;
+
+        log.debug("CHECK received appointments for " + currentp.getLastName());
+        String param = "";
+        String recdate = "";
+        for (int i=0; i<10; i++) {
+            param = "date" + i;
+            recdate = request.getParameter(param);
+
+            if (!recdate.equals("null")) {
+                // convert string to date
+                // format für: Wed Jun 17 2015 00:00:00
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
+                dates[i] = LocalDateTime.parse(recdate.substring(0, 24), formatter);
+                log.debug("received date:" + dates[i].toString());
+            }
+        }
+
+        RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+        view.forward(request, response);
+
+
+
+       /* try {
             _patient = (IPatient) request.getAttribute("user");
             _eventchooserController = EventChooserController.createEventChooserController(_patient);
             _events = new LinkedList<>();
@@ -93,7 +109,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
             view.forward(request, response);
 
             response.sendRedirect("index.jsp");
-        }
+        }*/
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

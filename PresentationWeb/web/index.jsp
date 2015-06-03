@@ -5,6 +5,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="css/default.css" rel="stylesheet" type="text/css" />
 
+    <link rel="shortcut icon" href="images/o_icon_trans.ico">
+
     <link href="css/jquery-ui.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.css">
 
@@ -51,7 +53,7 @@
                 <div id="tabs-2">
                     <%--<div id="datetimepicker"></div>--%>
 
-                        <div>
+                        <div class="datetimepicker">
                             <p>Choose Date & Time:</p>
                             <input type="text" name="choose_date" id="choose_date" value="" />
                             <br/><br/>
@@ -62,25 +64,28 @@
                         </div>
                         <br/><br/>
                         <button type="button" id="add-time">add time</button>
-                        <form class="form" method="POST" action="RedirectServlet?dispatchto=appointment">
-                            <input type="date" name="date0" id="date0" />
-                            <input type="date" name="date1" id="date1" />
-                            <input type="date" name="date2" id="date2" />
-                            <input type="date" name="date3" id="date3" />
-                            <input type="date" name="date4" id="date4" />
-                            <input type="date" name="date5" id="date5" />
-                            <input type="date" name="date6" id="date6" />
-                            <input type="date" name="date7" id="date7" />
-                            <input type="date" name="date8" id="date8" />
-                            <input type="date" name="date9" id="date9" />
-                            <button type="button" id="check-appointments">check appointments</button>
+                        <form class="form" method="POST" action="RedirectServlet?dispatchto=checkappointments">
+                            <input type="text" name="date0" id="date0" value="null" />
+                            <input type="text" name="date1" id="date1" value="null" />
+                            <input type="text" name="date2" id="date2" value="null" />
+                            <input type="text" name="date3" id="date3" value="null" />
+                            <input type="text" name="date4" id="date4" value="null" />
+                            <input type="text" name="date5" id="date5" value="null" />
+                            <input type="text" name="date6" id="date6" value="null" />
+                            <input type="text" name="date7" id="date7" value="null" />
+                            <input type="text" name="date8" id="date8" value="null" />
+                            <input type="text" name="date9" id="date9" value="null" />
+                            <button type="submit" id="check-appointments">check appointments</button>
                         </form>
 
                         <ul id="appoint-list">
                         </ul>
                 </div>
                 <div id="tabs-3">
-                    lol 3
+                    <div class="datetimepicker">
+                        <p>Choose Date & Time:</p>
+                        <input type="text" name="choose_time" id="choose_time" value="" />
+                    </div>
                 </div>
                 <div id="tabs-4">
                     Termin best&auml;tigen
@@ -147,23 +152,19 @@
     var dates = [];
 
     $('#MyTabSelector').tabs({
-        heightStyle: "fill"
+        heightStyle: 'fill'
     });
 
-    $('#datetimepicker').datetimepicker({
-        timeFormat: 'HH:mm',
-        stepMinute: 10
-    });
-
-    $('#choose_date').datetimepicker({
-        timeFormat: 'HH:mm',
-        stepMinute: 10
-    });
 
     $('#choose_time').timepicker({
         hourGrid: 4,
         minuteGrid: 10,
         timeFormat: 'hh:mm tt'
+    });
+
+    $('#choose_date').datetimepicker({
+        timeFormat: 'HH:mm',
+        stepMinute: 10
     });
 
     $(document).ready(function(){
@@ -189,13 +190,18 @@
         $('#MyTabSelector').enableTab(3);
     });
 
-    $("#add-time").click(function(event){
-        var newDateAsObject = $('#choose_date').datepicker( 'getDate' );
-        var newDateAsString = $('#choose_date').datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
-        $('#appoint-list').append('<li> Added Date: ' +  newDateAsString + '</li>');
+    $("#add-time").click(function(event) {
+        if (dates.length < 10) {
+
+        var newDateAsObject = $('#choose_date').datepicker('getDate');
+        var newDateAsString = $('#choose_date').datepicker({dateFormat: 'dd,MM,yyyy'}).val();
+        $('#appoint-list').append('<li> Added Date: ' + newDateAsString + '</li>');
         dates[dates.length] = newDateAsObject;
-        var elem = document.getElementById("date" + dates.length);
-        elem.value = newDateAsObject;
+
+        document.getElementById('date' + (dates.length - 1)).value = newDateAsObject;
+        } else {
+            alert('Please check selected dates before adding more... ')
+        }
     });
 
     $("#confirm-appointment").click(function(event){
@@ -207,9 +213,9 @@
     });
 
     $("#delete-appointment").click(function(event){
-        ${user.deleteAppointment}
+       /*
         $('#MyTabSelector').disableTab(0, true);
-        $('#MyTabSelector').enableTab(1);
+        $('#MyTabSelector').enableTab(1);*/
     });
 
     $("#check-appointments").click(function(event){

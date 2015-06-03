@@ -29,7 +29,7 @@ public class RedirectServlet extends HttpServlet {
         }
 
         // redirect to appointment servlet
-        if (dispatchto.equals("appointment")) {
+        if (dispatchto.equals("checkappointments")) {
             AppointmentController appoint = new AppointmentController();
             appoint.service(request, response);
         }

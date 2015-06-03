@@ -24,7 +24,7 @@ import javax.annotation.ManagedBean;
 
 @ManagedBean
 public class UserBean {
-    private IPatient _patient;
+    public static IPatient _patient;
     private String firstName = null;
     private String lastName = null;
     private String svNumber = null;
