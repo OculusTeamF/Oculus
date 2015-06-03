@@ -13,4 +13,14 @@
         <servlet-name>RedirectServlet</servlet-name>
         <url-pattern>/RedirectServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AppointmentController</servlet-name>
+        <servlet-class>AppointmentController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AppointmentController</servlet-name>
+        <url-pattern>/AppointmentController</url-pattern>
+    </servlet-mapping>
 </web-app>

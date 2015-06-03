@@ -26,6 +26,7 @@ import beans.UserBean;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,7 @@ import java.util.LinkedList;
 /**
  * Created by Fabian on 31.05.2015.
  */
+@WebServlet(name = "UserController")
 public class UserController extends HttpServlet implements ILogger {
 
     private LoginController _loginapp = new LoginController();
