@@ -9,6 +9,10 @@
 
 package beans;
 
+import at.oculus.teamf.application.controller.EventChooserController;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventCanNotBeDeletedException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventCanNotBeNullException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
 import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
@@ -50,6 +54,29 @@ public class UserBean {
         dateEnd = _calendarEvent.getEventEnd().toString();
         description = _calendarEvent.getDescription();
         appointAvailable = true;
+    }
+
+    public void deleteAppointment (){
+        try {
+            EventChooserController eventChooserController = EventChooserController.createEventChooserController(_patient);
+            eventChooserController.deleteExistingEvent(_calendarEvent);
+            erase();
+        } catch (PatientCanNotBeNullException e) {
+            e.printStackTrace();
+            //TODO
+        } catch (EventCanNotBeDeletedException e) {
+            e.printStackTrace();
+        } catch (EventCanNotBeNullException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void erase (){
+        _calendarEvent = null;
+        description = null;
+        dateStart = null;
+        dateEnd = null;
+        appointAvailable = false;
     }
 
     public String getFirstName(){

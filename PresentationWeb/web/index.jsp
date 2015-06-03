@@ -44,7 +44,7 @@
                         <br/>
                         Description: ${user.description}
                     </p>
-                    <button type="button" onclick="alert('Delete!')">Delete appointment</button>
+                    <button type="button" id="delete-appointment">Delete appointment</button>
                     <br/><br/>
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
@@ -55,14 +55,25 @@
                             <p>Choose Date & Time:</p>
                             <input type="text" name="choose_date" id="choose_date" value="" />
                             <br/><br/>
+                            <!--
                             <p>Choose Endtime: (optional)</p>
                             <input type="text" name="choose_time" id="choose_time" value="" />
+                            -->
                         </div>
                         <br/><br/>
                         <button type="button" id="add-time">add time</button>
-                        <br/><br/>
                         <form class="form" method="POST" action="RedirectServlet?dispatchto=appointment">
-                            <button type="button" onclick="alert('check appointments!')">check appointments</button>
+                            <input type="date" name="date0" id="date0" />
+                            <input type="date" name="date1" id="date1" />
+                            <input type="date" name="date2" id="date2" />
+                            <input type="date" name="date3" id="date3" />
+                            <input type="date" name="date4" id="date4" />
+                            <input type="date" name="date5" id="date5" />
+                            <input type="date" name="date6" id="date6" />
+                            <input type="date" name="date7" id="date7" />
+                            <input type="date" name="date8" id="date8" />
+                            <input type="date" name="date9" id="date9" />
+                            <button type="button" id="check-appointments">check appointments</button>
                         </form>
 
                         <ul id="appoint-list">
@@ -164,11 +175,11 @@
             $('#MyTabSelector').disableTab(3);
         }
         else {
-            $('#MyTabSelector').disableTab(0, true)
+            $('#MyTabSelector').disableTab(0, true);
+            $('#MyTabSelector').enableTab(1);
             $('#MyTabSelector').disableTab(2);
             $('#MyTabSelector').disableTab(3);
         }
-
     });
 
     $("#activate-tabs").click(function(event){
@@ -183,13 +194,26 @@
         var newDateAsString = $('#choose_date').datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
         $('#appoint-list').append('<li> Added Date: ' +  newDateAsString + '</li>');
         dates[dates.length] = newDateAsObject;
+        var elem = document.getElementById("date" + dates.length);
+        elem.value = newDateAsObject;
     });
 
     $("#confirm-appointment").click(function(event){
         $('#MyTabSelector').enableTab(0);
         $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').disableTab(2, true);
+        $('#MyTabSelector').disableTab(3, true);
         $("#confirm-appointment").hide();
+    });
+
+    $("#delete-appointment").click(function(event){
+        ${user.deleteAppointment}
+        $('#MyTabSelector').disableTab(0, true);
+        $('#MyTabSelector').enableTab(1);
+    });
+
+    $("#check-appointments").click(function(event){
+        $('#MyTabSelector').enableTab(2);
     });
 </script>
 </html>
