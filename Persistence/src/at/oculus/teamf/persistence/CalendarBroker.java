@@ -11,12 +11,12 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.CalendarEvent;
-import at.oculus.teamf.domain.entity.CalendarWorkingHours;
-import at.oculus.teamf.domain.entity.interfaces.ICalendar;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity;
@@ -26,16 +26,18 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
 
 import java.util.Collection;
 
 /**
  * calendar broker translating domain objects to persistence entities
  */
-class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements ICollectionReload {
+class CalendarBroker extends EntityBroker<ICalendar, CalendarEntity> implements ICollectionReload {
 
     public CalendarBroker() {
-        super(Calendar.class, CalendarEntity.class);
+        super(ICalendar.class, CalendarEntity.class);
+	    addDomainClassMapping(ICalendar.class);
     }
 
     /**
@@ -50,10 +52,10 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
      * @throws BadConnectionException
      */
     @Override
-    protected Calendar persistentToDomain(CalendarEntity entity) {
+    protected ICalendar persistentToDomain(CalendarEntity entity) {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " +
                 _domainClass.getClass());
-        Calendar calendar = new Calendar();
+        ICalendar calendar = (ICalendar) DomainWrapperFactory.getInstance().create(ICalendar.class);
         calendar.setId(entity.getId());
         return calendar;
     }
@@ -67,7 +69,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
      * @return return a persitency entity
      */
     @Override
-    protected CalendarEntity domainToPersistent(Calendar obj) {
+    protected CalendarEntity domainToPersistent(ICalendar obj) {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " +
                 _entityClass.getClass());
         CalendarEntity calendarEntity = new CalendarEntity();
@@ -122,7 +124,7 @@ class CalendarBroker extends EntityBroker<Calendar, CalendarEntity> implements I
         log.debug("reloading calendar events");
         ReloadComponent reloadComponent = new ReloadComponent(CalendarEntity.class, CalendarEvent.class);
 
-        return reloadComponent.reloadCollection(session, ((Calendar) obj).getId(), new CalendarEventsLoader());
+        return reloadComponent.reloadCollection(session, ((ICalendar) obj).getId(), new CalendarEventsLoader());
     }
 
     private class CalendarEventsLoader implements ICollectionLoader<CalendarEventEntity> {

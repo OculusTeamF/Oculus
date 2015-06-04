@@ -9,9 +9,17 @@
 
 package at.oculus.teamf.domain.entity.patient;
 
-import at.oculus.teamf.domain.entity.Gender;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.IExaminationResult;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.user.Gender;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
-import at.oculus.teamf.domain.entity.interfaces.*;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 
 import java.util.Collection;
 import java.util.Date;

@@ -13,10 +13,12 @@ import at.oculus.teamE.domain.readonly.IRPatientTb2;
 import at.oculus.teamE.presentation.ViewLoaderTb2;
 import at.oculus.teamE.presentation.controllers.ExaminationCreationFormViewController;
 import at.oculus.teamE.presentation.controllers.ExaminationDataWidgetController;
-import at.oculus.teamf.domain.entity.Doctor;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
-import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.presentation.view.models.Model;
 import at.oculus.teamf.technical.loggin.ILogger;
 import javafx.animation.KeyFrame;
@@ -150,7 +152,7 @@ public class NewExaminationController implements Initializable, ILogger {
             Date enddate = new Date();
 
             try {
-                if (_model.getLoggedInUser() instanceof Doctor) {
+                if (_model.getLoggedInUser() instanceof IDoctor) {
 
                     newexam = _model.getExaminationModel().newExaminationProtocol(_startDate, enddate, examinationDocumentation.getText(), selectedPatient, (IDoctor) _model.getLoggedInUser(), null);
 

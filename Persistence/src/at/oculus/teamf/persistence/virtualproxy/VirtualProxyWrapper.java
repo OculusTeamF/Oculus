@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.IDomain;
 
 import java.util.HashMap;
 
@@ -30,6 +30,9 @@ public abstract class VirtualProxyWrapper {
         //init all wrapper
         new DefaultWrapper();
         new PatientProxyWrapper();
+        new DoctorProxyWrapper();
+        new DiagnosisProxyWrapper();
+        new CalendarProxyWrapper();
     }
 
     public abstract IDomain wrap(IDomain domain);

@@ -12,10 +12,10 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.VisualAid;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.domain.entity.visualadi.VisualAid;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 import at.oculus.teamf.persistence.entity.DiagnosisEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.VisualAidEntity;
@@ -46,7 +46,7 @@ class VisualAidBroker extends EntityBroker implements ISearch {
 		VisualAid visualAid = new VisualAid();
 
 		visualAid.setId(visualAidEntity.getId());
-		visualAid.setDiagnosis((Diagnosis) Facade.getInstance().getBroker(Diagnosis.class)
+		visualAid.setDiagnosis((IDiagnosis) Facade.getInstance().getBroker(IDiagnosis.class)
 		                                         .persistentToDomain(visualAidEntity.getDiagnosis()));
 		visualAid.setDescription(visualAidEntity.getDescription());
 		visualAid.setIssueDate(visualAidEntity.getIssueDate());
@@ -65,7 +65,7 @@ class VisualAidBroker extends EntityBroker implements ISearch {
 		VisualAidEntity visualAidEntity = new VisualAidEntity();
 
 		visualAidEntity.setId(visualAid.getId());
-		visualAidEntity.setDiagnosis((DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
+		visualAidEntity.setDiagnosis((DiagnosisEntity) Facade.getInstance().getBroker(IDiagnosis.class)
 		                                                     .domainToPersistent(visualAid.getDiagnosis()));
 		visualAidEntity.setDescription(visualAid.getDescription());
 		visualAidEntity.setDioptreLeft(visualAid.getDioptreLeft());

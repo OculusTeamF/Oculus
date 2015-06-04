@@ -59,6 +59,7 @@ public class HibernateSessionBroker implements ISessionBroker {
                 new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
         _sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
+        //reson for the double connection!
         _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f");
     }
 

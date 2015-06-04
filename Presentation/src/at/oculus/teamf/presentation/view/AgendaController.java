@@ -14,7 +14,7 @@ package at.oculus.teamf.presentation.view;/*
  * @author Fabian Salzgeber
  * @date 14.4.2015
  *
- * Description: Calendar control. Currently unused.
+ * Description: calendar control. Currently unused.
  *
  */
 

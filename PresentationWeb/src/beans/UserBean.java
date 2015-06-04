@@ -9,6 +9,11 @@
 
 package beans;
 
+import at.oculus.teamf.application.controller.EventChooserController;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventCanNotBeDeletedException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventCanNotBeNullException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import javax.annotation.ManagedBean;
@@ -19,10 +24,17 @@ import javax.annotation.ManagedBean;
 
 @ManagedBean
 public class UserBean {
-    private IPatient _patient;
+    public static IPatient _patient;
     private String firstName = null;
     private String lastName = null;
     private String svNumber = null;
+    private String doctor = null;
+
+    private ICalendarEvent _calendarEvent;
+    private String dateStart = null;
+    private String dateEnd = null;
+    private String description = null;
+    private boolean appointAvailable = false;
 
     public UserBean() {
     }
@@ -33,6 +45,38 @@ public class UserBean {
         firstName = _patient.getFirstName();
         lastName = _patient.getLastName();
         svNumber = _patient.getSocialInsuranceNr();
+        doctor = _patient.getDoctor().toString();
+    }
+
+    public void loadCalendarEvent (ICalendarEvent calendarEvent){
+        _calendarEvent = calendarEvent;
+        dateStart = _calendarEvent.getEventStart().toString();
+        dateEnd = _calendarEvent.getEventEnd().toString();
+        description = _calendarEvent.getDescription();
+        appointAvailable = true;
+    }
+
+    public void deleteAppointment (){
+        try {
+            EventChooserController eventChooserController = EventChooserController.createEventChooserController(_patient);
+            eventChooserController.deleteExistingEvent(_calendarEvent);
+            erase();
+        } catch (PatientCanNotBeNullException e) {
+            e.printStackTrace();
+            //TODO
+        } catch (EventCanNotBeDeletedException e) {
+            e.printStackTrace();
+        } catch (EventCanNotBeNullException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void erase (){
+        _calendarEvent = null;
+        description = null;
+        dateStart = null;
+        dateEnd = null;
+        appointAvailable = false;
     }
 
     public String getFirstName(){
@@ -43,5 +87,29 @@ public class UserBean {
     }
     public String getSvNumber(){
         return svNumber;
+    }
+
+    public boolean getAppointAvailable(){
+        return appointAvailable;
+    }
+
+    public void setAppointAvailable(boolean available){
+        appointAvailable = available;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public String getDoctor() {
+        return doctor;
     }
 }

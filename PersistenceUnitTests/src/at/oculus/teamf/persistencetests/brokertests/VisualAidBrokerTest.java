@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
+import at.oculus.teamf.domain.entity.visualadi.VisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

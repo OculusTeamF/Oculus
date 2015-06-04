@@ -9,8 +9,8 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.VisualAid;
+import at.oculus.teamf.domain.entity.visualadi.VisualAid;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
@@ -42,10 +42,10 @@ public class DoctorBrokerTest extends BrokerTest {
 	@Override
 	public void testGetById() {
 		Facade facade = Facade.getInstance();
-		Doctor doctor = null;
+		IDoctor doctor = null;
 		try {
 			long startTime = System.nanoTime();
-			doctor = facade.getById(Doctor.class, 1);
+			doctor = facade.getById(IDoctor.class, 1);
 			System.out.println("Doctor with ID=1 loaded in " + ((System.nanoTime() - startTime) / 1000000) + "ms");
 		} catch (FacadeException e) {
 			e.printStackTrace();
@@ -73,9 +73,9 @@ public class DoctorBrokerTest extends BrokerTest {
 	@Test
 	public void testReload() {
 		Facade facade = Facade.getInstance();
-		Doctor doctor = null;
+		IDoctor doctor = null;
 		try {
-			doctor = facade.getById(Doctor.class, 1);
+			doctor = facade.getById(IDoctor.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();

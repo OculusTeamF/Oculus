@@ -9,7 +9,6 @@
 
 package at.oculus.teamf.technical.accessrights;
 
-import at.oculus.teamf.domain.entity.interfaces.ILogin;
 import at.oculus.teamf.technical.exceptions.HashGenerationException;
 import at.oculus.teamf.technical.loggin.ILogger;
 

@@ -9,10 +9,10 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.Orthoptist;
-import at.oculus.teamf.domain.entity.QueueEntry;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.queue.QueueEntry;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -58,7 +58,7 @@ public class QueueBrokerTest extends BrokerTest {
 	@Override
 	public void setUp() {
 
-		Doctor doctor = null;
+		IDoctor doctor = null;
 		Orthoptist orthoptist = null;
 		try {
 			generatePatient("UnitTestPatient1", "999999991");
@@ -73,7 +73,7 @@ public class QueueBrokerTest extends BrokerTest {
 			patientThree =
 					(Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient3"))
 							.get(0);
-			doctor = Facade.getInstance().getById(Doctor.class, 1);
+			doctor = Facade.getInstance().getById(IDoctor.class, 1);
 			orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
 
 		} catch (FacadeException e) {

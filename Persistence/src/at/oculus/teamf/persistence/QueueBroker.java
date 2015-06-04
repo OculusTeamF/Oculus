@@ -12,12 +12,13 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.interfaces.IDoctor;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IOrthoptist;
-import at.oculus.teamf.domain.entity.interfaces.IQueueEntry;
+import at.oculus.teamf.domain.entity.queue.QueueEntry;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
+import at.oculus.teamf.domain.entity.queue.IQueueEntry;
+import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -52,12 +53,12 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
     protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         IPatient patient = Facade.getInstance().getById(IPatient.class, entity.getPatientId());
-        User user = null;
+        IUser user = null;
         if (entity.getDoctorId() != null) {
-            user = (User) Facade.getInstance().getById(Doctor.class, entity.getDoctorId());
+            user = Facade.getInstance().getById(IDoctor.class, entity.getDoctorId());
         }
         if (user == null && entity.getOrthoptistId() != null) {
-            user = (User) Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
+            user = Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
         }
         return new QueueEntry(entity.getId(), patient, user, entity.getQueueIdParent(),
                 entity.getArrivalTime());
@@ -78,7 +79,7 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
         DoctorEntity doctorEntity = null;
         if (doctor != null) {
             try {
-                doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(Doctor.class).domainToPersistent(doctor);
+                doctorEntity = (DoctorEntity) Facade.getInstance().getBroker(IDoctor.class).domainToPersistent(doctor);
             } catch (NoBrokerMappedException e) {
                 e.printStackTrace();
             }
@@ -87,7 +88,7 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
         if (orthoptist != null) {
 
             orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersistent(
-                    (IDomain) orthoptist);
+                    orthoptist);
 
         }
 
@@ -111,7 +112,6 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
             return null;
         }
 
-        String[] queryParam = new String[1];
         String query = "";
         Collection<QueueEntity> result = null;
         switch (params[0]) {

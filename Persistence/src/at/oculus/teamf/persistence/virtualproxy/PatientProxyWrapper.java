@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 /**
@@ -21,7 +21,7 @@ public class PatientProxyWrapper extends VirtualProxyWrapper{
     }
 
     @Override
-    public IDomain wrap(IDomain domain) {
+    public PatientProxy wrap(IDomain domain) {
         return new PatientProxy((IPatient) domain);
     }
 }

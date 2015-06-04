@@ -13,10 +13,15 @@ import at.oculus.teamf.application.controller.exceptions.CheckinControllerExcept
 import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.QueueNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.UserNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.queue.IPatientQueue;
+import at.oculus.teamf.domain.entity.queue.PatientQueue;
+import at.oculus.teamf.domain.entity.user.IUser;
+import at.oculus.teamf.domain.entity.user.User;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
-import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -73,8 +78,8 @@ public class CheckinController implements ILogger {
         IDoctor doctor = null;
         IOrthoptist orthoptist = null;
 
-        if(user instanceof Doctor){
-            doctor = (Doctor) iuser;
+        if(user instanceof IDoctor){
+            doctor = (IDoctor) iuser;
 
             queue = (PatientQueue) doctor.getQueue();
 

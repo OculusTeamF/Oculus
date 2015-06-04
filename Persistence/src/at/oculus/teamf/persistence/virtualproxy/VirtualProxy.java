@@ -9,12 +9,10 @@
 
 package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-
 /**
  * Created by Simon Angerer on 28.05.2015.
  */
-public abstract class VirtualProxy<D> {
+public abstract class VirtualProxy<D>  {
     protected D _real;
 
     protected VirtualProxy(D real) {

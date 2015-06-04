@@ -10,10 +10,24 @@
 package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.readonly.IRPatientTb2;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.ExaminationResult;
+import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.IExaminationResult;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.medicine.Medicine;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.prescription.Prescription;
+import at.oculus.teamf.domain.entity.user.Gender;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
-import at.oculus.teamf.domain.entity.interfaces.*;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
+import at.oculus.teamf.domain.entity.visualadi.VisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -22,6 +36,7 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.technical.accessrights.ILogin;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalDate;
@@ -271,7 +286,7 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
         Collection<IDiagnosis> diagnoses = null;
         if(_real.getDiagnoses() == null) {
             try {
-                diagnoses = Facade.getInstance().search(Diagnosis.class, this.getId() + "");
+                diagnoses = Facade.getInstance().search(IDiagnosis.class, this.getId() + "");
             } catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
                 log.error(e.getMessage());
                 throw new CouldNotGetDiagnoseException();

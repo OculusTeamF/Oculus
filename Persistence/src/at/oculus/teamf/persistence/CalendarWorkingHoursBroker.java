@@ -10,11 +10,11 @@
 package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.CalendarWorkingHours;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarWorkingHours;
-import at.oculus.teamf.domain.entity.WorkingHours;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
+import at.oculus.teamf.domain.entity.calendar.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.WorkingHours;
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -41,7 +41,7 @@ class CalendarWorkingHoursBroker extends EntityBroker {
 
 		calendarWorkingHours.setId(calendarWorkingHoursEntity.getId());
 		calendarWorkingHours.setCalendarId(calendarWorkingHoursEntity.getCalendarId());
-		calendarWorkingHours.setCalendar((Calendar) Facade.getInstance().getBroker(Calendar.class).persistentToDomain(
+		calendarWorkingHours.setCalendar((ICalendar) Facade.getInstance().getBroker(ICalendar.class).persistentToDomain(
 				calendarWorkingHoursEntity.getCalendar()));
 		calendarWorkingHours.setWeekday(calendarWorkingHoursEntity.getWeekday());
 		calendarWorkingHours.setWorkingHoursId(calendarWorkingHoursEntity.getWorkingHoursId());

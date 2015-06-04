@@ -7,10 +7,14 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.queue.PatientQueue;
+import at.oculus.teamf.domain.entity.user.doctor.Doctor;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.factory.QueueFactory;
+import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -33,12 +37,12 @@ public class QueueFactoryTest {
 
     private Doctor _doctor;
     private PatientQueue _queue;
-    private Patient _patient1;
-    private Patient _patient2;
-    private Patient _patient3;
+    private IPatient _patient1;
+    private IPatient _patient2;
+    private IPatient _patient3;
 
-    private Patient createPatien(String name) {
-        Patient patient = new Patient();
+    private IPatient createPatien(String name) {
+        IPatient patient = (IPatient) DomainFactory.getFactory(IPatient.class); //new Patient();
         patient.setFirstName(name);
         patient.setLastName(name);
         patient.setSocialInsuranceNr(name);

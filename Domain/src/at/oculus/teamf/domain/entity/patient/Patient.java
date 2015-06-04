@@ -11,17 +11,19 @@ package at.oculus.teamf.domain.entity.patient;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IPatientTb2;
-import at.oculus.teamf.domain.entity.*;
+import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.IExaminationResult;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.user.Gender;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
-import at.oculus.teamf.domain.entity.interfaces.*;
-import at.oculus.teamf.persistence.Facade;
-import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
-import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.technical.accessrights.ILogin;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalDate;

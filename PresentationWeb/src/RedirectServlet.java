@@ -1,4 +1,5 @@
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import java.io.IOException;
  * @author FabianLaptop
  */
 
+@WebServlet(name = "RedirectServlet")
 public class RedirectServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,6 +26,12 @@ public class RedirectServlet extends HttpServlet {
         if (dispatchto.equals("login")) {
             UserController ulogin = new UserController();
             ulogin.service(request, response);
+        }
+
+        // redirect to appointment servlet
+        if (dispatchto.equals("checkappointments")) {
+            AppointmentController appoint = new AppointmentController();
+            appoint.service(request, response);
         }
     }
 

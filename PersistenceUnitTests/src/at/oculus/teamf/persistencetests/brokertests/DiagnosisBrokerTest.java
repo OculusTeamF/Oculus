@@ -9,13 +9,11 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.Calendar;
-import at.oculus.teamf.domain.entity.Diagnosis;
-import at.oculus.teamf.domain.entity.Doctor;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
-import at.oculus.teamf.domain.entity.interfaces.IMedicine;
-import at.oculus.teamf.domain.entity.interfaces.IVisualAid;
+import at.oculus.teamf.domain.entity.calendar.Calendar;
+import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -31,14 +29,14 @@ import static org.junit.Assert.assertTrue;
 
 public class DiagnosisBrokerTest extends BrokerTest {
 	private Calendar _calendar;
-	private Doctor _doctor;
+	private IDoctor _doctor;
 	private Diagnosis _diagnosis;
 
 	@Override
 	public void setUp() {
 		_doctor = null;
 		try {
-			_doctor = Facade.getInstance().getById(Doctor.class, 1);
+			_doctor = Facade.getInstance().getById(IDoctor.class, 1);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -123,13 +121,8 @@ public class DiagnosisBrokerTest extends BrokerTest {
 
 		Collection<IMedicine> medicine = null;
 		Collection<IVisualAid> visualAid = null;
-		try {
-			medicine = diagnosis.getMedicine();
-			visualAid = diagnosis.getVisualAid();
-		} catch (CouldNotGetVisualAidException | CouldNotGetMedicineException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		medicine = diagnosis.getMedicine();
+		visualAid = diagnosis.getVisualAid();
 		System.out.println(medicine.size());
 		System.out.println(visualAid.size());
 		assertTrue(medicine.size() > 0);

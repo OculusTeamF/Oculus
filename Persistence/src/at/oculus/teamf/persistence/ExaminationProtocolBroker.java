@@ -11,10 +11,14 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
-import at.oculus.teamf.domain.entity.*;
-import at.oculus.teamf.domain.entity.interfaces.IDomain;
-import at.oculus.teamf.domain.entity.interfaces.IExaminationProtocol;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.examination.ExaminationResult;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -47,12 +51,12 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
     protected IDomain persistentToDomain(IEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
-        Doctor doctor = null;
+        IDoctor doctor = null;
         Orthoptist orthoptist = null;
 
         if (examinationProtocolEntity.getUserId() > 0) {
-            Collection<Doctor> doctors = (Collection<Doctor>) (Collection<?>) Facade.getInstance().search(Doctor.class,examinationProtocolEntity.getUserId()+"");
-            for(Doctor d : doctors){
+            Collection<IDoctor> doctors = (Collection<IDoctor>) (Collection<?>) Facade.getInstance().search(IDoctor.class,examinationProtocolEntity.getUserId()+"");
+            for(IDoctor d : doctors){
                 doctor = d;
             }
             if(doctor == null){
@@ -63,9 +67,9 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
             }
         }
 
-        Diagnosis diagnosis = null;
+        IDiagnosis diagnosis = null;
         if (examinationProtocolEntity.getDiagnosisId() != null) {
-            diagnosis = (Diagnosis) Facade.getInstance().getBroker(Diagnosis.class)
+            diagnosis = (IDiagnosis) Facade.getInstance().getBroker(IDiagnosis.class)
                     .persistentToDomain(examinationProtocolEntity.getDiagnosis());
         }
 
@@ -100,7 +104,7 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
         UserEntity userEntity = null;
         if (examinationProtocol.getDoctor() != null) {
 
-            userEntity = ((DoctorEntity) Facade.getInstance().getBroker(Doctor.class)
+            userEntity = ((DoctorEntity) Facade.getInstance().getBroker(IDoctor.class)
                     .domainToPersistent(examinationProtocol.getDoctor())).getUser();
         }
         if (examinationProtocol.getOrthoptist() != null) {
@@ -111,7 +115,7 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
 
         DiagnosisEntity diagnosisEntity = null;
         if (examinationProtocol.getTeamFDiagnosis() != null) {
-            diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(Diagnosis.class)
+            diagnosisEntity = (DiagnosisEntity) Facade.getInstance().getBroker(IDiagnosis.class)
                     .domainToPersistent(examinationProtocol.getTeamFDiagnosis());
         }
 
