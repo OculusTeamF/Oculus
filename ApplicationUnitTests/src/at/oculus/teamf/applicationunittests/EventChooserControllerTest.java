@@ -11,8 +11,8 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.EventChooserController;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.interfaces.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
