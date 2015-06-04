@@ -10,7 +10,7 @@
 package at.oculus.teamf.domain.criteria;
 
 import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 
 import java.util.Date;
 

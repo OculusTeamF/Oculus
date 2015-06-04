@@ -11,7 +11,10 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.entity.calendar.*;
-import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -25,7 +28,7 @@ import java.util.Iterator;
 /**
  * Created by Simon Angerer on 03.06.2015.
  */
-public class CalendarProxy extends VirtualProxy<ICalendar> implements ICalendar {
+class CalendarProxy extends VirtualProxy<ICalendar> implements ICalendar {
     protected CalendarProxy(ICalendar real) {
         super(real);
     }

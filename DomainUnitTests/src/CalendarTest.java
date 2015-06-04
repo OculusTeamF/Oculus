@@ -15,7 +15,7 @@ import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 import at.oculus.teamf.persistence.exception.BadConnectionException;

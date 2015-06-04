@@ -14,11 +14,11 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.ExaminationResult;
-import at.oculus.teamf.domain.entity.user.User;
+import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.examination.IExaminationResult;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -52,18 +52,18 @@ class ExaminationResultBroker extends EntityBroker implements ISearch {
 
         }
 
-		User user = null;
+		IUser user = null;
 		IDoctor doctor = null;
-		Orthoptist orthoptist = null;
+		IOrthoptist orthoptist = null;
 		if (examinationResultEntity.getUserId() != null) {
 	                for(IDoctor d : ((LinkedList<IDoctor>) (LinkedList<?>) Facade.getInstance().search(IDoctor.class, examinationResultEntity.getUserId()+""))){
 		                doctor = d;
 	                }
 	                if(doctor!=null){
-		                user = (User) doctor;
+		                user = doctor;
 	                }
-	                for(Orthoptist o : ((LinkedList<Orthoptist>) (LinkedList<?>) Facade.getInstance().search(
-			                Orthoptist.class, examinationResultEntity.getUserId() + ""))){
+	                for(IOrthoptist o : ((LinkedList<IOrthoptist>) (LinkedList<?>) Facade.getInstance().search(
+							IOrthoptist.class, examinationResultEntity.getUserId() + ""))){
 		                orthoptist = o;
 	                }
 	                if(orthoptist!=null){
@@ -97,7 +97,7 @@ class ExaminationResultBroker extends EntityBroker implements ISearch {
 		                userEntity = doctorEntity.getUser();
 	                }
                 } else if (examinationResult.getOrthoptist()!=null) {
-	                OrthoptistEntity orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
+	                OrthoptistEntity orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(IOrthoptist.class)
 	                                                                              .domainToPersistent((IDomain) examinationResult.getOrthoptist());
 	                if(orthoptistEntity!=null) {
 		                userEntity = orthoptistEntity.getUser();

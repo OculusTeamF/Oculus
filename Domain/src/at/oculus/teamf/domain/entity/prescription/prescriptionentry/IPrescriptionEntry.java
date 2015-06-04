@@ -7,45 +7,20 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.calendar;
-
+package at.oculus.teamf.domain.entity.prescription.prescriptionentry;
 
 import at.oculus.teamf.domain.entity.IDomain;
-
-import java.time.LocalTime;
+import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
 
 /**
- * Created by Simon Angerer on 28.05.2015.
+ * Created by Simon Angerer on 08.05.2015.
  */
-public interface IWorkingHours extends IDomain {
-    @Override
-    int getId();
+public interface IPrescriptionEntry extends IDomain {
 
-    @Override
-    void setId(int id);
+    IPrescription getPrescription();
 
-    LocalTime getMorningFrom();
+    IMedicine getMedicine();
 
-    void setMorningFrom(LocalTime morningFrom);
-
-    LocalTime getMorningTo();
-
-    void setMorningTo(LocalTime morningTo);
-
-    LocalTime getAfternoonFrom();
-
-    void setAfternoonFrom(LocalTime afternoonFrom);
-
-    LocalTime getAfternoonTo();
-
-    void setAfternoonTo(LocalTime afternoonTo);
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
-
-    @Override
-    String toString();
+	void setMedicine(IMedicine medicine);
 }

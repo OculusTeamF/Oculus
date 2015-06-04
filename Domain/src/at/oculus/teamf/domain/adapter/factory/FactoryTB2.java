@@ -10,9 +10,8 @@
 package at.oculus.teamf.domain.adapter.factory;
 
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
-import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
-import at.oculus.teamf.domain.entity.prescription.Prescription;
-import at.oculus.teamf.domain.entity.prescription.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 import at.oculus.teamf.domain.entity.visualadi.VisualAid;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
@@ -31,7 +30,7 @@ public class FactoryTB2 implements IFactoryTB2 {
 
     @Override
     public IDiagnosis createDiagnos(String title, String description, IDoctor doctor) {
-        IDiagnosis diagnosis = (IDiagnosis) DomainFactory.getFactory(IDiagnosis.class).create();
+        IDiagnosis diagnosis = (IDiagnosis) DomainFactory.create(IDiagnosis.class);
         diagnosis.setTitle(title);
         diagnosis.setDescription(description);
         diagnosis.setDoctor(doctor);
@@ -41,7 +40,7 @@ public class FactoryTB2 implements IFactoryTB2 {
 
     @Override
     public IPrescription createPrescription() {
-        return new Prescription();
+        return (IPrescription) DomainFactory.create(IPrescription.class);
     }
 
     @Override

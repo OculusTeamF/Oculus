@@ -12,16 +12,15 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
-import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.prescription.Prescription;
+import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.domain.entity.user.Gender;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
-import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -69,7 +68,7 @@ class PatientBroker extends EntityBroker<IPatient, PatientEntity> implements ICo
 			((IPatient) obj).setCalendarEvents((Collection<ICalendarEvent>) (Collection<?>) reloadCalendarEvents(session, obj));
 		} else if (clazz == ExaminationProtocol.class) {
             ((IPatient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
-        } else if (clazz == Prescription.class) {
+        } else if (clazz == IPrescription.class) {
 			((IPatient) obj).setPrescriptions((Collection<IPrescription>)(Collection<?>)reloadPrescriptions(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
@@ -108,11 +107,11 @@ class PatientBroker extends EntityBroker<IPatient, PatientEntity> implements ICo
 		return reloadComponent.reloadCollection(session, ((IPatient) obj).getId(), new ExaminationProtocolLoader());
 	}
 
-	private Collection<Prescription> reloadPrescriptions(ISession session, Object obj)
+	private Collection<IPrescription> reloadPrescriptions(ISession session, Object obj)
 			throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("reloading prescriptions");
-		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, Prescription.class);
+		ReloadComponent reloadComponent = new ReloadComponent(PatientEntity.class, IPrescription.class);
 		return reloadComponent.reloadCollection(session, ((IPatient) obj).getId(), new PrescriptionLoader());
 	}
 

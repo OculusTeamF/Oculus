@@ -15,13 +15,13 @@ import at.oculus.teamf.domain.entity.IDomain;
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public class DiagnosisProxyWrapper extends VirtualProxyWrapper {
+class DiagnosisProxyWrapper extends VirtualProxyWrapper<IDiagnosis> {
     protected DiagnosisProxyWrapper() {
         super(IDiagnosis.class);
     }
 
     @Override
-    public DiagnosisProxy wrap(IDomain domain) {
-        return new DiagnosisProxy((IDiagnosis) domain);
+    public IDiagnosis wrap(IDiagnosis domain) {
+        return new DiagnosisProxy(domain);
     }
 }

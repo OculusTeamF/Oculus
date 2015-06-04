@@ -15,13 +15,13 @@ import at.oculus.teamf.domain.entity.calendar.ICalendar;
 /**
  * Created by Simon Angerer on 03.06.2015.
  */
-public class CalendarProxyWrapper extends VirtualProxyWrapper {
+class CalendarProxyWrapper extends VirtualProxyWrapper<ICalendar> {
     protected CalendarProxyWrapper() {
         super(ICalendar.class);
     }
 
     @Override
-    public IDomain wrap(IDomain domain) {
-        return new CalendarProxy((ICalendar) domain);
+    public ICalendar wrap(ICalendar domain) {
+        return new CalendarProxy(domain);
     }
 }

@@ -15,7 +15,7 @@ package at.oculus.teamf.presentation.view;
 import at.oculus.teamf.application.controller.PrescriptionController;
 import at.oculus.teamf.application.controller.dependenceResolverTB2.exceptions.NotInitiatedExceptions;
 import at.oculus.teamf.application.controller.exceptions.PrescriptionControllerExceptions.NoPatientException;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
 import at.oculus.teamf.domain.entity.user.Gender;
 import at.oculus.teamf.application.controller.exceptions.CreatePatientControllerExceptions.PatientCouldNotBeSavedException;

@@ -9,12 +9,10 @@
 
 import at.oculus.teamf.domain.entity.factory.DomainFactory;
 import at.oculus.teamf.domain.entity.queue.PatientQueue;
-import at.oculus.teamf.domain.entity.user.doctor.Doctor;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
-import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.patient.IPatient;
-import at.oculus.teamf.domain.entity.patient.Patient;
+import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -35,14 +33,14 @@ import static org.junit.Assert.*;
  */
 public class QueueFactoryTest {
 
-    private Doctor _doctor;
+    private IDoctor _doctor;
     private PatientQueue _queue;
     private IPatient _patient1;
     private IPatient _patient2;
     private IPatient _patient3;
 
     private IPatient createPatien(String name) {
-        IPatient patient = (IPatient) DomainFactory.getFactory(IPatient.class); //new Patient();
+        IPatient patient = (IPatient) DomainFactory.create(IPatient.class); //new Patient();
         patient.setFirstName(name);
         patient.setLastName(name);
         patient.setSocialInsuranceNr(name);
@@ -59,8 +57,8 @@ public class QueueFactoryTest {
     @Before
     public void setUp() {
         try {
-            _doctor = (Doctor) Facade.getInstance().getAll(Doctor.class).toArray()[0];
-            _queue = QueueFactory.getInstance().getUserQueue(_doctor);
+            _doctor = (IDoctor) Facade.getInstance().getAll(IDoctor.class).toArray()[0];
+            _queue = (PatientQueue) _doctor.getQueue();
         } catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
             assertTrue(false);
@@ -82,7 +80,7 @@ public class QueueFactoryTest {
 
     private void deletePatient(String name) {
         try {
-            Patient patient = (Patient) Facade.getInstance().search(Patient.class, name).toArray()[0];
+            IPatient patient = (IPatient) Facade.getInstance().search(IPatient.class, name).toArray()[0];
             Facade.getInstance().delete(patient);
         } catch (DatabaseOperationException| SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
             e.printStackTrace();

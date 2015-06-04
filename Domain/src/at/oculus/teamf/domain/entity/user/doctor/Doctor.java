@@ -10,10 +10,8 @@
 package at.oculus.teamf.domain.entity.user.doctor;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
-import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
-import at.oculus.teamf.domain.entity.factory.QueueFactory;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
@@ -26,7 +24,7 @@ import java.util.List;
 /**
  * @author Simon Angerer
  */
- public class Doctor extends User implements IDoctor, ILogger{
+public class Doctor extends User implements IDoctor, ILogger{
     //<editor-fold desc="Attributes">
     private int _id;
     private ICalendar _calendar;
@@ -68,14 +66,11 @@ import java.util.List;
 
     @Override
     public IPatientQueue getQueue() {
-        if(_queue == null) {
-            _queue = QueueFactory.getInstance().getUserQueue(this);
-        }
         return _queue;
     }
     @Override
     public void setQueue(IPatientQueue _queue) {
-        this._queue = (PatientQueue) _queue;
+        this._queue = _queue;
     }
 
     @Override
@@ -84,7 +79,7 @@ import java.util.List;
     }
     @Override
     public void setDoctorSubstitude(IDoctor doctorSubstitude) {
-        _doctorSubstitude = (Doctor) doctorSubstitude;
+        _doctorSubstitude = doctorSubstitude;
     }
 
     @Override
@@ -103,23 +98,6 @@ import java.util.List;
     public void setPatients(Collection<IPatient> patients) {
 		_patients = (Collection<IPatient>)(Collection<?>)patients;
 	}
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null) {
-            return false;
-        }
-
-        if(obj instanceof Doctor) {
-            if(((Doctor)obj).getId() == getId()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public Integer getUserId() {
@@ -142,6 +120,22 @@ import java.util.List;
     public List<? extends IExaminationProtocolTb2> getExaminationProtocols() {
         //not used
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctor)) return false;
+        if (!super.equals(o)) return false;
+
+        Doctor doctor = (Doctor) o;
+
+        if (_id != doctor._id) return false;
+        if (!_calendar.equals(doctor._calendar)) return false;
+        if (!_queue.equals(doctor._queue)) return false;
+        if (!_patients.equals(doctor._patients)) return false;
+        return _doctorSubstitude.equals(doctor._doctorSubstitude);
+
     }
 
     //</editor-fold>

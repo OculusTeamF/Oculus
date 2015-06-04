@@ -10,11 +10,11 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationResultException;
 import at.oculus.teamf.domain.entity.examination.IExaminationResult;
-import at.oculus.teamf.domain.entity.patient.Patient;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -29,18 +29,18 @@ import java.util.Date;
 import static org.junit.Assert.assertTrue;
 
 public class ExaminationProtocolBrokerTest extends BrokerTest {
-	private Patient _patient;
+	private IPatient _patient;
 	private IDoctor _doctor;
-	private Orthoptist _orthoptist;
+	private IOrthoptist _orthoptist;
 	private ExaminationProtocol _examinationProtocolDoctor;
 	private ExaminationProtocol _examinationProtocolOrthoptist;
 
 	@Override
 	public void setUp() {
 		try {
-			_patient = Facade.getInstance().getById(Patient.class, 1);
+			_patient = Facade.getInstance().getById(IPatient.class, 1);
 			_doctor = Facade.getInstance().getById(IDoctor.class, 1);
-			_orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
+			_orthoptist = Facade.getInstance().getById(IOrthoptist.class, 1);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);

@@ -7,9 +7,10 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.prescription;
+package at.oculus.teamf.domain.entity.prescription.prescriptionentry;
 
 import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
 
 /**
  * Created by Simon Angerer on 08.05.2015.
@@ -34,7 +35,7 @@ public class PrescriptionEntry implements IPrescriptionEntry {
 		return _prescription;
 	}
 
-	public void setPrescription(Prescription prescription) {
+	public void setPrescription(IPrescription prescription) {
 		_prescription = prescription;
 	}
 

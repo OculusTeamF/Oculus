@@ -7,14 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.criteria.interfaces;
+package at.oculus.teamf.domain.entity.user.orthoptist;
 
-import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
 
 /**
- * IWeekDayTime.java
- * Created by oculus on 01.06.15.
+ * Created by Simon Angerer on 04.06.2015.
  */
-public interface IWeekDayTime {
-    public boolean isInTime(ICalendarEvent calendarEvent);
+public class OrthoptistFactory extends DomainFactory<IOrthoptist> {
+    public OrthoptistFactory() {
+        super(IOrthoptist.class);
+    }
+
+    @Override
+    public IOrthoptist create() {
+        return new Orthoptist();
+    }
 }

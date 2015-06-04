@@ -10,8 +10,8 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.medicine.Medicine;
-import at.oculus.teamf.domain.entity.prescription.Prescription;
-import at.oculus.teamf.domain.entity.prescription.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.PrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -27,14 +27,14 @@ import static junit.framework.Assert.assertTrue;
  */
 public class PrescriptionEntryBrokerTest extends BrokerTest {
 	private Medicine _medicine;
-	private Prescription _prescription;
+	private IPrescription _prescription;
 	private PrescriptionEntry _prescriptionEntry;
 
 	@Override
 	public void setUp() {
 		try {
 			_medicine = Facade.getInstance().getById(Medicine.class, 1);
-			_prescription = Facade.getInstance().getById(Prescription.class, 1);
+			_prescription = Facade.getInstance().getById(IPrescription.class, 1);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);

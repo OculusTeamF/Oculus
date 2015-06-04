@@ -12,7 +12,7 @@ import at.oculus.teamf.application.controller.exceptions.EventChooserControllerE
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NotAllowedToChooseEventException;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence.factory;
 
 import at.oculus.teamf.domain.entity.factory.DomainFactory;
 import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.persistence.virtualproxy.VirtualProxy;
 import at.oculus.teamf.persistence.virtualproxy.VirtualProxyWrapper;
 
 /**
@@ -32,6 +33,14 @@ public class DomainWrapperFactory {
     }
 
     public IDomain create(Class<? extends IDomain> clazz) {
-        return (IDomain) VirtualProxyWrapper.getWrapper(clazz).wrap(DomainFactory.getFactory(clazz).create());
+        return VirtualProxyWrapper.getWrapper(clazz).wrap(DomainFactory.create(clazz));
+    }
+
+    public static Class getRealClass(IDomain obj) {
+        if(obj instanceof VirtualProxy) {
+            return ((VirtualProxy)obj).getReal().getClass();
+        } else {
+            return obj.getClass();
+        }
     }
 }

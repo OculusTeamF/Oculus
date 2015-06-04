@@ -18,7 +18,7 @@ import at.oculus.teamf.domain.entity.exception.CouldNotGetPrescriptionException;
 import at.oculus.teamf.domain.entity.medicine.IMedicine;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
-import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
 import at.oculus.teamf.technical.exceptions.NoPrescriptionToPrintException;
 import at.oculus.teamf.technical.printing.IPrinter;
 

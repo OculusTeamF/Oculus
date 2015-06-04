@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
 
@@ -58,6 +58,6 @@ public class CalendarEventBrokerTest extends BrokerTest {
 		}
 
 		assertTrue(calendarEvents != null);
-		assertTrue(calendarEvents.size() == 49);
+		assertTrue(calendarEvents.size() > 0);
 	}
 }

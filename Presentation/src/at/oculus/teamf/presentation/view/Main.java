@@ -62,9 +62,13 @@ public class Main extends Application implements ILocal, ILogger {
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
-                    protected Void call() throws Exception {
+                    protected Void call() {
                         _model = Model.getInstance();
-                        initMainWindow();  // build main window & queuelist)
+                        try {
+                            initMainWindow();  // build main window & queuelist)
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
                         _model.setPrimaryStage(_primaryStage);
                         return null;
                     }
@@ -115,7 +119,7 @@ public class Main extends Application implements ILocal, ILogger {
     private void initLoadingScreen() throws InitLoadingException {
         Parent initroot = null;
         try {
-            initroot = (Parent) initloader.load();
+            initroot = initloader.load();
         } catch (IOException ioException) {
             ioException.printStackTrace();
             DialogBoxController.getInstance().showErrorDialog("IOException", "Please contact support");

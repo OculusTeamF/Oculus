@@ -9,9 +9,10 @@
 
 package at.oculus.teamf.domain.adapter.factory;
 
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
-import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 
@@ -24,7 +25,7 @@ public interface IFactoryTB2{
 
     IDiagnosis createDiagnos(String title, String description, IDoctor doctor);
 
-    IPrescription createPrescription();
+    IDomain createPrescription();
 
     IPrescriptionEntry createPrescriptionEntry();
 }

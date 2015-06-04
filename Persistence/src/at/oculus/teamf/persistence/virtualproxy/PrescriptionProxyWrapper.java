@@ -7,19 +7,20 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.prescription;
+package at.oculus.teamf.persistence.virtualproxy;
 
-import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.medicine.IMedicine;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
 
 /**
- * Created by Simon Angerer on 08.05.2015.
+ * Created by Simon Angerer on 04.06.2015.
  */
-public interface IPrescriptionEntry extends IDomain {
+class PrescriptionProxyWrapper extends VirtualProxyWrapper<IPrescription> {
+    protected PrescriptionProxyWrapper() {
+        super(IPrescription.class);
+    }
 
-    IPrescription getPrescription();
-
-    IMedicine getMedicine();
-
-	void setMedicine(IMedicine medicine);
+    @Override
+    public IPrescription wrap(IPrescription domain) {
+        return new PrescriptionProxy(domain);
+    }
 }

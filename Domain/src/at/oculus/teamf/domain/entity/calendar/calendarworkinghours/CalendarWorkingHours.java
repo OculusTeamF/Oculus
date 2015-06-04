@@ -7,8 +7,11 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.calendar;
+package at.oculus.teamf.domain.entity.calendar.calendarworkinghours;
 
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.workinghours.IWorkingHours;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 
 import java.time.Instant;

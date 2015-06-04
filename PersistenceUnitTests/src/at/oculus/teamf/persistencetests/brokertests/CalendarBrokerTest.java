@@ -9,11 +9,11 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.calendar.Calendar;
-import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
-import at.oculus.teamf.domain.entity.calendar.CalendarWorkingHours;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -42,9 +42,9 @@ public class CalendarBrokerTest extends BrokerTest {
 	@Override
 	public void testGetById() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = null;
+		ICalendar cal = null;
 		try {
-			cal = facade.getById(Calendar.class, 1);
+			cal = facade.getById(ICalendar.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -61,9 +61,9 @@ public class CalendarBrokerTest extends BrokerTest {
 	@Test
 	public void testReloadEvents() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = null;
+		ICalendar cal = null;
 		try {
-			cal = facade.getById(Calendar.class, 1);
+			cal = facade.getById(ICalendar.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -92,9 +92,9 @@ public class CalendarBrokerTest extends BrokerTest {
 	@Test
 	public void testReloadWorkingHours() {
 		Facade facade = Facade.getInstance();
-		Calendar cal = null;
+		ICalendar cal = null;
 		try {
-			cal = facade.getById(Calendar.class, 1);
+			cal = facade.getById(ICalendar.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -125,7 +125,7 @@ public class CalendarBrokerTest extends BrokerTest {
 		Facade facade = Facade.getInstance();
 		ICalendar cal = null;
 		try {
-			cal = facade.getById(Calendar.class, 1);
+			cal = facade.getById(ICalendar.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();

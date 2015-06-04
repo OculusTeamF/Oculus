@@ -9,8 +9,11 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.calendar.Calendar;
-import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetMedicineException;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetVisualAidException;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.medicine.IMedicine;
 import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
@@ -28,9 +31,9 @@ import java.util.Collection;
 import static org.junit.Assert.assertTrue;
 
 public class DiagnosisBrokerTest extends BrokerTest {
-	private Calendar _calendar;
+	private ICalendar _calendar;
 	private IDoctor _doctor;
-	private Diagnosis _diagnosis;
+	private IDiagnosis _diagnosis;
 
 	@Override
 	public void setUp() {
@@ -42,7 +45,7 @@ public class DiagnosisBrokerTest extends BrokerTest {
 			assertTrue(false);
 		}
 
-		_diagnosis = new Diagnosis();
+		_diagnosis = (IDiagnosis) DomainFactory.create(IDiagnosis.class);
 		_diagnosis.setDoctor(_doctor);
 		_diagnosis.setTitle("Diagnose Test");
 		_diagnosis.setDescription("Testbeschreibung");
@@ -69,9 +72,9 @@ public class DiagnosisBrokerTest extends BrokerTest {
 
 	@Override
 	public void testGetById() {
-		Diagnosis diagnosis = null;
+		IDiagnosis diagnosis = null;
 		try {
-			diagnosis = Facade.getInstance().getById(Diagnosis.class, _diagnosis.getId());
+			diagnosis = Facade.getInstance().getById(IDiagnosis.class, _diagnosis.getId());
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -85,9 +88,9 @@ public class DiagnosisBrokerTest extends BrokerTest {
 
 	@Override
 	public void testGetAll() {
-		Collection<Diagnosis> diagnoses = null;
+		Collection<IDiagnosis> diagnoses = null;
 		try {
-			diagnoses = Facade.getInstance().getAll(Diagnosis.class);
+			diagnoses = Facade.getInstance().getAll(IDiagnosis.class);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -98,9 +101,9 @@ public class DiagnosisBrokerTest extends BrokerTest {
 
 	@Test
 	public void testSearchByPatient() {
-		Collection<Diagnosis> diagnoses = null;
+		Collection<IDiagnosis> diagnoses = null;
 		try {
-			diagnoses = Facade.getInstance().search(Diagnosis.class, "59");
+			diagnoses = Facade.getInstance().search(IDiagnosis.class, "59");
 		} catch (DatabaseOperationException | NoBrokerMappedException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -109,11 +112,11 @@ public class DiagnosisBrokerTest extends BrokerTest {
 	}
 
 	@Test
-	public void testReload() {
+	public void testReload() throws CouldNotGetMedicineException, CouldNotGetVisualAidException {
 		// reload medicine, visual aid
-		Diagnosis diagnosis = null;
+		IDiagnosis diagnosis = null;
 		try {
-			diagnosis = Facade.getInstance().getById(Diagnosis.class, 1);
+			diagnosis = Facade.getInstance().getById(IDiagnosis.class, 1);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);

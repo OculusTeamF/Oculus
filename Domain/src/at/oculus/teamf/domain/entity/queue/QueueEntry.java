@@ -13,7 +13,6 @@ import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 
 import java.sql.Timestamp;
 
@@ -43,8 +42,8 @@ public class QueueEntry implements IQueueEntry {
         _id = id;
         if(user instanceof IDoctor){
             _doctor = (IDoctor) user;
-        } else if (user instanceof Orthoptist) {
-            _orthoptist = (Orthoptist) user;
+        } else if (user instanceof IOrthoptist) {
+            _orthoptist = (IOrthoptist) user;
         }
 
         _queueIdParent = queueIdParent;

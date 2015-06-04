@@ -13,10 +13,10 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.prescription.Prescription;
-import at.oculus.teamf.domain.entity.prescription.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
-import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -28,6 +28,7 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -37,8 +38,8 @@ import java.util.Collection;
  */
 class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 	public PrescriptionBroker() {
-		super(Prescription.class, PrescriptionEntity.class);
-		addDomainClassMapping(IPrescription.class);
+		super(IPrescription.class, PrescriptionEntity.class);
+		addDomainClassMapping(Prescription.class);
 	}
 
 	/**
@@ -61,7 +62,7 @@ class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		PrescriptionEntity prescriptionEntity = (PrescriptionEntity) entity;
-        Prescription prescription = new Prescription();
+		IPrescription prescription = (IPrescription) DomainWrapperFactory.getInstance().create(IPrescription.class);
         prescription.setId(prescriptionEntity.getId());
 		prescription.setPatient((IPatient) Facade.getInstance().getBroker(IPatient.class)
 		                                        .persistentToDomain(prescriptionEntity.getPatient()));
@@ -85,7 +86,7 @@ class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 	protected IEntity domainToPersistent(IDomain obj)
 			throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException,
 			       ClassNotMappedException {
-		Prescription prescription = (Prescription) obj;
+		IPrescription prescription = (IPrescription) obj;
 		PrescriptionEntity prescriptionEntity = new PrescriptionEntity();
 		prescriptionEntity.setId(prescription.getId());
 		prescriptionEntity.setPatient((PatientEntity) Facade.getInstance().getBroker(IPatient.class)
@@ -118,7 +119,7 @@ class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 			       DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException,
 			       InvalidSearchParameterException {
         if (clazz == PrescriptionEntry.class) {
-            ((Prescription) obj).setPrescriptionEntries((Collection<IPrescriptionEntry>)(Collection<?>)reloadPrescriptionEntries(session, obj));
+            ((IPrescription) obj).setPrescriptionEntries((Collection<IPrescriptionEntry>) (Collection<?>) reloadPrescriptionEntries(session, obj));
         } else {
 			throw new InvalidReloadClassException();
 		}
@@ -141,7 +142,7 @@ class PrescriptionBroker extends EntityBroker implements ICollectionReload {
 			       SearchInterfaceNotImplementedException, InvalidSearchParameterException {
 		log.debug("reloading prescription entries");
 		ReloadComponent reloadComponent = new ReloadComponent(PrescriptionEntity.class, PrescriptionEntry.class);
-		return reloadComponent.reloadCollection(session, ((Prescription) obj).getId(), new PrescriptionEntryLoader());
+		return reloadComponent.reloadCollection(session, ((IPrescription) obj).getId(), new PrescriptionEntryLoader());
 	}
 
 	private class PrescriptionEntryLoader implements ICollectionLoader<PrescriptionEntryEntity> {

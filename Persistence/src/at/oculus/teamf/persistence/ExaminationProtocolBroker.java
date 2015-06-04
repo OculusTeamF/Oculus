@@ -18,7 +18,7 @@ import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.patient.IPatient;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.entity.*;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -52,7 +52,7 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
         ExaminationProtocolEntity examinationProtocolEntity = (ExaminationProtocolEntity) entity;
         IDoctor doctor = null;
-        Orthoptist orthoptist = null;
+        IOrthoptist orthoptist = null;
 
         if (examinationProtocolEntity.getUserId() > 0) {
             Collection<IDoctor> doctors = (Collection<IDoctor>) (Collection<?>) Facade.getInstance().search(IDoctor.class,examinationProtocolEntity.getUserId()+"");
@@ -60,8 +60,8 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
                 doctor = d;
             }
             if(doctor == null){
-                Collection<Orthoptist> orthoptists = (Collection<Orthoptist>) (Collection<?>) Facade.getInstance().search(Orthoptist.class,examinationProtocolEntity.getUserId()+"");
-                for(Orthoptist o : orthoptists){
+                Collection<IOrthoptist> orthoptists = (Collection<IOrthoptist>) (Collection<?>) Facade.getInstance().search(IOrthoptist.class,examinationProtocolEntity.getUserId()+"");
+                for(IOrthoptist o : orthoptists){
                     orthoptist = o;
                 }
             }
@@ -109,7 +109,7 @@ class ExaminationProtocolBroker extends EntityBroker implements ICollectionReloa
         }
         if (examinationProtocol.getOrthoptist() != null) {
 
-            userEntity = ((OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class)
+            userEntity = ((OrthoptistEntity) Facade.getInstance().getBroker(IOrthoptist.class)
                     .domainToPersistent(examinationProtocol.getOrthoptist())).getUser();
         }
 

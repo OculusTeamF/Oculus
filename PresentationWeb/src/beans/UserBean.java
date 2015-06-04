@@ -13,7 +13,7 @@ import at.oculus.teamf.application.controller.EventChooserController;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventCanNotBeDeletedException;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventCanNotBeNullException;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import javax.annotation.ManagedBean;

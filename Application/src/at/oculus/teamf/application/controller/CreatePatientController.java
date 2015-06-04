@@ -66,7 +66,7 @@ public class CreatePatientController implements ILogger {
      */
     public void createPatient(String gender, String lastName, String firstName, String svn, Date bday, String street, String postalCode, String city, String phone, String email, IDoctor doctor, String countryIsoCode) throws CriticalDatabaseException, RequirementsNotMetException, CriticalClassException, PatientCouldNotBeSavedException, BadConnectionException {
 
-        IPatient patient = (IPatient) DomainFactory.getFactory(IPatient.class).create();
+        IPatient patient = (IPatient) DomainFactory.create(IPatient.class);
         log.info("New patient object has been created.");
         if (gender.equals("female")) {
             patient.setGender(Gender.Female);
@@ -84,7 +84,7 @@ public class CreatePatientController implements ILogger {
         patient.setEmail(email);
         patient.setCountryIsoCode(countryIsoCode);
         patient.setDoctor(doctor);
-        patient.setExaminationProtocol(new LinkedList<IExaminationProtocol>());
+        patient.setExaminationProtocol(new LinkedList<>());
         log.info("Patient attributes have been assigned.");
 
         savePatient(patient);

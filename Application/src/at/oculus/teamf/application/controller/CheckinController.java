@@ -16,12 +16,10 @@ import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassE
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;
-import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -61,7 +59,7 @@ public class CheckinController implements ILogger {
     public void insertPatientIntoQueue(IPatient ipatient, IUser iuser) throws CouldNotAddPatientToQueueException, UserNotFoundException, PatientNotFoundException, CriticalClassException, BadConnectionException, QueueNotFoundException {
         IPatient patient =ipatient;
         log.info("Patient object has been created and assigned from interface.");
-        User user = (User) iuser;
+        IUser user = iuser;
         log.info("User object has been created and assigned from interface.");
 
         if(user == null){
@@ -84,8 +82,8 @@ public class CheckinController implements ILogger {
             queue = (PatientQueue) doctor.getQueue();
 
             log.info("Queue belongs to doctor.");
-        }else if(user instanceof Orthoptist){
-            orthoptist = (Orthoptist) iuser;
+        }else if(user instanceof IOrthoptist){
+            orthoptist = (IOrthoptist) iuser;
             try {
                 queue = orthoptist.getQueue();
             } catch (NoBrokerMappedException e) {

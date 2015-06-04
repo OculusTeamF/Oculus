@@ -14,7 +14,7 @@ import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptio
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailValidationFailedException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

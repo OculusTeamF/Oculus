@@ -16,11 +16,10 @@ import java.util.HashMap;
 /**
  * Created by Simon Angerer on 28.05.2015.
  */
-public abstract class VirtualProxyWrapper {
+public abstract class VirtualProxyWrapper<T extends IDomain> {
     private static HashMap<Class, VirtualProxyWrapper> _wrapperMapping;
 
     protected VirtualProxyWrapper(Class domainClass) {
-
         _wrapperMapping.put(domainClass, this);
     }
 
@@ -33,9 +32,11 @@ public abstract class VirtualProxyWrapper {
         new DoctorProxyWrapper();
         new DiagnosisProxyWrapper();
         new CalendarProxyWrapper();
+        new PrescriptionProxyWrapper();
+        new OrthoptistProxyWrapper();
     }
 
-    public abstract IDomain wrap(IDomain domain);
+    public abstract T wrap(T domain);
 
     public static VirtualProxyWrapper getWrapper(Class domainClass) {
         if (_wrapperMapping == null) {

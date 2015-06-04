@@ -9,11 +9,12 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.domain.entity.queue.QueueEntry;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.patient.Patient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -35,15 +36,16 @@ public class QueueBrokerTest extends BrokerTest {
 	private QueueEntry _newOrthoptistEntry;
 	private QueueEntry _newEntry;
 
-	private Patient patientOne;
-	private Patient patientTwo;
-	private Patient patientThree;
+	private IPatient patientOne;
+	private IPatient patientTwo;
+	private IPatient patientThree;
 
 	private void generatePatient(String firstName, String svn) throws NoBrokerMappedException, BadConnectionException {
-		Patient patient = new Patient();
+		IPatient patient = (IPatient) DomainFactory.create(IPatient.class);
 		patient.setFirstName(firstName);
 		patient.setLastName(firstName);
 		patient.setSocialInsuranceNr(svn);
+		patient.setEmail(firstName);
 
 
 		try {
@@ -59,22 +61,22 @@ public class QueueBrokerTest extends BrokerTest {
 	public void setUp() {
 
 		IDoctor doctor = null;
-		Orthoptist orthoptist = null;
+		IOrthoptist orthoptist = null;
 		try {
 			generatePatient("UnitTestPatient1", "999999991");
 			generatePatient("UnitTestPatient2", "999999992");
 			generatePatient("UnitTestPatient3", "999999993");
 
-			Collection<Patient> patients = Facade.getInstance().getAll(Patient.class);
-			patientOne = (Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient1"))
+			Collection<IPatient> patients = Facade.getInstance().getAll(IPatient.class);
+			patientOne = (IPatient) ((LinkedList<Object>) Facade.getInstance().search(IPatient.class, "UnitTestPatient1"))
 					.get(0);
-			patientTwo = (Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient2"))
+			patientTwo = (IPatient) ((LinkedList<Object>) Facade.getInstance().search(IPatient.class, "UnitTestPatient2"))
 					.get(0);
 			patientThree =
-					(Patient) ((LinkedList<Object>) Facade.getInstance().search(Patient.class, "UnitTestPatient3"))
+					(IPatient) ((LinkedList<Object>) Facade.getInstance().search(IPatient.class, "UnitTestPatient3"))
 							.get(0);
 			doctor = Facade.getInstance().getById(IDoctor.class, 1);
-			orthoptist = Facade.getInstance().getById(Orthoptist.class, 1);
+			orthoptist = Facade.getInstance().getById(IOrthoptist.class, 1);
 
 		} catch (FacadeException e) {
 			assertTrue(false);
@@ -108,15 +110,15 @@ public class QueueBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().delete(_newEntry));
 
 			assertTrue(Facade.getInstance().delete((IDomain) ((LinkedList<Object>) Facade.getInstance()
-			                                                                             .search(Patient.class,
+			                                                                             .search(IPatient.class,
 			                                                                                     "UnitTestPatient1"))
 					.get(0)));
 			assertTrue(Facade.getInstance().delete((IDomain) ((LinkedList<Object>) Facade.getInstance()
-			                                                                             .search(Patient.class,
+			                                                                             .search(IPatient.class,
 			                                                                                     "UnitTestPatient2"))
 					.get(0)));
 			assertTrue(Facade.getInstance().delete((IDomain) ((LinkedList<Object>) Facade.getInstance()
-			                                                                             .search(Patient.class,
+			                                                                             .search(IPatient.class,
 			                                                                                     "UnitTestPatient3"))
 					.get(0)));
 		} catch (FacadeException e) {
@@ -131,7 +133,7 @@ public class QueueBrokerTest extends BrokerTest {
 		Facade facade = Facade.getInstance();
 		QueueEntry queueEntry = null;
 		try {
-			queueEntry = facade.getById(QueueEntry.class, 1);
+			queueEntry = facade.getById(QueueEntry.class, _newEntry.getId());
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();

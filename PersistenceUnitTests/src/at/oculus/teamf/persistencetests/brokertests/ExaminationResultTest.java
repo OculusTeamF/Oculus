@@ -11,8 +11,9 @@ package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.ExaminationResult;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.User;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -34,10 +35,10 @@ public class ExaminationResultTest extends BrokerTest {
 
 	@Override
 	public void setUp() {
-		User user = null;
+		IUser user = null;
 		ExaminationProtocol examinationProtocol = null;
 		try {
-			user = Facade.getInstance().getById(Orthoptist.class, 1);
+			user = Facade.getInstance().getById(IOrthoptist.class, 1);
 			examinationProtocol = Facade.getInstance().getById(ExaminationProtocol.class, 46);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();

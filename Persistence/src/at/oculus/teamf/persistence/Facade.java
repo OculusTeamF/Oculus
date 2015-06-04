@@ -25,6 +25,8 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
+import at.oculus.teamf.persistence.virtualproxy.VirtualProxy;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -133,7 +135,7 @@ public class Facade implements ILogger, IFacade{
 
         ISession session = _sessionBroker.getSession();
 
-        T obj = null;
+        T obj;
         try {
             obj = execute.execute(session, broker);
         } catch (BadSessionException e) {
@@ -200,7 +202,7 @@ public class Facade implements ILogger, IFacade{
         boolean isSaved = false;
 
         try {
-            isSaved = worker(obj.getClass(), new Save(obj));
+            isSaved = worker(DomainWrapperFactory.getRealClass(obj), new Save(obj));
         } catch (SearchException | ReloadException e) {
             //eat up
         }
@@ -234,7 +236,7 @@ public class Facade implements ILogger, IFacade{
         boolean isDeleted = false;
 
         try {
-            isDeleted = worker(obj.getClass(), new Delete(obj));
+            isDeleted = worker(DomainWrapperFactory.getRealClass(obj), new Delete(obj));
         } catch (SearchException | ReloadException e) {
             //eat up
         }
@@ -292,7 +294,7 @@ public class Facade implements ILogger, IFacade{
 		    throws BadConnectionException, NoBrokerMappedException, ReloadInterfaceNotImplementedException,
 		           InvalidReloadClassException, DatabaseOperationException {
 	    try {
-		    worker(obj.getClass(), new ReloadCollection(obj, clazz));
+		    worker(DomainWrapperFactory.getRealClass(obj) , new ReloadCollection(obj, clazz));
 	    } catch (SearchException e) {
 		    //eat up
         }

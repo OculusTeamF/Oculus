@@ -10,9 +10,10 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
-import at.oculus.teamf.domain.entity.prescription.Prescription;
-import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
-import at.oculus.teamf.domain.entity.patient.Patient;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -29,19 +30,19 @@ import static junit.framework.Assert.assertTrue;
  * PrescriptionBrokerTest.java Created by oculus on 09.05.15.
  */
 public class PrescriptionBrokerTest extends BrokerTest {
-	private Prescription _prescription;
-	private Patient _patient;
+	private IPrescription _prescription;
+	private IPatient _patient;
 
 	@Override
 	public void setUp() {
 		try {
-			_patient = Facade.getInstance().getById(Patient.class, 1);
+			_patient = Facade.getInstance().getById(IPatient.class, 1);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 
-		_prescription = new Prescription();
+		_prescription = (IPrescription) DomainFactory.create(IPrescription.class);
 		_prescription.setPatient(_patient);
 		_prescription.setIssueDate(new Date());
 		_prescription.setLastPrint(new Date());
@@ -66,9 +67,9 @@ public class PrescriptionBrokerTest extends BrokerTest {
 
 	@Override
 	public void testGetById() {
-		Prescription prescription = null;
+		IPrescription prescription = null;
 		try {
-			prescription = Facade.getInstance().getById(Prescription.class, _prescription.getId());
+			prescription = Facade.getInstance().getById(IPrescription.class, _prescription.getId());
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -78,9 +79,9 @@ public class PrescriptionBrokerTest extends BrokerTest {
 
 	@Override
 	public void testGetAll() {
-		Collection<Prescription> prescriptions = null;
+		Collection<IPrescription> prescriptions = null;
 		try {
-			prescriptions = Facade.getInstance().getAll(Prescription.class);
+			prescriptions = Facade.getInstance().getAll(IPrescription.class);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -90,10 +91,10 @@ public class PrescriptionBrokerTest extends BrokerTest {
 
 	@Test
 	public void testReload() {
-		Prescription prescription = null;
+		IPrescription prescription = null;
 		Collection<IPrescriptionEntry> prescriptionEntries = null;
 		try {
-			prescription = Facade.getInstance().getById(Prescription.class, 1);
+			prescription = Facade.getInstance().getById(IPrescription.class, 1);
 			prescriptionEntries = prescription.getPrescriptionEntries();
 		} catch (BadConnectionException | NoBrokerMappedException | CantGetPresciptionEntriesException | DatabaseOperationException e) {
 			e.printStackTrace();

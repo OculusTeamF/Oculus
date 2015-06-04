@@ -11,10 +11,10 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.medicine.Medicine;
-import at.oculus.teamf.domain.entity.prescription.Prescription;
-import at.oculus.teamf.domain.entity.prescription.PrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.PrescriptionEntry;
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.prescription.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
 import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.entity.MedicineEntity;
 import at.oculus.teamf.persistence.entity.PrescriptionEntity;
@@ -61,7 +61,7 @@ class PrescriptionEntryBroker extends EntityBroker {
                     .persistentToDomain(prescriptionEntryEntity.getMedicine()));
         }
         if(prescriptionEntryEntity.getPrescription()!=null) {
-            prescriptionEntry.setPrescription((Prescription) Facade.getInstance().getBroker(Prescription.class)
+            prescriptionEntry.setPrescription((IPrescription) Facade.getInstance().getBroker(IPrescription.class)
                     .persistentToDomain(
                             prescriptionEntryEntity.getPrescription()));
         }
@@ -95,7 +95,7 @@ class PrescriptionEntryBroker extends EntityBroker {
 
 		if (prescriptionEntry.getPrescription() != null) {
 			prescriptionEntryEntity.setPrescription(
-					(PrescriptionEntity) Facade.getInstance().getBroker(Prescription.class)
+					(PrescriptionEntity) Facade.getInstance().getBroker(IPrescription.class)
 					                           .domainToPersistent(prescriptionEntry.getPrescription()));
 			prescriptionEntryEntity.setPrescriptionId(prescriptionEntry.getPrescription().getId());
         }

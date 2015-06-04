@@ -35,7 +35,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
     private LinkedList<IQueueEntry> _entries;
     //</editor-fold>
 
-    public PatientQueue(User user, Collection<QueueEntry> entries) {
+    public PatientQueue(IUser user, Collection<QueueEntry> entries) {
         log.debug("new queue for user " + _user);
         _entries = new LinkedList<>();
         _entries.addAll(entries);
@@ -73,7 +73,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
 
         // new queue entry
         QueueEntry queueEntryNew = null;
-        queueEntryNew = new QueueEntry(0, patient, (User) _user, parentId, arrivaltime);
+        queueEntryNew = new QueueEntry(0, patient, _user, parentId, arrivaltime);
 
         // save
         if (queueEntryNew != null) {

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public class DiagnosisProxy extends VirtualProxy<IDiagnosis> implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
+class DiagnosisProxy extends VirtualProxy<IDiagnosis> implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
     protected DiagnosisProxy(IDiagnosis real) {
         super(real);
     }

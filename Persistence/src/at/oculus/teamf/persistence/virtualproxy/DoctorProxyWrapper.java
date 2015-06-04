@@ -15,13 +15,13 @@ import at.oculus.teamf.domain.entity.IDomain;
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public class DoctorProxyWrapper extends VirtualProxyWrapper {
+class DoctorProxyWrapper extends VirtualProxyWrapper<IDoctor>{
     protected DoctorProxyWrapper() {
         super(IDoctor.class);
     }
 
     @Override
-    public DoctorProxy wrap(IDomain domain) {
-        return new DoctorProxy((IDoctor) domain);
+    public IDoctor wrap(IDoctor domain) {
+        return new DoctorProxy(domain);
     }
 }

@@ -16,7 +16,6 @@ import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Blob;
@@ -94,8 +93,8 @@ public class ExaminationResult implements IExaminationResult, ILogger, IExaminat
             _userId = user.getTeamFUserId();
             if(user instanceof IDoctor){
                 _doctor = (IDoctor) user;
-            } else if (user instanceof Orthoptist) {
-                _orthoptist = (Orthoptist) user;
+            } else if (user instanceof IOrthoptist) {
+                _orthoptist = (IOrthoptist) user;
             }
         }
 	}

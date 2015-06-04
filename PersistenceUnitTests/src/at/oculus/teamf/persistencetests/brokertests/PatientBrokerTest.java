@@ -9,14 +9,16 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
+import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.prescription.IPrescription;
 import at.oculus.teamf.domain.entity.user.Gender;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.technical.accessrights.ILogin;
 import at.oculus.teamf.domain.entity.patient.IPatient;
-import at.oculus.teamf.domain.entity.patient.Patient;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -41,7 +43,7 @@ public class PatientBrokerTest extends BrokerTest {
 
 	@Override
 	public void setUp() {
-		_patient = new Patient();
+		_patient = (IPatient) DomainFactory.create(IPatient.class);
 		try {
 			_patient.setDoctor(Facade.getInstance().getById(IDoctor.class, 1));
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
@@ -84,7 +86,7 @@ public class PatientBrokerTest extends BrokerTest {
 	public void testGetById() {
 		IPatient patient = null;
 		try {
-			patient = Facade.getInstance().getById(Patient.class, _patient.getId());
+			patient = Facade.getInstance().getById(IPatient.class, _patient.getId());
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -109,7 +111,7 @@ public class PatientBrokerTest extends BrokerTest {
 	public void testGetAll() {
 		Collection<IPatient> patients = null;
 		try {
-			patients = Facade.getInstance().getAll(Patient.class);
+			patients = Facade.getInstance().getAll(IPatient.class);
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -124,7 +126,7 @@ public class PatientBrokerTest extends BrokerTest {
 	public void testReload() {
 		IPatient patient = null;
 		try {
-			for (Object p : Facade.getInstance().search(Patient.class, "5678151082")) {
+			for (Object p : Facade.getInstance().search(IPatient.class, "5678151082")) {
 				patient = (IPatient) p;
 			}
 		} catch (FacadeException e) {
@@ -155,7 +157,7 @@ public class PatientBrokerTest extends BrokerTest {
 		Collection<IPatient> patients = null;
 		// SVN only
 		try {
-			patients = Facade.getInstance().search(Patient.class, "5947053957");
+			patients = Facade.getInstance().search(IPatient.class, "5947053957");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -163,7 +165,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size() == 1);
 		// Firstname only
 		try {
-			patients = Facade.getInstance().search(Patient.class, "JaNe");
+			patients = Facade.getInstance().search(IPatient.class, "JaNe");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -171,7 +173,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size() == 3);
 		// Lastname only
 		try {
-			patients = Facade.getInstance().search(Patient.class, "sOn");
+			patients = Facade.getInstance().search(IPatient.class, "sOn");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -179,7 +181,7 @@ public class PatientBrokerTest extends BrokerTest {
 		assertTrue(patients.size() == 6);
 		// Fulltext
 		try {
-			patients = Facade.getInstance().search(Patient.class, "son");
+			patients = Facade.getInstance().search(IPatient.class, "son");
 		} catch (FacadeException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -192,7 +194,7 @@ public class PatientBrokerTest extends BrokerTest {
 		// load patient and doctor
 		IPatient patient = null;
 		try {
-			for (Object p : Facade.getInstance().search(Patient.class, "5678151082")) {
+			for (Object p : Facade.getInstance().search(IPatient.class, "5678151082")) {
 				patient = (IPatient) p;
 			}
 		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {
@@ -201,7 +203,7 @@ public class PatientBrokerTest extends BrokerTest {
 		}
 
 		// create diagnosis
-		Diagnosis diagnosis = new Diagnosis();
+		IDiagnosis diagnosis = (IDiagnosis) DomainFactory.create(IDiagnosis.class);
 		diagnosis.setDoctor((IDoctor) patient.getDoctor());
 		diagnosis.setTitle("Test Diagnosis");
 		diagnosis.setDescription("Test Text einer Diagnose.");
@@ -242,7 +244,7 @@ public class PatientBrokerTest extends BrokerTest {
 	public void testLogin() {
 		IPatient patient = null;
 		try {
-			for (Object p : Facade.getInstance().search(Patient.class, "spitze.biene@hotmail.com")) {
+			for (Object p : Facade.getInstance().search(IPatient.class, "spitze.biene@hotmail.com")) {
 				patient = (IPatient) p;
 			}
 		} catch (DatabaseOperationException | SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | NoBrokerMappedException e) {

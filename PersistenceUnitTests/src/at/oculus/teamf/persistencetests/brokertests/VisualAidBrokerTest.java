@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
+import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.visualadi.VisualAid;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -37,9 +37,9 @@ public class VisualAidBrokerTest extends BrokerTest {
 		_visualAid.setDioptreLeft(3.5f);
 		_visualAid.setDioptreRight(2.25f);
 
-		Diagnosis diagnosis = null;
+		IDiagnosis diagnosis = null;
 		try {
-			diagnosis = Facade.getInstance().getById(Diagnosis.class, 1);
+			diagnosis = Facade.getInstance().getById(IDiagnosis.class, 1);
 		} catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);

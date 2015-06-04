@@ -11,8 +11,8 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.readonly.IRPatientTb2;
 import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.calendar.CalendarEvent;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.ExaminationResult;
@@ -21,7 +21,6 @@ import at.oculus.teamf.domain.entity.examination.IExaminationResult;
 import at.oculus.teamf.domain.entity.medicine.IMedicine;
 import at.oculus.teamf.domain.entity.medicine.Medicine;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
-import at.oculus.teamf.domain.entity.prescription.Prescription;
 import at.oculus.teamf.domain.entity.user.Gender;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.*;
@@ -46,7 +45,7 @@ import java.util.Date;
 /**
  * Created by Simon Angerer on 28.05.2015.
  */
-public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger, IRPatientTb2, ILogin {
+class PatientProxy extends VirtualProxy<IPatient> implements IPatient, ILogger, IRPatientTb2, ILogin {
     protected PatientProxy(IPatient real) {
         super(real);
     }
@@ -333,7 +332,7 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     public Collection<IPrescription> getPrescriptions() throws CouldNotGetPrescriptionException {
         if(_real.getPrescriptions() == null) {
             try {
-                Facade.getInstance().reloadCollection(_real, Prescription.class);
+                Facade.getInstance().reloadCollection(_real, IPrescription.class);
             } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidReloadClassException | ReloadInterfaceNotImplementedException e) {
                 log.error(e.getMessage());
                 throw new CouldNotGetPrescriptionException();
@@ -390,10 +389,5 @@ public class PatientProxy extends VirtualProxy<IPatient> implements IPatient, IL
     @Override
     public String getUserName() {
         return ((ILogin)_real).getUserName();
-    }
-
-    @Override
-    public String toString() {
-        return _real.toString();
     }
 }

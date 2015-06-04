@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
+import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.FacadeException;
 import junit.framework.Assert;
@@ -34,9 +34,9 @@ public class OrthoptistBrokerTest extends BrokerTest {
 	@Override
 	public void testGetById() {
 		Facade facade = Facade.getInstance();
-		Orthoptist orthoptist = null;
+		IOrthoptist orthoptist = null;
 		try {
-			orthoptist = facade.getById(Orthoptist.class, 1);
+			orthoptist = facade.getById(IOrthoptist.class, 1);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -48,10 +48,10 @@ public class OrthoptistBrokerTest extends BrokerTest {
 	@Test
 	@Override
 	public void testGetAll() {
-		Collection<Orthoptist> orthoptists = null;
+		Collection<IOrthoptist> orthoptists = null;
 
 		try {
-			orthoptists = Facade.getInstance().getAll(Orthoptist.class);
+			orthoptists = Facade.getInstance().getAll(IOrthoptist.class);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();

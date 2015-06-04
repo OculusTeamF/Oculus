@@ -13,7 +13,9 @@ import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
@@ -31,4 +33,10 @@ public interface IPrescription extends IDomain {
 	Collection<IPrescriptionEntry> getPrescriptionEntries() throws CantGetPresciptionEntriesException;
 
 	void addPrescriptionEntry(IPrescriptionEntry prescriptionEntry) throws CouldNotAddPrescriptionEntryException;
+
+    void setIssueDate(Date issueDate);
+
+    Date getIssueDate();
+
+    void setPrescriptionEntries(Collection<IPrescriptionEntry> iPrescriptionEntries);
 }

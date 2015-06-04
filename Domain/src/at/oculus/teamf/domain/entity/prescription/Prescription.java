@@ -12,6 +12,8 @@ package at.oculus.teamf.domain.entity.prescription;
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddPrescriptionEntryException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
+import at.oculus.teamf.domain.entity.prescription.prescriptionentry.PrescriptionEntry;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;

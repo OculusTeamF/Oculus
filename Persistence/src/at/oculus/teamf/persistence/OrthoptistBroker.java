@@ -13,7 +13,6 @@ import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
@@ -22,6 +21,7 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -30,10 +30,10 @@ import java.util.LinkedList;
 /**
  * orthoptist broker translating domain objects to persistence entities
  */
-class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implements ISearch {
+class OrthoptistBroker extends EntityBroker<IOrthoptist, OrthoptistEntity> implements ISearch {
 
 	public OrthoptistBroker() {
-		super(Orthoptist.class, OrthoptistEntity.class);
+		super(IOrthoptist.class, OrthoptistEntity.class);
 		addEntityClassMapping(UserEntity.class);
 		addEntityClassMapping(IOrthoptist.class);
 	}
@@ -47,9 +47,9 @@ class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implem
      * @throws BadConnectionException
      */
     @Override
-	protected Orthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
+	protected IOrthoptist persistentToDomain(OrthoptistEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
-        Orthoptist orthoptist = new Orthoptist();
+		IOrthoptist orthoptist = (IOrthoptist) DomainWrapperFactory.getInstance().create(IOrthoptist.class);
         orthoptist.setId(entity.getId());
 
 		orthoptist.setCalendar((ICalendar) Facade.getInstance().getBroker(ICalendar.class).persistentToDomain(
@@ -78,7 +78,7 @@ class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implem
      * @return return a persitency entity
      */
     @Override
-	protected OrthoptistEntity domainToPersistent(Orthoptist entity) {
+	protected OrthoptistEntity domainToPersistent(IOrthoptist entity) {
         log.debug("converting domain object " + _domainClass.getClass() + " to persistence entity " + _entityClass.getClass());
         OrthoptistEntity orthoptistEntity = new OrthoptistEntity();
         orthoptistEntity.setId(entity.getId());
@@ -107,11 +107,11 @@ class OrthoptistBroker extends EntityBroker<Orthoptist, OrthoptistEntity> implem
 	}
 
     @Override
-    public Collection<Orthoptist> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException {
+    public Collection<IOrthoptist> search(ISession session, String... params) throws BadConnectionException, NoBrokerMappedException, InvalidSearchParameterException, BadSessionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException {
         if (params.length == 1) {
             Collection<OrthoptistEntity> result = (Collection<OrthoptistEntity>)(Collection<?>)session.search("getOrthoptistByUserId", params[0]);
 
-	        Collection<Orthoptist> domainResult = new LinkedList<>();
+	        Collection<IOrthoptist> domainResult = new LinkedList<>();
 	        for(OrthoptistEntity ort : result) {
 		        domainResult.add(persistentToDomain(ort));
 	        }

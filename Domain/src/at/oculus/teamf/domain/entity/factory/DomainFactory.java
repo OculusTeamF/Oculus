@@ -11,9 +11,11 @@ package at.oculus.teamf.domain.entity.factory;
 
 import at.oculus.teamf.domain.entity.calendar.CalendarFactory;
 import at.oculus.teamf.domain.entity.diagnosis.DiagnosisFactory;
+import at.oculus.teamf.domain.entity.prescription.PrescriptionFactory;
 import at.oculus.teamf.domain.entity.user.doctor.DoctorFactory;
 import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.patient.PatientFactory;
+import at.oculus.teamf.domain.entity.user.orthoptist.OrthoptistFactory;
 
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ public abstract class DomainFactory<T extends IDomain> {
 
     private static HashMap<Class<? extends IDomain>, DomainFactory> _factoryMapping;
 
-    protected DomainFactory(Class<? extends IDomain> clazz) {
+    public DomainFactory(Class<? extends IDomain> clazz) {
         _factoryMapping.put(clazz, this);
     }
 
@@ -35,9 +37,15 @@ public abstract class DomainFactory<T extends IDomain> {
         new DoctorFactory();
         new DiagnosisFactory();
         new CalendarFactory();
+        new PrescriptionFactory();
+        new OrthoptistFactory();
     }
 
-    public static DomainFactory getFactory(Class<? extends IDomain> clazz) {
+    public static IDomain create(Class<? extends  IDomain> clazz) {
+        return getFactory(clazz).create();
+    }
+
+    private static DomainFactory getFactory(Class<? extends IDomain> clazz) {
         if(_factoryMapping == null) {
             initMapping();
         }

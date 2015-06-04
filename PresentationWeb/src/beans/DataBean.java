@@ -9,7 +9,7 @@
 
 package beans;
 
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 
 import javax.annotation.ManagedBean;
 import java.util.Collection;

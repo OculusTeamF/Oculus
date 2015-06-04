@@ -11,6 +11,8 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IUserTb2;
+import at.oculus.teamf.domain.entity.queue.PatientQueue;
+import at.oculus.teamf.domain.entity.queue.QueueEntry;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
@@ -23,6 +25,8 @@ import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalDateTime;
@@ -33,7 +37,7 @@ import java.util.List;
 /**
  * Created by Simon Angerer on 01.06.2015.
  */
-public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogger, IUser, IUserTb2 {
+class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogger, IUser, IUserTb2 {
 
     protected DoctorProxy(IDoctor real) {
         super(real);
@@ -61,6 +65,13 @@ public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogg
 
     @Override
     public IPatientQueue getQueue() {
+        if(_real.getQueue() == null) {
+            try {
+                _real.setQueue(new PatientQueue(this, Facade.getInstance().search(QueueEntry.class, "Doctor", Integer.toString(_real.getId()))));
+            } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
+                log.error(e.getMessage());
+            }
+        }
         return _real.getQueue();
     }
 
@@ -93,12 +104,12 @@ public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogg
     public Collection<IPatient> getPatients() throws CantLoadPatientsException {
         if(_real.getPatients() == null) {
             try {
-                Facade.getInstance().reloadCollection(_real, IPatient.class);
-            } catch (BadConnectionException | NoBrokerMappedException | ReloadInterfaceNotImplementedException | DatabaseOperationException | InvalidReloadClassException e) {
-                log.error(e.getMessage());
-                throw new CantLoadPatientsException();
-            }
+            Facade.getInstance().reloadCollection(_real, IPatient.class);
+        } catch (BadConnectionException | NoBrokerMappedException | ReloadInterfaceNotImplementedException | DatabaseOperationException | InvalidReloadClassException e) {
+            log.error(e.getMessage());
+            throw new CantLoadPatientsException();
         }
+    }
         return _real.getPatients();
     }
 
@@ -220,11 +231,6 @@ public class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogg
     @Override
     public void setIdleDate(Date idleDate) {
         _real.setIdleDate(idleDate);
-    }
-
-    @Override
-    public String toString() {
-        return _real.toString();
     }
 
     @Override

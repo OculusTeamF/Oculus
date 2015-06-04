@@ -12,9 +12,9 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
+import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
 import at.oculus.teamf.domain.entity.medicine.Medicine;
 import at.oculus.teamf.domain.entity.visualadi.VisualAid;
-import at.oculus.teamf.domain.entity.diagnosis.Diagnosis;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.IDomain;
@@ -36,8 +36,8 @@ import java.util.LinkedList;
  */
 class DiagnosisBroker extends EntityBroker implements ISearch, ICollectionReload {
     public DiagnosisBroker() {
-        super(Diagnosis.class, DiagnosisEntity.class);
-        addDomainClassMapping(IDiagnosis.class);
+        super(IDiagnosis.class, DiagnosisEntity.class);
+		addDomainClassMapping(Diagnosis.class);
     }
 
     /**

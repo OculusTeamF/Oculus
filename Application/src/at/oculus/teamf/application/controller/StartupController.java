@@ -31,14 +31,13 @@ import at.oculus.teamf.application.controller.dependenceResolverTB2.DependenceRe
 import at.oculus.teamf.domain.adapter.FacadeAdapter;
 import at.oculus.teamf.domain.adapter.FactoryAdapter;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
-import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.User;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.domain.entity.user.receptionist.Receptionist;
 import at.oculus.teamf.persistence.IFacade;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -202,11 +201,11 @@ public class StartupController implements ILogger {
      * convert it into Interfaces and return it.
      */
     public Collection<IOrthoptist> getAllOrthoptists() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
-        Collection<Orthoptist> orthoptists = null;
+        Collection<IOrthoptist> orthoptists = null;
         Facade facade = Facade.getInstance();
 
         try {
-            orthoptists = facade.getAll(Orthoptist.class);
+            orthoptists = facade.getAll(IOrthoptist.class);
         } catch (NoBrokerMappedException e) {
             e.printStackTrace();
         } catch (DatabaseOperationException e) {
@@ -310,12 +309,12 @@ public class StartupController implements ILogger {
      */
 
     public Collection<IUser> getAllDoctorsAndOrthoptists() throws BadConnectionException, CriticalClassException, CriticalDatabaseException {
-        Collection<Orthoptist> orthoptists;
+        Collection<IOrthoptist> orthoptists;
         Facade facade = Facade.getInstance();
 
 
         try {
-            orthoptists = facade.getAll(Orthoptist.class);
+            orthoptists = facade.getAll(IOrthoptist.class);
         } catch (NoBrokerMappedException e) {
             log.error("Major implementation error was found! " + e.getMessage());
             throw new CriticalClassException();
@@ -341,7 +340,7 @@ public class StartupController implements ILogger {
         Collection<IUser> iUsers = new LinkedList<>();
 
         if (orthoptists != null) {
-            for (Orthoptist o : orthoptists) {
+            for (IOrthoptist o : orthoptists) {
                 iUsers.add(o);
             }
         }
@@ -377,7 +376,7 @@ public class StartupController implements ILogger {
                 doctor = (IDoctor) iUser;
                 queue = doctor.getQueue();
             } else if (iUser instanceof IOrthoptist) {
-                orthoptist = (Orthoptist) iUser;
+                orthoptist = (IOrthoptist) iUser;
                 queue = orthoptist.getQueue();
             }
         }

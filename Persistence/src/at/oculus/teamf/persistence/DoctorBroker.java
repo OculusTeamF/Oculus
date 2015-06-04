@@ -12,6 +12,7 @@ package at.oculus.teamf.persistence;
 import at.oculus.teamf.databaseconnection.session.ISession;
 import at.oculus.teamf.databaseconnection.session.exception.*;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
+import at.oculus.teamf.domain.entity.user.doctor.Doctor;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
@@ -36,6 +37,7 @@ import java.util.LinkedList;
 class DoctorBroker extends EntityBroker<IDoctor, DoctorEntity> implements ICollectionReload, ISearch {
     public DoctorBroker() {
         super(IDoctor.class, DoctorEntity.class);
+        addDomainClassMapping(Doctor.class);
         addEntityClassMapping(UserEntity.class);
     }
 

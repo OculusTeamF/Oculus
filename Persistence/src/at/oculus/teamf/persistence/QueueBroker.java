@@ -18,7 +18,6 @@ import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.domain.entity.queue.IQueueEntry;
 import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.patient.IPatient;
-import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.entity.DoctorEntity;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.PatientEntity;
@@ -52,13 +51,14 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
     @Override
     protected QueueEntry persistentToDomain(QueueEntity entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException {
         log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " + _domainClass.getClass());
+
         IPatient patient = Facade.getInstance().getById(IPatient.class, entity.getPatientId());
         IUser user = null;
         if (entity.getDoctorId() != null) {
             user = Facade.getInstance().getById(IDoctor.class, entity.getDoctorId());
         }
         if (user == null && entity.getOrthoptistId() != null) {
-            user = Facade.getInstance().getById(Orthoptist.class, entity.getOrthoptistId());
+            user = Facade.getInstance().getById(IOrthoptist.class, entity.getOrthoptistId());
         }
         return new QueueEntry(entity.getId(), patient, user, entity.getQueueIdParent(),
                 entity.getArrivalTime());
@@ -87,7 +87,7 @@ class QueueBroker extends EntityBroker<QueueEntry, QueueEntity> implements ISear
         OrthoptistEntity orthoptistEntity = null;
         if (orthoptist != null) {
 
-            orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(Orthoptist.class).domainToPersistent(
+            orthoptistEntity = (OrthoptistEntity) Facade.getInstance().getBroker(IOrthoptist.class).domainToPersistent(
                     orthoptist);
 
         }

@@ -13,6 +13,7 @@ package at.oculus.teamf.persistence.virtualproxy;
  * Created by Simon Angerer on 28.05.2015.
  */
 public abstract class VirtualProxy<D>  {
+
     protected D _real;
 
     protected VirtualProxy(D real) {
@@ -21,5 +22,20 @@ public abstract class VirtualProxy<D>  {
 
     public D getReal() {
         return _real;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return _real.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return _real.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return _real.toString();
     }
 }
