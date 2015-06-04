@@ -52,6 +52,7 @@ public class EventChooserController implements ILogger {
     private Collection<ICalendarEvent> futureEvents;
     private String description;
     private Collection<IWeekDayTime> weekDayTimeCollection;
+    private Collection<IDatePeriodCriteria> datePeriodCollection;
 
     /**
      *<h3>$EventChooserController</h3>
@@ -66,6 +67,7 @@ public class EventChooserController implements ILogger {
     private EventChooserController(IPatient patient){
         iPatient = patient;
         weekDayTimeCollection = new LinkedList<>();
+        datePeriodCollection = new LinkedList<>();
     }
 
     public static EventChooserController createEventChooserController(IPatient iPatient) throws PatientCanNotBeNullException {
@@ -138,16 +140,12 @@ public class EventChooserController implements ILogger {
      *<h3>$getAvailableEvents</h3>
      *
      * <b>Description:</b>
-     * this method gets all available information in the parameters, with which some suitable calendar-events are searched.
+     * this method gets all available information from the variables of this class, with which some suitable calendar-events are searched.
      * First it checks if the patient is allowed to choose a new appointment, by checking his or her future appointments again.
      * It returns a collection of calendar-events, or an empty collection, if there are no fitting events available.
-     *
-     *<b>Parameter</b>
-     * @param start this is the startdate of the time period in which the patient doesn't have time
-     * @param end this is the enddate of the time period in which the patient doesn't have time
-     * @param weekDayTimes these are the restrictions, when the patient wants to come
+     * Make sure you used the methods addDatePeriodCriteria and addWeekDayTimeCriteria first!
      */
-    public Collection<ICalendarEvent> getAvailableEvents(Date start, Date end, Collection<IWeekDayTime> weekDayTimes) throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+    public Collection<ICalendarEvent> getAvailableEvents() throws NotAllowedToChooseEventException, NoDoctorException, ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         if(futureEvents.size() > 0){
             for(ICalendarEvent event : futureEvents){
                 if(!checkDate(event.getEventStart())){
@@ -164,12 +162,18 @@ public class EventChooserController implements ILogger {
         }
         ICalendar iCalendar = iDoctor.getCalendar();
 
-        IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
-        IDatePeriodCriteria datePeriodICriteria = new DatePeriodCriteria(start, end);
+        IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimeCollection);
 
         Collection<ICriteria> criterias = new LinkedList<>();
         criterias.add(weekDayTimeCriteria);
-        criterias.add(datePeriodICriteria);
+
+        if(datePeriodCollection.size() > 0){
+            for(int i = 0; i < datePeriodCollection.size(); i++){
+                IDatePeriodCriteria datePeriodICriteria = ((LinkedList<IDatePeriodCriteria>)datePeriodCollection).get(i);
+                criterias.add(datePeriodICriteria);
+            }
+
+        }
 
         Iterator<ICalendarEvent> iterator = null;
         try {
@@ -191,18 +195,18 @@ public class EventChooserController implements ILogger {
     }
 
     /**
-     *<h3>$getAvailableEvents</h3>
+     *<h3>$addWeekDayTimeCriteria</h3>
      *
      * <b>Description:</b>
-     * this method creates new criterias. It creates a new WeekDayTime when the patient wants to come and adds it to a collection
-     * which is returned. 
+     * this method creates new week day time criterias. It creates a new WeekDayTime when the patient wants to come and adds it to a collection
+     * which is also returned.
      *
      *<b>Parameter</b>
      * @param start this is the starttime of the period in which the patient wants to come
      * @param end this is the endtime of the period in which the patient wants to come
-     * @param weekDay this is the weekday on which the patient wants to come
+     * @param weekDay this is the weekday on which the patient wants to come. Make sure it has the correct format: SUN, MON, TUE, WED, THU, FRI or SAT
      */
-    public Collection<IWeekDayTime> addCriteria(String weekDay, LocalTime start, LocalTime end){
+    public Collection<IWeekDayTime> addWeekDayTimeCriteria(String weekDay, LocalTime start, LocalTime end){
         WeekDayKey key;
         switch(weekDay){
             case "SUN":
@@ -233,6 +237,24 @@ public class EventChooserController implements ILogger {
         IWeekDayTime weekDayTime = new WeekDayTime(key, start, end);
         weekDayTimeCollection.add(weekDayTime);
         return weekDayTimeCollection;
+    }
+
+    /**
+     *<h3>$addDatePeriodCriteria</h3>
+     *
+     * <b>Description:</b>
+     * this method creates new date period criterias. It creates a new date period when the patient is not able to come and saves it.
+     *
+     *<b>Parameter</b>
+     * @param start this is the starttime of the period in which the patient can not come
+     * @param end this is the endtime of the period in which the patient can not come
+     */
+    public Collection<IDatePeriodCriteria> addDatePeriodCriteria(Date start, Date end){
+
+        IDatePeriodCriteria datePeriodICriteria = new DatePeriodCriteria(start, end);
+        datePeriodCollection.add(datePeriodICriteria);
+
+        return datePeriodCollection;
     }
 
     /**
