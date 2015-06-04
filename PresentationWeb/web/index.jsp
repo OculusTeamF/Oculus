@@ -53,42 +53,47 @@
                 <div id="tabs-2">
                     <%--<div id="datetimepicker"></div>--%>
 
-                        <div id="alist">
-                            <ul id="appoint-list">
-                            </ul>
-                        </div>
-
                         <div id="picker">
+                            <!--
                             <p>Choose Date & Time:</p>
                             <input type="text" name="choose_date" id="choose_date" value="" />
-                            <br/><br/>
+                            -->
+                            <br/>
+                            <div id="choose_date"></div>
                             <!--
                             <p>Choose Endtime: (optional)</p>
                             <input type="text" name="choose_time" id="choose_time" value="" />
                             -->
+                            <br/><br/>
+                            <button type="button" id="add-time">add time</button>
                         </div>
-                        <br/><br/>
-                        <button type="button" id="add-time">add time</button>
-                        <br/><br/>
-                        <form class="form" method="POST" action="RedirectServlet?dispatchto=checkappointments">
-                            <input type="hidden" name="date0" id="date0" value="null" />
-                            <input type="hidden" name="date1" id="date1" value="null" />
-                            <input type="hidden" name="date2" id="date2" value="null" />
-                            <input type="hidden" name="date3" id="date3" value="null" />
-                            <input type="hidden" name="date4" id="date4" value="null" />
-                            <input type="hidden" name="date5" id="date5" value="null" />
-                            <input type="hidden" name="date6" id="date6" value="null" />
-                            <input type="hidden" name="date7" id="date7" value="null" />
-                            <input type="hidden" name="date8" id="date8" value="null" />
-                            <input type="hidden" name="date9" id="date9" value="null" />
-                            <button type="submit" id="check-appointments">check appointments</button>
-                        </form>
+
+                        <div id="alist">
+                            <ul id="appoint-list">
+                            </ul>
+                            <br/><br/>
+                            <form class="form" method="POST" action="RedirectServlet?dispatchto=checkappointments">
+                                <input type="hidden" name="date0" id="date0" value="null" />
+                                <input type="hidden" name="date1" id="date1" value="null" />
+                                <input type="hidden" name="date2" id="date2" value="null" />
+                                <input type="hidden" name="date3" id="date3" value="null" />
+                                <input type="hidden" name="date4" id="date4" value="null" />
+                                <input type="hidden" name="date5" id="date5" value="null" />
+                                <input type="hidden" name="date6" id="date6" value="null" />
+                                <input type="hidden" name="date7" id="date7" value="null" />
+                                <input type="hidden" name="date8" id="date8" value="null" />
+                                <!--
+                                <input type="hidden" name="date9" id="date9" value="null" />
+                                -->
+                                <button type="submit" id="check-appointments">check appointments</button>
+                            </form>
+                        </div>
                 </div>
                 <div id="tabs-3">
-                    LOL
+                    [not used -> remove later]
                 </div>
                 <div id="tabs-4">
-                    Termin best&auml;tigen
+                    [confirm date tab]
                     <br/><br/>
                     <button type="button" id="confirm-appointment">Confirm</button>
                 </div>
@@ -155,19 +160,19 @@
         heightStyle: 'fill'
     });
 
-
-    $('#choose_time').timepicker({
+    $('#choose_date').datetimepicker({
+        minDate: 0,
+        showButtonPanel:false,
         hourGrid: 4,
         minuteGrid: 10,
-        timeFormat: 'hh:mm tt'
-    });
-
-    $('#choose_date').datetimepicker({
         timeFormat: 'HH:mm',
         stepMinute: 10
     });
 
+
     $(document).ready(function(){
+
+        document.getElementById('check-appointments').style.visibility = 'hidden';
 
         if (${user.appointAvailable}) {
             $('#MyTabSelector').enableTab(0);
@@ -191,14 +196,15 @@
     });
 
     $("#add-time").click(function(event) {
-        if (dates.length < 10) {
+        if (dates.length < 7) {
+            document.getElementById('check-appointments').style.visibility = 'visible';
 
-        var newDateAsObject = $('#choose_date').datepicker('getDate');
-        var newDateAsString = $('#choose_date').datepicker({dateFormat: 'dd,MM,yyyy'}).val();
-        $('#appoint-list').append('<li> Added Date: ' + newDateAsString + '</li>');
-        dates[dates.length] = newDateAsObject;
+            var newDateAsObject = $('#choose_date').datepicker('getDate');
+            var newDateAsString = $('#choose_date').datepicker({dateFormat: 'dd,MM,yyyy'}).val();
+            $('#appoint-list').append('<a href="#" class="myButton">' + newDateAsString + '</a>');
+            dates[dates.length] = newDateAsObject;
 
-        document.getElementById('date' + (dates.length - 1)).value = newDateAsObject;
+            document.getElementById('date' + (dates.length - 1)).value = newDateAsObject;
         } else {
             alert('Please check selected dates before adding more... ')
         }

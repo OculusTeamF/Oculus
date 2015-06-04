@@ -7,12 +7,6 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-Design by Free CSS Templates
-http://www.freecsstemplates.org
-Released for free under a Creative Commons Attribution 2.5 License
-*/
-
 * {
 	margin: 0;
 	padding: 0;
@@ -266,39 +260,6 @@ img {
 	width: 220px;
 }
 
-/* Content > Sidebar > Login */
-
-#login {
-}
-
-#login label {
-	display: block;
-}
-
-#login #inputtext1, #login #inputtext2 {
-	width: 180px;
-	margin-bottom: .5em;
-	padding: 2px 5px;
-	border: 1px solid #CCCCCC;
-	font: normal small Arial, Helvetica, sans-serif;
-	color: #999999;
-}
-
-#login #inputsubmit1 {
-	float: right;
-	width: 60px;
-	margin-right: 7px;
-	border: 1px solid #CCCCCC;
-	border-top-color: #FFFFFF;
-	border-left-color: #FFFFFF;
-	font: normal small Arial, Helvetica, sans-serif;
-}
-
-#login p {
-	margin: 0;
-	padding-top: .2em;
-	font-size: x-small;
-}
 
 /* Content > Sidebar > Updates*/
 
@@ -333,10 +294,6 @@ img {
 	text-decoration: none;
 }
 
-/* Content > Sidebar > Partners*/
-
-#partners {
-}
 
 /* Footer */
 
@@ -355,6 +312,7 @@ img {
 	padding: 8px;
 	text-align: center;
 	color: #FFFFFF;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 1);
 }
 
 #legal a {
@@ -370,9 +328,6 @@ img {
 	text-align: center;
 }
 
-/*additional settings*/
-
-/*selected appointments */
 
 #appointments {
 	background-color: black;
@@ -380,27 +335,158 @@ img {
     display: none;
 }
 
-#alist {
-    float:right;
-    padding-top: 0px;
-    padding-right: 150px;
-    padding-bottom: 25px;
-    padding-left: 50px;
+/**********************************************************************************************************************
+ *
+ *   APPOINTMENT LIST STYLE
+ *
+**********************************************************************************************************************/
+
+#picker{
+    float:left;
 }
 
-ul#appoint-list {
-    list-style: none;
-    margin: 1em 0;
-    padding: 0;
+.myButton {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+    background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+    background-color:#f9f9f9;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    cursor:pointer;
+    color:#666666;
+    font-family:Arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 145px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #ffffff;
+
+    float:right;
+
 }
-ul#appoint-list li {
-    font-weight: bold;
-    margin: 0;
-    padding: 3px 10px 5px 20px;
-    border-bottom: 1px solid #ccc;
-    color: #666;
+.myButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
+    background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+    background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+    background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+    background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+    background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
+    background-color:#e9e9e9;
 }
-ul#appoint-list li:hover {
-    color: #000;
-    background-color: #ddd;
+.myButton:active {
+    position:relative;
+    top:1px;
 }
+
+/**********************************************************************************************************************
+ *
+ *   BUTTON STYLE
+ *
+**********************************************************************************************************************/
+
+button#add-time {
+    width:250px;
+    cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+    padding:5px 25px; /*add some padding to the inside of the button*/
+    background: #179db1; /*the colour of the button*/
+    border:1px solid #1489B1; /*required or the default border for the browser will appear*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    box-shadow: 0 0 4px rgba(0,0,0, .75);
+    color:#f3f3f3;
+    font-size:1.1em;
+}
+
+button#add-time:hover, input#bigbutton:focus {
+    background-color : #1579b1;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
+
+button#check-appointments {
+    width:405px;
+    cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+    padding:5px 25px; /*add some padding to the inside of the button*/
+    background: #179db1; /*the colour of the button*/
+    border:1px solid #1489B1; /*required or the default border for the browser will appear*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    box-shadow: 0 0 4px rgba(0,0,0, .75);
+    color:#f3f3f3;
+    font-size:1.1em;
+    float:right;
+}
+
+button#check-appointments:hover, input#bigbutton:focus {
+    background-color : #1579b1;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
+
+button#delete-appointment {
+    cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+    padding:5px 25px; /*add some padding to the inside of the button*/
+    background: #179db1; /*the colour of the button*/
+    border:1px solid #1489B1; /*required or the default border for the browser will appear*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    box-shadow: 0 0 4px rgba(0,0,0, .75);
+    color:#f3f3f3;
+    font-size:1.1em;
+}
+
+button#delete-appointment:hover, input#bigbutton:focus {
+    background-color : #1579b1;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
+button#confirm-appointment {
+    cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+    padding:5px 25px; /*add some padding to the inside of the button*/
+    background: #179db1; /*the colour of the button*/
+    border:1px solid #1489B1; /*required or the default border for the browser will appear*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    box-shadow: 0 0 4px rgba(0,0,0, .75);
+    color:#f3f3f3;
+    font-size:1.1em;
+}
+
+button#confirm-appointment:hover, input#bigbutton:focus {
+    background-color : #1579b1;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
+
+
