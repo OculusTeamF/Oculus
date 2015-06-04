@@ -161,14 +161,14 @@
     });
 
     $('#choose_date').datetimepicker({
+        minDate: 0,
+        showButtonPanel:false,
+        hourGrid: 4,
+        minuteGrid: 10,
         timeFormat: 'HH:mm',
         stepMinute: 10
     });
 
-    $('#cd').datetimepicker({
-        timeFormat: 'HH:mm',
-        stepMinute: 10
-    });
 
     $(document).ready(function(){
 
@@ -201,7 +201,7 @@
 
             var newDateAsObject = $('#choose_date').datepicker('getDate');
             var newDateAsString = $('#choose_date').datepicker({dateFormat: 'dd,MM,yyyy'}).val();
-            $('#appoint-list').append('<a href="#" class="myButton"> Added Date: ' + newDateAsString + '</a>');
+            $('#appoint-list').append('<a href="#" class="myButton">' + newDateAsString + '</a>');
             dates[dates.length] = newDateAsObject;
 
             document.getElementById('date' + (dates.length - 1)).value = newDateAsObject;
