@@ -41,7 +41,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
         log.debug("CHECK received appointments for " + currentp.getLastName());
         String param = "";
         String recdate = "";
-        for (int i=0; i<10; i++) {
+        for (int i=0; i<7; i++) {
             param = "date" + i;
             recdate = request.getParameter(param);
 
