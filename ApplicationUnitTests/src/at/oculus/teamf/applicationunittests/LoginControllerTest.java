@@ -11,12 +11,15 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.LoginController;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
+import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailValidationFailedException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
+import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import org.junit.Assert;
 
 /**
@@ -62,6 +65,18 @@ public class LoginControllerTest {
             e.printStackTrace();
         } catch (PasswordIncorrectException e) {
             e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (SearchInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (EmailValidationFailedException e) {
+            e.printStackTrace();
+        } catch (InvalidSearchParameterException e) {
+            e.printStackTrace();
         }
 
         Assert.assertEquals(patient, result);
@@ -72,6 +87,18 @@ public class LoginControllerTest {
         } catch (EmailNotFoundException e) {
             e.printStackTrace();
         } catch (PasswordIncorrectException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (SearchInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (EmailValidationFailedException e) {
+            e.printStackTrace();
+        } catch (InvalidSearchParameterException e) {
             e.printStackTrace();
         }
 
@@ -84,6 +111,18 @@ public class LoginControllerTest {
         } catch (EmailNotFoundException e) {
             e.printStackTrace();
         } catch (PasswordIncorrectException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (SearchInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (EmailValidationFailedException e) {
+            e.printStackTrace();
+        } catch (InvalidSearchParameterException e) {
             e.printStackTrace();
         }
 

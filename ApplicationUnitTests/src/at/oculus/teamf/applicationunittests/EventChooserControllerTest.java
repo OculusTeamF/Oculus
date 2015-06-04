@@ -10,6 +10,18 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.EventChooserController;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
+import at.oculus.teamf.domain.entity.calendar.ICalendarEvent;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
+import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.patient.Patient;
+import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import org.junit.Assert;
+
+import java.util.Collection;
 
 /**
  * Created by jpo2433 on 28.05.15.
@@ -46,6 +58,32 @@ public class EventChooserControllerTest {
     @org.junit.Test
     public void checkPatientsAppointments(){
         //TODO implement checkPatientsAppointments()
+        IPatient iPatient = null;
+        try {
+            iPatient = Facade.getInstance().getById(Patient.class, 1);
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        }
+        System.out.println(iPatient);
+        EventChooserController controller = null;
+        try {
+            controller = EventChooserController.createEventChooserController(iPatient);
+        } catch (PatientCanNotBeNullException e) {
+            e.printStackTrace();
+        }
+
+        Collection<ICalendarEvent> events = null;
+        try {
+            events =  controller.checkPatientsAppointments();
+        } catch (CouldNotGetCalendarEventsException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(events.size(), 1);
     }
 
 }

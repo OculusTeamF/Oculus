@@ -51,4 +51,6 @@
 
 
 })(jQuery);
-$('#MyTabSelector').tabs();
+$('#MyTabSelector').tabs({
+    heightStyle: 'fill'
+});

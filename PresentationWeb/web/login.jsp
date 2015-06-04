@@ -11,6 +11,7 @@
 	<title>Oculus Login</title>
 	<link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="http://css-spinners.com/css/spinner/hexdots.css" type="text/css">
+    <link rel="shortcut icon" href="images/o_icon_trans.ico">
 </head>
 <body>
 <div class="wrapper">
