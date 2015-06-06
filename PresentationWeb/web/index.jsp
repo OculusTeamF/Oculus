@@ -225,7 +225,10 @@
     });
 
     $("#check-appointments").click(function(event){
+        $('#MyTabSelector').disableTab(0, true);
+        $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').enableTab(2);
+        $('#MyTabSelector').disableTab(3, true);
     });
 </script>
 </html>
