@@ -51,13 +51,8 @@
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
                 <div id="tabs-2">
-                    <%--<div id="datetimepicker"></div>--%>
 
                         <div id="picker">
-                            <!--
-                            <p>Choose Date & Time:</p>
-                            <input type="text" name="choose_date" id="choose_date" value="" />
-                            -->
                             <br/>
                             <div id="choose_date"></div>
                             <!--
@@ -72,22 +67,9 @@
                             <ul id="appoint-list">
                             </ul>
                             <br/><br/>
-                            <form class="form" method="POST" action="RedirectServlet?dispatchto=checkappointments">
-                                <input type="hidden" name="date0" id="date0" value="null" />
-                                <input type="hidden" name="date1" id="date1" value="null" />
-                                <input type="hidden" name="date2" id="date2" value="null" />
-                                <input type="hidden" name="date3" id="date3" value="null" />
-                                <input type="hidden" name="date4" id="date4" value="null" />
-                                <input type="hidden" name="date5" id="date5" value="null" />
-                                <input type="hidden" name="date6" id="date6" value="null" />
-                                <input type="hidden" name="date7" id="date7" value="null" />
-                                <input type="hidden" name="date8" id="date8" value="null" />
-                                <!--
-                                <input type="hidden" name="date9" id="date9" value="null" />
-                                -->
-                                <button type="submit" id="check-appointments">check appointments</button>
-                            </form>
+                            <button id="check-appointments">check appointments</button>
                         </div>
+
                 </div>
                 <div id="tabs-3">
                     [not used -> remove later]
@@ -155,6 +137,7 @@
 <script>
 
     var dates = [];
+    var xhttpreq;
 
     $('#MyTabSelector').tabs({
         heightStyle: 'fill'
@@ -172,6 +155,7 @@
 
     $(document).ready(function(){
 
+        $(".hexdots-loader").hide();
         document.getElementById('check-appointments').style.visibility = 'hidden';
 
         if (${user.appointAvailable}) {
@@ -201,14 +185,50 @@
 
             var newDateAsObject = $('#choose_date').datepicker('getDate');
             var newDateAsString = $('#choose_date').datepicker({dateFormat: 'dd,MM,yyyy'}).val();
-            $('#appoint-list').append('<a href="#" class="myButton">' + newDateAsString + '</a>');
+            $('#appoint-list').append('<a href="#" class="myButton" id="list' + dates.length + '">' + newDateAsString + '</a>');
             dates[dates.length] = newDateAsObject;
-
-            document.getElementById('date' + (dates.length - 1)).value = newDateAsObject;
         } else {
             alert('Please check selected dates before adding more... ')
         }
     });
+
+    function sendAppointmentRequest() {
+        $("#check-appointments").hide();
+        //$(".hexdots-loader").show();
+
+        var url = "RedirectServlet";
+        var params = "dispatchto=checkappointments&datearray=" + dates;
+
+        xhttpreq = new XMLHttpRequest();
+        if (!xhttpreq) {
+            alert("Error: Could not init XMLHttpRequest");
+            return;
+        }
+
+        xhttpreq.onreadystatechange = sendAppointmentRequest_callback;
+        xhttpreq.open("POST", url + "?" + params, true);
+
+        xhttpreq.setRequestHeader("Content-type", "text/xml");
+        xhttpreq.send();
+    }
+
+    function sendAppointmentRequest_callback() {
+        if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
+            alert(xhttpreq.responseText);
+            /* TODO change to XML
+            var countedChars = xhttpreq.responseXML.getElementsByTagName("number")[0].firstChild.nodeValue;
+            alert("PASST");
+            document.getElementById("countedchars").value = countedChars;*/
+
+            /* Modify result list */
+            for (var i = 0; dates.length; i++){
+                document.getElementById("list" + i).style.color = "green";
+                document.getElementById("list" + i).onclick = function () {
+                    alert('foo'); // link to confirmation
+                };
+            }
+        }
+    }
 
     $("#confirm-appointment").click(function(event){
         $('#MyTabSelector').enableTab(0);
@@ -225,10 +245,12 @@
     });
 
     $("#check-appointments").click(function(event){
+        sendAppointmentRequest();
+    /*
         $('#MyTabSelector').disableTab(0, true);
         $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').enableTab(2);
-        $('#MyTabSelector').disableTab(3, true);
+        $('#MyTabSelector').disableTab(3, true);*/
     });
 </script>
 </html>

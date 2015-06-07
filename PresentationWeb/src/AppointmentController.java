@@ -15,13 +15,13 @@ import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,19 +45,18 @@ public class AppointmentController extends HttpServlet implements ILogger{
 
         // format received dates
         log.debug("CHECK received appointments for " + _currentp.getLastName());
-        String param = "";
-        String recdate = "";
-        for (int i=0; i < CRITERIA_AMOUNT; i++) {
-            param = "date" + i;
-            recdate = request.getParameter(param);
 
-            if (!recdate.equals("null")) {
-                // convert string to LocalDateTime object
-                // format for: Wed Jun 17 2015 00:00:00
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
-                dates[i] = LocalDateTime.parse(recdate.substring(0, 24), formatter);
-                log.debug("RECEIVED criteria date:" + dates[i].toString());
-            }
+        String recdate = request.getParameter("datearray");
+        String[] parts = recdate.split(",");
+
+        int datecount = 0;
+        for (String datepart: parts) {
+            // convert string to LocalDateTime object
+            // format for: Wed Jun 17 2015 00:00:00
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
+            dates[datecount] = LocalDateTime.parse(datepart.substring(0, 24), formatter);
+            log.debug("RECEIVED criteria date:" + dates[datecount].toString());
+            datecount++;
         }
 
         // add criteras
@@ -92,10 +91,21 @@ public class AppointmentController extends HttpServlet implements ILogger{
             log.debug("ACCEPTED EVENTDATE #" + i + ": " + _checkedevents.get(i).getEventStart().toString());
         }
 
-        // send event results back to jsp
-        RequestDispatcher view = request.getRequestDispatcher("index.jsp");
-        request.setAttribute("eventResults", _checkedevents);
-        view.forward(request, response);
+        // send event results back to jsp (as xml)
+        try (PrintWriter out = response.getWriter()) {
+            String resl = "";
+
+            // TODO change to XML
+            //out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>hi</root>");
+            for (LocalDateTime d : dates) {
+                if (d!= null) {
+                    resl = resl + d.toString() + ",";
+                }
+            }
+            out.println(resl);
+            log.debug("SEND response");
+        }
+
 
        /* try {
             _patient = (IPatient) request.getAttribute("user");

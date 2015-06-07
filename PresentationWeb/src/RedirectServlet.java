@@ -16,7 +16,6 @@ public class RedirectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String dispatchto = request.getParameter("dispatchto");
-
         // null redirect (go back to login page)
         if (dispatchto == null) {
             response.sendRedirect("login.jsp");
