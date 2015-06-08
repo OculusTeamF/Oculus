@@ -7,12 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity;
+package at.oculus.teamf.domain.entity.queue;
+
+import at.oculus.teamf.domain.entity.DomainFactory;
+import at.oculus.teamf.domain.entity.IDomain;
 
 /**
- * IDomain.java Created by oculus on 11.04.15.
+ * Created by Simon Angerer on 08.06.2015.
  */
-public interface IDomain {
-	int getId();
-	void setId(int id);
+public class PatientQueueFactory extends DomainFactory<PatientQueue> {
+    public PatientQueueFactory() {
+        super(IPatientQueue.class);
+    }
+
+    @Override
+    public PatientQueue create() {
+        return new PatientQueue();
+    }
 }

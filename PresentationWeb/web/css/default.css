@@ -341,10 +341,6 @@ img {
  *
 **********************************************************************************************************************/
 
-#picker{
-    float:left;
-}
-
 .myButton {
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -420,7 +416,7 @@ button#add-time:hover, input#bigbutton:focus {
 
 
 button#check-appointments {
-    width:405px;
+    width:310px;
     cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
     padding:5px 25px; /*add some padding to the inside of the button*/
     background: #179db1; /*the colour of the button*/
@@ -433,7 +429,7 @@ button#check-appointments {
     box-shadow: 0 0 4px rgba(0,0,0, .75);
     color:#f3f3f3;
     font-size:1.1em;
-    float:right;
+    float:left;
 }
 
 button#check-appointments:hover, input#bigbutton:focus {
@@ -488,5 +484,70 @@ button#confirm-appointment:hover, input#bigbutton:focus {
     box-shadow: 0 0 1px rgba(0,0,0, .75);
 }
 
+/**********************************************************************************************************************
+ *
+ *   CHECKBOX STYLE
+ *
+**********************************************************************************************************************/
 
 
+
+.checkbox {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 13px; margin-right:10px; line-height:18px;
+}
+input[type=checkbox] {
+    display:none;
+}
+.checkbox:before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    vertical-align:middle;
+    background-color: #0088cc;
+    color: #f3f3f3;
+    text-align: center;
+    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+    border-radius: 3px;
+}
+input[type=checkbox]:checked + .checkbox:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 15px;
+}
+
+
+#app_box{
+
+
+    max-width: 250px;
+    background: #FFF;
+    padding: 30px 30px 20px 30px;
+    box-shadow: rgba(187, 187, 187, 1) 0 0px 20px -1px;
+    -webkit-box-shadow: rgba(187, 187, 187, 1) 0 0px 20px -1px;
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #666;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+#option1button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option2button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option3button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option4button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option5button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option6button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}

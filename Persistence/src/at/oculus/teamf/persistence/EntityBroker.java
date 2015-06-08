@@ -16,6 +16,8 @@ import at.oculus.teamf.persistence.entity.IEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
@@ -276,7 +278,10 @@ abstract class EntityBroker<D extends IDomain, P extends IEntity> implements ILo
      * @throws NoBrokerMappedException
      * @throws BadConnectionException
      */
-    protected abstract D persistentToDomain(P entity) throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException, SearchInterfaceNotImplementedException, InvalidSearchParameterException;
+    protected abstract D persistentToDomain(P entity)
+            throws NoBrokerMappedException, BadConnectionException, DatabaseOperationException, ClassNotMappedException,
+                   SearchInterfaceNotImplementedException, InvalidSearchParameterException;
+
 
     /**
      * Converts a domain object to persitency entity

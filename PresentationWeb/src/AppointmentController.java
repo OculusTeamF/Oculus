@@ -105,59 +105,6 @@ public class AppointmentController extends HttpServlet implements ILogger{
             out.println(resl);
             log.debug("SEND response");
         }
-
-
-       /* try {
-            _patient = (IPatient) request.getAttribute("user");
-            _eventchooserController = EventChooserController.createEventChooserController(_patient);
-            _events = new LinkedList<>();
-
-            LinkedList <Date> appointmentList = new LinkedList<>();
-
-            for (int i = 0; i < 10; ++i){
-                if (request.getParameter("date" + String.valueOf(i)) != null){
-                    appointmentList.add(Date.valueOf(request.getParameter("date" + String.valueOf(i))));
-                }
-            }
-
-            LinkedList <IWeekDayTime> weekDayTimes = new LinkedList<>();
-
-            //TODO while new statements add to collection
-            //TODO implement correctly!
-            LocalTime time = null;
-            IWeekDayTime weekDayTime = (IWeekDayTime) _eventchooserController.addCriteria(new String(), time, time);
-            weekDayTimes.add(weekDayTime);
-
-            _eventchooserController.getAvailableEvents(Date.valueOf(request.getParameter("choose_date")), Date.valueOf(request.getParameter("choose_time")), weekDayTimes);
-        } catch (PatientCanNotBeNullException e) {
-            e.printStackTrace();
-            //TODO exception handling
-        } catch (NotAllowedToChooseEventException e) {
-            e.printStackTrace();
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        } catch (NoDoctorException e) {
-            e.printStackTrace();
-        } catch (DatabaseOperationException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        }
-
-        if (_events.size() > 0){
-            DataBean dataBean = new DataBean();
-            dataBean.loadAvailableAppointments(_events);
-
-            request.setAttribute("data", dataBean);
-            RequestDispatcher view = request.getRequestDispatcher("index.jsp");
-            view.forward(request, response);
-
-            response.sendRedirect("index.jsp");
-        }*/
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

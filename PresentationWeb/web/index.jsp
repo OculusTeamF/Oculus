@@ -16,9 +16,9 @@
 <div id="header">
     <div id="topmenu">
         <ul>
-            <li><a href="#" id="topmenu1" accesskey="1">Home</a></li>
-            <li><a href="#" id="topmenu2" accesskey="2">Contact</a></li>
-            <li><a href="#" id="topmenu3" accesskey="3">Sitemap</a></li>
+            <li><a href="index.jsp" id="topmenu1" accesskey="1">Home</a></li>
+            <li><a href="contact.jsp" id="topmenu2" accesskey="2">Contact</a></li>
+            <li><a href="sitemap.jsp" id="topmenu3" accesskey="3">Sitemap</a></li>
         </ul>
     </div>
     <div id="logo">
@@ -32,49 +32,132 @@
         <div id="welcome">
             <div id='MyTabSelector'>
                 <ul>
-                    <li><a href="#tabs-1">Current appointment</a></li>
+                    <li><a href="#tabs-1">Current appointments</a></li>
                     <li><a href="#tabs-2">New appointment</a></li>
-                    <li><a href="#tabs-3">Available appointments</a></li>
-                    <li><a href="#tabs-4">Confirmation</a></li>
+                    <li><a href="#tabs-3">Confirmation</a></li>
                 </ul>
                 <div id="tabs-1">
+                    <br/>
+                    <div id="app_box">
+                        <h3><strong>Appointment #1:</strong></h3>
                     <p>
-                        <br/>
+
                         Date start: ${user.dateStart}
                         <br/>
                         Date end: ${user.dateEnd}
                         <br/>
                         Description: ${user.description}
                     </p>
-                    <button type="button" id="delete-appointment">Delete appointment</button>
+                        <button type="button" id="delete-appointment">Delete appointment</button>
+                    </div>
+
                     <br/><br/>
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
+
                 <div id="tabs-2">
+                    <div>
+                        <form>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input id="option1" name="boxdays" type="checkbox" value="MON"/>
+                                        <label class="checkbox" for="option1"> Monday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker" id="time_picker1" value="" />
+                                        <input type="image" name="optionbutton" id="option1button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td>
+                                        <input id="option2" name="boxdays" type="checkbox" value="TUE"/>
+                                        <label class="checkbox" for="option2"> Tuesday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker" id="time_picker2" value="" />
+                                        <input type="image" name="optionbutton" id="option2button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr></tr>
 
-                        <div id="picker">
-                            <br/>
-                            <div id="choose_date"></div>
-                            <!--
-                            <p>Choose Endtime: (optional)</p>
-                            <input type="text" name="choose_time" id="choose_time" value="" />
-                            -->
-                            <br/><br/>
-                            <button type="button" id="add-time">add time</button>
-                        </div>
-
-                        <div id="alist">
-                            <ul id="appoint-list">
-                            </ul>
-                            <br/><br/>
-                            <button id="check-appointments">check appointments</button>
-                        </div>
-
+                                <tr>
+                                    <td>
+                                        <input id="option3" name="boxdays" type="checkbox" value="WED"/>
+                                        <label class="checkbox" for="option3"> Wednesday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker" id="time_picker3" value="" />
+                                        <input type="image" name="optionbutton" id="option3button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td>
+                                        <input id="option4" name="boxdays" type="checkbox" value="THU"/>
+                                        <label class="checkbox" for="option4"> Thursday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker" id="time_picker4" value="" />
+                                        <input type="image" name="optionbutton" id="option4button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td>
+                                        <input id="option5" name="boxdays" type="checkbox" value="FRI"/>
+                                        <label class="checkbox" for="option5"> Friday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker" id="time_picker5" value="" />
+                                        <input type="image" name="optionbutton" id="option5button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td>
+                                        <input id="option6" name="boxdays" type="checkbox" value="SAT"/>
+                                        <label class="checkbox" for="option6"> Saturday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker" id="time_picker6" value="" />
+                                        <input type="image" name="optionbutton" id="option6button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Unavailability
+                                    </td>
+                                    <td>
+                                        Period (optional)
+                                    </td>
+                                <tr/>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="date_range_start" id="date_range_start" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="date_range_end" id="date_range_end" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <button id="check-appointments">check appointments</button>
                 </div>
                 <div id="tabs-3">
-                    [not used -> remove later]
-                </div>
-                <div id="tabs-4">
                     [confirm date tab]
                     <br/><br/>
                     <button type="button" id="confirm-appointment">Confirm</button>
@@ -137,7 +220,13 @@
 <script>
 
     var dates = [];
+    var times = [];
+    var checkdays = [];
     var xhttpreq;
+    var maxHour = 18;
+    var minHour = 6;
+    var startHour = 7;
+    var hourGrid = 2;
 
     $('#MyTabSelector').tabs({
         heightStyle: 'fill'
@@ -156,19 +245,22 @@
     $(document).ready(function(){
 
         $(".hexdots-loader").hide();
-        document.getElementById('check-appointments').style.visibility = 'hidden';
+        document.getElementById('option1button').style.visibility = 'hidden';
+        document.getElementById('option2button').style.visibility = 'hidden';
+        document.getElementById('option3button').style.visibility = 'hidden';
+        document.getElementById('option4button').style.visibility = 'hidden';
+        document.getElementById('option5button').style.visibility = 'hidden';
+        document.getElementById('option6button').style.visibility = 'hidden';
 
         if (${user.appointAvailable}) {
             $('#MyTabSelector').enableTab(0);
             $('#MyTabSelector').disableTab(1);
             $('#MyTabSelector').disableTab(2);
-            $('#MyTabSelector').disableTab(3);
         }
         else {
             $('#MyTabSelector').disableTab(0, true);
             $('#MyTabSelector').enableTab(1);
             $('#MyTabSelector').disableTab(2);
-            $('#MyTabSelector').disableTab(3);
         }
     });
 
@@ -176,7 +268,6 @@
         $('#MyTabSelector').enableTab(0);
         $('#MyTabSelector').enableTab(1);
         $('#MyTabSelector').enableTab(2);
-        $('#MyTabSelector').enableTab(3);
     });
 
     $("#add-time").click(function(event) {
@@ -195,6 +286,12 @@
     function sendAppointmentRequest() {
         $("#check-appointments").hide();
         //$(".hexdots-loader").show();
+
+        $("input:checkbox[name=boxdays]:checked").each(function()
+        {
+            alert($(this).val());
+            checkdays.push($(this).val());
+        });
 
         var url = "RedirectServlet";
         var params = "dispatchto=checkappointments&datearray=" + dates;
@@ -234,7 +331,6 @@
         $('#MyTabSelector').enableTab(0);
         $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').disableTab(2, true);
-        $('#MyTabSelector').disableTab(3, true);
         $("#confirm-appointment").hide();
     });
 
@@ -249,8 +345,82 @@
     /*
         $('#MyTabSelector').disableTab(0, true);
         $('#MyTabSelector').disableTab(1, true);
-        $('#MyTabSelector').enableTab(2);
-        $('#MyTabSelector').disableTab(3, true);*/
+        $('#MyTabSelector').enableTab(2);*/
     });
+
+    $('#time_picker1').timepicker({
+        hourGrid: hourGrid,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
+    });
+
+    $('#time_picker2').timepicker({
+        hourGrid: hourGrid,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
+    });
+
+    $('#time_picker3').timepicker({
+        hourGrid: hourGrid,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
+    });
+
+    $('#time_picker4').timepicker({
+        hourGrid: hourGrid,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
+    });
+
+    $('#time_picker5').timepicker({
+        hourGrid: hourGrid,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
+    });
+
+    $('#time_picker6').timepicker({
+        hourGrid: hourGrid,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
+    });
+
+    var startDateTextBox = $('#date_range_start');
+    var endDateTextBox = $('#date_range_end');
+
+    $.timepicker.dateRange(
+            startDateTextBox,
+            endDateTextBox,
+            {
+                minInterval: (1000*60*60*24*1), // 1 day
+                maxInterval: (1000*60*60*24*60), // 60 days
+                start: {}, // start picker options
+                end: {} // end picker options
+            }
+    );
+
 </script>
 </html>

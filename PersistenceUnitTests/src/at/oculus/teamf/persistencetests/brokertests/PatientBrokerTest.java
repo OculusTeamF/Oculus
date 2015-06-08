@@ -11,13 +11,11 @@ package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
-import at.oculus.teamf.domain.entity.prescription.IPrescription;
+import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.user.Gender;
 import at.oculus.teamf.domain.entity.exception.*;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.technical.accessrights.ILogin;
-import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -67,6 +65,7 @@ public class PatientBrokerTest extends BrokerTest {
 			assertTrue(Facade.getInstance().save(_patient));
 		} catch (FacadeException e) {
 			e.printStackTrace();
+
 			assertTrue(false);
 		}
 		assertTrue(_patient.getId() > 0);

@@ -14,7 +14,6 @@ import at.oculus.teamf.application.controller.exceptions.CheckinControllerExcept
 import at.oculus.teamf.application.controller.exceptions.CheckinControllerExceptions.UserNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.critical.CriticalClassException;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
-import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
@@ -79,7 +78,7 @@ public class CheckinController implements ILogger {
         if(user instanceof IDoctor){
             doctor = (IDoctor) iuser;
 
-            queue = (PatientQueue) doctor.getQueue();
+            queue = doctor.getQueue();
 
             log.info("Queue belongs to doctor.");
         }else if(user instanceof IOrthoptist){

@@ -7,13 +7,13 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.oculus.teamf.domain.entity.factory;
+package at.oculus.teamf.domain.entity;
 
 import at.oculus.teamf.domain.entity.calendar.CalendarFactory;
 import at.oculus.teamf.domain.entity.diagnosis.DiagnosisFactory;
 import at.oculus.teamf.domain.entity.prescription.PrescriptionFactory;
+import at.oculus.teamf.domain.entity.queue.PatientQueueFactory;
 import at.oculus.teamf.domain.entity.user.doctor.DoctorFactory;
-import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.patient.PatientFactory;
 import at.oculus.teamf.domain.entity.user.orthoptist.OrthoptistFactory;
 
@@ -39,6 +39,7 @@ public abstract class DomainFactory<T extends IDomain> {
         new CalendarFactory();
         new PrescriptionFactory();
         new OrthoptistFactory();
+        new PatientQueueFactory();
     }
 
     public static IDomain create(Class<? extends  IDomain> clazz) {
