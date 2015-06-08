@@ -10,6 +10,8 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.EventChooserController;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NoDoctorException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NotAllowedToChooseEventException;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
@@ -19,9 +21,13 @@ import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import org.junit.Assert;
 
+import java.time.LocalTime;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Created by jpo2433 on 28.05.15.
@@ -64,6 +70,28 @@ public class EventChooserControllerTest {
     @org.junit.Test
     public void getAvailableEvents(){
         //TODO implement getAvailableEvents()
+        eventChooserController.addWeekDayTimeCriteria("MON", LocalTime.of(10, 30), LocalTime.of(12, 0));
+        Collection<ICalendarEvent> events = new LinkedList<>();
+        try {
+           events = eventChooserController.getAvailableEvents();
+        } catch (NotAllowedToChooseEventException e) {
+            e.printStackTrace();
+        } catch (NoDoctorException e) {
+            e.printStackTrace();
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        }
+        System.out.println(events);
+
+        Assert.assertEquals(events.size(), 3);
     }
 
     @org.junit.Test
