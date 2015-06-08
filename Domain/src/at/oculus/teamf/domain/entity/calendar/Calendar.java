@@ -13,6 +13,7 @@ import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.exception.calendar.NoWorkingHoursException;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -94,14 +95,16 @@ public class Calendar implements ICalendar {
 	}
 
 	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
-			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
+            throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+            NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
         if(getWorkingHours()!=null) {
             for (ICalendarWorkingHours c : getWorkingHours()) {
                 if (c.contains(calendarEvent)) {
                     return true;
                 }
             }
+        } else {
+            throw new NoWorkingHoursException();
         }
 		return false;
 	}
@@ -203,13 +206,13 @@ public class Calendar implements ICalendar {
 					if (!isInWorkingTime(calendarEvent)) {
 						calendarEvent = null;
 					}
-				} catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException | InvalidReloadClassException | NoBrokerMappedException e) {
+				} catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException | InvalidReloadClassException | NoBrokerMappedException | NoWorkingHoursException e) {
 					//TODO Exception??
 					log.error(e.getMessage());
 					return false;
-				}
+                }
 
-				// check availability
+                // check availability
 				if (calendarEvent != null) {
 					if (!isAvailableEvent(calendarEvent)) {
 						calendarEvent = null;
