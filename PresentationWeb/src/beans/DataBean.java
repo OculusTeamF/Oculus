@@ -23,8 +23,8 @@ import java.util.LinkedList;
 public class DataBean {
     private LinkedList <ICalendarEvent> loadedEvents;
     private LinkedList <ICalendarEvent> eventsToLoad;
-    private static boolean [] buttons = new boolean [6];
-    private static LocalTime [] localTimes = new LocalTime [6];
+    private boolean [] buttons = new boolean [6];
+    private LocalTime [] localTimes = new LocalTime [6];
 
     public void loadAvailableAppointments (Collection <ICalendarEvent> events){
         loadedEvents = new LinkedList<>();
@@ -42,7 +42,7 @@ public class DataBean {
         eventsToLoad.add(event);
     }
 
-    public static void fillArrays (boolean [] filledButtons, LocalTime [] filledLocalTimes){
+    public void fillArrays (boolean [] filledButtons, LocalTime [] filledLocalTimes){
         buttons = filledButtons;
         localTimes = filledLocalTimes;
     }

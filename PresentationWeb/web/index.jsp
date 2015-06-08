@@ -58,14 +58,14 @@
                 <div id="tabs-2">
                     <div>
                         <form>
-                            <table>
+                            <table class="bordered">
                                 <tr>
                                     <td>
                                         <input id="option1" name="boxdays" type="checkbox" value="MON"/>
                                         <label class="checkbox" for="option1"> Monday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker1" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker1" value="" />
                                         <input type="image" name="optionbutton" id="option1button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
@@ -76,7 +76,7 @@
                                         <label class="checkbox" for="option2"> Tuesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker2" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker2" value="" />
                                         <input type="image" name="optionbutton" id="option2button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
@@ -88,7 +88,7 @@
                                         <label class="checkbox" for="option3"> Wednesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker3" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker3" value="" />
                                         <input type="image" name="optionbutton" id="option3button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
@@ -99,7 +99,7 @@
                                         <label class="checkbox" for="option4"> Thursday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker4" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker4" value="" />
                                         <input type="image" name="optionbutton" id="option4button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
@@ -110,7 +110,7 @@
                                         <label class="checkbox" for="option5"> Friday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker5" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker5" value="" />
                                         <input type="image" name="optionbutton" id="option5button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
@@ -121,14 +121,13 @@
                                         <label class="checkbox" for="option6"> Saturday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker6" value="" />
+                                        <input type="text" class="timey"  name="time_picker" id="time_picker6" value="" />
                                         <input type="image" name="optionbutton" id="option6button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                </tr>
+                            </table>
+                            <br/>
+                            <table class="bordered">
                                 <tr>
                                     <td>
                                         Unavailability
@@ -145,17 +144,11 @@
                                         <input type="text" name="date_range_end" id="date_range_end" value="" />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                </tr>
                             </table>
                         </form>
                     </div>
-                    <button id="check-appointments">check appointments</button>
+                    <br/>
+                    <button id="check-appointments">Check criterias</button>
                 </div>
                 <div id="tabs-3">
                     [confirm date tab]
@@ -220,6 +213,7 @@
 <script>
 
     var dates = [];
+
     var times = [];
     var checkdays = [];
     var xhttpreq;
@@ -287,14 +281,23 @@
         $("#check-appointments").hide();
         //$(".hexdots-loader").show();
 
+        // get checkbox states
         $("input:checkbox[name=boxdays]:checked").each(function()
         {
             alert($(this).val());
             checkdays.push($(this).val());
         });
 
+        // get timebox states
+        $("input.timey").each(function (index) {
+            if ($(this).val() != "") {
+                alert($(this).val());
+                times.push($(this).val());
+            }
+        });
+
         var url = "RedirectServlet";
-        var params = "dispatchto=checkappointments&datearray=" + dates;
+        var params = "dispatchto=checkappointments&checkdays=" + checkdays;
 
         xhttpreq = new XMLHttpRequest();
         if (!xhttpreq) {
@@ -312,16 +315,25 @@
     function sendAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
             alert(xhttpreq.responseText);
+
+            document.getElementById('option1button').style.visibility = 'visible';
+            document.getElementById('option2button').style.visibility = 'visible';
+            document.getElementById('option3button').style.visibility = 'visible';
+            document.getElementById('option4button').style.visibility = 'visible';
+            document.getElementById('option5button').style.visibility = 'visible';
+            document.getElementById('option6button').style.visibility = 'visible';
             /* TODO change to XML
             var countedChars = xhttpreq.responseXML.getElementsByTagName("number")[0].firstChild.nodeValue;
             alert("PASST");
             document.getElementById("countedchars").value = countedChars;*/
 
             /* Modify result list */
+            document.getElementById("add-time").innerText = "Start new selection";
+
             for (var i = 0; dates.length; i++){
                 document.getElementById("list" + i).style.color = "green";
                 document.getElementById("list" + i).onclick = function () {
-                    alert('foo'); // link to confirmation
+                    alert('confirm date function'); // link to confirmation
                 };
             }
         }
@@ -373,64 +385,16 @@
         $('#MyTabSelector').enableTab(2);*/
     });
 
-    $('#time_picker1').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker2').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker3').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker4').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker5').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker6').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
+    $('.timey').each(function(){
+        $(this).timepicker({
+            hourGrid: hourGrid,
+            minuteGrid: 10,
+            timeFormat: 'HH:mm',
+            stepMinute: 10,
+            hour: startHour,
+            hourMin: minHour,
+            hourMax: maxHour
+        });
     });
 
     var startDateTextBox = $('#date_range_start');
