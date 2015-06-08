@@ -521,3 +521,37 @@ input[type=checkbox]:checked + .checkbox:before {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     font-size: 15px;
 }
+
+
+#app_box{
+
+
+    max-width: 250px;
+    background: #FFF;
+    padding: 30px 30px 20px 30px;
+    box-shadow: rgba(187, 187, 187, 1) 0 0px 20px -1px;
+    -webkit-box-shadow: rgba(187, 187, 187, 1) 0 0px 20px -1px;
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #666;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+#option1button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option2button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option3button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option4button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option5button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+#option6button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}

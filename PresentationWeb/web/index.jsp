@@ -32,20 +32,25 @@
         <div id="welcome">
             <div id='MyTabSelector'>
                 <ul>
-                    <li><a href="#tabs-1">Current appointment</a></li>
+                    <li><a href="#tabs-1">Current appointments</a></li>
                     <li><a href="#tabs-2">New appointment</a></li>
                     <li><a href="#tabs-3">Confirmation</a></li>
                 </ul>
                 <div id="tabs-1">
+                    <br/>
+                    <div id="app_box">
+                        <h3><strong>Appointment #1:</strong></h3>
                     <p>
-                        <br/>
+
                         Date start: ${user.dateStart}
                         <br/>
                         Date end: ${user.dateEnd}
                         <br/>
                         Description: ${user.description}
                     </p>
-                    <button type="button" id="delete-appointment">Delete appointment</button>
+                        <button type="button" id="delete-appointment">Delete appointment</button>
+                    </div>
+
                     <br/><br/>
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
@@ -213,6 +218,8 @@
 <script>
 
     var dates = [];
+    var times = [];
+    var checkdays = [];
     var xhttpreq;
     var maxHour = 18;
     var minHour = 6;
@@ -272,6 +279,12 @@
     function sendAppointmentRequest() {
         $("#check-appointments").hide();
         //$(".hexdots-loader").show();
+
+        $("input:checkbox[name=boxdays]:checked").each(function()
+        {
+            alert($(this).val());
+            checkdays.push($(this).val());
+        });
 
         var url = "RedirectServlet";
         var params = "dispatchto=checkappointments&datearray=" + dates;
