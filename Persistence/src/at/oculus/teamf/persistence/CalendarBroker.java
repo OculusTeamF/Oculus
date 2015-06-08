@@ -59,12 +59,6 @@ class CalendarBroker extends EntityBroker<ICalendar, CalendarEntity> implements 
         log.debug("converting persistence entity " + _entityClass + " to domain object " + _domainClass);
         ICalendar calendar = (ICalendar) DomainWrapperFactory.getInstance().create(ICalendar.class);
         calendar.setId(entity.getId());
-	    try {
-		    calendar.getWorkingHours();
-	    } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException |
-			     DatabaseOperationException | BadConnectionException e) {
-		    log.error(e.getMessage());
-	    }
 
 	    return calendar;
     }

@@ -16,6 +16,8 @@ import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -117,4 +119,68 @@ public class CalendarTest {
 
         assertTrue(_calendarEvents.size()==100);
     }
+
+	@Test
+	public void getCalendarEventsNoCriteria(){
+		Iterator<ICalendarEvent> eventIterator = null;
+
+		try {
+			eventIterator = _calendar.availableEventsIterator(null, 30);
+		} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		if(eventIterator == null){
+			assertTrue(false);
+		}
+
+		_calendarEvents = new LinkedList<ICalendarEvent>();
+
+		for(int i = 0; i<100; i++){
+			ICalendarEvent c = eventIterator.next();
+			_calendarEvents.add(c);
+		}
+
+		assertTrue(_calendarEvents.size()==100);
+	}
+
+	@Test
+	public void getCalendarEventsNoMatch(){
+		IWeekDayTime weekDayTime = null;
+		try {
+			for(ICalendarWorkingHours cw : _calendar.getWorkingHours()){
+				if(cw.getWorkinghours().getAfternoonTo()!=null) {
+					LocalTime to = cw.getWorkinghours().getAfternoonTo();
+					to.plusHours(2);
+					weekDayTime = new WeekDayTime(cw.getWeekday(), cw.getWorkinghours().getAfternoonTo(), to);
+					break;
+				}
+            }
+		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException |
+				 DatabaseOperationException | BadConnectionException e) {
+			e.printStackTrace();
+		}
+
+		assertTrue(weekDayTime!=null);
+
+		Collection<IWeekDayTime> weekDayTimes = new LinkedList<>();
+		weekDayTimes.add(weekDayTime);
+		WeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
+
+		Collection<ICriteria> criterias = new LinkedList<>();
+		criterias.add(weekDayTimeCriteria);
+
+		Iterator<ICalendarEvent> eventIterator = null;
+		try {
+			eventIterator = _calendar.availableEventsIterator(null, 30);
+		} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(eventIterator!=null);
+		System.out.println(weekDayTime);
+		System.out.println(eventIterator.next());
+		assertTrue(!eventIterator.hasNext());
+	}
 }
