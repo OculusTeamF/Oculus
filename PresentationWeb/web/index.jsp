@@ -73,31 +73,64 @@
                 </div>
                 <div id="tabs-3">
                     <form>
-
-                                <input id="option1" type="checkbox">
-                                <label class="checkbox" for="option1"> Monday </label>
                         <div>
-                            <input type="text" name="time_picker1" id="time_picker" value="" />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input id="option1" type="checkbox">
+                                        <label class="checkbox" for="option1"> Monday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker1" id="time_picker1" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="option2" type="checkbox" >
+                                        <label class="checkbox" for="option2"> Tuesday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker2" id="time_picker2" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="option3" type="checkbox" >
+                                        <label class="checkbox" for="option3"> Wednesday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker3" id="time_picker3" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="option4" type="checkbox" >
+                                        <label class="checkbox" for="option4"> Thursday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker4" id="time_picker4" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="option5" type="checkbox" >
+                                        <label class="checkbox" for="option5"> Friday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker5" id="time_picker5" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="option6" type="checkbox" >
+                                        <label class="checkbox" for="option6"> Saturday </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="time_picker6" id="time_picker6" value="" />
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                        <br/>
-                                <input id="option2" type="checkbox" >
-                                <label class="checkbox" for="option2"> Tuesday </label>
-                        <div>
-                            <input type="text" name="time_picker2" id="time_picker" value="" />
-                        </div>
-                                <br/>
-                                <input id="option3" type="checkbox" >
-                                <label class="checkbox" for="option3"> Wednesday </label>
-                                <br/>
-                                <input id="option4" type="checkbox" >
-                                <label class="checkbox" for="option4"> Thursday </label>
-                        <br/>
-                        <input id="option5" type="checkbox" >
-                        <label class="checkbox" for="option5"> Friday </label>
-                        <br/>
-                        <input id="option6" type="checkbox" >
-                        <label class="checkbox" for="option6"> Saturday </label>
-
                     </form>
                 </div>
                 <div id="tabs-4">
@@ -279,10 +312,46 @@
         $('#MyTabSelector').disableTab(3, true);*/
     });
 
-    $('#time_picker').timepicker({
+    $('#time_picker1').timepicker({
         hourGrid: 4,
         minuteGrid: 10,
-        timeFormat: 'hh:mm tt'
+        timeFormat: 'HH:mm',
+        stepMinute: 10
+    });
+
+    $('#time_picker2').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10
+    });
+
+    $('#time_picker3').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10
+    });
+
+    $('#time_picker4').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10
+    });
+
+    $('#time_picker5').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10
+    });
+
+    $('#time_picker6').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'HH:mm',
+        stepMinute: 10
     });
 </script>
 </html>
