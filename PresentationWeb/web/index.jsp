@@ -16,9 +16,9 @@
 <div id="header">
     <div id="topmenu">
         <ul>
-            <li><a href="#" id="topmenu1" accesskey="1">Home</a></li>
-            <li><a href="#" id="topmenu2" accesskey="2">Contact</a></li>
-            <li><a href="#" id="topmenu3" accesskey="3">Sitemap</a></li>
+            <li><a href="index.jsp" id="topmenu1" accesskey="1">Home</a></li>
+            <li><a href="contact.jsp" id="topmenu2" accesskey="2">Contact</a></li>
+            <li><a href="sitemap.jsp" id="topmenu3" accesskey="3">Sitemap</a></li>
         </ul>
     </div>
     <div id="logo">
@@ -61,6 +61,7 @@
                                     </td>
                                     <td>
                                         <input type="text" name="time_picker1" id="time_picker1" value="" />
+                                        <input type="image" name="option1button" id="option1button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -71,9 +72,11 @@
                                     </td>
                                     <td>
                                         <input type="text" name="time_picker2" id="time_picker2" value="" />
+                                        <input type="image" name="option2button" id="option2button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
+
                                 <tr>
                                     <td>
                                         <input id="option3" type="checkbox" >
@@ -81,6 +84,7 @@
                                     </td>
                                     <td>
                                         <input type="text" name="time_picker3" id="time_picker3" value="" />
+                                        <input type="image" name="option3button" id="option3button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -91,6 +95,7 @@
                                     </td>
                                     <td>
                                         <input type="text" name="time_picker4" id="time_picker4" value="" />
+                                        <input type="image" name="option4button" id="option4button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -101,6 +106,7 @@
                                     </td>
                                     <td>
                                         <input type="text" name="time_picker5" id="time_picker5" value="" />
+                                        <input type="image" name="option5button" id="option5button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -111,12 +117,33 @@
                                     </td>
                                     <td>
                                         <input type="text" name="time_picker6" id="time_picker6" value="" />
+                                        <input type="image" name="option6button" id="option6button" style="height:20px; width:20px;" src="images/success.png"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Unavailability
+                                    </td>
+                                    <td>
+                                        Period (optional)
+                                    </td>
+                                <tr/>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="date_range_start" id="date_range_start" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="date_range_end" id="date_range_end" value="" />
                                     </td>
                                 </tr>
                             </table>
                         </form>
                     </div>
-                    <div id="alist">
+                    <div>
                         <ul id="appoint-list">
                         </ul>
                         <br/><br/>
@@ -360,5 +387,20 @@
         hourMin: minHour,
         hourMax: maxHour
     });
+
+    var startDateTextBox = $('#date_range_start');
+    var endDateTextBox = $('#date_range_end');
+
+    $.timepicker.dateRange(
+            startDateTextBox,
+            endDateTextBox,
+            {
+                minInterval: (1000*60*60*24*1), // 1 day
+                maxInterval: (1000*60*60*24*60), // 60 days
+                start: {}, // start picker options
+                end: {} // end picker options
+            }
+    );
+
 </script>
 </html>
