@@ -56,73 +56,73 @@
                 </div>
 
                 <div id="tabs-2">
-                    <div id="picker">
+                    <div>
                         <form>
                             <table>
                                 <tr>
                                     <td>
-                                        <input id="option1" type="checkbox">
+                                        <input id="option1" name="boxdays" type="checkbox" value="MON"/>
                                         <label class="checkbox" for="option1"> Monday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker1" id="time_picker1" value="" />
-                                        <input type="image" name="option1button" id="option1button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" name="time_picker" id="time_picker1" value="" />
+                                        <input type="image" name="optionbutton" id="option1button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr>
                                     <td>
-                                        <input id="option2" type="checkbox" >
+                                        <input id="option2" name="boxdays" type="checkbox" value="TUE"/>
                                         <label class="checkbox" for="option2"> Tuesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker2" id="time_picker2" value="" />
-                                        <input type="image" name="option2button" id="option2button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" name="time_picker" id="time_picker2" value="" />
+                                        <input type="image" name="optionbutton" id="option2button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
 
                                 <tr>
                                     <td>
-                                        <input id="option3" type="checkbox" >
+                                        <input id="option3" name="boxdays" type="checkbox" value="WED"/>
                                         <label class="checkbox" for="option3"> Wednesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker3" id="time_picker3" value="" />
-                                        <input type="image" name="option3button" id="option3button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" name="time_picker" id="time_picker3" value="" />
+                                        <input type="image" name="optionbutton" id="option3button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr>
                                     <td>
-                                        <input id="option4" type="checkbox" >
+                                        <input id="option4" name="boxdays" type="checkbox" value="THU"/>
                                         <label class="checkbox" for="option4"> Thursday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker4" id="time_picker4" value="" />
-                                        <input type="image" name="option4button" id="option4button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" name="time_picker" id="time_picker4" value="" />
+                                        <input type="image" name="optionbutton" id="option4button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr>
                                     <td>
-                                        <input id="option5" type="checkbox" >
+                                        <input id="option5" name="boxdays" type="checkbox" value="FRI"/>
                                         <label class="checkbox" for="option5"> Friday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker5" id="time_picker5" value="" />
-                                        <input type="image" name="option5button" id="option5button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" name="time_picker" id="time_picker5" value="" />
+                                        <input type="image" name="optionbutton" id="option5button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr>
                                     <td>
-                                        <input id="option6" type="checkbox" >
+                                        <input id="option6" name="boxdays" type="checkbox" value="SAT"/>
                                         <label class="checkbox" for="option6"> Saturday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker6" id="time_picker6" value="" />
-                                        <input type="image" name="option6button" id="option6button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" name="time_picker" id="time_picker6" value="" />
+                                        <input type="image" name="optionbutton" id="option6button" style="height:20px; width:20px;" src="images/success.png"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -145,15 +145,17 @@
                                         <input type="text" name="date_range_end" id="date_range_end" value="" />
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
                             </table>
                         </form>
                     </div>
-                    <div>
-                        <ul id="appoint-list">
-                        </ul>
-                        <br/><br/>
-                        <button id="check-appointments">check appointments</button>
-                    </div>
+                    <button id="check-appointments">check appointments</button>
                 </div>
                 <div id="tabs-3">
                     [confirm date tab]
@@ -243,7 +245,12 @@
     $(document).ready(function(){
 
         $(".hexdots-loader").hide();
-        document.getElementById('check-appointments').style.visibility = 'hidden';
+        document.getElementById('option1button').style.visibility = 'hidden';
+        document.getElementById('option2button').style.visibility = 'hidden';
+        document.getElementById('option3button').style.visibility = 'hidden';
+        document.getElementById('option4button').style.visibility = 'hidden';
+        document.getElementById('option5button').style.visibility = 'hidden';
+        document.getElementById('option6button').style.visibility = 'hidden';
 
         if (${user.appointAvailable}) {
             $('#MyTabSelector').enableTab(0);
