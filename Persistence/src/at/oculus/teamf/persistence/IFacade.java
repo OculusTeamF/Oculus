@@ -11,6 +11,7 @@ package at.oculus.teamf.persistence;
 
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.queue.IQueueEntry;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -19,6 +20,7 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * IFacade.java

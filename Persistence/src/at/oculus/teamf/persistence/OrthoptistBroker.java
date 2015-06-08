@@ -14,6 +14,7 @@ import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
+import at.oculus.teamf.domain.entity.user.orthoptist.Orthoptist;
 import at.oculus.teamf.persistence.entity.OrthoptistEntity;
 import at.oculus.teamf.persistence.entity.UserEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
@@ -35,7 +36,7 @@ class OrthoptistBroker extends EntityBroker<IOrthoptist, OrthoptistEntity> imple
 	public OrthoptistBroker() {
 		super(IOrthoptist.class, OrthoptistEntity.class);
 		addEntityClassMapping(UserEntity.class);
-		addEntityClassMapping(IOrthoptist.class);
+		addDomainClassMapping(Orthoptist.class);
 	}
 
     /**

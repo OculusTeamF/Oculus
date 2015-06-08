@@ -13,12 +13,8 @@ import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientTo
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.domain.entity.user.IUser;
-import at.oculus.teamf.domain.entity.user.User;
-import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.sql.Timestamp;
@@ -35,13 +31,6 @@ public class PatientQueue implements ILogger, IPatientQueue {
     private LinkedList<IQueueEntry> _entries;
     //</editor-fold>
 
-    public PatientQueue(IUser user, Collection<QueueEntry> entries) {
-        log.debug("new queue for user " + _user);
-        _entries = new LinkedList<>();
-        _entries.addAll(entries);
-        _user = user;
-    }
-
     /**
      * rebuild the queue and return the entries
      *
@@ -50,8 +39,18 @@ public class PatientQueue implements ILogger, IPatientQueue {
      * @throws BadConnectionException
      */
     @Override
-    public LinkedList<IQueueEntry> getEntries()  {
+    public Collection<IQueueEntry> getEntries() {
         return _entries;
+    }
+
+    @Override
+    public void setEntries(Collection<IQueueEntry> entries) {
+        _entries = new LinkedList<>(entries);
+    }
+
+    @Override
+    public void setUser(IUser user) {
+        _user = user;
     }
 
     @Override
@@ -59,8 +58,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
         log.debug("add patient " + patient + " to " + this);
 
         // patient already in queue
-        if(patient != null && !_entries.isEmpty()){
-            if(_entries.contains(patient)){
+        if (patient != null && !_entries.isEmpty()) {
+            if (_entries.contains(patient)) {
                 throw new CouldNotAddPatientToQueueException();
             }
         }
@@ -72,29 +71,19 @@ public class PatientQueue implements ILogger, IPatientQueue {
         }
 
         // new queue entry
-        QueueEntry queueEntryNew = null;
-        queueEntryNew = new QueueEntry(0, patient, _user, parentId, arrivaltime);
-
-        // save
-        if (queueEntryNew != null) {
-            try {
-                Facade.getInstance().save(queueEntryNew);
-            } catch (DatabaseOperationException  | NoBrokerMappedException | BadConnectionException e) {
-                log.error(e.getMessage());
-                throw new CouldNotAddPatientToQueueException();
-            }
-        }
+        QueueEntry queueEntryNew = new QueueEntry(0, patient, _user, parentId, arrivaltime);
 
         _entries.add(queueEntryNew);
     }
 
     /**
      * removes the patient from this queue
+     *
      * @param patient to remove
      * @throws CouldNotRemovePatientFromQueueException
      */
     @Override
-    public void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException {
+    public IQueueEntry removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException {
         log.debug("remove patient " + patient + " from " + this);
 
         IQueueEntry queueEntryDel = null;
@@ -108,8 +97,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
             }
         }
 
-        if(queueEntryDel == null) {
-            throw  new CouldNotRemovePatientFromQueueException();
+        if (queueEntryDel == null) {
+            throw new CouldNotRemovePatientFromQueueException();
         }
 
         for (IQueueEntry qe : _entries) {
@@ -120,7 +109,7 @@ public class PatientQueue implements ILogger, IPatientQueue {
             }
         }
 
-        if(queueEntryChd != null) {
+        if (queueEntryChd != null) {
             queueEntryChd.setQueueIdParent(queueEntryDel.getQueueIdParent());
         }
 
@@ -128,15 +117,8 @@ public class PatientQueue implements ILogger, IPatientQueue {
         queueEntryDel.setQueueIdParent(null);
 
         _entries.remove(queueEntryDel);
-        try {
-            if (queueEntryChd != null) {
-                Facade.getInstance().save(queueEntryChd);
-            }
-            Facade.getInstance().delete(queueEntryDel);
-        } catch (BadConnectionException | NoBrokerMappedException | InvalidSearchParameterException | DatabaseOperationException e) {
-            log.error(e.getMessage());
-            throw new CouldNotRemovePatientFromQueueException();
-        }
+
+        return queueEntryDel;
     }
 
     @Override
@@ -160,7 +142,18 @@ public class PatientQueue implements ILogger, IPatientQueue {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return _user + "'s queue";
+    }
+
+    @Override
+    public int getId() {
+        //not used
+        return 0;
+    }
+
+    @Override
+    public void setId(int id) {
+        //not used
     }
 }

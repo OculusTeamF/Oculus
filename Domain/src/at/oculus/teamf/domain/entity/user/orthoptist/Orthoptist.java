@@ -12,15 +12,9 @@ package at.oculus.teamf.domain.entity.user.orthoptist;
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
-import at.oculus.teamf.domain.entity.queue.PatientQueue;
-import at.oculus.teamf.domain.entity.queue.QueueEntry;
 import at.oculus.teamf.domain.entity.user.User;
-import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
-import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
-import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
-import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalDateTime;
@@ -29,7 +23,7 @@ import java.util.List;
 /**
  * domain orthoptist class
  */
-class Orthoptist extends User implements IOrthoptist, ILogger {
+public class Orthoptist extends User implements IOrthoptist, ILogger {
 	//<editor-fold desc="Attributes">
 	private int _id;
     private ICalendar _calendar;
@@ -60,13 +54,6 @@ class Orthoptist extends User implements IOrthoptist, ILogger {
 
     @Override
     public IPatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
-        if(_queue == null) {
-            try {
-                _queue = new  PatientQueue(this, Facade.getInstance().search(QueueEntry.class, "Orthopist", Integer.toString(_id)));
-            } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
-                log.error(e.getMessage());
-            }
-        }
         return _queue;
     }
 

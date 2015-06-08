@@ -1,4 +1,4 @@
-/*
+package at.oculus.teamf.persistencetests.brokertests;/*
  * Copyright (c) 2015 Team F
  *
  * This file is part of Oculus.
@@ -7,8 +7,8 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
-import at.oculus.teamf.domain.entity.queue.PatientQueue;
+import at.oculus.teamf.domain.entity.DomainFactory;
+import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
@@ -31,18 +31,19 @@ import static org.junit.Assert.*;
 /**
  * Created by Simon Angerer on 30.04.2015.
  */
-public class QueueFactoryTest {
+public class PatientQueueTest {
 
     private IDoctor _doctor;
-    private PatientQueue _queue;
+    private IPatientQueue _queue;
     private IPatient _patient1;
     private IPatient _patient2;
     private IPatient _patient3;
 
     private IPatient createPatien(String name) {
-        IPatient patient = (IPatient) DomainFactory.create(IPatient.class); //new Patient();
+        IPatient patient = (IPatient) DomainFactory.create(IPatient.class);
         patient.setFirstName(name);
         patient.setLastName(name);
+        patient.setEmail(name);
         patient.setSocialInsuranceNr(name);
         try {
             Facade.getInstance().save(patient);
@@ -58,7 +59,7 @@ public class QueueFactoryTest {
     public void setUp() {
         try {
             _doctor = (IDoctor) Facade.getInstance().getAll(IDoctor.class).toArray()[0];
-            _queue = (PatientQueue) _doctor.getQueue();
+            _queue = _doctor.getQueue();
         } catch (DatabaseOperationException | BadConnectionException | NoBrokerMappedException e) {
             e.printStackTrace();
             assertTrue(false);
@@ -74,6 +75,7 @@ public class QueueFactoryTest {
             _queue.addPatient(_patient3, new Timestamp(new Date().getTime()));
         } catch (CouldNotAddPatientToQueueException e) {
             e.printStackTrace();
+            assertTrue(false);
         }
     }
 
@@ -97,11 +99,11 @@ public class QueueFactoryTest {
             _queue.removePatient(_patient3);
         } catch (CouldNotRemovePatientFromQueueException e) {
             e.printStackTrace();
+        } finally {
+            deletePatient("Test1");
+            deletePatient("Test2");
+            deletePatient("Test3");
         }
-
-        deletePatient("Test1");
-        deletePatient("Test2");
-        deletePatient("Test3");
     }
 
     @Test

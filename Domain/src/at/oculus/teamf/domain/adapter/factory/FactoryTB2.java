@@ -16,7 +16,7 @@ import at.oculus.teamf.domain.entity.visualadi.IVisualAid;
 import at.oculus.teamf.domain.entity.visualadi.VisualAid;
 import at.oculus.teamf.domain.entity.diagnosis.IDiagnosis;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.DomainFactory;
 
 /**
  * Created by Simon Angerer on 13.05.2015.

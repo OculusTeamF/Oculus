@@ -69,7 +69,7 @@ class PatientBroker extends EntityBroker<IPatient, PatientEntity> implements ICo
 		} else if (clazz == ExaminationProtocol.class) {
             ((IPatient) obj).setExaminationProtocol((Collection<IExaminationProtocol>) (Collection<?>) reloadExaminationProtocol(session, obj));
         } else if (clazz == IPrescription.class) {
-			((IPatient) obj).setPrescriptions((Collection<IPrescription>)(Collection<?>)reloadPrescriptions(session, obj));
+			((IPatient) obj).setPrescriptions(reloadPrescriptions(session, obj));
 		} else {
 			throw new InvalidReloadClassException();
 		}

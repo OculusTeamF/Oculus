@@ -25,6 +25,7 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -110,6 +111,9 @@ public class Diagnosis implements IDiagnosis, IDomain, ILogger, IDiagnosisTb2 {
      * @throws BadConnectionException
      */
     public void addMedicine(IMedicine medicine) throws CouldNotAddMedicineException {
+        if(_medicine == null) {
+            _medicine = new LinkedList<>();
+        }
         medicine.setDiagnosis(this);
         _medicine.add(medicine);
     }

@@ -9,7 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
 import at.oculus.teamf.domain.entity.queue.QueueEntry;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;

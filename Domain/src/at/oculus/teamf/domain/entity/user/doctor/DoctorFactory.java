@@ -1,6 +1,6 @@
 package at.oculus.teamf.domain.entity.user.doctor;
 
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.DomainFactory;
 
 /**
  * Created by Simon Angerer on 01.06.2015.
