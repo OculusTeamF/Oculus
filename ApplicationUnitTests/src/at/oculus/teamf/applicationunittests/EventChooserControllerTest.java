@@ -11,6 +11,7 @@ package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.EventChooserController;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
@@ -24,9 +25,7 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import org.junit.Assert;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Created by jpo2433 on 28.05.15.
@@ -36,9 +35,9 @@ public class EventChooserControllerTest {
     private EventChooserController eventChooserController;
     private IPatient iPatient;
     private Collection<ICalendarEvent> events;
+
     @org.junit.Before
     public void setUp() throws Exception {
-        //TODO implement SetUp()
         try {
             iPatient = Facade.getInstance().getById(Patient.class, 12);
         } catch (BadConnectionException e) {
@@ -58,7 +57,6 @@ public class EventChooserControllerTest {
 
     @org.junit.After
     public void tearDown() throws Exception{
-        //TODO implement tearDown()
         iPatient.setCalendarEvents(events);
     }
 
@@ -99,11 +97,6 @@ public class EventChooserControllerTest {
     }
 
     @org.junit.Test
-    public void saveChosenEvent(){
-        //TODO implement saveChosenEvent()
-    }
-
-    @org.junit.Test
     public void checkPatientsAppointments(){
         Collection<ICalendarEvent> events = null;
         try {
@@ -112,7 +105,7 @@ public class EventChooserControllerTest {
             e.printStackTrace();
         }
 
-        Assert.assertEquals(events.size(), 1);
+        Assert.assertEquals(0, events.size());
     }
 
 }
