@@ -10,9 +10,7 @@
 package at.oculus.teamf.applicationunittests;
 
 import at.oculus.teamf.application.controller.EventChooserController;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NoDoctorException;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NotAllowedToChooseEventException;
-import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.*;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
@@ -26,6 +24,7 @@ import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplemente
 import org.junit.Assert;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -36,11 +35,12 @@ public class EventChooserControllerTest {
 
     private EventChooserController eventChooserController;
     private IPatient iPatient;
+    private Collection<ICalendarEvent> events;
     @org.junit.Before
     public void setUp() throws Exception {
         //TODO implement SetUp()
         try {
-            iPatient = Facade.getInstance().getById(Patient.class, 1);
+            iPatient = Facade.getInstance().getById(Patient.class, 12);
         } catch (BadConnectionException e) {
             e.printStackTrace();
         } catch (NoBrokerMappedException e) {
@@ -48,48 +48,52 @@ public class EventChooserControllerTest {
         } catch (DatabaseOperationException e) {
             e.printStackTrace();
         }
-        System.out.println(iPatient);
-
         try {
             eventChooserController = EventChooserController.createEventChooserController(iPatient);
         } catch (PatientCanNotBeNullException e) {
             e.printStackTrace();
         }
+        events = iPatient.getCalendarEvents();
     }
 
     @org.junit.After
     public void tearDown() throws Exception{
         //TODO implement tearDown()
+        iPatient.setCalendarEvents(events);
     }
 
     @org.junit.Test
     public void deleteExistingEvent(){
-        //TODO implement deleteExistingEvent()
+
+        ArrayList<ICalendarEvent> newEvents = (ArrayList<ICalendarEvent>) events;
+
+        Assert.assertEquals(1, newEvents.size());
+
+        try {
+            eventChooserController.deleteExistingEvent(newEvents.get(0));
+        } catch (EventCanNotBeNullException | EventCanNotBeDeletedException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(1, newEvents.size());
+
     }
 
     @org.junit.Test
     public void getAvailableEvents(){
         //TODO implement getAvailableEvents()
         eventChooserController.addWeekDayTimeCriteria("MON", LocalTime.of(10, 30), LocalTime.of(12, 0));
-        Collection<ICalendarEvent> events = new LinkedList<>();
+        LinkedList<ICalendarEvent> events = new LinkedList<>();
         try {
-           events = eventChooserController.getAvailableEvents();
-        } catch (NotAllowedToChooseEventException e) {
-            e.printStackTrace();
-        } catch (NoDoctorException e) {
-            e.printStackTrace();
-        } catch (ReloadInterfaceNotImplementedException e) {
-            e.printStackTrace();
-        } catch (InvalidReloadClassException e) {
-            e.printStackTrace();
-        } catch (BadConnectionException e) {
-            e.printStackTrace();
-        } catch (NoBrokerMappedException e) {
-            e.printStackTrace();
-        } catch (DatabaseOperationException e) {
+           events = (LinkedList<ICalendarEvent>) eventChooserController.getAvailableEvents();
+        } catch (NotAllowedToChooseEventException | NoDoctorException | ReloadInterfaceNotImplementedException |
+                InvalidReloadClassException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
             e.printStackTrace();
         }
-        System.out.println(events);
+        System.out.println(events.size());
+        for(int i = 0; i < events.size(); i++){
+            System.out.println(events.get(i).toString());
+        }
 
         Assert.assertEquals(events.size(), 3);
     }
