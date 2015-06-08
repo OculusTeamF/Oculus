@@ -96,11 +96,13 @@ public class Calendar implements ICalendar {
 	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
 			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 			       NoBrokerMappedException, DatabaseOperationException {
-		for (ICalendarWorkingHours c : getWorkingHours()) {
-			if(c.contains(calendarEvent)){
-                return true;
+        if(getWorkingHours()!=null) {
+            for (ICalendarWorkingHours c : getWorkingHours()) {
+                if (c.contains(calendarEvent)) {
+                    return true;
+                }
             }
-		}
+        }
 		return false;
 	}
 
