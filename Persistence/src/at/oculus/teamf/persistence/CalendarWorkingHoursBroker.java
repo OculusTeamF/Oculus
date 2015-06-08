@@ -41,8 +41,8 @@ class CalendarWorkingHoursBroker extends EntityBroker {
 
 		calendarWorkingHours.setId(calendarWorkingHoursEntity.getId());
 		calendarWorkingHours.setCalendarId(calendarWorkingHoursEntity.getCalendarId());
-		calendarWorkingHours.setCalendar((ICalendar) Facade.getInstance().getBroker(ICalendar.class).persistentToDomain(
-				calendarWorkingHoursEntity.getCalendar()));
+		//calendarWorkingHours.setCalendar((ICalendar) Facade.getInstance().getBroker(ICalendar.class).persistentToDomain(
+		//		calendarWorkingHoursEntity.getCalendar()));
 		calendarWorkingHours.setWeekday(calendarWorkingHoursEntity.getWeekday());
 		calendarWorkingHours.setWorkingHoursId(calendarWorkingHoursEntity.getWorkingHoursId());
 		calendarWorkingHours.setWorkinghours((WorkingHours) Facade.getInstance().getBroker(WorkingHours.class).persistentToDomain(calendarWorkingHoursEntity.getWorkinghours()));

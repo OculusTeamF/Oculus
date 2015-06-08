@@ -20,7 +20,6 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Date;
@@ -95,17 +94,17 @@ public class Calendar implements ICalendar {
 	}
 
 	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
-            throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-            NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
-        if(getWorkingHours()!=null) {
-            for (ICalendarWorkingHours c : getWorkingHours()) {
-                if (c.contains(calendarEvent)) {
-                    return true;
-                }
-            }
-        } else {
-            throw new NoWorkingHoursException();
-        }
+			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+			       NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
+		if (getWorkingHours() != null) {
+			for (ICalendarWorkingHours c : getWorkingHours()) {
+				if (c.contains(calendarEvent)) {
+					return true;
+				}
+			}
+		} else {
+			throw new NoWorkingHoursException();
+		}
 		return false;
 	}
 
@@ -119,14 +118,14 @@ public class Calendar implements ICalendar {
 	}
 
 	public class CalendarEventIterator implements Iterator<ICalendarEvent>, ILogger {
-		private Calendar _calendar;
+		private ICalendar _calendar;
 		private int _duration;
 		private Collection<ICriteria> _I_criterias;
 		private CalendarEvent _lastEvent;
 		private CalendarEvent _nextEvent;
 		private final int INTERVAL = 15;
 
-		public CalendarEventIterator(Calendar calendar, Collection<ICriteria> ICriterias, int duration)
+		public CalendarEventIterator(ICalendar calendar, Collection<ICriteria> criterias, int duration)
 				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
 				       NoBrokerMappedException, DatabaseOperationException {
 			// round up to next hour
@@ -135,8 +134,8 @@ public class Calendar implements ICalendar {
 			calendarRound.setTime(new Date());
 			calendarRound.add(java.util.Calendar.HOUR, 1);
 			calendarRound.set(java.util.Calendar.MINUTE, 0);
-            calendarRound.set(java.util.Calendar.SECOND, 0);
-            calendarRound.set(java.util.Calendar.MILLISECOND, 0);
+			calendarRound.set(java.util.Calendar.SECOND, 0);
+			calendarRound.set(java.util.Calendar.MILLISECOND, 0);
 			Date nextHour = calendarRound.getTime();
 			_lastEvent.setEventStart(nextHour);
 
@@ -147,7 +146,7 @@ public class Calendar implements ICalendar {
 
 			_lastEvent.setEventEnd(nextHour);
 
-			_I_criterias = ICriterias;
+			_I_criterias = criterias;
 		}
 
 		@Override
@@ -157,9 +156,9 @@ public class Calendar implements ICalendar {
 			} else {
 				try {
 					return setNextEvent();
-				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | DatabaseOperationException | BadConnectionException e) {
-					//TODO exceptions
-					e.printStackTrace();
+				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException
+						 | DatabaseOperationException | BadConnectionException e) {
+					log.error(e.getMessage());;
 					return false;
 				}
 			}
@@ -170,9 +169,10 @@ public class Calendar implements ICalendar {
 			if (_nextEvent == null) {
 				try {
 					setNextEvent();
-				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | DatabaseOperationException | BadConnectionException e) {
-					//TODO exceptions
-					e.printStackTrace();
+				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException
+						 | DatabaseOperationException | BadConnectionException e) {
+					log.error(e.getMessage());
+					return null;
 				}
 			}
 
@@ -206,13 +206,13 @@ public class Calendar implements ICalendar {
 					if (!isInWorkingTime(calendarEvent)) {
 						calendarEvent = null;
 					}
-				} catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException | InvalidReloadClassException | NoBrokerMappedException | NoWorkingHoursException e) {
-					//TODO Exception??
+				} catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException |
+						 InvalidReloadClassException | NoBrokerMappedException | NoWorkingHoursException e) {
 					log.error(e.getMessage());
 					return false;
-                }
+				}
 
-                // check availability
+				// check availability
 				if (calendarEvent != null) {
 					if (!isAvailableEvent(calendarEvent)) {
 						calendarEvent = null;
@@ -220,7 +220,7 @@ public class Calendar implements ICalendar {
 				}
 
 				// check criterias
-				if (calendarEvent != null && _I_criterias !=null) {
+				if (calendarEvent != null && _I_criterias != null) {
 					for (ICriteria c : _I_criterias) {
 						if (!c.isValidEvent(calendarEvent)) {
 							calendarEvent = null;
