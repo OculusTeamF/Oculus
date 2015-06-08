@@ -42,7 +42,7 @@ public class DataBean {
         eventsToLoad.add(event);
     }
 
-    public void fillArrays (boolean [] filledButtons, LocalTime [] filledLocalTimes){
+    public static void fillArrays (boolean [] filledButtons, LocalTime [] filledLocalTimes){
         buttons = filledButtons;
         localTimes = filledLocalTimes;
     }

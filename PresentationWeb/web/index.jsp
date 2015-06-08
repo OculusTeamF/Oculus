@@ -350,6 +350,7 @@
 
         xhttpreq.setRequestHeader("Content-type", "text/xml");
         xhttpreq.send();
+
         /*
         $('#MyTabSelector').disableTab(0, true);
         $('#MyTabSelector').enableTab(1);*/
