@@ -58,6 +58,7 @@ public class UserBean {
 
     public void deleteAppointment (){
         try {
+            System.out.println("DELETE APPOINTMENT CALLED");
             EventChooserController eventChooserController = EventChooserController.createEventChooserController(_patient);
             eventChooserController.deleteExistingEvent(_calendarEvent);
             erase();

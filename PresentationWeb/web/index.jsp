@@ -156,6 +156,9 @@
                         </form>
                     </div>
                     <button id="check-appointments">check appointments</button>
+                    <div name="hiddenForm" id="hiddenForm" style="height: 0px;width: 0px;overflow:hidden;">
+                        <a href="#A" id="gotoRegButton" action="#{user.deleteAppointment}">B</a>
+                    </div>
                 </div>
                 <div id="tabs-3">
                     [confirm date tab]
@@ -335,7 +338,8 @@
     });
 
     $("#delete-appointment").click(function(event){
-       /*
+        document.getElementById("hiddenForm:gotoRegButton").click();
+        /*
         $('#MyTabSelector').disableTab(0, true);
         $('#MyTabSelector').enableTab(1);*/
     });
