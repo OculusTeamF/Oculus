@@ -1,3 +1,6 @@
+import at.oculus.teamf.technical.loggin.ILogger;
+import beans.UserBean;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +14,7 @@ import java.io.IOException;
  */
 
 @WebServlet(name = "RedirectServlet")
-public class RedirectServlet extends HttpServlet {
+public class RedirectServlet extends HttpServlet implements ILogger{
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,6 +34,12 @@ public class RedirectServlet extends HttpServlet {
         if (dispatchto.equals("checkappointments")) {
             AppointmentController appoint = new AppointmentController();
             appoint.service(request, response);
+        }
+
+        // redirect to appointment servlet
+        if (dispatchto.equals("deleteappointment")) {
+            log.debug("REDIRECT SERVLET: delete appointment");
+            UserBean.deleteAppointment();
         }
     }
 

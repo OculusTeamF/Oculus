@@ -156,9 +156,6 @@
                         </form>
                     </div>
                     <button id="check-appointments">check appointments</button>
-                    <div name="hiddenForm" id="hiddenForm" style="height: 0px;width: 0px;overflow:hidden;">
-                        <a href="#A" id="gotoRegButton" action="#{user.deleteAppointment}">B</a>
-                    </div>
                 </div>
                 <div id="tabs-3">
                     [confirm date tab]
@@ -338,11 +335,34 @@
     });
 
     $("#delete-appointment").click(function(event){
-        document.getElementById("hiddenForm:gotoRegButton").click();
+
+        var url = "RedirectServlet";
+        var params = "dispatchto=deleteappointment";
+
+        xhttpreq = new XMLHttpRequest();
+        if (!xhttpreq) {
+            alert("Error: Could not init XMLHttpRequest");
+            return;
+        }
+
+        xhttpreq.onreadystatechange = deleteAppointmentRequest_callback;
+        xhttpreq.open("POST", url + "?" + params, true);
+
+        xhttpreq.setRequestHeader("Content-type", "text/xml");
+        xhttpreq.send();
         /*
         $('#MyTabSelector').disableTab(0, true);
         $('#MyTabSelector').enableTab(1);*/
     });
+
+    function deleteAppointmentRequest_callback() {
+        if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
+            alert("delete done");
+            /*
+             $('#MyTabSelector').disableTab(0);
+             $('#MyTabSelector').enableTab(1);*/
+        }
+    }
 
     $("#check-appointments").click(function(event){
         sendAppointmentRequest();
