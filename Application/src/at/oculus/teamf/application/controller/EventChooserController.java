@@ -68,6 +68,7 @@ public class EventChooserController implements ILogger {
         iPatient = patient;
         weekDayTimeCollection = new LinkedList<>();
         datePeriodCollection = new LinkedList<>();
+        futureEvents = new LinkedList<>();
     }
 
     public static EventChooserController createEventChooserController(IPatient iPatient) throws PatientCanNotBeNullException {
