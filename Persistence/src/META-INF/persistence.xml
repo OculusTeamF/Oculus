@@ -23,11 +23,11 @@
       <class>at.oculus.teamf.persistence.entity.QueueEntity</class>
       <class>at.oculus.teamf.persistence.entity.ReceptionistEntity</class>
       <class>at.oculus.teamf.persistence.entity.WorkingHoursEntity</class>
-      <properties>
+      <!--<properties>
         <property name="hibernate.connection.url" value="jdbc:mysql://83.212.126.222:3306/oculus_f"/>
         <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
         <property name="hibernate.connection.username" value="oculus_f"/>
         <property name="hibernate.connection.password" value="!v3Ke#=3CR5$"/>
-      </properties>
+      </properties>-->
     </persistence-unit>
 </persistence>
