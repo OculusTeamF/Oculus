@@ -13,15 +13,18 @@ import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
 import at.oculus.teamf.domain.entity.user.IUser;
 import at.oculus.teamf.domain.entity.user.orthoptist.IOrthoptist;
+import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Date;
 
 /**
  * Created by Simon Angerer on 04.06.2015.
  */
-class OrthoptistProxy extends VirtualProxy<IOrthoptist> implements IOrthoptist, IUser {
+class OrthoptistProxy extends VirtualProxy<IOrthoptist> implements IOrthoptist, IUser, ILogger {
     protected OrthoptistProxy(IOrthoptist real) {
         super(real);
     }
@@ -48,6 +51,13 @@ class OrthoptistProxy extends VirtualProxy<IOrthoptist> implements IOrthoptist, 
 
     @Override
     public IPatientQueue getQueue() throws NoBrokerMappedException, BadConnectionException {
+        if(_real.getQueue() == null) {
+            try {
+                _real.setQueue(Facade.getInstance().getById(IPatientQueue.class, _real.getId()));
+            } catch (BadConnectionException | DatabaseOperationException | NoBrokerMappedException e) {
+                log.error(e.getMessage());
+            }
+        }
         return _real.getQueue();
     }
 

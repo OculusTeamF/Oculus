@@ -9,9 +9,7 @@
 
 package at.oculus.teamf.domain.entity.prescription;
 
-import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
-import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.DomainFactory;
 
 /**
  * Created by Simon Angerer on 04.06.2015.

@@ -88,13 +88,13 @@ public class VisualAid implements IVisualAid {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (!(o instanceof VisualAid))
+		if (!(o instanceof IVisualAid))
 			return false;
 
-		VisualAid visualAid = (VisualAid) o;
+		IVisualAid visualAid = (VisualAid) o;
 
-		if (_id != visualAid._id)
-			return false;
+		if (_id != visualAid.getId())
+			return false;/*
 		if (_description != null ? !_description.equals(visualAid._description) : visualAid._description != null)
 			return false;
 		if (_diagnosis != null ? !_diagnosis.equals(visualAid._diagnosis) : visualAid._diagnosis != null)
@@ -108,7 +108,7 @@ public class VisualAid implements IVisualAid {
             return false;
         if (_lastPrint != null ? !((_lastPrint.getTime() - visualAid._lastPrint.getTime()) > -1000 &&
                 (_lastPrint.getTime() - visualAid._lastPrint.getTime()) < 1000) : visualAid._lastPrint != null)
-            return false;
+            return false;*/
 
 		return true;
 	}

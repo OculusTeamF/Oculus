@@ -9,9 +9,11 @@
 
 package at.oculus.teamf.domain.entity.queue;
 
+import at.oculus.teamf.domain.entity.IDomain;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotAddPatientToQueueException;
 import at.oculus.teamf.domain.entity.exception.patientqueue.CouldNotRemovePatientFromQueueException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.domain.entity.user.IUser;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -19,11 +21,15 @@ import java.util.Collection;
 /**
  * interface patient queue for presentation layer
  */
-public interface IPatientQueue {
+public interface IPatientQueue extends IDomain{
 
     Collection<IQueueEntry> getEntries();
 
+    void setEntries(Collection<IQueueEntry> entries);
+
+    void setUser(IUser user);
+
     void addPatient(IPatient patient, Timestamp arrivaltime) throws CouldNotAddPatientToQueueException;
 
-    void removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException;
+    IQueueEntry removePatient(IPatient patient) throws CouldNotRemovePatientFromQueueException;
 }

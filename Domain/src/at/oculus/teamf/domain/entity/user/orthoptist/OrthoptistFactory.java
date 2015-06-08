@@ -9,8 +9,7 @@
 
 package at.oculus.teamf.domain.entity.user.orthoptist;
 
-import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.DomainFactory;
 
 /**
  * Created by Simon Angerer on 04.06.2015.

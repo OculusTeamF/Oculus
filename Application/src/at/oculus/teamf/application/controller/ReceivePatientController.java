@@ -24,7 +24,6 @@ package at.oculus.teamf.application.controller;
 import at.oculus.teamf.domain.entity.examination.ExaminationProtocol;
 import at.oculus.teamf.domain.entity.examination.IExaminationProtocol;
 import at.oculus.teamf.domain.entity.queue.IPatientQueue;
-import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CouldNotAddExaminationProtocol;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetExaminationProtolException;
@@ -102,7 +101,7 @@ public class ReceivePatientController implements ILogger {
 
     public void removePatientFromQueue(IPatient ipatient, IPatientQueue iqueue) throws CouldNotRemovePatientFromQueueException {
         IPatient patient = ipatient;
-        IPatientQueue queue = (PatientQueue) iqueue;
+        IPatientQueue queue = iqueue;
 
         queue.removePatient(patient);
         log.info("Patient has been removed from queue.");

@@ -34,6 +34,7 @@ public abstract class VirtualProxyWrapper<T extends IDomain> {
         new CalendarProxyWrapper();
         new PrescriptionProxyWrapper();
         new OrthoptistProxyWrapper();
+        new PatientQueueProxyWrapper();
     }
 
     public abstract T wrap(T domain);

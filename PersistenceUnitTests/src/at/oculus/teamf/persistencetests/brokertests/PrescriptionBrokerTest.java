@@ -10,7 +10,7 @@
 package at.oculus.teamf.persistencetests.brokertests;
 
 import at.oculus.teamf.domain.entity.exception.CantGetPresciptionEntriesException;
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.DomainFactory;
 import at.oculus.teamf.domain.entity.prescription.IPrescription;
 import at.oculus.teamf.domain.entity.prescription.prescriptionentry.IPrescriptionEntry;
 import at.oculus.teamf.domain.entity.patient.IPatient;
