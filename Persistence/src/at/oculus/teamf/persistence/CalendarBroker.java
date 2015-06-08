@@ -17,13 +17,16 @@ import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorki
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.calendar.workinghours.WorkingHours;
 import at.oculus.teamf.persistence.entity.CalendarEntity;
 import at.oculus.teamf.persistence.entity.CalendarEventEntity;
 import at.oculus.teamf.persistence.entity.CalendarWorkingHoursEntity;
+import at.oculus.teamf.persistence.entity.WorkingHoursEntity;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
@@ -53,11 +56,17 @@ class CalendarBroker extends EntityBroker<ICalendar, CalendarEntity> implements 
      */
     @Override
     protected ICalendar persistentToDomain(CalendarEntity entity) {
-        log.debug("converting persistence entity " + _entityClass.getClass() + " to domain object " +
-                _domainClass.getClass());
+        log.debug("converting persistence entity " + _entityClass + " to domain object " + _domainClass);
         ICalendar calendar = (ICalendar) DomainWrapperFactory.getInstance().create(ICalendar.class);
         calendar.setId(entity.getId());
-        return calendar;
+	    try {
+		    calendar.getWorkingHours();
+	    } catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException |
+			     DatabaseOperationException | BadConnectionException e) {
+		    log.error(e.getMessage());
+	    }
+
+	    return calendar;
     }
 
     /**
@@ -151,7 +160,7 @@ class CalendarBroker extends EntityBroker<ICalendar, CalendarEntity> implements 
     private Collection<ICalendarWorkingHours> reloadCalendarWorkingHours(ISession session, Object obj)
             throws BadConnectionException, NoBrokerMappedException, DatabaseOperationException, ClassNotMappedException,
             SearchInterfaceNotImplementedException, InvalidSearchParameterException {
-        log.debug("reloading calendar events");
+        log.debug("reloading working hours");
         ReloadComponent reloadComponent = new ReloadComponent(CalendarEntity.class, CalendarWorkingHours.class);
 
         return reloadComponent.reloadCollection(session, ((ICalendar) obj).getId(), new CalendarWorkingHoursLoader());
