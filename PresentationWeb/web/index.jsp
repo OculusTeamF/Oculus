@@ -34,8 +34,7 @@
                 <ul>
                     <li><a href="#tabs-1">Current appointment</a></li>
                     <li><a href="#tabs-2">New appointment</a></li>
-                    <li><a href="#tabs-3">Available appointments</a></li>
-                    <li><a href="#tabs-4">Confirmation</a></li>
+                    <li><a href="#tabs-3">Confirmation</a></li>
                 </ul>
                 <div id="tabs-1">
                     <p>
@@ -50,30 +49,10 @@
                     <br/><br/>
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
+
                 <div id="tabs-2">
-
-                        <div id="picker">
-                            <br/>
-                            <div id="choose_date"></div>
-                            <!--
-                            <p>Choose Endtime: (optional)</p>
-                            <input type="text" name="choose_time" id="choose_time" value="" />
-                            -->
-                            <br/><br/>
-                            <button type="button" id="add-time">add time</button>
-                        </div>
-
-                        <div id="alist">
-                            <ul id="appoint-list">
-                            </ul>
-                            <br/><br/>
-                            <button id="check-appointments">check appointments</button>
-                        </div>
-
-                </div>
-                <div id="tabs-3">
-                    <form>
-                        <div>
+                    <div id="picker">
+                        <form>
                             <table>
                                 <tr>
                                     <td>
@@ -84,6 +63,7 @@
                                         <input type="text" name="time_picker1" id="time_picker1" value="" />
                                     </td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td>
                                         <input id="option2" type="checkbox" >
@@ -93,6 +73,7 @@
                                         <input type="text" name="time_picker2" id="time_picker2" value="" />
                                     </td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td>
                                         <input id="option3" type="checkbox" >
@@ -102,6 +83,7 @@
                                         <input type="text" name="time_picker3" id="time_picker3" value="" />
                                     </td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td>
                                         <input id="option4" type="checkbox" >
@@ -111,6 +93,7 @@
                                         <input type="text" name="time_picker4" id="time_picker4" value="" />
                                     </td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td>
                                         <input id="option5" type="checkbox" >
@@ -120,6 +103,7 @@
                                         <input type="text" name="time_picker5" id="time_picker5" value="" />
                                     </td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td>
                                         <input id="option6" type="checkbox" >
@@ -130,10 +114,16 @@
                                     </td>
                                 </tr>
                             </table>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    <div id="alist">
+                        <ul id="appoint-list">
+                        </ul>
+                        <br/><br/>
+                        <button id="check-appointments">check appointments</button>
+                    </div>
                 </div>
-                <div id="tabs-4">
+                <div id="tabs-3">
                     [confirm date tab]
                     <br/><br/>
                     <button type="button" id="confirm-appointment">Confirm</button>
@@ -197,6 +187,10 @@
 
     var dates = [];
     var xhttpreq;
+    var maxHour = 18;
+    var minHour = 6;
+    var startHour = 7;
+    var hourGrid = 2;
 
     $('#MyTabSelector').tabs({
         heightStyle: 'fill'
@@ -313,45 +307,63 @@
     });
 
     $('#time_picker1').timepicker({
-        hourGrid: 4,
+        hourGrid: hourGrid,
         minuteGrid: 10,
         timeFormat: 'HH:mm',
-        stepMinute: 10
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
     });
 
     $('#time_picker2').timepicker({
-        hourGrid: 4,
+        hourGrid: hourGrid,
         minuteGrid: 10,
         timeFormat: 'HH:mm',
-        stepMinute: 10
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
     });
 
     $('#time_picker3').timepicker({
-        hourGrid: 4,
+        hourGrid: hourGrid,
         minuteGrid: 10,
         timeFormat: 'HH:mm',
-        stepMinute: 10
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
     });
 
     $('#time_picker4').timepicker({
-        hourGrid: 4,
+        hourGrid: hourGrid,
         minuteGrid: 10,
         timeFormat: 'HH:mm',
-        stepMinute: 10
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
     });
 
     $('#time_picker5').timepicker({
-        hourGrid: 4,
+        hourGrid: hourGrid,
         minuteGrid: 10,
         timeFormat: 'HH:mm',
-        stepMinute: 10
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
     });
 
     $('#time_picker6').timepicker({
-        hourGrid: 4,
+        hourGrid: hourGrid,
         minuteGrid: 10,
         timeFormat: 'HH:mm',
-        stepMinute: 10
+        stepMinute: 10,
+        hour: startHour,
+        hourMin: minHour,
+        hourMax: maxHour
     });
 </script>
 </html>
