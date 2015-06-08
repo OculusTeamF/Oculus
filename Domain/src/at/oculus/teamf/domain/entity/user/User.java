@@ -141,13 +141,13 @@ public abstract class User implements IUser, IDomain, IUserTb2 {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (!(o instanceof User))
+		if (!(o instanceof IUser))
 			return false;
 
-		User user = (User) o;
+		IUser user = (IUser) o;
 
-		if (_id != user._id)
-			return false;
+		if (_id != user.getId())
+			return false;/*
 		if (_createDate != null ? !_createDate.equals(user._createDate) : user._createDate != null)
 			return false;
 		if (_email != null ? !_email.equals(user._email) : user._email != null)
@@ -165,7 +165,7 @@ public abstract class User implements IUser, IDomain, IUserTb2 {
 		if (_userGroupId != null ? !_userGroupId.equals(user._userGroupId) : user._userGroupId != null)
 			return false;
 		if (_userName != null ? !_userName.equals(user._userName) : user._userName != null)
-			return false;
+			return false;*/
 		return true;
 	}
 

@@ -125,17 +125,25 @@ public class Doctor extends User implements IDoctor, ILogger{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Doctor)) return false;
-        if (!super.equals(o)) return false;
+        if (!(o instanceof IDoctor)) return false;
 
-        Doctor doctor = (Doctor) o;
+        IDoctor doctor = (IDoctor) o;
 
-        if (_id != doctor._id) return false;
-        if (!_calendar.equals(doctor._calendar)) return false;
-        if (!_queue.equals(doctor._queue)) return false;
-        if (!_patients.equals(doctor._patients)) return false;
-        return _doctorSubstitude.equals(doctor._doctorSubstitude);
+        if (_id != doctor.getId()) return false;
 
+        return true;
+
+        //removed until caching is implemented
+        /*if (!_calendar.equals(doctor.getCalendar())) return false;
+        //if (!_queue.equals(doctor.getQueue())) return false;
+        try {
+            if (!_patients.equals(doctor.getPatients())) return false;
+        } catch (CantLoadPatientsException e) {
+            log.error(e.getMessage());
+            return false;
+        }
+        return _doctorSubstitude.equals(doctor.getDoctorSubstitude());
+        */
     }
 
     //</editor-fold>

@@ -259,14 +259,14 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (!(o instanceof ExaminationProtocol))
+		if (!(o instanceof IExaminationProtocol))
 			return false;
 
-		ExaminationProtocol that = (ExaminationProtocol) o;
+		IExaminationProtocol that = (ExaminationProtocol) o;
 
-		if (_id != that._id)
+		if (_id != that.getId())
 			return false;
-		if (_description != null ? !_description.equals(that._description) : that._description != null)
+		/*if (_description != null ? !_description.equals(that._description) : that._description != null)
 			return false;
 		if (_diagnosis != null ? !_diagnosis.equals(that._diagnosis) : that._diagnosis != null)
 			return false;
@@ -279,7 +279,7 @@ public class ExaminationProtocol implements IExaminationProtocol, ILogger, IExam
 		if (_patient != null ? !_patient.equals(that._patient) : that._patient != null)
 			return false;
 		if (_startTime != null ? !_startTime.equals(that._startTime) : that._startTime != null)
-			return false;
+			return false;*/
 
 		return true;
 	}

@@ -11,7 +11,6 @@ package at.oculus.teamf.persistence.virtualproxy;
 
 import at.oculus.teamE.domain.interfaces.IExaminationProtocolTb2;
 import at.oculus.teamE.domain.interfaces.IUserTb2;
-import at.oculus.teamf.domain.entity.queue.PatientQueue;
 import at.oculus.teamf.domain.entity.queue.QueueEntry;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.exception.CantLoadPatientsException;
@@ -67,8 +66,8 @@ class DoctorProxy extends VirtualProxy<IDoctor> implements IDoctor, ILogger, IUs
     public IPatientQueue getQueue() {
         if(_real.getQueue() == null) {
             try {
-                _real.setQueue(new PatientQueue(this, Facade.getInstance().search(QueueEntry.class, "Doctor", Integer.toString(_real.getId()))));
-            } catch (SearchInterfaceNotImplementedException | BadConnectionException | InvalidSearchParameterException | DatabaseOperationException | NoBrokerMappedException e) {
+                _real.setQueue(Facade.getInstance().getById(IPatientQueue.class, _real.getId()));
+            } catch (BadConnectionException | DatabaseOperationException | NoBrokerMappedException e) {
                 log.error(e.getMessage());
             }
         }

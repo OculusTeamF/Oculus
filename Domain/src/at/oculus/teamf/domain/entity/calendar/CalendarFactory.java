@@ -9,8 +9,7 @@
 
 package at.oculus.teamf.domain.entity.calendar;
 
-import at.oculus.teamf.domain.entity.IDomain;
-import at.oculus.teamf.domain.entity.factory.DomainFactory;
+import at.oculus.teamf.domain.entity.DomainFactory;
 
 /**
  * Created by Simon Angerer on 03.06.2015.

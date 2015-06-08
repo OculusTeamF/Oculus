@@ -15,6 +15,7 @@ import at.oculus.teamf.databaseconnection.session.ISessionBroker;
 import at.oculus.teamf.databaseconnection.session.exception.BadSessionException;
 import at.oculus.teamf.databaseconnection.session.exception.ClassNotMappedException;
 import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.queue.IQueueEntry;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
@@ -26,7 +27,6 @@ import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterExcept
 import at.oculus.teamf.persistence.exception.search.SearchException;
 import at.oculus.teamf.persistence.exception.search.SearchInterfaceNotImplementedException;
 import at.oculus.teamf.persistence.factory.DomainWrapperFactory;
-import at.oculus.teamf.persistence.virtualproxy.VirtualProxy;
 import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.util.Collection;
@@ -65,6 +65,7 @@ public class Facade implements ILogger, IFacade{
 	    entityBrokers.add(new VisualAidBroker());
 	    entityBrokers.add(new WorkingHoursBroker());
 	    entityBrokers.add(new CalendarWorkingHoursBroker());
+        entityBrokers.add(new PatientQueueBroker());
 
 	    init(entityBrokers);
     }
@@ -159,7 +160,7 @@ public class Facade implements ILogger, IFacade{
      * @throws NoBrokerMappedException
      */
     protected EntityBroker getBroker(Class clazz) throws NoBrokerMappedException {
-	    EntityBroker broker = _entityBrokers.get(clazz);
+        EntityBroker broker = _entityBrokers.get(clazz);
 
 	    if (broker == null) {
 		    throw new NoBrokerMappedException();

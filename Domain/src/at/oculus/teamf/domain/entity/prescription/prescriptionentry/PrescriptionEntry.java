@@ -66,10 +66,10 @@ public class PrescriptionEntry implements IPrescriptionEntry {
 
 		if (_id != that._id)
 			return false;
-		if (_medicine != null ? !_medicine.equals(that._medicine) : that._medicine != null)
+		/*if (_medicine != null ? !_medicine.equals(that._medicine) : that._medicine != null)
 			return false;
 		if (_prescription != null ? !_prescription.equals(that._prescription) : that._prescription != null)
-			return false;
+			return false;*/
 
 		return true;
 	}
