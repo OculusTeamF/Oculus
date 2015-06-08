@@ -155,7 +155,7 @@ public class EventChooserController implements ILogger {
                 }
             }
         }
-
+        log.debug("there are no future events");
         IDoctor iDoctor = iPatient.getIDoctor();
         if(iDoctor == null){
             log.error("Patient has no Doctor!");
@@ -164,21 +164,22 @@ public class EventChooserController implements ILogger {
         ICalendar iCalendar = iDoctor.getCalendar();
 
         IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimeCollection);
-
+        log.debug("created weekDayTimeCriteria");
         Collection<ICriteria> criterias = new LinkedList<>();
         criterias.add(weekDayTimeCriteria);
-
+        log.debug("added week day time criteria");
         if(datePeriodCollection.size() > 0){
             for(int i = 0; i < datePeriodCollection.size(); i++){
                 IDatePeriodCriteria datePeriodICriteria = ((LinkedList<IDatePeriodCriteria>)datePeriodCollection).get(i);
                 criterias.add(datePeriodICriteria);
+                log.debug("added date period criteria");
             }
-
         }
 
         Iterator<ICalendarEvent> iterator = null;
         try {
             iterator = iCalendar.availableEventsIterator(criterias, 30);
+            log.debug("fetched iterator");
         } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
             log.error("Facade exception caught! Could not get Events - " + e.getMessage());
             throw e;
@@ -187,6 +188,7 @@ public class EventChooserController implements ILogger {
         Collection<ICalendarEvent> results = new LinkedList<>();
 
         if(iterator != null){
+            log.debug("get results from iterator");
            while(results.size() < 3){
                results.add(iterator.next());
            }
@@ -209,6 +211,7 @@ public class EventChooserController implements ILogger {
      */
     public Collection<IWeekDayTime> addWeekDayTimeCriteria(String weekDay, LocalTime start, LocalTime end){
         WeekDayKey key;
+        log.debug("try to add week day time criteria");
         switch(weekDay){
             case "SUN":
                 key = WeekDayKey.SUN;
@@ -232,11 +235,13 @@ public class EventChooserController implements ILogger {
                 key = WeekDayKey.SAT;
                 break;
             default:
+                log.debug("weekday not correct. defaut value NULL is set");
                 key = WeekDayKey.NULL;
         }
 
         IWeekDayTime weekDayTime = new WeekDayTime(key, start, end);
         weekDayTimeCollection.add(weekDayTime);
+        log.debug("added week day time to collection");
         return weekDayTimeCollection;
     }
 
