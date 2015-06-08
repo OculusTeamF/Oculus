@@ -13,7 +13,7 @@ package at.oculus.teamf.domain.entity.calendar.calendarevent;
 /**
  * Created by Norskan on 03.04.2015.
  */
-public abstract class EventType implements IEventType {
+public class EventType implements IEventType {
 	//<editor-fold desc="Attributes">
 	private int _id;
 	private String _eventTypeName;

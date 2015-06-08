@@ -29,7 +29,7 @@ public class CalendarEventEntity implements IEntity {
     private byte _isOpen;
     private CalendarEntity _calendar;
     private PatientEntity _patient;
-    //private EventtypeEntity _eventtype;
+    private EventtypeEntity _eventtype;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -176,13 +176,13 @@ public class CalendarEventEntity implements IEntity {
         _patient = patient;
     }
 
-    /*@ManyToOne
-    @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false)
-    public Eventtypentity getEventtype() {
+    @ManyToOne
+    @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false, insertable = false, updatable = false)
+    public EventtypeEntity getEventtype() {
         return _eventtype;
     }
 
-    public void setEventtype(Eventtypentity eventType) {
+    public void setEventtype(EventtypeEntity eventType) {
         _eventtype = eventType;
-    }*/
+    }
 }

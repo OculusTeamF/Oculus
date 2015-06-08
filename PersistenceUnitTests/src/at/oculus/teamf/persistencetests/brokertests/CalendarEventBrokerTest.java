@@ -9,10 +9,19 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.IEventType;
+import at.oculus.teamf.domain.entity.patient.Patient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
+import java.util.Date;
 import java.util.Collection;
 
 import static junit.framework.TestCase.assertTrue;
@@ -21,16 +30,44 @@ import static junit.framework.TestCase.assertTrue;
  * Created by Norskan on 10.04.2015.
  */
 public class CalendarEventBrokerTest extends BrokerTest {
+    private ICalendarEvent _calendarEvent;
 
 	@Override
 	public void setUp() {
+        /*try {
+            _calendarEvent = new CalendarEvent();
+            _calendarEvent.setDescription("Testcase");
+            _calendarEvent.setEventStart(new Date());
+            _calendarEvent.setEventEnd(new Date());
+            _calendarEvent.setPatient(new Patient());
+            _calendarEvent.setCalendar((ICalendar) Facade.getInstance().getById(ICalendar.class, 1));
+	        _calendarEvent.setEventType((IEventType) Facade.getInstance().getById(IEventType.class, 1));
+            Facade.getInstance().save(_calendarEvent);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }*/
 
+		try {
+			_calendarEvent = Facade.getInstance().getById(ICalendarEvent.class,2);
+		} catch (BadConnectionException e) {
+			e.printStackTrace();
+		} catch (NoBrokerMappedException e) {
+			e.printStackTrace();
+		} catch (DatabaseOperationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void tearDown() {
-
-	}
+        try {
+            Facade.getInstance().delete(_calendarEvent);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidSearchParameterException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
 
 	@Override
 	public void testGetById() {

@@ -9,7 +9,9 @@
 
 package at.oculus.teamf.domain.entity.calendar.calendarevent;
 
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.persistence.entity.CalendarEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +29,8 @@ public class CalendarEvent implements ICalendarEvent {
     private Date _eventStart;
     private Date _eventEnd;
     private IPatient _patient;
-    private EventType _type;
+    private ICalendar _calendar;
+	private IEventType _eventType;
     //</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
@@ -76,6 +79,22 @@ public class CalendarEvent implements ICalendarEvent {
     public void setPatient(IPatient patient) {
         _patient = patient;
     }
+
+	public ICalendar getCalendar() {
+		return _calendar;
+	}
+
+	public void setCalendar(ICalendar calendar) {
+		_calendar = calendar;
+	}
+
+	public IEventType getEventType() {
+		return _eventType;
+	}
+
+	public void setEventType(IEventType eventType) {
+		_eventType = eventType;
+	}
 
 	//</editor-fold>
 

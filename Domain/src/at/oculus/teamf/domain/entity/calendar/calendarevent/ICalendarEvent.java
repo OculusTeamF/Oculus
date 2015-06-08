@@ -11,6 +11,7 @@ package at.oculus.teamf.domain.entity.calendar.calendarevent;
 
 import at.oculus.teamf.domain.entity.IDomain;
 //import at.oculus.teamf.domain.entity.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.util.Date;
@@ -37,4 +38,12 @@ public interface ICalendarEvent extends IDomain {
     void setEventEnd(Date eventEnd);
 
     void setPatient(IPatient patient);
+
+	void setCalendar(ICalendar calendar);
+
+	ICalendar getCalendar();
+
+	IEventType getEventType();
+
+	void setEventType(IEventType eventType);
 }
