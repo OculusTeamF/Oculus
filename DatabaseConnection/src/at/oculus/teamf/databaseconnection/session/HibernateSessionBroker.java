@@ -18,6 +18,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Broker that deals HibernateSessions to the top layer. Aquire a {@code #HibernateSession} through {@code
@@ -59,8 +61,13 @@ public class HibernateSessionBroker implements ISessionBroker {
                 new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
         _sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
-        //reson for the double connection!
-        _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f");
+        //reason for the double connection!
+        Map<String, Object> configOverrides = new HashMap<String, Object>();
+        configOverrides.put("hibernate.connection.url", ph.getURL());
+        configOverrides.put("hibernate.connection.driver_class", ph.getDriver());
+        configOverrides.put("hibernate.connection.username", ph.getUser());
+        configOverrides.put("hibernate.connection.password", ph.getPassword());
+        _entityManagerFactory = Persistence.createEntityManagerFactory("oculus_f",configOverrides);
     }
 
     /**
