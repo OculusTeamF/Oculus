@@ -72,7 +72,33 @@
 
                 </div>
                 <div id="tabs-3">
-                    [not used -> remove later]
+                    <form>
+
+                                <input id="option1" type="checkbox">
+                                <label class="checkbox" for="option1"> Monday </label>
+                        <div>
+                            <input type="text" name="time_picker1" id="time_picker" value="" />
+                        </div>
+                        <br/>
+                                <input id="option2" type="checkbox" >
+                                <label class="checkbox" for="option2"> Tuesday </label>
+                        <div>
+                            <input type="text" name="time_picker2" id="time_picker" value="" />
+                        </div>
+                                <br/>
+                                <input id="option3" type="checkbox" >
+                                <label class="checkbox" for="option3"> Wednesday </label>
+                                <br/>
+                                <input id="option4" type="checkbox" >
+                                <label class="checkbox" for="option4"> Thursday </label>
+                        <br/>
+                        <input id="option5" type="checkbox" >
+                        <label class="checkbox" for="option5"> Friday </label>
+                        <br/>
+                        <input id="option6" type="checkbox" >
+                        <label class="checkbox" for="option6"> Saturday </label>
+
+                    </form>
                 </div>
                 <div id="tabs-4">
                     [confirm date tab]
@@ -251,6 +277,12 @@
         $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').enableTab(2);
         $('#MyTabSelector').disableTab(3, true);*/
+    });
+
+    $('#time_picker').timepicker({
+        hourGrid: 4,
+        minuteGrid: 10,
+        timeFormat: 'hh:mm tt'
     });
 </script>
 </html>
