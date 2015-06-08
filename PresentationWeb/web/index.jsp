@@ -215,13 +215,11 @@
             $('#MyTabSelector').enableTab(0);
             $('#MyTabSelector').disableTab(1);
             $('#MyTabSelector').disableTab(2);
-            $('#MyTabSelector').disableTab(3);
         }
         else {
             $('#MyTabSelector').disableTab(0, true);
             $('#MyTabSelector').enableTab(1);
             $('#MyTabSelector').disableTab(2);
-            $('#MyTabSelector').disableTab(3);
         }
     });
 
@@ -229,7 +227,6 @@
         $('#MyTabSelector').enableTab(0);
         $('#MyTabSelector').enableTab(1);
         $('#MyTabSelector').enableTab(2);
-        $('#MyTabSelector').enableTab(3);
     });
 
     $("#add-time").click(function(event) {
@@ -287,7 +284,6 @@
         $('#MyTabSelector').enableTab(0);
         $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').disableTab(2, true);
-        $('#MyTabSelector').disableTab(3, true);
         $("#confirm-appointment").hide();
     });
 
@@ -302,8 +298,7 @@
     /*
         $('#MyTabSelector').disableTab(0, true);
         $('#MyTabSelector').disableTab(1, true);
-        $('#MyTabSelector').enableTab(2);
-        $('#MyTabSelector').disableTab(3, true);*/
+        $('#MyTabSelector').enableTab(2);*/
     });
 
     $('#time_picker1').timepicker({
