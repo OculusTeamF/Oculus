@@ -142,7 +142,7 @@ public class Prescription implements IPrescription, ILogger {
 
         if (_id != that._id)
             return false;
-        if (_issueDate != null ? !((_issueDate.getTime() - that._issueDate.getTime()) > -1000 &&
+        /*if (_issueDate != null ? !((_issueDate.getTime() - that._issueDate.getTime()) > -1000 &&
                 (_issueDate.getTime() - that._issueDate.getTime()) < 1000) : that._issueDate != null)
             return false;
         if (_lastPrint != null ? !((_lastPrint.getTime() - that._lastPrint.getTime()) > -1000 &&
@@ -152,7 +152,7 @@ public class Prescription implements IPrescription, ILogger {
             return false;
         if (_prescriptionEntries != null ? !_prescriptionEntries.equals(that._prescriptionEntries) :
                 that._prescriptionEntries != null)
-            return false;
+            return false;*/
 
         return true;
     }
