@@ -341,10 +341,6 @@ img {
  *
 **********************************************************************************************************************/
 
-#picker{
-    float:left;
-}
-
 .myButton {
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -420,7 +416,7 @@ button#add-time:hover, input#bigbutton:focus {
 
 
 button#check-appointments {
-    width:405px;
+    width:310px;
     cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
     padding:5px 25px; /*add some padding to the inside of the button*/
     background: #179db1; /*the colour of the button*/
@@ -433,7 +429,7 @@ button#check-appointments {
     box-shadow: 0 0 4px rgba(0,0,0, .75);
     color:#f3f3f3;
     font-size:1.1em;
-    float:right;
+    float:left;
 }
 
 button#check-appointments:hover, input#bigbutton:focus {
