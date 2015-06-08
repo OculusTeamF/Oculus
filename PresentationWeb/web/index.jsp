@@ -297,7 +297,7 @@
         });
 
         var url = "RedirectServlet";
-        var params = "dispatchto=checkappointments&checkdays=" + checkdays;
+        var params = "dispatchto=checkappointments&checkdays=" + checkdays + "&checktimes=" + times;
 
         xhttpreq = new XMLHttpRequest();
         if (!xhttpreq) {
@@ -314,7 +314,7 @@
 
     function sendAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
-            alert(xhttpreq.responseText);
+            alert("Possible Dates:" + xhttpreq.responseText);
 
             document.getElementById('option1button').style.visibility = 'visible';
             document.getElementById('option2button').style.visibility = 'visible';
@@ -329,13 +329,13 @@
 
             /* Modify result list */
             document.getElementById("add-time").innerText = "Start new selection";
-
+            /*
             for (var i = 0; dates.length; i++){
                 document.getElementById("list" + i).style.color = "green";
                 document.getElementById("list" + i).onclick = function () {
                     alert('confirm date function'); // link to confirmation
                 };
-            }
+            }*/
         }
     }
 
