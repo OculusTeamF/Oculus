@@ -18,6 +18,7 @@ import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
 import at.oculus.teamf.domain.entity.calendar.*;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.IEventType;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
@@ -54,6 +55,7 @@ public class EventChooserController implements ILogger {
     private String description;
     private Collection<IWeekDayTime> weekDayTimeCollection;
     private Collection<IDatePeriodCriteria> datePeriodCollection;
+    private Collection<IEventType> eventTypes;
 
     /**
      *<h3>$EventChooserController</h3>
@@ -70,12 +72,21 @@ public class EventChooserController implements ILogger {
         weekDayTimeCollection = new LinkedList<>();
         datePeriodCollection = new LinkedList<>();
         futureEvents = new LinkedList<>();
+        try {
+            eventTypes = Facade.getInstance().getAll(IEventType.class);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+            log.error("Facade Exception caught!");
+            e.printStackTrace();
+
+            eventTypes = new LinkedList<IEventType>();
+        }
     }
 
     public static EventChooserController createEventChooserController(IPatient iPatient) throws PatientCanNotBeNullException {
         if(iPatient == null){
             throw new PatientCanNotBeNullException();
         }
+
         return new EventChooserController(iPatient);
     }
 
@@ -278,6 +289,8 @@ public class EventChooserController implements ILogger {
         description = reason;
         iCalendarEvent.setPatient(iPatient);
         iCalendarEvent.setDescription(description);
+        LinkedList<IEventType> types = (LinkedList<IEventType>) eventTypes;
+        iCalendarEvent.setEventType(types.getFirst());
         IFacade facade = Facade.getInstance();
         try {
             facade.save(iCalendarEvent);
@@ -308,5 +321,15 @@ public class EventChooserController implements ILogger {
             }
         }
         return futureEvents;
+    }
+
+    /**
+     *<h3>$getEventTypes</h3>
+     *
+     * <b>Description:</b>
+     *this method returns the available Eventtypes. (Standardterimn, Kindertermin...)
+     */
+    public Collection<IEventType> getEventTypes(){
+        return eventTypes;
     }
 }
