@@ -280,9 +280,32 @@
     //******************************************************************************************************************
 
     $("#check-appointments").click(function(event){
-        //TODO: check if at least 1 date is added
+        var testchecked = false;
+        var inputcount = 0;
+
+        $("input:checkbox[name=boxdays]:checked").each(function() {
+            testchecked = true;
+            inputcount++;
+        });
+
+        $("input.timey").each(function (index) {
+            if ($(this).val() != "") {
+                inputcount--;
+            }
+        });
+
         //TODO: check if every selected checkbox has date assigned
-        sendAppointmentRequest();
+        if (testchecked == true && inputcount == 0) {
+            sendAppointmentRequest();
+        } else {
+            if (testchecked == false) {
+                alert("Please add at LEAST 1 date ! thx")
+            }
+            if (inputcount > 0) {
+                alert("Please add " + inputcount + " missing dates");
+            }
+        }
+
     });
 
     function sendAppointmentRequest() {
@@ -383,7 +406,7 @@
     });
 
     $("#cancel-appointment").click(function(event){
-        alert("cancel");
+        location.reload();
     });
 
     function handleDateClick(bu) {
