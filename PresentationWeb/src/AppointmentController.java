@@ -28,8 +28,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
 
@@ -47,18 +50,22 @@ public class AppointmentController extends HttpServlet implements ILogger{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         _currentp = UserBean._patient;  // get current patient (= current logged in user) from user bean
 
-        // format received dates
         log.debug("CHECK received appointments for " + _currentp.getLastName());
 
+        // get parameters
         String recdate = request.getParameter("checkdays");
         String rectimes = request.getParameter("checktimes");
-        log.debug("CHECK received parameters: " + recdate + " / " + rectimes);
+        String drstart = request.getParameter("daterangestart");
+        String drend = request.getParameter("daterangeend");
+
+        log.debug("CHECK received parameters [dates]: " + recdate + " / " + rectimes);
+        log.debug("CHECK received parameters [range]: " + drstart + " / " + drend);
 
         String[] weekdayparts = recdate.split(",");
         String[] timeparts = rectimes.split(",");
 
 
-        // fconvert string to LocalTime object
+        // convert string to LocalTime object
         for (int i = 0; i < weekdayparts.length; i++) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
             times[i] = LocalTime.parse(timeparts[i], formatter);
@@ -74,9 +81,18 @@ public class AppointmentController extends HttpServlet implements ILogger{
 
                 // add 30 minutes as default endtime
                 _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], times[i].plusMinutes(DEFAULT_ENDTIME));
+            }
 
-                // add not available daterange
-                //_eventchooserController.addDatePeriodCriteria(lol,lol);
+            // add not available daterange
+            if(drstart.equals("null") == false) {
+                // convert string to localdate ...then convert localdate to date
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
+                LocalDate localdstart =  LocalDate.parse(drstart.substring(0, 24), formatter);
+                LocalDate localdend =  LocalDate.parse(drend.substring(0, 24), formatter);
+                Date dateAStart = Date.from(localdstart.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date dateAEnd = Date.from(localdend.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                _eventchooserController.addDatePeriodCriteria(dateAStart,dateAEnd );
+                log.debug("ADD not available daterange: "  + dateAStart.toString() + " - " + dateAEnd.toString());
             }
         } catch (PatientCanNotBeNullException e) {
             e.printStackTrace();
@@ -105,7 +121,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
         // send event results back to jsp (as xml)
         try (PrintWriter out = response.getWriter()) {
             String resl = "";
-            log.debug("RESULTS SIZE: " + _checkedevents.size());
+            log.debug("RECEIVED EVENT RESULTS SIZE: " + _checkedevents.size());
             // TODO change to XML
             //out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>hi</root>");
             for (ICalendarEvent e : _checkedevents) {

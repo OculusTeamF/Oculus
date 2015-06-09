@@ -150,8 +150,9 @@
 
                         <strong>Date start:</strong> <p id="new_datestart"></p>
                         <strong>Date end:</strong> <p id="new_dateend"></p>
-                        <strong>Description:</strong> <p id="new_description"></p>
-                        <br/>
+                        <strong>Reason(s) for your visit:</strong> <p id="new_description"></p>
+                        <textarea rows="7" cols="32" autofocus></textarea>
+                        <br/><br/>
                         <button type="button" id="cancel-appointment">Cancel appointment</button>
                         <br/><br/>
                         <button type="button" id="confirm-appointment">Confirm appointment</button>
@@ -213,9 +214,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 
 <script>
-
-    var dates = [];
-
     var times = [];
     var checkdays = [];
     var xhttpreq;
@@ -224,19 +222,9 @@
     var startHour = 7;
     var hourGrid = 2;
 
-    $('#MyTabSelector').tabs({
-        heightStyle: 'fill'
-    });
-
-    $('#choose_date').datetimepicker({
-        minDate: 0,
-        showButtonPanel:false,
-        hourGrid: 4,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10
-    });
-
+    //******************************************************************************************************************
+    //  PAGE LOAD INIT SCRIPT
+    //******************************************************************************************************************
 
     $(document).ready(function(){
 
@@ -257,23 +245,18 @@
         }
     });
 
-    $("#activate-tabs").click(function(event){
-        $('#MyTabSelector').enableTab(0);
-        $('#MyTabSelector').enableTab(1);
-        $('#MyTabSelector').enableTab(2);
+    $('#MyTabSelector').tabs({
+        heightStyle: 'fill'
     });
 
-    $("#add-time").click(function(event) {
-        if (dates.length < 7) {
-            document.getElementById('check-appointments').style.visibility = 'visible';
+    //******************************************************************************************************************
+    //  CHECK APPOINTMENTS SCRIPT
+    //******************************************************************************************************************
 
-            var newDateAsObject = $('#choose_date').datepicker('getDate');
-            var newDateAsString = $('#choose_date').datepicker({dateFormat: 'dd,MM,yyyy'}).val();
-            $('#appoint-list').append('<a href="#" class="myButton" id="list' + dates.length + '">' + newDateAsString + '</a>');
-            dates[dates.length] = newDateAsObject;
-        } else {
-            alert('Please check selected dates before adding more... ')
-        }
+    $("#check-appointments").click(function(event){
+        //TODO: check if at least 1 date is added
+        //TODO: check if every selected checkbox has date assigned
+        sendAppointmentRequest();
     });
 
     function sendAppointmentRequest() {
@@ -295,8 +278,12 @@
             }
         });
 
+        // get daterange unavailable
+        var dateRangeStart = $('#date_range_start').datepicker('getDate');
+        var dateRangeEnd = $('#date_range_end').datepicker('getDate');
+
         var url = "RedirectServlet";
-        var params = "dispatchto=checkappointments&checkdays=" + checkdays + "&checktimes=" + times;
+        var params = "dispatchto=checkappointments&checkdays=" + checkdays + "&checktimes=" + times + "&daterangestart=" + dateRangeStart + "&daterangeend=" + dateRangeEnd;
 
         xhttpreq = new XMLHttpRequest();
         if (!xhttpreq) {
@@ -313,29 +300,34 @@
 
     function sendAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
-            alert("Possible Dates:" + xhttpreq.responseText);
-
-            /* TODO change to XML
-            var countedChars = xhttpreq.responseXML.getElementsByTagName("number")[0].firstChild.nodeValue;
-            alert("PASST");
-            document.getElementById("countedchars").value = countedChars;*/
+            alert("[DEBUG] Possible Dates:" + xhttpreq.responseText);
 
             for (i = 1; i < 7; i++){
                 document.getElementById("trid" + i).style.backgroundColor='#39AD65';
                 document.getElementById("time_picker" + i).disabled = true;
                 document.getElementById("option" + i).disabled = true;
+                document.getElementById("date_range_start").disabled = true;
+                document.getElementById("date_range_end").disabled = true;
                 document.getElementById("seldate" + i).style.visibility = 'visible';
+                //document.getElementById("seldate" + i).setAttribute("value","tessst");
                 document.getElementById("seldate" + i).onclick = function () {
-                    alert('date selected'); // link to confirmation
-                    document.getElementById("new_datestart").innerHTML = "lalala";
-                    document.getElementById("new_dateend").innerHTML = "blabla";
+                    var getdatev = "Selected date should be here later";
+                    alert('[DEBUG] date selected: ' + getdatev); // link to confirmation
+
+                    document.getElementById("new_datestart").innerHTML = getdatev;
+                    document.getElementById("new_dateend").innerHTML = getdatev;
                     document.getElementById("new_description").innerHTML = "nix";
+
                     $('#MyTabSelector').disableTab(1, false);
                     $('#MyTabSelector').tabs( "option", "active", 2 );
                 };
             }
         }
     }
+
+    //******************************************************************************************************************
+    //  CONFIRM APPOINTMENT SCRIPT
+    //******************************************************************************************************************
 
     $("#confirm-appointment").click(function(event){
         $('#MyTabSelector').enableTab(0);
@@ -348,6 +340,10 @@
     $("#cancel-appointment").click(function(event){
         alert("cancel");
     });
+
+    //******************************************************************************************************************
+    //  DELETE APPOINTMENT SCRIPT
+    //******************************************************************************************************************
 
     $("#delete-appointment").click(function(event){
 
@@ -371,11 +367,12 @@
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
             alert("delete done");
         }
-    }
+    };
 
-    $("#check-appointments").click(function(event){
-        sendAppointmentRequest();
-    });
+    //******************************************************************************************************************
+    //  DATE AND TIMEPICKER SCRIPTS
+    //******************************************************************************************************************
+
 
     $('.timey').each(function(){
         $(this).timepicker({
@@ -402,6 +399,17 @@
                 end: {} // end picker options
             }
     );
+
+
+    //******************************************************************************************************************
+    //  DEBUG SCRIPTS
+    //******************************************************************************************************************
+
+    $("#activate-tabs").click(function(event){
+        $('#MyTabSelector').enableTab(0);
+        $('#MyTabSelector').enableTab(1);
+        $('#MyTabSelector').enableTab(2);
+    });
 
 </script>
 </html>
