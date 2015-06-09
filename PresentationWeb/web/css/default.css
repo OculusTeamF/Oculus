@@ -496,6 +496,7 @@ button#confirm-appointment:hover, input#bigbutton:focus {
     -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
     box-shadow: 0 0 1px rgba(0,0,0, .75);
 }
+
 button#cancel-appointment {
     width:250px;
     cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
@@ -513,6 +514,29 @@ button#cancel-appointment {
 }
 
 button#cancel-appointment:hover, input#bigbutton:focus {
+    background-color : #1579b1;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
+button#retry-appointment {
+    width:250px;
+    cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+    padding:5px 25px; /*add some padding to the inside of the button*/
+    background: #19b16c; /*the colour of the button*/
+    border:1px solid #1489B1; /*required or the default border for the browser will appear*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    box-shadow: 0 0 4px rgba(0,0,0, .75);
+    color:#f3f3f3;
+    font-size:1.1em;
+}
+
+button#retry-appointment:hover, input#bigbutton:focus {
     background-color : #1579b1;
     -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
     -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
@@ -779,7 +803,6 @@ border: 1px solid #fff;
     padding: 5px 15px;
     text-decoration: none;
     text-shadow: #fff 0 1px 0;
-    float: right;
     margin-right: 15px;
     margin-bottom: 0px;
     display: block;
@@ -787,7 +810,7 @@ border: 1px solid #fff;
     line-height: 17px;
     font-size: 12px;
     font-weight: bold;
-    width:280px;
+    width:220px;
 }
 
 a.selbutton:hover {

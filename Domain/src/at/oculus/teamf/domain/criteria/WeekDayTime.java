@@ -12,6 +12,7 @@ package at.oculus.teamf.domain.criteria;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,26 +35,40 @@ public class WeekDayTime implements IWeekDayTime {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof WeekDayTime)) return false;
-
-        WeekDayTime that = (WeekDayTime) o;
-
-        if (_from != null ? !_from.equals(that._from) : that._from != null) return false;
-        if (_to != null ? !_to.equals(that._to) : that._to != null) return false;
-        if (_weekDay != that._weekDay) return false;
-
-        return true;
+    public int hashCode() {
+	    int result = _weekDay != null ? _weekDay.hashCode() : 0;
+	    result = 31 * result + (_from != null ? _from.hashCode() : 0);
+	    result = 31 * result + (_to != null ? _to.hashCode() : 0);
+	    return result;
     }
 
     @Override
-    public int hashCode() {
-        int result = _weekDay != null ? _weekDay.hashCode() : 0;
-        result = 31 * result + (_from != null ? _from.hashCode() : 0);
-        result = 31 * result + (_to != null ? _to.hashCode() : 0);
-        return result;
+    public boolean equals(Object o) {
+	    if (this == o)
+		    return true;
+	    if (!(o instanceof WeekDayTime))
+		    return false;
+
+	    WeekDayTime that = (WeekDayTime) o;
+
+	    if (_from != null ? !_from.equals(that._from) : that._from != null)
+		    return false;
+	    if (_to != null ? !_to.equals(that._to) : that._to != null)
+		    return false;
+	    if (_weekDay != that._weekDay)
+		    return false;
+
+	    return true;
     }
+
+	@Override
+	public String toString() {
+		return "WeekDayTime{" +
+		       "_weekDay=" + _weekDay +
+		       ", _from=" + _from +
+		       ", _to=" + _to +
+		       '}';
+	}
 
     public boolean isInTime(ICalendarEvent calendarEvent){
         WeekDayKey weekDayKey = WeekDayKey.getWeekDayKey(calendarEvent.getEventStart());
