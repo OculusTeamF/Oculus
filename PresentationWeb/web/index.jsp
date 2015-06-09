@@ -220,6 +220,16 @@
 <div id="footer">
     <p id="legal">Copyright &copy; 2015 OCULUS Team F. All Rights Reserved. Designed by OCULUS Team F.</p>
 </div>
+
+
+<div id="dialog-message" title="Information">
+    <p id="msgp">
+        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+        Your files have downloaded successfully into the My Downloads folder.
+    </p>
+    <p></p>
+</div>
+
 </body>
 
 <script src="js/jquery.js"></script>
@@ -353,18 +363,32 @@
             sendAppointmentRequest();
         } else {
             if (testchecked == false) {
-                alert("Please add at LEAST 1 weekday ! thx")
+                document.getElementById("msgp").innerHTML = "Please add at LEAST 1 weekday ! thx";
+                showmessage();
             }
             if (inputchecked == false) {
-                alert("Please add " + (inputcountA - (inputcountB / 2)) + " missing time ranges");
+                document.getElementById("msgp").innerHTML = "Please add " + (inputcountA - (inputcountB / 2)) + " missing time ranges";
+                showmessage();
             }
             if (rangechecked == false) {
-                alert("Please check date range for proper values");
+                document.getElementById("msgp").innerHTML = "Please check date range for proper values";
+                showmessage();
             }
 
         }
 
     });
+
+    function showmessage(){
+        $( "#dialog-message" ).dialog({
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+    }
 
     function sendAppointmentRequest() {
         $("#check-appointments").hide();
