@@ -21,9 +21,10 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
+
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * @author Simon Angerer
@@ -42,6 +43,16 @@ public class Calendar implements ICalendar {
 	public Calendar() {
 	}
 
+	public static Iterator<ICalendarEvent> availableEventsIterator(ICalendar calendar, Collection<ICriteria> criterias,
+	                                                               int duration)
+			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+			       NoBrokerMappedException, DatabaseOperationException {
+
+		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(calendar, criterias, duration);
+
+		return iterator;
+	}
+
 	//<editor-fold desc="Getter/Setter">
 	public int getId() {
 		return _id;
@@ -55,17 +66,156 @@ public class Calendar implements ICalendar {
 		return _events;
 	}
 
+	public Collection<ICalendarWorkingHours> getWorkingHours() {
+		return _workinghours;
+	}
+
 	@Override
 	public void setEvents(Collection<ICalendarEvent> events) {
 		_events = events;
 	}
 
-	public Collection<ICalendarWorkingHours> getWorkingHours() {
-		return _workinghours;
-	}
-
 	public void setWorkingHours(Collection<ICalendarWorkingHours> workinghours) {
 		_workinghours = workinghours;
+	}
+
+	public static class CalendarEventIterator implements Iterator<ICalendarEvent>, ILogger {
+		private final int INTERVAL = 15;
+		private ICalendar _calendar;
+		private int _duration;
+		private Collection<ICriteria> _I_criterias;
+		private CalendarEvent _lastEvent;
+		private CalendarEvent _nextEvent;
+
+		public CalendarEventIterator(ICalendar calendar, Collection<ICriteria> criterias, int duration)
+				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+				       NoBrokerMappedException, DatabaseOperationException {
+			// round up to next hour
+			_lastEvent = new CalendarEvent();
+			java.util.Calendar calendarRound = java.util.Calendar.getInstance();
+			calendarRound.setTime(new Date());
+			calendarRound.add(java.util.Calendar.HOUR, 1);
+			calendarRound.set(java.util.Calendar.MINUTE, 0);
+			calendarRound.set(java.util.Calendar.SECOND, 0);
+			calendarRound.set(java.util.Calendar.MILLISECOND, 0);
+			Date nextHour = calendarRound.getTime();
+			_lastEvent.setEventStart(nextHour);
+
+
+			// set attributes
+			_calendar = calendar;
+			_duration = duration;
+
+			_lastEvent.setEventEnd(nextHour);
+
+			_I_criterias = criterias;
+		}
+
+		@Override
+		public boolean hasNext() {
+			if (_nextEvent != null) {
+				return true;
+			} else {
+				try {
+					return setNextEvent();
+				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException
+						| DatabaseOperationException | BadConnectionException | NoNextEventFoundException e) {
+					log.error(e.getMessage());
+					return false;
+				}
+			}
+		}
+
+		@Override
+		public ICalendarEvent next() {
+			if (_nextEvent == null) {
+				try {
+					setNextEvent();
+				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException
+						| DatabaseOperationException | BadConnectionException | NoNextEventFoundException e) {
+					log.error(e.getMessage());
+					return null;
+				}
+			}
+
+			_lastEvent = _nextEvent;
+			_nextEvent = null;
+
+			return _lastEvent;
+		}
+
+		private boolean setNextEvent()
+				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+				       NoBrokerMappedException, DatabaseOperationException, NoNextEventFoundException {
+			CalendarEvent calendarEvent = null;
+			CalendarEvent calendarEventLast = (CalendarEvent) _lastEvent.clone();
+
+			int counterExit = 0;
+			while (calendarEvent == null) {
+				counterExit++;
+				if (counterExit > 10000) {
+					throw new NoNextEventFoundException();
+				}
+
+				// set start date
+				calendarEvent = new CalendarEvent();
+				calendarEvent.setEventStart(calendarEventLast.getEventEnd());
+
+				// set end date
+				Date eventEnd = calendarEventLast.getEventEnd();
+				java.util.Calendar calendar = java.util.Calendar.getInstance();
+				calendar.setTime(eventEnd);
+				calendar.add(java.util.Calendar.MINUTE, _duration);
+				eventEnd = calendar.getTime();
+				calendarEvent.setEventEnd(eventEnd);
+
+				// check working time
+				try {
+					if (!_calendar.isInWorkingTime(calendarEvent)) {
+						calendarEvent = null;
+					}
+				} catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException |
+						InvalidReloadClassException | NoBrokerMappedException | NoWorkingHoursException e) {
+					log.error(e.getMessage());
+					return false;
+				}
+
+				// check availability
+				if (calendarEvent != null) {
+					if (!_calendar.isAvailableEvent(calendarEvent)) {
+						calendarEvent = null;
+					}
+				}
+
+				// check criterias
+				if (calendarEvent != null && _I_criterias != null) {
+					for (ICriteria c : _I_criterias) {
+						if (!c.isValidEvent(calendarEvent)) {
+							calendarEvent = null;
+							break;
+						}
+					}
+				}
+
+				// try next timeslot in 15min
+				if (calendarEvent == null) {
+					Date newDate = calendarEventLast.getEventStart();
+					java.util.Calendar calendarNext = java.util.Calendar.getInstance();
+					calendarNext.setTime(newDate);
+					calendarNext.add(java.util.Calendar.MINUTE, INTERVAL);
+					newDate = calendarNext.getTime();
+					calendarEventLast.setEventStart(newDate);
+					calendarEventLast.setEventEnd(newDate);
+				}
+
+			}
+
+			// set next event
+			calendarEvent.setCalendar(_calendar);
+			_nextEvent = calendarEvent;
+
+			return true;
+		}
 	}
 
 	//</editor-fold>
@@ -110,150 +260,7 @@ public class Calendar implements ICalendar {
 		return false;
 	}
 
-	public static Iterator<ICalendarEvent> availableEventsIterator(ICalendar calendar, Collection<ICriteria> criterias, int duration)
-			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-			       NoBrokerMappedException, DatabaseOperationException {
-
-		Iterator<ICalendarEvent> iterator = new CalendarEventIterator(calendar, criterias, duration);
-
-		return iterator;
-	}
-
-	public static class CalendarEventIterator implements Iterator<ICalendarEvent>, ILogger {
-		private ICalendar _calendar;
-		private int _duration;
-		private Collection<ICriteria> _I_criterias;
-		private CalendarEvent _lastEvent;
-		private CalendarEvent _nextEvent;
-		private final int INTERVAL = 15;
-
-		public CalendarEventIterator(ICalendar calendar, Collection<ICriteria> criterias, int duration)
-				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-				       NoBrokerMappedException, DatabaseOperationException {
-			// round up to next hour
-			_lastEvent = new CalendarEvent();
-			java.util.Calendar calendarRound = java.util.Calendar.getInstance();
-			calendarRound.setTime(new Date());
-			calendarRound.add(java.util.Calendar.HOUR, 1);
-			calendarRound.set(java.util.Calendar.MINUTE, 0);
-			calendarRound.set(java.util.Calendar.SECOND, 0);
-			calendarRound.set(java.util.Calendar.MILLISECOND, 0);
-			Date nextHour = calendarRound.getTime();
-			_lastEvent.setEventStart(nextHour);
 
 
-			// set attributes
-			_calendar = calendar;
-			_duration = duration;
 
-			_lastEvent.setEventEnd(nextHour);
-
-			_I_criterias = criterias;
-		}
-
-		@Override
-		public boolean hasNext() {
-			if (_nextEvent != null) {
-				return true;
-			} else {
-				try {
-					return setNextEvent();
-				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException
-						 | DatabaseOperationException | BadConnectionException | NoNextEventFoundException e) {
-                    log.error(e.getMessage());
-                    return false;
-                }
-            }
-		}
-
-		@Override
-		public ICalendarEvent next() {
-			if (_nextEvent == null) {
-				try {
-					setNextEvent();
-				} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException
-						 | DatabaseOperationException | BadConnectionException | NoNextEventFoundException e) {
-					log.error(e.getMessage());
-					return null;
-				}
-            }
-
-			_lastEvent = _nextEvent;
-			_nextEvent = null;
-
-			return _lastEvent;
-		}
-
-		private boolean setNextEvent()
-                throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-                NoBrokerMappedException, DatabaseOperationException, NoNextEventFoundException {
-			CalendarEvent calendarEvent = null;
-			CalendarEvent calendarEventLast = (CalendarEvent) _lastEvent.clone();
-
-            int counterExit = 0;
-			while (calendarEvent == null) {
-                counterExit++;
-                if(counterExit>10000){
-                    throw new NoNextEventFoundException();
-                }
-
-				// set start date
-				calendarEvent = new CalendarEvent();
-				calendarEvent.setEventStart(calendarEventLast.getEventEnd());
-
-				// set end date
-				Date eventEnd = calendarEventLast.getEventEnd();
-				java.util.Calendar calendar = java.util.Calendar.getInstance();
-				calendar.setTime(eventEnd);
-				calendar.add(java.util.Calendar.MINUTE, _duration);
-				eventEnd = calendar.getTime();
-				calendarEvent.setEventEnd(eventEnd);
-
-				// check working time
-				try {
-					if (!_calendar.isInWorkingTime(calendarEvent)) {
-						calendarEvent = null;
-					}
-				} catch (ReloadInterfaceNotImplementedException | BadConnectionException | DatabaseOperationException |
-						 InvalidReloadClassException | NoBrokerMappedException | NoWorkingHoursException e) {
-					log.error(e.getMessage());
-					return false;
-				}
-
-				// check availability
-				if (calendarEvent != null) {
-					if (!_calendar.isAvailableEvent(calendarEvent)) {
-						calendarEvent = null;
-					}
-				}
-
-				// check criterias
-				if (calendarEvent != null && _I_criterias != null) {
-					for (ICriteria c : _I_criterias) {
-						if (!c.isValidEvent(calendarEvent)) {
-							calendarEvent = null;
-							break;
-						}
-					}
-				}
-
-				// try next timeslot in 15min
-				if (calendarEvent == null) {
-					Date newDate = calendarEventLast.getEventStart();
-					java.util.Calendar calendarNext = java.util.Calendar.getInstance();
-					calendarNext.setTime(newDate);
-					calendarNext.add(java.util.Calendar.MINUTE, INTERVAL);
-					newDate = calendarNext.getTime();
-					calendarEventLast.setEventStart(newDate);
-					calendarEventLast.setEventEnd(newDate);
-				}
-
-			}
-
-			// set next event
-			_nextEvent = calendarEvent;
-
-			return true;
-		}
-	}
 }
