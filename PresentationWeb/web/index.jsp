@@ -62,66 +62,66 @@
                             <table class="bordered" id="datetable">
                                 <tr id="trid1">
                                     <td>
-                                        <input id="option1" name="boxdays" type="checkbox" value="MON"/>
+                                        <input id="option1" name="boxdays" type="checkbox" onclick='handleCheckClick(this);' value="MON"/>
                                         <label class="checkbox" for="option1"> Monday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker1" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker1" value="" readonly/>
                                         <a class="selbutton" id="seldate1" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr id="trid2">
                                     <td>
-                                        <input id="option2" name="boxdays" type="checkbox" value="TUE"/>
+                                        <input id="option2" name="boxdays" type="checkbox" onclick='handleCheckClick(this);' value="TUE"/>
                                         <label class="checkbox" for="option2"> Tuesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker2" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker2" value="" readonly/>
                                         <a class="selbutton" id="seldate2" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr id="trid3">
                                     <td>
-                                        <input id="option3" name="boxdays" type="checkbox" value="WED"/>
+                                        <input id="option3" name="boxdays" type="checkbox" onclick='handleCheckClick(this);' value="WED"/>
                                         <label class="checkbox" for="option3"> Wednesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker3" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker3" value="" readonly/>
                                         <a class="selbutton" id="seldate3" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr id="trid4">
                                     <td>
-                                        <input id="option4" name="boxdays" type="checkbox" value="THU"/>
+                                        <input id="option4" name="boxdays" type="checkbox" onclick='handleCheckClick(this);' value="THU"/>
                                         <label class="checkbox" for="option4"> Thursday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker4" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker4" value="" readonly/>
                                         <a class="selbutton" id="seldate4" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr id="trid5">
                                     <td>
-                                        <input id="option5" name="boxdays" type="checkbox" value="FRI"/>
+                                        <input id="option5" name="boxdays" type="checkbox" onclick='handleCheckClick(this);' value="FRI"/>
                                         <label class="checkbox" for="option5"> Friday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker5" value="" />
+                                        <input type="text" class="timey" name="time_picker" id="time_picker5" value="" readonly/>
                                         <a class="selbutton" id="seldate5" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
                                 <tr id="trid6">
                                     <td>
-                                        <input id="option6" name="boxdays" type="checkbox" value="SAT"/>
+                                        <input id="option6" name="boxdays" type="checkbox" onclick='handleCheckClick(this);' value="SAT"/>
                                         <label class="checkbox" for="option6"> Saturday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey"  name="time_picker" id="time_picker6" value="" />
+                                        <input type="text" class="timey"  name="time_picker" id="time_picker6" value="" readonly/>
                                         <a class="selbutton" id="seldate6" href="#">select date</a>
                                     </td>
                                 </tr>
@@ -131,11 +131,11 @@
                                 <tr>
                                     <td>
                                         <small>Choose unavailability date:</small><br/>
-                                        <input type="text" name="date_range_start" id="date_range_start" value="" />
+                                        <input type="text" name="date_range_start" id="date_range_start" value="" readonly/>
                                     </td>
                                     <td>
                                         <small>Period (optional):</small><br/>
-                                        <input type="text" name="date_range_end" id="date_range_end" value="" />
+                                        <input type="text" name="date_range_end" id="date_range_end" value="" readonly/>
                                     </td>
                                 </tr>
                             </table>
@@ -231,6 +231,7 @@
 
         $(".hexdots-loader").hide();
         for (i = 1; i < 7; i++) {
+            document.getElementById("time_picker" + i).disabled = true;
             document.getElementById("seldate" + i).style.visibility = 'hidden';
         }
 
@@ -401,6 +402,18 @@
             }
     );
 
+    //******************************************************************************************************************
+    //  CHECKBOXES SCRIPTS
+    //******************************************************************************************************************
+
+    function handleCheckClick(cb) {
+        if (cb.checked == true) {
+            document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = false;
+        } else {
+            document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).value = "";
+            document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = true;
+        }
+    }
 
     //******************************************************************************************************************
     //  DEBUG SCRIPTS
