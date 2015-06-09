@@ -79,7 +79,6 @@ public class EventChooserControllerTest {
 
     @org.junit.Test
     public void getAvailableEvents(){
-        //TODO implement getAvailableEvents()
         eventChooserController.addWeekDayTimeCriteria("MON", LocalTime.of(10, 30), LocalTime.of(12, 0));
         LinkedList<ICalendarEvent> events = new LinkedList<>();
         try {
