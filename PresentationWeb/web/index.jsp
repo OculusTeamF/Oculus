@@ -145,7 +145,7 @@
                         </form>
                     </div>
                     <br/>
-                    <button id="check-appointments">Check criterias</button>
+                    <button id="check-appointments">Search free appointments</button>
                 </div>
                 <div id="tabs-3">
                     <br/>
