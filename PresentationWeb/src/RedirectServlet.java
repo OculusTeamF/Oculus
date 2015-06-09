@@ -1,4 +1,5 @@
 import at.oculus.teamf.technical.loggin.ILogger;
+import beans.ConfirmController;
 import beans.UserBean;
 
 import javax.servlet.ServletException;
@@ -34,6 +35,12 @@ public class RedirectServlet extends HttpServlet implements ILogger{
         if (dispatchto.equals("checkappointments")) {
             AppointmentController appoint = new AppointmentController();
             appoint.service(request, response);
+        }
+
+        // redirect to appointment servlet
+        if (dispatchto.equals("confirmappointment")) {
+            ConfirmController conf = new ConfirmController();
+            conf.service(request, response);
         }
 
         // redirect to appointment servlet

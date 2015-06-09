@@ -779,7 +779,6 @@ border: 1px solid #fff;
     padding: 5px 15px;
     text-decoration: none;
     text-shadow: #fff 0 1px 0;
-    float: right;
     margin-right: 15px;
     margin-bottom: 0px;
     display: block;
@@ -787,7 +786,7 @@ border: 1px solid #fff;
     line-height: 17px;
     font-size: 12px;
     font-weight: bold;
-    width:280px;
+    width:220px;
 }
 
 a.selbutton:hover {

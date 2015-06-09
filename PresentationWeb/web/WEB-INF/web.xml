@@ -23,4 +23,14 @@
         <servlet-name>AppointmentController</servlet-name>
         <url-pattern>/AppointmentController</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConfirmController</servlet-name>
+        <servlet-class>ConfirmController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ConfirmController</servlet-name>
+        <url-pattern>/ConfirmController</url-pattern>
+    </servlet-mapping>
 </web-app>

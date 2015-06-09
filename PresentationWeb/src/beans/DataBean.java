@@ -12,8 +12,6 @@ package beans;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 
 import javax.annotation.ManagedBean;
-import java.time.LocalTime;
-import java.util.Collection;
 import java.util.LinkedList;
 
 /**
@@ -21,33 +19,5 @@ import java.util.LinkedList;
  */
 @ManagedBean
 public class DataBean {
-    private LinkedList <ICalendarEvent> loadedEvents;
-    private LinkedList <ICalendarEvent> eventsToLoad;
-    private boolean [] buttons = new boolean [6];
-    private LocalTime [] localTimes = new LocalTime [6];
-
-    public void loadAvailableAppointments (Collection <ICalendarEvent> events){
-        loadedEvents = new LinkedList<>();
-        loadedEvents.add((ICalendarEvent) events);
-    }
-
-    public LinkedList<ICalendarEvent> getLoadedEvents() {
-        return loadedEvents;
-    }
-
-    public void addEvent (ICalendarEvent event){
-        if (eventsToLoad == null){
-            eventsToLoad = new LinkedList<>();
-        }
-        eventsToLoad.add(event);
-    }
-
-    public void fillArrays (boolean [] filledButtons, LocalTime [] filledLocalTimes){
-        buttons = filledButtons;
-        localTimes = filledLocalTimes;
-    }
-
-    public LinkedList<ICalendarEvent> getEventsToLoad() {
-        return eventsToLoad;
-    }
+    public static LinkedList <ICalendarEvent> loadedEvents;
 }

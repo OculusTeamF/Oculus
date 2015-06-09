@@ -19,6 +19,7 @@ import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
 import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
+import beans.DataBean;
 import beans.UserBean;
 
 import javax.servlet.ServletException;
@@ -43,7 +44,7 @@ import java.util.Locale;
 public class AppointmentController extends HttpServlet implements ILogger{
     EventChooserController _eventchooserController;
     IPatient _currentp;
-    LinkedList <ICalendarEvent> _checkedevents;
+    private LinkedList <ICalendarEvent> _checkedevents;
     private static final int DEFAULT_ENDTIME = 30;
     LocalTime[] times = new LocalTime[6];
 
@@ -102,6 +103,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
         try {
             log.debug("CHECK passed criterias");
             _checkedevents = (LinkedList<ICalendarEvent>) _eventchooserController.getAvailableEvents();
+            DataBean.loadedEvents = _checkedevents;
         } catch (NotAllowedToChooseEventException e) {
             e.printStackTrace();
         } catch (InvalidReloadClassException e) {

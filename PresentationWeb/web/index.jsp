@@ -40,15 +40,15 @@
                 <div id="tabs-1">
                     <br/>
                     <div id="app_box">
-                        <h3><strong>Appointment #1:</strong></h3>
-                    <p>
+                        <h3 id="title1"><strong>Appointment #1:</strong></h3>
+                        <p>
 
-                        <strong>Date start:</strong> ${user.dateStart}
-                        <br/>
-                        <strong>Date end:</strong> ${user.dateEnd}
-                        <br/>
-                        <strong>Description:</strong> ${user.description}
-                    </p>
+                            <strong>Date start:</strong> ${user.dateStart}
+                            <br/>
+                            <strong>Date end:</strong> ${user.dateEnd}
+                            <br/>
+                            <strong>Description:</strong> ${user.description}
+                        </p>
                         <button type="button" id="delete-appointment">Delete appointment</button>
                     </div>
 
@@ -148,26 +148,30 @@
                 <div id="tabs-3">
                     <br/>
                     <div id="app_box">
-                        <h3><strong>Confirm appointment #1:</strong></h3>
+                        <h3><strong>Chosen appointment:</strong></h3>
 
                         <strong>Date start:</strong> <p id="new_datestart"></p>
                         <strong>Date end:</strong> <p id="new_dateend"></p>
-                        <strong>Reason(s) for your visit:</strong> <p id="new_description"></p>
-                        <textarea rows="7" cols="32" autofocus></textarea>
+                        <strong>Reason(s) for your visit:</strong>
+                        <textarea id="reasonTextarea" rows="7" cols="32" autofocus></textarea>
                         <br/><br/>
                         <button type="button" id="cancel-appointment">Cancel appointment</button>
                         <br/><br/>
                         <button type="button" id="confirm-appointment">Confirm appointment</button>
                     </div>
-                    <div class="hexdots-loader" style="position: absolute; top: 150px; left: 550px;">
+                    <div id="app_box" style="position: absolute; top: 73px; left: 350px; width:400px">
+                        <h3><strong>Choose appointment:</strong></h3>
+                        <br/>
+                        <a class="selbutton" id="seldat1" href="#" onclick='handleDateClick(this);'>select date</a><br/>
+                        <a class="selbutton" id="seldat2" href="#" onclick='handleDateClick(this);'>select date</a><br/>
+                        <a class="selbutton" id="seldat3" href="#" onclick='handleDateClick(this);'>select date</a><br/>
+                        <a class="selbutton" id="seldat4" href="#" onclick='handleDateClick(this);'>select date</a><br/>
+                        <a class="selbutton" id="seldat5" href="#" onclick='handleDateClick(this);'>select date</a><br/>
+                        <a class="selbutton" id="seldat6" href="#" onclick='handleDateClick(this);'>select date</a><br/>
+                    </div>
+                    <div class="hexdots-loader" style="position: absolute; top: 190px; left: 500px;">
                         <p>Login...</p>
                     </div>
-                    <a class="selbutton" id="seldat1" href="#">select date</a>
-                    <a class="selbutton" id="seldat2" href="#">select date</a>
-                    <a class="selbutton" id="seldat3" href="#">select date</a>
-                    <a class="selbutton" id="seldat4" href="#">select date</a>
-                    <a class="selbutton" id="seldat5" href="#">select date</a>
-                    <a class="selbutton" id="seldat6" href="#">select date</a>
                 </div>
             </div>
         </div>
@@ -233,19 +237,26 @@
     var startHour = 7;
     var hourGrid = 2;
     var results = [];
+    var selectedevent;
 
     //******************************************************************************************************************
     //  PAGE LOAD INIT SCRIPT
     //******************************************************************************************************************
 
     $(document).ready(function(){
+        refreshPage();
+    });
 
+    function refreshPage() {
         $(".hexdots-loader").hide();
+
         for (i = 1; i < 7; i++) {
             document.getElementById("time_picker" + i).disabled = true;
             document.getElementById("seldat" + i).style.visibility = 'hidden';
-            //document.getElementById("seldate" + i).style.visibility = 'hidden';
         }
+
+        document.getElementById("activate-tabs").style.visibility = 'hidden';
+        document.getElementById("confirm-appointment").style.visibility = 'hidden';
 
         if (${user.appointAvailable}) {
             $('#MyTabSelector').enableTab(0);
@@ -253,11 +264,12 @@
             $('#MyTabSelector').disableTab(2);
         }
         else {
-            $('#MyTabSelector').disableTab(0, true);
+            $('#MyTabSelector').disableTab(0);
             $('#MyTabSelector').enableTab(1);
             $('#MyTabSelector').disableTab(2);
+            $('#MyTabSelector').tabs( "option", "active", 1 );
         }
-    });
+    }
 
     $('#MyTabSelector').tabs({
         heightStyle: 'fill'
@@ -308,25 +320,26 @@
         xhttpreq.open("POST", url + "?" + params, true);
 
         xhttpreq.setRequestHeader("Content-type", "text/xml");
-        xhttpreq.send();
 
         // switch tab and start waiting process
-        $('#MyTabSelector').tabs( "option", "active", 2 );
+        $('#MyTabSelector').disableTab(0);
+        $('#MyTabSelector').disableTab(1);
         $('#MyTabSelector').enableTab(2);
-        $('#MyTabSelector').disableTab(1, true);
+        $('#MyTabSelector').tabs( "option", "active", 2 );
+
         $(".hexdots-loader").show();
+
+        xhttpreq.send();
     }
 
     function sendAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
             $(".hexdots-loader").hide();
             var resceivedresults = xhttpreq.responseText;
-            alert("[DEBUG] Possible Dates:" + resceivedresults);
 
             results = resceivedresults.split(",");
 
             for (i = 1; i < 7; i++) {
-                document.getElementById("trid" + i).style.backgroundColor = '#39AD65';
                 document.getElementById("time_picker" + i).disabled = true;
                 document.getElementById("option" + i).disabled = true;
                 document.getElementById("date_range_start").disabled = true;
@@ -336,20 +349,6 @@
                     document.getElementById("seldat" + i).innerHTML = results[i-1].toString();
                     document.getElementById("seldat" + i).style.visibility = 'visible';
                 }
-
-                //document.getElementById("seldate" + i).style.visibility = 'visible';
-                //document.getElementById("seldate" + i).setAttribute("value","tessst");
-               /* document.getElementById("seldate" + i).onclick = function () {
-                    var getdatev = "Selected date should be here later";
-                    alert('[DEBUG] date selected: ' + getdatev); // link to confirmation
-
-                    document.getElementById("new_datestart").innerHTML = getdatev;
-                    document.getElementById("new_dateend").innerHTML = getdatev;
-                    document.getElementById("new_description").innerHTML = "nix";
-
-                    $('#MyTabSelector').disableTab(1, false);
-                    $('#MyTabSelector').tabs( "option", "active", 2 );
-                };*/
             }
         }
     }
@@ -359,16 +358,47 @@
     //******************************************************************************************************************
 
     $("#confirm-appointment").click(function(event){
-        $('#MyTabSelector').enableTab(0);
-        $('#MyTabSelector').disableTab(1, true);
-        $('#MyTabSelector').disableTab(2, true);
-        $("#confirm-appointment").hide();
         $('#MyTabSelector').tabs( "option", "active", 0 );
+        $('#MyTabSelector').enableTab(1);
+        $('#MyTabSelector').disableTab(1);
+        $('#MyTabSelector').disableTab(2);
+
+        $("#confirm-appointment").hide();
+
+        var reasontext = document.getElementById("reasonTextarea").value;
+        var url = "RedirectServlet";
+        var params = "dispatchto=confirmappointment&selevent=" + selectedevent + "&reason=" + reasontext;
+
+        xhttpreq = new XMLHttpRequest();
+        if (!xhttpreq) {
+            alert("Error: Could not init XMLHttpRequest");
+            return;
+        }
+
+        xhttpreq.onreadystatechange = confirmAppointmentRequest_callback;
+        xhttpreq.open("POST", url + "?" + params, true);
+
+        xhttpreq.setRequestHeader("Content-type", "text/xml");
+        xhttpreq.send();
     });
 
     $("#cancel-appointment").click(function(event){
         alert("cancel");
     });
+
+    function handleDateClick(bu) {
+        selectedevent = bu.id.toString().substring(bu.id.toString().length - 1, bu.id.toString().length);
+        document.getElementById("new_datestart").innerHTML = bu.innerHTML;
+        document.getElementById("new_dateend").innerHTML = bu.innerHTML;
+        document.getElementById("confirm-appointment").style.visibility = 'visible';
+    };
+
+    function confirmAppointmentRequest_callback() {
+        if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
+            location.reload();
+            document.getElementById("new_datestart").innerHTML = "Confirmed Appointment";
+        }
+    };
 
     //******************************************************************************************************************
     //  DELETE APPOINTMENT SCRIPT
@@ -394,7 +424,7 @@
 
     function deleteAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
-            alert("delete done");
+            location.reload();
         }
     };
 
