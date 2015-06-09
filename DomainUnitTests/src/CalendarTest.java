@@ -14,9 +14,9 @@ import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
+import at.oculus.teamf.domain.entity.calendar.Calendar;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
-import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorkingHours;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.entity.WeekDayKey;
@@ -29,9 +29,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * CalendarTest.java Created by oculus on 01.06.15.
@@ -66,8 +69,8 @@ public class CalendarTest {
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(_from);
-        calendar.add(Calendar.DAY_OF_MONTH,14);
-        _to = calendar.getTime();
+	    calendar.add(java.util.Calendar.DAY_OF_MONTH, 14);
+	    _to = calendar.getTime();
         IDatePeriodCriteria datePeriodCriteria = new DatePeriodCriteria(_from, _to);
 
 	    _criterias = new LinkedList<>();
@@ -100,7 +103,7 @@ public class CalendarTest {
 	    Iterator<ICalendarEvent> eventIterator = null;
 
         try {
-	        eventIterator = _calendar.availableEventsIterator(_criterias, 30);
+	        eventIterator = Calendar.availableEventsIterator(_calendar, _criterias, 30);
         } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
             e.printStackTrace();
 	        assertTrue(false);
@@ -115,6 +118,7 @@ public class CalendarTest {
 	    for(int i = 0; i<100; i++){
 		    ICalendarEvent c = eventIterator.next();
 		    _calendarEvents.add(c);
+		    System.out.println(c);
 	    }
 
         assertTrue(_calendarEvents.size()==100);
@@ -125,7 +129,7 @@ public class CalendarTest {
 		Iterator<ICalendarEvent> eventIterator = null;
 
 		try {
-			eventIterator = _calendar.availableEventsIterator(null, 30);
+			eventIterator = at.oculus.teamf.domain.entity.calendar.Calendar.availableEventsIterator(_calendar, null, 30);
 		} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -140,6 +144,7 @@ public class CalendarTest {
 		for(int i = 0; i<100; i++){
 			ICalendarEvent c = eventIterator.next();
 			_calendarEvents.add(c);
+			System.out.println(c);
 		}
 
 		assertTrue(_calendarEvents.size()==100);
@@ -173,7 +178,7 @@ public class CalendarTest {
 
 		Iterator<ICalendarEvent> eventIterator = null;
 		try {
-			eventIterator = _calendar.availableEventsIterator(null, 30);
+			eventIterator = Calendar.availableEventsIterator(_calendar, null, 30);
 		} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
