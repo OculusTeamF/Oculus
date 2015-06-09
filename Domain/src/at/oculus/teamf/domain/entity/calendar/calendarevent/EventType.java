@@ -72,4 +72,15 @@ public class EventType implements IEventType {
 		_description = description;
 	}
 	//</editor-fold>
+
+
+	@Override
+	public String toString() {
+		return "EventType{" +
+		       "_eventTypeName='" + _eventTypeName + '\'' +
+		       ", _estimatedTime=" + _estimatedTime +
+		       ", _description='" + _description + '\'' +
+		       ", _id=" + _id +
+		       '}';
+	}
 }
