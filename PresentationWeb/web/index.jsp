@@ -234,8 +234,6 @@
 
 <script src="js/jquery.js"></script>
 <script src="js/jquery-ui.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-
 <script src="js/jquery-tabs.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
@@ -359,7 +357,7 @@
 
 
         // if all checks are fine then send request
-        if (testchecked == true && inputchecked == true && rangechecked == true) {
+        if (inputchecked == true && rangechecked == true) {
             sendAppointmentRequest();
         } else {
             if (testchecked == false) {

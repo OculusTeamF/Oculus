@@ -66,43 +66,44 @@ public class AppointmentController extends HttpServlet implements ILogger{
         String[] weekdayparts = recdate.split(",");
         String[] timeparts = rectimes.split(",");
 
+        if (recdate.toString().length() > 0) {
+            // convert string to LocalTime object
+            int j = 0;
+            for (int i = 0; i < (weekdayparts.length * 2); i++) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
+                times[j] = LocalTime.parse(timeparts[i], formatter);
+                timesend[j] = LocalTime.parse(timeparts[i + 1], formatter);
+                log.debug("RECEIVED criteria time: start: " + times[j].toString() + " / end: " + timesend[j].toString());
+                i++; // iterate two steps
+                j++;
 
-        // convert string to LocalTime object
-        int j = 0;
-        for (int i = 0; i < (weekdayparts.length * 2); i++) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
-            times[j] = LocalTime.parse(timeparts[i], formatter);
-            timesend[j] = LocalTime.parse(timeparts[i + 1], formatter);
-            log.debug("RECEIVED criteria time: start: " + times[j].toString() + " / end: " + timesend[j].toString());
-            i++; // iterate two steps
-            j++;
-
-        }
-
-        // add criteras
-        try {
-            _eventchooserController = EventChooserController.createEventChooserController(_currentp);
-            log.debug("EventController started");
-            for (int i = 0; i < weekdayparts.length; i++) {
-                log.debug("ADD EVENT CRITERIA #" + i + ": " + weekdayparts[i] + " / " + times[i] + " - " + timesend[i]);
-
-                // add 30 minutes as default endtime
-                _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], timesend[i]);
             }
 
-            // add not available daterange
-            if(drstart.equals("null") == false) {
-                // convert string to localdate ...then convert localdate to date
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
-                LocalDate localdstart =  LocalDate.parse(drstart.substring(0, 24), formatter);
-                LocalDate localdend =  LocalDate.parse(drend.substring(0, 24), formatter);
-                Date dateAStart = Date.from(localdstart.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date dateAEnd = Date.from(localdend.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                _eventchooserController.addDatePeriodCriteria(dateAStart,dateAEnd );
-                log.debug("ADD not available daterange: "  + dateAStart.toString() + " - " + dateAEnd.toString());
+            // add criteras
+            try {
+                _eventchooserController = EventChooserController.createEventChooserController(_currentp);
+                log.debug("EventController started");
+                for (int i = 0; i < weekdayparts.length; i++) {
+                    log.debug("ADD EVENT CRITERIA #" + i + ": " + weekdayparts[i] + " / " + times[i] + " - " + timesend[i]);
+
+                    // add 30 minutes as default endtime
+                    _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], timesend[i]);
+                }
+
+                // add not available daterange
+                if (drstart.equals("null") == false) {
+                    // convert string to localdate ...then convert localdate to date
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
+                    LocalDate localdstart = LocalDate.parse(drstart.substring(0, 24), formatter);
+                    LocalDate localdend = LocalDate.parse(drend.substring(0, 24), formatter);
+                    Date dateAStart = Date.from(localdstart.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date dateAEnd = Date.from(localdend.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    _eventchooserController.addDatePeriodCriteria(dateAStart, dateAEnd);
+                    log.debug("ADD not available daterange: " + dateAStart.toString() + " - " + dateAEnd.toString());
+                }
+            } catch (PatientCanNotBeNullException e) {
+                e.printStackTrace();
             }
-        } catch (PatientCanNotBeNullException e) {
-            e.printStackTrace();
         }
 
         // now process criterias and dates and receive results
