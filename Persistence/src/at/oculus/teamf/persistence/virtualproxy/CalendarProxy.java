@@ -73,11 +73,11 @@ class CalendarProxy extends VirtualProxy<ICalendar> implements ICalendar {
 
     @Override
     public boolean isInWorkingTime(ICalendarEvent calendarEvent) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
-        return false;
+        return _real.isInWorkingTime(calendarEvent);
     }
 
     @Override
     public boolean isAvailableEvent(ICalendarEvent calendarEvent) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
-        return false;
+        return _real.isAvailableEvent(calendarEvent);
     }
 }
