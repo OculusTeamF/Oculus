@@ -9,11 +9,20 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.IEventType;
+import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.Facade;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.FacadeException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.search.InvalidSearchParameterException;
 
 import java.util.Collection;
+import java.util.Date;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -21,23 +30,41 @@ import static junit.framework.TestCase.assertTrue;
  * Created by Norskan on 10.04.2015.
  */
 public class CalendarEventBrokerTest extends BrokerTest {
+    private ICalendarEvent _calendarEvent;
 
 	@Override
 	public void setUp() {
-
+		try {
+			_calendarEvent = new CalendarEvent();
+            _calendarEvent.setDescription("Testcase");
+            _calendarEvent.setEventStart(new Date());
+            _calendarEvent.setEventEnd(new Date());
+			_calendarEvent.setPatient(Facade.getInstance().getById(IPatient.class, 1));
+			_calendarEvent.setCalendar(Facade.getInstance().getById(ICalendar.class, 1));
+			_calendarEvent.setEventType(Facade.getInstance().getById(IEventType.class, 1));
+			Facade.getInstance().save(_calendarEvent);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
+            e.printStackTrace();
+            assertTrue(false);
+		}
 	}
 
 	@Override
 	public void tearDown() {
-
-	}
+        try {
+            Facade.getInstance().delete(_calendarEvent);
+        } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException | InvalidSearchParameterException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
 
 	@Override
 	public void testGetById() {
 		CalendarEvent calendarEvent = null;
 
 		try {
-			calendarEvent = Facade.getInstance().getById(CalendarEvent.class, 1);
+			calendarEvent = Facade.getInstance().getById(CalendarEvent.class, 5);
 		} catch (FacadeException e) {
 			assertTrue(false);
 			e.printStackTrace();

@@ -17,8 +17,8 @@ import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IDatePeriodCriteria;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTime;
 import at.oculus.teamf.domain.criteria.interfaces.IWeekDayTimeCriteria;
+import at.oculus.teamf.domain.entity.calendar.*;
 import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
-import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.user.doctor.IDoctor;
 import at.oculus.teamf.domain.entity.patient.IPatient;
@@ -35,6 +35,7 @@ import at.oculus.teamf.technical.loggin.ILogger;
 
 import java.time.LocalTime;
 import java.util.*;
+import java.util.Calendar;
 
 /**
  * <h1>$EventChooserController.java</h1>
@@ -178,7 +179,7 @@ public class EventChooserController implements ILogger {
 
         Iterator<ICalendarEvent> iterator = null;
         try {
-            iterator = iCalendar.availableEventsIterator(criterias, 30);
+            iterator = at.oculus.teamf.domain.entity.calendar.Calendar.availableEventsIterator(iCalendar, criterias, 30);
             log.debug("fetched iterator");
         } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
             log.error("Facade exception caught! Could not get Events - " + e.getMessage());

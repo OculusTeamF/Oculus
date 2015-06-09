@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.persistencetests.brokertests;
 
+import at.oculus.teamf.domain.entity.calendar.Calendar;
 import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorkingHours;
@@ -134,7 +135,7 @@ public class CalendarBrokerTest extends BrokerTest {
 
 		Iterator<ICalendarEvent> iterator = null;
 		try {
-			iterator = cal.availableEventsIterator(null, 30);
+			iterator = Calendar.availableEventsIterator(cal, null, 30);
 		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
 			assertTrue(false);
 			e.printStackTrace();

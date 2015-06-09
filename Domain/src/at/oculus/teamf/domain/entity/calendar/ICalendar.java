@@ -9,10 +9,11 @@
 
 package at.oculus.teamf.domain.entity.calendar;
 
-import at.oculus.teamf.domain.criteria.interfaces.ICriteria;
 import at.oculus.teamf.domain.entity.IDomain;
+import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.exception.calendar.NoWorkingHoursException;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
 import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
@@ -20,7 +21,6 @@ import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
 import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Created by FabianLaptop on 08.04.2015.
@@ -34,11 +34,16 @@ public interface ICalendar extends IDomain {
 
     void setEvents(Collection<ICalendarEvent> iCalendarEvents);
 
-	Iterator<ICalendarEvent> availableEventsIterator(Collection<ICriteria> criterias, int duration) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-            NoBrokerMappedException, DatabaseOperationException;
-
     Collection<ICalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException,
                                                   NoBrokerMappedException, DatabaseOperationException;
+
+    public boolean isInWorkingTime(ICalendarEvent calendarEvent)
+            throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+            NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException;
+
+    public boolean isAvailableEvent(ICalendarEvent calendarEvent)
+            throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+            NoBrokerMappedException, DatabaseOperationException;
 
     /*
     void setId(int calendarID);

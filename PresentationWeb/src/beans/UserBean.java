@@ -25,16 +25,16 @@ import javax.annotation.ManagedBean;
 @ManagedBean
 public class UserBean {
     public static IPatient _patient;
-    private String firstName = null;
-    private String lastName = null;
-    private String svNumber = null;
-    private String doctor = null;
+    private static String firstName = null;
+    private static String lastName = null;
+    private static String svNumber = null;
+    private static String doctor = null;
 
-    private ICalendarEvent _calendarEvent;
-    private String dateStart = null;
-    private String dateEnd = null;
-    private String description = null;
-    private boolean appointAvailable = false;
+    private static ICalendarEvent _calendarEvent;
+    private static String dateStart = null;
+    private static String dateEnd = null;
+    private static String description = null;
+    private static boolean appointAvailable = false;
 
     public UserBean() {
     }
@@ -56,8 +56,9 @@ public class UserBean {
         appointAvailable = true;
     }
 
-    public void deleteAppointment (){
+    public static void deleteAppointment (){
         try {
+            System.out.println("DELETE APPOINTMENT CALLED");
             EventChooserController eventChooserController = EventChooserController.createEventChooserController(_patient);
             eventChooserController.deleteExistingEvent(_calendarEvent);
             erase();
@@ -71,7 +72,7 @@ public class UserBean {
         }
     }
 
-    private void erase (){
+    private static void erase (){
         _calendarEvent = null;
         description = null;
         dateStart = null;

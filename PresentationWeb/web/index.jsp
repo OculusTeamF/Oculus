@@ -42,11 +42,11 @@
                         <h3><strong>Appointment #1:</strong></h3>
                     <p>
 
-                        Date start: ${user.dateStart}
+                        <strong>Date start:</strong> ${user.dateStart}
                         <br/>
-                        Date end: ${user.dateEnd}
+                        <strong>Date end:</strong> ${user.dateEnd}
                         <br/>
-                        Description: ${user.description}
+                        <strong>Description:</strong> ${user.description}
                     </p>
                         <button type="button" id="delete-appointment">Delete appointment</button>
                     </div>
@@ -58,109 +58,104 @@
                 <div id="tabs-2">
                     <div>
                         <form>
-                            <table>
-                                <tr>
+                            <table class="bordered" id="datetable">
+                                <tr id="trid1">
                                     <td>
                                         <input id="option1" name="boxdays" type="checkbox" value="MON"/>
                                         <label class="checkbox" for="option1"> Monday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker1" value="" />
-                                        <input type="image" name="optionbutton" id="option1button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" class="timey" name="time_picker" id="time_picker1" value="" />
+                                        <a class="selbutton" id="seldate1" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
-                                <tr>
+                                <tr id="trid2">
                                     <td>
                                         <input id="option2" name="boxdays" type="checkbox" value="TUE"/>
                                         <label class="checkbox" for="option2"> Tuesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker2" value="" />
-                                        <input type="image" name="optionbutton" id="option2button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" class="timey" name="time_picker" id="time_picker2" value="" />
+                                        <a class="selbutton" id="seldate2" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
-
-                                <tr>
+                                <tr id="trid3">
                                     <td>
                                         <input id="option3" name="boxdays" type="checkbox" value="WED"/>
                                         <label class="checkbox" for="option3"> Wednesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker3" value="" />
-                                        <input type="image" name="optionbutton" id="option3button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" class="timey" name="time_picker" id="time_picker3" value="" />
+                                        <a class="selbutton" id="seldate3" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
-                                <tr>
+                                <tr id="trid4">
                                     <td>
                                         <input id="option4" name="boxdays" type="checkbox" value="THU"/>
                                         <label class="checkbox" for="option4"> Thursday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker4" value="" />
-                                        <input type="image" name="optionbutton" id="option4button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" class="timey" name="time_picker" id="time_picker4" value="" />
+                                        <a class="selbutton" id="seldate4" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
-                                <tr>
+                                <tr id="trid5">
                                     <td>
                                         <input id="option5" name="boxdays" type="checkbox" value="FRI"/>
                                         <label class="checkbox" for="option5"> Friday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker5" value="" />
-                                        <input type="image" name="optionbutton" id="option5button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" class="timey" name="time_picker" id="time_picker5" value="" />
+                                        <a class="selbutton" id="seldate5" href="#">select date</a>
                                     </td>
                                 </tr>
                                 <tr></tr>
-                                <tr>
+                                <tr id="trid6">
                                     <td>
                                         <input id="option6" name="boxdays" type="checkbox" value="SAT"/>
                                         <label class="checkbox" for="option6"> Saturday </label>
                                     </td>
                                     <td>
-                                        <input type="text" name="time_picker" id="time_picker6" value="" />
-                                        <input type="image" name="optionbutton" id="option6button" style="height:20px; width:20px;" src="images/success.png"/>
+                                        <input type="text" class="timey"  name="time_picker" id="time_picker6" value="" />
+                                        <a class="selbutton" id="seldate6" href="#">select date</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Unavailability
-                                    </td>
-                                    <td>
-                                        Period (optional)
-                                    </td>
-                                <tr/>
+                            </table>
+                            <br/>
+                            <table class="bordered">
                                 <tr>
                                     <td>
+                                        Unavailability<br/>
                                         <input type="text" name="date_range_start" id="date_range_start" value="" />
                                     </td>
                                     <td>
+                                        Period (optional)<br/>
                                         <input type="text" name="date_range_end" id="date_range_end" value="" />
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
                                 </tr>
                             </table>
                         </form>
                     </div>
-                    <button id="check-appointments">check appointments</button>
+                    <br/>
+                    <button id="check-appointments">Check criterias</button>
                 </div>
                 <div id="tabs-3">
-                    [confirm date tab]
-                    <br/><br/>
-                    <button type="button" id="confirm-appointment">Confirm</button>
+                    <br/>
+                    <div id="app_box">
+                        <h3><strong>Confirm appointment #1:</strong></h3>
+
+                        <strong>Date start:</strong> <p id="new_datestart"></p>
+                        <strong>Date end:</strong> <p id="new_dateend"></p>
+                        <strong>Description:</strong> <p id="new_description"></p>
+                        <br/>
+                        <button type="button" id="cancel-appointment">Cancel appointment</button>
+                        <br/><br/>
+                        <button type="button" id="confirm-appointment">Confirm appointment</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -220,6 +215,7 @@
 <script>
 
     var dates = [];
+
     var times = [];
     var checkdays = [];
     var xhttpreq;
@@ -245,12 +241,9 @@
     $(document).ready(function(){
 
         $(".hexdots-loader").hide();
-        document.getElementById('option1button').style.visibility = 'hidden';
-        document.getElementById('option2button').style.visibility = 'hidden';
-        document.getElementById('option3button').style.visibility = 'hidden';
-        document.getElementById('option4button').style.visibility = 'hidden';
-        document.getElementById('option5button').style.visibility = 'hidden';
-        document.getElementById('option6button').style.visibility = 'hidden';
+        for (i = 1; i < 7; i++) {
+            document.getElementById("seldate" + i).style.visibility = 'hidden';
+        }
 
         if (${user.appointAvailable}) {
             $('#MyTabSelector').enableTab(0);
@@ -287,14 +280,23 @@
         $("#check-appointments").hide();
         //$(".hexdots-loader").show();
 
+        // get checkbox states
         $("input:checkbox[name=boxdays]:checked").each(function()
         {
-            alert($(this).val());
+            //alert($(this).val());
             checkdays.push($(this).val());
         });
 
+        // get timebox states
+        $("input.timey").each(function (index) {
+            if ($(this).val() != "") {
+                //alert($(this).val());
+                times.push($(this).val());
+            }
+        });
+
         var url = "RedirectServlet";
-        var params = "dispatchto=checkappointments&datearray=" + dates;
+        var params = "dispatchto=checkappointments&checkdays=" + checkdays + "&checktimes=" + times;
 
         xhttpreq = new XMLHttpRequest();
         if (!xhttpreq) {
@@ -311,17 +313,25 @@
 
     function sendAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
-            alert(xhttpreq.responseText);
+            alert("Possible Dates:" + xhttpreq.responseText);
+
             /* TODO change to XML
             var countedChars = xhttpreq.responseXML.getElementsByTagName("number")[0].firstChild.nodeValue;
             alert("PASST");
             document.getElementById("countedchars").value = countedChars;*/
 
-            /* Modify result list */
-            for (var i = 0; dates.length; i++){
-                document.getElementById("list" + i).style.color = "green";
-                document.getElementById("list" + i).onclick = function () {
-                    alert('foo'); // link to confirmation
+            for (i = 1; i < 7; i++){
+                document.getElementById("trid" + i).style.backgroundColor='#39AD65';
+                document.getElementById("time_picker" + i).disabled = true;
+                document.getElementById("option" + i).disabled = true;
+                document.getElementById("seldate" + i).style.visibility = 'visible';
+                document.getElementById("seldate" + i).onclick = function () {
+                    alert('date selected'); // link to confirmation
+                    document.getElementById("new_datestart").innerHTML = "lalala";
+                    document.getElementById("new_dateend").innerHTML = "blabla";
+                    document.getElementById("new_description").innerHTML = "nix";
+                    $('#MyTabSelector').disableTab(1, false);
+                    $('#MyTabSelector').tabs( "option", "active", 2 );
                 };
             }
         }
@@ -332,80 +342,51 @@
         $('#MyTabSelector').disableTab(1, true);
         $('#MyTabSelector').disableTab(2, true);
         $("#confirm-appointment").hide();
+        $('#MyTabSelector').tabs( "option", "active", 0 );
+    });
+
+    $("#cancel-appointment").click(function(event){
+        alert("cancel");
     });
 
     $("#delete-appointment").click(function(event){
-       /*
-        $('#MyTabSelector').disableTab(0, true);
-        $('#MyTabSelector').enableTab(1);*/
+
+        var url = "RedirectServlet";
+        var params = "dispatchto=deleteappointment";
+
+        xhttpreq = new XMLHttpRequest();
+        if (!xhttpreq) {
+            alert("Error: Could not init XMLHttpRequest");
+            return;
+        }
+
+        xhttpreq.onreadystatechange = deleteAppointmentRequest_callback;
+        xhttpreq.open("POST", url + "?" + params, true);
+
+        xhttpreq.setRequestHeader("Content-type", "text/xml");
+        xhttpreq.send();
     });
+
+    function deleteAppointmentRequest_callback() {
+        if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
+            alert("delete done");
+        }
+    }
 
     $("#check-appointments").click(function(event){
         sendAppointmentRequest();
-    /*
-        $('#MyTabSelector').disableTab(0, true);
-        $('#MyTabSelector').disableTab(1, true);
-        $('#MyTabSelector').enableTab(2);*/
     });
 
-    $('#time_picker1').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker2').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker3').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker4').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker5').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
-    });
-
-    $('#time_picker6').timepicker({
-        hourGrid: hourGrid,
-        minuteGrid: 10,
-        timeFormat: 'HH:mm',
-        stepMinute: 10,
-        hour: startHour,
-        hourMin: minHour,
-        hourMax: maxHour
+    $('.timey').each(function(){
+        $(this).timepicker({
+            hourGrid: hourGrid,
+            minuteGrid: 10,
+            timeFormat: 'HH:mm',
+            stepMinute: 10,
+            hour: startHour,
+            hourMin: minHour,
+            hourMax: maxHour
+        });
     });
 
     var startDateTextBox = $('#date_range_start');

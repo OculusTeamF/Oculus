@@ -15,6 +15,7 @@ import at.oculus.teamf.domain.entity.calendar.calendarevent.CalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.CalendarWorkingHours;
 import at.oculus.teamf.domain.entity.calendar.calendarworkinghours.ICalendarWorkingHours;
+import at.oculus.teamf.domain.entity.exception.calendar.NoWorkingHoursException;
 import at.oculus.teamf.persistence.Facade;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -62,16 +63,21 @@ class CalendarProxy extends VirtualProxy<ICalendar> implements ICalendar {
     }
 
     @Override
-    public Iterator<ICalendarEvent> availableEventsIterator(Collection<ICriteria> criterias, int duration) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
-        return _real.availableEventsIterator(criterias, duration);
-    }
-
-    @Override
     public Collection<ICalendarEvent> getEvents() throws InvalidReloadClassException, ReloadInterfaceNotImplementedException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
         if(_real.getEvents() == null) {
             Facade.getInstance().reloadCollection(_real, CalendarEvent.class);
         }
 
         return _real.getEvents();
+    }
+
+    @Override
+    public boolean isInWorkingTime(ICalendarEvent calendarEvent) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
+        return false;
+    }
+
+    @Override
+    public boolean isAvailableEvent(ICalendarEvent calendarEvent) throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException, NoBrokerMappedException, DatabaseOperationException {
+        return false;
     }
 }

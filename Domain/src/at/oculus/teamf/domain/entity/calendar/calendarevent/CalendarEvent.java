@@ -9,6 +9,7 @@
 
 package at.oculus.teamf.domain.entity.calendar.calendarevent;
 
+import at.oculus.teamf.domain.entity.calendar.ICalendar;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import java.text.SimpleDateFormat;
@@ -27,8 +28,10 @@ public class CalendarEvent implements ICalendarEvent {
     private Date _eventStart;
     private Date _eventEnd;
     private IPatient _patient;
-    private EventType _type;
-    //</editor-fold>
+    private ICalendar _calendar;
+	private IEventType _eventType;
+	private Integer _eventTypeId;
+	//</editor-fold>
 
     //<editor-fold desc="Getter/Setter">
     @Override
@@ -77,18 +80,21 @@ public class CalendarEvent implements ICalendarEvent {
         _patient = patient;
     }
 
-	//</editor-fold>
+	public Integer getEventTypeId() {
+		return _eventTypeId;
+	}
 
-    @Override
-    public String toString() {
-	    String eventDate = (new SimpleDateFormat("dd.MM.yyyy").format(_eventStart)) + " from " +
-	                       (new SimpleDateFormat("HH:mm").format(_eventStart) + " to " +
-	                        (new SimpleDateFormat("HH:mm").format(_eventEnd)));
-	    if (_description != null && !_description.isEmpty()) {
-		    eventDate = eventDate + ", " + _description;
-	    }
-	    return eventDate;
-    }
+	public ICalendar getCalendar() {
+		return _calendar;
+	}
+
+	public void setEventTypeId(Integer eventTypeId) {
+		_eventTypeId = eventTypeId;
+	}
+
+	public void setCalendar(ICalendar calendar) {
+		_calendar = calendar;
+	}
 
 	@Override
 	public Object clone() {
@@ -100,4 +106,29 @@ public class CalendarEvent implements ICalendarEvent {
 		calendarEvent.setPatient(_patient);
 		return calendarEvent;
 	}
+
+	public IEventType getEventType() {
+		return _eventType;
+	}
+
+	@Override
+	public String toString() {
+		String eventDate = (new SimpleDateFormat("dd.MM.yyyy").format(_eventStart)) + " from " +
+		                   (new SimpleDateFormat("HH:mm").format(_eventStart) + " to " +
+		                    (new SimpleDateFormat("HH:mm").format(_eventEnd)));
+		if (_description != null && !_description.isEmpty()) {
+			eventDate = eventDate + ", " + _description;
+		}
+		return eventDate;
+	}
+
+	public void setEventType(IEventType eventType) {
+		_eventType = eventType;
+		setEventTypeId(eventType.getId());
+	}
+
+
+	//</editor-fold>
+
+
 }

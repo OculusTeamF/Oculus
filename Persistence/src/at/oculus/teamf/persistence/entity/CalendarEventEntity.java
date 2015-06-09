@@ -29,7 +29,7 @@ public class CalendarEventEntity implements IEntity {
     private byte _isOpen;
     private CalendarEntity _calendar;
     private PatientEntity _patient;
-    //private EventtypeEntity _eventtype;
+    private EventtypeEntity _eventtype;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -123,37 +123,48 @@ public class CalendarEventEntity implements IEntity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CalendarEventEntity that = (CalendarEventEntity) o;
-
-        if (_id != that._id) return false;
-        if (_calendarId != that._calendarId) return false;
-        if (_eventTypeId != that._eventTypeId) return false;
-        if (_isOpen != that._isOpen) return false;
-        if (_patientId != null ? !_patientId.equals(that._patientId) : that._patientId != null) return false;
-        if (_eventStart != null ? !_eventStart.equals(that._eventStart) : that._eventStart != null) return false;
-        if (_eventEnd != null ? !_eventEnd.equals(that._eventEnd) : that._eventEnd != null) return false;
-        if (_description != null ? !_description.equals(that._description) : that._description != null) return false;
-        if (_patientName != null ? !_patientName.equals(that._patientName) : that._patientName != null) return false;
-
-        return true;
+    public int hashCode() {
+	    int result = _id;
+	    result = 31 * result + _calendarId;
+	    result = 31 * result + (_patientId != null ? _patientId.hashCode() : 0);
+	    result = 31 * result + _eventTypeId;
+	    result = 31 * result + (_eventStart != null ? _eventStart.hashCode() : 0);
+	    result = 31 * result + (_eventEnd != null ? _eventEnd.hashCode() : 0);
+	    result = 31 * result + (_description != null ? _description.hashCode() : 0);
+	    result = 31 * result + (_patientName != null ? _patientName.hashCode() : 0);
+	    result = 31 * result + (int) _isOpen;
+	    return result;
     }
 
     @Override
-    public int hashCode() {
-        int result = _id;
-        result = 31 * result + _calendarId;
-        result = 31 * result + (_patientId != null ? _patientId.hashCode() : 0);
-        result = 31 * result + _eventTypeId;
-        result = 31 * result + (_eventStart != null ? _eventStart.hashCode() : 0);
-        result = 31 * result + (_eventEnd != null ? _eventEnd.hashCode() : 0);
-        result = 31 * result + (_description != null ? _description.hashCode() : 0);
-        result = 31 * result + (_patientName != null ? _patientName.hashCode() : 0);
-        result = 31 * result + (int) _isOpen;
-        return result;
+    public boolean equals(Object o) {
+	    if (this == o)
+		    return true;
+	    if (o == null || getClass() != o.getClass())
+		    return false;
+
+	    CalendarEventEntity that = (CalendarEventEntity) o;
+
+	    if (_id != that._id)
+		    return false;
+	    if (_calendarId != that._calendarId)
+		    return false;
+	    if (_eventTypeId != that._eventTypeId)
+		    return false;
+	    if (_isOpen != that._isOpen)
+		    return false;
+	    if (_patientId != null ? !_patientId.equals(that._patientId) : that._patientId != null)
+		    return false;
+	    if (_eventStart != null ? !_eventStart.equals(that._eventStart) : that._eventStart != null)
+		    return false;
+	    if (_eventEnd != null ? !_eventEnd.equals(that._eventEnd) : that._eventEnd != null)
+		    return false;
+	    if (_description != null ? !_description.equals(that._description) : that._description != null)
+		    return false;
+	    if (_patientName != null ? !_patientName.equals(that._patientName) : that._patientName != null)
+		    return false;
+
+	    return true;
     }
 
     @ManyToOne
@@ -176,13 +187,14 @@ public class CalendarEventEntity implements IEntity {
         _patient = patient;
     }
 
-    /*@ManyToOne
-    @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false)
-    public Eventtypentity getEventtype() {
+    @ManyToOne
+    @JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId", nullable = false, insertable = false, updatable = false)
+    public EventtypeEntity getEventtype() {
         return _eventtype;
     }
 
-    public void setEventtype(Eventtypentity eventType) {
+    public void setEventtype(EventtypeEntity eventType) {
         _eventtype = eventType;
-    }*/
+	    setEventTypeId(eventType.getId());
+    }
 }

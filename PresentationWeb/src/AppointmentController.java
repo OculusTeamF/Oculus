@@ -8,10 +8,16 @@
  */
 
 import at.oculus.teamf.application.controller.EventChooserController;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NoDoctorException;
+import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.NotAllowedToChooseEventException;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
+import at.oculus.teamf.persistence.exception.BadConnectionException;
+import at.oculus.teamf.persistence.exception.DatabaseOperationException;
+import at.oculus.teamf.persistence.exception.NoBrokerMappedException;
+import at.oculus.teamf.persistence.exception.reload.InvalidReloadClassException;
+import at.oculus.teamf.persistence.exception.reload.ReloadInterfaceNotImplementedException;
 import at.oculus.teamf.technical.loggin.ILogger;
 import beans.UserBean;
 
@@ -22,8 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -36,9 +41,8 @@ public class AppointmentController extends HttpServlet implements ILogger{
     EventChooserController _eventchooserController;
     IPatient _currentp;
     LinkedList <ICalendarEvent> _checkedevents;
-    private static final int CRITERIA_AMOUNT = 7;
     private static final int DEFAULT_ENDTIME = 30;
-    LocalDateTime[] dates = new LocalDateTime[CRITERIA_AMOUNT];
+    LocalTime[] times = new LocalTime[6];
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         _currentp = UserBean._patient;  // get current patient (= current logged in user) from user bean
@@ -46,32 +50,33 @@ public class AppointmentController extends HttpServlet implements ILogger{
         // format received dates
         log.debug("CHECK received appointments for " + _currentp.getLastName());
 
-        String recdate = request.getParameter("datearray");
-        String[] parts = recdate.split(",");
+        String recdate = request.getParameter("checkdays");
+        String rectimes = request.getParameter("checktimes");
+        log.debug("CHECK received parameters: " + recdate + " / " + rectimes);
 
-        int datecount = 0;
-        for (String datepart: parts) {
-            // convert string to LocalDateTime object
-            // format for: Wed Jun 17 2015 00:00:00
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
-            dates[datecount] = LocalDateTime.parse(datepart.substring(0, 24), formatter);
-            log.debug("RECEIVED criteria date:" + dates[datecount].toString());
-            datecount++;
+        String[] weekdayparts = recdate.split(",");
+        String[] timeparts = rectimes.split(",");
+
+
+        // fconvert string to LocalTime object
+        for (int i = 0; i < weekdayparts.length; i++) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
+            times[i] = LocalTime.parse(timeparts[i], formatter);
+            log.debug("RECEIVED criteria time:" + times[i].toString());
         }
 
         // add criteras
         try {
             _eventchooserController = EventChooserController.createEventChooserController(_currentp);
             log.debug("EventController started");
-            for (int i = 0; i < CRITERIA_AMOUNT; i++) {
-                if (dates[i] != null) {
-                    DayOfWeek day = dates[i].getDayOfWeek();
-                    String dayFormatted = day.toString().substring(0,3);    // cut dayname to 3 letter dayname (TUESDAY -> TUE)
-                    log.debug("ADD EVENT CRITERIA #" + i + ": " + dayFormatted + " / " + dates[i].toLocalTime() + " - " + dates[i].toLocalTime().plusMinutes(DEFAULT_ENDTIME));
+            for (int i = 0; i < weekdayparts.length; i++) {
+                log.debug("ADD EVENT CRITERIA #" + i + ": " + weekdayparts[i] + " / " + times[i] + " - " + times[i].plusMinutes(DEFAULT_ENDTIME));
 
-                    // add 30 minutes as default endtime
-                    _eventchooserController.addWeekDayTimeCriteria(dayFormatted, dates[i].toLocalTime(), dates[i].toLocalTime().plusMinutes(DEFAULT_ENDTIME));
-                }
+                // add 30 minutes as default endtime
+                _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], times[i].plusMinutes(DEFAULT_ENDTIME));
+
+                // add not available daterange
+                //_eventchooserController.addDatePeriodCriteria(lol,lol);
             }
         } catch (PatientCanNotBeNullException e) {
             e.printStackTrace();
@@ -80,29 +85,36 @@ public class AppointmentController extends HttpServlet implements ILogger{
         // now process criterias and dates and receive results
         try {
             log.debug("CHECK passed criterias");
-            _checkedevents = (LinkedList<ICalendarEvent>) _eventchooserController.checkPatientsAppointments();
-        } catch (CouldNotGetCalendarEventsException e) {
+            _checkedevents = (LinkedList<ICalendarEvent>) _eventchooserController.getAvailableEvents();
+        } catch (NotAllowedToChooseEventException e) {
             e.printStackTrace();
-        }
-
-        // debug results
-        log.debug("RESULTS SIZE: " + _checkedevents.size());
-        for (int i = 0; i < _checkedevents.size(); i++){
-            log.debug("ACCEPTED EVENTDATE #" + i + ": " + _checkedevents.get(i).getEventStart().toString());
+        } catch (InvalidReloadClassException e) {
+            e.printStackTrace();
+        } catch (NoDoctorException e) {
+            e.printStackTrace();
+        } catch (DatabaseOperationException e) {
+            e.printStackTrace();
+        } catch (ReloadInterfaceNotImplementedException e) {
+            e.printStackTrace();
+        } catch (NoBrokerMappedException e) {
+            e.printStackTrace();
+        } catch (BadConnectionException e) {
+            e.printStackTrace();
         }
 
         // send event results back to jsp (as xml)
         try (PrintWriter out = response.getWriter()) {
             String resl = "";
-
+            log.debug("RESULTS SIZE: " + _checkedevents.size());
             // TODO change to XML
             //out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>hi</root>");
-            for (LocalDateTime d : dates) {
-                if (d!= null) {
-                    resl = resl + d.toString() + ",";
-                }
+            for (ICalendarEvent e : _checkedevents) {
+                log.debug("ACCEPTED EVENTDATE #:"  + e.toString());
+                resl = resl + e.toString() + ",";
+
             }
             out.println(resl);
+
             log.debug("SEND response");
         }
     }
