@@ -151,18 +151,17 @@
                     <br/>
                     <div id="app_box">
                         <h3><strong>Chosen appointment:</strong></h3>
-
-                        <strong>Date start:</strong> <p id="new_datestart"></p>
-                        <strong>Date end:</strong> <p id="new_dateend"></p>
+                        <br/>
+                        <strong>Selected date & time:</strong> <p id="new_date">Please select an appointment</p>
                         <strong>Reason(s) for your visit:</strong>
                         <textarea id="reasonTextarea" rows="7" cols="32" autofocus></textarea>
-                        <br/><br/>
+                        <br/><br/><br/>
                         <button type="button" id="cancel-appointment">Cancel appointment</button>
                         <br/><br/>
                         <button type="button" id="confirm-appointment">Confirm appointment</button>
                     </div>
-                    <div id="app_box" style="position: absolute; top: 73px; left: 350px; width:400px">
-                        <h3><strong>Choose appointment:</strong></h3>
+                    <div id="app_box" style="position: absolute; top: 73px; left: 350px; width:400px; height:308px">
+                        <h3><strong>Choose an appointment:</strong></h3>
                         <br/>
                         <a class="selbutton" id="seldat1" href="#" onclick='handleDateClick(this);'>select date</a><br/>
                         <a class="selbutton" id="seldat2" href="#" onclick='handleDateClick(this);'>select date</a><br/>
@@ -286,21 +285,28 @@
 
     $("#check-appointments").click(function(event){
         var testchecked = false;
-        var inputcount = 0;
+        var inputcountA = 0;
+        var inputcountB = 0;
         var rangechecked = false;
+        var inputchecked = false;
 
         // check if ANY checkbox is ticked
         $("input:checkbox[name=boxdays]:checked").each(function() {
             testchecked = true;
-            inputcount++;
+            inputcountA++;
         });
 
         // check if every ticked checkbox has a date assigned
         $("input.timey").each(function (index) {
             if ($(this).val() != "") {
-                inputcount--;
+                //alert($(this).val());
+                inputcountB++;
             }
         });
+
+        if ((inputcountA - inputcountB) == 0){
+            inputchecked = true;
+        }
 
         // check dateperiod
         var rangeactive = document.getElementById("optionrange").checked;
@@ -318,14 +324,14 @@
 
 
         // if all checks are fine then send request
-        if (testchecked == true && inputcount == 0 && rangechecked == true) {
+        if (testchecked == true && inputchecked == true && rangechecked == true) {
             sendAppointmentRequest();
         } else {
             if (testchecked == false) {
                 alert("Please add at LEAST 1 date ! thx")
             }
-            if (inputcount > 0) {
-                alert("Please add " + inputcount + " missing dates");
+            if (inputchecked == false) {
+                alert("Please add " + (inputcountA - inputcountB) + " missing dates");
             }
             if (rangechecked == false) {
                 alert("Please check date range for proper values");
@@ -438,8 +444,7 @@
 
     function handleDateClick(bu) {
         selectedevent = bu.id.toString().substring(bu.id.toString().length - 1, bu.id.toString().length);
-        document.getElementById("new_datestart").innerHTML = bu.innerHTML;
-        document.getElementById("new_dateend").innerHTML = bu.innerHTML;
+        document.getElementById("new_date").innerHTML = bu.innerHTML;
         document.getElementById("confirm-appointment").style.visibility = 'visible';
     };
 
