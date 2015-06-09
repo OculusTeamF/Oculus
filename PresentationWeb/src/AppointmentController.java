@@ -73,6 +73,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
             e.printStackTrace();
         }
 
+        // add criteras if available
         if (recdate.toString().length() > 0) {
             // convert string to LocalTime object
             int j = 0;
@@ -86,17 +87,14 @@ public class AppointmentController extends HttpServlet implements ILogger{
 
             }
 
-            // add criteras
             log.debug("EventController started");
             for (int i = 0; i < weekdayparts.length; i++) {
                 log.debug("ADD EVENT CRITERIA #" + i + ": " + weekdayparts[i] + " / " + times[i] + " - " + timesend[i]);
-
-                // add 30 minutes as default endtime
                 _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], timesend[i]);
             }
         }
 
-        // add not available daterange
+        // add 'not available' dateranges
         if (drstart.equals("null") == false) {
             // convert string to localdate ...then convert localdate to date
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
@@ -133,8 +131,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
         try (PrintWriter out = response.getWriter()) {
             String resl = "";
             log.debug("RECEIVED EVENT RESULTS SIZE: " + _checkedevents.size());
-            // TODO change to XML
-            //out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>hi</root>");
+
             for (ICalendarEvent e : _checkedevents) {
                 log.debug("ACCEPTED EVENTDATE #:"  + e.toString());
                 resl = resl + e.toString() + ",";

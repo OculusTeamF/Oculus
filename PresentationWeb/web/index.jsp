@@ -67,8 +67,8 @@
                                         <label class="checkbox" for="option1"> Monday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start1" value="" readonly/>
-                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end1" value="" readonly/>
+                                        from <input type="text" style="width:120px;" class="timeywimey" name="time_picker_start" id="time_range_start1" value="" readonly/>
+                                        to <input type="text" style="width:120px;" class="timeywimey" name="time_picker_end" id="time_range_end1" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -78,8 +78,8 @@
                                         <label class="checkbox" for="option2"> Tuesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start2" value="" readonly/>
-                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end2" value="" readonly/>
+                                        from <input type="text" style="width:120px;" class="timeywimey" name="time_picker_start" id="time_range_start2" value="" readonly/>
+                                        to <input type="text" style="width:120px;" class="timeywimey" name="time_picker_end" id="time_range_end2" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -89,8 +89,8 @@
                                         <label class="checkbox" for="option3"> Wednesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start3" value="" readonly/>
-                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end3" value="" readonly/>
+                                        from <input type="text" style="width:120px;" class="timeywimey" name="time_picker_start" id="time_range_start3" value="" readonly/>
+                                        to <input type="text" style="width:120px;" class="timeywimey" name="time_picker_end" id="time_range_end3" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -100,8 +100,8 @@
                                         <label class="checkbox" for="option4"> Thursday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start4" value="" readonly/>
-                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end4" value="" readonly/>
+                                        from <input type="text" style="width:120px;" class="timeywimey" name="time_picker_start" id="time_range_start4" value="" readonly/>
+                                        to <input type="text" style="width:120px;" class="timeywimey" name="time_picker_end" id="time_range_end4" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -111,8 +111,8 @@
                                         <label class="checkbox" for="option5"> Friday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start5" value="" readonly/>
-                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end5" value="" readonly/>
+                                        from <input type="text" style="width:120px;" class="timeywimey" name="time_picker_start" id="time_range_start5" value="" readonly/>
+                                        to <input type="text" style="width:120px;" class="timeywimey" name="time_picker_end" id="time_range_end5" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -122,8 +122,8 @@
                                         <label class="checkbox" for="option6"> Saturday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start6" value="" readonly/>
-                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end6" value="" readonly/>
+                                        from <input type="text" style="width:120px;" class="timeywimey" name="time_picker_start" id="time_range_start6" value="" readonly/>
+                                        to <input type="text" style="width:120px;" class="timeywimey" name="time_picker_end" id="time_range_end6" value="" readonly/>
                                     </td>
                                 </tr>
                             </table>
@@ -223,10 +223,7 @@
 
 
 <div id="dialog-message" title="Information">
-    <p id="msgp">
-        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-        Your files have downloaded successfully into the My Downloads folder.
-    </p>
+    <p id="msgp"></p>
     <p></p>
 </div>
 
