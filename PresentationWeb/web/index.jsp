@@ -67,8 +67,8 @@
                                         <label class="checkbox" for="option1"> Monday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker1" value="" readonly/>
-                                        <%--<a class="selbutton" id="seldate1" href="#">select date</a>--%>
+                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start1" value="" readonly/>
+                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end1" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -78,8 +78,8 @@
                                         <label class="checkbox" for="option2"> Tuesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker2" value="" readonly/>
-                                        <%--<a class="selbutton" id="seldate2" href="#">select date</a>--%>
+                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start2" value="" readonly/>
+                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end2" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -89,8 +89,8 @@
                                         <label class="checkbox" for="option3"> Wednesday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker3" value="" readonly/>
-                                        <%--<a class="selbutton" id="seldate3" href="#">select date</a>--%>
+                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start3" value="" readonly/>
+                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end3" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -100,8 +100,8 @@
                                         <label class="checkbox" for="option4"> Thursday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker4" value="" readonly/>
-                                        <%--<a class="selbutton" id="seldate4" href="#">select date</a>--%>
+                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start4" value="" readonly/>
+                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end4" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -111,8 +111,8 @@
                                         <label class="checkbox" for="option5"> Friday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey" name="time_picker" id="time_picker5" value="" readonly/>
-                                        <%--<a class="selbutton" id="seldate5" href="#">select date</a>--%>
+                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start5" value="" readonly/>
+                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end5" value="" readonly/>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -122,8 +122,8 @@
                                         <label class="checkbox" for="option6"> Saturday </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="timey"  name="time_picker" id="time_picker6" value="" readonly/>
-                                        <%--<a class="selbutton" id="seldate6" href="#">select date</a>--%>
+                                        <input type="text" class="timeywimey" name="time_picker_start" id="time_range_start6" value="" readonly/>
+                                        <input type="text" class="timeywimey" name="time_picker_end" id="time_range_end6" value="" readonly/>
                                     </td>
                                 </tr>
                             </table>
@@ -253,7 +253,8 @@
         $(".hexdots-loader").hide();
 
         for (i = 1; i < 7; i++) {
-            document.getElementById("time_picker" + i).disabled = true;
+            document.getElementById("time_range_start" + i).disabled = true;
+            document.getElementById("time_range_end" + i).disabled = true;
             document.getElementById("seldat" + i).style.visibility = 'hidden';
         }
 
@@ -274,6 +275,28 @@
             $('#MyTabSelector').enableTab(1);
             $('#MyTabSelector').disableTab(2);
             $('#MyTabSelector').tabs( "option", "active", 1 );
+        }
+
+        for (i = 1; i < 7; i++) {
+            var startTimeTextBox = $('#time_range_start' + i);
+            var endTimeTextBox = $('#time_range_end' + i);
+
+            $.timepicker.timeRange(
+                    startTimeTextBox,
+                    endTimeTextBox,
+                    {
+                        hourGrid: hourGrid,
+                        minuteGrid: 10,
+                        minInterval: (1000 * 60 * 30), // 1hr
+                        timeFormat: 'HH:mm',
+                        stepMinute: 10,
+                        hour: startHour,
+                        hourMin: minHour,
+                        hourMax: maxHour,
+                        start: {}, // start picker options
+                        end: {} // end picker options
+                    }
+            );
         }
     }
 
@@ -299,14 +322,14 @@
         });
 
         // check if every ticked checkbox has a date assigned
-        $("input.timey").each(function (index) {
+        $("input.timeywimey").each(function (index) {
             if ($(this).val() != "") {
                 //alert($(this).val());
                 inputcountB++;
             }
         });
 
-        if ((inputcountA - inputcountB) == 0){
+        if ((inputcountA - (inputcountB / 2)) == 0){
             inputchecked = true;
         }
 
@@ -330,10 +353,10 @@
             sendAppointmentRequest();
         } else {
             if (testchecked == false) {
-                alert("Please add at LEAST 1 date ! thx")
+                alert("Please add at LEAST 1 weekday ! thx")
             }
             if (inputchecked == false) {
-                alert("Please add " + (inputcountA - inputcountB) + " missing dates");
+                alert("Please add " + (inputcountA - (inputcountB / 2)) + " missing time ranges");
             }
             if (rangechecked == false) {
                 alert("Please check date range for proper values");
@@ -354,7 +377,7 @@
         });
 
         // get timebox states
-        $("input.timey").each(function (index) {
+        $("input.timeywimey").each(function (index) {
             if ($(this).val() != "") {
                 //alert($(this).val());
                 times.push($(this).val());
@@ -522,16 +545,20 @@
             }
     );
 
+
     //******************************************************************************************************************
     //  CHECKBOXES SCRIPTS
     //******************************************************************************************************************
 
     function handleCheckClick(cb) {
         if (cb.checked == true) {
-            document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = false;
+            document.getElementById("time_range_start" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = false;
+            document.getElementById("time_range_end" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = false;
         } else {
-            document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).value = "";
-            document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = true;
+            document.getElementById("time_range_start" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).value = "";
+            document.getElementById("time_range_start" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = true;
+            document.getElementById("time_range_end" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).value = "";
+            document.getElementById("time_range_end" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = true;
         }
     }
     function handleRangeClick(cb) {

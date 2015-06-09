@@ -47,6 +47,7 @@ public class AppointmentController extends HttpServlet implements ILogger{
     private LinkedList <ICalendarEvent> _checkedevents;
     private static final int DEFAULT_ENDTIME = 30;
     LocalTime[] times = new LocalTime[6];
+    LocalTime[] timesend = new LocalTime[6];
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         _currentp = UserBean._patient;  // get current patient (= current logged in user) from user bean
@@ -67,10 +68,15 @@ public class AppointmentController extends HttpServlet implements ILogger{
 
 
         // convert string to LocalTime object
-        for (int i = 0; i < weekdayparts.length; i++) {
+        int j = 0;
+        for (int i = 0; i < (weekdayparts.length * 2); i++) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
-            times[i] = LocalTime.parse(timeparts[i], formatter);
-            log.debug("RECEIVED criteria time:" + times[i].toString());
+            times[j] = LocalTime.parse(timeparts[i], formatter);
+            timesend[j] = LocalTime.parse(timeparts[i + 1], formatter);
+            log.debug("RECEIVED criteria time: start: " + times[j].toString() + " / end: " + timesend[j].toString());
+            i++; // iterate two steps
+            j++;
+
         }
 
         // add criteras
@@ -78,10 +84,10 @@ public class AppointmentController extends HttpServlet implements ILogger{
             _eventchooserController = EventChooserController.createEventChooserController(_currentp);
             log.debug("EventController started");
             for (int i = 0; i < weekdayparts.length; i++) {
-                log.debug("ADD EVENT CRITERIA #" + i + ": " + weekdayparts[i] + " / " + times[i] + " - " + times[i].plusMinutes(DEFAULT_ENDTIME));
+                log.debug("ADD EVENT CRITERIA #" + i + ": " + weekdayparts[i] + " / " + times[i] + " - " + timesend[i]);
 
                 // add 30 minutes as default endtime
-                _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], times[i].plusMinutes(DEFAULT_ENDTIME));
+                _eventchooserController.addWeekDayTimeCriteria(weekdayparts[i], times[i], timesend[i]);
             }
 
             // add not available daterange
