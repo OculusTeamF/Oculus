@@ -93,6 +93,13 @@ public class EventChooserControllerTest {
         }
 
         Assert.assertEquals(events.size(), 3);
+
+        try {
+            eventChooserController.saveChosenEvent(events.get(0), "blindness");
+        } catch (EventChooserControllerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @org.junit.Test
