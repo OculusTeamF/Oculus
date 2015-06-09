@@ -132,6 +132,8 @@
                                 <tr>
                                     <td>
                                         <small>Choose unavailability date:</small><br/>
+                                        <input id="optionrange" name="boxdays" type="checkbox" onclick='handleRangeClick(this);'/>
+                                        <label class="checkbox" for="optionrange"></label>
                                         <input type="text" name="date_range_start" id="date_range_start" value="" readonly/>
                                     </td>
                                     <td>
@@ -255,6 +257,9 @@
             document.getElementById("seldat" + i).style.visibility = 'hidden';
         }
 
+        document.getElementById("date_range_start").disabled = true;
+        document.getElementById("date_range_end").disabled = true;
+
         document.getElementById("activate-tabs").style.visibility = 'hidden';
         document.getElementById("confirm-appointment").style.visibility = 'hidden';
 
@@ -282,20 +287,38 @@
     $("#check-appointments").click(function(event){
         var testchecked = false;
         var inputcount = 0;
+        var rangechecked = false;
 
+        // check if ANY checkbox is ticked
         $("input:checkbox[name=boxdays]:checked").each(function() {
             testchecked = true;
             inputcount++;
         });
 
+        // check if every ticked checkbox has a date assigned
         $("input.timey").each(function (index) {
             if ($(this).val() != "") {
                 inputcount--;
             }
         });
 
-        //TODO: check if every selected checkbox has date assigned
-        if (testchecked == true && inputcount == 0) {
+        // check dateperiod
+        var rangeactive = document.getElementById("optionrange").checked;
+        if (rangeactive ==  true) {
+            var ds = $('#date_range_start').datepicker('getDate');
+            var de = $('#date_range_end').datepicker('getDate');
+            if (de != null > 0 && ds == null) {
+                rangechecked = false;
+            } else {
+                rangechecked = true;
+            }
+        } else {
+            rangechecked = true;
+        }
+
+
+        // if all checks are fine then send request
+        if (testchecked == true && inputcount == 0 && rangechecked == true) {
             sendAppointmentRequest();
         } else {
             if (testchecked == false) {
@@ -304,6 +327,10 @@
             if (inputcount > 0) {
                 alert("Please add " + inputcount + " missing dates");
             }
+            if (rangechecked == false) {
+                alert("Please check date range for proper values");
+            }
+
         }
 
     });
@@ -492,6 +519,17 @@
         } else {
             document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).value = "";
             document.getElementById("time_picker" + cb.id.toString().substring(cb.id.toString().length - 1, cb.id.toString().length)).disabled = true;
+        }
+    }
+    function handleRangeClick(cb) {
+        if (cb.checked == true) {
+            document.getElementById("date_range_start").disabled = false;
+            document.getElementById("date_range_end").disabled = false;
+        } else {
+            document.getElementById("date_range_start").value = "";
+            document.getElementById("date_range_end").value = "";
+            document.getElementById("date_range_start").disabled = true;
+            document.getElementById("date_range_end").disabled = true;
         }
     }
 
