@@ -300,6 +300,7 @@ img {
     color: #666;
     border-radius: 10px;
     -webkit-border-radius: 10px;
+    float: left;
 }
 
 /**********************************************************************************************************************
@@ -786,7 +787,7 @@ border: 1px solid #fff;
     line-height: 17px;
     font-size: 12px;
     font-weight: bold;
-    width:80px;
+    width:280px;
 }
 
 a.selbutton:hover {

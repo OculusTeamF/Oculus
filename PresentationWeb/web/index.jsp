@@ -9,6 +9,7 @@
 
     <link href="css/jquery-ui.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.css">
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/hexdots.css" type="text/css">
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">
 </head>
@@ -67,7 +68,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="timey" name="time_picker" id="time_picker1" value="" readonly/>
-                                        <a class="selbutton" id="seldate1" href="#">select date</a>
+                                        <%--<a class="selbutton" id="seldate1" href="#">select date</a>--%>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -78,7 +79,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="timey" name="time_picker" id="time_picker2" value="" readonly/>
-                                        <a class="selbutton" id="seldate2" href="#">select date</a>
+                                        <%--<a class="selbutton" id="seldate2" href="#">select date</a>--%>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -89,7 +90,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="timey" name="time_picker" id="time_picker3" value="" readonly/>
-                                        <a class="selbutton" id="seldate3" href="#">select date</a>
+                                        <%--<a class="selbutton" id="seldate3" href="#">select date</a>--%>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -100,7 +101,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="timey" name="time_picker" id="time_picker4" value="" readonly/>
-                                        <a class="selbutton" id="seldate4" href="#">select date</a>
+                                        <%--<a class="selbutton" id="seldate4" href="#">select date</a>--%>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -111,7 +112,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="timey" name="time_picker" id="time_picker5" value="" readonly/>
-                                        <a class="selbutton" id="seldate5" href="#">select date</a>
+                                        <%--<a class="selbutton" id="seldate5" href="#">select date</a>--%>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -122,7 +123,7 @@
                                     </td>
                                     <td>
                                         <input type="text" class="timey"  name="time_picker" id="time_picker6" value="" readonly/>
-                                        <a class="selbutton" id="seldate6" href="#">select date</a>
+                                        <%--<a class="selbutton" id="seldate6" href="#">select date</a>--%>
                                     </td>
                                 </tr>
                             </table>
@@ -158,6 +159,15 @@
                         <br/><br/>
                         <button type="button" id="confirm-appointment">Confirm appointment</button>
                     </div>
+                    <div class="hexdots-loader" style="position: absolute; top: 150px; left: 550px;">
+                        <p>Login...</p>
+                    </div>
+                    <a class="selbutton" id="seldat1" href="#">select date</a>
+                    <a class="selbutton" id="seldat2" href="#">select date</a>
+                    <a class="selbutton" id="seldat3" href="#">select date</a>
+                    <a class="selbutton" id="seldat4" href="#">select date</a>
+                    <a class="selbutton" id="seldat5" href="#">select date</a>
+                    <a class="selbutton" id="seldat6" href="#">select date</a>
                 </div>
             </div>
         </div>
@@ -222,6 +232,7 @@
     var minHour = 6;
     var startHour = 7;
     var hourGrid = 2;
+    var results = [];
 
     //******************************************************************************************************************
     //  PAGE LOAD INIT SCRIPT
@@ -232,7 +243,8 @@
         $(".hexdots-loader").hide();
         for (i = 1; i < 7; i++) {
             document.getElementById("time_picker" + i).disabled = true;
-            document.getElementById("seldate" + i).style.visibility = 'hidden';
+            document.getElementById("seldat" + i).style.visibility = 'hidden';
+            //document.getElementById("seldate" + i).style.visibility = 'hidden';
         }
 
         if (${user.appointAvailable}) {
@@ -263,7 +275,6 @@
 
     function sendAppointmentRequest() {
         $("#check-appointments").hide();
-        //$(".hexdots-loader").show();
 
         // get checkbox states
         $("input:checkbox[name=boxdays]:checked").each(function()
@@ -298,21 +309,37 @@
 
         xhttpreq.setRequestHeader("Content-type", "text/xml");
         xhttpreq.send();
+
+        // switch tab and start waiting process
+        $('#MyTabSelector').tabs( "option", "active", 2 );
+        $('#MyTabSelector').enableTab(2);
+        $('#MyTabSelector').disableTab(1, true);
+        $(".hexdots-loader").show();
     }
 
     function sendAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
-            alert("[DEBUG] Possible Dates:" + xhttpreq.responseText);
+            $(".hexdots-loader").hide();
+            var resceivedresults = xhttpreq.responseText;
+            alert("[DEBUG] Possible Dates:" + resceivedresults);
 
-            for (i = 1; i < 7; i++){
-                document.getElementById("trid" + i).style.backgroundColor='#39AD65';
+            results = resceivedresults.split(",");
+
+            for (i = 1; i < 7; i++) {
+                document.getElementById("trid" + i).style.backgroundColor = '#39AD65';
                 document.getElementById("time_picker" + i).disabled = true;
                 document.getElementById("option" + i).disabled = true;
                 document.getElementById("date_range_start").disabled = true;
                 document.getElementById("date_range_end").disabled = true;
-                document.getElementById("seldate" + i).style.visibility = 'visible';
+
+                if (results[i-1].length > 3) {
+                    document.getElementById("seldat" + i).innerHTML = results[i-1].toString();
+                    document.getElementById("seldat" + i).style.visibility = 'visible';
+                }
+
+                //document.getElementById("seldate" + i).style.visibility = 'visible';
                 //document.getElementById("seldate" + i).setAttribute("value","tessst");
-                document.getElementById("seldate" + i).onclick = function () {
+               /* document.getElementById("seldate" + i).onclick = function () {
                     var getdatev = "Selected date should be here later";
                     alert('[DEBUG] date selected: ' + getdatev); // link to confirmation
 
@@ -322,7 +349,7 @@
 
                     $('#MyTabSelector').disableTab(1, false);
                     $('#MyTabSelector').tabs( "option", "active", 2 );
-                };
+                };*/
             }
         }
     }
