@@ -161,8 +161,9 @@
                         <button type="button" id="confirm-appointment">Confirm appointment</button>
                     </div>
                     <div id="app_box" style="position: absolute; top: 73px; left: 350px; width:400px; height:308px">
-                        <h3><strong>Choose an appointment:</strong></h3>
+                        <h3 id="title2"><strong>Searching for free appointments...</strong></h3>
                         <br/>
+                        <button type="button" id="retry-appointment">Try a new search</button>
                         <a class="selbutton" id="seldat1" href="#" onclick='handleDateClick(this);'>select date</a><br/>
                         <a class="selbutton" id="seldat2" href="#" onclick='handleDateClick(this);'>select date</a><br/>
                         <a class="selbutton" id="seldat3" href="#" onclick='handleDateClick(this);'>select date</a><br/>
@@ -171,7 +172,7 @@
                         <a class="selbutton" id="seldat6" href="#" onclick='handleDateClick(this);'>select date</a><br/>
                     </div>
                     <div class="hexdots-loader" style="position: absolute; top: 190px; left: 500px;">
-                        <p>Login...</p>
+                        <p>Loading dates...</p>
                     </div>
                 </div>
             </div>
@@ -261,6 +262,7 @@
 
         document.getElementById("activate-tabs").style.visibility = 'hidden';
         document.getElementById("confirm-appointment").style.visibility = 'hidden';
+        document.getElementById("retry-appointment").style.visibility = 'hidden';
 
         if (${user.appointAvailable}) {
             $('#MyTabSelector').enableTab(0);
@@ -395,12 +397,14 @@
 
             results = resceivedresults.split(",");
 
-            for (i = 1; i < 7; i++) {
-                document.getElementById("time_picker" + i).disabled = true;
-                document.getElementById("option" + i).disabled = true;
-                document.getElementById("date_range_start").disabled = true;
-                document.getElementById("date_range_end").disabled = true;
+            if (resceivedresults.toString().length == 0){
+                document.getElementById("title2").innerHTML = "No free available date found";
+                document.getElementById("retry-appointment").style.visibility = 'visible';
+            } else {
+                document.getElementById("title2").innerHTML = "Choose an appointment:";
+            }
 
+            for (i = 1; i < 7; i++) {
                 if (results[i-1].length > 3) {
                     document.getElementById("seldat" + i).innerHTML = results[i-1].toString();
                     document.getElementById("seldat" + i).style.visibility = 'visible';
@@ -442,6 +446,10 @@
         location.reload();
     });
 
+    $("#retry-appointment").click(function(event){
+        location.reload();
+    });
+
     function handleDateClick(bu) {
         selectedevent = bu.id.toString().substring(bu.id.toString().length - 1, bu.id.toString().length);
         document.getElementById("new_date").innerHTML = bu.innerHTML;
@@ -451,7 +459,7 @@
     function confirmAppointmentRequest_callback() {
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
             location.reload();
-            document.getElementById("new_datestart").innerHTML = "Confirmed Appointment";
+            document.getElementById("title1").innerHTML = "Confirmed Appointment:";
         }
     };
 
