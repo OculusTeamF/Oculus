@@ -289,8 +289,8 @@ public class EventChooserController implements ILogger {
         description = reason;
         iCalendarEvent.setPatient(iPatient);
         iCalendarEvent.setDescription(description);
-        LinkedList<IEventType> types = (LinkedList<IEventType>) eventTypes;
-        iCalendarEvent.setEventType(types.getFirst());
+        ArrayList<IEventType> types = (ArrayList<IEventType>) eventTypes;
+        iCalendarEvent.setEventType(types.get(0));
         IFacade facade = Facade.getInstance();
         try {
             facade.save(iCalendarEvent);
