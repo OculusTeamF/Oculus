@@ -7,6 +7,12 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**********************************************************************************************************************
+ *
+ *   OCULUS WEB CSS v1.0
+ *
+**********************************************************************************************************************/
+
 * {
 	margin: 0;
 	padding: 0;
@@ -105,7 +111,12 @@ img {
 	padding: 10px;
 }
 
-/* Header */
+/**********************************************************************************************************************
+ *
+ *   HEADER STYLE
+ *
+**********************************************************************************************************************/
+
 
 #header {
 	width: 1000px;
@@ -187,43 +198,18 @@ img {
 	background: url(../images/img05.gif) no-repeat left center;
 }
 
-/* Menu */
-
 #menu {
-	width: 1000px;
-	height: 40px;
-	margin: 0 auto;
+    width: 1000px;
+    height: 40px;
+    margin: 0 auto;
 }
 
-#menu ul {
-	margin: 0;
-	list-style: none;
-	line-height: normal;
-}
+/**********************************************************************************************************************
+ *
+ *   MAIN CONTENT STYLE
+ *
+**********************************************************************************************************************/
 
-#menu li {
-	display: inline;
-}
-
-#menu a {
-	display: block;
-	float: left;
-	height: 26px;
-	padding: 14px 18px 0 20px;
-	background: url(../images/img06.gif) no-repeat;
-	text-transform: uppercase;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-#menu a:hover {
-	text-decoration: underline;
-}
-
-#menu .first a {
-	padding-left: 0;
-	background: none;
-}
 
 /* Content */
 
@@ -253,49 +239,13 @@ img {
     height: 500px;
 }
 
-/* Content > Sidebar */
 
-#sidebar {
-	float: left;
-	width: 220px;
-}
+/**********************************************************************************************************************
+ *
+ *   FOOTER STYLE
+ *
+**********************************************************************************************************************/
 
-
-/* Content > Sidebar > Updates*/
-
-#updates {
-	height: 500px;
-}
-
-#updates ul {
-	margin: 0;
-	list-style: none;
-}
-
-#updates li {
-	margin-bottom: 1em;
-}
-
-#updates h3 {
-	margin: 0;
-	padding: 0 0 0 10px;
-	background: url(../images/img09.gif) no-repeat left center;
-	font-size: x-small;
-}
-
-#updates p {
-	margin: 0;
-	padding: 0 0 0 10px;
-	line-height: normal;
-	font-size: .85em;
-}
-
-#updates a {
-	text-decoration: none;
-}
-
-
-/* Footer */
 
 #footer {
 	clear: both;
@@ -328,6 +278,11 @@ img {
 	text-align: center;
 }
 
+/**********************************************************************************************************************
+ *
+ *   BOX STYLE
+ *
+**********************************************************************************************************************/
 
 #appointments {
 	background-color: black;
@@ -336,8 +291,6 @@ img {
 }
 
 #app_box{
-
-
     max-width: 250px;
     background: #FFF;
     padding: 30px 30px 20px 30px;
@@ -347,6 +300,49 @@ img {
     color: #666;
     border-radius: 10px;
     -webkit-border-radius: 10px;
+}
+
+/**********************************************************************************************************************
+ *
+ *   SIDEBAR STYLE
+ *
+**********************************************************************************************************************/
+
+
+#sidebar {
+    float: left;
+    width: 220px;
+}
+
+#updates {
+    height: 500px;
+}
+
+#updates ul {
+    margin: 0;
+    list-style: none;
+}
+
+#updates li {
+    margin-bottom: 1em;
+}
+
+#updates h3 {
+    margin: 0;
+    padding: 0 0 0 10px;
+    background: url(../images/img09.gif) no-repeat left center;
+    font-size: x-small;
+}
+
+#updates p {
+    margin: 0;
+    padding: 0 0 0 10px;
+    line-height: normal;
+    font-size: .85em;
+}
+
+#updates a {
+    text-decoration: none;
 }
 
 /**********************************************************************************************************************
@@ -597,7 +593,6 @@ button#not-available:active {
 }
 
 
-
 /**********************************************************************************************************************
  *
  *   CHECKBOX STYLE
@@ -650,12 +645,12 @@ input[type=checkbox]:checked + .checkbox:before {
 #option6button:hover {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
+
 /**********************************************************************************************************************
  *
  *   INPUTBOX STYLE
  *
 **********************************************************************************************************************/
-
 
 
 input[type="text"] {
@@ -686,11 +681,10 @@ table {
     border: solid #ccc 1px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 1px #ccc;
-    -moz-box-shadow: 0 1px 1px #ccc;
-    box-shadow: 0 1px 1px #ccc;
-    background: #fdfdfd;
+    border-radius: 10px;
+    box-shadow: rgba(187, 187, 187, 1) 0 0px 20px -1px;
+    -webkit-box-shadow: rgba(187, 187, 187, 1) 0 0px 20px -1px;
+    background: #ffffff;
 }
 
 .bordered tr:hover {
@@ -764,7 +758,6 @@ table {
  *   DATE SELECTION ICON BUTTON
  *
 **********************************************************************************************************************/
-
 
 
 a.selbutton {

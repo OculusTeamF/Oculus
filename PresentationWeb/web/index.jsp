@@ -33,7 +33,7 @@
             <div id='MyTabSelector'>
                 <ul>
                     <li><a href="#tabs-1">Current appointments</a></li>
-                    <li><a href="#tabs-2">New appointment</a></li>
+                    <li><a href="#tabs-2">Choose appointment criterias</a></li>
                     <li><a href="#tabs-3">Confirmation</a></li>
                 </ul>
                 <div id="tabs-1">
@@ -56,6 +56,7 @@
                 </div>
 
                 <div id="tabs-2">
+                    <br/>
                     <div>
                         <form>
                             <table class="bordered" id="datetable">
@@ -129,11 +130,11 @@
                             <table class="bordered">
                                 <tr>
                                     <td>
-                                        Unavailability<br/>
+                                        <small>Choose unavailability date:</small><br/>
                                         <input type="text" name="date_range_start" id="date_range_start" value="" />
                                     </td>
                                     <td>
-                                        Period (optional)<br/>
+                                        <small>Period (optional):</small><br/>
                                         <input type="text" name="date_range_end" id="date_range_end" value="" />
                                     </td>
                                 </tr>
