@@ -132,7 +132,7 @@
                                 <tr>
                                     <td>
                                         <small>Choose unavailability date:</small><br/>
-                                        <input id="optionrange" name="boxdays" type="checkbox" onclick='handleRangeClick(this);'/>
+                                        <input id="optionrange" name="boxrange" type="checkbox" onclick='handleRangeClick(this);'/>
                                         <label class="checkbox" for="optionrange"></label>
                                         <input type="text" name="date_range_start" id="date_range_start" value="" readonly/>
                                     </td>
