@@ -62,63 +62,21 @@ public class Calendar implements ICalendar {
 		_id = calendarID;
 	}
 
-	public Collection<ICalendarEvent> getEvents() {
-		return _events;
-	}
-
-	@Override
-	public void setEvents(Collection<ICalendarEvent> events) {
-		_events = events;
-	}
-
 	public Collection<ICalendarWorkingHours> getWorkingHours() {
 		return _workinghours;
+	}
+
+	public Collection<ICalendarEvent> getEvents() {
+		return _events;
 	}
 
 	public void setWorkingHours(Collection<ICalendarWorkingHours> workinghours) {
 		_workinghours = workinghours;
 	}
 
-	//</editor-fold>
 	@Override
-	public boolean isAvailableEvent(ICalendarEvent calendarEvent)
-			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-			NoBrokerMappedException, DatabaseOperationException {
-		Date from = calendarEvent.getEventStart();
-		Date to = calendarEvent.getEventEnd();
-
-		// alle vorhandenen Termine ueberpruefen
-		for (ICalendarEvent c : getEvents()) {
-			// wenn Startzeitpunnkt innerhalb eines Termins
-			if (c.getEventStart().before(from) && c.getEventEnd().after(from)) {
-				return false;
-			}
-			// wenn Endzeitpunkt innerhalb eines Termins
-			if (c.getEventStart().before(to) && c.getEventEnd().after(to)) {
-				return false;
-			}
-			// wenn genau der selbe Termin
-			if (c.getEventStart().equals(from) && c.getEventEnd().equals(to)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
-			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-			NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
-		if (getWorkingHours() != null) {
-			for (ICalendarWorkingHours c : getWorkingHours()) {
-				if (c.contains(calendarEvent)) {
-					return true;
-				}
-			}
-		} else {
-			throw new NoWorkingHoursException();
-		}
-		return false;
+	public void setEvents(Collection<ICalendarEvent> events) {
+		_events = events;
 	}
 
 	public static class CalendarEventIterator implements Iterator<ICalendarEvent>, ILogger {
@@ -131,7 +89,7 @@ public class Calendar implements ICalendar {
 
 		public CalendarEventIterator(ICalendar calendar, Collection<ICriteria> criterias, int duration)
 				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-				NoBrokerMappedException, DatabaseOperationException {
+				       NoBrokerMappedException, DatabaseOperationException {
 			// round up to next hour
 			_lastEvent = new CalendarEvent();
 			java.util.Calendar calendarRound = java.util.Calendar.getInstance();
@@ -146,6 +104,7 @@ public class Calendar implements ICalendar {
 
 			// set attributes
 			_calendar = calendar;
+			// reload proxy collections
 			_calendar.getWorkingHours();
 			_calendar.getEvents();
 			_duration = duration;
@@ -190,7 +149,7 @@ public class Calendar implements ICalendar {
 
 		private boolean setNextEvent()
 				throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
-				NoBrokerMappedException, DatabaseOperationException, NoNextEventFoundException {
+				       NoBrokerMappedException, DatabaseOperationException, NoNextEventFoundException {
 			CalendarEvent calendarEvent = null;
 			CalendarEvent calendarEventLast = (CalendarEvent) _lastEvent.clone();
 
@@ -260,4 +219,49 @@ public class Calendar implements ICalendar {
 			return true;
 		}
 	}
+
+
+	//</editor-fold>
+	@Override
+	public boolean isAvailableEvent(ICalendarEvent calendarEvent)
+			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+			NoBrokerMappedException, DatabaseOperationException {
+		Date from = calendarEvent.getEventStart();
+		Date to = calendarEvent.getEventEnd();
+
+		// alle vorhandenen Termine ueberpruefen
+		for (ICalendarEvent c : getEvents()) {
+			// wenn Startzeitpunnkt innerhalb eines Termins
+			if (c.getEventStart().before(from) && c.getEventEnd().after(from)) {
+				return false;
+			}
+			// wenn Endzeitpunkt innerhalb eines Termins
+			if (c.getEventStart().before(to) && c.getEventEnd().after(to)) {
+				return false;
+			}
+			// wenn genau der selbe Termin
+			if (c.getEventStart().equals(from) && c.getEventEnd().equals(to)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isInWorkingTime(ICalendarEvent calendarEvent)
+			throws ReloadInterfaceNotImplementedException, InvalidReloadClassException, BadConnectionException,
+			NoBrokerMappedException, DatabaseOperationException, NoWorkingHoursException {
+		if (getWorkingHours() != null) {
+			for (ICalendarWorkingHours c : getWorkingHours()) {
+				if (c.contains(calendarEvent)) {
+					return true;
+				}
+			}
+		} else {
+			throw new NoWorkingHoursException();
+		}
+		return false;
+	}
+
+
 }
