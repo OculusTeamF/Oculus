@@ -40,10 +40,9 @@
         <li></li>
 	</div>
 </div>
+
 <script src="js/jquery.js"></script>
 <script src="js/jquery-ui.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
 <script>
     $("#login-button").click(function(event){
