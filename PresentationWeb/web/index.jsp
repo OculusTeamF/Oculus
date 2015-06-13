@@ -240,7 +240,7 @@
                             <strong>Doctor:</strong> ${user.doctor}
                             <br/><br/>
                         </p>
-                        <h3><strong>Current Appointment:<br/></strong></h3>
+                        <h3><strong>Next Appointment:<br/></strong></h3>
                         <c:choose>
                             <c:when test="${user.appointAvailable}">
 
