@@ -24,7 +24,7 @@
   <div class="error">
     There is no user with this e-mail address available.<br/>
 
-    <a href="../login.jsp">Back to Login</a>
+    <a href="login.jsp">Back to Login</a>
   </div>
 </body>
 </html>

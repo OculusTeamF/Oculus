@@ -27,6 +27,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -40,8 +41,8 @@ import java.util.Locale;
 /**
  * Created by KYUSS on 02.06.2015.
  */
-@WebServlet(name = "AppointmentController")
-public class AppointmentController extends HttpServlet implements ILogger{
+@WebServlet(name = "CreateAppointmentController")
+public class CreateAppointmentController extends HttpServlet implements ILogger{
     EventChooserController _eventchooserController;
     IPatient _currentp;
     private LinkedList <ICalendarEvent> _checkedevents;
@@ -50,7 +51,10 @@ public class AppointmentController extends HttpServlet implements ILogger{
     LocalTime[] timesend = new LocalTime[6];
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        _currentp = UserBean._patient;  // get current patient (= current logged in user) from user bean
+        HttpSession session = request.getSession(true);
+        String loggedinkey = session.getAttribute("loggedin").toString();
+        UserBean b = UserController.getCurrentUser(loggedinkey);
+        _currentp = b._patient;
 
         log.debug("CHECK received appointments for " + _currentp.getLastName());
 

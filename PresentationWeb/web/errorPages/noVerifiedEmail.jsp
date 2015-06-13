@@ -24,7 +24,7 @@
 <div class="error">
   The e-mail address you entered is not valid.<br/>
 
-  <a href="../login.jsp">Back to Login</a>
+  <a href="login.jsp">Back to Login</a>
 </div>
 </body>
 </html>

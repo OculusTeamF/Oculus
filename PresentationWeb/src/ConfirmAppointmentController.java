@@ -7,20 +7,21 @@
  * You should have received a copy of the GNU General Public License along with Oculus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package beans;
-
 import at.oculus.teamf.application.controller.EventChooserController;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.EventChooserControllerException;
 import at.oculus.teamf.application.controller.exceptions.EventChooserControllerExceptions.PatientCanNotBeNullException;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.technical.loggin.ILogger;
+import beans.DataBean;
+import beans.UserBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
@@ -29,8 +30,8 @@ import java.util.LinkedList;
  * Created by Fabian on 09.06.2015.
  */
 
-@WebServlet(name = "ConfirmController")
-public class ConfirmController extends HttpServlet implements ILogger {
+@WebServlet(name = "ConfirmAppointmentController")
+public class ConfirmAppointmentController extends HttpServlet implements ILogger {
     private LinkedList<ICalendarEvent> _events;
     private IPatient _currentp;
     private EventChooserController _eventchooserController;
@@ -38,13 +39,18 @@ public class ConfirmController extends HttpServlet implements ILogger {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String eve = request.getParameter("selevent");
         String reason = request.getParameter("reason");
-        _currentp = UserBean._patient;
+
+        HttpSession session = request.getSession(false);
+        String loggedinkey = session.getAttribute("loggedin").toString();
+        UserBean b = UserController.getCurrentUser(loggedinkey);
+
+        _currentp = b._patient;
 
 
         // get loaded eventslist
         _events = DataBean.loadedEvents;
         int id = Integer.parseInt(eve);
-        log.debug("SELECTED EVENT TO CONFIRM: " + _events.get(id - 1).getEventStart());
+        log.debug("SELECTED EVENT TO CONFIRM: " + _events.get(id - 1).getEventStart() + " for " + b.getLastName());
 
         // save selected event
         try {

@@ -15,22 +15,32 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AppointmentController</servlet-name>
-        <servlet-class>AppointmentController</servlet-class>
+        <servlet-name>CreateAppointmentController</servlet-name>
+        <servlet-class>CreateAppointmentController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>AppointmentController</servlet-name>
-        <url-pattern>/AppointmentController</url-pattern>
+        <servlet-name>CreateAppointmentController</servlet-name>
+        <url-pattern>/CreateAppointmentController</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ConfirmController</servlet-name>
-        <servlet-class>ConfirmController</servlet-class>
+        <servlet-name>ConfirmAppointmentController</servlet-name>
+        <servlet-class>ConfirmAppointmentController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>ConfirmController</servlet-name>
-        <url-pattern>/ConfirmController</url-pattern>
+        <servlet-name>ConfirmAppointmentController</servlet-name>
+        <url-pattern>/ConfirmAppointmentController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteAppointmentController</servlet-name>
+        <servlet-class>DeleteAppointmentController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteAppointmentController</servlet-name>
+        <url-pattern>/DeleteAppointmentController</url-pattern>
     </servlet-mapping>
 </web-app>

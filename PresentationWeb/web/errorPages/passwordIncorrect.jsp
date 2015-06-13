@@ -14,7 +14,7 @@
 <body>
   <div class="error">
     The password you entered is incorrect!.<br/>
-    <a href="../login.jsp">Back to Login</a>
+    <a href="login.jsp">Back to Login</a>
   </div>
 </body>
 </html>

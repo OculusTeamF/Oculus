@@ -1,19 +1,38 @@
+<%//********************************************************************************************************************
+//
+//  OCULUS WEB INTERFACE
+//  INDEX PAGE
+//
+//********************************************************************************************************************%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Oculus</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <%-- SESSION CHECK --%>
+    <%
+        if (session.getAttribute("loggedin") == null || session.getAttribute("loggedin").equals("")) {
+            response.sendRedirect("login.jsp");
+        }
+    %>
+
+    <%-- CSS CONTENT --%>
     <link href="css/default.css" rel="stylesheet" type="text/css" />
-
-    <link rel="shortcut icon" href="images/o_icon_trans.ico">
-
     <link href="css/jquery-ui.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.css">
     <link rel="stylesheet" href="http://css-spinners.com/css/spinner/hexdots.css" type="text/css">
-
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">
+
+    <%-- IMAGE RESSOURCES --%>
+    <link rel="shortcut icon" href="images/o_icon_trans.ico">
 </head>
 <body>
+
+<%//********************************************************************************************************************
+//  HEADER & TOPMENU (UNUSED)
+//********************************************************************************************************************%>
 <div id="header">
     <div id="topmenu">
         <ul>
@@ -26,17 +45,31 @@
         <h1><a href="index.jsp">Oculus Appointment Creator</a></h1>
     </div>
 </div>
+
 <div id="menu">
 </div>
+
+<%//********************************************************************************************************************
+//  MAIN CONTENT
+//********************************************************************************************************************%>
+
 <div id="content">
     <div id="main">
         <div id="welcome">
+
+            <%//********************************************************************************************************
+            //  TABVIEW
+            //********************************************************************************************************%>
             <div id='MyTabSelector'>
                 <ul>
                     <li><a href="#tabs-1">Current appointments</a></li>
                     <li><a href="#tabs-2">Choose appointment criterias</a></li>
                     <li><a href="#tabs-3">Confirmation</a></li>
                 </ul>
+
+                <%//****************************************************************************************************
+                //  TAB 01: CURRENT APOINTMENT (DELETE APPOINTMENT)
+                //****************************************************************************************************%>
                 <div id="tabs-1">
                     <br/>
                     <div id="app_box">
@@ -56,6 +89,9 @@
                     <button type="button" id="activate-tabs">Activate all tabs (debug)</button>
                 </div>
 
+                <%//****************************************************************************************************
+                //  TAB 02: NEW APPOINTMENT (SELECT SEARCH CRITERIAS)
+                //****************************************************************************************************%>
                 <div id="tabs-2">
                     <br/>
                     <div>
@@ -147,6 +183,10 @@
                     <br/>
                     <button id="check-appointments">Search free appointments</button>
                 </div>
+
+                <%//****************************************************************************************************
+                //  TAB 03: APPOINTMENT SELECTION & CONFIRMATION
+                //****************************************************************************************************%>
                 <div id="tabs-3">
                     <br/>
                     <div id="app_box">
@@ -178,6 +218,10 @@
             </div>
         </div>
     </div>
+
+    <%//****************************************************************************************************************
+    //  SIDEBAR
+    //****************************************************************************************************************%>
     <div id="sidebar">
         <div id="updates" class="boxed">
             <h2 class="title">USER INFO</h2>
@@ -212,15 +256,20 @@
                         </c:choose>
                     </li>
                 </ul>
+                <button type="button" id="user-logout">Logout</button>
             </div>
         </div>
 
     </div>
 </div>
+
+<%//********************************************************************************************************************
+//  FOOTER & MESSAGE BOX ELEMENTS
+//********************************************************************************************************************%>
+
 <div id="footer">
     <p id="legal">Copyright &copy; 2015 OCULUS Team F. All Rights Reserved. Designed by OCULUS Team F.</p>
 </div>
-
 
 <div id="dialog-message" title="Information">
     <p id="msgp"></p>
@@ -229,10 +278,10 @@
 
 </body>
 
+<%-- JAVASCRIPT ADDONS --%>
 <script src="js/jquery.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/jquery-tabs.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 
 <script>
@@ -247,7 +296,7 @@
     var selectedevent;
 
     //******************************************************************************************************************
-    //  PAGE LOAD INIT SCRIPT
+    //  SCRIPT: PAGE LOAD INIT
     //******************************************************************************************************************
 
     $(document).ready(function(){
@@ -310,7 +359,7 @@
     });
 
     //******************************************************************************************************************
-    //  CHECK APPOINTMENTS SCRIPT
+    //  SCRIPT: CHECK APPOINTMENTS (INPUT VALIDATION)
     //******************************************************************************************************************
 
     $("#check-appointments").click(function(event){
@@ -456,7 +505,7 @@
     }
 
     //******************************************************************************************************************
-    //  CONFIRM APPOINTMENT SCRIPT
+    //  SCRIPT: CONFIRM APPOINTMENT
     //******************************************************************************************************************
 
     $("#confirm-appointment").click(function(event){
@@ -506,7 +555,7 @@
     };
 
     //******************************************************************************************************************
-    //  DELETE APPOINTMENT SCRIPT
+    //  SCRIPT: DELETE APPOINTMENT
     //******************************************************************************************************************
 
     $("#delete-appointment").click(function(event){
@@ -534,9 +583,8 @@
     };
 
     //******************************************************************************************************************
-    //  DATE AND TIMEPICKER SCRIPTS
+    //  SCRIPT: DATE AND TIMEPICKER INIT
     //******************************************************************************************************************
-
 
     $('.timey').each(function(){
         $(this).timepicker({
@@ -566,7 +614,7 @@
 
 
     //******************************************************************************************************************
-    //  CHECKBOXES SCRIPTS
+    //  SCRIPT: WEEKDAY CHECKBOXES
     //******************************************************************************************************************
 
     function handleCheckClick(cb) {
@@ -593,7 +641,34 @@
     }
 
     //******************************************************************************************************************
-    //  DEBUG SCRIPTS
+    //  SCRIPT: LOGOUT
+    //******************************************************************************************************************
+
+    $("#user-logout").click(function(event){
+        var url = "RedirectServlet";
+        var params = "dispatchto=logoutuser";
+
+        xhttpreq = new XMLHttpRequest();
+        if (!xhttpreq) {
+            alert("Error: Could not init XMLHttpRequest");
+            return;
+        }
+
+        xhttpreq.onreadystatechange = logoutRequest_callback;
+        xhttpreq.open("POST", url + "?" + params, true);
+
+        xhttpreq.setRequestHeader("Content-type", "text/xml");
+        xhttpreq.send();
+    });
+
+    function logoutRequest_callback() {
+        if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
+            window.location.replace("login.jsp");
+        }
+    };
+
+    //******************************************************************************************************************
+    //  SCRIPT: DEBUG STUFF
     //******************************************************************************************************************
 
     $("#activate-tabs").click(function(event){

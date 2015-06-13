@@ -13,8 +13,8 @@ import at.oculus.teamf.application.controller.exceptions.EventChooserControllerE
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailNotFoundException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.EmailValidationFailedException;
 import at.oculus.teamf.application.controller.exceptions.LoginControllerExceptions.PasswordIncorrectException;
-import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
+import at.oculus.teamf.domain.entity.exception.CouldNotGetCalendarEventsException;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 import at.oculus.teamf.persistence.exception.BadConnectionException;
 import at.oculus.teamf.persistence.exception.DatabaseOperationException;
@@ -30,7 +30,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -43,6 +46,7 @@ public class UserController extends HttpServlet implements ILogger {
     private IPatient _loginpatient = null;
     private EventChooserController _eventChooserController;
     private ICalendarEvent _calendarEvent = null;
+    private static HashMap<String, UserBean> userlist= new HashMap<String, UserBean>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -101,17 +105,35 @@ public class UserController extends HttpServlet implements ILogger {
                 user.loadCalendarEvent(_calendarEvent);
             }
 
+            // create session
+            HttpSession session = request.getSession(true);
+            Date createTime = new Date(session.getCreationTime());
+            Date lastAccessTime = new Date(session.getLastAccessedTime());
+
+            // add to userlist
+            session.setAttribute("loggedin", _loginpatient.getEmail());
+
+            if(userlist.get(_loginpatient.getEmail()) != user) {
+                userlist.put(_loginpatient.getEmail(), user);
+            } else {
+                // already logged in
+            }
+
             request.setAttribute("user", user);
             RequestDispatcher view = request.getRequestDispatcher("index.jsp");
             view.forward(request, response);
-
-            //response.sendRedirect(response.encodeRedirectURL("index.jsp"));
         } else {
             log.error("User not found.");
             request.getRequestDispatcher("errorPages/noVerifiedEmail.jsp").forward(request, response);
             response.sendRedirect(response.encodeRedirectURL("login.jsp"));
         }
     }
+
+    public static UserBean getCurrentUser(String userkey){
+        return userlist.get(userkey);
+    }
+
+    public static void removeUserFromSessionList(String userkey) {userlist.remove(userkey); }
 
     @Override
     public String getServletInfo() {
