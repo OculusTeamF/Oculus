@@ -617,6 +617,29 @@ button#not-available:active {
     top:1px;
 }
 
+button#user-logout {
+    width:200px;
+    cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+    padding:5px 25px; /*add some padding to the inside of the button*/
+    background: #179db1; /*the colour of the button*/
+    border:1px solid #1489B1; /*required or the default border for the browser will appear*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+    box-shadow: 0 0 4px rgba(0,0,0, .75);
+    color:#f3f3f3;
+    font-size:1.1em;
+}
+
+button#user-logout:hover, input#bigbutton:focus {
+    background-color : #1579b1;
+    -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+    box-shadow: 0 0 1px rgba(0,0,0, .75);
+}
+
 
 /**********************************************************************************************************************
  *
