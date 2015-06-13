@@ -27,6 +27,12 @@
 
     <%-- IMAGE RESSOURCES --%>
     <link rel="shortcut icon" href="images/o_icon_trans.ico">
+
+    <%-- JAVASCRIPT ADDONS --%>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-tabs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
 </head>
 <body>
 
@@ -37,8 +43,8 @@
     <div id="topmenu">
         <ul>
             <li><a href="index.jsp" id="topmenu1" accesskey="1">Home</a></li>
-            <li><a href="contact.jsp" id="topmenu2" accesskey="2">Contact</a></li>
-            <li><a href="sitemap.jsp" id="topmenu3" accesskey="3">Sitemap</a></li>
+            <li><a href="#" id="topmenu2" accesskey="2">Contact</a></li>
+            <li><a href="#" id="topmenu3" accesskey="3">Sitemap</a></li>
         </ul>
     </div>
     <div id="logo">
@@ -75,12 +81,14 @@
                     <div id="app_box">
                         <h3 id="title1"><strong>Appointment #1:</strong></h3>
                         <p>
-
-                            <strong>Date start:</strong> ${user.dateStart}
+                            <strong>Date:</strong><br/>
+                            ${user.dateStart}
                             <br/>
-                            <strong>Date end:</strong> ${user.dateEnd}
+                            <strong>Time:</strong><br/>
+                            ${user.dateEnd}
                             <br/>
-                            <strong>Description:</strong> ${user.description}
+                            <strong>Description:</strong><br/>
+                            ${user.description}
                         </p>
                         <button type="button" id="delete-appointment">Delete appointment</button>
                     </div>
@@ -231,31 +239,38 @@
                         <h3><strong>Logged in User:<br/></strong></h3>
                         <p>
                             <br/>
-                            <strong>First Name:</strong> ${user.firstName}
+                            <strong>First Name:</strong><br/>
+                            <p style="text-indent: 1em;"/>${user.firstName}
                             <br/>
-                            <strong>Last Name:</strong> ${user.lastName}
+                            <strong>Last Name:</strong><br/>
+                            <p style="text-indent: 1em;"/>${user.lastName}
                             <br/>
-                            <strong>SV Number:</strong> ${user.svNumber}
+                            <strong>SV Number:</strong><br/>
+                            <p style="text-indent: 1em;"/>${user.svNumber}
                             <br/>
-                            <strong>Doctor:</strong> ${user.doctor}
+                            <strong>Doctor:</strong><br/>
+                            <p style="text-indent: 1em;"/>${user.doctor}
                             <br/><br/>
                         </p>
                         <h3><strong>Next Appointment:<br/></strong></h3>
                         <c:choose>
-                            <c:when test="${user.appointAvailable}">
-
+                            <c:when appoi="${user.appointAvailable}">
                                 <p>
                                     <br/>
-                                    <strong>Date start:</strong> ${user.dateStart}
+                                    <strong>Date:</strong><br/>
+                                    <p style="text-indent: 1em;"/>${user.dateStart}
                                     <br/>
-                                    <strong>Date end:</strong> ${user.dateEnd}
+                                    <strong>Time:</strong><br/>
+                                    <p style="text-indent: 1em;"/>${user.dateEnd}
                                     <br/>
-                                    <strong>Description:</strong> ${user.description}
+                                    <strong>Description:</strong><br/>
+                                    <p style="text-indent: 1em;"/>${user.description}
                                 </p>
                             </c:when>
                         </c:choose>
                     </li>
                 </ul>
+                <br/><br/><br/>
                 <button type="button" id="user-logout">Logout</button>
             </div>
         </div>
@@ -278,20 +293,10 @@
 
 </body>
 
-<%-- JAVASCRIPT ADDONS --%>
-<script src="js/jquery.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/jquery-tabs.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js"></script>
-
 <script>
     var times = [];
     var checkdays = [];
     var xhttpreq;
-    var maxHour = 18;
-    var minHour = 6;
-    var startHour = 7;
-    var hourGrid = 2;
     var results = [];
     var selectedevent;
 
@@ -339,20 +344,50 @@
                     startTimeTextBox,
                     endTimeTextBox,
                     {
-                        hourGrid: hourGrid,
+                        hourGrid: 2,
                         minuteGrid: 10,
                         minInterval: (1000 * 60 * 30), // 1hr
                         timeFormat: 'HH:mm',
                         stepMinute: 10,
-                        hour: startHour,
-                        hourMin: minHour,
-                        hourMax: maxHour,
+                        hour: 7,
+                        hourMin: 6,
+                        hourMax: 18,
                         start: {}, // start picker options
                         end: {} // end picker options
                     }
             );
         }
     }
+
+    //******************************************************************************************************************
+    //  SCRIPT: DATE AND TIMEPICKER INIT
+    //******************************************************************************************************************
+
+    $('.timey').each(function(){
+        $(this).timepicker({
+            hourGrid: 3,
+            minuteGrid: 10,
+            timeFormat: 'HH:mm',
+            stepMinute: 10,
+            hour: 7,
+            hourMin: 6,
+            hourMax: 18
+        });
+    });
+
+    var startDateTextBox = $('#date_range_start');
+    var endDateTextBox = $('#date_range_end');
+
+    $.timepicker.dateRange(
+            startDateTextBox,
+            endDateTextBox,
+            {
+                minInterval: (1000*60*60*24*1), // 1 day
+                maxInterval: (1000*60*60*24*60), // 60 days
+                start: {}, // start picker options
+                end: {} // end picker options
+            }
+    );
 
     $('#MyTabSelector').tabs({
         heightStyle: 'fill'
@@ -551,6 +586,8 @@
         if ((xhttpreq.readyState == 4) && (xhttpreq.status == 200)) {
             location.reload();
             document.getElementById("title1").innerHTML = "Confirmed Appointment:";
+            document.getElementById("msgp").innerHTML = "Your selected appointment is confirmed. You will receive an email shortly.";
+            showmessage();
         }
     };
 
@@ -581,36 +618,6 @@
             location.reload();
         }
     };
-
-    //******************************************************************************************************************
-    //  SCRIPT: DATE AND TIMEPICKER INIT
-    //******************************************************************************************************************
-
-    $('.timey').each(function(){
-        $(this).timepicker({
-            hourGrid: hourGrid,
-            minuteGrid: 10,
-            timeFormat: 'HH:mm',
-            stepMinute: 10,
-            hour: startHour,
-            hourMin: minHour,
-            hourMax: maxHour
-        });
-    });
-
-    var startDateTextBox = $('#date_range_start');
-    var endDateTextBox = $('#date_range_end');
-
-    $.timepicker.dateRange(
-            startDateTextBox,
-            endDateTextBox,
-            {
-                minInterval: (1000*60*60*24*1), // 1 day
-                maxInterval: (1000*60*60*24*60), // 60 days
-                start: {}, // start picker options
-                end: {} // end picker options
-            }
-    );
 
 
     //******************************************************************************************************************

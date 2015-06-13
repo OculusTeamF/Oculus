@@ -99,7 +99,8 @@ public class CreateAppointmentController extends HttpServlet implements ILogger{
         }
 
         // add 'not available' dateranges
-        if (drstart.equals("null") == false) {
+        System.out.println("drstart: " + drstart);
+        if (drstart.length() > 23) {
             // convert string to localdate ...then convert localdate to date
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d yyyy HH:mm:ss", Locale.ENGLISH);
             LocalDate localdstart = LocalDate.parse(drstart.substring(0, 24), formatter);

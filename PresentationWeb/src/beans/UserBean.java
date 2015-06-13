@@ -13,6 +13,10 @@ import at.oculus.teamf.domain.entity.calendar.calendarevent.ICalendarEvent;
 import at.oculus.teamf.domain.entity.patient.IPatient;
 
 import javax.annotation.ManagedBean;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Fabian on 31.05.2015.
@@ -83,11 +87,32 @@ public class UserBean {
     }
 
     public String getDateStart() {
-        return dateStart;
+        String finaldate = null;
+
+        if (dateStart != null) {
+            DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd");
+            fromFormat.setLenient(false);
+            DateFormat toFormat = new SimpleDateFormat("dd. MMMM yyyy");
+            toFormat.setLenient(false);
+            Date date = null;
+            try {
+                date = fromFormat.parse(dateStart.substring(0, 10));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            finaldate = toFormat.format(date);
+        }
+
+
+        return finaldate;
     }
 
     public String getDateEnd() {
-        return dateEnd;
+        String dateconv = null;
+        if (dateStart != null) {
+            dateconv = dateStart.substring(10, 16) + " - " + dateEnd.substring(10, 16);
+        }
+        return dateconv;
     }
 
     public String getDoctor() {

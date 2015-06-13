@@ -35,7 +35,6 @@ public class DeleteAppointmentController extends HttpServlet implements ILogger{
         log.debug("REDIRECT SERVLET: delete appointment for " + b.getLastName());
 
         try {
-            System.out.println("DELETE APPOINTMENT CALLED");
             EventChooserController eventChooserController = EventChooserController.createEventChooserController(b._patient);
             eventChooserController.deleteExistingEvent(b._calendarEvent);
             b.erase();
