@@ -42,6 +42,7 @@ public class UserBean {
     public void loadUserPatient(IPatient patient){
         _patient = patient;
 
+        appointAvailable = false;
         firstName = _patient.getFirstName();
         lastName = _patient.getLastName();
         svNumber = _patient.getSocialInsuranceNr();
