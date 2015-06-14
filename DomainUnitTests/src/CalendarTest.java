@@ -45,9 +45,12 @@ public class CalendarTest {
     private Date _from;
     private Date _to;
     private Collection<ICalendarEvent> _calendarEvents;
+    private IDatePeriodCriteria _datePeriodCriteria;
+    private IWeekDayTimeCriteria _weekDayTimeCriteria;
 
     @Before
     public void setUp() {
+        // load calendar with id 1
         try {
             _calendar = Facade.getInstance().getById(ICalendar.class, 1);
         } catch (BadConnectionException | NoBrokerMappedException | DatabaseOperationException e) {
@@ -64,19 +67,19 @@ public class CalendarTest {
 		    assertTrue(false);
 	    }
 
-	    // date period
+        // create date period criteria
         _from = new Date();
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(_from);
 	    calendar.add(java.util.Calendar.DAY_OF_MONTH, 14);
 	    _to = calendar.getTime();
-        IDatePeriodCriteria datePeriodCriteria = new DatePeriodCriteria(_from, _to);
+        _datePeriodCriteria = new DatePeriodCriteria(_from, _to);
 
 	    _criterias = new LinkedList<>();
-        _criterias.add(datePeriodCriteria);
+        _criterias.add(_datePeriodCriteria);
 
-        // work day time
+        // create work day time criteria
         Collection<IWeekDayTime> weekDayTimes = new LinkedList<IWeekDayTime>();
         IWeekDayTime weekDayTimeMon = new WeekDayTime(WeekDayKey.MON, LocalTime.of(8,0), LocalTime.of(15,0));
         weekDayTimes.add(weekDayTimeMon);
@@ -93,11 +96,14 @@ public class CalendarTest {
         IWeekDayTime weekDayTimeSun = new WeekDayTime(WeekDayKey.SUN, LocalTime.of(4,0), LocalTime.of(20,0));
         weekDayTimes.add(weekDayTimeSun);
 
-        IWeekDayTimeCriteria weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
+        _weekDayTimeCriteria = new WeekDayTimeCriteria(weekDayTimes);
 
-        _criterias.add(weekDayTimeCriteria);
+        _criterias.add(_weekDayTimeCriteria);
     }
 
+    /**
+     * in working hours
+     */
     @Test
     public void getCalendarEvents() {
 	    Iterator<ICalendarEvent> eventIterator = null;
@@ -118,13 +124,16 @@ public class CalendarTest {
 	    for(int i = 0; i<100; i++){
 		    ICalendarEvent c = eventIterator.next();
 		    _calendarEvents.add(c);
-		    System.out.println(c);
-	    }
+            //System.out.println(c);
+        }
 
         assertTrue(_calendarEvents.size()==100);
     }
 
-	@Test
+    /**
+     * criteria null
+     */
+    @Test
 	public void getCalendarEventsNoCriteria(){
 		Iterator<ICalendarEvent> eventIterator = null;
 
@@ -144,22 +153,24 @@ public class CalendarTest {
 		for(int i = 0; i<100; i++){
 			ICalendarEvent c = eventIterator.next();
 			_calendarEvents.add(c);
-			System.out.println(c);
-		}
+            //System.out.println(c);
+        }
 
 		assertTrue(_calendarEvents.size()==100);
 	}
 
-	@Test
+    /**
+     * not in working time
+     */
+    @Test
 	public void getCalendarEventsNoMatch(){
 		IWeekDayTime weekDayTime = null;
 		try {
 			for(ICalendarWorkingHours cw : _calendar.getWorkingHours()){
-				if(cw.getWorkinghours().getAfternoonTo()!=null) {
-					LocalTime to = cw.getWorkinghours().getAfternoonTo();
-					to.plusHours(2);
-					weekDayTime = new WeekDayTime(cw.getWeekday(), cw.getWorkinghours().getAfternoonTo(), to);
-					break;
+                if (cw.getWorkinghours().getAfternoonTo() != null) {
+                    LocalTime from = LocalTime.ofSecondOfDay(cw.getWorkinghours().getAfternoonTo().toSecondOfDay());
+                    weekDayTime = new WeekDayTime(cw.getWeekday(), LocalTime.of(from.getHour(), 00), LocalTime.of(from.getHour() + 2, 00));
+                    break;
 				}
             }
 		} catch (InvalidReloadClassException | ReloadInterfaceNotImplementedException | NoBrokerMappedException |
@@ -178,14 +189,72 @@ public class CalendarTest {
 
 		Iterator<ICalendarEvent> eventIterator = null;
 		try {
-			eventIterator = Calendar.availableEventsIterator(_calendar, null, 30);
-		} catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+            eventIterator = Calendar.availableEventsIterator(_calendar, criterias, 30);
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		assertTrue(eventIterator!=null);
-		System.out.println(weekDayTime);
-		System.out.println(eventIterator.next());
-		assertTrue(!eventIterator.hasNext());
+        assertTrue(eventIterator != null);
+        assertTrue(!eventIterator.hasNext());
 	}
+
+    /**
+     * different sets of criteria
+     */
+    @Test
+    public void getCalendarEventsDiffCriteria() {
+        Collection<ICriteria> criterias = new LinkedList<>();
+
+        // 1 criteria
+        criterias.add(_datePeriodCriteria);
+        Iterator<ICalendarEvent> eventIterator = null;
+        try {
+            eventIterator = Calendar.availableEventsIterator(_calendar, criterias, 30);
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(eventIterator != null);
+        assertTrue(eventIterator.hasNext());
+
+        // 2 criterias
+        criterias.add(_weekDayTimeCriteria);
+        try {
+            eventIterator = Calendar.availableEventsIterator(_calendar, criterias, 30);
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(eventIterator != null);
+        assertTrue(eventIterator.hasNext());
+
+        // 5 criterias
+        criterias.add(_datePeriodCriteria);
+        criterias.add(_datePeriodCriteria);
+        criterias.add(_weekDayTimeCriteria);
+        try {
+            eventIterator = Calendar.availableEventsIterator(_calendar, criterias, 30);
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(eventIterator != null);
+        assertTrue(eventIterator.hasNext());
+
+        // 1000 criterias
+        for (int i = 0; i < 500; i++) {
+            criterias.add(_datePeriodCriteria);
+        }
+        for (int i = 0; i < 500; i++) {
+            criterias.add(_weekDayTimeCriteria);
+        }
+        try {
+            eventIterator = Calendar.availableEventsIterator(_calendar, criterias, 30);
+        } catch (ReloadInterfaceNotImplementedException | InvalidReloadClassException | NoBrokerMappedException | BadConnectionException | DatabaseOperationException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+        assertTrue(eventIterator != null);
+        assertTrue(eventIterator.hasNext());
+    }
 }
